@@ -4,17 +4,17 @@
 	  $home=$this->url(array('module'=>'home','controller'=>'index','action'=>'index'), null, true);
 	  $registrar=$this->url(array('module'=>'registrar','controller'=>'Register','action'=>'wu-register'), null, true);
 	  $foundation=$this->url(array('module'=>'foundation','controller'=>'index','action'=>'index'), null, true);
-	  $accounting=$this->url(array('module'=>'accounting','controller'=>'index','action'=>'index'), null, true);
-	  $gep=$this->url(array('module'=>'gep','controller'=>'index','action'=>'index'), null, true);
-	  $report=$this->url(array('module'=>'allreport','controller'=>'index','action'=>'index'), null, true);
-	  $global=$this->url(array('module'=>'global','controller'=>'index','action'=>'index'), null, true);
+	  $group=$this->url(array('module'=>'group','controller'=>'index','action'=>'index'), null, true);
+	  $other=$this->url(array('module'=>'other','controller'=>'index','action'=>'index'), null, true);
+	  $old_report=$this->url(array('module'=>'allreport','controller'=>'index','action'=>'index'), null, true);
+	  $report=$this->url(array('module'=>'report','controller'=>'index','action'=>'index'), null, true);
+	  $loan_view=$this->url(array('module'=>'loan','controller'=>'index','action'=>'index'), null, true);
 	  $inventory_path=$this->url(array('module'=>'inventory','controller'=>'tax-exemption','action'=>'index'), null, true);
 	  $reference_path=$this->url(array('module'=>'analysis','controller'=>'query','action'=>'index'), null, true);
 	  $backup=$this->url(array('module'=>'backup','controller'=>'index','action'=>'index'), null, true);
       $user=$this->url(array('module'=>'user','controller'=>'index','action'=>'index'), null, true);
       $acl=$this->url(array('module'=>'rsvAcl','controller'=>'index','action'=>'index'), null, true);
 	  $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
-	  
 	  $item_arr=array(
 		'index'=>'<li class="link">
 							<a title="ទំព័រដើម" href="'.$home.'">
@@ -31,24 +31,29 @@
 								<span>'.$tr->translate("ការិ.ឆ្នាំសិក្សាមួលដ្ឋាន").'</span>
 							</a>
 						</li>',
-	  	'gep'=>'<li class="link">
-			  		<a title="ការិ .ភាសាអង់គ្គេសទូទៅ" href="'.$gep.'">
-			  		<span>'.$tr->translate("ការិ .ភាសាអង់គ្គេសទូទៅ").'</span>
+	  	'other'=>'<li class="link">
+			  		<a title="Parameter" href="'.$other.'">
+			  		<span>'.$tr->translate("Parameter").'</span>
 			  		</a>
 			  		</li>',
-	  	'accounting'=>'<li class="link">
-						<a title="ការិ.គណនេយ្យ" href="'.$accounting.'">
-							<span>'.$tr->translate("ការិ.គណនេយ្យ").'</span>
+	  	'group'=>'<li class="link">
+						<a title="Group Member" href="'.$group.'">
+							<span>'.$tr->translate("Group Member").'</span>
 						</a>
 					</li>',
 	    'global'=>'<li class="link">
-						<a title="ព័ត៏មានផ្សេងៗ" href="'.$global.'">
-							<span>'.$tr->translate("ព័ត៏មានផ្សេងៗ").'</span>
+						<a title="ព័ត៏មានផ្សេងៗ" href="'.$loan_view.'">
+							<span>'.$tr->translate("Loan View").'</span>
 						</a>
 					</li>',	  
+	  	'report'=>'<li class="link">
+			  		<a title="Report" href="'.$report.'">
+			  			<span>'.$tr->translate("Reports").'</span>
+			  		</a>
+			  		</li>',
 	    'allreport'=>'<li class="link">
-						<a title="របាយការណ៏" href="'.$report.'">
-							<span>'.$tr->translate("របាយការណ៏").'</span>
+						<a title="Report" href="'.$old_report.'">
+							<span>'.$tr->translate("Old Report").'</span>
 						</a>
 					   </li>',
 	    'backup'=>'<li class="link">

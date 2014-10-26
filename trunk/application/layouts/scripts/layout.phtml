@@ -103,9 +103,9 @@ dojo.require("dojo.parser");
                 <?php echo $this->render('header.phtml')?>
                  <?php //echo $this->render('toolbar.phtml')?>
             </div>
+            <?php echo $module;?>
              <?php if($module!='home'){?>
             <div dojoType="dijit.layout.ContentPane" region="left">
-            
              <?php echo $this->render('menuleft.phtml')?>
              
              <?php //echo $this->render('subtoolbar.phtml')?>
@@ -122,7 +122,18 @@ dojo.require("dojo.parser");
             </div>-->
             </div>
             <?php }?>
+            <?php 
+            $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+            ?>
             <div dojoType="dijit.layout.AccordionPane" region="center">
+           <?php if($action=='index'){?>
+	            <input style="float:right;" type="button" value="Add" label="<?php echo $tr->translate('Add');?>" dojoType="dijit.form.Button" 
+									 iconClass="dijitIconUndo" onclick="window.location = '<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>';" />
+			<?php }elseif($action=='add' OR $action=='edit'){?>	
+			 <input style="float:right;" type="button" value="Back" label="<?php echo $tr->translate('GO_BACK');?>"  dojoType="dijit.form.Button" 
+									 iconClass="dijitIconNewTask" onclick="window.location = '<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>';" />
+			<?php }?>			 
+			<div style="clear: both;"></div>
                 <?php echo $this->layout()->content;  ?>
             </div>
             <div dojoType="dijit.layout.ContentPane" region="bottom">

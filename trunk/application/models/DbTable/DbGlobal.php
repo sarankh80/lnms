@@ -286,39 +286,108 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	else return $_status_type[$id];
     
    }
-   public function getServicTypeByName($cate_title,$type){
-   	$db = $this->getAdapter();
-   	$sql ="SELECT * FROM rms_program_type WHERE title!='' AND title='".$cate_title."' AND type= $type";
-   	return $db->fetchRow($sql);
-   }
-   public function getServiceFeeByServiceWtPayType($service_id,$pay_type){
-   	$sql = "SELECT * FROM rms_servicefee_detail WHERE service_id = $service_id AND pay_type =$pay_type LIMIT 1";
-   	return $this->getAdapter()->fetchRow($sql);
-   }
-   public function getRate(){
-   	$_db = $this->getAdapter();
-   	$_sql = "SELECT * FROM rms_rate ";
-   	return $_db->fetchRow($_sql);
-   }
-   public  function getTutionFeebyCondition($data){
-   	$db = $this->getAdapter();
-   	//for bachelor
-   	$degree = $data['degree'];
-   	$metion = $data['metion'];
-   	$batch = $data['batch'];
-   	$faculty_id = $data['faculty_id'];
-   	$payment_type = $data['payment_term'];
-   	if($degree==2){
-   		$sql = " SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
-   		WHERE f.fee_id = fd.fee_id AND metion = $metion AND  degree =$degree AND
-   		batch = $batch AND faculty_id = $faculty_id AND `payment_type`=$payment_type LIMIT 1";
-   	}else{
-   		$sql = "SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
-   		WHERE f.fee_id = fd.fee_id AND metion = $faculty_id AND  degree =$degree AND
-   		batch = $batch AND `payment_type`=$payment_type";
-   	}
-   	return $db->fetchOne($sql);
+//    public function getServicTypeByName($cate_title,$type){
+//    	$db = $this->getAdapter();
+//    	$sql ="SELECT * FROM rms_program_type WHERE title!='' AND title='".$cate_title."' AND type= $type";
+//    	return $db->fetchRow($sql);
+//    }
+//    public function getServiceFeeByServiceWtPayType($service_id,$pay_type){
+//    	$sql = "SELECT * FROM rms_servicefee_detail WHERE service_id = $service_id AND pay_type =$pay_type LIMIT 1";
+//    	return $this->getAdapter()->fetchRow($sql);
+//    }
+//    public function getRate(){
+//    	$_db = $this->getAdapter();
+//    	$_sql = "SELECT * FROM rms_rate ";
+//    	return $_db->fetchRow($_sql);
+//    }
+//    public  function getTutionFeebyCondition($data){
+//    	$db = $this->getAdapter();
+//    	//for bachelor
+//    	$degree = $data['degree'];
+//    	$metion = $data['metion'];
+//    	$batch = $data['batch'];
+//    	$faculty_id = $data['faculty_id'];
+//    	$payment_type = $data['payment_term'];
+//    	if($degree==2){
+//    		$sql = " SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
+//    		WHERE f.fee_id = fd.fee_id AND metion = $metion AND  degree =$degree AND
+//    		batch = $batch AND faculty_id = $faculty_id AND `payment_type`=$payment_type LIMIT 1";
+//    	}else{
+//    		$sql = "SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
+//    		WHERE f.fee_id = fd.fee_id AND metion = $faculty_id AND  degree =$degree AND
+//    		batch = $batch AND `payment_type`=$payment_type";
+//    	}
+//    	return $db->fetchOne($sql);
    	
+//    }
+   public function getAllProvince(){
+   	$this->_name='ln_province';
+   	$sql = " SELECT province_id,province_en_name FROM $this->_name WHERE status=1 AND province_en_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getAllDistrict(){
+   	$this->_name='ln_district';
+   	$sql = " SELECT dis_id,district_name FROM $this->_name WHERE status=1 AND district_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getCommune(){
+   	$this->_name='ln_commune';
+   	$sql = " SELECT com_id,commune_name FROM $this->_name WHERE status=1 AND commune_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getVillage(){
+   	$this->_name='ln_village';
+   	$sql = " SELECT vill_id,village_name FROM $this->_name WHERE status=1 AND village_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getZoneList(){
+   	$this->_name='ln_zone';
+   	$sql = " SELECT zone_id,zone_name,zone_num FROM $this->_name WHERE status=1 AND zone_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getAllCOName(){
+   	$this->_name='ln_co';
+   	$sql = " SELECT co_id,co_khname FROM $this->_name WHERE status=1 AND co_khname!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getAllSituation($id = null){
+   	$_status = array(
+   			1=>$this->tr->translate("Single"),
+   			2=>$this->tr->translate("Married"),
+   			3=>$this->tr->translate("Windowed"),
+   			4=>$this->tr->translate("Mindowed")
+   			);
+   	if($id==null)return $_status;
+   	else return $_status[$id];
+   }
+   public function GetAllIDType($id = null){
+   	$_status = array(
+   			1=>$this->tr->translate("National ID"),
+   			2=>$this->tr->translate("Family Book"),
+   			3=>$this->tr->translate("Resident Book"),
+   			4=>$this->tr->translate("Other")
+   	);
+   	if($id==null)return $_status;
+   	else return $_status[$id];
+   }
+   public function getNewClientId(){
+   	$this->_name='ln_client';
+   	$db = $this->getAdapter();
+   	$sql=" SELECT client_id ,client_number FROM $this->_name ORDER BY client_id DESC LIMIT 1 ";
+   	$acc_no = $db->fetchOne($sql);
+   	$new_acc_no= (int)$acc_no+1;
+   	$acc_no= strlen((int)$acc_no+1);
+   	$pre = "";
+   	for($i = $acc_no;$i<6;$i++){
+   		$pre.='0';
+   	}
+   	return $pre.$new_acc_no;
    }
    
 }
