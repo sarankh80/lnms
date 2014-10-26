@@ -1,0 +1,256 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('Add Client '));
+?>	
+<?php  $frm = $this->frm_loan;?>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+</script>
+<form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				if(dijit.byId('province').get('value')==''){
+					alert('Province required');
+					return false;
+			    }
+				return true;
+			} else {
+				return false;
+			}
+</script>
+<table cellspacing="10" width="100%" style="margin: 0 auto;">
+	<tr>
+		<td>
+		<fieldset style="background-color:menu;">
+					<legend align="center" ><strong><?php echo $tr->translate("Add Client");?></strong></legend>
+					<table style="margin: 0 auto; width: 95%;" cellspacing="10" border=1>
+						<tr>
+							<td><?php echo $tr->translate("Is Group")?></td>
+							<td><?php echo $frm->getElement('group_id');?></td>
+							<td><?php echo $tr->translate("CO Name")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Currency Type")?></td>
+							<td><?php  echo $frm->getElement('currency_type');?></td>
+							<td><?php echo $tr->translate("Zone")?></td>
+							<td><?php  echo $frm->getElement('zone');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Total Amount")?></td>
+							<td><?php  echo $frm->getElement('total_amount');?></td>
+							<td><?php echo $tr->translate("Interest Rate")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Release Date")?></td>
+							<td><?php  echo $frm->getElement('release_date');?></td>
+							<td><?php echo $tr->translate("Period")?></td>
+							<td><?php  echo $frm->getElement('period');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("First Payment")?></td>
+							<td><?php  echo $frm->getElement('first_payment');?></td>
+							<td><?php echo $tr->translate("NO Time")?></td>
+							<td><?php  echo $frm->getElement('time');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Pay Every")?></td>
+							<td><?php  echo $frm->getElement('pay_every');?></td>
+							<td><?php echo $tr->translate("Repaymet Method")?></td>
+							<td><?php  echo $frm->getElement('repayment_method');?></td>
+							
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Holiday")?></td>
+							<td><?php  echo $frm->getElement('every_payamount');?></td>
+							<td><?php echo $tr->translate("ID Card(N.)")?></td>
+							<td><?php  echo $frm->getElement('id_no');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Description")?></td>
+							<td colspan="3"><?php  echo $frm->getElement('desc');?></td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								 <span dojoType="dijit.layout.StackController" containerId="stackContainer"></span>
+									<div dojoType="dijit.layout.StackContainer" id="stackContainer">
+					    				<div dojoType="dijit.layout.ContentPane" id='cpreciever' title="ថែមអ្នកទទួល" style="height: 350px" >
+					    				<form id="frm_reciever" dojoType="dijit.form.Form"  method="post">
+												<fieldset>
+													<legend><strong>ព៌ត័មាន ទំនាក់ទំនង អ្នក​ទទួល</strong></legend>
+													<table class="center" cellspacing="10">	
+														<tr> 
+															<td  style="width: 50%;">
+															<table cellspacing="10">				
+																<tr>
+																	<td class="widthlabel">ឈ្មោះ​អ្នក​ទទួល</td>
+																	<td>
+																		<input id="reciever_name" />																
+																	</td>
+																</tr>
+																<tr>
+																	<td>លេខទូរស័ព្ទ​អ្នកទទួល</td>
+																	<td>
+																		<input type="text" id="reciever_tel" placeholder="លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល"  
+																		 data-dojo-Type="dijit.form.ValidationTextBox"   
+																		data-dojo-props="regExp:'<?php echo $phone_reg;?>', required: false, 
+																						 placeHolder: 'លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល',
+																						 class: 'fullside',
+																						 invalidMessage:'លេខ​ទូរស័ព្ទ​​ មិន​ត្រឹម​ត្រូវទេ. មិនមាន​  ចន្លោះ ឬ សញ្ញា​ពិសេស.',
+																						 missingMessage:'អ្នក​ភ្លេច​បំពេញ​ លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល!',
+																						 name:'reciever_tel'"/>
+																	</td>
+																</tr>
+																<tr>
+																	<td>លេខ Fax ​អ្នកទទួល</td>
+																	<td>
+																		<input type="text" id="reciever_fax" 
+																		 data-dojo-Type="dijit.form.ValidationTextBox"   
+																		data-dojo-props="regExp:'<?php echo $phone_reg;?>', required: false, 
+																						 placeHolder: 'លេខ Fax ​អ្នកទទួល',
+																						 class: 'fullside',
+																						 invalidMessage:'លេខ​ទូរស័ព្ទ​​ មិន​ត្រឹម​ត្រូវទេ. មិនមាន​  ចន្លោះ ឬ សញ្ញា​ពិសេស.',
+																						 missingMessage:'អ្នក​ភ្លេច​បំពេញ​ លេខ​ទូរស័ព្ទ​​អ្នក​ទទួល!',
+																						 name:'reciever_fax'"/>
+																	</td>
+																</tr>
+																<tr>
+																	<td>លេខគណនីអ្នកទទួល</td>
+																	<td>
+																		<input type="text" required="false" name="reciever_acc_no" id="reciever_acc_no" placeholder="លេខ​គណនី​អ្នក​ទទួល" 
+																		regExp="[0-9a-zA-Z.]{13}" invalidMessage='លេខ​គណនី​អ្នក​ទទួល មិន​ត្រឹម​ត្រូវទេ!' dojoType="dijit.form.ValidationTextBox" 
+																		missingMessage="អ្នក​ភ្លេច​បំពេញ​ លេខ​គណនី​អ្នក​ទទួល!" class= 'fullside'/>
+																	</td>
+																</tr>
+																<tr>
+																	<td valign="top">ឈ្មោះ​ធនាគារ</td>
+																	<td>
+																		<input id="reciever_bank_name" />													
+																		
+																		<?php foreach ($this->priorities as $key => $pt) {?>
+																			<input id="status<?php echo $key;?>" name="status" value="<?php echo $key;?>" <?php //echo (!$key)?'checked':''; ?> 
+																			dojoType="dijit.form.CheckBox">
+																			<label for="status<?php echo $key;?>"><?php echo $pt;?></label>
+																			<?php echo ($key < 3)? '&nbsp;&nbsp;': '<br/>'?>
+																		<?php }?>
+																		
+																	</td>
+																</tr>									
+															</table>									
+														</td>
+																
+														<td valign="top">
+															<table cellspacing="10">													
+																<tr>
+																	<td class="widthlabel">ចំនួន​ទឹក​ប្រាក់ ជាបាត</td>
+																	<td>
+																		<input id="amount" name="amount" type="text" dojoType="dijit.form.NumberTextBox" 
+																			constraints="{pattern: '#,###'}" placeholder="ចំនួន​ទឹក​ប្រាក់"  class="fullside" required="true"
+																			missingMessage='អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!' invalidMessage='ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'
+																			rangeMessage="ផុត​ចំនួន​បាន​កំណត់​, បញ្ចូល​លេខ​បាន​តែ​ចំនួន 16 ខ្ទង់!">											
+																	</td>
+																</tr>
+																<tr>
+																	<td valign="top">ថ្លៃសេវា ជាបាត</td>
+																	<td>
+																		<input id="commission" name="commission" type="text" dojoType="dijit.form.NumberTextBox" 
+																			constraints="{pattern: '#,###'}" placeholder="ចំនួន​ទឹក​ប្រាក់"  class="fullside"
+																			missingMessage='អ្នក​ភ្លេច​បំពេញ​ ថ្លៃសេវា!' invalidMessage='ថ្លៃសេវា​ មិន​ត្រឹម​ត្រូវ!' required="false"
+																			rangeMessage="ផុត​ចំនួន​បាន​កំណត់​, បញ្ចូល​លេខ​បាន​តែ​ចំនួន 16 ខ្ទង់!">	
+																		<br/>							
+																		<input id="minus" name="minus" dojoType="dijit.form.CheckBox" value="1"
+																			 onChange="chkminus();">
+																		<label for="minus">ដក​ទឹក</label>
+																	</td>
+																</tr>						
+																<tr>
+																	<td>ប្រាក់​ត្រូវបើក ជាបាត</td>
+																	<td>
+																		<input id="gave" name="gave" type="text" dojoType="dijit.form.NumberTextBox" 
+																			constraints="{pattern: '#,###'}" placeholder="ចំនួន​ទឹក​ប្រាក់"  class="fullside" required="false"
+																			missingMessage='អ្នក​ភ្លេច​បំពេញ​ ប្រាក់​ទទួល​បាន​​!' invalidMessage='ប្រាក់​ទទួល​បាន​​ មិន​ត្រឹម​ត្រូវ!' 
+																			rangeMessage="ផុត​ចំនួន​បាន​កំណត់​, បញ្ចូល​លេខ​បាន​តែ​ចំនួន 16 ខ្ទង់!">
+																	</td>
+																</tr>
+																<tr>
+																	<td>ប្រាក់​សរុប ជាបាត</td>
+																	<td>
+																		<input id="total" name="total" type="text" dojoType="dijit.form.NumberTextBox" 
+																			constraints="{pattern: '#,###'}" placeholder="ចំនួន​ទឹក​ប្រាក់"  class="fullside" required="false"
+																			missingMessage='អ្នក​ភ្លេច​បំពេញ​ ប្រាក់​សរុប​!' invalidMessage='ប្រាក់​សរុប​ មិន​ត្រឹម​ត្រូវ!'
+																			rangeMessage="ផុត​ចំនួន​បាន​កំណត់​, បញ្ចូល​លេខ​បាន​តែ​ចំនួន 16 ខ្ទង់!">											
+																	</td>
+																</tr>											
+															</table>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2" align="center">
+															<input type="button" label="បន្ថែមadd" dojoType="dijit.form.Button" 
+																iconClass="dijitIconSave" onclick="addDatatogrid();"/>
+														</td>
+													</tr>
+												</table>	
+											</fieldset>
+											</form>
+					
+					    				</div>
+					    				<div dojoType="dijit.layout.ContentPane" title="បង្ហាញអ្នកទទួល">		
+											 <div class='box' style="display: none;">
+											 	<span class="box faxback"><?php //echo $this->priorities[3];?></span>						 
+												 <span class="box red"><?php //echo $this->priorities[2];?></span>
+												 <span class="box green"><?php //echo $this->priorities[1];?></span>
+												 <span class="box"><?php //echo $this->priorities[0];?></span>
+											 </div>
+											 <div id="tran_list"></div>				
+									    </div>  
+					    			</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" align="center">
+							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
+								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/>
+							</td>
+						</tr>
+					</table>	
+		</fieldset>		
+		</td>
+	</tr>
+</table>	
+</form>
+<script type="text/javascript">
+dojo.require("dojox.grid.DataGrid");
+dojo.require("dijit.layout.StackContainer");
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dojo.data.ItemFileWriteStore"); 
+dojo.require("dojo.date.locale");
+	function addDatatogrid(){		
+		if(dijit.byId('frm_reciever').validate()) {
+			//amt_gave = (dojo.byId('minus').checked) ? dijit.byId('gave').value : dijit.byId('amount').value;
+			var myNewItem = {
+					no: _no,
+					id: _no,
+					r_id : dijit.byId('reciever_name').get('value'),
+					name: dijit.byId('reciever_name').get('displayedValue'),
+					tel: dijit.byId('reciever_tel').value,
+					fax: dijit.byId('reciever_fax').value,
+					ac:  dijit.byId('reciever_acc_no').value,
+					bank: dijit.byId('reciever_bank_name').value,
+					cut: 0,
+					amt_gave: dojo.number.format(dojo.number.round(dijit.byId('gave').value)),
+					amt: dojo.number.format(dojo.number.round(dijit.byId('amount').value)),
+					gave: dojo.number.format(dojo.number.round(dijit.byId('gave').value)),
+					coms: dojo.number.format(dojo.number.round(dijit.byId('commission').value)),				
+					total_amt: dojo.number.format(dojo.number.round(dijit.byId('total').value)),
+					status: _status,
+					img: 1
+			};		
+
+			addDataToGrid(dijit.byId('tran_list'), tran_store, myNewItem);		
+			dijit.byId('stackContainer').forward();
+			totalAll();	
+			cleanRecieverDlg();
+		}
+	}
