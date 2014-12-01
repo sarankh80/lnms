@@ -62,9 +62,9 @@ class Other_ZoneController extends Zend_Controller_Action {
 	   		try{
 	   			$_data = $this->getRequest()->getPost();
 	   			$db->addZone($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Zone');
+	   			Application_Form_FrmMessage::Sucessfull("ការ​កែប្រែ​ជោគ​ជ័យ !",'/other/Zone');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message("ការ​កែប្រែ​មិន​ជោគ​ជ័យ");
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
@@ -78,6 +78,16 @@ class Other_ZoneController extends Zend_Controller_Action {
 	   	$frm_co=$frm->FrmAddZone($row);
 	   	Application_Model_Decorator::removeAllDecorator($frm_co);
 	   	$this->view->frm_zone = $frm_co;
+   }
+   public function addNewzoneAction(){
+   	if($this->getRequest()->isPost()){
+   		$data = $this->getRequest()->getPost();
+   		$data['status']=1;
+   		$db_co = new Other_Model_DbTable_DbZone();
+   		$id = $db_co->addZone($data);
+   		print_r(Zend_Json::encode($id));
+   		exit();
+   	}
    }
 }
 

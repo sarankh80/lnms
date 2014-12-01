@@ -13,6 +13,8 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'commune_id'	  => $_data['commune_name'],
 				'village_name'	  => $_data['village_name'],
+				'village_namekh'	  => $_data['village_namekh'],
+				'displayby'	  => $_data['display'],
 				'status'	  => $_data['status'],
 				'modify_date' => Zend_Date::now(),
 				'user_id'	  => $this->getUserId()
@@ -28,7 +30,7 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 	}
 	public function getVillageById($id){
 		$db = $this->getAdapter();
-		$sql=" SELECT v.vill_id,v.commune_id,v.village_name,v.modify_date,
+		$sql=" SELECT v.vill_id,v.commune_id,v.village_name,v.village_namekh,v.displayby,v.modify_date,
 					v.status,v.user_id,d.dis_id,d.pro_id FROM 
 			   `ln_village` AS v,ln_commune AS c,ln_district AS d
 			   WHERE v.commune_id=c.com_id AND v.vill_id AND c.district_id=d.dis_id AND
@@ -40,7 +42,7 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 	function getAllVillage($search=null){
 		$db = $this->getAdapter();
 		$sql = "SELECT
-					vill_id,village_name,
+					vill_id,village_namekh,village_name,displayby,
 					(SELECT commune_name FROM ln_commune WHERE commune_id=com_id limit 1) As commune_name
 					,modify_date,status,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
@@ -51,7 +53,7 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$search = $db->quote($search['adv_search']);
+			$search = $search['adv_search'];
 			$s_where[] = " village_name LIKE '%{$search}%'";
 // 			$s_where[] = "co_khname LIKE '%{$search}%'";
 // 			$s_where[] = " co_firstname LIKE '%{$search}%'";

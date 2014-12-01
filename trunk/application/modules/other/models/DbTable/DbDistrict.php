@@ -13,18 +13,18 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'pro_id'	  => $_data['province_name'],
 				'district_name'	  => $_data['district_name'],
+				'district_namekh'	  => $_data['district_namekh'],
+				'displayby'	  => $_data['display'],
 				'status'	  => $_data['status'],
 				'modify_date' => Zend_Date::now(),
 				'user_id'	  => $this->getUserId()
 		);
 		if(!empty($_data['id'])){
-			
 			$where = 'dis_id = '.$_data['id'];
 			return  $this->update($_arr, $where);
 		}else{
 			return  $this->insert($_arr);
 		}
-		
 	}
 	public function getDistrictById($id){
 		$db = $this->getAdapter();
@@ -37,8 +37,8 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT
 					dis_id,
-					district_name,
-					(SELECT province_en_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
+					district_namekh,district_name,displayby,
+				    (SELECT province_en_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
 					,modify_date,status,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
 		 FROM $this->_name ";

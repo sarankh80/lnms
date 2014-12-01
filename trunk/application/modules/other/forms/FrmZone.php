@@ -15,8 +15,8 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 	
 		$_zone= new Zend_Dojo_Form_Element_TextBox('zone_name');
 		$_zone->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
-		$_stu= new Zend_Dojo_Form_Element_TextBox('zone_student');
-		$_stu->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+// 		$_stu= new Zend_Dojo_Form_Element_TextBox('zone_student');
+// 		$_stu->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
 		$_zone_number= new Zend_Dojo_Form_Element_TextBox('zone_number');
 		$_zone_number->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
@@ -36,7 +36,7 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 			$_zone_number->setValue($_data['zone_num']);
 			$_status->setValue($_data['status']);
 		}
-		$this->addElements(array($_stu,$_id,$_zone,$_status,$_id,$_zone_number));
+		$this->addElements(array($_id,$_zone,$_status,$_id,$_zone_number));
 		return $this;
 		
 	}

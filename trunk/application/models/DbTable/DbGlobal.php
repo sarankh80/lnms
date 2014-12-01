@@ -2,7 +2,6 @@
 
 class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 {
-    // set name value
 	public function setName($name){
 		$this->_name=$name;
 	}
@@ -10,12 +9,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	
-	/**
-	 * get selected record of $sql
-	 * @param string $sql
-	 * @return array $row;
-	 */
 	public function getGlobalDb($sql)
   	{
   		$db=$this->getAdapter();
@@ -23,7 +16,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		if(!$row) return NULL;
   		return $row;
   	}
-  	
   	public function getGlobalDbRow($sql)
   	{
   		$db=$this->getAdapter();  		
@@ -31,13 +23,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		if(!$row) return NULL;
   		return $row;
   	}
-  	
   	public static function getActionAccess($action)
     {
     	$arr=explode('-', $action);
     	return $arr[0];    	
     }     
-    
     public function isRecordExist($conditions,$tbl_name){
 		$db=$this->getAdapter();		
 		$sql="SELECT * FROM ".$tbl_name." WHERE ".$conditions." LIMIT 1"; 
@@ -54,271 +44,62 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
     	$row= $db->fetchRow($sql);
     	return $row;
     }
-    
     /**
      * insert record to table $tbl_name
      * @param array $data
      * @param string $tbl_name
      */
     public function addRecord($data,$tbl_name){
-    	//print_r($data);exit;    	
     	$this->setName($tbl_name);
     	return $this->insert($data);
     }
-    
-    /**
-     * update record to table $tbl_name
-     * @param array $data
-     * @param int $id
-     * @param string $tbl_name
-     */
     public function updateRecord($data,$id,$tbl_name){
-    	//print_r($data);exit;
     	$this->setName($tbl_name);
     	$where=$this->getAdapter()->quoteInto('id=?',$id);
     	$this->update($data,$where);    	
-    }
-    
+    }   
     public function DeleteRecord($tbl_name,$id){
     	$db = $this->getAdapter();
 		$sql = "UPDATE ".$tbl_name." SET status=0 WHERE id=".$id;
 		return $db->query($sql);
     } 
-
      public function DeleteData($tbl_name,$where){
     	$db = $this->getAdapter();
 		$sql = "DELETE FROM ".$tbl_name.$where;
 		return $db->query($sql);
     } 
+    public function getDayInkhmerBystr($str){
+    	
+    	$rs=array(
+    			'Mon'=>'ច័ន្ទ',
+    			'Tue'=>'អង្គារ',
+    			'Wed'=>'ពុធ',
+    			'Thu'=>"ព្រហ",
+    			'Fri'=>"សុក្រ",
+    			'Sat'=>"សៅរី",
+    			'Sun'=>"អាទិត្យ");
+    	if($str==null){
+    		return $rs;
+    	}else{
+    	return $rs[$str];
+    	}
     
+    }
     public function convertStringToDate($date, $format = "Y-m-d H:i:s")
     {
     	if(empty($date)) return NULL;
     	$time = strtotime($date);
     	return date($format, $time);
-    }
-    public function getMarjorById($major_id){
-    	$db = $this->getAdapter();
-    	$sql=" SELECT major_id AS id,major_enname AS name FROM `rms_major`
-    	WHERE `dept_id` = $major_id ";
-    	$db->fetchAll($sql);
-    	return $db->fetchAll($sql);
     }   
-
     public static function getResultWarning(){
           return array('err'=>1,'msg'=>'មិន​ទាន់​មាន​ទន្និន័យ​នូវ​ឡើយ​ទេ!');	
-   }
-   public function getDeptById($dept_id){
-   		$db = $this->getAdapter();
-   		$sql=" SELECT * FROM `rms_dept`
-   		WHERE `dept_id` = ".$db->quote($dept_id);
-   		return $db->fetchRow($sql);
-   }
-   public function getAllFecultyName(){
-   	$db = $this->getAdapter();
-   	$sql ="SELECT DISTINCT en_name,dept_id,shortcut FROM rms_dept WHERE is_active=1 AND en_name!='' ORDER BY en_name";
-   	return $db->fetchAll($sql);
-   }
-   public function getAllServiceItemsName($status=1,$type=null){
-   	$db = $this->getAdapter();
-   	if($status==1){
-   		
-   		$sql ="SELECT DISTINCT title,service_id FROM rms_program_name WHERE title!='' AND status=1 ORDER BY title";
-   		
-   	}else{
-   		
-   		$sql ="SELECT DISTINCT title,service_id AS id FROM rms_program_name WHERE title!='' ORDER BY title";
-   	
-   	}
-   return $db->fetchAll($sql);
-   }
-   public function getAllstudentRequest($type=null){
-   	$db = $this->getAdapter();
-   	if($type!=null){
-   		$sql = "SELECT service_id,pn.title FROM `rms_program_type` AS pt,`rms_program_name` AS pn
-   		WHERE pt.id = pn.ser_cate_id AND pt.type=$type
-   		AND pn.status = 1 AND pn.title!=''";
-   		return $db->fetchAll($sql);
-   	}else{
-   	$sql = 'SELECT service_id,pn.title FROM `rms_program_type` AS pt,`rms_program_name` AS pn 
-   			WHERE pt.id = pn.ser_cate_id AND pt.type=1 
-   				AND pn.status = 1 AND pn.title!=""';
-   	}
-   	return $db->fetchAll($sql);
-   }
-   function getAllDept($search, $start, $limit){
-   	$db = $this->getAdapter();
-   	$sql = $this->_buildQuery($search)." LIMIT ".$start.", ".$limit;
-   	if ($limit == 'All') {
-   		$sql = $this->_buildQuery($search);
-   	}
-   	return $db->fetchAll($sql);
-   }
-   
-   function getCountDept($search=''){
-   	$db = $this->getAdapter();
-   	$sql = $this->_buildQuery();
-   	if(!empty($search)){
-   		$sql = $this->_buildQuery($search);
-   	}
-   	$_result = $db->fetchAll($sql);
-   	return count($_result);
-   }
-   public function getGlobalResultList($sql,$sql_count){
-   	$db = $this->getAdapter();
-   	$rows= $db->fetchAll($sql);
-   	$_count = count($db->fetchAll($sql_count));
-   	return array(0=>$rows,1=>$_count);
-//get all result by param 0 ,get count record by param1
-   }
-   
+    }
    /*@author Mok Channy
     * for use session navigetor 
     * */
-   public static function SessionNavigetor($name_space,$array=null){
-   	$session_name = new Zend_Session_Namespace($name_space);
-   	return $session_name;   	
-   }
-   public function getAllDegree($id=null){
-	   $rs = array(
-	   			1=>$this->tr->translate("ASSOCIATE"),
-	   			2=>$this->tr->translate("BACHELOR"),
-	   			3=>$this->tr->translate('MASTER'),
-	   			4=>$this->tr->translate('DOCTORATE'),
-	   			5=>$this->tr->translate('INTERNATION_PROGRAM'));
-	   if($id==null)return $rs; 
-	   return $rs[$id];
-   }
-   public static  function getAllStatus($id=null){
-   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-   	$rs = array(
-   			1=>$tr->translate("ACTIVE"),
-   			0=>$tr->translate("DEACTIVE"));
-   	if($id==null)return $rs;
-   	return $rs[$id];
-   }
-   public function AllStatus($id=null){
-   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-   	$rs = array(
-   			1=>$tr->translate("ACTIVE"),
-   			0=>$tr->translate("DEACTIVE"));
-   	if($id==null)return $rs;
-   	return $rs[$id];
-   }
-   public function AllStatusHour($id=null){
-   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-   	$rs = array(
-   			1=>$tr->translate("FULL_TIME"),
-   			0=>$tr->translate("PART_TIME"));
-   	if($id==null)return $rs;
-   	return $rs[$id];
-   }
-   public static function getAllDegreeById($id=null){
-   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-   	$rs = array(
-   			1=>$tr->translate("ASSOCIATE"),
-   			2=>$tr->translate("BACHELOR"),
-   			3=>$tr->translate('MASTER'),
-   			4=>$tr->translate('DOCTORATE'),
-   			5=>$tr->translate('INTERNATION_PROGRAM'));
-   	if($id==null)return $rs;
-   	return $rs[$id];
-   }
-   public function getAllPaymentTerm($id=null){
-   	$opt_term = array(
-   			1=>$this->tr->translate('QUARTER'),
-   			2=>$this->tr->translate('SEMESTER'),
-   			3=>$this->tr->translate('YEAR'),
-   			4=>$this->tr->translate('FULL_FEE')
-   	);
-   	if($id==null)return $opt_term;
-   	else return $opt_term[$id]; 
-   }
-   public function getAllServicePayment($id=null){
-   	$opt_term = array(
-   		1=>$this->tr->translate('RIEL'),
-   		2=>$this->tr->translate('PRICE1'),
-   		3=>$this->tr->translate('PRICE2'));
-   	if($id==null)return $opt_term;
-   	else return $opt_term[$id];
-   }
-   public function getAllGEPPrgramPayment($id=null){
-   	$opt_term = array(
-   			1=>$this->tr->translate('FEE'),
-   			2=>$this->tr->translate('2TERM'),
-   			3=>$this->tr->translate('3TERM'));
-   	if($id==null)return $opt_term;
-   	else return $opt_term[$id];
-   }
-   public static function getSessionById($id){
-   	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-   	$arr_opt = array(
-   			1=>$tr->translate('MORNING'),
-			2=>$tr->translate('AFTERNOON'),
-			3=>$tr->translate('EVERNING'),
-			4=>$tr->translate('WEEKEND'));
-   	return $arr_opt[$id];
-   }
-   public static function getAllMention($id=null){
-   	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-    $opt_rank = array(
-		  		1=>$tr->translate('A'),
-		  		2=>$tr->translate('B'),
-		  		3=>$tr->translate('C'),
-		  		4=>$tr->translate('D'),
-		  		5=>$tr->translate('E'),
-		  );
-    if($id==null)return $opt_rank;
-    else return $opt_rank[$id];
-   }
-   public function getServiceType($type=null){
-   	$db = $this->getAdapter();
-   	$sql ="SELECT DISTINCT title,id FROM rms_program_type WHERE title!='' AND status=1 ";
-   	if(!empty($type)){$sql.=" AND type=$type";}
-   	$order = " ORDER BY title";
-   	return $db->fetchAll($sql.$order);
-   }
-   public function getAllTypeCategory($id = null){
-   	$_status_type = array(
-   			1=>$this->tr->translate("SERVICE"),
-   			2=>$this->tr->translate("PROGRAM"));
-   	if($id==null)return $_status_type;
-   	else return $_status_type[$id];
-    
-   }
-//    public function getServicTypeByName($cate_title,$type){
-//    	$db = $this->getAdapter();
-//    	$sql ="SELECT * FROM rms_program_type WHERE title!='' AND title='".$cate_title."' AND type= $type";
-//    	return $db->fetchRow($sql);
-//    }
-//    public function getServiceFeeByServiceWtPayType($service_id,$pay_type){
-//    	$sql = "SELECT * FROM rms_servicefee_detail WHERE service_id = $service_id AND pay_type =$pay_type LIMIT 1";
-//    	return $this->getAdapter()->fetchRow($sql);
-//    }
-//    public function getRate(){
-//    	$_db = $this->getAdapter();
-//    	$_sql = "SELECT * FROM rms_rate ";
-//    	return $_db->fetchRow($_sql);
-//    }
-//    public  function getTutionFeebyCondition($data){
-//    	$db = $this->getAdapter();
-//    	//for bachelor
-//    	$degree = $data['degree'];
-//    	$metion = $data['metion'];
-//    	$batch = $data['batch'];
-//    	$faculty_id = $data['faculty_id'];
-//    	$payment_type = $data['payment_term'];
-//    	if($degree==2){
-//    		$sql = " SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
-//    		WHERE f.fee_id = fd.fee_id AND metion = $metion AND  degree =$degree AND
-//    		batch = $batch AND faculty_id = $faculty_id AND `payment_type`=$payment_type LIMIT 1";
-//    	}else{
-//    		$sql = "SELECT tuition_fee FROM `rms_tuitionfee` AS f,`rms_tuitionfee_detail` AS fd
-//    		WHERE f.fee_id = fd.fee_id AND metion = $faculty_id AND  degree =$degree AND
-//    		batch = $batch AND `payment_type`=$payment_type";
-//    	}
-//    	return $db->fetchOne($sql);
-   	
+//    public static function SessionNavigetor($name_space,$array=null){
+//    	$session_name = new Zend_Session_Namespace($name_space);
+//    	return $session_name;   	
 //    }
    public function getAllProvince(){
    	$this->_name='ln_province';
@@ -328,13 +109,19 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    }
    public function getAllDistrict(){
    	$this->_name='ln_district';
-   	$sql = " SELECT dis_id,district_name FROM $this->_name WHERE status=1 AND district_name!='' ";
+   	$sql = " SELECT dis_id,pro_id,district_name FROM $this->_name WHERE status=1 AND district_name!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql);
+   }
+   public function getAllDistricts(){
+   	$this->_name='ln_district';
+   	$sql = " SELECT dis_id AS id,pro_id,district_name AS name FROM $this->_name WHERE status=1 AND district_name!='' ";
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
    public function getCommune(){
    	$this->_name='ln_commune';
-   	$sql = " SELECT com_id,commune_name FROM $this->_name WHERE status=1 AND commune_name!='' ";
+   	$sql = " SELECT com_id,com_id AS id,commune_name,commune_name AS name,district_id FROM $this->_name WHERE status=1 AND commune_name!='' ";
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
@@ -356,26 +143,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
-   public function getAllSituation($id = null){
-   	$_status = array(
-   			1=>$this->tr->translate("Single"),
-   			2=>$this->tr->translate("Married"),
-   			3=>$this->tr->translate("Windowed"),
-   			4=>$this->tr->translate("Mindowed")
-   			);
-   	if($id==null)return $_status;
-   	else return $_status[$id];
-   }
-   public function GetAllIDType($id = null){
-   	$_status = array(
-   			1=>$this->tr->translate("National ID"),
-   			2=>$this->tr->translate("Family Book"),
-   			3=>$this->tr->translate("Resident Book"),
-   			4=>$this->tr->translate("Other")
-   	);
-   	if($id==null)return $_status;
-   	else return $_status[$id];
-   }
    public function getNewClientId(){
    	$this->_name='ln_client';
    	$db = $this->getAdapter();
@@ -389,6 +156,249 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
-   
+   public function getClientByType($type=null){
+   $this->_name='ln_client';
+   $where='';
+   if($type!=null){
+   	$where=' AND is_group = 1';
+   }
+   	$sql = " SELECT client_id,name_en,client_number,
+   				(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) AS village_name,
+				(SELECT commune_name FROM `ln_commune` WHERE com_id = com_id  LIMIT 1) AS commune_name,
+				(SELECT district_name FROM `ln_district` AS ds WHERE dis_id = ds.dis_id  LIMIT 1) AS district_name,
+				(SELECT province_en_name FROM `ln_province` WHERE province_id= pro_id  LIMIT 1) AS province_en_name
+
+   	FROM $this->_name WHERE status=1 AND name_en!='' ";
+   	$db = $this->getAdapter();
+   	return $db->fetchAll($sql.$where);
+   }
+   public static function getCurrencyType($curr_type){
+   	$curr_option = array(
+   			1=>'រៀល',
+   			2=>'ដុល្លា'
+   			);
+   	return $curr_option[$curr_type];
+   	
+   }
+   public function getAllSituation($id = null){
+   	$_status = array(
+   			1=>$this->tr->translate("Single"),
+   			2=>$this->tr->translate("Married"),
+   			3=>$this->tr->translate("Windowed"),
+   			4=>$this->tr->translate("Mindowed")
+   	);
+   	if($id==null)return $_status;
+   	else return $_status[$id];
+   }
+   public function GetAllIDType($id = null){
+   	$_status = array(
+   			1=>$this->tr->translate("National ID"),
+   			2=>$this->tr->translate("Family Book"),
+   			3=>$this->tr->translate("Resident Book"),
+   			4=>$this->tr->translate("Other")
+   	);
+   	if($id==null)return $_status;
+   	else return $_status[$id];
+   }
+   public function getAllDegree($id=null){
+   	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+   	$opt_degree = array(
+   			1=>$this->tr->translate("Diploma"),
+   			2=>$this->tr->translate("Associate"),
+   			3=>$this->tr->translate("Bechelor"),
+   			4=>$this->tr->translate("Master"),
+   			5=>$this->tr->translate("PhD")
+   	);
+   	if($id==null)return $opt_degree;
+   	else return $opt_degree[$id]; 
+  }
+  public function getAllBranchName($branch_id=null){
+  	$db = $this->getAdapter();
+  	$sql= "SELECT br_id,branch_namekh,
+  	branch_nameen,branch_address,branch_code,branch_tel,displayby
+  	FROM `ln_branch` WHERE (branch_namekh !='' OR branch_nameen!='') ";
+  	if($branch_id!=null){
+  		$sql.=" AND br_id=$branch_id LIMIT 1";
+  	}
+  	return $db->fetchAll($sql);
+  }
+  function countDaysByDate($start,$end){
+  	$first_date = strtotime($start);
+  	$second_date = strtotime($end);
+  	$offset = $second_date-$first_date;
+  	return floor($offset/60/60/24);
+  
+  }
+
+ public function returnAfterHoliday($holiday_option,$date){
+	  $rs = $this->checkHolidayExist($holiday_option,$date);
+	  if(is_array($rs)){
+	  	$d = new DateTime($rs['start_date']);
+	  	$d->modify( 'next day' );//here check for holiday_option
+	  	$date =  $d->format( 'Y-m-d' );
+	  	$this->returnAfterHoliday($holiday_option,$date);
+	  }else{
+	  	echo $date;
+	  	return $date;
+	  }
+  }
+  public function getClientByMemberId($member_id){
+  	$sql="SELECT lg.level,lg.date_release,lg.total_duration,lg.first_payment,
+  		lg.pay_term,lg.payment_method,
+  		lg.loan_type,
+  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) as branch_name,
+  		(SELECT co_khname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_khname,
+  		(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
+  		(SELECT displayby FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS displayby,
+  		(SELECT tel FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS tel,
+  		(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
+  		(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
+  		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
+  		(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
+  		lm.currency_type,lm.total_capital,
+  		lm.interest_rate,lm.branch_id FROM 
+  	   `ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
+  		lg.g_id =lm.group_id ";
+  	if(!empty($member_id)){
+  		$sql.=" AND lm.member_id = $member_id";
+  	}
+  	$db=$this->getAdapter();
+  	return $db->fetchRow($sql);
+  }
+  
+ public function setReportParam($arr_param,$file){
+  	$contents = file_get_contents('.'.$file);
+  	if($arr_param!=null){
+  		foreach($arr_param as $key=>$read){
+  			$contents=str_replace('@'.$key, $read, $contents);
+  		}
+  	}
+  	$info=pathinfo($file);
+  	$newfile=$info['dirname'].'/_'.$info['basename'];
+  	file_put_contents('.'.$newfile, $contents);
+  	return $newfile;
+  }
+  public function getHeadBudgetList($type,$start){
+  	$heads=$this->getDibursementInYear($type, $start);
+  	$str='<tr>';
+  	foreach($heads as $value){
+  		$str.='<td class="tdheader">'.$value.'</td>';
+  	}
+  	return $str.'</tr>';
+  }
+  public function getContent($rows, $type){
+  	$str='';
+  	//print_r($rows); exit;
+  	if($rows){
+  		$i=0;
+  		foreach($rows as $read){
+  			$i++;
+  			$str.='<tr><td class="no">'.$i.'</td>';
+  			$temp='';
+  			$c=0;
+  			foreach($read as $key=>$value){
+  				if($key!='id'){
+  					if ($type == 'payment'){
+  						if ($key == 'amount' || $key == 'amount_kh'){
+  							$str.='<td align="right">'.number_format($value,2).'</td>';
+  						}
+  						elseif ($key == "rate"){
+  							$str.='<td align="right">'.number_format($value).'</td>';
+  						}
+  						elseif ($key == "create_date"){
+  							$str.='<td align="center">'. date( "d, M Y", strtotime($value)) .'</td>';
+  						}
+  						elseif ($key == "years"){
+  							$str.='<td align="center">'. $value .'</td>';
+  						}
+  						else{
+  							$str.='<td>'.$value.'</td>';
+  						}
+  					}
+  					elseif(!($key=='title_english' || $key=='title_khmer')){
+  						$str.='<td>'.$this->checkValue($value).'</td>';
+  					}
+  					else{
+  						$c++;
+  						if($c==1)$temp=$value;
+  						elseif($c==2){
+  							$str.='<td>'.$temp.'<br/>'.$value.'<br/></td>'; $temp='';$c=0;
+  						}
+  					}
+  				}
+  			}
+  			$str.'</tr>';
+  
+  		}
+  	}
+  	return $str;
+  }
+  public function checkValue($value)
+  {
+  	if($value=='' || $value==0) return '-';
+  	return $value;
+  
+  }
+  public function getSubDaysByPaymentTerm($pay_term,$amount_collect = null){
+  	if($pay_term==3){
+  		$amount_days =30;
+  	}elseif($pay_term==2){
+  		$amount_days =7;
+  	}else{
+  		$amount_days =1;
+  	}
+  	return $amount_days*$amount_collect;//return all next day collect laon form customer
+  }
+  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){
+  	for($i=0;$i<$amount_amount;$i++){
+  		$d = new DateTime($next_payment);
+  		$d->modify($str_next);
+  		$next_payment =  $d->format('Y-m-d');
+  	}
+  	$new_next_payment = $this->checkHolidayExist($next_payment,$holiday_status);///////////
+  	if($new_next_payment!==$next_payment){
+  		return $new_next_payment;
+  		//code here 
+  		
+  	}else{
+  		return $new_next_payment;
+  	}
+  }
+  public function getNextDateById($pay_term,$amount_next_day){
+  	if($pay_term==3){
+  		$str_next = 'next month';
+  	}elseif($pay_term==2){
+  		$str_next = 'next week';
+  	}else{
+  		$str_next = 'next day';
+  	}
+  	return $str_next;
+  }
+  public function checkHolidayExist($date_next,$holiday_option){//for check collect payment in holiday or not
+  	$db = $this->getAdapter();
+  	$sql="SELECT start_date FROM `ln_holiday` WHERE start_date='".$date_next."'";
+  	$rs =  $db->fetchRow($sql);
+  	if($rs){
+  		$d = new DateTime($rs['start_date']);
+  		if($holiday_option==1){
+  			$str_option = 'previous day';
+  		}elseif($holiday_option==2){
+  			$str_option = 'next day';
+  		}else{
+  			echo $d->format( 'Y-m-d' ).'normal day';exit();
+  			return  $d->format( 'Y-m-d' );
+  		}
+  		$d->modify($str_option); //here check for holiday option //can next day,next week,next month
+  		$date_next =  $d->format( 'Y-m-d' );
+  		return $date_next;
+  	}
+  	else{
+  		return($date_next);
+  	}
+  }
+  public function CountDayByDate($start,$end){
+  	$db = new Application_Model_DbTable_DbGlobal();
+  	return ($db->countDaysByDate($start,$end));
+  }
 }
 ?>

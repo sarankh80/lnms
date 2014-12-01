@@ -4,6 +4,13 @@
 ?>	
 <?php  $holiday= $this->frm_holiday;?>
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'holiday','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+ <script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+</script>
 <table cellspacing="10" width="45%" style="margin: 0 auto;">
 	<tr>
 		<td>
@@ -17,12 +24,12 @@
 							<?php  echo $holiday->getElement('id');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Amount Day")?></td>
-							<td><?php  echo $holiday->getElement('amount_day');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("Start date")?></td>
 							<td><?php  echo $holiday->getElement('start_date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Amount Day")?></td>
+							<td><?php  echo $holiday->getElement('amount_day');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("End Date")?></td>

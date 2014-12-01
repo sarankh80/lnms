@@ -11,14 +11,16 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     }
     public function addNewProvince($_data){
     	$_arr=array(
-    			'province_en_name'	  => $_data['en_province'],
-    			'province_kh_name'	  => $_data['kh_province'],
-    			'modify_date' => Zend_Date::now(),
-    			'is_active'   => $_data['status'],
-    			'user_id'	  => $this->getUserId()
+    			'province_en_name' => $_data['en_province'],
+    			'province_kh_name' => $_data['kh_province'],
+    			'displayby'	       => $_data['display'],
+    			'modify_date'      => Zend_Date::now(),
+    			'status'           => $_data['status'],
+    			'user_id'	       => $this->getUserId()
     	);
     	return  $this->insert($_arr);
     }
+    
 	public function getProvinceById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM ln_province WHERE province_id = ".$id;
@@ -28,20 +30,21 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
 	}
     public function updateProvince($_data,$id){
     	$_arr=array(
-    			'province_en_name'	  => $_data['en_province'],
-    			'province_kh_name'	  => $_data['kh_province'],
-    			'modify_date' => Zend_Date::now(),
-    			'is_active'   => $_data['status'],
-    			'user_id'	  => $this->getUserId()
+    			'province_en_name' => $_data['en_province'],
+    			'province_kh_name' => $_data['kh_province'],
+    			'displayby'	       => $_data['display'],
+    			'modify_date'      => Zend_Date::now(),
+    			'status'           => $_data['status'],
+    			'user_id'	       => $this->getUserId()
     	);
     	$where=$this->getAdapter()->quoteInto("province_id=?", $id);
     	$this->update($_arr, $where);
     }
     function getAllProvince($search=null){
     	$db = $this->getAdapter();
-    	$sql = " SELECT province_id AS id,province_en_name,province_kh_name,modify_date,status,
+    	$sql = " SELECT province_id AS id,province_en_name,province_kh_name,displayby,modify_date,status,
     	(SELECT CONCAT(last_name,' ',first_name) FROM rms_users WHERE id=user_id )AS user_name
-    	FROM ln_province
+    	FROM $this->_name
     	WHERE 1 ";
     	$order=" order by province_en_name";
     	$where = '';

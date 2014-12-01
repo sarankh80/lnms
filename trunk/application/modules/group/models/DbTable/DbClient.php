@@ -13,6 +13,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		try{
 		$_arr=array(
 				'is_group'	  => $_data['is_group'],
+				'parent_id'	  => $_data['group_id'],
 				'client_number'=> $_data['client_no'],
 				'name_kh'	  => $_data['name_kh'],
 				'name_en'	  => $_data['name_en'],
@@ -77,6 +78,13 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$where.= " AND status = ".$search['status'];
 		}
 		return $db->fetchAll($sql.$where.$order);	
+	}
+	public function getGroupCode($data){
+		$db = $this->getAdapter();
+		$sql = "SELECT COUNT(group_code) AS number FROM `ln_client` 
+			WHERE is_group =1 AND branch_id=".$data['branch_id'];
+		$rs = $db->fetchOne($sql);
+		return $rs+1;
 	}	
 }
 

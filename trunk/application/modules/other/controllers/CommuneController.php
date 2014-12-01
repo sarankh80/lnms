@@ -20,17 +20,16 @@ class Other_CommuneController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Commune Name","District Name","Date","Status","By");
+			$collumns = array("CommuneName Kh","CommuneName En","District Name","Date","Status","By");
 			$link=array(
 					'module'=>'other','controller'=>'Commune','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('district_name'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('commune_namekh'=>$link,'district_name'=>$link,'commune_name'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
 		$frm = new Application_Form_FrmAdvanceSearch();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -53,6 +52,9 @@ class Other_CommuneController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddCommune();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_commune = $frm;
+	 $db= new Application_Model_DbTable_DbGlobal();
+	 $this->view->district = $db->getAllDistricts();	
+	
 	}
 	public function editAction(){
 		$db = new Other_Model_DbTable_DbCommune();
@@ -69,9 +71,23 @@ class Other_CommuneController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam('id');
 		$row = $db->getCommuneById($id);
+		$this->view->row=$row;
 		$fm = new Other_Form_FrmCommune();
 		$frm = $fm->FrmAddCommune($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_commune = $frm;
+		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+	}
+	public function addNewcommuneAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$data['status']=1;
+			$db_com = new Other_Model_DbTable_DbCommune();
+			$id = $db_com->addCommune($data);
+			print_r(Zend_Json::encode($id));
+			exit();
+		}
 	}
 }

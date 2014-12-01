@@ -2,95 +2,245 @@
 
 class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 {
-
-protected $tr;
-	protected $tvalidate ;//text validate
-	protected $filter;
-	protected $t_num;
-	protected $text;
-	protected $tarea;
 	public function init()
 	{
-		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
-		$this->tvalidate = 'dijit.form.ValidationTextBox';
-		$this->filter = 'dijit.form.FilteringSelect';
-		$this->text = 'dijit.form.TextBox';
-		$this->tarea = 'dijit.form.SimpleTextarea';
+		
 	}
-	public function addProgramName($data=null,$type=null){
-		$_title = new Zend_Dojo_Form_Element_TextBox('title');
-		$_title->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
-		
-		$_db = new Application_Model_DbTable_DbGlobal();
-		if(!empty($type)){
-			$rows = $_db->getServiceType(2);
-		}else{
-			$rows = $_db->getServiceType(1);
-		}
-		
-		//array_unshift($rows,array('id' => '-1',"title"=>$this->tr->translate("ADD")) );
-		$opt = "";
-		if(!empty($rows))foreach($rows AS $row) $opt[$row['id']]=$row['title'];
-		$_service_name = new Zend_Dojo_Form_Element_FilteringSelect("type");
-		$_service_name->setMultiOptions($opt);
-		$_service_name->setAttribs(array(
-				'dojoType'=>$this->filter,
-				'required'=>'true',
-				'class'=>'fullside',));
-		
-		$_desc = new Zend_Dojo_Form_Element_Textarea('desc');
-		$_desc->setAttribs(array('dojoType'=>$this->tarea,'class'=>'fullside','style'=>'width:96%;min-height:50px;'	));
-		
-		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status_program');
-		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
-		$_status_opt = array(
-				1=>$this->tr->translate("ACTIVE"),
-				2=>$this->tr->translate("DACTIVE"));
-		$_status->setMultiOptions($_status_opt);
-		if (!empty($data)){
-			$_title->setValue($data['title']);
-			$_desc->setValue($data['desc']);
-		}
-		$this->addElements(array($_service_name,$_title,$_desc,$_status));
-		return $this;
+	public function frmPopupClient(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frmco = new Group_Form_FrmClient();
+		$frm = $frmco->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+					<div data-dojo-type="dijit.Dialog"  id="frm_client" >
+					<form id="form_client" name="form_client" />';
+				$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+							<tr>
+							       <td>Is Group</td>
+									<td>'.$frm->getElement('is_group').'</td>
+									<td>Client N</td>
+									<td>'.$frm->getElement('client_no').'</td>
+								</tr>
+								<tr>
+									<td>Name Khmer</td>
+									<td>'.$frm->getElement('name_kh').'</td>
+									<td>Name Eng</td>
+									<td>'.$frm->getElement('name_en').'</td>
+								</tr>
+								<tr>
+									<td>Sex</td>
+									<td>'.$frm->getElement('sex').'</td>
+									<td>Status</td>
+									<td>'.$frm->getElement('situ_status').'</td>
+								</tr>
+								<tr>
+									<td>Province</td>
+									<td>'.$frm->getElement('province').'</td>
+									<td>District</td>
+									<td>'.$frm->getElement('district').'</td>
+								</tr>
+								<tr>
+									<td>Commune</td>
+									<td>'.$frm->getElement('commune').'</td>
+									<td>'.$tr->translate("Village").'</td>
+									<td>'.$frm->getElement('village').'</td>
+								</tr>
+								<tr>
+									<td>Street</td>
+									<td>'.$frm->getElement('street').'</td>
+									<td>'.$tr->translate("House N.").'</td>
+									<td>'.$frm->getElement('house').'</td>
+									
+								</tr>
+								<tr>
+									<td>ID Type</td>
+									<td>'.$frm->getElement('id_type').'</td>
+									<td>'.$tr->translate("ID Card").'</td>
+									<td>'.$frm->getElement('id_no').'</td>
+								</tr>
+								<tr>
+									<td>'.$tr->translate("Phone").'</td>
+									<td>'.$frm->getElement('phone').'</td>
+									<td>'.$tr->translate("Spouse Name").'</td>
+									<td>'.$frm->getElement('spouse').'</td>
+								</tr>
+								<tr>
+									<td>'.$tr->translate("Status").'</td>
+									<td>'.$frm->getElement('status').'</td>
+									<td>'.$tr->translate("Note").'</td>
+									<td>'.$frm->getElement('desc').'</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="center">
+									<input type="button" value="Save" label="Save" dojoType="dijit.form.Button" 
+										 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewClient();"/>
+									</td>
+								</tr>
+							</table>';	
+							
+		$str.='	</form>	</div>
+				</div>';
+		return $str;
 	}
-	public function addProServiceCategory($data=null){
-		$_title = new Zend_Dojo_Form_Element_ValidationTextBox('servicetype_title');
-		$_title->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside','required'=>'true'));
-	
-		$_tem_desc = new Zend_Dojo_Form_Element_TextBox('item_desc');
-		$_tem_desc->setAttribs(array('dojoType'=>$this->text,'required'=>'true','class'=>'fullside',));
-	
-		$_status = new Zend_Dojo_Form_Element_FilteringSelect('sertype_status');
-		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
-		$_status_opt = array(
-				1=>$this->tr->translate("ACTIVE"),
-				0=>$this->tr->translate("DACTIVE"));
-		$_status->setMultiOptions($_status_opt);
-		
-		$_type = new Zend_Dojo_Form_Element_FilteringSelect('ser_type');
-		$_status_type = array(
-				1=>$this->tr->translate("SERVICE"),
-				2=>$this->tr->translate("PROGRAM"));
-		$_type->setMultiOptions($_status_type);
-		
-		$_type->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
-		
-		$_id = new Zend_Form_Element_Hidden('id');
-		$_id->setAttribs(array('dojoType'=>$this->text));
-		
-		if($data !=null){
-			$_id->setValue($data['id']);
-			$_title->setValue($data['title']);
-			$_tem_desc->setValue($data['item_desc']);
-			$_status->setValue($data['status']);
-			$_type->setValue($data['type']);
-			
-		}
-		$this->addElements(array($_title,$_tem_desc,$_status,$_type,$_id));
-	
-		return $this;
-	
+	public function frmPopupCO(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frmclient = new Other_Form_FrmCO();
+		$frm = $frmclient->FrmAddCO();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_co" >
+					<form id="form_co" name="form_co" >';
+			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>Name Khmer</td>
+						<td>'.$frm->getElement('namsdfse_kh').'</td>
+					</tr>
+					<tr>
+						<td>First Name</td>
+						<td>'.$frm->getElement('first_name').'</td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+						<td>'.$frm->getElement('last_name').'</td>
+					</tr>
+					<tr>
+						<td>Sex</td>
+						<td>'.$frm->getElement('co_sex').'</td>
+					</tr>
+					<tr>
+						<td>Tel</td>
+						<td>'.$frm->getElement('tel').'</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>'.$frm->getElement('email').'</td>
+					</tr>
+					<tr>
+						<td>Address</td>
+						<td>'.$frm->getElement('address').'</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="AddNewCo();"/>
+						</td>
+					</tr>						
+		       </table>';
+		$str.='</form>	</div>
+		  </div>';
+		return $str;								
+	}
+	public function frmPopupZone(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frmzone = new Other_Form_FrmZone();
+		$frm = $frmzone->FrmAddZone();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_zone" >
+					<form id="form_zone" name="form_zone" >';
+			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>Zone Name</td>
+						<td>'.$frm->getElement('zone_name').'</td>
+					</tr>
+					<tr>
+						<td>Zone Number</td>
+						<td>'.$frm->getElement('zone_number').'</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewZone();"/>
+						</td>
+					</tr>
+				</table>';
+		$str.='</form>		</div>
+		</div>';
+		return $str;
+	}
+	public function frmPopupDistrict(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frm = new Other_Form_FrmDistrict();
+		$frm = $frm->FrmAddDistrict();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_district" >
+				<form id="form_district" >';
+		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>District Name</td>
+						<td>'.$frm->getElement('pop_district_name').'</td>
+					</tr>
+					<tr>
+						<td>Province Name</td>
+						<td>'.$frm->getElement('province_name').'</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewDistrict();"/>
+						</td>
+				    </tr>
+				</table>';
+		$str.='</form></div>
+		</div>';
+		return $str;
+	}
+	public function frmPopupCommune(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frm = new Other_Form_FrmCommune();
+		$frm = $frm->FrmAddCommune();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_commune" >
+					<form id="form_commune" >';
+			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>Commune Name</td>
+						<td>'.$frm->getElement('commune_name').'</td>
+					</tr>
+					<tr>
+						<td>District Name</td>
+						<td>'.$frm->getElement('district_name').'</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewCommune();"/>
+						</td>
+					</tr>
+				</table>';
+		$str.='</form></div>
+			</div>';
+		return $str;
+	}
+	public function frmPopupVillage(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frm = new Other_Form_FrmVillage();
+		$frm = $frm->FrmAddVillage();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_village" >
+					<form id="form_village">';
+		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>village Name</td>
+						<td>'.$frm->getElement('village_name').'</td>
+					</tr>
+					<tr>
+						<td>Commune Name</td>
+						<td>'.$frm->getElement('popup_commune_name').'</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+							iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewVillage();" />
+						</td>
+					</tr>
+				</table>';
+		$str.='</form></div>
+		</div>';
+		return $str;
 	}
 }
 

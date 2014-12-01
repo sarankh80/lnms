@@ -27,12 +27,15 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 		
 		$_enddate = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_enddate->setAttribs(array('dojoType'=>$this->date,'required'=>'true','class'=>'fullside',
-				'onchange'=>'CalculateDate();'));
+				));
 		$_date = date("Y-m-d");
 		$_enddate->setValue($_date);
 		
 		$_amount_day = new Zend_Dojo_Form_Element_NumberTextBox('amount_day');
-		$_amount_day->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		$_amount_day->setAttribs(array('dojoType'=>'dijit.form.NumberTextBox','required'=>'true',
+				'class'=>'fullside',
+				'onkeyup'=>'CalculateDate();',
+				));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
