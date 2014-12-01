@@ -11,7 +11,7 @@ body {
     font-family: 'Arial';
     padding: 0px !important;
     margin: 0px !important;
-    font-size:13px;
+    font-size:12px;
     /*overflow-x: hidden ;*/
     background:#ffffff ;
 }
@@ -561,8 +561,8 @@ a,a:focus, a:hover, a:active {
 /* body container */
 #main-content {
     margin-top: 0px;
-   /* margin-left: 180px;*/
-    min-height: 1000px;
+   /* margin-left: 180px;
+    min-height: 1000px;*/
     background: #fff;
     margin-bottom: 40px !important;
 }

@@ -18,9 +18,9 @@ class Other_VillageController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllVillage($search);
 			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Village Name","Commenu Name","Date","Status","By");
+			$collumns = array("Villagename Kh","Village Name","Display By","Commenu Name","Date","Status","By");
 			$link=array(
 					'module'=>'other','controller'=>'Village','action'=>'edit',
 			);
@@ -30,7 +30,6 @@ class Other_VillageController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
 		$frm = new Application_Form_FrmAdvanceSearch();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -53,6 +52,10 @@ class Other_VillageController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddVillage();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_village = $frm;
+		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
 	}
 	public function editAction(){
 		$db = new Other_Model_DbTable_DbVillage();
@@ -69,6 +72,7 @@ class Other_VillageController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getVillageById($id);
+		$this->view->row=$row;
 		if(empty($row)){
 			$this->_redirect('other/Village');
 		}		
@@ -77,5 +81,20 @@ class Other_VillageController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_village = $frm;
 		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
+		
+	}
+	public function addNewvillageAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$data['status']=1;
+			$data['commune_name']=$data['popup_commune_name'];
+			$db_vill = new Other_Model_DbTable_DbVillage();
+			$id = $db_vill->addVillage($data);
+			print_r(Zend_Json::encode($id));
+			exit();
+		}
 	}
 }

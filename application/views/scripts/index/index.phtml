@@ -17,6 +17,11 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 		height: 40px;
 		min-width: 100px;	
 	}
+	.f_style{
+		font: 14px 'Khmer OS Muol Light';
+		text-shadow: 1px 1px 1px #0B404A;
+	}
+	.t_shadow{ text-shadow: 1px 1px 1px #0B404A;}
 </style>
 <link rel="stylesheet" href="css/stylelogin.css"/>
 <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon"/>
@@ -33,11 +38,11 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	
 </script>
 </head>
-<body class="tundra">
+<body class="tundra" style="overflow: hidden;" >
 <div id="header">
 	<table>
 		<tr align="center">
-			<td class="title"><label class="textgreen footertitle"​ style="font:bold 22px 'Khmer OS Muol Light'; text-align: center;"><?php echo $this->data["system_name"];//echo"ប្រព័ន្ធចុះឈ្មោះនិស្សិត ​";//echo"ážŸáž¶áž€áž›ážœáž·áž‘áŸ’áž™áž¶áž›áŸ�áž™ ážœáŸ�ážŸáŸ’áž‘áž¾áž“";//echo $this->data['mainbranch'];?></label></td>
+			<td class="title"><label class="textgreen footertitle"​ style="padding-left: 7px; font:bold 20px 'Khmer OS Muol Light'; text-align: center;"><?php echo $this->data["system_name"];?></label></td>
 		</tr>
 		<tr>
 			<td class="textblue" align="center"></td>
@@ -51,20 +56,12 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	<table cellpadding="0" cellspacing="0" id="main">
 		<tr>
 			<td style="width: 472px;padding-left:50px;" >				
-				<img alt="<?php ?>" src="<?php echo $base_url.$this->data['logo-path-name']?>">
+				<img style="max-width:350px;" alt="<?php ?>" src="<?php echo $base_url.$this->data['logo-path-name']?>">
 			</td>
 			<td valign="top" style="width: 120px">
 				<label class="lblheader"></label>
-				<ul>
-					<?php						
-// 						$services = explode("," , $this->data['services']);						
-// 						foreach ($services AS $i =>$s){
-// 							echo "<li>". $s ."</li>";
-// 						}
-					?>
-				</ul>
 			</td>
-			<td align="right">
+			<td>
 				<div id="login">
 					<form id="frmLogin" dojoType="dijit.form.Form" method="post" action="">
 						<script type="dojo/method" event="onSubmit">				
@@ -76,7 +73,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 						<table id="login">		
 						<tr>
 							<td colspan="2" align="center" class="lblheader textwithe">
-								<label style="font:bold 20px 'Khmer OS Muol Light';"><small>ប្រព័ន្ធសុវត្ថិភាព ​</small></label>
+								<label style="font: bold 20px 'Khmer OS Muol Light'; text-shadow: 1px 1px 1px #0B404A;"><small>ប្រព័ន្ធសុវត្ថិភាព ​</small></label>
 							</td>				
 						</tr>	
 						<tr>
@@ -85,21 +82,21 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 							</td>				
 						</tr>			
 						<tr>
-							<td id="field">អ៊ីម៉ែលអ្នកប្រើប្រាស់ </td>
+							<td id="field"><label class="f_style">អ៊ីម៉ែលអ្នកប្រើប្រាស់</label></td>
 							<td class="add-edit">
 								<input type="text" required="true" name="txt_user_name" id="txt_user_name" placeholder="ឈ្មោះអ្នកប្រើប្រាស់​" 
 								dojoType="dijit.form.ValidationTextBox" missingMessage="សូមបំពេញឈ្មោះអ្នកប្រើប្រាស់! " style="width: 100%;"/>
 							</td>
 						</tr>
 						<tr>
-							<td id="field">លេខសំងាត់</td>
+							<td id="field"><label class="f_style">លេខសំងាត់</label></td>
 							<td class="add-edit">
 								<input type="password" required="true" name="txt_password" id="txt_password" placeholder="លេខសំងាត់" 
 								dojoType="dijit.form.ValidationTextBox" missingMessage="សូមបំពេញលេខសំងាត់!" style="width: 100%;"/>
 							</td>
 						</tr>
 						<tr>
-							<td id="field">ភាសា</td>
+							<td id="field"><label class="f_style">ភាសា</label></td>
 							<td class="add-edit">
 								<select name="lang" id="lang" style=" height: 30px; width:170px " > 
 									<option value="1">ខ្មែរ</option> 
@@ -109,8 +106,8 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 						</tr>
 						<tr>
 							<td colspan="2" align="right">
-								<input  type="submit" value="ចាប់ផ្តើម" label="ចាប់ផ្តើម" dojoType="dijit.form.Button" />
-								<input  type="reset" value="សំអាត" id="clear_login" dojoType="dijit.form.Button" label="សំអាត" /> 								
+								<input class="f_styles" style="color: #1C90C3; font: 13px 'Khmer OS Muol Light';" type="submit" value="ចូលប្រើប្រាស់" label="ចូលប្រើប្រាស់" dojoType="dijit.form.Button" />
+								<input class="f_styles" style="color: #1C90C3; font: 13px 'Khmer OS Muol Light';" type="reset" value="សំអាត" id="clear_login" dojoType="dijit.form.Button" label="សំអាត" /> 								
 							</td>				
 						</tr>
 					</table>
@@ -119,39 +116,48 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 			</td>
 		</tr>
 	</table>	
+	<br>
 </div>
 <div id="footer">
 	<table id="main">
 		<tr>
-			<td><br />
-				<label class="textgreen footertitle">អាសយដ្ឋាន​ ៖</label>
+			<td>
+				<label class="textgreen footertitle f_style">អាសយដ្ឋាន​ ៖</label>
 				<dl>
-				   <lable class="textblue"><?php echo $this->data['branch_add']?></lable><br />
+				   <lable class="f_style"><b><?php echo $this->data['branch_add']?></b></lable><br />
 				  	<?php						
 						$tels = explode("," , $this->data['branch-tel']);						
 						foreach ($tels AS $i =>$tel){
-							echo "<dd>". $tel ."</dd>";
+							echo "<span class='t_shadow' style='font-weight:bold;font-size:20px;'>".$tel."<span><br />";
 						}
 					?>	
-					<lable class="textblue"><?php echo $this->data['branch_email']?></lable><br />		   
+					<lable class='t_shadow' style='font-weight:bold; font-size:21px;'><?php echo $this->data['website']?></lable><br />
+					<lable class='t_shadow' style='font-weight:bold; font-size:20px;'><?php echo $this->data['branch_email']?></lable><br />		   
 				</dl>
-				<br />
-			</td>
-			<td align="right" class="textwithe" rowspan="2" valign="bottom">
-				<label class="textgreen footertitle">បង្កើតដោយ៖</label>
-				<a href="http://western.edu.kh/" target="_blank"><label class="textyellow footertitle">
-					<?php echo $this->data['power_by']?>
+				<label class="textgreen footertitle f_style">ប្រើប្រាស់ដោយ៖</label>
+				<a  style="font-weight:bold;" href="http://www.vssservice.com/" target="_blank"><label class="textyellow footertitle">
+					<b><?php echo $this->data['power_by']?></b>
 				</label>				
 			</td>
-		</tr>
-		<tr>
-			<td class="textgreenlight">
-				<label class="textgreen footertitle">&copy រក្សាសិទ្វិដោយ</label>
-				<a href="http://western.edu.kh/" target="_blank"><label class="textyellow footertitle">
-					<?php echo $this->data['branch']?>
+			<td class="textgreenlight" valign="top">
+				<label class="textgreen footertitle f_style">អាសយដ្ឋាន​ ៖</label>
+				<dl>
+				   <lable class="f_style"><b><?php echo $this->data['branch_add']?></b></lable><br />
+				  	<?php						
+						$tels = explode("," , $this->data['branch-tel']);						
+						foreach ($tels AS $i =>$tel){
+							echo "<span class='t_shadow' style='font-weight:bold;font-size:20px;'>".$tel."<span><br />";
+						}
+					?>	
+					<lable class='t_shadow' style='font-weight:bold; font-size:21px;'><?php echo $this->data['website']?></lable><br />
+					<lable class='t_shadow' style='font-weight:bold; font-size:20px;'><?php echo $this->data['branch_email']?></lable><br />		   
+				</dl>
+				<label class="textgreen footertitle f_style">&copy រក្សាសិទ្ធិដោយ</label>
+				<a  style="font-weight:bold;" href="http://www.vssservice.com/" target="_blank"><label class="textyellow footertitle">
+					<b><?php echo $this->data['power_by']?></b>
 				</label>	
+				<br /><br />
 			</td>
-			
 		</tr>
 	</table>
 </div>

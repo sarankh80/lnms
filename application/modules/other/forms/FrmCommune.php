@@ -11,6 +11,17 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 		$commune->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
+		$communekh = new Zend_Dojo_Form_Element_TextBox('commune_namekh');
+		$communekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
+				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
+		));
+		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
+		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display_opt = array(
+				1=>$this->tr->translate("NAME_KHMER"),
+				2=>$this->tr->translate("NAME_ENGLISH"));
+		$_display->setMultiOptions($_display_opt);
+		
 		$_db = new Application_Model_DbTable_DbGlobal();
 		$rows_provice = $_db->getAllDistrict();
 		$opt_province = "";
@@ -20,17 +31,15 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 		));
 		
 		$district_name->setMultiOptions($opt_province);
-		$district_name->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'required'=>'true',
-				'class'=>'fullside',));
 		
 		$_db = new Application_Model_DbTable_DbGlobal();		
 		$rows_provice = $_db->getAllProvince();
 		$opt_province = "";
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
-		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'
+		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'filterDistrict();',
 		));
 		
 		$_province->setMultiOptions($opt_province);
@@ -49,11 +58,14 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 				'class'=>'fullside'));
 		if(!empty($data)){
 			$commune->setValue($data['commune_name']);
+// 			echo $data['commune_namekh'];exit();
+			$communekh->setValue($data['commune_namekh']);
+			$_display->setValue($data['displayby']);
 			$district_name->setValue($data['district_id']);
 			$_province->setValue($data['pro_id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($commune,$district_name,$_province, $_status));
+		$this->addElements(array($commune,$district_name,$communekh,$_province, $_status, $_display));
 		return $this;
 		
 	}

@@ -93,7 +93,6 @@ class IndexController extends Zend_Controller_Action
 						}
 					}	
 					Application_Form_FrmMessage::redirectUrl("/home");	
-					exit();										
 				}
 				else{					
 					$this->view->msg = 'ឈ្មោះ​អ្នក​ប្រើ​ប្រាស់ និង ពាក្យ​​សំងាត់ មិន​ត្រឺម​ត្រូវ​ទេ ';
@@ -126,6 +125,7 @@ class IndexController extends Zend_Controller_Action
     public function logoutAction()
     {
         // action body
+        $this->_redirect("/index");
         if($this->getRequest()->getParam('value')==1){        	
         	$aut=Zend_Auth::getInstance();
         	$aut->clearIdentity();        	

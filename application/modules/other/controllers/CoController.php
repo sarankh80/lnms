@@ -20,13 +20,14 @@ class Other_CoController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllCreditOfficer($search);
 			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,1);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CODE","Name Khmer","First Name","Last Name","Tel","Email","Adress","Status","Date","By");
+			$collumns = array("CODE","Name Khmer","Name In ENG","National ID","Address","Tel",
+					"Email","Degree","Status");
 			$link=array(
 					'module'=>'other','controller'=>'co','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('co_code'=>$link,'co_khname'=>$link,'co_firstname'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('co_code'=>$link,'co_khname'=>$link,'co_engname'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -135,6 +136,18 @@ class Other_CoController extends Zend_Controller_Action {
    	$frm_co=$frm->FrmAddCO($row);
    	Application_Model_Decorator::removeAllDecorator($frm_co);
    	$this->view->frm_co = $frm_co;
+   }
+   public function addNewcoAction(){
+   	if($this->getRequest()->isPost()){
+   		$data = $this->getRequest()->getPost();
+   		$data['status']=1;
+   		$data['co_id']='';
+   		$data['name_kh']='';
+   		$db_co = new Other_Model_DbTable_DbCreditOfficer();
+   		$id = $db_co->addCreditOfficer($data);
+   		print_r(Zend_Json::encode($id));
+   		exit();
+   	}
    }
 }
 

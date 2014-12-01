@@ -26,10 +26,10 @@ class Other_ProvinceController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllProvince($search);
 		
 			$glClass = new Application_Model_GlobalClass();
-			$rs = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 		
 			$list = new Application_Form_Frmtable();
-			$collumns = array("EN_PROVINCE","KH_PROVINCE","MODIFY_DATE","STATUS","BY_USER");
+			$collumns = array("EN_PROVINCE","KH_PROVINCE","Display By","MODIFY_DATE","STATUS","BY_USER");
 			$link=array(
 					'module'=>'other','controller'=>'Province','action'=>'edit',
 			);
@@ -50,7 +50,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Global_Model_DbTable_DbProvince();
 				$_dbmodel->addNewProvince($_data);
-				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/Province/index");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();

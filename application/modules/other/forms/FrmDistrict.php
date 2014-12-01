@@ -11,6 +11,23 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		$district_name->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 				));
+		
+		$district_namekh = new Zend_Dojo_Form_Element_TextBox('district_namekh');
+		$district_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
+				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
+		));
+		
+		$popupdistrict_name = new Zend_Dojo_Form_Element_TextBox('pop_district_name');
+		$popupdistrict_name->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
+				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
+		));
+		
+		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
+		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display_opt = array(
+				1=>$this->tr->translate("NAME_KHMER"),
+				2=>$this->tr->translate("NAME_ENGLISH"));
+		$_display->setMultiOptions($_display_opt);
 
 		$_db = new Application_Model_DbTable_DbGlobal();		
 		$rows_provice = $_db->getAllProvince();
@@ -38,10 +55,13 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		if(!empty($data)){
 			$id->setValue($data['dis_id']);
 			$district_name->setValue($data['district_name']);
+			$district_namekh->setValue($data['district_namekh']);
+			$_display->setValue($data['displayby']);
 			$_province->setValue($data['pro_id']);
+			
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($id,$district_name,$_province, $_status));
+		$this->addElements(array($id,$district_name,$popupdistrict_name,$district_namekh,$_display,$_province, $_status));
 		return $this;
 		
 	}

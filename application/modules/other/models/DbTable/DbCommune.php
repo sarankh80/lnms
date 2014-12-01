@@ -12,7 +12,9 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 	public function addCommune($_data){
 		$_arr=array(
 				'district_id' => $_data['district_name'],
+				'commune_namekh'=> $_data['commune_namekh'],
 				'commune_name'=> $_data['commune_name'],
+				'displayby'=> $_data['display'],
 				'status'	  => $_data['status'],
 				'modify_date' => Zend_Date::now(),
 				'user_id'	  => $this->getUserId()
@@ -26,7 +28,7 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 	}
 	public function getCommuneById($id){
 		$db = $this->getAdapter();
-		$sql=" SELECT c.com_id,c.district_id,c.commune_name,c.modify_date,c.status,c.user_id,
+		$sql=" SELECT c.com_id,c.district_id,c.commune_name,commune_namekh,displayby,c.modify_date,c.status,c.user_id,
 				(SELECT pro_id FROM `ln_district` WHERE dis_id =c.district_id LIMIT 1 ) as pro_id
 				FROM ln_commune AS c WHERE c.com_id = $id  LIMIT 1";
 		$row=$db->fetchRow($sql);
@@ -35,22 +37,23 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 	function getAllCommune($search=null){
 		$db = $this->getAdapter();
 		$sql = " SELECT com_id,
+					commune_namekh,commune_name,
 					(SELECT district_name FROM `ln_district` WHERE district_id = dis_id) AS district_name,
-					commune_name,modify_date,status,
+					modify_date,status,
        				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) AS user_name
 				FROM $this->_name ";
 		$where = ' WHERE 1 ';
 		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$search = $db->quote($search['adv_search']);
-			$s_where[] = " co_code LIKE '%{$search}%'";
-			$s_where[] = "co_khname LIKE '%{$search}%'";
-			$s_where[] = " co_firstname LIKE '%{$search}%'";
-			$s_where[] = "co_lastname LIKE '%{$search}%'";
-			$s_where[] = " tel LIKE '%{$search}%'";
-			$s_where[] = "email LIKE '%{$search}%'";
-			$s_where[] = "address LIKE '%{$search}%'";
+// 			$search = $search['adv_search'];
+			$s_where[] = " commune_name LIKE '%{$search['adv_search']}%'";
+// 			$s_where[] = "co_khname LIKE '%{$search}%'";
+// 			$s_where[] = " co_firstname LIKE '%{$search}%'";
+// 			$s_where[] = "co_lastname LIKE '%{$search}%'";
+// 			$s_where[] = " tel LIKE '%{$search}%'";
+// 			$s_where[] = "email LIKE '%{$search}%'";
+// 			$s_where[] = "address LIKE '%{$search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status']>-1){

@@ -13,17 +13,21 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'co_code'	  => $_data['co_id'],
 				'co_khname'	  => $_data['name_kh'],
-				'co_firstname'	  => $_data['first_name'],
-				'co_lastname'	  => $_data['last_name'],
-				'tel'	  => $_data['tel'],
-				'email'	  => $_data['email'],
+				'co_firstname'=> $_data['first_name'],
+				'co_lastname' => '',//$_data['last_name'],
+				'displayby'	  => $_data['display'],
+				'sex'		  => $_data['co_sex'],
+				'national_id'	  => $_data['national_id'],
 				'address'	  => $_data['address'],
+				'pob'	      => $_data['pob'],
+				'degree'	      => $_data['degree'],
+				'tel'	  	  => $_data['tel'],
+				'email'	      => $_data['email'],
 				'create_date' => Zend_Date::now(),
-				'status'   => $_data['status'],
+				'status'      => $_data['status'],
 				'user_id'	  => $this->getUserId()
 		);
 		if(!empty($_data['id'])){
-			
 			$where = 'co_id = '.$_data['id'];
 			return  $this->update($_arr, $where);
 		}else{
@@ -41,11 +45,12 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 	function getAllCreditOfficer($search=null){
 		$db = $this->getAdapter();
 		$sql = "SELECT
-					co_id,co_code,co_khname,co_firstname,co_lastname,
-					tel,email,address,status,create_date,
-					(SELECT first_name FROM rms_users WHERE id=user_id) As user_name
+					co_id,co_code,co_khname,CONCAT(co_firstname,co_lastname) AS co_engname,national_id,address,
+					tel,email,address,degree,status
+					
 		 FROM $this->_name ";
-		$where = ' WHERE 1 ';
+// 		(SELECT first_name FROM rms_users WHERE id=user_id) As user_name
+		$where = ' WHERE co_khname!="" ';
 		
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];

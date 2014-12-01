@@ -10,7 +10,44 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
 		$_group->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
+				'onchange'=>'getGroupCode();'
 				));
+		
+		$_group_code = new Zend_Dojo_Form_Element_TextBox('group_code');
+		$_group_code->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'readonly'=>'readonly',
+				'style'=>'color:red;'
+		));
+		
+// 		$db = new Application_Model_DbTable_DbGlobal();
+// 		$id_client = $db->getNewClientId();
+		
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$_branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rows = $db->getAllBranchName();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
+		$_branch_id->setMultiOptions($options);
+	
+		
+		
+		$_member = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
+		$_member->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rows = $db->getClientByType();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
+		$_member->setMultiOptions($options);
+		
 		$_namekh = new Zend_Dojo_Form_Element_TextBox('name_kh');
 		$_namekh->setAttribs(array(
 						'dojoType'=>'dijit.form.ValidationTextBox',
@@ -18,9 +55,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 						'required' =>'true'
 		));
 		
-		$db = new Application_Model_DbTable_DbGlobal();
 		$id_client = $db->getNewClientId();
-		
 		$_clientno = new Zend_Dojo_Form_Element_TextBox('client_no');
 		$_clientno->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -72,6 +107,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_district->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'popupCheckDistrict();'
 		));
 		
 		$_commune = new Zend_Dojo_Form_Element_FilteringSelect('commune');
@@ -82,13 +118,15 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_commune->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'popupCheckCommune();'
 		));
 		
 		$_village = new Zend_Dojo_Form_Element_FilteringSelect('village');
 		$_village->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onchange'=>'popupCheckVillage();'
 		));
 		$rows =  $db->getVillage();
 		$options=array(''=>"------Select------",-1=>"Add New");
@@ -151,6 +189,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$_id->setValue($data['client_id']);
+			$_member->setValue($data['parent_id']);
 			$_group->setValue($data['is_group']);
 			$_namekh->setValue($data['name_kh']);
 			$_nameen->setValue($data['name_en']);
@@ -170,7 +209,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$_clientno->setValue($data['client_number']);	
 		}
-		$this->addElements(array($_id,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_id,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;
