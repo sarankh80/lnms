@@ -7,7 +7,8 @@
 	  $old_report=$this->url(array('module'=>'allreport','controller'=>'index','action'=>'index'), null, true);
 	  $report=$this->url(array('module'=>'report','controller'=>'index','action'=>'index'), null, true);
 	  $loan_view=$this->url(array('module'=>'loan','controller'=>'index','action'=>'index'), null, true);
-	  $expend_view=$this->url(array('module'=>'expend','controller'=>'index','action'=>'index'), null, true);
+	  $accounting_view=$this->url(array('module'=>'accounting','controller'=>'index','action'=>'index'), null, true);
+	  $teller=$this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'index'), null, true);
 	  $payroll_view=$this->url(array('module'=>'payroll','controller'=>'index','action'=>'index'), null, true);
 	  $backup=$this->url(array('module'=>'backup','controller'=>'index','action'=>'index'), null, true);
       $user=$this->url(array('module'=>'user','controller'=>'index','action'=>'index'), null, true);
@@ -35,9 +36,9 @@
 							<span>'.$tr->translate("Loan View").'</span>
 						</a>
 					</li>',	 
-	  	'expend'=>'<li class="link">
-		  		<a title="ព័ត៏មានចំណាយផ្សេងៗ" href="'.$expend_view.'">
-		  		<span>'.$tr->translate("Expend").'</span>
+	  	'accounting'=>'<li class="link">
+		  		<a title="ព័ត៏មានចំណាយផ្សេងៗ" href="'.$accounting_view.'">
+		  		<span>'.$tr->translate("Accounting").'</span>
 		  		</a>
 	  		</li>',
 	  	'payroll'=>'<li class="link">
@@ -45,6 +46,12 @@
 		  		<span>'.$tr->translate("Payroll").'</span>
 		  		</a>
 	  		</li>',
+	  	'tellerandexchange'=>'<li class="link">
+	  		<a title="" href="'.$teller.'">
+	  		<span>'.$tr->translate("TELLER Module").'</span>
+	  		</a>
+	  		</li>',
+	  		
 	  	'report'=>'<li class="link">
 			  		<a title="Report" href="'.$report.'">
 			  			<span>'.$tr->translate("Reports").'</span>

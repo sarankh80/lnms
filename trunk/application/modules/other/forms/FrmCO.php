@@ -66,6 +66,8 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_degree->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$degree_opt = $db->getAllDegree();
+		$_degree->setMultiOptions($degree_opt);
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		
 		if(!empty($_data)){
