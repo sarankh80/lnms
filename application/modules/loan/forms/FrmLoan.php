@@ -49,13 +49,13 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
 		$_member->setMultiOptions($options);
 		
-		$_devise = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
-		$_devise->setAttribs(array(
+		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
 		$opt = array(1=>'Khmer',2=>"Dollar");
-		$_devise->setMultiOptions($opt);
+		$_currency_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
@@ -202,7 +202,9 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'required' =>'true',
 				'onchange'=>'chechPaymentMethod()'
 		));
-		$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Payment",5=>"Semi Baloon");
+		//$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Payment",5=>"Semi Baloon");
+		$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Pyment(Full Last Period)",5=>"Semi Baloon",6=>"Fixed Payment (Fixed Rate)");
+		
 		$_repayment_method->setMultiOptions($options);
 		
 		$_holiday = new Zend_Dojo_Form_Element_FilteringSelect('holiday');
@@ -214,8 +216,31 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
 		$_holiday->setMultiOptions($options);
 		
-		
-		$this->addElements(array($_isgroup,$_groupid,$_time_collect,$_loan_fee,$_level,$_branch_id,$_member,$_coid,$_devise,$_devise,$_zone,$_amount,$_rate,$_releasedate
+		if($data!=null){
+			print_r($data);
+			$_branch_id->setValue($data['member_id']);
+			$_level->setValue($data['level']);
+			$_loan_fee->setValue($data['admin_fee']);
+			$_member->setValue($data['client_id']);
+			$_coid->setValue($data['co_id']);
+			$_zone->setValue($data['zone_id']);
+			
+			$_releasedate->setValue($data['date_release']);
+			$_period->setValue($data['zone_id']);
+			$_first_payment->setValue($data['zone_id']);
+			$_time->setValue($data['time_collect']);
+			$_every_payamount->setValue($data['pay_term']);
+			$_amount->setValue($data['total_capital']);
+			
+			$_currency_type->setValue($data['payment_method']);
+			$_rate->setValue($data['zone_id']);
+			
+			$_repayment_method->setValue($data['payment_method']);
+			$_graice_pariod->setValue($data['graice_pariod']);
+			$_time_collect_pri->setValue($data['amount_collect_pricipal']);
+			
+		}
+		$this->addElements(array($_isgroup,$_groupid,$_time_collect,$_loan_fee,$_level,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,$_first_payment,$_repayment_method,$_pay_every));
 		return $this;
 		

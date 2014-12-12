@@ -58,6 +58,8 @@ class Other_HolidayController extends Zend_Controller_Action {
 	}
 	function editAction()
 	{
+		$db =new  Other_Model_DbTable_DbHoliday();
+		$db->deleteHoliday();
 		$db = new Other_Model_DbTable_DbHoliday();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();

@@ -119,7 +119,7 @@
 						<tr>
 							<td><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
-							<td><?php echo $tr->translate("រយៈពេលបង់រំលោៈដើម")?></td>
+							<td><label id="lbl_payment"><?php echo $tr->translate("រយៈពេលបង់រំលោៈដើម")?></label></td>
 							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
 							<td><?php //echo $tr->translate("វិធីសាស្រ្ត")?></td>
 							<td><?php //echo $frm->getElement('repayment_method');?></td>
@@ -173,7 +173,13 @@ function chechPaymentMethod(){
 	if(method_id==5){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dijit.byId('amount_collect_pricipal').focus();
-	}else{
+	}else if(method_id==4){
+		dijit.byId('amount_collect_pricipal').set('readOnly',false);
+		dojo.byId('lbl_payment').innerHTML="ចំនួនទឹកប្រាក់បង់ថេរ";
+		dijit.byId('amount_collect_pricipal').attr('value','');
+		dijit.byId('amount_collect_pricipal').focus();
+		}
+	else{
 		dijit.byId('amount_collect_pricipal').set('readOnly',true);
 	}
 	if(method_id==1){

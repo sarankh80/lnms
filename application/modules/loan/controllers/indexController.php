@@ -46,9 +46,9 @@ class Loan_indexController extends Zend_Controller_Action {
 			$collumns = array("Client Name","Client NameKh","Release Amount","Interest Rate","Method","Time Collect","Zone","CO",
 				"By","status");
 			$link=array(
-					'module'=>'group','controller'=>'Client','action'=>'edit',
+					'module'=>'loan','controller'=>'index','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name_kh'=>$link,'client_name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -66,7 +66,7 @@ class Loan_indexController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);
-// 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
 			}catch (Exception $e) {
 				echo $err =$e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -95,6 +95,38 @@ class Loan_indexController extends Zend_Controller_Action {
 			print_r(Zend_Json::encode($suc));
 			exit();
 		}
+		
+	}
+	public function editAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try{
+				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
+				$_dbmodel->addNewLoanIL($_data);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+			}catch (Exception $e) {
+				echo $err =$e->getMessage();exit();
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
+		}
+		
+		$id = $this->getRequest()->getParam('id');
+		$db = new Loan_Model_DbTable_DbLoanIL();
+		$row = $db->getTranLoanByIdWithBranch($id);
+		
+		$frm = new Loan_Form_FrmLoan();
+		$frm_loan=$frm->FrmAddLoan($row);
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_loan = $frm_loan;
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
+		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
+		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
+		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 	}
 	function addAddAction()
 	{

@@ -347,7 +347,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}else{
   		$amount_days =1;
   	}
-  	return $amount_days*$amount_collect;//return all next day collect laon form customer
+  	return $amount_days;//;*$amount_collect;//return all next day collect laon form customer
   }
   public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){
   	for($i=0;$i<$amount_amount;$i++){
