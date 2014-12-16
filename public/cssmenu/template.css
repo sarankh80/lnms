@@ -2,7 +2,7 @@
 	vertical-align:middle;	
 	width : 100%;
 	line-height : normal;
-	height : 45px; /* 34 */
+	height : 46px; /* 34 */
 	/*background : url(topNav.png) no-repeat 0% 8px;*/
 	clear : both;
 	margin : 0 0 0 0px;
@@ -13,13 +13,19 @@
 	padding : 0;
 }
 #menu ul {
-	height: 35px;
+	height: 44px;
     list-style: none outside none;
+    background: none repeat scroll 0 0 #1887AE;
+    border-bottom: 2px solid red;
 	/*margin-top:11px;*/
 }
 #menu li {
-	/*background: none repeat scroll 0 0 #075C01;*/
-    background: none repeat scroll 0 0 #003265;
+	/*background: none repeat scroll 0 0 #075C01;
+    background: none repeat scroll 0 0 #003265;*/
+    background: none repeat scroll 0 0 #1887AE;
+	border-bottom: 2px double red;
+
+
     float: left;
     font: bold 14px calibri,Arial;
 	font-family:calibri,Arial,Helvetica,sans-serif;
@@ -28,7 +34,7 @@
 }
 #menu a {
 	border-right:1px solid #999;
-	color: #EEEEEE;
+	color: #fff;
     display: block;
     line-height: 34px;
     padding: 5px 15px;

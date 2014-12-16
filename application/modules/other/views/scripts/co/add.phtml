@@ -23,16 +23,22 @@
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php  echo $techer->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("លេខកូដសំគាល់")?></td>
 							<td><?php  echo $techer->getElement('co_id');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះជាភាសាខ្មែរ")?></td>
-							<td><?php  echo $techer->getElement('name_kh');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ឈ្មោះជាភាសាអង់គ្គេស")?></td>
 							<td><?php  echo $techer->getElement('first_name');?></td>
+							<td><?php echo $tr->translate("ឈ្មោះជាភាសាខ្មែរ")?></td>
+							<td><?php  echo $techer->getElement('name_kh');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("បង្ហាញជា")?></td>
 							<td><?php  echo $techer->getElement('display');?></td>
+							<td><?php echo $tr->translate("តួនាទី")?></td>
+							<td><?php  echo $techer->getElement('postion');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ភេទ")?></td>
