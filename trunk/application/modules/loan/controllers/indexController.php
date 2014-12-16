@@ -66,7 +66,7 @@ class Loan_indexController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+				//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
 			}catch (Exception $e) {
 				echo $err =$e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");

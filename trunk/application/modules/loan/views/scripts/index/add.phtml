@@ -1,6 +1,4 @@
 <?php
-// echo 66666.66."<br />";
-// echo round(66666.66,-2);
 	$this->headTitle('Add Loan IL'); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
@@ -87,10 +85,10 @@
 							
 						</tr>
 						<tr>
-							<td><?php //echo $tr->translate("ថ្ងៃយកប្រាក់ដំបូង")?></td>
-							<td><?php //echo $frm->getElement('first_payment');?></td>
-							<td><?php //echo $tr->translate("រយៈពេលអនុគ្រោះដើម")?></td>
-							<td><?php //echo $frm->getElement('graice_pariod');?></td>
+							<td><?php echo $tr->translate("បង់មុនថ្ងៃកំណត់")?></td>
+							<td><?php echo $frm->getElement('pay_before');?></td>
+							<td><?php echo $tr->translate("បង់យឺតផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('pay_late');?></td>
 							<td><?php echo $tr->translate("រយៈពេលបង់ប្រាក់")?></td>
 							<td><?php echo $frm->getElement('amount_collect');?></td>
 							
@@ -99,30 +97,22 @@
 				</fieldset>
 				<fieldset>
 					<legend><strong>ព៌ត័មាន កម្ចីសាច់ប្រាក់</strong></legend>
-					<table class="center" cellspacing="10">
+					<table cellspacing="10">
 						<tr>
 							<td><?php echo $tr->translate("រូបិយប័ណ្ណ")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
 							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចី")?></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("ការប្រាក់")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
-							<td><?php echo $tr->translate("វិធីសាស្រ្ត")?></td>
-							<td><?php echo $frm->getElement('repayment_method');?></td>
-							<td><?php //echo $tr->translate("រូបិយប័ណ្ណ")?></td>
-							<td><?php //echo $frm->getElement('amount_collect_pricipal');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("វិធីសាស្រ្ត")?></td>
+							<td><?php echo $frm->getElement('repayment_method');?></td>
 							<td><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
 							<td><label id="lbl_payment"><?php echo $tr->translate("រយៈពេលបង់រំលោៈដើម")?></label></td>
 							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
-							<td><?php //echo $tr->translate("វិធីសាស្រ្ត")?></td>
-							<td><?php //echo $frm->getElement('repayment_method');?></td>
 						</tr>
 					</table>
 				</fieldset>

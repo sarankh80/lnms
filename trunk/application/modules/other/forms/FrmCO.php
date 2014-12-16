@@ -15,6 +15,20 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_co_id = new Zend_Dojo_Form_Element_TextBox('co_id');
 		$_co_id->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$_branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rows = $db->getAllBranchName();
+		$options='';
+		if(!empty($rows))foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$_branch_id->setMultiOptions($options);
+		
 		$_name_kh = new Zend_Dojo_Form_Element_TextBox('name_kh');
 		$_name_kh->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
@@ -34,6 +48,14 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		
 		$_tel = new Zend_Dojo_Form_Element_TextBox('tel');
 		$_tel->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		
+		$_position = new Zend_Dojo_Form_Element_FilteringSelect('postion');
+		$_position->setAttribs(array('dojoType'=>$this->filter,
+				'required'=>'true','class'=>'fullside',));
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$opt = $db->getAllStaffPosition(null,1);
+		$_position->setMultiOptions($opt);
 		
 		$_email = new Zend_Dojo_Form_Element_TextBox('email');
 		$_email->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
@@ -64,7 +86,6 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		
 		$_degree=  new Zend_Dojo_Form_Element_FilteringSelect('degree');
 		$_degree->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
-		$db = new Application_Model_DbTable_DbGlobal();
 		$degree_opt = $db->getAllDegree();
 		$_degree->setMultiOptions($degree_opt);
 		
@@ -87,7 +108,8 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_status->setValue($_data['status']);
 			$_id->setValue($_data['co_id']);
 		}
-		$this->addElements(array($_id,$_co_id,$_name_kh,$_degree,$_national_id,$_display,$_enname,$_lname,$_sex,$_tel,$_email,$_pob,$_address,$_status));
+		$this->addElements(array($_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
+				$_sex,$_tel,$_email,$_pob,$_address,$_status,$_position));
 		
 		return $this;
 	}

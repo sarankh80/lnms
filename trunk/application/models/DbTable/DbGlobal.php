@@ -265,6 +265,43 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db=$this->getAdapter();
   	return $db->fetchRow($sql);
   }
+  function getAllPaymentMethod($payment_id=null,$option = null){
+  	$sql = "SELECT * FROM ln_payment_method WHERE status = 1 ";
+  	if($payment_id!=null){
+  		$sql.=" AND id = $payment_id";
+  	}
+  	$rows = $this->getAdapter()->fetchAll($sql);
+  	if($option!=null){
+  		$options="";
+//   		print_r($rows);exit();
+  		if(!empty($rows))foreach($rows AS $row){
+  			$options[$row['id']]=($row['displayby']==1)?$row['payment_namekh']:$row['payment_nameen'];
+  		}
+  		return $options;
+  	}else{
+  		return $rows;
+  	}
+//   return $this->getAdapter()->fetchAll($sql);	
+  	
+  }
+  public function getAllStaffPosition($id=null,$option = null){
+  	$db = $this->getAdapter();
+  	$sql=" SELECT id,position_en,position_kh,displayby 
+  			FROM `ln_position` WHERE status =1 ";
+  	if($id!=null){
+  		$sql.=" AND id = $id LIMIT 1";
+  	}
+  	$rows = $db->fetchAll($sql);
+  	if($option!=null){
+  		$options="";
+  		if(!empty($rows))foreach($rows AS $row){
+  			$options[$row['id']]=($row['displayby']==1)?$row['position_kh']:$row['position_en'];
+  		}
+  		return $options;
+  	}else{
+  		return $rows;
+  	}
+  }
   
  public function setReportParam($arr_param,$file){
   	$contents = file_get_contents('.'.$file);

@@ -54,7 +54,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt = array(1=>'Khmer',2=>"Dollar");
+		$opt = array(1=>'Khmer',2=>"Dollar",3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
@@ -181,6 +181,22 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$set_time='10:00-11:00 AM';
 		$_time->setValue($set_time);
 		
+		$_paybefore = new Zend_Dojo_Form_Element_NumberTextBox('pay_before');
+		$_paybefore->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$_paybefore->setValue(0);
+		
+		$_pay_late = new Zend_Dojo_Form_Element_NumberTextBox('pay_late');
+		$_pay_late->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$_pay_late->setValue(0);
+		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -203,8 +219,15 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'onchange'=>'chechPaymentMethod()'
 		));
 		//$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Payment",5=>"Semi Baloon");
-		$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Pyment(Full Last Period)",5=>"Semi Baloon",6=>"Fixed Payment (Fixed Rate)");
 		
+// 		$options= array(
+// 				1=>"Decline",
+// 				2=>"Baloon",
+// 				3=>"Fixed Rate",
+// 				4=>"Fixed Pyment(Full Last Period)",
+// 				5=>"Semi Baloon",
+// 				6=>"Fixed Payment (Fixed Rate)");
+		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
 		
 		$_holiday = new Zend_Dojo_Form_Element_FilteringSelect('holiday');
@@ -240,7 +263,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 			$_time_collect_pri->setValue($data['amount_collect_pricipal']);
 			
 		}
-		$this->addElements(array($_isgroup,$_groupid,$_time_collect,$_loan_fee,$_level,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_isgroup,$_groupid,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,$_first_payment,$_repayment_method,$_pay_every));
 		return $this;
 		
