@@ -1,5 +1,5 @@
 <?php
-class Group_indexController extends Zend_Controller_Action {
+class Group_AgreementController extends Zend_Controller_Action {
 	
 	public function init()
 	{
@@ -58,66 +58,11 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->frm_search = $frm;
 	}
 	public function addAction(){
-		if($this->getRequest()->isPost()){
-			try{
-				$data = $this->getRequest()->getPost();
-				$db = new Group_Model_DbTable_DbClient();
-				$db->addClient($data);
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
-			}catch (Exception $e){
-				echo $e->getMessage();exit();
-				Application_Form_FrmMessage::message("Application Error");
-				echo $e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-			}
-		}
-		$fm = new Group_Form_FrmClient();
-		$frm = $fm->FrmAddClient();
+		$fm = new Group_Form_Frmcallteral();
+		$frm = $fm->FrmAddCallteral();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_client = $frm;
+		$this->view->frm_callteral = $frm;
 	}
-	public function editAction(){
-		$db = new Group_Model_DbTable_DbClient();
-		if($this->getRequest()->isPost()){
-			try{
-				$data = $this->getRequest()->getPost();
-				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/Client");
-			}catch (Exception $e){
-				echo $e->getMessage();exit();
-				Application_Form_FrmMessage::message("Application Error");
-				echo $e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-			}
-		}
-		$id = $this->getRequest()->getParam("id");
-		$row = $db->getClientById($id);
-		if(empty($row)){
-			$this->_redirect("/group/Client");
-		}
-		$fm = new Group_Form_FrmClient();
-		$frm = $fm->FrmAddClient($row);
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_client = $frm;
-	}
-	public function addNewclientAction(){//ajax
-		if($this->getRequest()->isPost()){
-			$db = new Group_Model_DbTable_DbClient();
-			$data = $this->getRequest()->getPost();
-			$_data['status']=1;
-			$id = $db->addClient($data);
-			print_r(Zend_Json::encode($id));
-			exit();
-		}
-	}
-	function getgroupcodeAction(){
-		if($this->getRequest()->isPost()){
-			$db = new Group_Model_DbTable_DbClient();
-			$data = $this->getRequest()->getPost();
-			$code = $db->getGroupCode($data);
-			print_r(Zend_Json::encode($code));
-			exit();
-		}
-	}
+
 }
 

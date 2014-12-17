@@ -1,6 +1,5 @@
 <?php
-class Group_indexController extends Zend_Controller_Action {
-	
+class Group_ClientController extends Zend_Controller_Action {
 	public function init()
 	{
 		/* Initialize action controller here */
@@ -35,15 +34,15 @@ class Group_indexController extends Zend_Controller_Action {
 						'spouse_name'=>$rs['spouse_name'],
 						'user_name'=>$rs['user_name'],
 						'status'=>$rs['status'],
-				);
+						);
 			}
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("Client N.","Name Khmer","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
-					"By","status");
+				"By","status");
 			$link=array(
-					'module'=>'group','controller'=>'index','action'=>'edit',
+					'module'=>'group','controller'=>'Client','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
@@ -51,7 +50,7 @@ class Group_indexController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-	
+		
 		$frm = new Application_Form_FrmAdvanceSearch();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -92,15 +91,13 @@ class Group_indexController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
-		if(empty($row)){
-			$this->_redirect("/group/Client");
-		}
+		if(empty($row)){$this->_redirect("/group/Client");}
 		$fm = new Group_Form_FrmClient();
 		$frm = $fm->FrmAddClient($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
 	}
-	public function addNewclientAction(){//ajax
+	public function addNewclientAction(){
 		if($this->getRequest()->isPost()){
 			$db = new Group_Model_DbTable_DbClient();
 			$data = $this->getRequest()->getPost();
@@ -109,15 +106,6 @@ class Group_indexController extends Zend_Controller_Action {
 			print_r(Zend_Json::encode($id));
 			exit();
 		}
-	}
-	function getgroupcodeAction(){
-		if($this->getRequest()->isPost()){
-			$db = new Group_Model_DbTable_DbClient();
-			$data = $this->getRequest()->getPost();
-			$code = $db->getGroupCode($data);
-			print_r(Zend_Json::encode($code));
-			exit();
-		}
+		
 	}
 }
-
