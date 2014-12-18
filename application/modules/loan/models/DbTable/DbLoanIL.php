@@ -114,8 +114,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				
     				if($payment_method==1){//decline
     					$pri_permonth = ($data['total_amount']/($data['period']-$data['graice_pariod'])*$amount_collect);
-    					$pri_permonth = ($curr_type==1)? round($pri_permonth,-2): $pri_permonth;
-    					if($i<$data['graice_pariod']+1){//check here
+    					
+//     					echo $data['total_amount'];exit();
+    					$pri_permonth = ($curr_type==1)? round($pri_permonth,-2): round($pri_permonth);
+//     					$pri_permonth = ($curr_type==1)? round($pri_permonth,-2): $pri_permonth;
+//     					echo $pri_permonth;exit();
+    					if($i*$amount_collect<=$data['graice_pariod']){//check here
     						$pri_permonth = 0;
     					}
 //     					if($i==($data['period']/$data['amount_collect'])){
@@ -132,7 +136,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						
     						if($i==($data['period']/$data['amount_collect'])){
 //     							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-    							$pri_permonth = $data['total_amount']-$pri_permonth*($i-1);
+    							$pri_permonth = $data['total_amount']-$pri_permonth*(($i-($data['graice_pariod']+1)));
+//     							$pri_permonth = $data['total_amount']-$pri_permonth*(($i-$data['graice_pariod'])-1);
+//     							$pri_permonth = $data['total_amount']-$pri_permonth*($i-1);
     						}
     						if($data['amount_collect']!=1){//many day
 //     							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
@@ -160,6 +166,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					$pri_permonth=0;
     					if(($i*$amount_collect)==$data['period']){
     						$pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
+    						$pri_permonth = ($curr_type==1)? round($pri_permonth,-2): round($pri_permonth);
     						$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
     					}
     					if($i!=1){

@@ -49,6 +49,10 @@
 	/*width: 145px;*/
 	height: 44px;
 	line-height: 34px;
+    border:1px solid red;
+    padding-top:4px;
+    border-bottom:none;
+
 }
 #menu li.section {
 	background : url(activeNav.png) no-repeat 0% 0;

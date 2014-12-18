@@ -143,6 +143,23 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
+   public function getAllCurrency($id,$opt = null){
+	   	$sql = "SELECT * FROM ln_currency WHERE status = 1 ";
+	   	if($id!=null){
+	   		$sql.=" AND id = $id";
+	   	}
+	   	$rows = $this->getAdapter()->fetchAll($sql);
+	   	if($opt!=null){
+	   		$options="";
+	   		if(!empty($rows))foreach($rows AS $row){
+	   			$options[$row['id']]=($row['displayby']==1)?$row['displayby']:$row['curr_nameen'];
+	   		}
+	   		return $options;
+	   	}else{
+	   		return $rows;
+	   	}
+   	
+   }
    public function getNewClientId(){
    	$this->_name='ln_client';
    	$db = $this->getAdapter();
