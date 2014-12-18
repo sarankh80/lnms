@@ -8,7 +8,7 @@ $frm = $this->frm_expense;
 	height: 30px;
 }
 </style>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'expense','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -24,19 +24,27 @@ $frm = $this->frm_expense;
 					<legend><strong>ចំណាយ</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
+						    <td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("Expense Name")?></td>
-							<td><?php echo $frm->getElement('expense_name');?></td>
+							<td><?php echo $frm->getElement('account_id');?></td>
+							<td><?php echo $tr->translate("Total amount")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+							
+							
+						</tr>
+						<tr>
+							
+							<td><?php echo $tr->translate("Fordate")?></td>
+							<td><?php echo $frm->getElement('for_date');?></td>
+						    <td><?php echo $tr->translate("Description")?></td>
+							<td><?php echo $frm->getElement('Description');?></td>
 							<td><?php echo $tr->translate("Date")?></td>
 							<td><?php echo $frm->getElement('Date');?></td>
 						</tr>
 						<tr>
-							
 							<td><?php echo $tr->translate("Stutas")?></td>
 							<td><?php echo $frm->getElement('Stutas');?></td>
-							<td><?php echo $tr->translate("Total amount")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td><?php echo $tr->translate("Description")?></td>
-							<td><?php echo $frm->getElement('Description');?></td>
 						</tr>
 					</table>
 				</fieldset>
