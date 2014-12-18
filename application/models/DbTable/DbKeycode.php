@@ -8,7 +8,7 @@ class Application_Model_DbTable_DbKeycode extends Zend_Db_Table_Abstract
 
 	function getKeyCodeMiniInv($loginonly = FALSE){
 		$db = $this->getAdapter();
-		$sql = 'SELECT `keyName`,`keyValue` FROM `rms_setting`';
+		$sql = 'SELECT `keyName`,`keyValue` FROM `cs_keycode`';
 		if($loginonly){
 			//$sql .= " WHERE `code` > 10";
 		}
