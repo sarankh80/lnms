@@ -2,22 +2,41 @@
 
 class Accounting_ExpenseController extends Zend_Controller_Action
 {
-	const REDIRECT_URL = '/agent';
-	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	const REDIRECT_URL = '/accounting/expense';
 	
     public function init()
     {
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
-    	
-    	//clear all other sessions
-    	Application_Form_FrmSessionManager::clearSessionSearch();
+    	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
     }
 
     public function indexAction()
     {
-      
-        
+    	try{
+    		$db = new Accounting_Model_DbTable_DbExpense();
+//     		if($this->getRequest()->isPost()){
+//     			$search=$this->getRequest()->getPost();
+//     		}
+//     		else{
+//     			$search = array(
+//     					'adv_search' => '',
+//     					'status' => -1);
+//     		}
+    		$rs_rows= $db->getAllExpense($search=null);//call frome model
+    		$glClass = new Application_Model_GlobalClass();
+    		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+    		$list = new Application_Form_Frmtable();
+    		$collumns = array("BranchId ","Account No","Total Amount","For Date","Note","Date","Status");
+    		$link=array(
+    				'module'=>'accounting','controller'=>'expense','action'=>'edit',
+    		);
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('account_id'=>$link,'total_amount'=>$link));
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("Application Error");
+    		echo $e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    	}
     }
 
  //djalv odigja oslfc kfsdalfij doflkdslkffkmaslcds fkds fklfasdj fldsa fadij fodslflsd jflsdf lsdj foal
@@ -26,9 +45,9 @@ class Accounting_ExpenseController extends Zend_Controller_Action
     {
     	if($this->getRequest()->isPost()){
 			$agentdata=$this->getRequest()->getPost();	
-			$db_agent = new Expens_models_Dbtable_DbInsert();				
+			$db_agent = new Accounting_Model_DbTable_DbExpense();				
 			try {
-				$db = $db_agent->addStudent($agentdata);				
+				$db = $db_agent->addexpense($agentdata);				
 				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);		
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
@@ -39,6 +58,7 @@ class Accounting_ExpenseController extends Zend_Controller_Action
     	Application_Model_Decorator::removeAllDecorator($frm);
     	$this->view->frm_expense=$frm;
     }
+   
     public function viewAction()
     {
         // action body
@@ -47,29 +67,34 @@ class Accounting_ExpenseController extends Zend_Controller_Action
 		$db_agent = new Application_Model_DbTable_DbAgents();
 		$this->view->agent_view = $db_agent->getAgentViewById($ag_id);
     }
-
-    public function editedAction()
+     
+    
+ 
+    public function editAction()
     {
         // action body
-        $ag_id = $this->getRequest()->getParam('ag_id');
-    	$ag_id = (empty($ag_id))? 0 : $ag_id; 
-    	
-    	$pro = new Application_Model_DbTable_DbProvinces();
-		$this->view->provinces = $pro->getProvinceListAll();
-		
-		$db_agent = new Application_Model_DbTable_DbAgents();
-		$this->view->agent_edit = $db_agent->getAgentEditedById($ag_id);
-		
     	if($this->getRequest()->isPost()){
 			$agentdata=$this->getRequest()->getPost();	
-							
+			$db_agent = new Accounting_Model_DbTable_DbExpense();				
 			try {
-				$db = $db_agent->updateAgent($agentdata);				
+				$db = $db_agent->updatexpense($agentdata);				
 				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);		
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
+		$id = $this->getRequest()->getParam('id');
+// 		if(empty($id)){
+// 			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+// 		}
+		$db = new Accounting_Model_DbTable_DbExpense();
+		$row  = $db->getexpensebyid($id);
+    	$pructis=new Accounting_Form_Frmexpense();
+    	$frm = $pructis->FrmAddExpense($row);
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frm_expense=$frm;
+		
+    	
     }
 
 
