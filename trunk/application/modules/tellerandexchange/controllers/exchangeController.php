@@ -118,6 +118,37 @@ class Tellerandexchange_ExchangeController extends Zend_Controller_Action
     
     	if($this->getRequest()->isPost()){
     		$formdata=$this->getRequest()->getPost();
+    		$db_exc=new Application_Model_DbTable_DbExchange();
+    		try {
+    			$id = $db_exc->save($formdata);
+    			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
+    		} catch (Exception $e) {
+    			$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+    		}
+    	}
+    
+    }
+    public function exchangAction()
+    {
+    	// action body
+    	//user name for report
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+    
+    	$db_keycode = new Application_Model_DbTable_DbKeycode();
+    	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+    
+    	$cur = new Application_Model_DbTable_DbCurrencies();
+    	$currency = $cur->getCurrencyList();
+    
+    	$this->view->currency = $this->_helpfilteroption($currency);
+    
+    
+    	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
+    
+    
+    	if($this->getRequest()->isPost()){
+    		$formdata=$this->getRequest()->getPost();
 //     		$db_exc=new Application_Model_DbTable_DbExchange();
     		try {
 //     			$id = $db_exc->save($formdata);
