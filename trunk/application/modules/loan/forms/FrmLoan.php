@@ -119,7 +119,8 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_rate =  new Zend_Dojo_Form_Element_ValidationTextBox("interest_rate");
 		$_rate->setAttribs(array(
 				'data-dojo-Type'=>'dijit.form.ValidationTextBox',
-				'data-dojo-props'=>"regExp:'[0-9]{1,2}','required':true,
+				'data-dojo-props'=>"
+				'required':true,
 				'name':'interest_rate',
 				'value':2.5,
 				'class':'fullside',

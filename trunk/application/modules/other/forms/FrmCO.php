@@ -89,6 +89,33 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$degree_opt = $db->getAllDegree();
 		$_degree->setMultiOptions($degree_opt);
 		
+		$_basic_salary=  new Zend_Dojo_Form_Element_NumberTextBox('basic_salary');
+		$_basic_salary->setAttribs(array('dojoType'=>'dijit.form.NumberTextBox','class'=>'fullside'));
+		
+		$_start_work=  new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$_start_work->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside'));
+		
+		$_end_work=  new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$_end_work->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside'));
+		
+		$_contract=  new Zend_Dojo_Form_Element_TextBox('contract_no');
+		$_contract->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside'));
+		
+		$_note =  new Zend_Dojo_Form_Element_Textarea('note');
+		$_note->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside'));
+		
+		$_shift =  new Zend_Dojo_Form_Element_FilteringSelect('shift');
+		$_shift->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside'));
+		
+		$_workingtime =  new Zend_Dojo_Form_Element_FilteringSelect('workingtime');
+		$_workingtime->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside'));
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		
 		if(!empty($_data)){
@@ -109,7 +136,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_id->setValue($_data['co_id']);
 		}
 		$this->addElements(array($_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
-				$_sex,$_tel,$_email,$_pob,$_address,$_status,$_position));
+				$_sex,$_tel,$_email,$_pob,$_address,$_shift,$_workingtime,$_status,$_position,$_basic_salary,$_start_work,$_end_work,$_contract,$_note));
 		
 		return $this;
 	}

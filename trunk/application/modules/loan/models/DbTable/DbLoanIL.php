@@ -132,9 +132,17 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 //     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
     					}
     					if($i!=1){
-    						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+    						if($data['graice_pariod']!=0){//if collect =1 not other check
+    							if($i*$amount_collect>$data['graice_pariod']+1){//not wright
+    								$remain_principal = $remain_principal-$pri_permonth;
+    							}
+    						}else{
+    							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
+    						}
     						
-    						if($i==($data['period']/$data['amount_collect'])){
+    						//$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+    						
+    						if($i==($data['period']/$data['amount_collect'])){//check condition here
 //     							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
     							$pri_permonth = $data['total_amount']-$pri_permonth*(($i-($data['graice_pariod']+1)));
 //     							$pri_permonth = $data['total_amount']-$pri_permonth*(($i-$data['graice_pariod'])-1);
