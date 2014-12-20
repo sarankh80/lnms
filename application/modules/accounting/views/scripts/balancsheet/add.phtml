@@ -21,10 +21,39 @@ $frm = $this->frm_fixedasset;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>Category Form</strong></legend>
+					<legend><strong> Form Balancsheet</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-							<td>Categoryname(kh)</td>
+							<td>Branch</td>
+							<td><?php echo $frm->getElement('branch')?></td>
+							<td>For</td>
+							<td><?php echo $frm->getElement('for')?></td>
+							<td>Parent</td>
+							<td><?php echo $frm->getElement('parent')?></td>
+						</tr>
+						<tr>
+							<td>Category</td>
+							<td><?php echo $frm->getElement('category')?></td>
+							<td>Account No</td>
+							<td><?php echo $frm->getElement('account_No')?></td>
+							<td>Account Name</td>
+							<td><?php echo $frm->getElement('account_Name')?></td>
+						</tr>
+						<tr>
+							<td>Amount</td>
+							<td><?php echo $frm->getElement('amount')?></td>
+							<td>Note</td>
+							<td><?php echo $frm->getElement('note')?></td>
+							<td>Date</td>
+							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
+							<td>Status</td>
+							<td><?php echo $frm->getElement('status')?></td>
+							<td></td>
+							<td><td>
+							<td></td>
+							<td></td>
 						</tr>
 						
 					</table>
