@@ -454,5 +454,14 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db = new Application_Model_DbTable_DbGlobal();
   	return ($db->countDaysByDate($start,$end));
   }
+  public function CurruncyTypeOption(){
+  	$db = $this->getAdapter();
+  	$rows=array(1=>"ដុល្លា",2=>"បាត",3=>"រៀល");
+  	$option='';
+  	if(!empty($rows))foreach($rows as $key=>$value){
+  		$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
+  	}
+  	return $option;
+  }
 }
 ?>
