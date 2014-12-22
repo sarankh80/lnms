@@ -14,12 +14,60 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
  				'onchange'=>'popupCheckClient();'
 				));
-		$rows = $db ->getClientByType(1);
+		$rows = $db ->getClientByType();
 		$options="";
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
 		}
 		$_groupid->setMultiOptions($options);
+		
+		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
+		$_loan_number->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
+		$_client_code->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_amount_receive = new Zend_Dojo_Form_Element_NumberTextBox('amount_receive');
+		$_amount_receive->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onkeyup'=>'totalReturn();'
+		));
+		
+		$_amount_return = new Zend_Dojo_Form_Element_NumberTextBox('amount_return');
+		$_amount_return->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
+		
+		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
+		$_service_charge->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onkeyup'=>'addMoreService();'
+		));
+		$_service_charge->setValue(0);
+		
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$_branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$rows = $db->getAllBranchName();
+		$options='';
+		if(!empty($rows))foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$_branch_id->setMultiOptions($options);
+		
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
@@ -71,8 +119,16 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_total_payment->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'style'=>'color:red;'
 		));
+		
+		$_hide_total_payment = new Zend_Form_Element_Hidden('hide_total_payment');
+		$_hide_total_payment->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+		));
+		
+		
 		
 		$_note = new Zend_Dojo_Form_Element_NumberTextBox('note');
 		$_note->setAttribs(array(
@@ -87,11 +143,12 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-		$c_date = date('Y-d-m');
+		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
 	
 		$this->addElements(array($_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
-				$_penalize_amount,$_collect_date,$_total_payment,$_note));
+				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
+				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
 		
 	}	

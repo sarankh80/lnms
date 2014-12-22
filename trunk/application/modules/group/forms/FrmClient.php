@@ -13,8 +13,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'onchange'=>'getGroupCode();'
 				));
 		
-		
-		
 		$_group_code = new Zend_Dojo_Form_Element_TextBox('group_code');
 		$_group_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',

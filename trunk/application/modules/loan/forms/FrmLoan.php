@@ -14,6 +14,13 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				// 				'onkeyup'=>'Calcuhundred()'
 		));
 		
+		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
+		$_client_code->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
@@ -54,7 +61,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt = array(1=>'Khmer',2=>"Dollar",3=>"Bath");
+		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
@@ -280,7 +287,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 			$_time_collect_pri->setValue($data['amount_collect_pricipal']);
 			
 		}
-		$this->addElements(array($_isgroup,$_groupid,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,$_first_payment,$_repayment_method,$_pay_every));
 		return $this;
 		

@@ -43,12 +43,13 @@ class Loan_indexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Client Name","Client NameKh","Release Amount","Interest Rate","Method","Time Collect","Zone","CO",
-				"By","status");
+			$collumns = array("Loan Number","Client Name","Client NameKh","Release Amount","Interest Rate","Method","Zone","CO",
+				"Branch","status");
 			$link=array(
 					'module'=>'loan','controller'=>'index','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name_kh'=>$link,'client_name_en'=>$link));
+			$link_info=array('module'=>'group','controller'=>'client','action'=>'view-clientinfo',);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'client_name_kh'=>$link_info,'client_name_en'=>$link_info));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -128,6 +129,16 @@ class Loan_indexController extends Zend_Controller_Action {
 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 	}
+// 	function getLoannumberAction(){
+// 		if($this->getRequest()->isPost()){
+// 			$data = $this->getRequest()->getPost();
+// 			$db = new Loan_Model_DbTable_DbLoanIL();
+// 			$row = $db->getLoanPaymentByLoanNumber($data['loan_number']);
+// 			print_r(Zend_Json::encode($row));
+// 			exit();
+// 		}
+		
+// 	}
 	function addAddAction()
 	{
 		if($this->getRequest()->isPost()){
