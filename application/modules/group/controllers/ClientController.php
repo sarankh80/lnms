@@ -97,6 +97,11 @@ class Group_ClientController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
 	}
+	function viewClientinfoAction(){
+		$id = $this->getRequest()->getParam("id");
+		$db_client = new Group_Model_DbTable_DbClient();
+		$this->view->client_list = $db_client->getViewClientByGroupId($id);		
+	}
 	public function addNewclientAction(){
 		if($this->getRequest()->isPost()){
 			$db = new Group_Model_DbTable_DbClient();

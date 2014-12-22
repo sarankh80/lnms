@@ -89,6 +89,47 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		
 	}	
+	function getLoannumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanIL();
+			$row = $db->getLoanPaymentByLoanNumber($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	
+	}
+	public function generateBarcodeAction(){
+		$id = $this->getRequest()->getParam('id');
+// 		if(!empty($id)){
+// 			$db = new Application_Model_DbTable_DbGlobal();
+// 			$sql=" SELECT p_code FROM tb_product WHERE pro_id = ".$id." LIMIT 1 ";
+// 			$row=$db->getGlobalDbRow($sql);
+// 			$_itemcode=$row["p_code"];
+			header('Content-type: image/png');
+			$this->_helper->layout()->disableLayout();
+			//$barcodeOptions = array('text' => "$_itemcode",'barHeight' => 30);
+			$barcodeOptions = array('text' => "123",'barHeight' => 40);
+			//'font' => 4(set size of label),//'barHeight' => 40//set height of img barcode
+			$rendererOptions = array();
+			$renderer = Zend_Barcode::factory(
+					'code128', 'image', $barcodeOptions, $rendererOptions
+			)->render();
+// 		}
+	
+	}
+	public function showBarcodesAction(){
+		$this->_helper->layout()->disableLayout();
+		$id = $this->getRequest()->getParam('id');
+		if(!empty($id)){
+			$ids=explode(',', $id);
+			$this->view->pro_id = $ids;
+		}
+		else{
+			//$this->_redirect("/product/index/index");
+		}
+	
+	}
 	
 }
 

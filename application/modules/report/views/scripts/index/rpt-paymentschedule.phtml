@@ -3,6 +3,9 @@ $client = $this->client;
 $filter = $this->form_filter;
 $dayin_khmer = $this->day_inkhmer;
 // print_r($dayin_khmer);exit();
+
+$url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode"),null,true);											
+												
 ?>
 <style type="text/css">
 .fullside {
@@ -39,140 +42,153 @@ margin: -4px 4px 0 4px;
 	</table>
  </div>
 </div>
+<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+				showLabel="false" type="button" onclick="doPrint();">Print</button>
 <div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
-<style type="text/css">
-.style{
-	line-height: 20px;font-size: 12px;
-	font-family: 'Khmer OS Battambang';
-}
-.font_bold{
-	font-family:'Khmer OS Muol';
-	font-size: 12px;
-	
-}
-</style>
-<table style="font-family: 'Khmer OS Content'; width:100%;"  >
-	<tr>
-    	<td align="center">
-        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;">
-            	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
-                	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label><?php echo $client['branch_name'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
-                    <td width="20%"></td>
-                </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td width="40%">
-                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-								<br />TEL :(855) 10 78 55 44
-                				</td>
-                				<td></td>
-                				<td width="30%">ឈ្មោះមន្ត្រី ឥណទាន : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
-                				<td>ទូរស័ព្ទ  : <?php echo $client['tel'];?></td>
-                			</tr>
-		                	<tr class='style'>
-			                	<td colspan="2">
-			                	<p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> , លេខ សំគាល់: <?php echo $client['client_number']?></p>
-			                	</td>
-			                    <td>ប្រាក់កម្ចី : <?php echo $client['total_capital'];echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
-			                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
-			                </tr>
-			                <tr class='style'>
-			                	<td rowspan="2" colspan="2"> <p><b>អាសយដ្ឋាន</b>: ភូមិក្រាំងតាឡាត់ ,ឃុំ មហាឬស្សី <br />ស្រុក គងពិសី ,ខេត្ត តាកែវ</td>
-			                    <td>រយៈពេលខ្ចី  : <?php echo $client['total_duration']?> ខែ</td>
-			                    <td></td>
-			                </tr>
-			                <tr class='style'>
-			                	<td style="white-space: nowrap;">ថ្ងៃបញ្ចេញប្រាក់ : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </td>
-			                	<td style="white-space: nowrap;">ថ្ងៃបង់ប្រាក់លើកទី១ : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></td>
-			                </tr>
-			                 <tr class='style' valign="top">
-			                	<td colspan="2">វគ្គទី: <?php echo $client['level'];?></td>
-			                	<td>
-			                	</td>
-			                	<td><br />
-			                		
-			                	</td>
-			                </tr>
-		                </table>
-		              </td>
-		           </tr>   
-            </table>
-        </td>
-    </tr>
-    <tr>
-    	<td>
-            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellpadding="3">
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
-                    <td rowspan="2">លរ</td>
-                    <td rowspan="2" colspan="2">ថ្ងៃបង់ប្រាក់</td>
-                    <!-- <td>ចំនួនថ្ងៃ</td> -->
-                    <td rowspan="2">ប្រាក់ដើមគ្រា</td>
-                    <td colspan="3">ចំនួនប្រាក់ត្រូវបង់</td>
-                    <td rowspan="2">ប្រាក់ដើមសល់</td>
-                </tr>
-                <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
-                    <!--<td>ចំនួនថ្ងៃ</td>-->
-                    <td>ប្រាក់ដើម</td>
-                    <td>ប្រាក់ការ</td>
-                    <td>សរុប</td>
-                </tr>
-               <?php foreach($tran as $key =>$row){?>
-               	<tr align="center" style="font-weight:bold; font-family:'Khmer OS';">
-                    <td ><?php echo $key+1;?></td>
-                    <?php $str_day = date('D',strtotime($row['date_payment']));
-                    	$day_as_khmer = $dayin_khmer[$str_day];
-                    ?>
-                    <td align="right">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;&nbsp;&nbsp;</td>
-                    <td align="center"><?php echo date('d-m-y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
-                   <!--  <td><?php //echo $row['is_completed']?></td> -->
-                    <td><?php echo number_format($row['total_principal'],(!strrpos($row['total_principal'],"."))? 0 : 2);?></td>
-                    <td><?php echo number_format($row['principal_permonth'],(!strrpos($row['principal_permonth'],"."))? 0 : 2);?></td>
-                    <td><?php echo number_format($row['total_interest'],(!strrpos($row['total_interest'],"."))? 0 : 2);?></td>
-                    <td><?php echo number_format($row['total_payment'],(!strrpos($row['total_payment'],"."))? 0 : 2); ?></td>
-                    <?php 
-                    $remain = $row['total_principal']-$row['principal_permonth']
-                    ?>
-                    <td><?php echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
-                </tr>
-               <?php }
-               	for($record = $key;$record<11;$record++){
-               ?>
-               		<tr>
-               			<td>&nbsp;</td>
-               			<td></td>
-               			<td></td>
-               			<td></td>
-               			<td></td>
-               			<td></td>
-               			<td></td>
-               			<td></td>
-               		</tr>
-               <?php }?>
-            </table>
-            <table width="100%" cellpadding="3">
-            	<tr class="font_bold" style="height:50px;">
-            		<td width="35%" align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
-            		<td></td> 
-            		<td width="35%" align="center" valign="bottom">ហត្ថលេខ ឫស្នាមមេដៃ និងឈ្មោះអតិថិជន</td>
-            	</tr>
-            	<tr>
-            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
-            		<td><br /><br /><br />
-            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
-            	</tr>
-            	<tr class="font_bold">
-            		<td align="center"> <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
-            		<td></td>
-            		<td align="center"> <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </td>
-            	</tr>
-            </table>
-    	</td>
-    </tr>
-</table>
+	<div id="Printrpt">
+	<style type="text/css">
+	.style{
+		line-height: 20px;font-size: 12px;
+		font-family: 'Khmer OS Battambang';
+	}
+	.font_bold{
+		font-family:'Khmer OS Muol';
+		font-size: 12px;
+		
+	}
+	</style>
+	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+		<tr>
+	    	<td align="center">
+	        	<table width="100%" style="font-family:khmer;" style="margin:0 auto;padding:0px; border:none;">
+	            	<tr>
+	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+	                	<td width="60%" valign="top">
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label><?php echo $client['branch_name'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
+	                    <td width="20%"><img src="<?php echo $url_barcode;?>" /></td>
+	                </tr> 
+	                <tr>
+	                	<td colspan="3">
+	                		<table width="100%">
+	                			<tr class='style'>
+	                				<td width="40%">
+	                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
+									<br />TEL :(855) 10 78 55 44
+	                				</td>
+	                				<td></td>
+	                				<td width="30%">ឈ្មោះមន្ត្រី ឥណទាន : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	                				<td>ទូរស័ព្ទ  : <?php echo $client['tel'];?></td>
+	                			</tr>
+			                	<tr class='style'>
+				                	<td colspan="2">
+				                	<p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> , លេខ សំគាល់: <?php echo $client['client_number']?></p>
+				                	</td>
+				                    <td>ប្រាក់កម្ចី : <?php echo $client['total_capital'];echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
+				                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
+				                </tr>
+				                <tr class='style'>
+				                	<td rowspan="2" colspan="2"> <p><b>អាសយដ្ឋាន</b>: ភូមិក្រាំងតាឡាត់ ,ឃុំ មហាឬស្សី <br />ស្រុក គងពិសី ,ខេត្ត តាកែវ</td>
+				                    <td>រយៈពេលខ្ចី  : <?php echo $client['total_duration']?> ខែ</td>
+				                    <td></td>
+				                </tr>
+				                <tr class='style'>
+				                	<td style="white-space: nowrap;">ថ្ងៃបញ្ចេញប្រាក់ : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </td>
+				                	<td style="white-space: nowrap;">ថ្ងៃបង់ប្រាក់លើកទី១ : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></td>
+				                </tr>
+				                 <tr class='style' valign="top">
+				                	<td colspan="2">វគ្គទី: <?php echo $client['level'];?></td>
+				                	<td>
+				                	</td>
+				                	<td><br />
+				                		
+				                	</td>
+				                </tr>
+			                </table>
+			              </td>
+			           </tr>   
+	            </table>
+	        </td>
+	    </tr>
+	    <tr>
+	    	<td>
+	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellpadding="3">
+	                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
+	                    <td rowspan="2">លរ</td>
+	                    <td rowspan="2" colspan="2">ថ្ងៃបង់ប្រាក់</td>
+	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
+	                    <td rowspan="2">ប្រាក់ដើមគ្រា</td>
+	                    <td colspan="3">ចំនួនប្រាក់ត្រូវបង់</td>
+	                    <td rowspan="2">ប្រាក់ដើមសល់</td>
+	                </tr>
+	                <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
+	                    <!--<td>ចំនួនថ្ងៃ</td>-->
+	                    <td>ប្រាក់ដើម</td>
+	                    <td>ប្រាក់ការ</td>
+	                    <td>សរុប</td>
+	                </tr>
+	               <?php foreach($tran as $key =>$row){?>
+	               	<tr align="center" style="font-weight:bold; font-family:'Khmer OS';">
+	                    <td ><?php echo $key+1;?></td>
+	                    <?php $str_day = date('D',strtotime($row['date_payment']));
+	                    	$day_as_khmer = $dayin_khmer[$str_day];
+	                    ?>
+	                    <td align="right">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;&nbsp;&nbsp;</td>
+	                    <td align="center"><?php echo date('d-m-y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
+	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
+	                    <td><?php echo number_format($row['total_principal'],(!strrpos($row['total_principal'],"."))? 0 : 2);?></td>
+	                    <td><?php echo number_format($row['principal_permonth'],(!strrpos($row['principal_permonth'],"."))? 0 : 2);?></td>
+	                    <td><?php echo number_format($row['total_interest'],(!strrpos($row['total_interest'],"."))? 0 : 2);?></td>
+	                    <td><?php echo number_format($row['total_payment'],(!strrpos($row['total_payment'],"."))? 0 : 2); ?></td>
+	                    <?php 
+	                    $remain = $row['total_principal']-$row['principal_permonth']
+	                    ?>
+	                    <td><?php echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
+	                </tr>
+	               <?php }
+	               	for($record = $key;$record<11;$record++){
+	               ?>
+	               		<tr>
+	               			<td>&nbsp;</td>
+	               			<td></td>
+	               			<td></td>
+	               			<td></td>
+	               			<td></td>
+	               			<td></td>
+	               			<td></td>
+	               			<td></td>
+	               		</tr>
+	               <?php }?>
+	            </table>
+	            <table width="100%" cellpadding="3">
+	            	<tr class="font_bold" style="height:50px;">
+	            		<td width="35%" align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
+	            		<td></td> 
+	            		<td width="35%" align="center" valign="bottom">ហត្ថលេខ ឫស្នាមមេដៃ និងឈ្មោះអតិថិជន</td>
+	            	</tr>
+	            	<tr>
+	            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
+	            		<td><br /><br /><br />
+	            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
+	            	</tr>
+	            	<tr class="font_bold">
+	            		<td align="center"> <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td></td>
+	            		<td align="center"> <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </td>
+	            	</tr>
+	            </table>
+	    	</td>
+	    </tr>
+	</table>
+	</div>
 </div>
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>	
+<script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('Printrpt').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+</script>
