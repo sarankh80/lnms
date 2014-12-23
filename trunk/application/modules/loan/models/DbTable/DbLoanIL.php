@@ -212,21 +212,42 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					$pri_permonth = ($curr_type==1)?round($pri_permonth,-2):$pri_permonth;
     						
     					if($i!=1){
-    						if($ispay_principal!=$data['amount_collect_pricipal']){
-    							$pri_permonth =0;// ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    							$ispay_principal=0;
-    						}
-    						if($i*$amount_collect==$data['amount_collect_pricipal']){
+    						
+    						$ispay_principal++;
+    						$is_subremain++;
+    						$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    						$pri_permonth = ($curr_type==1)?round($pri_permonth,-2):$pri_permonth;
+    						
+    							if($ispay_principal!=$data['amount_collect_pricipal']){
+    								$pri_permonth =0;// ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    								$ispay_principal=0;
+    							}
+    							if($i*$amount_collect==$data['amount_collect_pricipal']){
+    								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    							}elseif(($is_subremain-1)==$data['amount_collect_pricipal']){
+    								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    								$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    								$is_subremain=1;
+    							}
+    							$start_date = $next_payment;
+    							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
+    							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+    							$interest_paymonth = $remain_principal*($data['interest_rate']/100)*($amount_day/$day_perterm);
+//     						if($ispay_principal!=$data['amount_collect_pricipal']){
+//     							$pri_permonth =0;// ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+//     							$ispay_principal=0;
+//     						}
+//     						if($i*$amount_collect==$data['amount_collect_pricipal']){
 //     							$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    						}elseif(($is_subremain-1)==$data['amount_collect_pricipal']){
-    							$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    							$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    							$is_subremain=1;
-    						}
-    						$start_date = $next_payment;
-    						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
-    						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    						$interest_paymonth = $remain_principal*($data['interest_rate']/100)*($amount_day/$day_perterm);
+//     						}elseif(($is_subremain-1)==$data['amount_collect_pricipal']){
+//     							$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+//     							$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+//     							$is_subremain=1;
+//     						}
+//     						$start_date = $next_payment;
+//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
+//     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
+//     						$interest_paymonth = $remain_principal*($data['interest_rate']/100)*($amount_day/$day_perterm);
     					
     					}else{
     						$pri_permonth = 0;//check if get pri first too much change;
@@ -298,7 +319,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$loan_number= $data['loan_number'];
     	if($data['type']!=2){
     		$where =($data['type']==1)?'loan_number = '.$loan_number:'client_id='.$loan_number;
-    	    $sql=" SELECT * FROM `ln_loanmember_funddetail` WHERE member_id =
+    	    $sql=" SELECT *,
+					(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
+    	     FROM `ln_loanmember_funddetail` WHERE member_id =
 		    		(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
 		    		AND status = 1 ";
     	}elseif($data['type']==2){
