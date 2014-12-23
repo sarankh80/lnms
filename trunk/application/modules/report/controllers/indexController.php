@@ -29,6 +29,26 @@ class Report_indexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
 	}
+	
+	function rptClientAction()
+	{
+		
+		if($this->getRequest()->isPost()){
+			// 			$_data = $this->getRequest()->getPost();
+			// 			try {
+			// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
+			// 				$_dbmodel->addNewProvince($_data);
+			// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+			// 			}catch (Exception $e) {
+			// 				Application_Form_FrmMessage::message("INSERT_FAIL");
+			// 				$err =$e->getMessage();
+			// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			// 			}
+		}
+		$db = new Accounting_Model_DbTable_DbExpense();
+		$this->view->client_list = $db->getAllExpense();
+		
+	}
  function rptLoadreleaseAction(){
  	
  }

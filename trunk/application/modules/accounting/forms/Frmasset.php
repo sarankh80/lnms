@@ -7,9 +7,9 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 	}
 	public function FrmAsset($data=null){
 		
-		$asset_name = new Zend_Dojo_Form_Element_FilteringSelect('asset_name');
+		$asset_name = new Zend_Dojo_Form_Element_TextBox('asset_name');
 		$asset_name->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'required'=>true
 				));
@@ -90,8 +90,21 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		 
 		$_id = new Zend_Form_Element_Hidden('id');
 		
+		if($data!=null){
+			$_branch_id->setValue($data['branch_id']);
+			$asset_name->setValue($data['fixed_assetname']);
+			$asset_type->setValue($data['fixed_asset_type']);
+			$asset_cost->setValue($data['asset_cost']);
+			$useful_life->setValue($data['usefull_life']);
+			$salvage_value->setValue($data['salvagevalue']);
+			$payment_method->setValue($data['payment_method']);
+			$Date->setValue($data['depreciation_start']);
+			$start_date->setValue($data['date']);
+			
+		}
+		
 		$this->addElements(array($asset_name,$asset_type,$asset_cost,$start_date,$useful_life,$salvage_value,$payment_method,
-				$Date,$_branch_id));
+				$Date,$_branch_id,$_id));
 		return $this;
 		
 	}	

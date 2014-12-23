@@ -8,7 +8,7 @@ $frm = $this->frm_fixedasset;
 	height: 30px;
 }
 </style>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'asset','action'=>'add')); ?>" 
+<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'asset','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -24,6 +24,7 @@ $frm = $this->frm_fixedasset;
 					<legend><strong>Add Fixed Asset Name</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
+						    <?php echo $frm->getElement('id');?>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch')?></td>	
 							<td colspan="2"></td>
