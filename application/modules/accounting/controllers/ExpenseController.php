@@ -29,7 +29,7 @@ class Accounting_ExpenseController extends Zend_Controller_Action
     		$list = new Application_Form_Frmtable();
     		$collumns = array("BranchId ","Account No","Total Amount","For Date","Note","Date","Status");
     		$link=array(
-    				'module'=>'accounting','controller'=>'expense','action'=>'edit',
+    				'module'=>'accounting','controller'=>'expense','action'=>'index',
     		);
     		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('account_id'=>$link,'total_amount'=>$link));
     	}catch (Exception $e){

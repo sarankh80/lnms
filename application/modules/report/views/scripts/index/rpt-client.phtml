@@ -1,0 +1,26 @@
+<?php
+$list = $this->client_list;
+?>
+
+           
+            <table width="100%" style="margin:5px 0px;">
+            	<tr  bgcolor="#888888">
+                	<td>Contract Code </td>
+                    <td>Status</td>
+                    <td>Amount</td>
+                    <td>OLB</td>
+                    <td>Creatin Date</td>
+                    <td>Start Date</td>
+                    <td>Close Date</td>
+                    <td>Group</td> 
+                    <td>Late Day</td>
+                    <td>ATR</td>
+                </tr>
+               <?php foreach ($list as $key =>$rs){?>
+               	<tr>
+               		<td><?php echo $rs['branch_id']?></td>
+               		
+               	</tr>
+               <?php }?>
+            </table>
+      

@@ -8,7 +8,7 @@ $frm = $this->frm_callteral;
 	height: 30px;
 }
 </style>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'Callteral','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'Callteral','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -25,6 +25,7 @@ $frm = $this->frm_callteral;
 					<legend><strong>Withdrawal Callteral Letter</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
+						     <?php echo $frm->getElement('id');?>
 							<td width="16%"><?php echo $tr->translate("សាខា ")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("លេខកូដបញ្ចាំ")?></td>
@@ -77,7 +78,7 @@ $frm = $this->frm_callteral;
 								<td><?php echo $frm->getElement('and_names')?></td>
 							</tr>
 						
-							<tr>
+						<tr>
 								<td><?php echo $tr->translate("ដាក់បញ្ចាំទ្រព្យ<br />ធានាលើប្រាក់កម្ចី ")?></td>
 								<td><?php echo $frm->getElement('personal')?></td>
 								<td><?php echo $tr->translate('ប្រភេទទ្រពបញ្ចំា')?></td>

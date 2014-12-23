@@ -7,7 +7,7 @@ Class Group_Form_Frmcallteral extends Zend_Dojo_Form {
 	}
 	public function FrmAddCallteral($data=null){
 		
-		$customer_name = new Zend_Dojo_Form_Element_TextBox('customer_name');
+		$customer_name = new Zend_Dojo_Form_Element_TextBox('CO_name');
 		$customer_name->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside'
@@ -76,10 +76,26 @@ Class Group_Form_Frmcallteral extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		
-		$_id = new Zend_Form_Element_Hidden('id');
+		
+		$id = new Zend_Form_Element_Hidden("id");
+		
+		if($data!=null){
+				
+			$_branch_id->setValue($data['branch_id']);
+			$account_id->setValue($data['account_id']);
+			$total_amount->setValue($data['total_amount']);
+			$for_date->setValue($data['fordate']);
+			$_Description->setValue($data['disc']);
+			$_Date->setValue($data['date']);
+			$_stutas->setValue($data['status']);
+			$id->setValue($data['id']);
+				
+		
+				
+		}
 		
 		$this->addElements(array($customer_name,$first_name,$customer_name,$is_new,$_branch_id,$_dob,
-				$total_amount,$description,$_customer_code,$group_id));
+				$total_amount,$description,$_customer_code,$group_id,$id));
 		return $this;
 		
 	}	
