@@ -319,6 +319,23 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $rows;
   	}
   }
+  public function getVewOptoinTypeByType($type=null,$option = null){
+  	$db = $this->getAdapter();
+  	$sql="SELECT key_code,name_en,name_kh,displayby FROM `ln_view` WHERE status =1 ";
+  	if($type!=null){
+  		$sql.=" AND type = $type ";
+  	}
+  	$rows = $db->fetchAll($sql);
+  	if($option!=null){
+  		$options="";
+  		if(!empty($rows))foreach($rows AS $row){
+  			$options[$row['key_code']]=($row['displayby']==1)?$row['name_kh']:$row['name_en'];
+  		}
+  		return $options;
+  	}else{
+  		return $rows;
+  	}
+  }
   
  public function setReportParam($arr_param,$file){
   	$contents = file_get_contents('.'.$file);
