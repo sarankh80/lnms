@@ -90,11 +90,15 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_degree->setMultiOptions($degree_opt);
 		
 		$_basic_salary=  new Zend_Dojo_Form_Element_NumberTextBox('basic_salary');
-		$_basic_salary->setAttribs(array('dojoType'=>'dijit.form.NumberTextBox','class'=>'fullside'));
+		$_basic_salary->setAttribs(array('dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>true
+				));
 		
 		$_start_work=  new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_start_work->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside'));
+		$_start_work->setValue(date('Y-m-d'));
 		
 		$_end_work=  new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_end_work->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -104,17 +108,21 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_contract->setAttribs(array('dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside'));
 		
-		$_note =  new Zend_Dojo_Form_Element_Textarea('note');
+		$_note =  new Zend_Dojo_Form_Element_TextBox('note');
 		$_note->setAttribs(array('dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside'));
 		
+		$opt_shift=array(1=>'ពេញម៉ោង',2=>'ក្រៅម៉ោង');
 		$_shift =  new Zend_Dojo_Form_Element_FilteringSelect('shift');
 		$_shift->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'));
+		$_shift->setMultiOptions($opt_shift);
 		
+		$opt_workingtime=array(1=>'ពេលព្រឹក',2=>'ពេលល្ងាច',3=>'ពេលព្រឹក និង ពេលល្ងាច​');
 		$_workingtime =  new Zend_Dojo_Form_Element_FilteringSelect('workingtime');
 		$_workingtime->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'));
+		$_workingtime->setMultiOptions($opt_workingtime);
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		
@@ -134,6 +142,13 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_address->setValue($_data['address']);
 			$_status->setValue($_data['status']);
 			$_id->setValue($_data['co_id']);
+			$_basic_salary->setValue($_data['basic_salary']);
+			$_start_work->setValue($_data['start_date']);
+			$_end_work->setValue($_data['end_date']);
+			$_contract->setValue($_data['contract_no']);
+			$_note->setValue($_data['note']);//echo $_data['note']; exit();
+			$_shift->setValue($_data['shift']);
+			$_workingtime->setValue($_data['workingtime']);
 		}
 		$this->addElements(array($_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
 				$_sex,$_tel,$_email,$_pob,$_address,$_shift,$_workingtime,$_status,$_position,$_basic_salary,$_start_work,$_end_work,$_contract,$_note));

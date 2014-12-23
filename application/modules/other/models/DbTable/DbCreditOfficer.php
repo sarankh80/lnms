@@ -25,7 +25,14 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 				'email'	      => $_data['email'],
 				'create_date' => Zend_Date::now(),
 				'status'      => $_data['status'],
-				'user_id'	  => $this->getUserId()
+				'user_id'	  => $this->getUserId(),
+				'basic_salary'=> $_data['basic_salary'],
+				'start_date'  => $_data['start_date'],
+				'end_date'	  => $_data['end_date'],
+				'contract_no' => $_data['contract_no'],
+				'note'		  => $_data['note'],
+				'shift'		  => $_data['shift'],
+				'workingtime' => $_data['workingtime']
 		);
 		if(!empty($_data['id'])){
 			$where = 'co_id = '.$_data['id'];
