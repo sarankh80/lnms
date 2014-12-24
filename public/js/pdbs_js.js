@@ -117,7 +117,7 @@ function deleteCommas(nStr)
 		nStr=nStr.replace(',','');
 	return nStr;
 }
-function addCommas(nStr,t=0)
+/*function addCommas(nStr,t=0)
 {
 	nStr = parseFloat(nStr).toFixed(2);
 	nStr += '';
@@ -129,7 +129,7 @@ function addCommas(nStr,t=0)
 		x1 = x1.replace(rgx, '$1' + ',' + '$2');
 	}
 	return x1 + x2;
-}
+}*/
 /* format number in khmer reil
  * 
  */

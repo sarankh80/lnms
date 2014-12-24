@@ -12,7 +12,6 @@
 	}
 </style>
 
-<script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <table cellspacing="10" class='fullside'>
@@ -22,16 +21,16 @@
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table cellspacing="10">
 						<tr>
-							<td> <?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('type');?></td>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
 							<td><?php echo $frm->getElement('loan_number');?></td>
 							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
 							<td><?php  echo $frm->getElement('client_code');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
-							<td><?php echo $frm->getElement('group_id');?></td>
+							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
+							<td><?php echo $frm->getElement('client_id');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់")?></td>
@@ -150,7 +149,7 @@ dojo.ready(function(){
 function popupCheckClient(){
 	getLoanById(3);
 }
-function getLoanById(type=1){
+function getLoanById(){
 	if(type==1){
 		var loan_number = dijit.byId('loan_number').get('value');
 	}else if(type==2){
@@ -315,7 +314,7 @@ function clearTextBox(){
 	dijit.byId('total_amount').set('value',0);
 }
 
-var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
+/*var url_submitco = '<?php //echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){
 		dojo.xhrPost({
 	    url: url_submitco,	
@@ -331,7 +330,7 @@ function AddNewCo(){
 				        
 		}
 	});
-}
+}*/
 function getDayString(num){
 	var days= ["ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហ","សុក្រ","សៅរ៏","អាទិត្យ"];
 	return days[num];
