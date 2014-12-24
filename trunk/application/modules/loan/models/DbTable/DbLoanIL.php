@@ -101,8 +101,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     			$old_interest_paymonth = 0;
     			$old_amount_day = 0;
     			$amount_collect = 1;
-    			$ispay_principal=1;//for payment type = 5;
-    			$is_subremain = 0;
+    			$ispay_principal=0;//for payment type = 5;
+    			$is_subremain = 2;
     			$curr_type = $data['currency_type'];
     			
     			$this->_name='ln_loanmember_funddetail';
@@ -205,30 +205,26 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$pri_permonth = $remain_principal;
     					}
     				}elseif($payment_method==5){//semi baloon
-    					
-    					$ispay_principal++;
-    					$is_subremain++;
-    					$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    					$pri_permonth = ($curr_type==1)?round($pri_permonth,-2):$pri_permonth;
-    						
     					if($i!=1){
-    						
     						$ispay_principal++;
     						$is_subremain++;
     						$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
     						$pri_permonth = ($curr_type==1)?round($pri_permonth,-2):$pri_permonth;
-    						
-    							if($ispay_principal!=$data['amount_collect_pricipal']){
-    								$pri_permonth =0;// ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    								$ispay_principal=0;
-    							}
-    							if($i*$amount_collect==$data['amount_collect_pricipal']){
+    						$pri_permonth=0;
+//     							if($ispay_principal!=$data['amount_collect_pricipal']){
+//     								$pri_permonth =($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+//     								$ispay_principal=0;
+//     							}
+    							
+//     							if($i*$amount_collect==$data['amount_collect_pricipal']){
+//     								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+//     							}else
+								if(($is_subremain-1)==$data['amount_collect_pricipal']){
     								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    							}elseif(($is_subremain-1)==$data['amount_collect_pricipal']){
-    								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-    								$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
+    								//$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
     								$is_subremain=1;
     							}
+//     							$remain_principal = $remain_principal-$pri_permonth;//($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
     							$start_date = $next_payment;
     							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
     							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);

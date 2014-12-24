@@ -8,7 +8,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 	public function FrmAddIlPayment($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
-		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
+		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('client_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
