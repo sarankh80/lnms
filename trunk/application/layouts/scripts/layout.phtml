@@ -102,10 +102,22 @@ dojo.require("dojo.parser");
             <?php 
             $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
             ?>
+           
             <div dojoType="dijit.layout.AccordionPane" region="center">
-          			 
+             	<?php if($module=='report'){?>
+             	<div dojoType="dijit.layout.ContentPane" region="top">
+             		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+				showLabel="false" type="button" onclick="doPrint();">Print</button>
+				</div>
+				<?php }?>
 			<div style="clear: both;"></div>
+				<?php if($module=='report'){?>
+					<div id="Printrpt">
+				<?php }?>
                 <?php echo $this->layout()->content;  ?>
+                <?php if($module=='report'){?>
+                	</div>
+                <?php }?>
             </div>
             <div dojoType="dijit.layout.ContentPane" region="bottom">
 <!--                <ul>
@@ -122,3 +134,14 @@ function hideleft(){
 	(dojo.style("leftmenu","display") == "none") ? 'show':'hide'();
 }
 </script>
+<?php if($module=='report'){?>
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>	
+<script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('Printrpt').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+</script>
+ <?php }?>
