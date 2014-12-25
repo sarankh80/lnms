@@ -7,13 +7,11 @@ class Tellerandexchange_Form_Frmxchange extends Zend_Dojo_Form
     {
         /* Form Elements & Other Definitions Here ... */
     	
-    	$Onetomany=new Zend_Dojo_Form_Element_RadioButton('onetomany');
+    	$Onetomany=new Zend_Dojo_Form_Element_FilteringSelect('onetomany');
     	$Onetomany->setAttribs(array(
-    			'dojoType'=>'dijit.form.RadioButton'));
-    	$opt=array(1=>'ពីមួយទៅច្រើន',2=>'ពីច្រើនទៅនួយ');
-    	$Onetomany->setAttribs(array(
-    			'dojoType'=>'dijit.form.RadioButton'));
-    	$Onetomany->setMultiOptions($opt);
+    			'dojoType'=>'dijit.form.FilteringSelect'));
+    	$name=array(1=>'ពីមួយទៅច្រើន',2=>'ពីច្រើនទៅមួយ',3=>'ពីមួយទៅមួយ');
+    	$Onetomany->setMultiOptions($name);
     	
     	$moneyinaccount=new Zend_Dojo_Form_Element_TextBox('moneyinaccount');
     	$moneyinaccount->setAttribs(array(
@@ -37,7 +35,7 @@ class Tellerandexchange_Form_Frmxchange extends Zend_Dojo_Form
     	$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
+// 				'class'=>'fullside',
 				'required' =>'true'
 		));
 		
