@@ -13,7 +13,7 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 				'branch_id'		=>$_data['branch_id'],
 				'approve_by'	=> $_data['approve_by'],
 				'request_date'  => $_data['request_date'],
-				'type'	    	=> $_data['type'],
+				'permission_type'=> $_data['type'],
 				'from_date'   	=> $_data['from_date'],
 				'to_date'		=> $_data['to_date'],
 				'time'		    => $_data['time'],
@@ -21,21 +21,21 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 				'paid_leave'    => !empty($_data['paid_leave'])?$_data['paid_leave']:0,
 				'every_day'     => !empty($_data['every_day'])?$_data['every_day']:0,
 				'reason'		=> $_data['reason'],
+				'status'		=> $_data['status'],
 				'date'			=> date('Y-m-d'),
 				'user_id'		=> $this->getUserId()
 		);
-		$this->insert($_arr);
-// 		if(!empty($_data['id'])){
-// 			$where = 'co_id = '.$_data['id'];
-// 			return  $this->update($_arr, $where);
-// 		}else{
-// 			return  $this->insert($_arr);
-// 		}
+		if(!empty($_data['id'])){
+			$where = 'id = '.$_data['id'];
+			return  $this->update($_arr, $where);
+		}else{
+			return  $this->insert($_arr);
+		}
 		
 	}
-	public function getCOById($id){
+	public function getPermissionById($id){
 		$db = $this->getAdapter();
-		$sql = "SELECT * FROM $this->_name WHERE co_id = ".$db->quote($id);
+		$sql = "SELECT * FROM $this->_name WHERE id = ".$db->quote($id);
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;
@@ -46,9 +46,9 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		(SELECT co_khname FROM ln_co WHERE co_id = employee_id limit 1 ) AS staff_name,
 		(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id) AS branch_name,
 		(SELECT co_khname FROM ln_co WHERE co_id = approve_by limit 1 ) AS approve_by,
-		 request_date,
-		 (SELECT name_kh FROM ln_view WHERE TYPE=7 limit 1) AS type,
-		 from_date,to_date,time,reason,
+		request_date,
+		(SELECT name_kh FROM ln_view WHERE type=7 AND key_code =permission_type limit 1) AS types,
+		from_date,to_date,time,reason,
 		(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id,
 		 date, status
 		 FROM $this->_name ";
@@ -74,6 +74,7 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		
 // 		echo $sql.$where;
 // 		return $db->fetchAll($sql.$where);	
+		
 	}	
 }
 

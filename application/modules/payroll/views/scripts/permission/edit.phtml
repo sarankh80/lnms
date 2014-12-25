@@ -1,13 +1,12 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add Commune'));
-	$this->headTitle('Open salary | Agent add page'); 
+	echo $this->headTitle($tr->translate('Add Permission '));
+	$this->headTitle('Currency Smart | Agent add page'); 
 	echo $this->headTitle();
 	$frm = $this->frm_permistion;
 ?>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
-	
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 	dojo.require("dijit.form.SimpleTextarea");
@@ -16,7 +15,7 @@
 	dojo.require('dijit.form.Button');
 </script>
 
-<form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'permission','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'permission','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
 				return true;
@@ -38,7 +37,7 @@
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("បុគ្គលិក")?></td>
-							<td><?php  echo $frm->getElement('employee');?></td>
+							<td><?php  echo $frm->getElement('employee'); echo $frm->getElement('id');?></td>
 							<td><?php echo $tr->translate("យល់ព្រមដោយ")?></td>
 							<td><?php  echo $frm->getElement('approve_by');?></td>
 						</tr>

@@ -1,0 +1,58 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle('Open salary | Agent add page'); 
+	echo $this->headTitle();
+	$form = $this->frm;
+?>
+
+<form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table cellspacing="10" width="100%">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong>ព៌ត័មាន បើកប្រាក់ខែរ</strong></legend>
+					<table width="100%" cellspacing="10">
+						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $form->getElement('branch_id');echo $form->getElement('id');?></td>
+							<td><?php echo $tr->translate("លេខកូដបុគ្គលិក")?></td>
+							<td><?php echo $form->getElement('staff_code');?></td>
+							<td><?php echo $tr->translate("ឈ្មោះបុគ្គលិក")?></td>
+							<td><?php echo $form->getElement('staff_name');?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("ភេទ")?></td>
+							<td><?php echo $form->getElement('sex');?></td>
+							<td><?php echo $tr->translate("ទួនាទី")?></td>
+							<td><?php echo $form->getElement('position');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ខែគោល")?></td>
+							<td><?php echo $form->getElement('basic_salary');?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
+							<td><?php echo $form->getElement('date_start');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបើកប្រាក់ខែ")?></td>
+							<td><?php echo $form->getElement('date_get_salary');?></td>
+							<td><?php echo $tr->translate("Status")?></td>
+							<td><?php echo $form->getElement('status');?></td>
+						</tr>
+					</table>
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>		
+</form>
