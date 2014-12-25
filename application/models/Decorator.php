@@ -9,7 +9,7 @@ class Application_Model_Decorator
 	}
 	public static function removeAllDecorator($form)
 	{
-		$elements=$form->getElements();
+		$elements=$form->getElements(); 
 		foreach($elements as $element){
 			$element->removeDecorator('HtmlTag');
 			$element->removeDecorator('DtDdWrapper');

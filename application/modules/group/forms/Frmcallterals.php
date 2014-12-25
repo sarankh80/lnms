@@ -137,13 +137,14 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 // 				'dojoType'=>'dijit.form.CheckBok',
 // 				'class'=>'fullside'
 // 				));
+        $db = new Application_Model_DbTable_DbGlobal();
 		$represent_property=new Zend_Dojo_Form_Element_FilteringSelect('represent_property');
 		$represent_property->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 				));
-		$opto=array(1=>'វិញ្ញាបនប័ត្រសម្គាល់អចលនវត្ថុ',2=>'លិខិតផ្ទេរកម្មសិទ្ធិដីធ្លី ',3=>'អត្តសញ្ញាណប័ណ្ណសញ្ជាតិខ្មែរ',4=>'សៀវភៅគ្រួសារ',5=>'លិខិតស្នាក់នៅ',6=>'សំបុត្របញ្ជាក់កំណើត',7=>'ប័ណ្ណបើកបរ',8=>'ប័ណ្ណសំគាល់យានយន្ត(កាតគ្រី)');
-		$represent_property->setMultiOptions($opto);
+		$opt= $db->getVewOptoinTypeByType(6,1);
+		$represent_property->setMultiOptions($opt);
 		$represent_property->setValue(1);
 		$estate_code=new Zend_Dojo_Form_Element_NumberTextBox('estate_code');
 		$estate_code->setAttribs(array(

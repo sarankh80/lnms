@@ -15,15 +15,7 @@ class Accounting_ExpenseController extends Zend_Controller_Action
     {
     	try{
     		$db = new Accounting_Model_DbTable_DbExpense();
-//     		if($this->getRequest()->isPost()){
-//     			$search=$this->getRequest()->getPost();
-//     		}
-//     		else{
-//     			$search = array(
-//     					'adv_search' => '',
-//     					'status' => -1);
-//     		}
-    		$rs_rows= $db->getAllExpense($search=null);//call frome model
+			$rs_rows= $db->getAllExpense($search=null);//call frome model
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
