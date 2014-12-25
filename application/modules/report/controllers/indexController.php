@@ -154,10 +154,84 @@ function rptPaymentdetailAction(){
  	$new=$db->setReportParam($param, $file);
  	$this->view->file=$new;
  }
+ function staffSalaryAction(){
+ 	
+ }
  public function customerpaymentAction(){
  	
  }
+ public  function clientPersonalAction(){
+ 	
+ }
+ function clientInformationAction(){
+ 	$db=new Report_Model_DbTable_DbLnClient();
+ 	$rows=$db->getAllLnClient();
+ 	$this->view->list=$rows;
+//  	print_r($rows);exit();
+ 	
+ }
+ function contractInformationAction(){
+ 	
+ }
+ function contractHistoryAction(){
+ 	
+ }
+ function delinquentloansAction(){
+ 	
+ }
+ function disbursementAction(){
+ 	
+ }
+//  function indexAction(){
+ 	
+//  }
+ function individulAction(){
+ 	
+ }
+ function listAction(){
+ 	
+ }
+ function oblAndLlpAction(){
+ 	
+ }
+ function repaymentAction(){
+ 	
+ }
+ function rptBadloanAction(){
+ 	
+ }
+ function rptIncomeAction(){
+ 	
+ }
+ function rptLoancollectAction(){
+ 	
+ }
+ function allRptAction(){
  
-	
+ }
+ function rptKhmerAction(){
+ 
+ }
+ function activeAction(){
+ 	
+ }
+ function coletionSheetAction(){
+ 	
+ }
+ function fixedAssetAction(){
+ 	
+ }
+ function incomeAction(){
+ 	
+ }
+ function indexnAction(){
+ 	
+ }
+ function reportnAction(){
+ 	
+ }
+ function zendhtmlAction(){
+ 	
+ }
 }
 
