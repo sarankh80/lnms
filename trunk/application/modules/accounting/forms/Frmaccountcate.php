@@ -27,6 +27,14 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
+		
+		$parent = new Zend_Dojo_Form_Element_TextBox('parent');
+		$parent->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		
 		$opt=array(1=>'Asset',2=>'Liabilities',3=>'Equity');
 		$Type->setMultiOptions($opt);
 		
@@ -39,12 +47,16 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				));
 		$Date->setValue(date('Y-m-d'));
 		
-		$_display=  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
-		$_display_opt = array(
-				1=>$this->tr->translate("NAME_KHMER"),
-				2=>$this->tr->translate("NAME_ENGLISH"));
-		$_display->setMultiOptions($_display_opt);
+		$display = new Zend_Dojo_Form_Element_FilteringSelect('display');
+		$display->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		
+		$opt=array(1=>'NAME_ENGLISH',2=>'NAME_KMHER');
+		$display->setMultiOptions($opt);
+		
 		
 		$Status = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$Status->setAttribs(array(
@@ -55,28 +67,22 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 		$opt=array(1=>'Active',2=>'Deactive');
 		$Status->setMultiOptions($opt);
 		
+		$id = new Zend_Form_Element_Hidden("id");
 		
-		
-		
-// 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
-// 		$_branch_id->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'required' =>'true'
-// 		));
-// 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$rows = $db->getAllBranchName();
-// 		$options='';
-// 		if(!empty($rows))foreach($rows AS $row){
-// 			$options[$row['br_id']]=$row['branch_namekh'];
-// 		}
-// 		$_branch_id->setMultiOptions($options);
-		 
-// 		$_id = new Zend_Form_Element_Hidden('id');
-		
-		$this->addElements(array($Categoryname_kh,$Categoryname_Eng,$Type,
-				$Date,$_display,$Status));
-		return $this;
+		if($data!=null){
+				
+			$Categoryname_kh->setValue($data['cate_namekh']);
+			$Categoryname_Eng->setValue($data['cate_nameen']);
+			$Type->setValue($data['parent_id']);
+			$parent->setValue($data['account_type']);
+			$Date->setValue($data['date']);
+			$display->setValue($data['deplay']);
+			$Status->setValue($data['status']);
+			$id->setValue($data['id']);
 		
 	}	
+		$this->addElements(array($Categoryname_kh,$Categoryname_Eng,$Type,
+				$Date,$display,$Status,$parent,$id));
+		return $this;
+	}
 }

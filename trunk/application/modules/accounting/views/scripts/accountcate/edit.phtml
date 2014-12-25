@@ -8,7 +8,7 @@ $frm = $this->frm_fixedasset;
 	height: 30px;
 }
 </style>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'Accountcate','action'=>'add')); ?>" 
+<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'Accountcate','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -24,7 +24,7 @@ $frm = $this->frm_fixedasset;
 					<legend><strong>Category Form</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-						    
+						     <?php echo $frm->getElement('id');?>
 							<td>Categoryname(kh)</td>
 							<td><?php echo $frm->getElement('categoryname_kh')?></td>	
 							<td>Categoryname(Eng)</td>
