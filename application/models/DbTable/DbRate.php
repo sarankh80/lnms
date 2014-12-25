@@ -50,7 +50,7 @@ class Application_Model_DbTable_DbRate extends Zend_Db_Table_Abstract
     function getCurrentRateJson(){
     	$db = $this->getAdapter();
     	$sql = "SELECT `id`,`in_cur_id`,`out_cur_id`,`rate_in`,`rate_out`
-				FROM `cs_rate` as r
+				FROM `ln_exchangerate` as r
     			WHERE r.`active` = 1
 				ORDER BY r.`in_cur_id`, r.`out_cur_id`";
     	$rows = $db->fetchAll($sql);
