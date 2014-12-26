@@ -14,6 +14,27 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				// 				'onkeyup'=>'Calcuhundred()'
 		));
 		
+		
+		$_loan_code = new Zend_Dojo_Form_Element_TextBox('loan_code');
+		$_loan_code->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'readonly'=>true,
+				'style'=>'color:red; font-weight: bold;'
+		));
+		$db = new Application_Model_DbTable_DbGlobal();
+		$loan_number = $db->getLoanNumber();
+		$_loan_code->setValue($loan_number);
+		
+		$_collect_term = new Zend_Dojo_Form_Element_FilteringSelect('collect_termtype');
+		$_collect_term->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$term_opt = $db->getVewOptoinTypeByType(1,1,3);
+		$_collect_term->setMultiOptions($term_opt);
+		
+		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -21,7 +42,6 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		));
 		
 		
-		$db = new Application_Model_DbTable_DbGlobal();
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -162,6 +182,14 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'required' =>'true'
 		));
 		
+		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('date_line');
+		$_dateline->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		
 		$_graice_pariod = new Zend_Dojo_Form_Element_TextBox('graice_pariod');
 		$_graice_pariod->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -288,7 +316,8 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 			
 		}
 		$this->addElements(array($_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
-				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,$_first_payment,$_repayment_method,$_pay_every));
+				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
+				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline));
 		return $this;
 		
 	}	

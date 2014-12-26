@@ -67,9 +67,13 @@ class Loan_indexController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);
-				//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+				if(!empty($_data['saveclose'])){
+					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
+				}
+				//Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			}catch (Exception $e) {
 				echo $err =$e->getMessage();
+				exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
@@ -96,7 +100,6 @@ class Loan_indexController extends Zend_Controller_Action {
 			print_r(Zend_Json::encode($suc));
 			exit();
 		}
-		
 	}
 	public function editAction(){
 		if($this->getRequest()->isPost()){
@@ -139,15 +142,6 @@ class Loan_indexController extends Zend_Controller_Action {
 // 		}
 		
 // 	}
-	function addAddAction()
-	{
-		if($this->getRequest()->isPost()){
-		}
-		$frm = new Loan_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan();
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		$this->view->frm_loan = $frm_loan;
-	}
 	public function testAction(){
 		$start = '2014-01-01';
 		$db = new Application_Model_DbTable_DbGlobal();
