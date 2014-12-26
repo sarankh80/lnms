@@ -157,19 +157,11 @@ function rptPaymentdetailAction(){
  function staffSalaryAction(){
  	
  }
- public function customerpaymentAction(){
- 	
- }
+
  public  function clientPersonalAction(){
  	
  }
- function clientInformationAction(){
- 	$db=new Report_Model_DbTable_DbLnClient();
- 	$rows=$db->getAllLnClient();
- 	$this->view->list=$rows;
-//  	print_r($rows);exit();
- 	
- }
+
  function contractInformationAction(){
  	
  }
@@ -179,9 +171,7 @@ function rptPaymentdetailAction(){
  function delinquentloansAction(){
  	
  }
- function disbursementAction(){
- 	
- }
+ 
 //  function indexAction(){
  	
 //  }
@@ -194,12 +184,8 @@ function rptPaymentdetailAction(){
  function oblAndLlpAction(){
  	
  }
- function repaymentAction(){
- 	
- }
- function rptBadloanAction(){
- 	
- }
+
+ 
  function rptIncomeAction(){
  	
  }
@@ -212,12 +198,8 @@ function rptPaymentdetailAction(){
  function rptKhmerAction(){
  
  }
- function activeAction(){
- 	
- }
- function coletionSheetAction(){
- 	
- }
+
+
  function fixedAssetAction(){
  	
  }

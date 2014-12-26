@@ -28,5 +28,23 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanCycleAction(){
   	
   }
+  function activeAction(){
+  
+  }
+  function coletionSheetAction(){
+  
+  }
+  public function customerpaymentAction(){
+  
+  }
+  function disbursementAction(){
+  
+  }
+  function repaymentAction(){
+  
+  }
+  function rptBadloanAction(){
+  
+  }
 }
 

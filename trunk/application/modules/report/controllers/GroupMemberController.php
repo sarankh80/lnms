@@ -24,5 +24,21 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   function rptCalleteralAction(){
   	
   }
+  function rptClientAction(){
+  	$db=new Report_Model_DbTable_DbLnClient();
+  	$rows=$db->getAllLnClient();
+  	$this->view->list=$rows;
+  	//  	print_r($rows);exit();
+  }
+  function rptGroupAction(){
+  	
+  }
+  function rptAgreementAction(){
+  	
+  }
+  function rptCalleteralValueAction(){
+  	
+  }
+ 
 }
 

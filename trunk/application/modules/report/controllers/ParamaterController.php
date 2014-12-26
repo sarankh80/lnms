@@ -15,5 +15,8 @@ class Report_ParamaterController extends Zend_Controller_Action {
   function  rptStaffAction(){
   	 
   }
+  function rptZoneAction(){
+  	
+  }
 }
 
