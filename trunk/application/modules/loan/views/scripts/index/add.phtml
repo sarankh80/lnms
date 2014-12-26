@@ -51,46 +51,50 @@
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("លេខកូដកម្ចី")?></td>
+							<td><?php echo $frm->getElement('loan_code');?></td>
 							<td><?php echo $tr->translate("ឥណទានវគ្គទី")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
-							<td>Admin Fee</td>
-							<td><?php echo $frm->getElement('loan_fee');?></td>
 						</tr>
 						<tr>
-							
+							<td>Admin Fee</td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
 							<td><?php echo $frm->getElement('member');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("លេខតំបន់")?></td>
 							<td><?php  echo $frm->getElement('zone');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("ថ្ងៃចេញ")?></td>
 							<td><?php echo $frm->getElement('release_date');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("រយះពេលខ្ចី(គិតជា)")?></td>
+							<td><?php echo $frm->getElement('pay_every');?></td>
 							<td><?php echo $tr->translate("រយះពេលខ្ចី")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("រយះពេលគិតជា")?></td>
-							<td><?php echo $frm->getElement('pay_every');?></td>
-							
-								
+							<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់កម្ចី")?></td>
+							<td><?php echo $frm->getElement('date_line');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃយកប្រាក់ដំបូង")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("ម៉ោងយកប្រាក់")?></td>
 							<td><?php echo $frm->getElement('time');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃឈប់សំរាក")?></td>
-							<td><?php  echo $frm->getElement('every_payamount');?></td>
-							
+							<td><?php echo $tr->translate("រយៈពេលបង់(គិតជា)")?></td>
+							<td><?php echo $frm->getElement('collect_termtype');?></td>
+							<td><?php echo $tr->translate("រយៈពេលបង់")?></td>
+							<td><?php echo $frm->getElement('amount_collect');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("បង់មុនថ្ងៃកំណត់")?></td>
-							<td><?php echo $frm->getElement('pay_before');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃឈប់សំរាក")?></td>
+							<td><?php  echo $frm->getElement('every_payamount');?></td>
 							<td><?php echo $tr->translate("បង់យឺតផាកពិន័យ")?></td>
 							<td><?php echo $frm->getElement('pay_late');?></td>
-							<td><?php echo $tr->translate("រយៈពេលបង់ប្រាក់")?></td>
-							<td><?php echo $frm->getElement('amount_collect');?></td>
+							<td><?php echo $tr->translate("បង់មុនថ្ងៃកំណត់")?></td>
+							<td><?php echo $frm->getElement('pay_before');?></td>
 							
 						</tr>
 					</table>
@@ -99,15 +103,15 @@
 					<legend><strong>ព៌ត័មាន កម្ចីសាច់ប្រាក់</strong></legend>
 					<table cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("រូបិយប័ណ្ណ")?></td>
+							<td><?php echo $tr->translate("រូបិយ៍វត្ថុ")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
 							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចី")?></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td><?php echo $tr->translate("ការប្រាក់")?></td>
+							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("វិធីសាស្រ្ត")?></td>
+							<td><?php echo $tr->translate("វិធីសាស្រ្តបង់ប្រាក់")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 							<td><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
@@ -127,8 +131,13 @@
 	</tr>
 	<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="reset" value="សម្អាត" label="សម្អាត" dojoType="dijit.form.Button"
+				 iconClass="dijitIconClear"/>
+			<input type="submit" label="រក្សាទុកនិងបិទ" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+				 iconClass="dijitIconDelete"/>
+			<input type="submit" label="រក្សាទុកនិងបន្ថែមថ្មី" name='savenew' value='savenew' dojoType="dijit.form.Button"
+				 iconClass="dijitIconNewTask"/>
+		
 		</td>
 	</tr>	
 </table>
@@ -346,6 +355,40 @@ function addNewVillage(){
  echo $this->frmPopupCommune;
  echo $this->frmPopupDistrict;
  echo $this->frmPopupVillage;
- 
- 
 ?>
+<script>
+function CalculateDate(){
+	
+	start_date = dijit.byId('release_date').get('value');
+	period = dijit.byId('period').get('value');
+	opt_pay_every = dijit.byId('pay_every').get('value');
+	
+	if(isNaN(period)){
+		dijit.byId('period').focus();
+	}else{
+		start_date = dijit.byId("release_date").get('value');
+		var a = new Date(start_date);
+		if(opt_pay_every==1){
+			var dd = a.getDate()+parseInt(amount_day);
+		}else if(opt_pay_every==2)
+		{else{
+			//a.setDate(a.getDate() + (amount_day)); 
+			mm = a.getMonth()+amount_month+1;
+			var mm = a.getMonth() + 1;
+			
+		}
+			//alert(a.getDate()+parseInt(amount_day));
+	
+		 if(dd<10){
+			 dd = "0"+dd;
+		}
+		 if(mm<10){
+			 mm = "0"+mm;
+		}
+		var y = a.getFullYear();
+		var epx_date = y + '-'+ mm + '-'+dd ;
+		dijit.byId('end_date').attr('value',epx_date);
+}
+}
+
+</script>

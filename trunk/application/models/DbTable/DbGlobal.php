@@ -173,6 +173,19 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
+   public function getLoanNumber(){
+   	$this->_name='ln_loan_member';
+   	$db = $this->getAdapter();
+   	$sql=" SELECT member_id  FROM $this->_name ORDER BY member_id DESC LIMIT 1 ";
+   	$acc_no = $db->fetchOne($sql);
+   	$new_acc_no= (int)$acc_no+1;
+   	$acc_no= strlen((int)$acc_no+1);
+   	$pre = "";
+   	for($i = $acc_no;$i<5;$i++){
+   		$pre.='0';
+   	}
+   	return $pre.$new_acc_no;
+   }
    public function getClientByType($type=null){
    $this->_name='ln_client';
    $where='';
@@ -319,11 +332,14 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $rows;
   	}
   }
-  public function getVewOptoinTypeByType($type=null,$option = null){
+  public function getVewOptoinTypeByType($type=null,$option = null,$limit =null){
   	$db = $this->getAdapter();
   	$sql="SELECT key_code,name_en,name_kh,displayby FROM `ln_view` WHERE status =1 ";
   	if($type!=null){
   		$sql.=" AND type = $type ";
+  	}
+  	if($limit!=null){
+  		$sql.=" LIMIT $limit ";
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
@@ -420,7 +436,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $amount_days;//;*$amount_collect;//return all next day collect laon form customer
   }
-  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){
+  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){//code make slow
   	for($i=0;$i<$amount_amount;$i++){
   		$d = new DateTime($next_payment);
   		$d->modify($str_next);
