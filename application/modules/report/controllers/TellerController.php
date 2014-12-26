@@ -10,5 +10,8 @@ class Report_TellerController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
+  function rptTellerAction(){
+  	
+  }
 }
 
