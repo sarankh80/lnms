@@ -64,6 +64,8 @@ class Payroll_SalaryController extends Zend_Controller_Action
     	$frm = $pructis->frmaddSalary();
     	Application_Model_Decorator::removeAllDecorator($frm);
     	$this->view->frm=$frm;
+    	$db = new Payroll_Model_DbTable_DbSalary();
+    	$this->view->salary_option = $db->getTypeOption();
     }
 
     public function viewAction()

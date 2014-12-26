@@ -19,22 +19,13 @@
 		<tr>
 			<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន បើកប្រាក់ខែរ</strong></legend>
+					<legend><strong>ព៌ត័មាន បើកប្រាក់បៀវត្សន៍</strong></legend>
 					<table width="100%" cellspacing="10">
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $form->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("លេខកូដបុគ្គលិក")?></td>
-							<td><?php echo $form->getElement('staff_code');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះបុគ្គលិក")?></td>
 							<td><?php echo $form->getElement('staff_name');?></td>
-						</tr>
-						
-						<tr>
-							<td><?php echo $tr->translate("ភេទ")?></td>
-							<td><?php echo $form->getElement('sex');?></td>
-							<td><?php echo $tr->translate("ទួនាទី")?></td>
-							<td><?php echo $form->getElement('position');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ខែគោល")?></td>
 							<td><?php echo $form->getElement('basic_salary');?></td>
 						</tr>
@@ -44,8 +35,17 @@
 							<td><?php echo $form->getElement('date_start');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃបើកប្រាក់ខែ")?></td>
 							<td><?php echo $form->getElement('date_get_salary');?></td>
+							<td><?php echo $tr->translate("សំរាប់ខែ")?></td>
+							<td><?php echo $form->getElement('for_month');?></td>
+						</tr>
+						
+						<tr>
 							<td><?php echo $tr->translate("Status")?></td>
 							<td><?php echo $form->getElement('status');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
 						</tr>
 						<tr>
 							<td colspan="6">
@@ -57,7 +57,7 @@
 						</tr>
 						<tr>
 							<td colspan="6">
-								<input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountTypeMoney();" />
+								<input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountBonus();" />
 							</td>
 						</tr>
 
@@ -76,7 +76,7 @@
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.ready(function(){
-	addAmountTypeMoney();		
+	addAmountBonus();		
 	
 });  
     
@@ -97,31 +97,25 @@ function deleteRecord(index){
 	}
 	
 }
-	curr_dollar_amountoption = '<?php echo "<option>testing</option>";?>';
+	option= '<?php echo $this->salary_option;?>';
 	
 	temp='';
 	r = 0;
 	fund_title=0;
-	function addAmountTypeMoney(){
+	function addAmountBonus(){
 			r++;
 			if(fund_title!=1){
 				thead='<th>លុប</th>';
-				thead+='<th>ប្តូពី</th>';
 				thead+='<th>ប្រភេទ</th>';
-				thead+='<th>អាត្រាប្តូប្រាក់</th>';
-				thead+='<th>ចំនួនប្តូរ</th>';
-				thead+='<th>ចំនួនទទួលបាន</th>';
+				thead+='<th>ចំនួន</th>';
 				thead+='<th>សម្គាល់ </th>';
 				fund_title=1;
 				dojo.query("#head_title").append(thead);
 	        }
 			temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-			temp+='<td><input type="text" required="true"  name="date1_'+r+'" id="date1_'+r+'" dojoType="dijit.form.TextBox"/></td>';
-			temp+='<td><select style=" width:70%;" id="currency_type1_'+r+'" name="currency_type1_'+r+'" dojoType="dijit.form.FilteringSelect"  >'+curr_dollar_amountoption+'</select></td>';
-			temp+='<td><input type="text" style=" width:70%;" required="true" name="amount1_'+r+'" id="amount1_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
-			temp+='<td><input type="text" style=" width:70%;" required="true" name="recieve1_'+r+'" id="recieve1_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
-			temp+='<td><input type="text" style=" width:70%;" required="true" name="return1_'+r+'" id="return1_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
-			temp+='<td><input type="text" name="note1_'+r+'" id="note1_'+r+'" dojoType="dijit.form.TextBox" s/></td>';
+			temp+='<td><select style=" width:70%;" id="bonus_type_'+r+'" name="bonus_type_'+r+'" dojoType="dijit.form.FilteringSelect"  >'+option+'</select></td>';
+			temp+='<td><input type="text" style=" width:70%;" required="true" name="amount_'+r+'" id="amount_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
+			temp+='<td><input type="text" style=" width:70%;" name="note_'+r+'" id="note_'+r+'" value="" dojoType="dijit.form.TextBox"/></td>';
 			tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
 			tmp+="</tr>";
 			
