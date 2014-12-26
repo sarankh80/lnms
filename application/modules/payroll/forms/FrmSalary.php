@@ -89,6 +89,18 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     			'required'=>true
     			));
     	
+    	$for_month=new Zend_Dojo_Form_Element_FilteringSelect('for_month');
+    	$for_month->setAttribs(array(
+    			'dojoType'=>'dijit.form.FilteringSelect',
+    			'class'=>'fullside',
+    			'required'=>true
+    	));
+		$opt_month="";
+		  	for($i=1;$i<=12;$i++){
+		  	 	$opt_month[$i]=$i;
+		  }
+    	$for_month->setMultiOptions($opt_month);
+    	
     	$_id = new Zend_Form_Element_Hidden('id');
     	if($data!=null){
     		$staff_name->setValue($data['staff_name']);
@@ -103,7 +115,7 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     		$_id->setValue($data['staff_id']);
     	}
     	
-		$this->addElements(array($status,$staff_code,$_branch_id,$_id,$staff_name,$Sex,$position,$Basic_salary,$date_start,$date_get_salary));
+		$this->addElements(array($for_month,$status,$_branch_id,$_id,$staff_name,$Basic_salary,$date_start,$date_get_salary));
 		return $this;
     }
 }
