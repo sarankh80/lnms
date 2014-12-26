@@ -53,9 +53,9 @@ class accounting_AccountnameController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("Account_code ","Account_name_kh ","Account_name_en","Displayby","Disc","Option_acc",
-					"Type","Tarent_id","Category_id","Date","Status");
+					"Type","Category_id","Parent_id","Date","Status");
 			$link=array(
-					'module'=>'accounting','controller'=>'Accountcate','action'=>'edit',
+					'module'=>'accounting','controller'=>'Accountname','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('account_code'=>$link,'account_name_kh'=>$link));
 		}catch (Exception $e){

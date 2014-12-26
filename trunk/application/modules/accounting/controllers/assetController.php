@@ -28,34 +28,18 @@ class accounting_AssetController extends Zend_Controller_Action {
 	}
 	
 	
-// 	public function indexAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$db = new Group_Model_DbTable_DbClient();
-// 			$data = $this->getRequest()->getPost();
-// 			$_data['status']=1;
-// 			$id = $db->addClient($data);
-// 			print_r(Zend_Json::encode($id));
-// 			exit();
-// 		}
-// 	}
+
 	
 	public function indexAction()
 	{
 		try{
 			$db = new Accounting_Model_DbTable_DbAsset();
-			//     		if($this->getRequest()->isPost()){
-			//     			$search=$this->getRequest()->getPost();
-			//     		}
-			//     		else{
-			//     			$search = array(
-			//     					'adv_search' => '',
-			//     					'status' => -1);
-			//     		}
+			
 			$rs_rows= $db->getAllAsset($search=null);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch_id ","Fixed_Assetname ","Fixed_Asset_Type","Asset_Cost","Usefull_Life","Salvagevalue","Payment_method","Status");
+			$collumns = array("Branch_id ","Fixed_Assetname ","Fixed_Asset_Type","Asset_Cost","Usefull_Life","Salvagevalue","Payment_method","Status","Note");
 			$link=array(
 					'module'=>'accounting','controller'=>'asset','action'=>'index',
 			);
@@ -82,9 +66,7 @@ class accounting_AssetController extends Zend_Controller_Action {
 			}
 			}
 			$id = $this->getRequest()->getParam('id');
-			// 		if(empty($id)){
-			// 			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-			// 		}
+			
 			$db = new Accounting_Model_DbTable_DbAsset();
 			$row  = $db->getassetbyid($id);
 			$pructis=new Accounting_Form_Frmasset();
