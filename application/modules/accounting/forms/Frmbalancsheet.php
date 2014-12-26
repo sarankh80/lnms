@@ -95,7 +95,7 @@ Class Accounting_Form_Frmbalancsheet extends Zend_Dojo_Form {
 		 
 // 		$_id = new Zend_Form_Element_Hidden('id');
 		
-		$this->addElements(array($Branch,$For,$Parent,$Category,$Account_No,$Amount,$Note,$Date,$Status));
+		$this->addElements(array($Branch,$For,$Parent,$Category,$Account_No,$Amount,$Note,$Date,$Status,$Account_Name));
 		return $this;
 		
 	}	

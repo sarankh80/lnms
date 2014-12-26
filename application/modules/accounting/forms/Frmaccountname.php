@@ -126,7 +126,7 @@ Class Accounting_Form_Frmaccountname extends Zend_Dojo_Form {
 			$description->setValue($data['disc']);
 			$dispay_by->setValue($data['displayby']);
 			$optionacc->setValue($data['option_acc']);
-			$account_type->setValue($data['type']);
+			$account_type->setValue($data['account_type']);
 			$parent_acc->setValue($data['parent_id']);
 			$categories->setValue($data['category_id']);
 			$date->setValue($data['date']);

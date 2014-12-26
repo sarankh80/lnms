@@ -59,7 +59,7 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'accounting','controller'=>'FixedAsset','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('asset_name'=>$link,'asset_code'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('fixed_assetname'=>$link,'fixed_asset_type'=>$link,'asset_cost'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();

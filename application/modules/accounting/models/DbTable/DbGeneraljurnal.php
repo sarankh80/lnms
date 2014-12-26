@@ -1,12 +1,12 @@
 <?php
-class Accounting_Model_DbTable_DbAccountname extends Zend_Db_Table_Abstract
+class Accounting_Model_DbTable_DbGeneraljurnal extends Zend_Db_Table_Abstract
 {
-	protected $_name = 'ln_account_name';
-	function addaccountname($data){
+	protected $_name = 'ln_accountname_detail';
+	function addjurnal($data){
 		$data = array(
-				'account_code'=>$data['account_id'],
-				'account_name_kh'=>$data['account_namekh'],
-				'account_name_en'=>$data['account_nameeg'],
+				'branch_id'=>$data['account_id'],
+				'date'=>$data['account_namekh'],
+				'account_id'=>$data['account_nameeg'],
 				'displayby'=>$data['dispay_by'],
 				'disc'=>$data['description'],
 				'option_acc'=>$data['optionacc'],
@@ -21,17 +21,7 @@ class Accounting_Model_DbTable_DbAccountname extends Zend_Db_Table_Abstract
 }
 function updateaccountname($data){
 	$arr = array(
-			'account_code'=>$data['account_id'],
-			'account_name_kh'=>$data['account_namekh'],
-			'account_name_en'=>$data['account_nameeg'],
-			'displayby'=>$data['dispay_by'],
-			'disc'=>$data['description'],
-			'option_acc'=>$data['optionacc'],
-			'account_type'=>$data['account_type'],
-			'parent_id'=>$data['parent_acc'],
-			'category_id'=>$data['categories'],
-			'date'=>$data['date'],
-			'status'=>$data['status'],
+			
 				
 		);
 	$where=" id = ".$data['id'];
