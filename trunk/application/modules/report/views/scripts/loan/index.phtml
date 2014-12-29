@@ -1,17 +1,35 @@
- <input type="button" label="IL Disburse" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-disburse')); ?>';"/>
+ <input type="button" label="Loan-Released" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-released')); ?>';"/>
   
-  <input type="button" label="Group Disburse" dojoType="dijit.form.Button" 
+  <input type="button" label="Loan GroupDisburse" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-group-disburse')); ?>';"/>
   
-  <input type="button" label="IL Payment" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-ilpayment')); ?>';"/>
+  <input type="button" label="Loan Collection" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loancollect')); ?>';"/>
   
-  <input type="button" label="Group Payment" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-group-payment')); ?>';"/>
+  <input type="button" label="Loan Payment" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-payment')); ?>';"/>
   
-  <input type="button" label="Group Quick Payment" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-quick-payment')); ?>';"/>
+  <input type="button" label="Loan Payment Shedule" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-payment-schedule')); ?>';"/>
   
-   <input type="button" label="Loan Cycle" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-cycle')); ?>';"/>
+  <input type="button" label="Loan Late" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-late')); ?>';"/>
+  
+  <input type="button" label="Loan OutStanding" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-outstanding')); ?>';"/>
+  
+  <input type="button" label="Loan Bad" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-badloan')); ?>';"/>
+  
+  <input type="button" label="Loan Berelease" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-berelease')); ?>';"/>
+  
+  <input type="button" label="Loan DateLine" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-dateline')); ?>';"/>
+  
+  <input type="button" label="Loan CollectionCo" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-collectionco')); ?>';"/>
+  
+  <input type="button" label="Loan Total Collect" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-total-collect')); ?>';"/>

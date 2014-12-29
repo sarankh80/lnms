@@ -49,11 +49,12 @@ class Report_indexController extends Zend_Controller_Action {
 		$this->view->client_list = $db->getAllExpense();
 		
 	}
- function rptLoadreleaseAction(){
- 	
- }
+
 function rptPaymentdetailAction(){
  	
+}
+function delinquentloansAction(){
+	
 }
  function rptPaymentscheduleAction(){
  	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
@@ -168,9 +169,7 @@ function rptPaymentdetailAction(){
  function contractHistoryAction(){
  	
  }
- function delinquentloansAction(){
- 	
- }
+
  
 //  function indexAction(){
  	
@@ -178,17 +177,11 @@ function rptPaymentdetailAction(){
  function individulAction(){
  	
  }
- function listAction(){
- 	
- }
+
  function oblAndLlpAction(){
  	
  }
 
- 
- function rptIncomeAction(){
- 	
- }
  function rptLoancollectAction(){
  	
  }
@@ -199,19 +192,10 @@ function rptPaymentdetailAction(){
  
  }
 
-
- function fixedAssetAction(){
- 	
- }
- function incomeAction(){
- 	
- }
  function indexnAction(){
  	
  }
- function reportnAction(){
- 	
- }
+ 
  function zendhtmlAction(){
  	
  }
