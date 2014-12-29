@@ -10,7 +10,10 @@ class Report_LoanController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
-  function rptDisburseAction(){
+  function rptLoanReleasedAction(){
+  	
+  }
+  function rptLoancollectAction(){
   	
   }
   function rptGroupDisburseAction(){
@@ -19,13 +22,28 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptIlpaymentAction(){
   	
   }
-  function rptGroupPaymentAction(){
+  function rptPaymentAction(){
   	
   }
-  function rptQuickPaymentAction(){
+  function rptPaymentScheduleAction(){
+  	
+  }
+  function rptLoanLateAction(){
   	
   }
   function rptLoanCycleAction(){
+  	
+  }
+  function rptBadloanAction(){
+  	
+  }
+  function rptLoanOutstandingAction(){
+  	
+  }
+  function rptLoanBereleaseAction(){
+  	
+  }
+  function rptLoanCollectioncoAction(){
   	
   }
   function activeAction(){
@@ -42,9 +60,13 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   function repaymentAction(){
   
-  }
-  function rptBadloanAction(){
   
-  }
+}
+function rptLoanDatelineAction(){
+	
+}
+function rptLoanTotalCollectAction(){
+	
+}
 }
 

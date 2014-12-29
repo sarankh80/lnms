@@ -13,5 +13,20 @@ class Report_TellerController extends Zend_Controller_Action {
   function rptTellerAction(){
   	
   }
+  function rptChangMoneyAction(){
+  	
+  }
+  function rptExchangMoneyAction(){
+  	
+  }
+  function rptScopeChangMoneyAction(){
+  	
+  }
+  function rptListChangMoneyAction(){
+  	
+  }
+  function rptTypeChangMoneyAction(){
+  	
+  }
 }
 

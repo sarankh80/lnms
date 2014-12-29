@@ -10,9 +10,45 @@ class Report_AccountingController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
+function rptFixedAssetAction(){
+	
+}
+function  rptBuyFixedAssetAction(){
+	
+}
   function rptGeneralJurnalAction(){
   
  
+}
+function rptSaleFixedAssetAction(){
+	
+}
+function rptIncomeAction(){
+	
+}
+function rptBalanceSheetAction(){
+	
+}
+function rptIncomeStatementAction(){
+	
+}
+function rptAccountNameAction(){
+	
+}
+function rptLegerAction(){
+	
+}
+function rptBalanceAction(){
+	
+}
+function rptClosingAction(){
+	
+}
+function rptCashflowAction(){
+	
+}
+function rptJurnalAction(){
+	
 }
 function rptAccountcateAction(){
 	
@@ -24,6 +60,9 @@ function rptOwnerequityAction(){
 	
 }
 function rptBalancsheetAction(){
+	
+}
+function rptOwerEquityAction(){
 	
 }
 }
