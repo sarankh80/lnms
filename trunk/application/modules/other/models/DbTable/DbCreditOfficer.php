@@ -16,6 +16,7 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 				'co_firstname'=> $_data['first_name'],
 				'co_lastname' => '',//$_data['last_name'],
 				'displayby'	  => $_data['display'],
+				'position_id' =>$_data['position'],
 				'sex'		  => $_data['co_sex'],
 				'national_id'	  => $_data['national_id'],
 				'address'	  => $_data['address'],

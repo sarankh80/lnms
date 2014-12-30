@@ -17,23 +17,15 @@ class Payroll_SalaryController extends Zend_Controller_Action
 		public function indexAction(){
 		try{
 			$db = new Payroll_Model_DbTable_DbSalary();
-// 			if($this->getRequest()->isPost()){
-// 				$search=$this->getRequest()->getPost();
-// 			}
-// 			else{
-// 				$search = array(
-// 						'adv_search' => '',
-// 						'status' => -1);
-// 			}
 			$rs_rows= $db->getAllSalary($search=null);
 			$glClass = new Application_Model_GlobalClass();//status
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("សាខា","លេខកូដបុគ្គលិក","ឈ្មោះបុគ្គលិក","ភេទ","ទួនាទី","ប្រាក់ខែគោល","ថ្ងៃចូលធ្វើការ","ថ្ងៃបើកប្រាក់ខែ","ថ្ងៃ","User Id","Status");
+			$collumns = array("សាខា","ឈ្មោះបុគ្គលិក","ប្រាក់ខែគោល","ថ្ងៃចូលធ្វើការ","ថ្ងៃបើកប្រាក់ខែ","ថ្ងៃបញ្ចាប់កុងត្រា","ថ្ងៃ","User Id","Status","Detail");
 			$link=array(
 					'module'=>'payroll','controller'=>'salary','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'staff_code'=>$link,'staff_name'=>$link));
+			$this->view->list=$list->getCheckList(0,$collumns,$rs_rows,array('branch_name'=>$link,'staff_id'=>$link,'basic_salary'=>$link,'detail'=>array('module'=>'payroll','controller'=>'salary','action'=>'detail')));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -44,6 +36,14 @@ class Payroll_SalaryController extends Zend_Controller_Action
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+	}
+	public function detailAction(){
+		$db_salary = new Payroll_Model_DbTable_DbSalary();
+		$id = $this->getRequest()->getParam("id");
+		$row = $db_salary->getReportDetail($id);
+		$db=new Payroll_Model_DbTable_DbSalary();
+		$this->view->Report_salary=$row;
+        $this->view->salary_detail = $db->getReceiptDetailById($id);
 	}
 
     public function addAction()
@@ -81,7 +81,7 @@ class Payroll_SalaryController extends Zend_Controller_Action
    	if($this->getRequest()->isPost()){
    		$_data = $this->getRequest()->getPost();
    		try{
-   			$db_salary->addSalary($_data);
+   			$db_salary->updateSalary($_data);
    			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/salary');
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
@@ -94,10 +94,23 @@ class Payroll_SalaryController extends Zend_Controller_Action
    	if(empty($row)){
    		$this->_redirect('payroll/salary');
    	}
+     	$this->view->staff_id = $row['staff_id'];
 	   	$pructis=new Payroll_Form_FrmSalary();
 	    $frm = $pructis->frmaddSalary($row);
 	    Application_Model_Decorator::removeAllDecorator($frm);
 	    $this->view->frm=$frm;
+	    
+	    $this->view->salary_detail = $db_salary->getReceiptDetailById($id);
+	    $this->view->salary_option = $db_salary->getTypeOption();
+   }
+   function getStaffinfoAction(){
+   	if($this->getRequest()->isPost()){
+   		$data = $this->getRequest()->getPost();
+   		$db = new Payroll_Model_DbTable_DbSalary();
+   		$row = $db->getStaffInfo($data['type'],$data['stff_id']);
+   		print_r(Zend_Json::encode($row));
+   		exit();
+   	}
    }
 }
 

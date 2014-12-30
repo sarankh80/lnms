@@ -1,0 +1,94 @@
+<head>
+	<style type="text/css">
+		.tb{
+			border:1px solid #ccc;
+			width:20%;
+			white-space: nowrap !important;
+			padding-left:5px;
+		}
+	</style>
+</head>
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle('Open salary | Agent add page'); 
+	echo $this->headTitle();
+	$rs = $this->Report_salary;
+?>
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+
+<input type="button" value="រក្សាទុក" label="រក្សាទុក" onclick="doPrint();" dojoType="dijit.form.Button"  iconClass="dijitIconPrint"/> 							
+<div id="divPrint">
+	<table cellspacing="10" width="100%" style="font-size:12px;font-family: 'khmer os battambang'">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong>ព៌ត័មាន បើកប្រាក់បៀវត្សន៍</strong></legend>
+					<table width="100%" cellspacing="10" >
+						<tr>
+							<td><?php echo $tr->translate("លេខកូដបុគ្គលិក")?></td>
+							<td class="tb"><?php echo $rs['co_code']; ?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("ឈ្មោះបុគ្គលិក")?></td>
+							<td class="tb"><?php echo $rs['co_kh']; ?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("តួនាទី")?></td>
+							<td class="tb"><?php echo $rs['position_id'];?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td class="tb"><?php echo $rs['branch_namekh'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("ប្រាក់ខែគោល")?></td>
+							<td class="tb"><?php echo $rs['basic_salary'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
+							<td class="tb"><?php echo $rs['date_start'];?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("ថ្ងៃបើកប្រាក់ខែ")?></td>
+							<td class="tb"><?php echo $rs['date_get_salary'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("ថ្ងៃបញ្ចាប់កុងត្រា")?></td>
+							<td class="tb"><?php echo $rs['end_contract'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("សំរាប់ខែ")?></td>
+							<td class="tb"><?php echo $rs['for_month'];?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("ស្ថានភាព")?></td>
+							<td class="tb"><?php echo $rs['status'];?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php ?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php ;?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("លរ")?></td>
+							<td><?php echo $tr->translate("ប្រាក់បន្ថែមលើ")?></td>
+							<td><?php echo $tr->translate("ចំនួនប្រាក់បន្ថែម")?></td>
+							<td><?php echo $tr->translate("សម្គាល់")?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php foreach($this->salary_detail as $key =>$row){?>
+						<tr>
+							<td><?php echo $key+1;?></td>
+							<td style="border-bottom: 1px dotted #000; padding-left: 15px;white-space: nowrap;"><?php echo $row['bonus_name']?></td>
+							<td style="white-space: nowrap;"><?php echo $row['amount']?></td>
+							<td style="white-space: nowrap;"><?php echo $row['note']?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php }?>
+					</table>
+				</fieldset>
+			</td>			
+		</tr>
+	</table>		
+</div>
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+</script>
