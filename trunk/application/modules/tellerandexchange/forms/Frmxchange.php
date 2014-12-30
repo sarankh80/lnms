@@ -28,9 +28,12 @@ class Tellerandexchange_Form_Frmxchange extends Zend_Dojo_Form
     	
     	$number_code=new Zend_Dojo_Form_Element_TextBox('number_code');
     	$number_code->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
+    			'dojoType'=>'dijit.form.TextBox',
+    			'readOnly'=>true,'style'=>'color:red'));
     	
     	$db = new Application_Model_DbTable_DbGlobal();
+    	$iv_numbber = $db->getNewInvoiceExchange();
+    	$number_code->setValue($iv_numbber);
     	
     	$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(

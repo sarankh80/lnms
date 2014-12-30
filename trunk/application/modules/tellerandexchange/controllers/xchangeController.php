@@ -15,9 +15,10 @@ class Tellerandexchange_XchangeController extends Zend_Controller_Action
 	{
 		    	if($this->getRequest()->isPost()){
 					$data=$this->getRequest()->getPost();
+// 					print_r($data);exit();
 					$db = new Tellerandexchange_Model_DbTable_Dbexchange();
 					try {
-						$db = $db->addxchange($data);
+						$db = $db->addXchange($data);
 						Application_Form_FrmMessage::Sucessfull('', self::REDIRECT_URL);
 					} catch (Exception $e) {
 						Application_Form_FrmMessage::message("INSERT_FAIL");
