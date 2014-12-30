@@ -7,6 +7,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
     function addcallteral($data){
     	$arr = array(
     			'branch_id'=>$data['branch_id'],
+				'code_call'=>$data['cod_cal'],
     			'co_id'=>$data['co_name'],
     			'getter_name'=>$data['getter_name'],
     			'giver_name'=>$data['giver_name'],
@@ -20,18 +21,18 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
     			'owner'=>$data['owner'],
     			'withs'=>$data['and_name'],
     			'relativewiths'=>$data['and_names'],
-    			'callate_type'=>$data['represent_property'],
-    			'note'=>$data['estate_code'],
-    			'date_registration'=>$data['date_estate'],
-    			'status'=>$data['Stutas'],
-    	);
+				'callate_type'=>$data['represent_property'],
+				'note'=>$data['estate_code'],
+				'date_registration'=>$data['date_estate'],
+				'status'=>$data['Stutas'],
+    			
+    		);
     	$this->insert($arr);
 	}
 	function updatecallteral($data){
 		$arr = array(
 				'branch_id'=>$data['branch_id'],
 				'code_call'=>$data['cod_cal'],
-				
     			'co_id'=>$data['co_name'],
     			'getter_name'=>$data['getter_name'],
     			'giver_name'=>$data['giver_name'],

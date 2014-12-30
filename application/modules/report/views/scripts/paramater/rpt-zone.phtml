@@ -14,10 +14,18 @@
             <th>Zone Name</th>
             <th>Zone Number</th>
             <th>Date</th>
-            <th>Status</th>
-            <th>By</th>
+           
             
          </tr>
+        <?php foreach($this->zone_list as $key =>$row){?>
+		   <tr align="center">
+		     <td><?php echo $key+1; ?></td>
+		     <td><?php echo $row['zone_name']?></td>
+			 <td><?php echo $row['zone_num']?></td>
+			 <td><?php echo $row['modify_date']?></td>
+			
+			 </tr>
+		<?php }?>
 
     </table>
 </body>

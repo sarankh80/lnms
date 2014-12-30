@@ -11,17 +11,29 @@
     
     	<tr bgcolor="#BBBBBB" >
         	<th>NUM</th>
-            <th>Client N.</th>
-            <th>Name Khmer</th>
-            <th>Name Eng</th>
-            <th>Sex</th>
-            <th>House</th>
-            <th>Street</th>
-            <th>Village</th>
-            <th>Spouse Name</th>
-            <th>By</th>
-            
-         </tr>
+            <th>Branch_id </th>
+            <th>Code_callteral</th>
+            <th>Co_id</th>
+            <th>Getter_name</th>
+            <th>Giver_name</th>
+            <th>Date_delivery</th>
+            <th>Client_code</th>
+            <th>Contracts_borrow Name</th>
+            <th>Status</th>
+            </tr>
+            <?php foreach($this->callteral_list as $key =>$row){?>
+			<tr align="center">
+		     <td><?php echo $key+1; ?></td>
+			 <td><?php echo $row['code_callteral']?></td>
+		     <td><?php echo $row['co_id']?></td>
+			 <td><?php echo $row['getter_name']?></td>
+			 <td><?php echo $row['giver_name']?></td>
+			 <td><?php echo $row['date_delivery']?></td>
+			 <td><?php echo $row['client_code']?></td>
+			 <td><?php echo $row['contracts_borrow Name']?></td>
+			 <td><?php echo $row['status']?></td>
+			</tr>
+			 <?php }?>
 
     </table>
 </body>

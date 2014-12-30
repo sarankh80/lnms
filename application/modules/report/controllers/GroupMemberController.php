@@ -13,21 +13,18 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	
   }
   function rptClientInformationAction(){
-	  	 	$db=new Report_Model_DbTable_DbLnClient();
-		 	$rows=$db->getAllLnClient();
-		 	$this->view->list=$rows;
-  	
+	  	 
   }
   function rptClientAgreementAction(){
   	
   }
   function rptCalleteralAction(){
-  	
+  	$db  = new Report_Model_DbTable_DbLnClient();
+  	$this->view->calleteral_list = $db->getAllCalleteral();
   }
   function rptClientAction(){
-  	$db=new Report_Model_DbTable_DbLnClient();
-  	$rows=$db->getAllLnClient();
-  	$this->view->list=$rows;
+    $db  = new Report_Model_DbTable_DbLnClient();
+  	$this->view->client_list = $db->getAllLnClient();
   	//  	print_r($rows);exit();
   }
   function rptGroupAction(){

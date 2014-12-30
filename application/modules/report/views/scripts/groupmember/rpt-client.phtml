@@ -15,13 +15,26 @@
             <th>Name Khmer</th>
             <th>Name Eng</th>
             <th>Sex</th>
-            <th>House</th>
-            <th>Street</th>
-            <th>Village</th>
+            <th>Status</th>
+            <th>Branch</th>
+            <th colspan=4>Adress</th>
             <th>Spouse Name</th>
-            <th>By</th>
-            
-         </tr>
+            <th>Phone</th>
+          </tr>
+          <?php foreach($this->client_list as $key =>$row){?>
+		   <tr align="center">
+		   <td><?php echo $key+1; ?></td>
+	       <td><?php echo $row['client_number']?></td>
+		   <td><?php echo $row['name_kh']?></td>
+		   <td><?php echo $row['name_en']?></td>
+		   <td><?php echo $row['sex']?></td>
+		   <td><?php echo $row['status']?></td>
+		   <td><?php echo $row['branch_name']?></td>
+		   <td colspan=4><?php echo $row['pro_id'].$row['dis_id'].$row['com_id'].$row['village_id']?></td>
+		   <td><?php echo$row['spouse_name']?></td>
+		   <td><?php echo$row['phone']?></td>
+		   </tr>
+		  <?php }?>
 
     </table>
 </body>
