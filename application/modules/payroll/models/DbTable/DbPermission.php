@@ -54,27 +54,6 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		 FROM $this->_name ";
 		$row=$db->fetchAll($sql);
 		return $row;
-		//$where = ' WHERE co_khname!="" ';
-		
-// 		if($search['status']>-1){
-// 			$where.= " AND status = ".$search['status'];
-// 		}
-// 		if(!empty($search['adv_search'])){
-// 			$s_where = array();
-// 			$search = ($search['adv_search']);
-// 			$s_where[] = " co_code LIKE '%{$search}%'";
-// 			$s_where[] = "co_khname LIKE '%{$search}%'";
-// 			$s_where[] = " co_firstname LIKE '%{$search}%'";
-// 			$s_where[] = "co_lastname LIKE '%{$search}%'";
-// 			$s_where[] = " tel LIKE '%{$search}%'";
-// 			$s_where[] = "email LIKE '%{$search}%'";
-// 			$s_where[] = "address LIKE '%{$search}%'";
-// 			$where .=' AND ('.implode(' OR ',$s_where).')';
-// 		}
-		
-// 		echo $sql.$where;
-// 		return $db->fetchAll($sql.$where);	
-		
 	}	
 }
 

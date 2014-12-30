@@ -4,6 +4,8 @@
 	echo $this->headTitle();
 	$form = $this->frm;
 ?>
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
 
 <form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">				
@@ -12,39 +14,60 @@
 			}
 			return false;
 	</script>
-		
 	<table cellspacing="10" width="100%">
 		<tr>
 			<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន បើកប្រាក់ខែរ</strong></legend>
+					<legend><strong>ព៌ត័មាន បើកប្រាក់បៀវត្សន៍</strong></legend>
 					<table width="100%" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $form->getElement('branch_id');echo $form->getElement('id');?></td>
 							<td><?php echo $tr->translate("លេខកូដបុគ្គលិក")?></td>
-							<td><?php echo $form->getElement('staff_code');?></td>
+							<td><?php echo $form->getElement('staff_code'); echo $form->getElement('id');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះបុគ្គលិក")?></td>
 							<td><?php echo $form->getElement('staff_name');?></td>
-						</tr>
-						
-						<tr>
-							<td><?php echo $tr->translate("ភេទ")?></td>
-							<td><?php echo $form->getElement('sex');?></td>
-							<td><?php echo $tr->translate("ទួនាទី")?></td>
+							<td><?php echo $tr->translate("តួនាទី")?></td>
 							<td><?php echo $form->getElement('position');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $form->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ខែគោល")?></td>
 							<td><?php echo $form->getElement('basic_salary');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
+							<td><?php echo $form->getElement('date_start');?></td>
 						</tr>
 						
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
-							<td><?php echo $form->getElement('date_start');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃបើកប្រាក់ខែ")?></td>
 							<td><?php echo $form->getElement('date_get_salary');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបញ្ចាប់កុងត្រា")?></td>
+							<td><?php echo $form->getElement('date_end_contract');?></td>
+							<td><?php echo $tr->translate("សំរាប់ខែ")?></td>
+							<td><?php echo $form->getElement('for_month');?></td>
+						</tr>
+						
+						<tr>
 							<td><?php echo $tr->translate("Status")?></td>
 							<td><?php echo $form->getElement('status');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
 						</tr>
+						<tr>
+							<td colspan="6">
+								<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+									 <table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+											<tr id="head_title" class="head-title" align="center"></tr>
+									</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6">
+								<input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountBonus();" />
+							</td>
+						</tr>
+
 					</table>
 				</fieldset>
 			</td>			
@@ -56,3 +79,131 @@
 		</tr>
 	</table>		
 </form>
+<script type="text/javascript">
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+dojo.ready(function(){
+	dijit.byId('staff_name').attr('value',<?php echo $this->staff_id; ?>);
+	initList();	
+	
+}); 
+option= '<?php echo $this->salary_option;?>';
+function initList() {
+	<?php if(!empty($this->salary_detail)) {
+		foreach($this->salary_detail AS $i=>$rs){?>
+		r++;
+		if(fund_title!=1){
+			thead='<th>លុប</th>';
+			thead+='<th>ប្រភេទ</th>';
+			thead+='<th>ចំនួន</th>';
+			thead+='<th>សម្គាល់ </th>';
+			fund_title=1;
+			dojo.query("#head_title").append(thead);
+        }
+		temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		temp+='<td><select style=" width:70%;" id="bonus_type_'+r+'" name="bonus_type_'+r+'" dojoType="dijit.form.FilteringSelect"  >'+option+'</select></td>';
+		temp+='<td><input type="text" style=" width:70%;" required="true" name="amount_'+r+'" id="amount_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
+		temp+='<td><input type="text" style=" width:70%;" name="note_'+r+'" id="note_'+r+'" value="" dojoType="dijit.form.TextBox"/></td>';
+		tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
+		tmp+="</tr>";
+			dojo.query("#t_amountmoneytype").append(tmp);
+			dojo.html.set(dojo.byId("row_capital"+r),temp, {
+		    parseContent: true,
+		});
+		if(dijit.byId("record_row").value!="") {
+			var ids = dijit.byId("record_row").value;
+			dijit.byId("record_row").attr('value',ids+','+r);
+		} else { dijit.byId("record_row").attr('value',r);}
+		dijit.byId('bonus_type_'+r).attr('value',<?php echo $rs['bonus_type']?>);
+		dijit.byId('amount_'+r).attr('value',<?php echo $rs['amount']?>);
+		dijit.byId('note_'+r).attr('value','<?php echo $rs['note']?>');
+		<?php } }?>
+}
+    
+function deleteRecord(index){
+	var ids =dijit.byId('record_row').value;
+	if(ids.length=='' || ids.length==null){
+		dijit.byId('record_row').attr('value','');
+		dojo.query("#row_capital"+ids).remove();
+		
+	}else{
+		var arrays = ids.split(',');
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		dijit.byId('record_row').attr('value',strings);
+		dojo.query("#row_capital"+index).remove();
+	}
+	
+}
+	
+	
+	temp='';
+	r = 0;
+	fund_title=0;
+	function addAmountBonus(){
+			r++;
+			if(fund_title!=1){
+				thead='<th>លុប</th>';
+				thead+='<th>ប្រភេទ</th>';
+				thead+='<th>ចំនួន</th>';
+				thead+='<th>សម្គាល់ </th>';
+				fund_title=1;
+				dojo.query("#head_title").append(thead);
+	        }
+			temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+			temp+='<td><select style=" width:70%;" id="bonus_type_'+r+'" name="bonus_type_'+r+'" dojoType="dijit.form.FilteringSelect"  >'+option+'</select></td>';
+			temp+='<td><input type="text" style=" width:70%;" required="true" name="amount_'+r+'" id="amount_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
+			temp+='<td><input type="text" style=" width:70%;" name="note_'+r+'" id="note_'+r+'" value="" dojoType="dijit.form.TextBox"/></td>';
+			tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
+			tmp+="</tr>";
+			
+				dojo.query("#t_amountmoneytype").append(tmp);
+				dojo.html.set(dojo.byId("row_capital"+r),temp, {
+			    parseContent: true,
+			     
+			});
+			if(dijit.byId("record_row").value!="") {
+				var ids = dijit.byId("record_row").value;
+				dijit.byId("record_row").attr('value',ids+','+r);
+			} else { dijit.byId("record_row").attr('value',r);}
+	}	
+	
+//sub money
+	sub_title=0;
+	s=0;
+	//select data show on control
+	var url_submiinfo = '<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'get-staffinfo')); ?>';
+	function popupCheckStaff(type=1){
+		if(type==1){
+			values = dijit.byId('staff_name').get('value');
+			
+		}else{
+			values = dijit.byId('staff_code').get('value')
+		}
+		dojo.xhrPost({
+		    url: url_submiinfo,	
+		    content : { 
+			    'stff_id':values,
+			    'type':type,
+			},	
+			handleAs:"json",
+			load: function(data) {
+				dijit.byId('basic_salary').attr('value',data.basic_salary);
+				dijit.byId('branch_id').attr('value',data.branch_id);
+				dijit.byId('staff_code').attr('value',data.co_code);
+				dijit.byId('date_start').attr('value',data.start_date);
+				dijit.byId('date_end_contract').attr('value',data.end_date);
+				dijit.byId('position').attr('value',data.position_id);
+				
+			},
+			error: function(err) {
+				alert(err);
+			alert("Your message could not be sent, please try again!.");
+					        
+			}
+		});
+	}
+
+</script>

@@ -22,19 +22,27 @@
 					<legend><strong>ព៌ត័មាន បើកប្រាក់បៀវត្សន៍</strong></legend>
 					<table width="100%" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $form->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("លេខកូដបុគ្គលិក")?></td>
+							<td><?php echo $form->getElement('staff_code');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះបុគ្គលិក")?></td>
 							<td><?php echo $form->getElement('staff_name');?></td>
+							<td><?php echo $tr->translate("តួនាទី")?></td>
+							<td><?php echo $form->getElement('position');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $form->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ខែគោល")?></td>
 							<td><?php echo $form->getElement('basic_salary');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
+							<td><?php echo $form->getElement('date_start');?></td>
 						</tr>
 						
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃចូលធ្វើការ")?></td>
-							<td><?php echo $form->getElement('date_start');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃបើកប្រាក់ខែ")?></td>
 							<td><?php echo $form->getElement('date_get_salary');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបញ្ចាប់កុងត្រា")?></td>
+							<td><?php echo $form->getElement('date_end_contract');?></td>
 							<td><?php echo $tr->translate("សំរាប់ខែ")?></td>
 							<td><?php echo $form->getElement('for_month');?></td>
 						</tr>
@@ -76,7 +84,15 @@
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.ready(function(){
-	addAmountBonus();		
+	addAmountBonus();
+		dijit.byId('staff_code').focus();
+		staff_code = dojo.byId("staff_code");
+		dojo.connect(staff_code,"onkeyup", function(events) {
+			key_num = (events.keyCode);
+			if(key_num==13){
+				popupCheckStaff(0);
+			}
+		});		
 	
 });  
     
@@ -130,8 +146,40 @@ function deleteRecord(index){
 			} else { dijit.byId("record_row").attr('value',r);}
 	}	
 	
-//sub money
+	//sub money
 	sub_title=0;
 	s=0;
+	//select data show on control
+	var url_submiinfo = '<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'get-staffinfo')); ?>';
+	function popupCheckStaff(type=1){
+		if(type==1){
+			values = dijit.byId('staff_name').get('value');
+		}else{
+			values = dijit.byId('staff_code').get('value')
+		}
+		dojo.xhrPost({
+		    url: url_submiinfo,	
+		    content : { 
+			    'stff_id':values,
+			    'type':type,
+			},	
+			handleAs:"json",
+			load: function(data) {
+				dijit.byId('basic_salary').attr('value',data.basic_salary);
+				dijit.byId('branch_id').attr('value',data.branch_id);
+				dijit.byId('staff_code').attr('value',data.co_code);
+				dijit.byId('date_start').attr('value',data.start_date);
+				dijit.byId('date_end_contract').attr('value',data.end_date);
+				dijit.byId('position').attr('value',data.position_id);
+				
+			},
+			error: function(err) {
+				alert(err);
+			alert("Your message could not be sent, please try again!.");
+					        
+			}
+		});
+		
+	}
 
 </script>

@@ -18,7 +18,7 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     	$staff_name->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'onchange'=>'popupCheckCO();'
+    			'onchange'=>'popupCheckStaff(1);'
     	));
     	$staff_name->setMultiOptions($options);
     	
@@ -32,11 +32,17 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     	));
     	$Sex->setMultiOptions($opt_Sex);
     	
-    	$position=new Zend_Dojo_Form_Element_TextBox('position');
-    	$position->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox',
+    	$position_=new Zend_Dojo_Form_Element_FilteringSelect('position');
+    	$position_->setAttribs(array(
+    			'dojoType'=>'dijit.form.FilteringSelect',
+//     			'dojoType'=>$this->filter,
+    			'required'=>true,
     			'class'=>'fullside'
     			));
+    	
+    	$db_position=new Application_Model_DbTable_DbGlobal();
+    	$opt_position=$db_position->getAllStaffPosition(null,1);
+    	$position_->setMultiOptions($opt_position);
     	
     	$Basic_salary=new Zend_Dojo_Form_Element_NumberTextBox('basic_salary');
     	$Basic_salary->setAttribs(array(
@@ -44,6 +50,7 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     			'required'=>true,
     			'class'=>'fullside'
     			));
+    	$Basic_salary->setValue(0);
     	
     	
     	$date_start=new Zend_Dojo_Form_Element_DateTextBox('date_start');
@@ -60,6 +67,12 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     			));
     	$date_get_salary->setValue(date('Y-m-d'));
     	
+    	$date_end_contract=new Zend_Dojo_Form_Element_DateTextBox('date_end_contract');
+    	$date_end_contract->setAttribs(array(
+    			'dojoType'=>'dijit.form.DateTextBox',
+    			'class'=>'fullside',
+    			));
+    	$date_end_contract->setValue(date('Y-m-d'));
     	
     	$status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
     	$status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
@@ -103,19 +116,18 @@ class Payroll_Form_FrmSalary extends Zend_Dojo_Form
     	
     	$_id = new Zend_Form_Element_Hidden('id');
     	if($data!=null){
-    		$staff_name->setValue($data['staff_name']);
-    		$Sex->setValue($data['sex']);
-    		$position->setValue($data['position']);
+    	//	$staff_name->setValue($data['staff_id']);
+    		//$position_->setValue($data['position']);
     		$Basic_salary->setValue($data['basic_salary']);
     		$date_start->setValue($data['date_start']);
     		$date_get_salary->setValue($data['date_get_salary']);
     		$status->setValue($data['status']);
     		$_branch_id->setValue($data['branch_id']);
-    		$staff_code->setValue($data['staff_code']);
-    		$_id->setValue($data['staff_id']);
+    		//$staff_code->setValue($data['staff_code']);
+    		$_id->setValue($data['id']);
     	}
     	
-		$this->addElements(array($for_month,$status,$_branch_id,$_id,$staff_name,$Basic_salary,$date_start,$date_get_salary));
+		$this->addElements(array($_id,$date_end_contract,$position_,$staff_code,$for_month,$status,$_branch_id,$_id,$staff_name,$Basic_salary,$date_start,$date_get_salary));
 		return $this;
     }
 }
