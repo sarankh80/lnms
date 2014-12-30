@@ -1,30 +1,74 @@
-<!doctype html>
-<html>
-<head>
+<?php $tran = $this->tran_schedule;
+$client = $this->client;
+?>
 <meta charset="utf-8">
-<title>Client Info</title>
-</head>
+<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
-<body>
-	<h2 align="center">Client Personal</h2>
-	<table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
-    
-    	<tr bgcolor="#BBBBBB">
-        	<th>Contact Code</th>
-        	<th>Status</th>
-            <th>Amount</th>
-            <th>OLB</th>
-            <th>Creatin Date</th>
-            <th>Start Date</th>
-            <th>Close Date</th>
-            <th>Group</th>
-            <th>Late Day</th>
-            
-            <th>ATR</th>
-        </tr>
-
-      
-    </table>
-  
-</body>
-</html>
+<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">តារាងថ្ងៃឈប់សំរាក</h2></td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td width="45%">
+                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
+								<br />TEL :(855) 10 78 55 44
+                				</td>
+                				<td></td>
+                				
+                				<td></td>
+                			</tr>
+			               
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
+        <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+				    <tr bgcolor="#BBBBBB">
+				        <th>N<sub>0</sub></th>
+				        <th>Holiday Name</th>
+				        <th>Date</th>
+				        <th>Amount</th>
+				        <th>Note</th>
+				    </tr>
+					<?php foreach($this->holiday_list as $key =>$row){?>
+					     <tr align="center">
+					        <td><?php echo $key+1; ?></td>
+					        <td><?php echo$row['holiday_name']?></td>
+					        <td><?php echo$row['start_date']?></td>
+					        <td><?php echo$row['amount_day']?></td>
+					        <td><?php echo$row['note']?></td>
+					    </tr>
+					    <?php }?>
+				
+				    <tr align="center">
+				        <td colspan="3"></td>
+				        <td>Total</td>
+				        <td>23day</td>
+				    </tr>
+				   </table><br />
+				   <table align="center" width="70%">
+				    <tr>
+				        <th>Approved By</th>
+				        <th>Verifyed By</th>
+				        <th>Prepare By</th>
+				    </tr>
+   </table>
+ </div>

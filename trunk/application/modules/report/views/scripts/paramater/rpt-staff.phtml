@@ -6,7 +6,7 @@
 </head>
 
 <body>
-	<h2 align="center">Staff Salary(12/23/2014-1/24/2015)</h2><br/>
+	<h2 align="center">Staff (12/23/2014-1/24/2015)</h2><br/>
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
@@ -14,22 +14,30 @@
             <th>StaffID</th>
             <th>Name Khmer</thd>
             <th>Name Eng</th>
+            <th>Sex</th>
+            <th>Phone</th>
+            <th>national_id</th>
+            <th>Adress</th>
             <th>Position</th>
             <th>Branch Name</th>
-            <th>Basic Salary</th>
-            <th>OT</th>
-            <th>Other</th>
-            <th>Salary</th>
-             <th>Note</th>
+           <th>Note</th>
          </tr>
-      
-<!--         <tr align="center"> -->
-<!--         	<td>12</td> -->
-<!--         	<td colspan="4">TOTAL</td> -->
-<!--             <td></td> -->
-<!--             <td></td> -->
-          
-<!--         </tr> -->
+       <?php foreach($this->staff_list as $key =>$row){?>
+		   <tr>
+		     <td><?php echo $key+1; ?></td>
+		     <td><?php echo $row['co_id']?></td>
+			 <td><?php echo $row['co_khname']?></td>
+			 <td><?php echo $row['co_firstname']?></td>
+			 <td><?php echo $row['sex']?></td>
+			 <td><?php echo $row['tel']?></td>
+			 <td><?php echo $row['national_id']?></td>
+			 <td><?php echo $row['address']?></td>
+			 <td><?php echo $row['position']?></td>
+			 <td><?php echo $row['branch_name']?></td>
+			 <td><?php echo $row['note']?></td>
+			</tr>
+		<?php }?>
+
     </table>
 </body>
 </html>

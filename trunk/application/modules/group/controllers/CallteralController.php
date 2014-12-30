@@ -22,11 +22,13 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch_id ","Code_callteral","Getter_name","Giver_name","Co_id ","Date_delivery","Client_code","Contracts_borrow","Mortgage_Contract","Status");
+			$collumns = array("Branch_id ","Code_callteral","Co_id ","Getter_name","Giver_name","Date_delivery","Client_code","Contracts_borrow","Mortgage_Contract","Status");
 			$link=array(
 					'module'=>'accounting','controller'=>'asset','action'=>'index',
 			);
+			//print_r($rs_rows);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('asset_name'=>$link,'asset_cost'=>$link));
+			
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
