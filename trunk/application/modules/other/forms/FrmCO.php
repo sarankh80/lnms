@@ -131,12 +131,11 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_name_kh->setValue($_data['co_khname']);
 			$_enname->setValue($_data['co_firstname']);
 			$_lname->setValue($_data['co_lastname']);
-			
+			$_position->setValue($_data['position_id']);
 			$_display->setValue($_data['displayby']);
 			$_national_id->setValue($_data['national_id']);
 			$_pob->setValue($_data['pob']);
 			$_degree->setValue($_data['degree']);
-			
 			$_tel->setValue($_data['tel']);
 			$_email->setValue($_data['email']);
 			$_address->setValue($_data['address']);

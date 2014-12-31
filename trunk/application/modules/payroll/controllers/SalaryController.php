@@ -21,7 +21,7 @@ class Payroll_SalaryController extends Zend_Controller_Action
 			$glClass = new Application_Model_GlobalClass();//status
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("សាខា","ឈ្មោះបុគ្គលិក","ប្រាក់ខែគោល","ថ្ងៃចូលធ្វើការ","ថ្ងៃបើកប្រាក់ខែ","ថ្ងៃបញ្ចាប់កុងត្រា","ថ្ងៃ","User Id","Status","Detail");
+			$collumns = array("សាខា","ឈ្មោះបុគ្គលិក","ប្រាក់ខែគោល","តួនាទី","ថ្ងៃចូលធ្វើការ","ថ្ងៃបើកប្រាក់ខែ","ថ្ងៃបញ្ចាប់កុងត្រា","ថ្ងៃ","User Id","Status","Detail");
 			$link=array(
 					'module'=>'payroll','controller'=>'salary','action'=>'edit',
 			);
@@ -44,6 +44,7 @@ class Payroll_SalaryController extends Zend_Controller_Action
 		$db=new Payroll_Model_DbTable_DbSalary();
 		$this->view->Report_salary=$row;
         $this->view->salary_detail = $db->getReceiptDetailById($id);
+        $this->view->upadate_detail=$db->getSalaryById($id);
 	}
 
     public function addAction()
