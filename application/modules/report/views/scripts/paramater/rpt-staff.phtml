@@ -1,12 +1,48 @@
-<!doctype html>
-<html>
-<head>
+<?php $tran = $this->tran_schedule;
+$client = $this->client;
+?>
 <meta charset="utf-8">
-<title>Staff Salary</title>
-</head>
+<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+
+<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">Staff (12/23/2014-1/24/2015)</h2></td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td width="45%">
+                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
+								<br />TEL :(855) 10 78 55 44
+                				</td>
+                				<td></td>
+                				
+                				<td></td>
+                			</tr>
+			               
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
 
 <body>
-	<h2 align="center">Staff (12/23/2014-1/24/2015)</h2><br/>
+	
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
@@ -24,20 +60,21 @@
          </tr>
        <?php foreach($this->staff_list as $key =>$row){?>
 		   <tr>
-		     <td><?php echo $key+1; ?></td>
-		     <td><?php echo $row['co_id']?></td>
-			 <td><?php echo $row['co_khname']?></td>
-			 <td><?php echo $row['co_firstname']?></td>
-			 <td><?php echo $row['sex']?></td>
-			 <td><?php echo $row['tel']?></td>
-			 <td><?php echo $row['national_id']?></td>
-			 <td><?php echo $row['address']?></td>
-			 <td><?php echo $row['position']?></td>
-			 <td><?php echo $row['branch_name']?></td>
-			 <td><?php echo $row['note']?></td>
+		     <td>&nbsp;<?php echo $key+1; ?></td>
+		     <td>&nbsp;<?php echo $row['co_id']?></td>
+			 <td>&nbsp;<?php echo $row['co_khname']?></td>
+			 <td>&nbsp;<?php echo $row['co_firstname']?></td>
+			 <td>&nbsp;<?php echo $row['sex']?></td>
+			 <td>&nbsp;<?php echo $row['tel']?></td>
+			 <td>&nbsp;<?php echo $row['national_id']?></td>
+			 <td>&nbsp;<?php echo $row['address']?></td>
+			 <td>&nbsp;<?php echo $row['position']?></td>
+			 <td>&nbsp;<?php echo $row['branch_name']?></td>
+			 <td>&nbsp;<?php echo $row['note']?></td>
 			</tr>
 		<?php }?>
 
     </table>
 </body>
+ </div>
 </html>
