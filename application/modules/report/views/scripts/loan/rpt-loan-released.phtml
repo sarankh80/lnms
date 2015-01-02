@@ -51,28 +51,28 @@ $client = $this->client;
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                  <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
                     <td>លរ</td>
-                    <td>ឈ្មោះមន្ត្រីឥណទាន</td>
+                    <td>លេខកំម្ជី</td>
+                    <td>ឈ្មោះអតិថជន</td>
                     <td>ចំនួនប្រាក់បានចេញ</td>
                     <td>អត្រាការប្រាក់</td>
                     <td>រយៈពេលខ្ចី</td>
                     <td>កាលបរិឆ្ឆេទ</td>
+                    <td>ឈ្មោះមន្ត្រីឥណទាន</td>
+                    <td>ថ្លែរដ្នបាល</td>
                 </tr>
-               	<tr align="center" style="font-weight:bold; font-family:'Khmer OS';">
-                    <td ><?php //echo $key+1;?></td>
-                    <td><?php //echo$row['date_payment']?></td>
-                    <td><?php //echo number_format($row['total_principal'],(!strrpos($row['total_principal'],"."))? 0 : 2);?></td>
-                    <td><?php //echo number_format($row['principal_permonth'],(!strrpos($row['principal_permonth'],"."))? 0 : 2);?></td>
-                    <td><?php //echo number_format($row['total_interest'],(!strrpos($row['total_interest'],"."))? 0 : 2);?></td>
-                    <td><?php //echo number_format($row['total_payment'],(!strrpos($row['total_payment'],"."))? 0 : 2); ?></td>
-                    <?php 
-                    //$remain = $row['total_principal']-$row['principal_permonth']
-                    ?>
-                    <td><?php //echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
-                </tr>
-                <tr>
-                	<td colspan="4"></td>
-                	<td colspan="2">12,100 $</td>
-                </tr>
+               <?php foreach($this->loanrelease_list as $key =>$row){?>
+					<tr align="center">
+					<td><?php echo $key+1; ?></td>
+					<td><?php echo$row['loan_number']?></td>
+					<td><?php echo$row['client_id']?></td>
+					<td><?php echo$row['amount_collect_principal']?></td>
+					<td><?php echo$row['interest_rate']?></td>
+					<td><?php echo$row['total_duration']?></td>
+					<td><?php echo$row['date_release']?></td>
+					<td><?php echo$row['co_name']?></td>
+					<td><?php echo$row['admin_fee']?></td>
+					</tr>
+				<?php }?>
             </table>
     	</td>
     </tr>
