@@ -438,26 +438,31 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){//code make slow
   	for($i=0;$i<$amount_amount;$i++){
-  		$d = new DateTime($next_payment);
-  		$d->modify($str_next);
-  		$next_payment =  $d->format('Y-m-d');
+//   		$d = new DateTime($next_payment);
+//   		$d->modify("$str_next");
+//   		echo $str_next;exit();
+//   		echo $d->format('Y-m-d');exit();
+//   		$next_payment =  $d->format('Y-m-d');
+  		$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
   	}
-  	$new_next_payment = $this->checkHolidayExist($next_payment,$holiday_status);///////////
-  	if($new_next_payment!==$next_payment){
-  		return $new_next_payment;
-  		//code here 
-  		
+  	if($holiday_status==3){
+  		return $next_payment;//if normal day
   	}else{
-  		return $new_next_payment;
+//   		$this->getSystemSetting('work_saturday');
+  		
   	}
+  	while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
+  		$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
+  	}
+  	return $next_payment;
   }
   public function getNextDateById($pay_term,$amount_next_day){
   	if($pay_term==3){
-  		$str_next = 'next month';
+  		$str_next = '+1 month';
   	}elseif($pay_term==2){
-  		$str_next = 'next week';
+  		$str_next = '+1 week';
   	}else{
-  		$str_next = 'next day';
+  		$str_next = '+1 day';
   	}
   	return $str_next;
   }
@@ -472,7 +477,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		}elseif($holiday_option==2){
   			$str_option = 'next day';
   		}else{
-  			echo $d->format( 'Y-m-d' ).'normal day';exit();
   			return  $d->format( 'Y-m-d' );
   		}
   		$d->modify($str_option); //here check for holiday option //can next day,next week,next month
@@ -495,6 +499,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
   	}
   	return $option;
+  }
+  public function getSystemSetting($keycode){
+  	$db = $this->getAdapter();
+  	$sql = "SELECT  id,keycode FROM `ln_system_setting` WHERE keycode =".'"$keycode"';
+  	return $db->fetchRow($sql);
   }
 }
 ?>

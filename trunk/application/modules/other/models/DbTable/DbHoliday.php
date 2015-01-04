@@ -11,12 +11,13 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
     }
 	public function addHoliday($_data){
 		$_arr=array(
-				'holiday_name'	  => $_data['holiday_name'],
-				'amount_day'	  => $_data['amount_day'],
-				'start_date'	  => $_data['start_date'],
+				'holiday_name'=> $_data['holiday_name'],
+				'amount_day'  => $_data['amount_day'],
+				'start_date'  => $_data['start_date'],
 				'end_date'	  => $_data['end_date'],
 				'status'	  => $_data['status'],
 				'modify_date' => date('Y-m-d'),
+				'note' 		  => $_data['note'],
 				'user_id'	  => $this->getUserId()
 		);
 		if(!empty($_data['id'])){
