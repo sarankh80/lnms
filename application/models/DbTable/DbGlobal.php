@@ -173,6 +173,19 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
+   public function getNewInvoiceExchange(){
+   	$this->_name='ln_exchange';
+   	$db = $this->getAdapter();
+   	$sql=" SELECT id FROM $this->_name ORDER BY id DESC LIMIT 1 ";
+   	$acc_no = $db->fetchOne($sql);
+   	$new_acc_no= (int)$acc_no+1;
+   	$acc_no= strlen((int)$acc_no+1);
+   	$pre = "";
+   	for($i = $acc_no;$i<6;$i++){
+   		$pre.='0';
+   	}
+   	return $pre.$new_acc_no;
+   }
    public function getLoanNumber(){
    	$this->_name='ln_loan_member';
    	$db = $this->getAdapter();
