@@ -17,6 +17,7 @@ dojo.require("dijit.Dialog");
 		color: #fff;
 		line-height: 40px;
 		font-weight: bolder;
+		
 	}
 	.tbtable td{
 		vertical-align: middle;
@@ -24,13 +25,13 @@ dojo.require("dijit.Dialog");
 	.tbtable .tbheader{
 		background-color: #dddddd;
 		color: #000;
+		font-family:'Khmer OS Bokor';
 	}
 	.tbtable .first{
-		background-color: #012a15; 
+		background-color: #09679B ; 
 	}
-	
 	.tbtable .second{
-		background-color: #016315; 
+		background-color: #1553B1 ; 
 	}
 	
 	.tbtable .input-inner {
@@ -39,22 +40,33 @@ dojo.require("dijit.Dialog");
 		width: 99%;	
 		border: none;
 	}
-	
 	#DB.dijitInputInner, #BD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
 		text-align: center;		
-		background-color: #012a15 !important;
+		background-color: #09679B  !important;
 	}
-	
+	#SPBD.dijitInputInner, #SPBD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
+		text-align: center;		
+		background-color: #09679B   !important;
+	}
 	#DR.dijitInputInner, #RD.dijitInputInner{
 		text-align: center;		
-		background-color: #016315 !important;
+		background-color: #1553B1 !important;
+	}
+	#SPRD.dijitInputInner, #RD.dijitInputInner{
+		text-align: center;		
+		background-color: #1553B1 !important;
+	}	
+	
+	#SPBR.dijitInputInner, #BD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
+		text-align: center;		
+		background-color: #09679B  !important;
 	}
 	
 	.col-symbol{
 		width: 20%;
 	}
 	.col-input{
-		width: 40%;
+		width: 30%;
 	}
 -->
 </style>
@@ -67,12 +79,12 @@ dojo.require("dijit.Dialog");
 			}
 	</script>	 
 	
-	<table cellspacing="20" width="100%"  >
+	<table width="100%"  >
 		<tr>
 			<td width="100%" valign="top">	
-				<fieldset class="panel">
+				<fieldset class="panel" style="padding:10px;">
 					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់</strong></legend>			
-					<table class="tbtable" style="margin:10px auto; width: 90%;" cellspacing='0' border="1">									
+					<table class="tbtable" style="margin:10px auto; width: 100%; border-collapse: collapse;" cellspacing='0' border="1">									
 						<tr class="tbheader">
 							<th class="col-symbol">និមិត្តសញ្ញា</th>
 							<th class="col-input">អត្រា​ទិញចូល</th>
@@ -98,7 +110,7 @@ dojo.require("dijit.Dialog");
 									name:'SPBD',
 									id:'SPBD',	
 									class:'input-inner',								
-									value:<?php echo $this->ratelist['BD']?>,
+									value:<?php echo $this->ratelist['SPDB']?>,
 									constraints:{pattern:'#,###.##'},
 									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
@@ -134,7 +146,7 @@ dojo.require("dijit.Dialog");
 									name:'SPRD',
 									id:'SPRD',	
 									class:'input-inner',								
-									value:<?php echo $this->ratelist['RD']?>,
+									value:<?php echo $this->ratelist['SPDR']?>,
 									constraints:{pattern:'#,###.##'},
 									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
@@ -165,12 +177,12 @@ dojo.require("dijit.Dialog");
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
 							</td>
 							<td>
-								<input type="text" name="SPRB" id="SPRB"  data-dojo-type="dijit.form.NumberTextBox"
+								<input type="text" name="SPBR" id="SPBR"  data-dojo-type="dijit.form.NumberTextBox"
 									data-dojo-props="required:true,																		
-									name:'SPRB',
-									id:'SPRB',	
+									name:'SPBR',
+									id:'SPBR',	
 									class:'input-inner',								
-									value:<?php echo $this->ratelist['RB']?>,
+									value:<?php echo $this->ratelist['SPBR']?>,
 									constraints:{pattern:'#,###.##'},
 									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
