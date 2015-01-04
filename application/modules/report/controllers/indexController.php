@@ -76,6 +76,7 @@ function delinquentloansAction(){
  	$day_inkhmer = $db->getDayInkhmerBystr(null);
  	$this->view->day_inkhmer = $day_inkhmer;
  }
+ 
  public function paymentscheduleListAction(){
  		try{
  			$db = new Report_Model_DbTable_DbRptPaymentSchedule();

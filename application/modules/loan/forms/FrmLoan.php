@@ -30,6 +30,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_collect_term->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'changeGraicePeroid();'
 		));
 		$term_opt = $db->getVewOptoinTypeByType(1,1,3);
 		$_collect_term->setMultiOptions($term_opt);
@@ -107,6 +108,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_time_collect->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'onkeyup'=>'getFirstPayment();'
 		));
  		$_time_collect->setValue(1);
  		
@@ -115,6 +117,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
  				'dojoType'=>'dijit.form.NumberTextBox',
  				'class'=>'fullside',
  				'readonly'=>true,
+ 				'required'=>true
  		));
  		$_time_collect_pri->setValue(2);
 		
@@ -163,14 +166,17 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_period->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onkeyup'=>'calCulatePeriod();'
 		));
+		$_period->setValue(12);
 		
 		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('release_date');
 		$_releasedate->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onchange'=>'checkReleaseDate();'
 		));
 		$s_date = date('Y-m-d');
 		$_releasedate->setValue($s_date);
@@ -179,14 +185,18 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_first_payment->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				//'onchange'=>'calCulateFirstPayment();'
+				
 		));
+		//$_first_payment->setValue('2005-12-30');
 		
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('date_line');
 		$_dateline->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'readonly'=>true,
 		));
 		
 		
@@ -211,10 +221,12 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_pay_every->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onchange'=>'changeCollectType();'
 		));
 		$options= array(1=>"Day",2=>"Week",3=>"Month");
 		$_pay_every->setMultiOptions($options);
+		$_pay_every->setValue(3);
 		
 		$_every_payamount = new Zend_Dojo_Form_Element_FilteringSelect('every_payamount');
 		$_every_payamount->setAttribs(array(

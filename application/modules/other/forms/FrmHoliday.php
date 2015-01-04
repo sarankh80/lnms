@@ -37,6 +37,11 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 				'onkeyup'=>'CalculateDate();',
 				));
 		
+		$_note = new Zend_Dojo_Form_Element_TextBox('note');
+		$_note->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
 		$_status_opt = array(
@@ -53,7 +58,7 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 			$_status->setValue($_data['status']);
 			$_id->setValue($_data['id']);
 		}
-		$this->addElements(array($_id,$_holiday_name,$_startdate,$_enddate,$_amount_day,$_status));
+		$this->addElements(array($_id,$_holiday_name,$_note,$_startdate,$_enddate,$_amount_day,$_status));
 		return $this;
 	}
 	

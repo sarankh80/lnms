@@ -73,9 +73,10 @@ class Loan_indexController extends Zend_Controller_Action {
 				//Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			}catch (Exception $e) {
 				echo $err =$e->getMessage();
-				exit();
+			exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
+				echo $err;exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
