@@ -43,21 +43,27 @@
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
-        	<th>NUM</th>
+        	<th>N<sup>0</sup></th>
             <th>Zone Name</th>
             <th>Zone Number</th>
             <th>Date</th>
            
-            
          </tr>
         <?php foreach($this->zone_list as $key =>$row){?>
 		   <tr align="center">
-		     <td><?php echo $key+1; ?></td>
-		     <td><?php echo $row['zone_name']?></td>
-			 <td><?php echo $row['zone_num']?></td>
-			 <td><?php echo $row['modify_date']?></td>
-			
-			 </tr>
+		     <td>&nbsp;<?php echo $key+1; ?></td>
+		     <td align="left">&nbsp;<?php echo $row['zone_name']?></td>
+			 <td>&nbsp;<?php echo $row['zone_num']?></td>
+			 <td>&nbsp;<?php echo $row['modify_date']?></td>
+			</tr>
+		<?php }?>
+		 <?php for($i=$key; $i<=14;$i++){?>
+			<tr align="center">
+			 <td><?php echo $i+1; ?></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+		    </tr>
 		<?php }?>
 
     </table>

@@ -42,33 +42,44 @@ $client = $this->client;
             </table>
         <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th>N<sub>0</sub></th>
+				        <th>N<sup>0</sup></th>
 				        <th>Holiday Name</th>
 				        <th>Date</th>
 				        <th>Amount</th>
 				        <th>Note</th>
 				    </tr>
-					<?php foreach($this->holiday_list as $key =>$row){?>
+					<?php $amount_day = 0;
+					 foreach($this->holiday_list as $key =>$row){
+					 	$amount_day=$amount_day+$row['amount_day'];
+					 	?>
 					     <tr align="center">
 					        <td><?php echo $key+1; ?></td>
-					        <td><?php echo$row['holiday_name']?></td>
-					        <td><?php echo$row['start_date']?></td>
-					        <td><?php echo$row['amount_day']?></td>
-					        <td><?php echo$row['note']?></td>
+					        <td><?php echo $row['holiday_name']?></td>
+					        <td><?php echo $row['start_date']?></td>
+					        <td><?php echo $row['amount_day']?></td>
+					        <td><?php echo $row['note']?></td>
 					    </tr>
 					    <?php }?>
+					 <?php for($i=$key; $i<=14;$i++){?>
+						  <tr align="center">
+						        <td><?php echo $i+1; ?></td>
+						        <td></td>
+						        <td></td>
+						        <td></td>
+						        <td></td>
+						    </tr>
+					 <?php }?>
 				
 				    <tr align="center">
-				        <td colspan="3"></td>
-				        <td>Total</td>
-				        <td>23day</td>
+				        <td colspan="2"></td>
+				        <th>Total</th>
+				        <td><?php echo $amount_day; ?></td>
+				        <td></td>
 				    </tr>
 				   </table><br />
 				   <table align="center" width="70%">
 				    <tr>
-				        <th>Approved By</th>
-				        <th>Verifyed By</th>
-				        <th>Prepare By</th>
-				    </tr>
-   </table>
+				        <th align="left">Approved By<hr></th>
+				        <th>Verifyed By<hr></th>
+				        <th align="right">Prepare By<hr>
  </div>
