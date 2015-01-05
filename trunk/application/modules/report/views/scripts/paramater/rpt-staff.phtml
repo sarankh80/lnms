@@ -46,7 +46,7 @@ $client = $this->client;
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
-        	<th>N<sub>0</sub></th>
+        	<th>N<sup>0</sup></th>
             <th>StaffID</th>
             <th>Name Khmer</thd>
             <th>Name Eng</th>
@@ -61,7 +61,7 @@ $client = $this->client;
        <?php foreach($this->staff_list as $key =>$row){?>
 		   <tr>
 		     <td>&nbsp;<?php echo $key+1; ?></td>
-		     <td>&nbsp;<?php echo $row['co_id']?></td>
+		     <td>&nbsp;<?php echo $row['co_code']?></td>
 			 <td>&nbsp;<?php echo $row['co_khname']?></td>
 			 <td>&nbsp;<?php echo $row['co_firstname']?></td>
 			 <td>&nbsp;<?php echo $row['sex']?></td>
@@ -73,6 +73,22 @@ $client = $this->client;
 			 <td>&nbsp;<?php echo $row['note']?></td>
 			</tr>
 		<?php }?>
+		 <?php for($i=$key; $i<=14;$i++){?>
+			<tr align="center">
+			 <td><?php echo $i+1; ?></td>
+		     <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 </tr>
+		 <?php }?>
+				
 
     </table>
 </body>

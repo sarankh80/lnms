@@ -93,11 +93,16 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 // 				'dojoType'=>'dijit.form.CheckBox',
 // 				'class'=>'fullside'
 // 		));
-		$borrower = new Zend_Dojo_Form_Element_TextBox('borrower');
+		$borrower = new Zend_Dojo_Form_Element_FilteringSelect('borrower');
 		$borrower->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
+		$rows = $db->getClientByType();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
+		$borrower->setMultiOptions($options);
+		
 		$_name=new Zend_Dojo_Form_Element_ValidationTextBox('name');
 		$_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',

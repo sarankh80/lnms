@@ -25,51 +25,22 @@ $frm = $this->frm_callteral;
 					<legend><strong>Withdrawal Callteral Letter</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-						     <?php echo $frm->getElement('id');?>
 							<td width="16%"><?php echo $tr->translate("សាខា ")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("លេខកូដបញ្ចាំ")?></td>
 							<td><?php echo $frm->getElement('cod_cal');?></td>
-							<td><?php //echo $tr->translate("ឈ្មោះអ្នកប្រគល់")?></td>
-							<td><?php //echo $frm->getElement('giver_name')?></td>
-						</tr>
-						<tr>
 							<td width="16%"><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_name');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះអ្នកទទូល")?></td>
-							<td><?php echo $frm->getElement('getter_name');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះអ្នកប្រគល់")?></td>
-							<td><?php echo $frm->getElement('giver_name')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃប្រគល់")?></td>
-							<td><?php echo $frm->getElement('date')?></td>
-							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
-							<td><?php echo $frm->getElement('customer_code');?></td>
-							<td><?php echo $tr->translate("កិច្ចសន្យាខ្ចីប្រាក់លេខ")?></td>
-							<td><?php echo $frm->getElement('contract_code');?></td>
+						    <td><?php echo $tr->translate("អ្នកខ្ចីប្រាក់ឈ្មោះ")?></td>
+						    <td><?php echo $frm->getElement('borrower')?></td>
+							<td><?php echo $tr->translate("	និងឈ្មោះ")?></td>
+							<td><?php echo $frm->getElement('name')?></td>
+							<td><?php echo $tr->translate("ត្រូវជា")?></td>
+							<td><?php echo $frm->getElement('names')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("កិច្ចសន្យាដាក់បញ្ចាំលេខ")?></td>
-							<td><?php  echo $frm->getElement('code');?></td>
-							<td><?php echo $tr->translate("");?></td>
-							<td><?php echo $frm->getElement('belong_borrower')?></td>
-							<td><?php echo $tr->translate("")?></td>
-							<td><?php echo $frm->getElement('');?></td>
-						</tr>
-					</table>
-					<fieldset>
-						<legend><strong>អត្តសញ្ញាណ</strong></legend>
-						<table width="100%" cellspacing="10">
-							<tr>
-								<td><?php echo $tr->translate("អ្នកខ្ចីប្រាក់ឈ្មោះ")?></td>
-								<td><?php echo $frm->getElement('borrower')?></td>
-								<td><?php echo $tr->translate("	និងឈ្មោះ")?></td>
-								<td><?php echo $frm->getElement('name')?></td>
-								<td><?php echo $tr->translate("ត្រូវជា")?></td>
-								<td><?php echo $frm->getElement('names')?></td>
-							</tr>
-							<tr>
 								<td><?php echo $tr->translate("ម្ចាស់កម្មសិទ្ធិឈ្មោះ")?></td>
 								<td><?php echo $frm->getElement('owner')?></td>
 								<td><?php echo $tr->translate("	និងឈ្មោះ")?></td>
@@ -78,7 +49,7 @@ $frm = $this->frm_callteral;
 								<td><?php echo $frm->getElement('and_names')?></td>
 							</tr>
 						
-						<tr>
+							<tr>
 								<td><?php echo $tr->translate("ដាក់បញ្ចាំទ្រព្យ<br />ធានាលើប្រាក់កម្ចី ")?></td>
 								<td><?php echo $frm->getElement('personal')?></td>
 								<td><?php echo $tr->translate('ប្រភេទទ្រពបញ្ចំា')?></td>
@@ -96,6 +67,34 @@ $frm = $this->frm_callteral;
 								<td><?php //echo $tr->translate('ប្រភេទទ្រពបញ្ចំា')?></td>
 								<td><?php //echo $frm->getElement("represent_property")?></td>
 							</tr>
+					</table>
+					<fieldset>
+						<legend><strong>អត្តសញ្ញាណ</strong></legend>
+						<table width="100%" cellspacing="10">
+							<tr>
+							
+							<td><?php echo $tr->translate("ឈ្មោះអ្នកទទូល")?></td>
+							<td><?php echo $frm->getElement('getter_name');?></td>
+							<td><?php echo $tr->translate("ឈ្មោះអ្នកប្រគល់")?></td>
+							<td><?php echo $frm->getElement('giver_name')?></td>
+							<td><?php echo $tr->translate("ថ្ងៃប្រគល់")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
+							
+							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
+							<td><?php echo $frm->getElement('customer_code');?></td>
+							<td><?php echo $tr->translate("កិច្ចសន្យាខ្ចីប្រាក់លេខ")?></td>
+							<td><?php echo $frm->getElement('contract_code');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("កិច្ចសន្យាដាក់បញ្ចាំលេខ")?></td>
+							<td><?php  echo $frm->getElement('code');?></td>
+							<td><?php echo $tr->translate("");?></td>
+							<td><?php echo $frm->getElement('belong_borrower')?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $frm->getElement('');?></td>
+						</tr>
 							
 						</table>
 					</fieldset>
