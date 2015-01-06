@@ -9,6 +9,19 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
      * Get current rate s
      * @return array(6);
      */
+    function getAllSpreadList($search=null){
+    	$db = $this->getAdapter();
+    	$sql = "SELECT id,
+					(SELECT curr_namekh FROM `ln_currency` WHERE id = in_cur_id) AS buy_type,
+					(SELECT curr_namekh FROM `ln_currency` WHERE id = out_cur_id) AS sell_type,
+					rate_in,
+					rate_out,
+					spread,
+					create_date,
+					active AS status
+					FROM `ln_exchangerate`  ORDER BY is_using DESC";
+    	return $db->fetchAll($sql);
+    }
     function getCurrentRate(){
     	$db = $this->getAdapter();
     	$sql = "SELECT `id`,`in_cur_id`,`out_cur_id`,`rate_in`,`spread`,`rate_out`

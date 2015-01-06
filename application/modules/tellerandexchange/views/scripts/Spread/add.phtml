@@ -64,6 +64,7 @@ dojo.require("dijit.Dialog");
 	
 	.col-symbol{
 		width: 20%;
+	padding:10px;
 	}
 	.col-input{
 		width: 30%;
@@ -213,6 +214,9 @@ dojo.require("dijit.Dialog");
 		</tr>		
 	</table>
 </form>
+<?php 
+$url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcodevss"),null,true);
+?>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'អត្រាប្តូរប្រាក់', onCancel:hideDialog" id="terms" >
 		<div id="divPrint" style="width: 7cm; padding: 0px; margin: 0px;">
@@ -227,14 +231,13 @@ dojo.require("dijit.Dialog");
 					width: 110px;	
 				}
 			</style>	
-			<table style="width: 7cm; font-size: 8pt; padding: 0px; margin: 0px; line-height: 15px;">
+			<table style="width: 7cm; font-size: 8pt; padding: 0px; margin: 0px; line-height: 15px; " ​>
 				 <tr>
 					   	<td align="center" colspan="3">	
 					   	<table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
-					   			<td width="36%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td width="35%" align="center"><strong style="font-size:16px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
-								<td width="32%" rowspan="2" style="valign:top;"><img style="align:top; float:right;" src="<?php echo $base_url;?>images/logo-right.png" height="34px;"/></td>
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
+						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
 							</tr>
 							<tr>
 								<td align="center" style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><b><?php echo $this->keycode['rpt-transfer-title-eng'];?></td>
@@ -243,21 +246,19 @@ dojo.require("dijit.Dialog");
 			            </td>	   	        
 				   </tr> 
 					<tr>
-					   	<td align="center" colspan="3" style="font-family:'KH Koulen';"><?php echo $this->keycode['rpt-transfer-business-meaning-kh'];?></td>	   	        
+					   	<td align="center" colspan="3" style="font-family:'KH Koulen';"><?php echo $this->keycode['exchange_ratetitle'];?></td>	   	        
 					</tr>            
 				   <tr>
-						<td align="center" colspan="3" style="font-size: 8pt;">
-							<?php echo $this->keycode['rpt-transfer-business-meaning-eng'];?><br/>
-							<?php echo $this->keycode['rpt-transfer-location-adr-kh'];?><br/>
-							<strong class="fontbig"><?php echo $this->keycode['rpt-transfer-tel-eng'];?></strong>
+						<td align="right" colspan="3" style="font-size: 8pt;" >
+							កាលបរិច្ឆេទ <?php echo date('d-m-Y');?><br/>
 						</td>
 				   </tr>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
 						<td class="pleft" style="border-bottom:1px solid #000;">
-							<strong class="fonttel" style="font-size:10px;"><label id="lblinvioice">អត្រាប្តូរប្រាក់</label></strong>
+							<strong class="fonttel" style="font-size:10px;">ឈ្មោះបុគ្គលិក  <?php print($this->user_name);?></strong>
 						</td>
 						<td align="right" colspan="2" style="border-bottom:1px solid #000;">
-							ឈ្មោះបុគ្គលិក៖ <?php print($this->user_name);?>
+							&nbsp;
 						</td>
 				   </tr>
 				   <tr>
@@ -299,27 +300,22 @@ dojo.require("dijit.Dialog");
 				   <tr>
 						<td colspan="3" align="center" style="border-top:1px solid #000;">
 							<label>
-								<?php echo $this->keycode['rpt-transfer-warnning-kh'];?>
 							</label>
 						</td>			
 				   </tr>
 				   <tr style="border:1px solid #000;">
-						<td colspan="3" align="center" style="border-top: 2px dashed #000;padding-top:5px;">
+						<td colspan="3" align="center" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">
 								<?php echo $this->keycode['comment'];?>
 						</td>			
 				   </tr>
 				   <tr>
 						<td colspan="3">
-							<hr style="background: transparent;border-bottom: 2px dashed #000;" />
 						</td>			
 				   </tr>
 				   <tr>
-						<td>
-							<img src="<?php echo $base_url.$this->keycode['imgPath'];?>" width="50%"/>
+						<td colspan="3" align="center">
+							<img src="<?php echo $url_barcode; //echo $base_url.$this->keycode['imgPath'];?>" width="50%" height="30px"/>
 						</td>	
-						<td align='right'  valign="top" colspan="2">
-							<strong><?php echo date("d/m/Y H:i:s");?></strong>
-						</td>
 				   </tr>
 			</table>
 			
@@ -351,6 +347,7 @@ function hideDialog() {
 		}
 		showDialog();	
 		
+		
 	}
 	function showDialog() {		
 		dojo.byId('lbl_dollar_bath_in').innerHTML=dijit.byId('DB').get('value');
@@ -362,8 +359,8 @@ function hideDialog() {
 		dojo.byId('lbl_bath_riel_in').innerHTML=dijit.byId('BR').get('value');
 		dojo.byId('lbl_bath_riel_out').innerHTML=dijit.byId('RB').get('value');
 
-		
-		dijit.byId("terms").show();
+		doPrint();
+		//dijit.byId("terms").show();
 	}
 	function doPrint() {
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;

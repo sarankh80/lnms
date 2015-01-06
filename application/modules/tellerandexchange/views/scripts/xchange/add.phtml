@@ -22,7 +22,6 @@
 	    
 </script>
 <style>
-<!--
 	.tbtable{		
 		font-weight: bolder;
 		line-height: 40px;
@@ -73,11 +72,9 @@ table tr.head-title{ background: none repeat scroll 0% 0% rgba(213, 249, 244, 1)
 			}
 			return false;
 	</script>
-		
-	<table  cellspacing="10" width="100%">
+<table  cellspacing="10" width="100%">
 		<tr>
-			<td>
-				<fieldset>
+			<td><fieldset>
 					<legend ><strong>អាត្រាប្តូបាក់</strong></legend>
 						<table cellspacing="5" cellpadding="0" width="100%">
 							<tr>
@@ -96,7 +93,7 @@ table tr.head-title{ background: none repeat scroll 0% 0% rgba(213, 249, 244, 1)
 								<td>Customer</td>
 								<td><?php echo $form->getElement('cusomer');?></td>
 							</tr>
-								<input type="Text" dojoType="dijit.form.TextBox" id="record_row" name="record_row" /></td>
+								<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 					</table>
 					
 				<fieldset>
