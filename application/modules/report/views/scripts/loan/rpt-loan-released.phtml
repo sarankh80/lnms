@@ -3,12 +3,12 @@ $client = $this->client;
 ?>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
-<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:50px;">
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
  <div dojoType="dijit.layout.ContentPane" region="top" >
 
  </div>
 </div>
-<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div style=" width:21cm; margin:0 auto; ">
 <style>
 .style{
 	line-height: 20px;font-size: 12px;
@@ -65,7 +65,7 @@ $client = $this->client;
 					<td><?php echo $key+1; ?></td>
 					<td><?php echo$row['loan_number']?></td>
 					<td><?php echo$row['client_id']?></td>
-					<td><?php echo$row['amount_collect_principal']?></td>
+					<td><?php echo$row['total_capital']?></td>
 					<td><?php echo$row['interest_rate']?></td>
 					<td><?php echo$row['total_duration']?></td>
 					<td><?php echo$row['date_release']?></td>

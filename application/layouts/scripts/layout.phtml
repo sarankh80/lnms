@@ -105,7 +105,16 @@ dojo.require("dojo.parser");
             <div dojoType="dijit.layout.AccordionPane" region="center">
           			 
 			<div style="clear: both;"></div>
-                <?php echo $this->layout()->content;  ?>
+				<?php if($module=='report'){?>
+				<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+					showLabel="false" type="button" onclick="doPrint();">Print</button>
+					<div id="divPrint">
+				<?php }?>
+	                <?php echo $this->layout()->content; 
+	               	if($module=='report'){
+	                ?>
+                </div>
+                <?php }?>
             </div>
             <div dojoType="dijit.layout.ContentPane" region="bottom">
 <!--                <ul>
@@ -117,7 +126,14 @@ dojo.require("dojo.parser");
         </div>
     </body>
 </html>
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
 function hideleft(){
 	(dojo.style("leftmenu","display") == "none") ? 'show':'hide'();
 }
