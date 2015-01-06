@@ -3,6 +3,7 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 	function _initViewHelpers(){
+		date_default_timezone_set('Asia/Phnom_Penh');
 		// Config view Zend_Dojo
 		$view = new Zend_View();
 	    $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');	
@@ -13,7 +14,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}	
 	protected function _initAuthPlugin()
 	{		
-		date_default_timezone_set("Asia/Bangkok");
+// 		date_default_timezone_set("Asia/Bangkok");
 		//Zend_Controller_Front::getInstance()->registerPlugin(
 		//new Application_Model_CustomAuth(Zend_Auth::getInstance()));	
 
@@ -30,11 +31,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}	
 	protected function _initNavigationXml()
 	{
-		$this->bootstrap('layout');
-		$layout = $this->getResource('layout');
-		$view = $layout->getView();
-		$config = new Zend_Config_Xml(APPLICATION_PATH.'/configs/navigation.xml');
-		$navigation = new Zend_Navigation($config);
-		$view->navigation($navigation);
+// 		$this->bootstrap('layout');
+// 		$layout = $this->getResource('layout');
+// 		$view = $layout->getView();
+// 		$config = new Zend_Config_Xml(APPLICATION_PATH.'/configs/navigation.xml');
+// 		$navigation = new Zend_Navigation($config);
+// 		$view->navigation($navigation);
 	}
 }

@@ -161,36 +161,36 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 	 * @param $limit number of limit record
 	 * @return $record_count number of record
 	 */
-		public function getList($url,$frm,$start,$limit,$record_count){
-			$page = new Application_Form_FrmNavigation($url, $start, $limit, $record_count);
-			$page->init($url, $start, $limit, $record_count);//can wrong $form
-			$nevigation = $page->navigationPage();
-			$rows_per_page = $page->getRowsPerPage($limit, $frm);
-			$result_row = $page->getResultRows();
-			$arr = array(
-					"nevigation"=>$nevigation,
-					"rows_per_page"=>$rows_per_page,
-					"result_row"=>$result_row);
-			return $arr;
-		}
-		public function getAllMetionOption(){
-			$_db = new Application_Model_DbTable_DbGlobal();
-			$rows = $_db->getAllMention();
-			$option = '';
-			if(!empty($rows))foreach($rows as $key => $value){
-				$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
-			}
-			return $option;
-		}
-		public function getAllPayMentTermOption(){
-			$_db = new Application_Model_DbTable_DbGlobal();
-			$rows = $_db->getAllPaymentTerm();
-			$option = '';
-			if(!empty($rows))foreach($rows as $key => $value){
-				$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
-			}
-			return $option;
-		}
+// 		public function getList($url,$frm,$start,$limit,$record_count){
+// 			$page = new Application_Form_FrmNavigation($url, $start, $limit, $record_count);
+// 			$page->init($url, $start, $limit, $record_count);//can wrong $form
+// 			$nevigation = $page->navigationPage();
+// 			$rows_per_page = $page->getRowsPerPage($limit, $frm);
+// 			$result_row = $page->getResultRows();
+// 			$arr = array(
+// 					"nevigation"=>$nevigation,
+// 					"rows_per_page"=>$rows_per_page,
+// 					"result_row"=>$result_row);
+// 			return $arr;
+// 		}
+// 		public function getAllMetionOption(){
+// 			$_db = new Application_Model_DbTable_DbGlobal();
+// 			$rows = $_db->getAllMention();
+// 			$option = '';
+// 			if(!empty($rows))foreach($rows as $key => $value){
+// 				$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
+// 			}
+// 			return $option;
+// 		}
+// 		public function getAllPayMentTermOption(){
+// 			$_db = new Application_Model_DbTable_DbGlobal();
+// 			$rows = $_db->getAllPaymentTerm();
+// 			$option = '';
+// 			if(!empty($rows))foreach($rows as $key => $value){
+// 				$option .= '<option value="'.$key.'" >'.htmlspecialchars($value, ENT_QUOTES).'</option>';
+// 			}
+// 			return $option;
+// 		}
 		public function getAllFacultyOption(){
 			$_db = new Application_Model_DbTable_DbGlobal();
 			$rows = $_db->getAllFecultyName();
@@ -201,18 +201,7 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $options;
 		}
-		public function getAllServiceItemOption($type=null){
-			$_db = new Application_Model_DbTable_DbGlobal();
-			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-			$rows = $_db->getAllstudentRequest($type);
-			array_unshift($rows,array('service_id' => '-1',"title"=>$tr->translate("ADD")) );
-			array_unshift($rows,array('service_id' => '',"title"=>""));
-			$options = '';
-			if(!empty($rows))foreach($rows as $value){
-				$options .= '<option value="'.$value['service_id'].'" >'.htmlspecialchars($value['title'], ENT_QUOTES).'</option>';
-			}
-			return $options;
-		}
+		
 		public function getImgActive($rows,$base_url, $case='',$degree=null,$display=null){
 			if($rows){
 				$imgnone='<img src="'.$base_url.'/images/icon/cross.png"/>';
@@ -238,15 +227,6 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $rows;
 		}
-// 		public function getDegree(){
-// 			if($row['degree'] == 1){
-// 				$rows[$i]['sex'] = 'F';
-					
-// 			}
-// 			else{
-// 				$rows[$i]['sex'] = 'M';
-// 			}
-// 		}
 		public function getSex($rows,$base_url, $case='',$type=null){
 			if($rows){
 				$m='M';
@@ -262,18 +242,16 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $rows;
 		}
-		public function getServiceProgramType($rows,$base_url, $case=''){
-			if($rows){
-				foreach ($rows as $i =>$row){
-					if($row['type'] == 1){
-						$rows[$i]['type']="Service" ;
-					}
-					else{
-						$rows[$i]['type']="Program" ;
-					}
-				}
+		public function getAllClientGroupOption(){
+			$_db = new Application_Model_DbTable_DbGlobal();
+			$rows = $_db->getClientByType();
+			array_unshift($rows, array('client_id'=>-1,'name_en'=>"Add New"));
+			$options = '';
+			if(!empty($rows))foreach($rows as $value){
+				$options .= '<option value="'.$value['client_id'].'" >'.htmlspecialchars($value['name_en'], ENT_QUOTES).'</option>';
 			}
-			return $rows;
+			return $options;
 		}
+		
 }
 

@@ -28,7 +28,7 @@ class Tellerandexchange_ShowRateController extends Zend_Controller_Action
     
     public function addAction()
     {
-       
+       $this->_redirect('/tellerandexchange/showrate');
         
     }
     public function exchangeAction()

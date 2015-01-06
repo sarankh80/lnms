@@ -130,6 +130,19 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		}
 	
 	}
+	public function generateBarcodevssAction(){
+		$id = $this->getRequest()->getParam('id');
+		header('Content-type: image/png');
+		$this->_helper->layout()->disableLayout();
+		//$barcodeOptions = array('text' => "$_itemcode",'barHeight' => 30);
+		$barcodeOptions = array('text' => "Developed By VSS",'barHeight' => 20);
+		//'font' => 4(set size of label),//'barHeight' => 40//set height of img barcode
+		$rendererOptions = array();
+		$renderer = Zend_Barcode::factory(
+				'code128', 'image', $barcodeOptions, $rendererOptions
+		)->render();
+	
+	}
 	
 }
 

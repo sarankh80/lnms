@@ -18,89 +18,47 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
 
     public function indexAction()
     {
+    	try{
+    		$db = new Tellerandexchange_Model_DbTable_DbSpread();
+    		if($this->getRequest()->isPost()){
+    			$search=$this->getRequest()->getPost();
+    		}
+    		else{
+    			$search = array(
+    					'client_id' => -1,
+    					'status' => -1,
+    					'from_date' =>date('Y-m-d'),
+    					'to_date' => date('Y-m-d'),
+    			);
+    		}
+    		$rs_rows= $db->getAllSpreadList($search);
+    		$glClass = new Application_Model_GlobalClass();
+    		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+    		$list = new Application_Form_Frmtable();
+    		$collumns = array("ពីប្រាក់","ទៅប្រាក់","ទិញចូល","លក់ចេញ","អត្រាកណ្តាល","កាលបរិច្ឆេទ","STATUS");
+    		$link=array(
+    				'module'=>'tellerandexchange','controller'=>'Spread','action'=>'edit',
+    		);
+    		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('buy_type'=>$link,
+    				'sell_type'=>$link,'rate_in'=>$link,'rate_out'=>$link));
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("Application Error");
+    		echo $e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    	}
+    	$frm = new Application_Form_FrmAdvanceSearch();
+    	$frm = $frm->AdvanceSearch();
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frm_search = $frm;
       
     }
 
-    public function editedAction()
-    {
-        // action body    
-        //Get value from url
-        $ex_id = $this->getRequest()->getParam('ex_id',0);
-        
-     	$session_user=new Zend_Session_Namespace('auth');
-        $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
-        
-        $db_keycode = new Application_Model_DbTable_DbKeycode();
-		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-		
-		$cur = new Application_Model_DbTable_DbCurrencies();
-		$currency = $cur->getCurrencyList();
-		
-		$this->view->currency = $this->_helpfilteroption($currency);
-		
-		$db_exc=new Application_Model_DbTable_DbExchange();
-		$this->view->dataedit = $db_exc->getDataById($ex_id);
-		if($this->getRequest()->isPost()){
-			$formdata=$this->getRequest()->getPost();	
-			try {
-				$result = $db_exc->getDataById($formdata['id']);
-				$to_type = $db_exc->getCurrencyById("`name`, `symbol`,`country_id`", $formdata["to_amount_type"]);
-				$from_type = $db_exc->getCurrencyById("`name`, `symbol`,`country_id`", $formdata["from_amount_type"]);
-				
-				if($result['fromAmountType']==$from_type['country_id'] && $result['toAmountType']==$to_type['country_id']){//if the edit not change the currency
-					$id = $db_exc->updateData($formdata);
-				}else{//if edit change the currency we need to add new record
-					$formdata['inv_no'] = Application_Model_GlobalClass::getInvoiceNo();
-					$id = $db_exc->save($formdata);
-				}
-				
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-						
-			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
-			}
-		}       
-    }
-
-   
-    public function exchangeAction()
-    {
-    	// action body
-    	//user name for report
-    	$session_user=new Zend_Session_Namespace('auth');
-    	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
-    
-    	$db_keycode = new Application_Model_DbTable_DbKeycode();
-    	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-    
-    	$cur = new Application_Model_DbTable_DbCurrencies();
-    	$currency = $cur->getCurrencyList();
-    
-    	$this->view->currency = $this->_helpfilteroption($currency);
-    
-    
-    	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
-    
-    
-    	if($this->getRequest()->isPost()){
-    		$formdata=$this->getRequest()->getPost();
-    		$db_exc=new Application_Model_DbTable_DbExchange();
-    		try {
-    			$id = $db_exc->save($formdata);
-    			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
-    		} catch (Exception $e) {
-    			$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
-    		}
-    	}
-    
-    }
-    
+ 
     public function checkRateAction(){
     	$db_rate=new Application_Model_DbTable_DbRate();
     	echo $db_rate->getCurrentRateJson();
     	exit();
     }
-    
     protected function _helpfilteroption($data){
     	$tmp = array();
     	foreach ($data as $i =>$d){
@@ -138,8 +96,19 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
     	$session_user=new Zend_Session_Namespace('auth');
     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
     }
-
-    
+    public function editAction()
+    {
+    	$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
+    	if($this->getRequest()->isPost()){
+    		$formdata=$this->getRequest()->getPost();
+    		$db_rate->setNewRate($formdata);
+    	}
+    	$this->view->ratelist = $db_rate->getCurrentRate();
+    	$db_keycode = new Application_Model_DbTable_DbKeycode();
+    	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+    }
 }
 
 

@@ -58,16 +58,23 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
   function addAction()
   {
 		if($this->getRequest()->isPost()){
-// 			$_data = $this->getRequest()->getPost();
-// 			try {
-// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
-// 				$_dbmodel->addNewProvince($_data);
-// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
-// 			}catch (Exception $e) {
-// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-// 				$err =$e->getMessage();
-// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-// 			}
+			$_data = $this->getRequest()->getPost();
+			try {
+				$db = new Loan_Model_DbTable_DbLoanGroup();
+				$db->addNewLoanGroup($_data);
+				if(!empty($_data['saveclose'])){
+// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/GroupDisburse/index");
+				}else{
+					//Application_Form_FrmMessage::message("INSERT_SUCCESS");
+				}
+				
+				
+			}catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				echo $err;exit();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
 		}
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();
@@ -80,7 +87,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
-		
+		$db_option = new Application_Model_GlobalClass();
+		$this->view->member_option = $db_option->getAllClientGroupOption();
 	}	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){

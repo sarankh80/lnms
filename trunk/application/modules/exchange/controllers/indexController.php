@@ -190,11 +190,7 @@ class Exchange_IndexController extends Zend_Controller_Action
     
     }
     
-    public function checkRateAction(){
-    	$db_rate=new Application_Model_DbTable_DbRate();
-    	echo $db_rate->getCurrentRateJson();
-    	exit();
-    }
+   
     
     protected function _helpfilteroption($data){
     	$tmp = array();
