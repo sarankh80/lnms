@@ -17,6 +17,7 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   function rptLoancollectAction(){
   	
+  	 
   }
   function rptGroupDisburseAction(){
   	
