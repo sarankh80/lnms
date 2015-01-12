@@ -16,7 +16,8 @@ class Other_CoController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'status' => -1,
+						'date'=>date("Y-m-d"));
 			}
 			$rs_rows= $db->getAllCreditOfficer($search);
 			$glClass = new Application_Model_GlobalClass();
