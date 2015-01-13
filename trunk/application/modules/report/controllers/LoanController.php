@@ -16,7 +16,8 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   }
   function rptLoancollectAction(){
-  	
+  	$db  = new Report_Model_DbTable_DbLoan();
+  	$this->view->loancllect_list = $db->getALLLoancollect();
   	 
   }
   function rptGroupDisburseAction(){
