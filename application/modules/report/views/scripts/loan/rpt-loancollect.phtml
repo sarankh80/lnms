@@ -21,6 +21,21 @@
             <th style="white-space: pre;">Total Payment</th>
             <th>Date</th>
          </tr>
+         <?php foreach($this->loancllect_list as $key =>$row){?>
+		   <tr>
+		     <td>&nbsp;<?php echo $key+1; ?></td>
+		     <td>&nbsp;<?php echo $row['loan_number']?></td>
+			 <td>&nbsp;<?php echo $row['client_name']?></td>
+			 <td>&nbsp;<?php echo $row['branch_id']?></td>
+			 <td>&nbsp;<?php echo $row['co']?></td>
+			 <td>&nbsp;<?php echo $row['total_principal']?></td>
+			 <td>&nbsp;<?php echo $row['total_interest']?></td>
+			 <td>&nbsp;<?php echo $row['STATUS']?></td>
+			 <td>&nbsp;<?php echo $row['total_payment']?></td>
+			 <td>&nbsp;<?php echo $row['date_payment']?></td>
+			 
+			</tr>
+		<?php }?>
         <?php for($i=0;$i<=7;$i++){?>
         <tr align="center">
         	<td><?php echo $i+1;?></td>

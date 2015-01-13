@@ -15,10 +15,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$db = $this->getAdapter();
       	$sql="SELECT id,
       	(SELECT loan_number FROM ln_loan_member WHERE loan_number=(SELECT lm.loan_number FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS loan_number,
-      	(SELECT name_kh FROM ln_client WHERE client_id =  (SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS client_name
-      	,branch_id,
-      	(SELECT group_id FROM ln_loan_member WHERE loan_number=(SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS co,total_principal,total_interest,STATUS
-      	,total_payment FROM ln_loanmember_funddetail ORDER BY member_id";
+      	(SELECT name_kh FROM ln_client WHERE client_id = (SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS client_name
+      	,(SELECT branch_namekh FROM ln_branch WHERE br_id= branch_id LIMIT 1) AS branch_id,
+      	(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id=(SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 )LIMIT 1 ) AS co,total_principal,total_interest,STATUS
+      	,total_payment,date_payment FROM ln_loanmember_funddetail ORDER BY member_id";
       	
       	return $db->fetchAll($sql);
       }
