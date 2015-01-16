@@ -85,7 +85,6 @@
 						</tr>				
 					</table>	
 				</fieldset>
-		
 			</td>
 			<td >
 				<fieldset class="panel">
@@ -135,7 +134,7 @@
 													<td></td>
 													<td>
 														<input id="special_cus_dollar" name="special_cus" dojoType="dijit.form.CheckBox" value="1"
-																	 onChange="changRateTextbox(1);">
+																	 onChange="changRateTextbox(2);">
 																<label for="special_cus" class="special_cus_dollar">អតិថិជនពិសេស</label>
 													</td>
 												</tr>
@@ -243,7 +242,7 @@
 													<td></td>
 													<td>
 														<input id="special_cus_bath" name="special_cus" dojoType="dijit.form.CheckBox" value="1"
-																	 onChange="changRateTextbox(2);">
+																	 onChange="changRateTextbox(3);">
 																<label for="special_cus_bath" class="special_cus_bath">អតិថិជនពិសេស</label>
 													</td>
 												</tr>
@@ -347,7 +346,7 @@
 													<td></td>
 													<td>
 														<input id="special_cus_riel" name="special_cus" dojoType="dijit.form.CheckBox" value="1"
-																	 onChange="changRateTextbox(3);">
+																	 onChange="changRateTextbox(1);">
 																<label for="special_cus_riel" class="special_cus_riel">អតិថិជនពិសេស</label>
 													</td>
 												</tr>
@@ -418,7 +417,6 @@
 			</td>			
 		</tr>		
 	</table>
-	
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog"  data-dojo-props="title:'របាយការណ៍ ប្តូរ', onCancel:hideDialog" id="terms" >
 		<?php $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcodevss"),null,true);
@@ -1096,7 +1094,7 @@
 					alert("សូមជ្រើសរើសប្រភេទប្រាក់ដែលចង់ប្តូរ ជាបាត រឺ រៀល !");
 					return false;
 			 }
-		}else if(curr_type=3){
+		}else if(curr_type==3){
 			if(dijit.byId("exchangebathtodollar").checked=='' && dijit.byId("exchangedollartoriel").checked==""){
 				alert("សូមជ្រើសរើសប្រភេទប្រាក់ដែលចង់ប្តូរ ជាដុល្លា រឺ រៀល !");
 				return false;
@@ -1107,10 +1105,7 @@
 				return false;
 			}
 		}
-	  
 			showDialog(curr_type);			
-		//}
-		
 	}
 	
 	function showDialog(curr_type) {		
@@ -1156,8 +1151,8 @@
 		dojo.byId("rpt_recieve").innerHTML = recieve_amount;
 		dojo.byId("rpt_change").innerHTML = return_amount;
 		curr_type = curr_type;
-		doPrint();
-		//dijit.byId("terms").show();//popup
+		//doPrint();
+		dijit.byId("terms").show();//popup
 	}
 	
 	// Hide the dialog

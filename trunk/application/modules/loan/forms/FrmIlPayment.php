@@ -112,6 +112,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_penalize_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'required'=>true
 		));
 		$_penalize_amount->setValue(0);
 		
@@ -130,9 +131,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		
 		
-		$_note = new Zend_Dojo_Form_Element_NumberTextBox('note');
+		$_note = new Zend_Dojo_Form_Element_TextBox('note');
 		$_note->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'required' =>'true'
 		));

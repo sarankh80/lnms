@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class tellerandexchange_SpreadController extends Zend_Controller_Action
 {

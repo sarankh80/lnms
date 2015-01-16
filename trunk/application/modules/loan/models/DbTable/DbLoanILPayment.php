@@ -3,7 +3,7 @@
 class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'ln_loan_group';
+    protected $_name = 'ln_client_receipt_money';
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
@@ -53,11 +53,12 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		//beforinsert pls update 
+    		$rows = $this->getAllPaymentListBySender($data['client_id']);
     		$arr = array(
-    				'lfd_id'=>$data[''],
-    				'receipt_no'=>$data[''],
+    				//'lfd_id'=>$data[''],
+    				'receipt_no'=>111,
     				'branch_id'=>$data['branch_id'],
-    				'loan_number'=>$data['loan_number'],
     				'client_id'=>$data['client_id'],
     				'co_id'=>$data['co_id'],
     				'receiver_id'=>$this->getUserId(),
@@ -72,21 +73,27 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     				'service_charge'=>$data['service_charge'],
     				'recieve_amount'=>$data['amount_receive'],
     				'reuturn_amount'=>$data['amount_return'],
-    				//'note'=>$data['total_interest'],
+    				'note'=>$data['note'],
     				'user_id'=>$this->getUserId(),
     				//'is_complete'=>1,
     				//'is_verify'=>0,
     				//'verify_by'=>0,
     				//'is_closingentry'=>0,
+    				//'note'=>$data['total_interest'],
     			);
-    		$g_id = $this->insert($arr);//add group loan
-    					
+    		$this->insert($arr);//add group loan
     		$db->commit();
     		return 1;
     	}catch (Exception $e){
+    		echo $e->getMessage();exit();
     		$db->rollBack();
     	}
     }
+   function getAllPaymentListBySender($client_id){
+   		$db = $this->getAdapter();
+   		$sql = " CALL `stgetAllPaymentById`($client_id)";
+   		return $db->fetchAll($sql);
+   }
     function getLoanPaymentByLoanNumber($data){
     	$db = $this->getAdapter();
     	$loan_number= $data['loan_number'];

@@ -61,20 +61,17 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				print_r($_data);exit();
-// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
-// 				$_dbmodel->addNewProvince($_data);
+				
+				$db = new Loan_Model_DbTable_DbLoanILPayment();
+				$db->addILPayment($_data);
 // 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
 			}catch (Exception $e) {
+				echo $e->getMessage();exit();
 // 				Application_Form_FrmMessage::message("INSERT_FAIL");
 // 				$err =$e->getMessage();
 // 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-// 		$frm = new Loan_Form_FrmLoan();
-// 		$frm_loan=$frm->FrmAddLoan();
-// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
-// 		$this->view->frm_loan = $frm_loan;
 		
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmAddIlPayment();
@@ -100,7 +97,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 	
 	}
 	public function generateBarcodeAction(){
-		$id = $this->getRequest()->getParam('id');
+		$loan_code = $this->getRequest()->getParam('loan_code');
 // 		if(!empty($id)){
 // 			$db = new Application_Model_DbTable_DbGlobal();
 // 			$sql=" SELECT p_code FROM tb_product WHERE pro_id = ".$id." LIMIT 1 ";
@@ -109,7 +106,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			header('Content-type: image/png');
 			$this->_helper->layout()->disableLayout();
 			//$barcodeOptions = array('text' => "$_itemcode",'barHeight' => 30);
-			$barcodeOptions = array('text' => "123",'barHeight' => 40);
+			$barcodeOptions = array('text' => "$loan_code",'barHeight' => 40);
 			//'font' => 4(set size of label),//'barHeight' => 40//set height of img barcode
 			$rendererOptions = array();
 			$renderer = Zend_Barcode::factory(
