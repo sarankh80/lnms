@@ -355,13 +355,21 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	if($data['type']!=2){
     		$where =($data['type']==1)?'loan_number = '.$loan_number:'client_id='.$loan_number;
     	    $sql=" SELECT *,
-					(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
+    	            (SELECT co_id FROM `ln_loan_group` WHERE g_id = 
+    	            (SELECT lm.member_id FROM `ln_loan_member` AS lm WHERE lm.member_id = member_id LIMIT 1)) AS co_id,
+    	            (SELECT lm.client_id FROM `ln_loan_member` AS lm WHERE lm.member_id = member_id LIMIT 1) AS client_id
+					,(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
     	     FROM `ln_loanmember_funddetail` WHERE member_id =
-		    		(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
-		    		AND status = 1 ";
+		    	(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
+		    	AND status = 1 ";
     	}elseif($data['type']==2){
-    		$sql="SELECT * FROM `ln_loanmember_funddetail` WHERE status = 1 AND member_id = 
-    		       ( SELECT member_id FROM `ln_loan_member` WHERE client_id =
+    		$sql=" SELECT *,
+	    		(SELECT co_id FROM `ln_loan_group` WHERE g_id = 
+	    	    (SELECT lm.member_id FROM `ln_loan_member` AS lm WHERE lm.member_id = member_id LIMIT 1)) AS co_id,    	            	
+	    		(SELECT lm.client_id FROM `ln_loan_member` AS lm WHERE lm.member_id = member_id LIMIT 1) AS client_id
+	    		,(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
+    		 FROM `ln_loanmember_funddetail` WHERE status = 1 AND member_id = 
+    		       (SELECT member_id FROM `ln_loan_member` WHERE client_id =
     		       (SELECT client_id FROM `ln_client` WHERE client_number = ".$loan_number." LIMIT 1) LIMIT 1) ";
     	}
     	return $db->fetchAll($sql);

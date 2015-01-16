@@ -199,7 +199,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
-   public function getClientByType($type=null){
+   public function getClientByType($type=null,$client_id=null ,$row=null){
    $this->_name='ln_client';
    $where='';
    if($type!=null){
@@ -213,6 +213,10 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 
    	FROM $this->_name WHERE status=1 AND name_en!='' ";
    	$db = $this->getAdapter();
+   	if($row!=null){
+   		if($client_id!=null){ $where.=" AND client_id  =".$client_id ." LIMIT 1";}
+   		return $db->fetchRow($sql.$where);
+   	}
    	return $db->fetchAll($sql.$where);
    }
    public static function getCurrencyType($curr_type){
@@ -298,7 +302,8 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
   		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
   		(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
-  		lm.currency_type,lm.total_capital,
+  		lm.client_id,
+  		lm.currency_type,lm.total_capital,lm.loan_number,
   		lm.interest_rate,lm.branch_id FROM 
   	   `ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
   		lg.g_id =lm.group_id ";
@@ -517,6 +522,17 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db = $this->getAdapter();
   	$sql = "SELECT  id,keycode FROM `ln_system_setting` WHERE keycode =".'"$keycode"';
   	return $db->fetchRow($sql);
+  }
+  static function getPaymentTermById($id=null){
+  	$arr = array(
+  			1=>"ថ្ងៃ",
+  			2=>"អាទិត្យ",
+  			3=>"ខែ");
+  	if($id!=null){
+		return $arr[$id];
+  	}
+  	return $arr;
+  	
   }
 }
 ?>

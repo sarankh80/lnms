@@ -72,5 +72,59 @@ function rptLoanDatelineAction(){
 function rptLoanTotalCollectAction(){
 	
 }
+public function paymentscheduleListAction(){
+	try{
+		$db = new Report_Model_DbTable_DbRptPaymentSchedule();
+		if($this->getRequest()->isPost()){
+			$search=$this->getRequest()->getPost();
+		}
+		else{
+			$search = array(
+					'client_id' => -1,
+					'status' => -1,
+					'from_date' =>date('Y-m-d'),
+					'to_date' => date('Y-m-d'),
+			);
+		}
+		$rs_rows= $db->getAllClientPaymentListRpt($search);
+		$glClass = new Application_Model_GlobalClass();
+		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+		$list = new Application_Form_Frmtable();
+		$collumns = array("Client Name","Release Amount","Interest Rate","Method","Time Collect","Zone","CO",
+				"By","status");
+		$link=array(
+				'module'=>'report','controller'=>'index','action'=>'rpt-paymentschedule',
+		);
+		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('total_capital'=>$link,'name_kh'=>$link,'name_en'=>$link));
+	}catch (Exception $e){
+		Application_Form_FrmMessage::message("Application Error");
+		echo $e->getMessage();
+		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+	}
+	$frm = new Application_Form_FrmAdvanceSearch();
+	$frm = $frm->AdvanceSearch();
+	Application_Model_Decorator::removeAllDecorator($frm);
+	$this->view->frm_search = $frm;
+}
+function rptPaymentschedulesAction(){
+	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
+	$id =$this->getRequest()->getParam('id');
+
+	$row = $db->getPaymentSchedule($id);
+	$this->view->tran_schedule=$row;
+	$db = new Application_Model_DbTable_DbGlobal();
+	//  	if(!empty($row[0]['member_id'])){
+	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
+	//  	}
+	$this->view->client =$rs;
+
+	$frm = new Application_Form_FrmSearchGlobal();
+	$form = $frm->FrmSearchLoadSchedule();
+	Application_Model_Decorator::removeAllDecorator($form);
+	$this->view->form_filter = $form;
+	$db= new Application_Model_DbTable_DbGlobal();
+	$day_inkhmer = $db->getDayInkhmerBystr(null);
+	$this->view->day_inkhmer = $day_inkhmer;
+ }
 }
 

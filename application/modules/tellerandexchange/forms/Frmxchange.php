@@ -20,7 +20,7 @@ class Tellerandexchange_Form_Frmxchange extends Zend_Dojo_Form
     	$Date->setAttribs(array(
     			'dojoType'=>'dijit.form.DateTextBox'));
     	$Date->setValue(date('Y-m-d'));
-    	$Cusomer=new Zend_Dojo_Form_Element_FilteringSelect('cusomer');
+    	$Cusomer=new Zend_Dojo_Form_Element_FilteringSelect('customer');
     	$Cusomer->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect'));
     	$name=array(1=>'General Customer');
@@ -49,35 +49,71 @@ class Tellerandexchange_Form_Frmxchange extends Zend_Dojo_Form
 			}
 		$_branch_id->setMultiOptions($options);
 		
+		$sell_dollar=new Zend_Dojo_Form_Element_NumberTextBox('sell_dollar');
+		$sell_dollar->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox'));
+		$sell_dollar->setValue(0);
 		
-    	$Payusa=new Zend_Dojo_Form_Element_TextBox('payusa');
+		$sell_riel=new Zend_Dojo_Form_Element_NumberTextBox('sell_riel');
+		$sell_riel->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox'));
+		$sell_riel->setValue(0);
+		
+		$sell_bath=new Zend_Dojo_Form_Element_NumberTextBox('sell_bath');
+		$sell_bath->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox'));
+		$sell_bath->setValue(0);
+		
+    	$Payusa=new Zend_Dojo_Form_Element_NumberTextBox('payusa');
     	$Payusa->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Payr=new Zend_Dojo_Form_Element_TextBox('payr');
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Payusa->setValue(0);
+    	
+    	$Payr=new Zend_Dojo_Form_Element_NumberTextBox('payr');
     	$Payr->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Payb=new Zend_Dojo_Form_Element_TextBox('payb');
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Payr->setValue(0);
+    	
+    	$Payb=new Zend_Dojo_Form_Element_NumberTextBox('payb');
     	$Payb->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Getusa=new Zend_Dojo_Form_Element_TextBox('getusa');
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Payb->setValue(0);
+    	
+    	$Getusa=new Zend_Dojo_Form_Element_NumberTextBox('getusa');
     	$Getusa->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Getr=new Zend_Dojo_Form_Element_TextBox('getr');
+    			'dojoType'=>'dijit.form.NumberTextBox',
+    			'onkeyup'=>'returnMoney(2);'));
+    	$Getusa->setValue(0);
+    	
+    	$Getr=new Zend_Dojo_Form_Element_NumberTextBox('getr');
     	$Getr->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Getb=new Zend_Dojo_Form_Element_TextBox('getb');
+    			'dojoType'=>'dijit.form.NumberTextBox',
+    			'onkeyup'=>'returnMoney(1);'));
+    	$Getr->setValue(0);
+    	
+    	$Getb=new Zend_Dojo_Form_Element_NumberTextBox('getb');
     	$Getb->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Returnb=new Zend_Dojo_Form_Element_TextBox('returnb');
+    			'dojoType'=>'dijit.form.NumberTextBox',
+    			'onkeyup'=>'returnMoney(3);'));
+    	$Getb->setValue(0);
+    	
+    	$Returnb=new Zend_Dojo_Form_Element_NumberTextBox('returnb');
     	$Returnb->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Returnusa=new Zend_Dojo_Form_Element_TextBox('returnusa');
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Returnb->setValue(0);
+    	
+    	$Returnusa=new Zend_Dojo_Form_Element_NumberTextBox('returnusa');
     	$Returnusa->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-    	$Returnr=new Zend_Dojo_Form_Element_TextBox('returnr');
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Returnusa->setValue(0);
+    	
+    	$Returnr=new Zend_Dojo_Form_Element_NumberTextBox('returnr');
     	$Returnr->setAttribs(array(
-    			'dojoType'=>'dijit.form.TextBox'));
-		$this->addElements(array($_branch_id,$Cusomer,$Date,$Onetomany,$Payusa,$Payr,$Payb,$Getusa,$Getr,$Getb,$Returnusa,$Returnb,$Returnr,$number_code));
+    			'dojoType'=>'dijit.form.NumberTextBox'));
+    	$Returnr->setValue(0);
+		$this->addElements(array($_branch_id,$Cusomer,$Date,$Onetomany,$Payusa,$Payr,$Payb,
+				$Getusa,$Getr,$Getb,$Returnusa,$Returnb,$Returnr,$number_code
+				,$sell_dollar,$sell_riel,$sell_bath));
 		return $this;
     }
 
