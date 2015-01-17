@@ -1,5 +1,5 @@
 <?php
-class Other_CoController extends Zend_Controller_Action {
+class Payroll_CoController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
@@ -16,8 +16,7 @@ class Other_CoController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1,
-						'date'=>date("Y-m-d"));
+						'status' => -1);
 			}
 			$rs_rows= $db->getAllCreditOfficer($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -26,7 +25,7 @@ class Other_CoController extends Zend_Controller_Action {
 			$collumns = array("CODE","Name Khmer","Name In ENG","National ID","Address","Tel",
 					"Email","Degree","Status");
 			$link=array(
-					'module'=>'other','controller'=>'co','action'=>'edit',
+					'module'=>'payroll','controller'=>'co','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('co_code'=>$link,'co_khname'=>$link,'co_engname'=>$link));
 		}catch (Exception $e){
@@ -121,7 +120,7 @@ class Other_CoController extends Zend_Controller_Action {
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/co');
+   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/co');
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
    			$err =$e->getMessage();
@@ -131,7 +130,7 @@ class Other_CoController extends Zend_Controller_Action {
    	$id = $this->getRequest()->getParam("id");
    	$row = $db_co->getCOById($id);
    	if(empty($row)){
-   		$this->_redirect('other/co');
+   		$this->_redirect('payroll/co');
    	}
    	$frm = new Other_Form_FrmCO();
    	$frm_co=$frm->FrmAddCO($row);

@@ -11,7 +11,7 @@ class Other_indexController extends Zend_Controller_Action {
 		return ($this->getRequest()->getParam('limit_satrt',0));
 	}
 	public function indexAction(){
-		$this->_redirect('/other/co');
+		$this->_redirect('/other/zone');
 		echo 22;exit();
 	}
 	public function settingAction(){
