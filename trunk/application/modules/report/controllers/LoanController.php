@@ -90,12 +90,12 @@ public function paymentscheduleListAction(){
 		$glClass = new Application_Model_GlobalClass();
 		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 		$list = new Application_Form_Frmtable();
-		$collumns = array("Client Name","Release Amount","Interest Rate","Method","Time Collect","Zone","CO",
-				"By","status");
+		$collumns = array("Client Name","Release Amount","Admin Fee","Interest Rate","Method","Time Collect","Zone","CO",
+				"status");
 		$link=array(
-				'module'=>'report','controller'=>'index','action'=>'rpt-paymentschedule',
+				'module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',
 		);
-		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('total_capital'=>$link,'name_kh'=>$link,'name_en'=>$link));
+		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('total_capital'=>$link,'client_name'=>$link));
 	}catch (Exception $e){
 		Application_Form_FrmMessage::message("Application Error");
 		echo $e->getMessage();

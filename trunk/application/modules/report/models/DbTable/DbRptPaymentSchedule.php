@@ -13,9 +13,14 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql);
     }
     public function getAllClientPaymentListRpt(){
-    	$sql="SELECT member_id,client_id,total_capital,interest_rate,total_capital,
-    	loan_purpose,payment_method,currency_type,
-    	admin_fee,branch_id,status FROM `ln_loan_member`";
+    	$sql="SELECT m.member_id,
+    	(SELECT c.name_en FROM `ln_client` AS c  WHERE c.client_id=m.client_id LIMIT 1) AS client_name
+    	,m.total_capital,m.admin_fee,m.interest_rate,
+    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = m.payment_method) AS payment_nameen,
+    	(SELECT time_collect FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) AS time_collect,
+    	(SELECT `zone_name` FROM `ln_zone` WHERE zone_id = ( SELECT zone_id FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) LIMIT 1 ) AS zone_name,
+    	(SELECT co_khname FROM `ln_co` WHERE co_id = ( SELECT co_id FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) LIMIT 1 ) AS co_khname,
+    	m.status FROM `ln_loan_member` AS m ORDER BY member_id ";
     	$db = $this->getAdapter();
     	return $db->fetchAll($sql);
     }

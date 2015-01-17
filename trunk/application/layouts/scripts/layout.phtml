@@ -105,13 +105,13 @@ dojo.require("dojo.parser");
             <div dojoType="dijit.layout.AccordionPane" region="center">
           			 
 			<div style="clear: both;"></div>
-				<?php if($module=='report'){?>
+				<?php if($module=='report' AND $action!='rpt-paymentschedules'){?>
 				<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
 					showLabel="false" type="button" onclick="doPrint();">Print</button>
 					<div id="divPrint">
 				<?php }?>
 	                <?php echo $this->layout()->content; 
-	               	if($module=='report'){
+	               	if($module=='report' AND $action!='rpt-paymentschedules'){
 	                ?>
                 </div>
                 <?php }?>

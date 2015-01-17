@@ -67,16 +67,16 @@ class Loan_indexController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);
-				if(!empty($_data['saveclose'])){
-					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
+				if(empty($_data['saveclose'])){
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
 				}
-				//Application_Form_FrmMessage::message("INSERT_SUCCESS");
+				Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			}catch (Exception $e) {
-				echo $err =$e->getMessage();
-			exit();
+				 $err =$e->getMessage();
+// 			exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
-				echo $err;exit();
+// 				echo $err;exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
