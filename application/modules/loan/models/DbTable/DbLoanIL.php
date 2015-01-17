@@ -77,6 +77,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$dbtable = new Application_Model_DbTable_DbGlobal();
     			$datamember = array(
     					'group_id'=>$g_id,
+    					'loan_number'=>$data['loan_number'],
     					'client_id'=>$data['member'],
     					'payment_method'=>$data['repayment_method'],
     					'currency_type'=>$data['currency_type'],
