@@ -119,10 +119,11 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
-		
+		print_r($data);
 		if($data!=null){
 			$employee->setValue($data['employee_id']);
 			$branch_id->setValue($data['branch_id']);
+			$employee->setValue($data['employee_id']);
 			$approve_by->setValue($data['approve_by']);
 			$request_date->setValue($data['request_date']);
 			$type->setValue($data['permission_type']);

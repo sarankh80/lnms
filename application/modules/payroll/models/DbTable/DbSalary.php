@@ -35,12 +35,6 @@ public function addSalary($_data){
 		  			);
 		  	$this->insert($arr);
 		  }
-// 		if(!empty($_data['id'])){
-// 			$where = 'staff_id = '.$_data['id'];
-// 			return  $this->update($_arr, $where);
-// 		}else{
-			//return  $this->insert($_arr);
-// 		}
 		$db->commit();
 		}catch(Exception $e){
 			$db->rollBack();
