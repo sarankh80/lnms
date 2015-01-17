@@ -2,7 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->Form_Frmcallecterall;
 ?>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecterall','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecteralllist','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -20,7 +20,8 @@ $frm = $this->Form_Frmcallecterall;
 					<table cellspacing="10"  width="100%">
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch')?></td>	
+							<td><?php echo $frm->getElement('branch')?></td>
+							
 								
 					    </tr>
 					    <tr>
@@ -50,14 +51,14 @@ $frm = $this->Form_Frmcallecterall;
 					    <tr>
 							<td><?php echo $tr->translate("លេខកូដទ្រព្យបពាំ្ច")?></td>
 							<td><?php echo $frm->getElement('callecterall_code')?></td>	
-							<td><?php echo $tr->translate("សំគាល់")?></td>
-							<td><?php echo $frm->getElement('note')?></td>	
+							<td><?php echo $tr->translate("ចំនួនខ្ចី")?></td>
+							<td><?php echo $frm->getElement('much_boro')?></td>		
 					    </tr>
 					    <tr>
 							<td><?php echo $tr->translate("ប្រភេទប្រាក់")?></td>
 							<td><?php echo $frm->getElement('cash_type')?></td>	
-							<td><?php echo $tr->translate("ចំនួនខ្ចី")?></td>
-							<td><?php echo $frm->getElement('much_boro')?></td>	
+							<td><?php echo $tr->translate("សំគាល់")?></td>
+							<td><?php echo $frm->getElement('note')?></td>
 					    </tr>
 					</table>
 					</fieldset>
@@ -74,4 +75,16 @@ $frm = $this->Form_Frmcallecterall;
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
+
+function getClientInfo(type){
+	if(type==1){
+		client_id = dijit.byId('customer_name').get('value');
+		dijit.byId("cus_code").attr('value',client_id);
+	}else{
+		client_id = dijit.byId('cus_code').get('value');
+		dijit.byId("customer_name").attr('value',client_id);
+	}
+	
+		
+} 
 </script>

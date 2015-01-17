@@ -113,4 +113,14 @@ class Group_ClientController extends Zend_Controller_Action {
 		}
 		
 	}
+	public function getclientInfoAction(){
+		if($this->getRequest()->isPost()){
+			$db = new Group_Model_DbTable_DbClient();
+			$data = $this->getRequest()->getPost();
+			$row = $db->getClientById($data['client_id']);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
 }

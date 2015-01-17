@@ -2,7 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->Form_Frmcallecterall;
 ?>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecterall','action'=>'edit')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecteralllist','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -13,22 +13,56 @@ $frm = $this->Form_Frmcallecterall;
 			}
 </script>
 <table cellspacing="10" class='fullside'>
-	<table cellspacing="10" class='fullside'>
 	<tr>
 		<td>
 				<fieldset>
 					<legend><strong>Callecterall Type</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-							<td><?php echo $tr->translate("name_en")?></td>
-							<td><?php echo $frm->getElement('name_en')?></td>	
-							<td><?php echo $tr->translate("name_kh")?></td>
-							<td><?php echo $frm->getElement('name_kh')?></td>	
-							 <td><?php echo $tr->translate("key_code")?></td>
-							<td><?php echo $frm->getElement('key_code')?></td>
-					   </tr>
+						        <?php echo $frm->getElement('id');?>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('branch')?></td>
+							
+								
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("ឈ្មោះអតិថជន")?></td>
+							<td><?php echo $frm->getElement('customer_name')?></td>	
+							<td><?php echo $tr->translate("លេខកូដ")?></td>
+							<td><?php echo $frm->getElement('cus_code')?></td>	
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("លេខវិក័យបត្រ")?></td>
+							<td><?php echo $frm->getElement('num_vi')?></td>	
+							<td><?php echo $tr->translate("ថ្ញៃ​ ខ្ចី")?></td>
+							<td><?php echo $frm->getElement('date')?></td>	
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("រយះពេលខ្ចីគិតជា")?></td>
+							<td><?php echo $frm->getElement('time_think')?></td>	
+							<td><?php echo $tr->translate("ចំនូនរយះពេលខ្ចី")?></td>
+							<td><?php echo $frm->getElement('time_short')?></td>	
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("ថ្ញៃបពាំ្ច")?></td>
+							<td><?php echo $frm->getElement('date_call')?></td>	
+							<td><?php echo $tr->translate("ប្រភេទទ្រព្យបពាំ្ច")?></td>
+							<td><?php echo $frm->getElement('callecterall_type')?></td>	
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("លេខកូដទ្រព្យបពាំ្ច")?></td>
+							<td><?php echo $frm->getElement('callecterall_code')?></td>	
+							<td><?php echo $tr->translate("សំគាល់")?></td>
+							<td><?php echo $frm->getElement('note')?></td>	
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("ប្រភេទប្រាក់")?></td>
+							<td><?php echo $frm->getElement('cash_type')?></td>	
+							<td><?php echo $tr->translate("ចំនួនខ្ចី")?></td>
+							<td><?php echo $frm->getElement('much_boro')?></td>	
+					    </tr>
 					</table>
-				</fieldset>
+					</fieldset>
 		</td>
 	</tr>		
 	<tr>

@@ -14,16 +14,21 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$db  = new Report_Model_DbTable_DbParamater();
   	$this->view->staff_list = $db->getAllstaff();
   	//print_r($db->getAllstaff());
-  	 
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
   	$this->view->zone_list = $db->getAllZone();
-  
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptHolidayAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
   	$this->view->holiday_list = $db->getAllHoliday();
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	
   }
 }
 
