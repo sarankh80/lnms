@@ -1,4 +1,4 @@
-
+<title>Report Zone</title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
@@ -16,9 +16,9 @@
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">របាយការណ៍តាមតំបន់</h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_zone'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -26,8 +26,8 @@
                 		<table width="100%">
                 			<tr class='style'>
                 				<td width="45%">
-                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-								<br />TEL :(855) 10 78 55 44
+                					<?php echo $this->data['ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ'];?>
+								<br /><?php echo $this->data['TEL :(855) 10 78 55 44 '];?>
                 				</td>
                 				<td></td>
                 				
@@ -51,10 +51,10 @@
          </tr>
         <?php foreach($this->zone_list as $key =>$row){?>
 		   <tr align="center">
-		     <td>&nbsp;<?php echo $key+1; ?></td>
-		     <td align="left">&nbsp;<?php echo $row['zone_name']?></td>
-			 <td>&nbsp;<?php echo $row['zone_num']?></td>
-			 <td>&nbsp;<?php echo $row['modify_date']?></td>
+		     <td>&nbsp;&nbsp;<?php echo $key+1; ?></td>
+		     <td align="left">&nbsp;&nbsp;<?php echo $row['zone_name']?></td>
+			 <td>&nbsp;&nbsp;<?php echo $row['zone_num']?></td>
+			 <td>&nbsp;&nbsp;<?php echo $row['modify_date']?></td>
 			</tr>
 		<?php }?>
 		 <?php for($i=$key; $i<=14;$i++){?>
@@ -68,5 +68,5 @@
 
     </table>
 </body>
- </div>
+ 
 </html>

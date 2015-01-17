@@ -1,6 +1,4 @@
-<?php $tran = $this->tran_schedule;
-$client = $this->client;
-?>
+<title>Report Client</title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
@@ -18,9 +16,9 @@ $client = $this->client;
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">បព្ជីអតិថជន</h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_client'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -28,8 +26,8 @@ $client = $this->client;
                 		<table width="100%">
                 			<tr class='style'>
                 				<td width="45%">
-                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-								<br />TEL :(855) 10 78 55 44
+                					<?php echo $this->data['ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ'];?>
+								<br /><?php echo $this->data['TEL :(855) 10 78 55 44 '];?>
                 				</td>
                 				<td></td>
                 				
