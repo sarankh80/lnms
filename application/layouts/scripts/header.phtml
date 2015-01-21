@@ -10,6 +10,7 @@
 	  $accounting_view=$this->url(array('module'=>'accounting','controller'=>'index','action'=>'index'), null, true);
 	  $teller=$this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'index'), null, true);
 	  $payroll_view=$this->url(array('module'=>'payroll','controller'=>'index','action'=>'index'), null, true);
+	  $capital=$this->url(array('module'=>'capital','controller'=>'index','action'=>'index'), null, true);
 	  $backup=$this->url(array('module'=>'backup','controller'=>'index','action'=>'index'), null, true);
       $user=$this->url(array('module'=>'user','controller'=>'index','action'=>'index'), null, true);
       $acl=$this->url(array('module'=>'rsvAcl','controller'=>'index','action'=>'index'), null, true);
@@ -46,6 +47,12 @@
 		  		<span>'.$tr->translate("Payroll").'</span>
 		  		</a>
 	  		</li>',
+	  	'capital'=>'<li class="link">
+	  		<a title="ព័ត៏មានប្រាក់ខែ" href="'.$capital.'">
+	  		<span>'.$tr->translate("Capital").'</span>
+	  		</a>
+	  		</li>',
+	  	
 	  	'tellerandexchange'=>'<li class="link">
 	  		<a title="" href="'.$teller.'">
 	  		<span>'.$tr->translate("TELLER Module").'</span>
