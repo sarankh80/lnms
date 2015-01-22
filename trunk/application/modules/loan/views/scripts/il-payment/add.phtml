@@ -85,9 +85,38 @@
 			<td>
 			<div id="mainTabContainer" style=" max-width:1135px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="ការវិភាគបង់ប្រាក់" selected="true">
-							<label id="data_table" style="text-align:center;margin:0 auto;">មិនមានទិន្នន័យ</label>
+								 <input type="button" label="បោះពុម្ព" dojoType="dijit.form.Button" 
+			  						 iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="PrintSchedule('print-paymentlist');"/>
+							<div id='print-paymentlist'>
+								<style>
+									th.tdheader {
+									    background:#ccc;
+										border: 1px solid #000;
+									    font-size: 12px;
+									    font-weight: bold;
+									    line-height: 30px;
+									    text-align: center;
+										font-family:Khmer OS Muol Light;
+									}
+									table.collape td {
+									    border: 1px solid #000;
+									}	
+									table.collape {
+									    border-collapse: collapse;
+									    margin: 0px;
+									    padding: 0px;
+									    width: 100%;
+									}													
+								</style>
+								<label id="data_table" style="text-align:center;margin:0 auto;">មិនមានទិន្នន័យ</label>
+							</div>
 						</div>
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane"  title="ការវិភាគបានបង់ប្រាក់" selected="false">
+							 <input type="button" label="បោះពុម្ព" dojoType="dijit.form.Button" 
+			  						 iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="PrintSchedule('print-fundlist');"/>
+							
+							<div id='print-fundlist'>
+							</div>
 						</div>
 				 </div>
 		 </td>
@@ -100,11 +129,11 @@
 		saveTrans(); 
 	}
 	// Force them to provide an answer
-	function doPrint() {
-		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+	function PrintSchedule(str) {
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId(str).innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
-	    hideDialog();
+	   // hideDialog();
 	}
 	
 </script>

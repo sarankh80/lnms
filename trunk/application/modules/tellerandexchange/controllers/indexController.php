@@ -20,7 +20,6 @@ class tellerandexchange_indexController extends Zend_Controller_Action {
 				$_dbmodel->addNewLoanIL($_data);
 // 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
 			}catch (Exception $e) {
-				echo $err =$e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);

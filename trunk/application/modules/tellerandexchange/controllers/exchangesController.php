@@ -61,16 +61,19 @@ class Tellerandexchange_ExchangesController extends Zend_Controller_Action
 		
 		if($this->getRequest()->isPost()){
 			$formdata=$this->getRequest()->getPost();	
-// 			$db_exc=new Application_Model_DbTable_DbExchange();
 			$db_xchange = new Tellerandexchange_Model_DbTable_Dbexchange();	
 			try {
 				$db_xchange->saveExchange($formdata);
-// 				$id = $db_exc->save($formdata);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/exchanges/add');
+				if(!empty($formdata['save_new'])){
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/exchanges/index');
+				}
+				
 			} catch (Exception $e) {
-				echo $e->getMessage();
-				exit();
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
         
