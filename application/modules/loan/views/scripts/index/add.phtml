@@ -236,9 +236,17 @@ dojo.require("dijit.form.Textarea");
 function chechPaymentMethod(){
 	
 	method_id = dijit.byId('repayment_method').get('value');
+	dojo.byId('lbl_payment').innerHTML="រយៈពេលបង់រំលោៈដើម";
+	dijit.byId('amount_collect_pricipal').attr('value',0);
+
+	dijit.byId("amount_collect").set('readOnly',false);
+	dijit.byId("collect_termtype").set('readOnly',false);
+	
 	if(method_id==5){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dijit.byId('amount_collect_pricipal').focus();
+		dijit.byId("amount_collect").set('readOnly',true);
+		dijit.byId("collect_termtype").set('readOnly',true);
 	}else if(method_id==4){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="ចំនួនទឹកប្រាក់បង់ថេរ";
