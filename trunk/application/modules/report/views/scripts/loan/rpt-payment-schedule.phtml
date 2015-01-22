@@ -22,9 +22,9 @@ $client = $this->client;
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">បញ្ជីទទួលប្រាក់</h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_get'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -32,11 +32,11 @@ $client = $this->client;
                 		<table width="100%">
                 			<tr class='style'>
                 				<td width="45%">
-                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-								<br />TEL :(855) 10 78 55 44
+                					<?php echo $this->data['brand_adress'];?>
+								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
                 				<td></td>
-                				<td>ឈ្មោះមន្ត្រី ឥណទាន : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+                				<td><?php echo $this->data['name_co'];?> : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
                 				<td></td>
                 			</tr>
 			               

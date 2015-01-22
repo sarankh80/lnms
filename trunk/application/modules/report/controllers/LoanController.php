@@ -13,12 +13,15 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanReleasedAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
   	$this->view->loanrelease_list = $db->getAllLoan();
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	
   }
   function rptLoancollectAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
   	$this->view->loancllect_list = $db->getALLLoancollect();
-  	 
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptGroupDisburseAction(){
   	
@@ -27,10 +30,13 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   }
   function rptPaymentAction(){
-  	
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptPaymentScheduleAction(){
-  	
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	 
   }
   function rptLoanLateAction(){
   	

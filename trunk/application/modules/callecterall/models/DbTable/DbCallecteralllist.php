@@ -52,7 +52,8 @@ class Callecterall_Model_DbTable_DbCallecteralllist extends Zend_Db_Table_Abstra
     }
     function getcallecteralllistAllid($search=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT id,branch,(SELECT name_kh FROM ln_client WHERE client_id =name_customer LIMIT 1) AS name_customer,code,number_invo,date,time_boro,
+    	$sql=" SELECT id,branch,(SELECT name_kh FROM ln_client WHERE client_id =name_customer LIMIT 1) AS name_customer,code,number_invo,date,
+    	      (SELECT name_kh FROM ln_view WHERE type =15 and key_code=time_boro LIMIT 1) As time_boro,
     	       huch_bro,date_call,(SELECT name_kh FROM ln_view WHERE type =13 and key_code=type_call LIMIT 1) AS type_call
     	       ,code_call,note,(SELECT name_kh FROM ln_view WHERE type =15 and key_code =cash_type LIMIT 1)AS cash_type ,
     	maney_boro FROM $this->_name";

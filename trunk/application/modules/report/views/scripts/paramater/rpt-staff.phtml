@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
-<div style=" width:21cm; margin:0 auto;">
+<div style=" width="100%"  margin:0 auto;">
 <style>
 .style{
 	line-height: 20px;font-size: 12px;
@@ -29,31 +29,35 @@
                 					<?php echo $this->data['brand_adress'];?>
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
-                				<td></td>
-                				
-                				<td></td>
                 			</tr>
-			               
-		                </table>
+			              </table>
 		              </td>
 		           </tr>   
             </table>
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
     	<tr bgcolor="#BBBBBB" >
-        	<th>N<sup>0</sup></th>
-            <th>StaffID</th>
-            <th>Name Khmer</thd>
-            <th>Name Eng</th>
-            <th>Sex</th>
-            <th>Phone</th>
-            <th>national_id</th>
-            <th>Adress</th>
-            <th>Position</th>
-            <th>Branch Name</th>
-           <th>Note</th>
+        	<th>&nbsp;N<sup>0</sup></th>
+            <th>&nbsp;StaffID</th>
+            <th style="white-space: pre;">&nbsp;Name Khmer</th>
+            <th style="white-space: pre;">&nbsp;Name Eng</th>
+            <th>&nbsp;Sex</th>
+            <th>&nbsp;Phone</th>
+            <th>&nbsp;National_id</th>
+            <th>&nbsp;Adress</th>
+            <th>&nbsp;Degree</th>
+            <th>&nbsp;Email</th>
+            <th style="white-space:nowrap;">&nbsp;Basic salary</th>
+            <th style="white-space:nowrap;">&nbsp;Start date</th>
+            <th style="white-space:nowrap;">&nbsp;End date</th>
+            <th style="white-space:pre;">&nbsp;Number of Contract</th>
+            <th>&nbsp;Shift</th>
+            <th style="white-space: pre;">&nbsp;Working hour</th>
+            <th>&nbsp;Position</th>
+            <th style="white-space: pre;">&nbsp;Branch Name</th>
+           <th>&nbsp;Note</th>
          </tr>
        <?php foreach($this->staff_list as $key =>$row){?>
-		   <tr>
+		   <tr style="font-size: 11px;">
 		     <td>&nbsp;<?php echo $key+1; ?></td>
 		     <td>&nbsp;<?php echo $row['co_code']?></td>
 			 <td>&nbsp;<?php echo $row['co_khname']?></td>
@@ -61,7 +65,15 @@
 			 <td>&nbsp;<?php echo $row['sex']?></td>
 			 <td>&nbsp;<?php echo $row['tel']?></td>
 			 <td>&nbsp;<?php echo $row['national_id']?></td>
-			 <td>&nbsp;<?php echo $row['address']?></td>
+			 <td style="white-space: pre;">&nbsp;<?php echo $row['address']?></td>
+			 <td>&nbsp;<?php echo $row['degree']?></td>
+			 <td>&nbsp;<?php echo $row['email']?></td>
+			 <td>&nbsp;<?php echo $row['basic_salary']?></td>
+			 <td>&nbsp;<?php echo $row['start_date']?></td>
+			 <td>&nbsp;<?php echo $row['end_date']?></td>
+			 <td>&nbsp;<?php echo $row['contract_no']?></td>
+			 <td>&nbsp;<?php echo $row['shift']?></td>
+			 <td>&nbsp;<?php echo $row['workingtime']?></td>
 			 <td>&nbsp;<?php echo $row['position']?></td>
 			 <td>&nbsp;<?php echo $row['branch_name']?></td>
 			 <td>&nbsp;<?php echo $row['note']?></td>
@@ -71,6 +83,14 @@
 			<tr align="center">
 			 <td><?php echo $i+1; ?></td>
 		     <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
+			 <td></td>
 			 <td></td>
 			 <td></td>
 			 <td></td>
