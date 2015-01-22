@@ -1,23 +1,22 @@
-<meta charset="utf-8"><meta charset="utf-8">
-<title>Report Loan Payment Detail</title>
+<title>rpt_payment</title>
 <div style="width:21cm; margin:0 auto;">
 <table width="100%">
 	<tr>
     	<td>
-    		<h4 style="font-size:14px; font-family:'Khmer OS Muol';​​​" align="center">របាយការណ៏បង់ប្រាក់</h4>
+    		<h4 style="font-size:14px; font-family:'Khmer OS Muol';​​​" align="center"><?php echo $this->data['brand_pay'];?></h4>
     	</td>
    	</tr>
     <tr>
     	<td>
         	<table width="100%">
             	<tr>
-                	<td><p>Branch Apple sihanoukville</td>
+                	<td><p><?php echo $this->data['brand_siha'];?></td>
                  </tr>
                  <tr>
-                    <td><p >Pay Status Normal Loan Payment</p></td>
+                    <td><?php echo $this->data['brand_loanpay'];?></td>
                  </tr>
                  <tr>
-                    <td><p>FromData 6/13/2014 ToData 6/13/2014</p></td>
+                    <td><?php echo $this->data['brand_from'];?></td>
                 </tr>
             </table>
         </td>

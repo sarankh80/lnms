@@ -8,7 +8,7 @@ $frm = $this->frm_fixedasset;
 	height: 30px;
 }
 </style>
-<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'chartaccount','action'=>'add')); ?>" 
+<form id='frm_add' action="<?php echo $this->url(array('module'=>'accounting','controller'=>'chartaccount','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -24,7 +24,7 @@ $frm = $this->frm_fixedasset;
 					<legend><strong>Form Chart Account</strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-						     
+						      <?php echo $frm->getElement('id');?>
 							<td>លេខគនេយ្យ</td>
 							<td><?php echo $frm->getElement('account_No')?></td>	
 							<td>ឈ្មោះលេខគនេយ្យ</td>
@@ -39,14 +39,13 @@ $frm = $this->frm_fixedasset;
 							<td><?php echo $frm->getElement('none')?></td>
 						    <td>ប្រភេទ</td>
 							<td><?php echo $frm->getElement('category')?></td>	
-						   
+						    
 						</tr>
 						<tr>
 						    <td>ប្រភេទមេ</td>
 							<td><?php echo $frm->getElement('parent')?></td>
 						    <td>ប្រភេទមេ</td>
 							<td><?php echo $frm->getElement('parents')?></td>
-							
 						</tr>
 						
 						<tr>
@@ -58,9 +57,8 @@ $frm = $this->frm_fixedasset;
 							<td><?php echo $frm->getElement('status')?></td>
 						</tr>
 						
-						
 					</table>
-					</fieldset>
+					
 				</fieldset>
 		</td>
 	</tr>		

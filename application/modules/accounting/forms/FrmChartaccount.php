@@ -7,19 +7,22 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 	}
 	public function FrmChartaccount($data=null){
 		
-		$account_No = new Zend_Dojo_Form_Element_NumberTextBox('account_No');
+		$account_No = new Zend_Dojo_Form_Element_TextBox('account_No');
 		$account_No->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
-				'required'=>true
-				));
-		
-		$account_Type = new Zend_Dojo_Form_Element_TextBox('account_Type');
-		$account_Type->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'required'=>true
+				));
+		$db = new Application_Model_DbTable_DbGlobal();
+		$account_Type = new Zend_Dojo_Form_Element_FilteringSelect('account_Type');
+		$account_Type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
 		));
+		$opt= $db->getVewOptoinTypeByType(8,1);
+		$account_Type->setMultiOptions($opt);
+		$account_Type->setValue(1);	
 		
 		$account_Name = new Zend_Dojo_Form_Element_TextBox('account_Name');
 		$account_Name->setAttribs(array(
@@ -27,14 +30,23 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		
-		
-		$None_operation = new Zend_Dojo_Form_Element_CheckBox('none');
-		$None_operation->setAttribs(array(
-				'dojoType'=>'dijit.form.CheckBox',
+		$account_Nameen = new Zend_Dojo_Form_Element_TextBox('account_Nameen');
+		$account_Nameen->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$None_operation = new Zend_Dojo_Form_Element_FilteringSelect('none');
+		$None_operation->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$opt= $db->getVewOptoinTypeByType(10,1);
+		$None_operation->setMultiOptions($opt);
+		$None_operation->setValue(1);
 		
 		$parent = new Zend_Dojo_Form_Element_FilteringSelect('parent');
 		$parent->setAttribs(array(
@@ -42,22 +54,28 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$opt=array(1=>'Asset',2=>'Liabilities',3=>'Equity');
-		$parent->setMultiOptions($opt);
+		$db = new Accounting_Model_DbTable_DbChartaccount();
+		$option = $db->getAllchartaccount(3,1);
+		$parent->setMultiOptions($option);
 		
-		$Category=new Zend_Dojo_Form_Element_RadioButton("category");
+		$parents = new Zend_Dojo_Form_Element_CheckBox('parents');
+		$parents->setAttribs(array(
+				'dojoType'=>'dijit.form.CheckBox',
+				'onchange'=>'getGroupCode();'
+		));
+		
+		$Category=new Zend_Dojo_Form_Element_FilteringSelect("category");
 		$Category->setAttribs(array(
-				'dojoType'=>'dijit.form.RadioButton',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$array=array(1=>'Creadit',2=>'Debit');
-		$Category->setMultiOptions($array);
+		$option = $db->getAllchartaccount(2,1);
+		$Category->setMultiOptions($option);
 		
 		
 		
-		
-		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
+	    $Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside'
@@ -74,36 +92,32 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 		$Status->setMultiOptions($opt);
 		
 		
-		$Balance = new Zend_Dojo_Form_Element_FilteringSelect('Balance');
+		$Balance = new Zend_Dojo_Form_Element_NumberTextBox('Balance');
 		$Balance->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));
-// 		$opt=array(1=>'Active',2=>'Deactive');
-// 		$Status->setMultiOptions($opt);
+		$Balance->setValue(0);
+		$_id = new Zend_Form_Element_Hidden('id');
 		
-		
-		
-		
-		
-// 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
-// 		$_branch_id->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'required' =>'true'
-// 		));
-// 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$rows = $db->getAllBranchName();
-// 		$options='';
-// 		if(!empty($rows))foreach($rows AS $row){
-// 			$options[$row['br_id']]=$row['branch_namekh'];
-// 		}
-// 		$_branch_id->setMultiOptions($options);
-		 
-// 		$_id = new Zend_Form_Element_Hidden('id');
-		
-		$this->addElements(array($account_No,$None_operation,$account_Type,$account_Name,$parent,$Category,$Date,$Status,$Balance));
+		if($data!=null){
+			$account_No->setValue($data['account_code']);
+			$account_Type->setValue($data['account_type']);
+			$account_Name->setValue($data['account_name_kh']);
+			$account_Nameen->setValue($data['account_name_en']);
+			$None_operation->setValue($data['option_acc']);
+			$parent->setValue($data['parent_id']);
+			$parents->setValue($data['option_type']);
+			$Category->setValue($data['category_id']);
+			$Date->setValue($data['date']);
+			$Status->setValue($data['status']);
+			$Balance->setValue($data['balance']);
+			$_id->setValue($data['id']);
+				
+		}
+
+		$this->addElements(array($_id,$account_No,$None_operation,$parents,$account_Type,$account_Name,$account_Nameen,$parent,$Category,$Date,$Status,$Balance));
 		return $this;
 		
 	}	
