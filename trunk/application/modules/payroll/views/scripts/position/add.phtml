@@ -34,15 +34,29 @@
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $techer->getElement('status');?></td>
 						</tr>
-						<tr>
-							<td colspan="4" align="center">
-							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
-							</td>
-						</tr>
 					</table>	
-		</fieldset>		
+					<div style="text-align: center; margin: 10px 0px;"> 
+						<input type="hidden" name="exchangefrom" value="2" />
+						<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+						<input type="button" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button" 
+							iconClass="dijitIconClear"  class="fixed_size" onclick="clearTextBox(1);"/>
+						<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+						<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+					</div>	`
+		</fieldset>
 		</td>
 	</tr>
 </table>	
 </form>
+<script type="text/javascript">
+	function clearTextBox(curr_type){
+		if(curr_type==1){
+		   dijit.byId('position_kh').attr('value',0);	
+		   dijit.byId('position_en').attr('value',0);	
+		   dijit.byId('display').attr('value','');	
+		   dijit.byId('status').attr('value','');	
+		}
+	}
+</script>

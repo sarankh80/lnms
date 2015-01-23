@@ -9,32 +9,6 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
-	public function addCreditOfficer($_data){
-// 		$_arr=array(
-// 				'co_code'	  => $_data['co_id'],
-// 				'co_khname'	  => $_data['name_kh'],
-// 				'co_firstname'=> $_data['first_name'],
-// 				'co_lastname' => '',//$_data['last_name'],
-// 				'displayby'	  => $_data['display'],
-// 				'sex'		  => $_data['co_sex'],
-// 				'national_id'	  => $_data['national_id'],
-// 				'address'	  => $_data['address'],
-// 				'pob'	      => $_data['pob'],
-// 				'degree'	      => $_data['degree'],
-// 				'tel'	  	  => $_data['tel'],
-// 				'email'	      => $_data['email'],
-// 				'create_date' => Zend_Date::now(),
-// 				'status'      => $_data['status'],
-// 				'user_id'	  => $this->getUserId()
-// 		);
-// 		if(!empty($_data['id'])){
-// 			$where = 'co_id = '.$_data['id'];
-// 			return  $this->update($_arr, $where);
-// 		}else{
-// 			return  $this->insert($_arr);
-// 		}
-		
-	}
 	public function getPostionById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM $this->_name WHERE co_id = ".$db->quote($id);
@@ -48,15 +22,22 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 		(SELECT displayby_en FROM `ln_displayby` AS ld WHERE ld.id = id LIMIT 1) AS displayby,
 		status
 		FROM `ln_position` WHERE status =1 ";
+		$order=" order by position_en";
+		$where = '';
 		
-		$where = "";
-		
-// 		if($search['status']>-1){
-// 			$where.= " AND status = ".$search['status'];
-// 		}
-		
-// 		echo $sql.$where;
-		return $db->fetchAll($sql.$where);	
+		if(!empty($search['adv_search'])){
+			$s_where = array();
+			$s_search = $search['adv_search'];
+			$s_where[] = "position_kh LIKE '%{$s_search}%'";
+			$s_where[] = " position_en LIKE '%{$s_search}%'";
+			$s_where[] = " status LIKE '%{$s_search}%'";
+			$s_where[] = " displayby LIKE '%{$s_search}%'";
+			$where .=' AND ('.implode(' OR ',$s_where).')';
+		}
+		if($search['status']>-1){
+			$where.= " AND status = ".$search['status'];
+		}
+		return $db->fetchAll($sql.$where.$order);	
 	}	
 }
 

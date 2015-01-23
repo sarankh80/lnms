@@ -54,9 +54,7 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT
 					co_id,co_code,co_khname,CONCAT(co_firstname,co_lastname) AS co_engname,national_id,address,
-					tel,email,address,degree,status
-					
-		 FROM $this->_name ";
+					tel,email,address,degree,status FROM $this->_name ";
 // 		(SELECT first_name FROM rms_users WHERE id=user_id) As user_name
 		$where = ' WHERE co_khname!="" ';
 		
@@ -75,8 +73,6 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 			$s_where[] = "address LIKE '%{$search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		
-// 		echo $sql.$where;
 		return $db->fetchAll($sql.$where);	
 	}	
 }

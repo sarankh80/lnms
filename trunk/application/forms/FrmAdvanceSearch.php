@@ -35,10 +35,25 @@ protected $tr;
 		$_status->setMultiOptions($_status_opt);
 		$_status->setValue($request->getParam("status"));
 		
+		
+		$db = new Application_Model_DbTable_DbGlobal(); 
+		
+		$employee = new Zend_Dojo_Form_Element_FilteringSelect('employee');
+		$rows = $db ->getAllCOName();
+		$options=array(''=>"---ស្វែងរកតាមរយៈឈ្មោះ---");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
+		$employee->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
+		));
+		$employee->setMultiOptions($options);
+		$employee->setValue($request->getParam('employee'));
+		
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array('dojoType'=>'dijit.form.Button','iconclass'=>'dijitIconSearch'));
 		
-		$this->addElements(array($_title,$_title,$_status,$_btn_search));
+		$this->addElements(array($employee,$_title,$_title,$_status,$_btn_search));
 		return $this;
 	}
 	

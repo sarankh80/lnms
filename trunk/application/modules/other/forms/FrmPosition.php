@@ -26,7 +26,9 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 		$_status->setMultiOptions($_status_opt);
 		
 		$_display=  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
+		$_display->setAttribs(array(
+				'dojoType'=>$this->filter,
+				'class'=>'fullside',));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_ENGLISH"));

@@ -50,10 +50,27 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		(SELECT name_kh FROM ln_view WHERE type=7 AND key_code =permission_type limit 1) AS types,
 		from_date,to_date,time,reason,
 		(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id,
-		 date, status
-		 FROM $this->_name ";
-		$row=$db->fetchAll($sql);
-		return $row;
+		 date, status FROM `ln_permission` WHERE 1 ";
+		$where = "";
+		if($search['status']>-1){
+			$where.= " AND status = ".$search['status'];
+		}
+		if(!empty($search['employee'])){
+			$where.= " AND employee_id = ".$search['employee'];
+		}
+		if(!empty($search['adv_search'])){
+			$s_where = array();
+			$s_search = $search['adv_search'];
+// 			$s_where[] = " employee_id=".$search['employee'];
+// 			$s_where[] = " branch_id LIKE '%{$s_search}%'";
+// 			$s_where[] = " approve_by LIKE '%{$s_search}%'";
+// 			$s_where[] = "request_date LIKE '%{$s_search}%'";
+// 			$s_where[] = " permission_type LIKE '%{$s_search}%'";
+// 			$s_where[] = "from_date LIKE '%{$s_search}%'";
+// 			$s_where[] = "to_date LIKE '%{$s_search}%'";
+			$where .=' AND ('.implode(' OR ',$s_where).')';
+		}
+		return $db->fetchAll($sql.$where);
 	}	
 }
 

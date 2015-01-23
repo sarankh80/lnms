@@ -10,10 +10,20 @@ class Payroll_PermissionController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Payroll_Model_DbTable_DbPermission();
-
-			$rs_rows= $db->getAllPermission($search=null);
+			if($this->getRequest()->isPost()){
+				$search=$this->getRequest()->getPost();
+			}
+			else{
+				$search = array(
+						'adv_search' => '',
+						'status' => -1
+// 						'from_date' =>date('Y-m-d'),
+// 						'to_date' => date('Y-m-d'),
+						);
+			}
+			$rs_rows= $db->getAllPermission($search);
 			$glClass = new Application_Model_GlobalClass();//status
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("បុគ្គលិក","សាខា","យល់ព្រមដោយ","ថ្ងៃស្នើសុំ","ប្រភេទ","ចាប់ពីថ្ងៃ",
 					"ដល់ថ្ងៃ","ម៉ោង","មូលហេតុ","User Id","ថ្ងៃ","Status");
