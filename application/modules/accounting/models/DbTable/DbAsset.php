@@ -52,7 +52,9 @@ function getassetbyid($id){
 function getAllAsset($search=null){
 	$db = $this->getAdapter();
 	$sql=" SELECT id,
-	(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1)as branch_name,fixed_assetname,fixed_asset_type,asset_cost,usefull_life,salvagevalue,payment_method ,status,note FROM $this->_name ";
+	(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1)as branch_name,fixed_assetname,
+	(SELECT name_en FROM ln_view WHERE TYPE=17 AND key_code=fixed_asset_type LIMIT 1)AS fixed_asset_type,asset_cost,usefull_life,salvagevalue,
+	(SELECT name_en FROM ln_view WHERE TYPE=16 AND key_code=payment_method LIMIT 1)AS payment_method ,status,note FROM $this->_name ";
 	return $db->fetchAll($sql);
 }
 

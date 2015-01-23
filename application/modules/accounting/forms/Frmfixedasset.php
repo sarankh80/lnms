@@ -44,13 +44,15 @@ Class Accounting_Form_Frmfixedasset extends Zend_Dojo_Form {
 				'required'=>'true'
 				));
 		
+		$db = new Application_Model_DbTable_DbGlobal();
 		$payment_method=new Zend_Dojo_Form_Element_FilteringSelect('payment_method');
 		$payment_method->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 				));
-		$option=array(1=>'Straight line',2=>'Double-declining banlance',3=>'Sum of the year');
-		$payment_method->setMultiOptions($option);
+		$opt= $db->getVewOptoinTypeByType(16,1);
+		$payment_method->setMultiOptions($opt);
+		$payment_method->setValue(1);
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
@@ -65,7 +67,8 @@ Class Accounting_Form_Frmfixedasset extends Zend_Dojo_Form {
 				));
 		$_id = new Zend_Form_Element_Hidden('id');
 		
-		$this->addElements(array($asset_name,$asset_type,$asset_cost,$useful_life,$salvage_value,$payment_method,
+		$this->addElements(array($asset_name,$asset_type,$asset_cost,$useful_life,$salvage_value,'
+				$payment_method,
 				$Date,$branch));
 		return $this;
 		
