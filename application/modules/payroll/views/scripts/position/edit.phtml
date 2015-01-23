@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add CO'));
+	echo $this->headTitle($tr->translate('Update Staff Position'));
 ?>	
 <?php  $techer= $this->frm_position;?>
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -36,13 +36,12 @@
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $techer->getElement('status');?></td>
 						</tr>
-						<tr>
-							<td colspan="4" align="center">
-							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
-							</td>
-						</tr>
+
 					</table>	
+					<div style="text-align: center; margin: 10px 0px;">
+						<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
+							   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
+					</div>	
 		</fieldset>		
 		</td>
 	</tr>

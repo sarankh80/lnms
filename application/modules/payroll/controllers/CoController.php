@@ -38,6 +38,7 @@ class Payroll_CoController extends Zend_Controller_Action {
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+	
 	}
 	public function settingAction(){
 	try{
