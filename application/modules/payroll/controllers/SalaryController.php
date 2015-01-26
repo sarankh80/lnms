@@ -17,7 +17,16 @@ class Payroll_SalaryController extends Zend_Controller_Action
 		public function indexAction(){
 		try{
 			$db = new Payroll_Model_DbTable_DbSalary();
-			$rs_rows= $db->getAllSalary($search=null);
+			if($this->getRequest()->isPost()){
+				$search=$this->getRequest()->getPost();
+			}
+			else{
+				$search = array(
+						'adv_search' => '',
+						'status' => -1
+				);
+			}
+			$rs_rows= $db->getAllSalary($search);
 			$glClass = new Application_Model_GlobalClass();//status
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
@@ -32,8 +41,8 @@ class Payroll_SalaryController extends Zend_Controller_Action
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
+		$fm = new Application_Form_FrmAdvanceSearch();
+		$frm = $fm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 	}

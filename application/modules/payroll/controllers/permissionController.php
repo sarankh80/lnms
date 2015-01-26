@@ -16,9 +16,9 @@ class Payroll_PermissionController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1
-// 						'from_date' =>date('Y-m-d'),
-// 						'to_date' => date('Y-m-d'),
+						'status' => -1,
+						'from_date' =>date('Y-m-d'),
+						'to_date' => date('Y-m-d'),
 						);
 			}
 			$rs_rows= $db->getAllPermission($search);

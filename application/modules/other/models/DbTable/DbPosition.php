@@ -21,7 +21,7 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 		$sql=" SELECT id,position_en,position_kh,
 		(SELECT displayby_en FROM `ln_displayby` AS ld WHERE ld.id = id LIMIT 1) AS displayby,
 		status
-		FROM `ln_position` WHERE status =1 ";
+		FROM `ln_position` WHERE 1 ";
 		$order=" order by position_en";
 		$where = '';
 		
