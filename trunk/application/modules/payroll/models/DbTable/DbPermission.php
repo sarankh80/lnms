@@ -41,6 +41,11 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		return $row;
 	}
 	function getAllPermission($search=null){
+		
+		$from_date =(empty($search['from_date']))? '1': "from_date >= '".$search['from_date']." 00:00:00'";
+		$to_date = (empty($search['to_date']))? '1': "to_date <= '".$search['to_date']." 23:59:59'";
+		$where = " AND ".$from_date." AND ".$to_date;
+		
 		$db = $this->getAdapter();
 		$sql = "SELECT id,
 		(SELECT co_khname FROM ln_co WHERE co_id = employee_id limit 1 ) AS staff_name,
@@ -51,23 +56,27 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		from_date,to_date,time,reason,
 		(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id,
 		 date, status FROM `ln_permission` WHERE 1 ";
-		$where = "";
+		
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];
 		}
 		if(!empty($search['employee'])){
 			$where.= " AND employee_id = ".$search['employee'];
 		}
+		if(!empty($search['branch_id'])){
+			$where.= " AND branch_id = ".$search['branch_id'];
+		}
+		if(!empty($search['approve_by'])){
+			$where.= " AND approve_by = ".$search['approve_by'];
+		}
+		if(!empty($search['type'])){
+			$where.= " AND permission_type = ".$search['type'];
+		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = $search['adv_search'];
-// 			$s_where[] = " employee_id=".$search['employee'];
-// 			$s_where[] = " branch_id LIKE '%{$s_search}%'";
-// 			$s_where[] = " approve_by LIKE '%{$s_search}%'";
-// 			$s_where[] = "request_date LIKE '%{$s_search}%'";
-// 			$s_where[] = " permission_type LIKE '%{$s_search}%'";
-// 			$s_where[] = "from_date LIKE '%{$s_search}%'";
-// 			$s_where[] = "to_date LIKE '%{$s_search}%'";
+			$s_where[] = " employee_id '%{$s_search}%'";
+			$s_where[] = " reason LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		return $db->fetchAll($sql.$where);

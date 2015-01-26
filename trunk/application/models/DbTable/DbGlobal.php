@@ -341,7 +341,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options="";
+  		$options=array(''=>"----ជ្រើសរើស----");
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['position_kh']:$row['position_en'];
   		}
@@ -361,7 +361,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options="";
+  		$options=array(''=>"---ជ្រើសរើស---");
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['key_code']]=($row['displayby']==1)?$row['name_kh']:$row['name_en'];
   		}

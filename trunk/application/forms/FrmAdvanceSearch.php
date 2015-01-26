@@ -51,9 +51,77 @@ protected $tr;
 		$employee->setValue($request->getParam('employee'));
 		
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
-		$_btn_search->setAttribs(array('dojoType'=>'dijit.form.Button','iconclass'=>'dijitIconSearch'));
+		$_btn_search->setAttribs(array(
+				'dojoType'=>'dijit.form.Button',
+				'iconclass'=>'dijitIconSearch'
+				));
 		
-		$this->addElements(array($employee,$_title,$_title,$_status,$_btn_search));
+		$branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$rows = $db->getAllBranchName();
+		$options_branch=array(''=>"---ស្វែងរកតាមរយៈសាខា---");
+		if(!empty($rows))foreach($rows AS $row){
+			$options_branch[$row['br_id']]=$row['branch_namekh'];
+		}
+		$branch_id->setMultiOptions($options_branch);
+		$branch_id->setValue($request->getParam("branch_id"));
+		
+		$approve_by = new Zend_Dojo_Form_Element_FilteringSelect('approve_by');
+		$rows = $db ->getAllCOName();
+		$options_approve=array(''=>"---ស្វែងរកអ្នកយល់ព្រម---");
+		if(!empty($rows))foreach($rows AS $row) $options_approve[$row['co_id']]=$row['co_khname'];
+		$approve_by->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
+		));
+		$approve_by->setMultiOptions($options_approve);
+		$approve_by->setValue($request->getParam("approve_by"));
+		
+		$opt_type=$db->getVewOptoinTypeByType(7,1);
+		$type=new Zend_Dojo_Form_Element_FilteringSelect('type');
+		$type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'required'=>true,
+				'class'=>'fullside'
+		));
+		$type->setMultiOptions($opt_type);
+		$type->setValue($request->getParam("type"));
+		
+		$from_date=new Zend_Dojo_Form_Element_DateTextBox('from_date');
+		$from_date->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'required'=>true,
+				'class'=>'fullside'
+		));
+		$from_date->setValue(date('Y-m-d'));
+		 
+		 
+		$to_date=new Zend_Dojo_Form_Element_DateTextBox('to_date');
+		$to_date->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'required'=>true,
+				'class'=>'fullside'
+		));
+		$to_date->setValue(date('Y-m-d'));
+		
+		$position_=new Zend_Dojo_Form_Element_FilteringSelect('position');
+		$position_->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				//     			'dojoType'=>$this->filter,
+				'required'=>true,
+				'class'=>'fullside'
+		));
+		
+		$opt_position=$db->getAllStaffPosition(null,1);
+		$position_->setMultiOptions($opt_position);
+		$position_->setValue($request->getParam("position"));
+		
+		$this->addElements(array($position_,$from_date,$to_date,$type,$employee,$_title,$_title,$_status,$_btn_search,$branch_id,$approve_by));
 		return $this;
 	}
 	
