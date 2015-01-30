@@ -53,9 +53,31 @@ function getAllAsset($search=null){
 	$db = $this->getAdapter();
 	$sql=" SELECT id,
 	(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1)as branch_name,fixed_assetname,
-	(SELECT name_en FROM ln_view WHERE TYPE=17 AND key_code=fixed_asset_type LIMIT 1)AS fixed_asset_type,asset_cost,usefull_life,salvagevalue,
+	(SELECT name_en FROM ln_view WHERE TYPE=17 AND key_code=fixed_asset_type LIMIT 1)AS fixed_asset_type,asset_cost,
+	(SELECT name_en FROM ln_view WHERE type=19 AND key_code=pay_type LIMIT 1) AS pay_type,usefull_life,salvagevalue,
 	(SELECT name_en FROM ln_view WHERE TYPE=16 AND key_code=payment_method LIMIT 1)AS payment_method ,status,note FROM $this->_name ";
-	return $db->fetchAll($sql);
+	$where = ' WHERE 1 ';
+	if($search['status']>-1){
+		$where.= " AND status = ".$search['status'];
+	}
+	if(!empty($search['branch_id'])){
+		$where.= " AND branch_id = ".$search['branch_id'];
+	}
+	if(!empty($search['asset_type'])){
+		$where.= " AND fixed_asset_type = ".$search['asset_type'];
+	}
+	if(!empty($search['payment_method'])){
+		$where.= " AND payment_method = ".$search['payment_method'];
+	}
+	if(!empty($search['adv_search'])){
+		$s_where = array();
+		$search = $search['adv_search'];
+		$s_where[] = " fixed_assetname LIKE '%{$search}%'";
+		$s_where[] = "branch_id LIKE '%{$search}%'";
+		$where.=' AND ('.implode(' OR ',$s_where).')';
+	}
+	return $db->fetchAll($sql.$where);
+   
 }
 
 

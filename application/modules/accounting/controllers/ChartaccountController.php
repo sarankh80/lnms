@@ -26,9 +26,19 @@ class accounting_ChartaccountController extends Zend_Controller_Action {
 	}
 public function indexAction()
 	{
-		try{
+	try{
 			$db = new Accounting_Model_DbTable_DbChartaccount();
-			$rs_rows= $db->getAllchartaccounts($search=null);//call frome model
+			if($this->getRequest()->isPost()){
+				$search=$this->getRequest()->getPost();
+			}
+			else{
+				$search = array(
+						'adv_search' => '',
+						'status' => -1);
+			}
+			
+			$rs_rows= $db->getAllchartaccounts($search);
+			
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
@@ -41,6 +51,16 @@ public function indexAction()
 			Application_Form_FrmMessage::message("Application Error"); 
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+		$fm = new Application_Form_FrmAdvanceSearch();
+		$frm = $fm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+		
+		$fms = new Accounting_Form_FrmChartaccount();
+		$frms = $fms->FrmChartaccount();
+		Application_Model_Decorator::removeAllDecorator($frms);
+		$this->view->frm_chartaccount = $frms;
+	
 	}
 	public function editAction()
 	{

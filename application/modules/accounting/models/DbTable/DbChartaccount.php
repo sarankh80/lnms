@@ -74,15 +74,35 @@ function getAllchartaccount($type=null,$option=null){
 		return $rows;
 	}															
 }
-function getAllchartaccounts($where=null){
+function getAllchartaccounts($search=null){
 	$db = $this->getAdapter();
 	$sql=" SELECT ac.id,(SELECT name_en FROM ln_view WHERE TYPE=8 AND key_code=account_type LIMIT 1) AS account_type, 
 			(SELECT v.account_name_en FROM ln_account_name AS v WHERE v.id=ac.parent_id LIMIT 1) AS parent ,
 			(SELECT v.account_name_en FROM ln_account_name AS v WHERE v.id=ac.category_id LIMIT 1) AS cate_name ,
 			ac.account_code,ac.account_name_en,ac.account_name_kh,ac.status FROM $this->_name AS ac
-			WHERE ac.option_type =1 AND ac.account_name_en!=''ORDER BY account_type, id DESC ";
-			
-// 	echo $sql;exit();
-	return $db->fetchAll($sql);
+			WHERE ac.option_type =1 AND ac.account_name_en!='' ";
+
+		$where = '';
+// 		print_r($search); exit();
+		if($search['status']>-1){
+			$where.= " AND status = ".$search['status'];
+		}
+		if(!empty($search['account_Type'])){
+			$where.= " AND account_type = ".$search['account_Type'];
+		}
+		if(!empty($search['parent'])){
+			$where.= " AND parent_id = ".$search['parent'];
+		}
+		if(!empty($search['category'])){
+			$where.= " AND category_id = ".$search['category'];
+		}
+		if(!empty($search['adv_search'])){
+			$s_where = array();
+			$s_search = $search['adv_search'];
+			$s_where[]="account_name_en LIKE '%{$s_search}%'";//no query
+			$where.=' AND ('.implode(' OR ',$s_where).')';
+		}
+
+		return $db->fetchAll($sql.$where);
 }
 }

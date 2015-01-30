@@ -1,11 +1,31 @@
 <?php 
 Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 	protected $tr;
+	protected $tvalidate =null;//text validate
+	protected $filter=null;
+	protected $t_num=null;
+	protected $text=null;
+	protected $tarea=null;
+
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$this->tvalidate = 'dijit.form.ValidationTextBox';
+		$this->filter = 'dijit.form.FilteringSelect';
+		$this->text = 'dijit.form.TextBox';
+		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
 	public function FrmChartaccount($data=null){
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array(
+				'dojoType'=>$this->tvalidate,
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH_ACCOUN NAME")
+		));
+		$_title->setValue($request->getParam("adv_search"));
 		
 		$account_No = new Zend_Dojo_Form_Element_TextBox('account_No');
 		$account_No->setAttribs(array(
@@ -36,6 +56,7 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
+	
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$None_operation = new Zend_Dojo_Form_Element_FilteringSelect('none');
@@ -53,7 +74,10 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required'=>true
+				
 		));
+		$parent->setValue($request->getParam('parent'));
+		
 		$db = new Accounting_Model_DbTable_DbChartaccount();
 		$option = $db->getAllchartaccount(3,1);
 		$parent->setMultiOptions($option);
@@ -117,7 +141,7 @@ Class Accounting_Form_FrmChartaccount extends Zend_Dojo_Form {
 				
 		}
 
-		$this->addElements(array($_id,$account_No,$None_operation,$parents,$account_Type,$account_Name,$account_Nameen,$parent,$Category,$Date,$Status,$Balance));
+		$this->addElements(array($_title,$_id,$account_No,$None_operation,$parents,$account_Type,$account_Name,$account_Nameen,$parent,$Category,$Date,$Status,$Balance));
 		return $this;
 		
 	}	

@@ -20,13 +20,16 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		
+		$db = new Application_Model_DbTable_DbGlobal();
 		$Type = new Zend_Dojo_Form_Element_FilteringSelect('type');
 		$Type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required'=>true
 		));
+		$opt= $db->getVewOptoinTypeByType(8,1);
+		$Type->setMultiOptions($opt);
+		$Type->setValue(1);
 		
 		$parent = new Zend_Dojo_Form_Element_TextBox('parent');
 		$parent->setAttribs(array(
@@ -34,10 +37,6 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		
-		$opt=array(1=>'Asset',2=>'Liabilities',3=>'Equity');
-		$Type->setMultiOptions($opt);
-		
 		
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
@@ -47,6 +46,7 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				));
 		$Date->setValue(date('Y-m-d'));
 		
+		$db = new Application_Model_DbTable_DbGlobal();
 		$display = new Zend_Dojo_Form_Element_FilteringSelect('display');
 		$display->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -54,8 +54,9 @@ Class Accounting_Form_Frmaccountcate extends Zend_Dojo_Form {
 				'required'=>true
 		));
 		
-		$opt=array(1=>'NAME_ENGLISH',2=>'NAME_KMHER');
+		$opt= $db->getVewOptoinTypeByType(18,1);
 		$display->setMultiOptions($opt);
+		$display->setValue(1);
 		
 		
 		$Status = new Zend_Dojo_Form_Element_FilteringSelect('status');

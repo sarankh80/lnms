@@ -14,7 +14,7 @@ class Accounting_AccountcateController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Cate_namekh ","Cate_nameen ","Parent_id","Account_type","Deplay","Date","Status");
+			$collumns = array("Cate_namekh ","Cate_nameen ","Parent","Account_type","Date","Deplay","Status");
 			$link=array(
 					'module'=>'accounting','controller'=>'Accountcate','action'=>'edit',
 			);
