@@ -1,11 +1,30 @@
 <?php 
 Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 	protected $tr;
+	protected $tvalidate =null;//text validate
+	protected $filter=null;
+	protected $t_num=null;
+	protected $text=null;
+	protected $tarea=null;
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$this->tvalidate = 'dijit.form.ValidationTextBox';
+		$this->filter = 'dijit.form.FilteringSelect';
+		$this->text = 'dijit.form.TextBox';
+		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
 	public function FrmAsset($data=null){
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array(
+				'dojoType'=>$this->tvalidate,
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH_FIXD_NAME")
+		));
+		$_title->setValue($request->getParam("adv_search"));
 		
 		$asset_name = new Zend_Dojo_Form_Element_TextBox('asset_name');
 		$asset_name->setAttribs(array(
@@ -13,7 +32,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 				));
-		
+	
 		$asset_code = new Zend_Dojo_Form_Element_NumberTextBox('asset_code');
 		$asset_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -28,7 +47,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$opt= $db->getVewOptoinTypeByType(7,1);
+		$opt= $db->getVewOptoinTypeByType(18,1);
 		$paid_type->setMultiOptions($opt);
 		$paid_type->setValue(1);
 		
@@ -154,7 +173,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 			
 		}
 		
-		$this->addElements(array($asset_name,$asset_type,$asset_cost,$start_date,$useful_life,$salvage_value,$payment_method,
+		$this->addElements(array($_title,$asset_name,$asset_type,$asset_cost,$start_date,$useful_life,$salvage_value,$payment_method,
 				$Date,$_branch_id,$_id,$asset_code,$paid_type,$note,$_stutas,$some_payamount));
 		return $this;
 		

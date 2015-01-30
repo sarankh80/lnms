@@ -14,7 +14,12 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			$db = new Accounting_Model_DbTable_DbAsset();
 			try {
 				$db->addasset($data);
-				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				if(!empty($data['save_new'])){
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
+				}
+				
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
@@ -28,34 +33,25 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 	}
 	
 	
-// 	public function indexAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$db = new Group_Model_DbTable_DbClient();
-// 			$data = $this->getRequest()->getPost();
-// 			$_data['status']=1;
-// 			$id = $db->addClient($data);
-// 			print_r(Zend_Json::encode($id));
-// 			exit();
-// 		}
-// 	}
-	
+
 	public function indexAction()
 	{
 		try{
 			$db = new Accounting_Model_DbTable_DbAsset();
-			//     		if($this->getRequest()->isPost()){
-			//     			$search=$this->getRequest()->getPost();
-			//     		}
-			//     		else{
-			//     			$search = array(
-			//     					'adv_search' => '',
-			//     					'status' => -1);
-			//     		}
-			$rs_rows= $db->getAllAsset($search=null);//call frome model
+			    		if($this->getRequest()->isPost()){
+			    			$search=$this->getRequest()->getPost();
+			    		}
+			    		else{
+			    			$search = array(
+			    					'adv_search' => '',
+			    					'status' => -1);
+			    		}
+			$rs_rows= $db->getAllAsset($search);
+			
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch_id ","Fixed_Assetname ","Fixed_Asset_Type","Asset_Cost","Usefull_Life","Salvagevalue","Payment_method","Status","Note");
+			$collumns = array("Branch_id ","Fixed_Assetname ","Fixed_Asset_Type","Asset_Cost","Pay_type","Usefull_Life","Salvagevalue","Payment_method","Status","Note");
 			$link=array(
 					'module'=>'accounting','controller'=>'FixedAsset','action'=>'edit',
 			);
@@ -65,6 +61,16 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+		
+		$fm = new Application_Form_FrmAdvanceSearch();
+		$frm = $fm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+		
+		$fms = new Accounting_Form_Frmasset();
+		$frms = $fms->FrmAsset();
+		Application_Model_Decorator::removeAllDecorator($frms);
+		$this->view->frm_fixedasset = $frms;
 	}
 		public function editAction()
 		{

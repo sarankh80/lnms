@@ -34,8 +34,8 @@ class Payroll_PositionController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
+		$fm = new Application_Form_FrmAdvanceSearch();
+		$frm = $fm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 	}

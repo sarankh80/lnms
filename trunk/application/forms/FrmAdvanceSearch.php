@@ -22,7 +22,9 @@ protected $tr;
 		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
-				'onkeyup'=>'this.submit()'));
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH_FACULTY_NAME")
+				));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		
@@ -53,7 +55,8 @@ protected $tr;
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
-				'iconclass'=>'dijitIconSearch'
+				'iconclass'=>'dijitIconSearch',
+				
 				));
 		
 		$branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
