@@ -1,67 +1,70 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dijit._editor.plugins.TextColor"]){
-dojo._hasResource["dijit._editor.plugins.TextColor"]=true;
-dojo.provide("dijit._editor.plugins.TextColor");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.ColorPalette");
-dojo.declare("dijit._editor.plugins.TextColor",dijit._editor._Plugin,{buttonClass:dijit.form.DropDownButton,useDefaultCommand:false,constructor:function(){
-this.dropDown=new dijit.ColorPalette();
-this.connect(this.dropDown,"onChange",function(_1){
-this.editor.execCommand(this.command,_1);
-});
+//>>built
+define("dijit/_editor/plugins/TextColor",["require","dojo/colors","dojo/_base/declare","dojo/_base/lang","../_Plugin","../../form/DropDownButton"],function(_1,_2,_3,_4,_5,_6){
+var _7=_3("dijit._editor.plugins.TextColor",_5,{buttonClass:_6,colorPicker:"dijit/ColorPalette",useDefaultCommand:false,_initButton:function(){
+this.command=this.name;
+this.inherited(arguments);
+var _8=this;
+this.button.loadDropDown=function(_9){
+function _a(_b){
+_8.button.dropDown=new _b({dir:_8.editor.dir,ownerDocument:_8.editor.ownerDocument,value:_8.value,onChange:function(_c){
+_8.editor.execCommand(_8.command,_c);
+},onExecute:function(){
+_8.editor.execCommand(_8.command,this.get("value"));
+}});
+_9();
+};
+if(typeof _8.colorPicker=="string"){
+_1([_8.colorPicker],_a);
+}else{
+_a(_8.colorPicker);
+}
+};
 },updateState:function(){
-var _2=this.editor;
-var _3=this.command;
-if(!_2||!_2.isLoaded||!_3.length){
+var _d=this.editor;
+var _e=this.command;
+if(!_d||!_d.isLoaded||!_e.length){
 return;
 }
 if(this.button){
-var _4=this.get("disabled");
-this.button.set("disabled",_4);
-if(_4){
+var _f=this.get("disabled");
+this.button.set("disabled",_f);
+if(_f){
 return;
 }
-var _5;
+var _10;
 try{
-_5=_2.queryCommandValue(_3)||"";
+_10=_d.queryCommandValue(_e)||"";
 }
 catch(e){
-_5="";
+_10="";
 }
 }
-if(_5==""){
-_5="#000000";
+if(_10==""){
+_10="#000000";
 }
-if(_5=="transparent"){
-_5="#ffffff";
+if(_10=="transparent"){
+_10="#ffffff";
 }
-if(typeof _5=="string"){
-if(_5.indexOf("rgb")>-1){
-_5=dojo.colorFromRgb(_5).toHex();
+if(typeof _10=="string"){
+if(_10.indexOf("rgb")>-1){
+_10=_2.fromRgb(_10).toHex();
 }
 }else{
-_5=((_5&255)<<16)|(_5&65280)|((_5&16711680)>>>16);
-_5=_5.toString(16);
-_5="#000000".slice(0,7-_5.length)+_5;
+_10=((_10&255)<<16)|(_10&65280)|((_10&16711680)>>>16);
+_10=_10.toString(16);
+_10="#000000".slice(0,7-_10.length)+_10;
 }
-if(_5!==this.dropDown.get("value")){
-this.dropDown.set("value",_5,false);
+this.value=_10;
+var _11=this.button.dropDown;
+if(_11&&_11.get&&_10!==_11.get("value")){
+_11.set("value",_10,false);
 }
 }});
-dojo.subscribe(dijit._scopeName+".Editor.getPlugin",null,function(o){
-if(o.plugin){
-return;
-}
-switch(o.args.name){
-case "foreColor":
-case "hiliteColor":
-o.plugin=new dijit._editor.plugins.TextColor({command:o.args.name});
-}
+_5.registry["foreColor"]=function(_12){
+return new _7(_12);
+};
+_5.registry["hiliteColor"]=function(_13){
+return new _7(_13);
+};
+return _7;
 });
-}

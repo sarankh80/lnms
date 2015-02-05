@@ -1,81 +1,96 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dijit.form.ValidationTextBox"]){
-dojo._hasResource["dijit.form.ValidationTextBox"]=true;
-dojo.provide("dijit.form.ValidationTextBox");
-dojo.require("dojo.i18n");
-dojo.require("dijit.form.TextBox");
-dojo.require("dijit.Tooltip");
-dojo.requireLocalization("dijit.form","validate",null,"ROOT,ar,ca,cs,da,de,el,es,fi,fr,he,hu,it,ja,kk,ko,nb,nl,pl,pt,pt-pt,ro,ru,sk,sl,sv,th,tr,zh,zh-tw");
-dojo.declare("dijit.form.ValidationTextBox",dijit.form.TextBox,{templateString:dojo.cache("dijit.form","templates/ValidationTextBox.html","<div class=\"dijit dijitReset dijitInlineTable dijitLeft\"\n\tid=\"widget_${id}\" role=\"presentation\"\n\t><div class='dijitReset dijitValidationContainer'\n\t\t><input class=\"dijitReset dijitInputField dijitValidationIcon dijitValidationInner\" value=\"&#935; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"presentation\"\n\t/></div\n\t><div class=\"dijitReset dijitInputField dijitInputContainer\"\n\t\t><input class=\"dijitReset dijitInputInner\" dojoAttachPoint='textbox,focusNode' autocomplete=\"off\"\n\t\t\t${!nameAttrSetting} type='${type}'\n\t/></div\n></div>\n"),baseClass:"dijitTextBox dijitValidationTextBox",required:false,promptMessage:"",invalidMessage:"$_unset_$",missingMessage:"$_unset_$",message:"",constraints:{},regExp:".*",regExpGen:function(_1){
-return this.regExp;
-},state:"",tooltipPosition:[],_setValueAttr:function(){
+//>>built
+require({cache:{"url:dijit/form/templates/ValidationTextBox.html":"<div class=\"dijit dijitReset dijitInline dijitLeft\"\n\tid=\"widget_${id}\" role=\"presentation\"\n\t><div class='dijitReset dijitValidationContainer'\n\t\t><input class=\"dijitReset dijitInputField dijitValidationIcon dijitValidationInner\" value=\"&#935; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"presentation\"\n\t/></div\n\t><div class=\"dijitReset dijitInputField dijitInputContainer\"\n\t\t><input class=\"dijitReset dijitInputInner\" data-dojo-attach-point='textbox,focusNode' autocomplete=\"off\"\n\t\t\t${!nameAttrSetting} type='${type}'\n\t/></div\n></div>\n"}});
+define("dijit/form/ValidationTextBox",["dojo/_base/declare","dojo/_base/kernel","dojo/_base/lang","dojo/i18n","./TextBox","../Tooltip","dojo/text!./templates/ValidationTextBox.html","dojo/i18n!./nls/validate"],function(_1,_2,_3,_4,_5,_6,_7){
+var _8;
+return _8=_1("dijit.form.ValidationTextBox",_5,{templateString:_7,required:false,promptMessage:"",invalidMessage:"$_unset_$",missingMessage:"$_unset_$",message:"",constraints:{},pattern:".*",regExp:"",regExpGen:function(){
+},state:"",tooltipPosition:[],_deprecateRegExp:function(_9,_a){
+if(_a!=_8.prototype[_9]){
+_2.deprecated("ValidationTextBox id="+this.id+", set('"+_9+"', ...) is deprecated.  Use set('pattern', ...) instead.","","2.0");
+this.set("pattern",_a);
+}
+},_setRegExpGenAttr:function(_b){
+this._deprecateRegExp("regExpGen",_b);
+this._set("regExpGen",this._computeRegexp);
+},_setRegExpAttr:function(_c){
+this._deprecateRegExp("regExp",_c);
+},_setValueAttr:function(){
 this.inherited(arguments);
-this.validate(this._focused);
-},validator:function(_2,_3){
-return (new RegExp("^(?:"+this.regExpGen(_3)+")"+(this.required?"":"?")+"$")).test(_2)&&(!this.required||!this._isEmpty(_2))&&(this._isEmpty(_2)||this.parse(_2,_3)!==undefined);
+this._refreshState();
+},validator:function(_d,_e){
+return (new RegExp("^(?:"+this._computeRegexp(_e)+")"+(this.required?"":"?")+"$")).test(_d)&&(!this.required||!this._isEmpty(_d))&&(this._isEmpty(_d)||this.parse(_d,_e)!==undefined);
 },_isValidSubset:function(){
 return this.textbox.value.search(this._partialre)==0;
-},isValid:function(_4){
-return this.validator(this.textbox.value,this.constraints);
-},_isEmpty:function(_5){
-return (this.trim?/^\s*$/:/^$/).test(_5);
-},getErrorMessage:function(_6){
-return (this.required&&this._isEmpty(this.textbox.value))?this.missingMessage:this.invalidMessage;
-},getPromptMessage:function(_7){
+},isValid:function(){
+return this.validator(this.textbox.value,this.get("constraints"));
+},_isEmpty:function(_f){
+return (this.trim?/^\s*$/:/^$/).test(_f);
+},getErrorMessage:function(){
+var _10=this.invalidMessage=="$_unset_$"?this.messages.invalidMessage:!this.invalidMessage?this.promptMessage:this.invalidMessage;
+var _11=this.missingMessage=="$_unset_$"?this.messages.missingMessage:!this.missingMessage?_10:this.missingMessage;
+return (this.required&&this._isEmpty(this.textbox.value))?_11:_10;
+},getPromptMessage:function(){
 return this.promptMessage;
-},_maskValidSubsetError:true,validate:function(_8){
-var _9="";
-var _a=this.disabled||this.isValid(_8);
-if(_a){
+},_maskValidSubsetError:true,validate:function(_12){
+var _13="";
+var _14=this.disabled||this.isValid(_12);
+if(_14){
 this._maskValidSubsetError=true;
 }
-var _b=this._isEmpty(this.textbox.value);
-var _c=!_a&&_8&&this._isValidSubset();
-this._set("state",_a?"":(((((!this._hasBeenBlurred||_8)&&_b)||_c)&&this._maskValidSubsetError)?"Incomplete":"Error"));
-dijit.setWaiState(this.focusNode,"invalid",_a?"false":"true");
+var _15=this._isEmpty(this.textbox.value);
+var _16=!_14&&_12&&this._isValidSubset();
+this._set("state",_14?"":(((((!this._hasBeenBlurred||_12)&&_15)||_16)&&(this._maskValidSubsetError||(_16&&!this._hasBeenBlurred&&_12)))?"Incomplete":"Error"));
+this.focusNode.setAttribute("aria-invalid",this.state=="Error"?"true":"false");
 if(this.state=="Error"){
-this._maskValidSubsetError=_8&&_c;
-_9=this.getErrorMessage(_8);
+this._maskValidSubsetError=_12&&_16;
+_13=this.getErrorMessage(_12);
 }else{
 if(this.state=="Incomplete"){
-_9=this.getPromptMessage(_8);
-this._maskValidSubsetError=!this._hasBeenBlurred||_8;
+_13=this.getPromptMessage(_12);
+this._maskValidSubsetError=!this._hasBeenBlurred||_12;
 }else{
-if(_b){
-_9=this.getPromptMessage(_8);
+if(_15){
+_13=this.getPromptMessage(_12);
 }
 }
 }
-this.set("message",_9);
-return _a;
-},displayMessage:function(_d){
-dijit.hideTooltip(this.domNode);
-if(_d&&this._focused){
-dijit.showTooltip(_d,this.domNode,this.tooltipPosition,!this.isLeftToRight());
+this.set("message",_13);
+return _14;
+},displayMessage:function(_17){
+if(_17&&this.focused){
+_6.show(_17,this.domNode,this.tooltipPosition,!this.isLeftToRight());
+}else{
+_6.hide(this.domNode);
 }
 },_refreshState:function(){
-this.validate(this._focused);
-this.inherited(arguments);
-},constructor:function(){
-this.constraints={};
-},_setConstraintsAttr:function(_e){
-if(!_e.locale&&this.lang){
-_e.locale=this.lang;
+if(this._created){
+this.validate(this.focused);
 }
-this._set("constraints",_e);
-this._computePartialRE();
-},_computePartialRE:function(){
-var p=this.regExpGen(this.constraints);
-this.regExp=p;
-var _f="";
+this.inherited(arguments);
+},constructor:function(_18){
+this.constraints=_3.clone(this.constraints);
+this.baseClass+=" dijitValidationTextBox";
+},startup:function(){
+this.inherited(arguments);
+this._refreshState();
+},_setConstraintsAttr:function(_19){
+if(!_19.locale&&this.lang){
+_19.locale=this.lang;
+}
+this._set("constraints",_19);
+this._refreshState();
+},_setPatternAttr:function(_1a){
+this._set("pattern",_1a);
+this._refreshState();
+},_computeRegexp:function(_1b){
+var p=this.pattern;
+if(typeof p=="function"){
+p=p.call(this,_1b);
+}
+if(p!=this._lastRegExp){
+var _1c="";
+this._lastRegExp=p;
 if(p!=".*"){
-this.regExp.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,function(re){
+p.replace(/\\.|\[\]|\[.*?[^\\]{1}\]|\{.*?\}|\(\?[=:!]|./g,function(re){
 switch(re.charAt(0)){
 case "{":
 case "+":
@@ -85,127 +100,49 @@ case "^":
 case "$":
 case "|":
 case "(":
-_f+=re;
+_1c+=re;
 break;
 case ")":
-_f+="|$)";
+_1c+="|$)";
 break;
 default:
-_f+="(?:"+re+"|$)";
+_1c+="(?:"+re+"|$)";
 break;
 }
 });
 }
 try{
-"".search(_f);
+"".search(_1c);
 }
 catch(e){
-_f=this.regExp;
-console.warn("RegExp error in "+this.declaredClass+": "+this.regExp);
+_1c=this.pattern;
+console.warn("RegExp error in "+this.declaredClass+": "+this.pattern);
 }
-this._partialre="^(?:"+_f+")$";
+this._partialre="^(?:"+_1c+")$";
+}
+return p;
 },postMixInProperties:function(){
 this.inherited(arguments);
-this.messages=dojo.i18n.getLocalization("dijit.form","validate",this.lang);
-if(this.invalidMessage=="$_unset_$"){
-this.invalidMessage=this.messages.invalidMessage;
-}
-if(!this.invalidMessage){
-this.invalidMessage=this.promptMessage;
-}
-if(this.missingMessage=="$_unset_$"){
-this.missingMessage=this.messages.missingMessage;
-}
-if(!this.missingMessage){
-this.missingMessage=this.invalidMessage;
-}
+this.messages=_4.getLocalization("dijit.form","validate",this.lang);
 this._setConstraintsAttr(this.constraints);
-},_setDisabledAttr:function(_10){
+},_setDisabledAttr:function(_1d){
 this.inherited(arguments);
 this._refreshState();
-},_setRequiredAttr:function(_11){
-this._set("required",_11);
-dijit.setWaiState(this.focusNode,"required",_11);
+},_setRequiredAttr:function(_1e){
+this._set("required",_1e);
+this.focusNode.setAttribute("aria-required",_1e);
 this._refreshState();
-},_setMessageAttr:function(_12){
-this._set("message",_12);
-this.displayMessage(_12);
+},_setMessageAttr:function(_1f){
+this._set("message",_1f);
+this.displayMessage(_1f);
 },reset:function(){
 this._maskValidSubsetError=true;
 this.inherited(arguments);
 },_onBlur:function(){
 this.displayMessage("");
 this.inherited(arguments);
-}});
-dojo.declare("dijit.form.MappedTextBox",dijit.form.ValidationTextBox,{postMixInProperties:function(){
-this.inherited(arguments);
-this.nameAttrSetting="";
-},serialize:function(val,_13){
-return val.toString?val.toString():"";
-},toString:function(){
-var val=this.filter(this.get("value"));
-return val!=null?(typeof val=="string"?val:this.serialize(val,this.constraints)):"";
-},validate:function(){
-this.valueNode.value=this.toString();
-return this.inherited(arguments);
-},buildRendering:function(){
-this.inherited(arguments);
-this.valueNode=dojo.place("<input type='hidden'"+(this.name?" name='"+this.name.replace(/'/g,"&quot;")+"'":"")+"/>",this.textbox,"after");
-},reset:function(){
-this.valueNode.value="";
+},destroy:function(){
+_6.hide(this.domNode);
 this.inherited(arguments);
 }});
-dojo.declare("dijit.form.RangeBoundTextBox",dijit.form.MappedTextBox,{rangeMessage:"",rangeCheck:function(_14,_15){
-return ("min" in _15?(this.compare(_14,_15.min)>=0):true)&&("max" in _15?(this.compare(_14,_15.max)<=0):true);
-},isInRange:function(_16){
-return this.rangeCheck(this.get("value"),this.constraints);
-},_isDefinitelyOutOfRange:function(){
-var val=this.get("value");
-var _17=false;
-var _18=false;
-if("min" in this.constraints){
-var min=this.constraints.min;
-min=this.compare(val,((typeof min=="number")&&min>=0&&val!=0)?0:min);
-_17=(typeof min=="number")&&min<0;
-}
-if("max" in this.constraints){
-var max=this.constraints.max;
-max=this.compare(val,((typeof max!="number")||max>0)?max:0);
-_18=(typeof max=="number")&&max>0;
-}
-return _17||_18;
-},_isValidSubset:function(){
-return this.inherited(arguments)&&!this._isDefinitelyOutOfRange();
-},isValid:function(_19){
-return this.inherited(arguments)&&((this._isEmpty(this.textbox.value)&&!this.required)||this.isInRange(_19));
-},getErrorMessage:function(_1a){
-var v=this.get("value");
-if(v!==null&&v!==""&&v!==undefined&&(typeof v!="number"||!isNaN(v))&&!this.isInRange(_1a)){
-return this.rangeMessage;
-}
-return this.inherited(arguments);
-},postMixInProperties:function(){
-this.inherited(arguments);
-if(!this.rangeMessage){
-this.messages=dojo.i18n.getLocalization("dijit.form","validate",this.lang);
-this.rangeMessage=this.messages.rangeMessage;
-}
-},_setConstraintsAttr:function(_1b){
-this.inherited(arguments);
-if(this.focusNode){
-if(this.constraints.min!==undefined){
-dijit.setWaiState(this.focusNode,"valuemin",this.constraints.min);
-}else{
-dijit.removeWaiState(this.focusNode,"valuemin");
-}
-if(this.constraints.max!==undefined){
-dijit.setWaiState(this.focusNode,"valuemax",this.constraints.max);
-}else{
-dijit.removeWaiState(this.focusNode,"valuemax");
-}
-}
-},_setValueAttr:function(_1c,_1d){
-dijit.setWaiState(this.focusNode,"valuenow",_1c);
-this.inherited(arguments);
-}});
-}
+});

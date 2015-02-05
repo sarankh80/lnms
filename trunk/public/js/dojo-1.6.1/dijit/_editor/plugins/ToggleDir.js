@@ -1,45 +1,24 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dijit._editor.plugins.ToggleDir"]){
-dojo._hasResource["dijit._editor.plugins.ToggleDir"]=true;
-dojo.provide("dijit._editor.plugins.ToggleDir");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.ToggleButton");
-dojo.experimental("dijit._editor.plugins.ToggleDir");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit.form.ToggleButton");
-dojo.declare("dijit._editor.plugins.ToggleDir",dijit._editor._Plugin,{useDefaultCommand:false,command:"toggleDir",buttonClass:dijit.form.ToggleButton,_initButton:function(){
+//>>built
+define("dijit/_editor/plugins/ToggleDir",["dojo/_base/declare","dojo/dom-style","dojo/_base/kernel","dojo/_base/lang","dojo/on","../_Plugin","../../form/ToggleButton"],function(_1,_2,_3,_4,on,_5,_6){
+var _7=_1("dijit._editor.plugins.ToggleDir",_5,{useDefaultCommand:false,command:"toggleDir",buttonClass:_6,_initButton:function(){
 this.inherited(arguments);
-this.editor.onLoadDeferred.addCallback(dojo.hitch(this,function(){
-var _1=this.editor.editorObject.contentWindow.document.documentElement;
-_1=_1.getElementsByTagName("body")[0];
-var _2=dojo.getComputedStyle(_1).direction=="ltr";
-this.button.set("checked",!_2);
-this.connect(this.button,"onChange","_setRtl");
-}));
+var _8=this.button,_9=this.editor.isLeftToRight();
+this.own(this.button.on("change",_4.hitch(this,function(_a){
+this.editor.set("textDir",_9^_a?"ltr":"rtl");
+})));
+var _b=_9?"ltr":"rtl";
+function _c(_d){
+_8.set("checked",_d&&_d!==_b,false);
+};
+_c(this.editor.get("textDir"));
+this.editor.watch("textDir",function(_e,_f,_10){
+_c(_10);
+});
 },updateState:function(){
 this.button.set("disabled",this.get("disabled"));
-},_setRtl:function(_3){
-var _4="ltr";
-if(_3){
-_4="rtl";
-}
-var _5=this.editor.editorObject.contentWindow.document.documentElement;
-_5=_5.getElementsByTagName("body")[0];
-_5.dir=_4;
 }});
-dojo.subscribe(dijit._scopeName+".Editor.getPlugin",null,function(o){
-if(o.plugin){
-return;
-}
-switch(o.args.name){
-case "toggleDir":
-o.plugin=new dijit._editor.plugins.ToggleDir({command:o.args.name});
-}
+_5.registry["toggleDir"]=function(){
+return new _7({command:"toggleDir"});
+};
+return _7;
 });
-}

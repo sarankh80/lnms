@@ -204,8 +204,9 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$_graice_pariod->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required' =>'true',
-				'readOnly'=>true,
+				'required'=>'true',
+				'onKeyup'=>'CompareGraicePariod();'
+				//'readOnly'=>true,
 		));
 		$_graice_pariod->setValue(0);
 	

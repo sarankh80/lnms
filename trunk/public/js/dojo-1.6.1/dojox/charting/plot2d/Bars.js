@@ -1,93 +1,168 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dojox.charting.plot2d.Bars"]){
-dojo._hasResource["dojox.charting.plot2d.Bars"]=true;
-dojo.provide("dojox.charting.plot2d.Bars");
-dojo.require("dojox.charting.plot2d.common");
-dojo.require("dojox.charting.plot2d.Base");
-dojo.require("dojox.gfx.fx");
-dojo.require("dojox.lang.utils");
-dojo.require("dojox.lang.functional");
-dojo.require("dojox.lang.functional.reversed");
-(function(){
-var df=dojox.lang.functional,du=dojox.lang.utils,dc=dojox.charting.plot2d.common,_1=df.lambda("item.purgeGroup()");
-dojo.declare("dojox.charting.plot2d.Bars",dojox.charting.plot2d.Base,{defaultParams:{hAxis:"x",vAxis:"y",gap:0,animate:null},optionalParams:{minBarSize:1,maxBarSize:1,stroke:{},outline:{},shadow:{},fill:{},font:"",fontColor:""},constructor:function(_2,_3){
-this.opt=dojo.clone(this.defaultParams);
-du.updateWithObject(this.opt,_3);
-du.updateWithPattern(this.opt,_3,this.optionalParams);
-this.series=[];
-this.hAxis=this.opt.hAxis;
-this.vAxis=this.opt.vAxis;
+//>>built
+define("dojox/charting/plot2d/Bars",["dojo/_base/lang","dojo/_base/array","dojo/_base/declare","dojo/has","./CartesianBase","./_PlotEvents","./common","dojox/gfx/fx","dojox/lang/utils","dojox/lang/functional","dojox/lang/functional/reversed"],function(_1,_2,_3,_4,_5,_6,dc,fx,du,df,_7){
+var _8=_7.lambda("item.purgeGroup()");
+return _3("dojox.charting.plot2d.Bars",[_5,_6],{defaultParams:{gap:0,animate:null,enableCache:false},optionalParams:{minBarSize:1,maxBarSize:1,stroke:{},outline:{},shadow:{},fill:{},filter:{},styleFunc:null,font:"",fontColor:""},constructor:function(_9,_a){
+this.opt=_1.clone(_1.mixin(this.opt,this.defaultParams));
+du.updateWithObject(this.opt,_a);
+du.updateWithPattern(this.opt,_a,this.optionalParams);
 this.animate=this.opt.animate;
+this.renderingOptions={"shape-rendering":"crispEdges"};
 },getSeriesStats:function(){
-var _4=dc.collectSimpleStats(this.series),t;
-_4.hmin-=0.5;
-_4.hmax+=0.5;
-t=_4.hmin,_4.hmin=_4.vmin,_4.vmin=t;
-t=_4.hmax,_4.hmax=_4.vmax,_4.vmax=t;
-return _4;
-},render:function(_5,_6){
+var _b=dc.collectSimpleStats(this.series),t;
+_b.hmin-=0.5;
+_b.hmax+=0.5;
+t=_b.hmin,_b.hmin=_b.vmin,_b.vmin=t;
+t=_b.hmax,_b.hmax=_b.vmax,_b.vmax=t;
+return _b;
+},createRect:function(_c,_d,_e){
+var _f;
+if(this.opt.enableCache&&_c._rectFreePool.length>0){
+_f=_c._rectFreePool.pop();
+_f.setShape(_e);
+_d.add(_f);
+}else{
+_f=_d.createRect(_e);
+}
+if(this.opt.enableCache){
+_c._rectUsePool.push(_f);
+}
+return _f;
+},createLabel:function(_10,_11,_12,_13){
+if(this.opt.labels&&this.opt.labelStyle=="outside"){
+var y=_12.y+_12.height/2;
+var x=_12.x+_12.width+this.opt.labelOffset;
+this.renderLabel(_10,x,y,this._getLabel(isNaN(_11.y)?_11:_11.y),_13,"start");
+}else{
+this.inherited(arguments);
+}
+},render:function(dim,_14){
 if(this.zoom&&!this.isDataDirty()){
-return this.performZoom(_5,_6);
+return this.performZoom(dim,_14);
 }
 this.dirty=this.isDirty();
 this.resetEvents();
+var s;
 if(this.dirty){
-dojo.forEach(this.series,_1);
+_2.forEach(this.series,_8);
 this._eventSeries={};
 this.cleanGroup();
-var s=this.group;
-df.forEachRev(this.series,function(_7){
-_7.cleanGroup(s);
+s=this.getGroup();
+df.forEachRev(this.series,function(_15){
+_15.cleanGroup(s);
 });
 }
-var t=this.chart.theme,f,_8,_9,ht=this._hScaler.scaler.getTransformerFromModel(this._hScaler),vt=this._vScaler.scaler.getTransformerFromModel(this._vScaler),_a=Math.max(0,this._hScaler.bounds.lower),_b=ht(_a),_c=this.events();
-f=dc.calculateBarSize(this._vScaler.bounds.scale,this.opt);
-_8=f.gap;
-_9=f.size;
+var t=this.chart.theme,ht=this._hScaler.scaler.getTransformerFromModel(this._hScaler),vt=this._vScaler.scaler.getTransformerFromModel(this._vScaler),_16=Math.max(0,this._hScaler.bounds.lower),_17=ht(_16),_18=this.events();
+var bar=this.getBarProperties();
+var _19=this.series.length;
+_2.forEach(this.series,function(_1a){
+if(_1a.hidden){
+_19--;
+}
+});
+var z=_19;
 for(var i=this.series.length-1;i>=0;--i){
-var _d=this.series[i];
-if(!this.dirty&&!_d.dirty){
+var run=this.series[i];
+if(!this.dirty&&!run.dirty){
 t.skip();
-this._reconnectEvents(_d.name);
+this._reconnectEvents(run.name);
 continue;
 }
-_d.cleanGroup();
-var _e=t.next("bar",[this.opt,_d]),s=_d.group,_f=new Array(_d.data.length);
-for(var j=0;j<_d.data.length;++j){
-var _10=_d.data[j];
-if(_10!==null){
-var v=typeof _10=="number"?_10:_10.y,hv=ht(v),_11=hv-_b,w=Math.abs(_11),_12=typeof _10!="number"?t.addMixin(_e,"bar",_10,true):t.post(_e,"bar");
-if(w>=1&&_9>=1){
-var _13={x:_6.l+(v<_a?hv:_b),y:_5.height-_6.b-vt(j+1.5)+_8,width:w,height:_9};
-var _14=this._plotFill(_12.series.fill,_5,_6);
-_14=this._shapeFill(_14,_13);
-var _15=s.createRect(_13).setFill(_14).setStroke(_12.series.stroke);
-_d.dyn.fill=_15.getFill();
-_d.dyn.stroke=_15.getStroke();
-if(_c){
-var o={element:"bar",index:j,run:_d,shape:_15,x:v,y:j+1.5};
-this._connectEvents(o);
-_f[j]=o;
+run.cleanGroup();
+if(this.opt.enableCache){
+run._rectFreePool=(run._rectFreePool?run._rectFreePool:[]).concat(run._rectUsePool?run._rectUsePool:[]);
+run._rectUsePool=[];
 }
+var _1b=t.next("bar",[this.opt,run]);
+if(run.hidden){
+run.dyn.fill=_1b.series.fill;
+run.dyn.stroke=_1b.series.stroke;
+continue;
+}
+z--;
+var _1c=new Array(run.data.length);
+s=run.group;
+var _1d=_2.some(run.data,function(_1e){
+return typeof _1e=="number"||(_1e&&!_1e.hasOwnProperty("x"));
+});
+var min=_1d?Math.max(0,Math.floor(this._vScaler.bounds.from-1)):0;
+var max=_1d?Math.min(run.data.length,Math.ceil(this._vScaler.bounds.to)):run.data.length;
+for(var j=min;j<max;++j){
+var _1f=run.data[j];
+if(_1f!=null){
+var val=this.getValue(_1f,j,i,_1d),hv=ht(val.y),w=Math.abs(hv-_17),_20,_21;
+if(this.opt.styleFunc||typeof _1f!="number"){
+var _22=typeof _1f!="number"?[_1f]:[];
+if(this.opt.styleFunc){
+_22.push(this.opt.styleFunc(_1f));
+}
+_20=t.addMixin(_1b,"bar",_22,true);
+}else{
+_20=t.post(_1b,"bar");
+}
+if(w>=0&&bar.height>=1){
+var _23={x:_14.l+(val.y<_16?hv:_17),y:dim.height-_14.b-vt(val.x+1.5)+bar.gap+bar.thickness*(_19-z-1),width:w,height:bar.height};
+if(_20.series.shadow){
+var _24=_1.clone(_23);
+_24.x+=_20.series.shadow.dx;
+_24.y+=_20.series.shadow.dy;
+_21=this.createRect(run,s,_24).setFill(_20.series.shadow.color).setStroke(_20.series.shadow);
 if(this.animate){
-this._animateBar(_15,_6.l+_b,-w);
+this._animateBar(_21,_14.l+_17,-w);
+}
+}
+var _25=this._plotFill(_20.series.fill,dim,_14);
+_25=this._shapeFill(_25,_23);
+var _26=this.createRect(run,s,_23).setFill(_25).setStroke(_20.series.stroke);
+if(_26.setFilter&&_20.series.filter){
+_26.setFilter(_20.series.filter);
+}
+run.dyn.fill=_26.getFill();
+run.dyn.stroke=_26.getStroke();
+if(_18){
+var o={element:"bar",index:j,run:run,shape:_26,shadow:_21,cx:val.y,cy:val.x+1.5,x:_1d?j:run.data[j].x,y:_1d?run.data[j]:run.data[j].y};
+this._connectEvents(o);
+_1c[j]=o;
+}
+if(!isNaN(val.py)&&val.py>_16){
+_23.x+=ht(val.py);
+_23.width-=ht(val.py);
+}
+this.createLabel(s,_1f,_23,_20);
+if(this.animate){
+this._animateBar(_26,_14.l+_17,-w);
 }
 }
 }
 }
-this._eventSeries[_d.name]=_f;
-_d.dirty=false;
+this._eventSeries[run.name]=_1c;
+run.dirty=false;
 }
 this.dirty=false;
-return this;
-},_animateBar:function(_16,_17,_18){
-dojox.gfx.fx.animateTransform(dojo.delegate({shape:_16,duration:1200,transform:[{name:"translate",start:[_17-(_17/_18),0],end:[0,0]},{name:"scale",start:[1/_18,1],end:[1,1]},{name:"original"}]},this.animate)).play();
-}});
-})();
+if(_4("dojo-bidi")){
+this._checkOrientation(this.group,dim,_14);
 }
+return this;
+},getValue:function(_27,j,_28,_29){
+var y,x;
+if(_29){
+if(typeof _27=="number"){
+y=_27;
+}else{
+y=_27.y;
+}
+x=j;
+}else{
+y=_27.y;
+x=_27.x-1;
+}
+return {y:y,x:x};
+},getBarProperties:function(){
+var f=dc.calculateBarSize(this._vScaler.bounds.scale,this.opt);
+return {gap:f.gap,height:f.size,thickness:0};
+},_animateBar:function(_2a,_2b,_2c){
+if(_2c==0){
+_2c=1;
+}
+fx.animateTransform(_1.delegate({shape:_2a,duration:1200,transform:[{name:"translate",start:[_2b-(_2b/_2c),0],end:[0,0]},{name:"scale",start:[1/_2c,1],end:[1,1]},{name:"original"}]},this.animate)).play();
+}});
+});

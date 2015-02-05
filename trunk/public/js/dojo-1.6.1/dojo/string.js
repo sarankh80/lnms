@@ -4,48 +4,57 @@
 	see: http://dojotoolkit.org/license for details
 */
 
-
-if(!dojo._hasResource["dojo.string"]){
-dojo._hasResource["dojo.string"]=true;
-dojo.provide("dojo.string");
-dojo.getObject("string",true,dojo);
-dojo.string.rep=function(_1,_2){
-if(_2<=0||!_1){
+//>>built
+define("dojo/string",["./_base/kernel","./_base/lang"],function(_1,_2){
+var _3=/[&<>'"\/]/g;
+var _4={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#x27;","/":"&#x2F;"};
+var _5={};
+_2.setObject("dojo.string",_5);
+_5.escape=function(_6){
+if(!_6){
 return "";
 }
-var _3=[];
-for(;;){
-if(_2&1){
-_3.push(_1);
+return _6.replace(_3,function(c){
+return _4[c];
+});
+};
+_5.rep=function(_7,_8){
+if(_8<=0||!_7){
+return "";
 }
-if(!(_2>>=1)){
+var _9=[];
+for(;;){
+if(_8&1){
+_9.push(_7);
+}
+if(!(_8>>=1)){
 break;
 }
-_1+=_1;
+_7+=_7;
 }
-return _3.join("");
+return _9.join("");
 };
-dojo.string.pad=function(_4,_5,ch,_6){
+_5.pad=function(_a,_b,ch,_c){
 if(!ch){
 ch="0";
 }
-var _7=String(_4),_8=dojo.string.rep(ch,Math.ceil((_5-_7.length)/ch.length));
-return _6?_7+_8:_8+_7;
+var _d=String(_a),_e=_5.rep(ch,Math.ceil((_b-_d.length)/ch.length));
+return _c?_d+_e:_e+_d;
 };
-dojo.string.substitute=function(_9,_a,_b,_c){
-_c=_c||dojo.global;
-_b=_b?dojo.hitch(_c,_b):function(v){
+_5.substitute=function(_f,map,_10,_11){
+_11=_11||_1.global;
+_10=_10?_2.hitch(_11,_10):function(v){
 return v;
 };
-return _9.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g,function(_d,_e,_f){
-var _10=dojo.getObject(_e,false,_a);
-if(_f){
-_10=dojo.getObject(_f,false,_c).call(_c,_10,_e);
+return _f.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g,function(_12,key,_13){
+var _14=_2.getObject(key,false,map);
+if(_13){
+_14=_2.getObject(_13,false,_11).call(_11,_14,key);
 }
-return _b(_10,_e).toString();
+return _10(_14,key).toString();
 });
 };
-dojo.string.trim=String.prototype.trim?dojo.trim:function(str){
+_5.trim=String.prototype.trim?_2.trim:function(str){
 str=str.replace(/^\s+/,"");
 for(var i=str.length-1;i>=0;i--){
 if(/\S/.test(str.charAt(i))){
@@ -55,4 +64,5 @@ break;
 }
 return str;
 };
-}
+return _5;
+});

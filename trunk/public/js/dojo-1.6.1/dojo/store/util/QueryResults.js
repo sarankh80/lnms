@@ -4,37 +4,38 @@
 	see: http://dojotoolkit.org/license for details
 */
 
-
-if(!dojo._hasResource["dojo.store.util.QueryResults"]){
-dojo._hasResource["dojo.store.util.QueryResults"]=true;
-dojo.provide("dojo.store.util.QueryResults");
-dojo.getObject("store.util",true,dojo);
-dojo.store.util.QueryResults=function(_1){
-if(!_1){
-return _1;
+//>>built
+define("dojo/store/util/QueryResults",["../../_base/array","../../_base/lang","../../when"],function(_1,_2,_3){
+var _4=function(_5){
+if(!_5){
+return _5;
 }
-if(_1.then){
-_1=dojo.delegate(_1);
+var _6=!!_5.then;
+if(_6){
+_5=_2.delegate(_5);
 }
-function _2(_3){
-if(!_1[_3]){
-_1[_3]=function(){
-var _4=arguments;
-return dojo.when(_1,function(_5){
-Array.prototype.unshift.call(_4,_5);
-return dojo.store.util.QueryResults(dojo[_3].apply(dojo,_4));
+function _7(_8){
+_5[_8]=function(){
+var _9=arguments;
+var _a=_3(_5,function(_b){
+Array.prototype.unshift.call(_9,_b);
+return _4(_1[_8].apply(_1,_9));
 });
-};
+if(_8!=="forEach"||_6){
+return _a;
 }
 };
-_2("forEach");
-_2("filter");
-_2("map");
-if(!_1.total){
-_1.total=dojo.when(_1,function(_6){
-return _6.length;
+};
+_7("forEach");
+_7("filter");
+_7("map");
+if(_5.total==null){
+_5.total=_3(_5,function(_c){
+return _c.length;
 });
 }
-return _1;
+return _5;
 };
-}
+_2.setObject("dojo.store.util.QueryResults",_4);
+return _4;
+});

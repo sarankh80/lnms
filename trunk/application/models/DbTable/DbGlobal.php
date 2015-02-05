@@ -5,6 +5,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	public function setName($name){
 		$this->_name=$name;
 	}
+	public static function getUserId(){
+		$session_user=new Zend_Session_Namespace('auth');
+		return $session_user->user_id;
+	
+	}
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -557,6 +562,37 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $arr;
   	
+  }
+  public function getAccountBranchByOther($acc_id, $br_id ,$curr_id,$balance=null,$increase=null){
+//   	$sql = " CALL stGetAccountNamebyOther($acc_id,$br_id,$curr_id)";
+		$sql =" SELECT * FROM ln_account_branch 
+		WHERE  account_id = $acc_id AND branch_id=$br_id AND currency_type = $curr_id LIMIT 1";
+  	$db = $this->getAdapter();
+  	$row =  $db->fetchRow($sql);
+  	$increase = ($increase==1)?'+':'-'; 
+	$table='ln_account_branch';
+  	if(empty($row)){
+  		$arr =array(
+  				'account_id'=>$acc_id,
+				'branch_id'=>$br_id,
+  				'currency_type'=>$curr_id,
+				'balance'=>$increase.$balance,
+				'user_id'=>self::getUserId(),
+				'date'=>date('Y-m-d'),
+  				);
+		$db->insert($table, $arr);
+// 		echo 111111;exit();
+  		return $arr;
+  		
+  	}else{
+//   		print_r($row);
+//   		echo 22222;exit();
+  		$where ='id = '.$row['id'] ;
+  		$data = array(
+  				'balance'=>($increase.$balance)+$row['balance']
+  				);
+  		$db->update($table,$data,$where);
+  	}
   }
 }
 ?>

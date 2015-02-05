@@ -97,10 +97,31 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     			$this->_name='ln_loan_member';
     			$g_id = $this->insert($datamember);//add member loan
     			unset($datamember);
+    			
+    			$arr =array(
+    					'branch_id'=>$data['branch_id'],
+    					'receipt_number'=>$data['loan_code'],
+    					'date'=>$data['release_date'],
+    					'create_date'=>date('Y-m-d'),
+    					'note'=>'from loan disburse',
+    					'from_location'=>1,
+    					'user_id'=>$this->getUserId(),
+    					'balance'=>$data['total_amount'],
+    					'loan_fee'=>$data['loan_fee'],
+    					'client_id'=>$data['member'],
+    					'currency_type'=>$data['currency_type']
+    					
+    			);
+//     			$this->insert($arr);
+//     			unset($arr);
+    			$db_j = new Accounting_Model_DbTable_DbJournal();
+    			$jur_id = $db_j->addTransactionJournal($arr);
+    			
     			$remain_principal = $data['total_amount'];
     			$next_payment = $data['first_payment'];
     			$start_date = $data['release_date'];//loan release;
 //     			$next_payment = $start_date;
+				
     			
     			$old_remain_principal = 0;
     			$old_pri_permonth = 0;

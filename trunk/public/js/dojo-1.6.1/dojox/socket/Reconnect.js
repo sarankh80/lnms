@@ -1,43 +1,36 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dojox.socket.Reconnect"]){
-dojo._hasResource["dojox.socket.Reconnect"]=true;
-dojo.provide("dojox.socket.Reconnect");
-dojox.socket.Reconnect=function(_1,_2){
-_2=_2||{};
-var _3=_2.reconnectTime||10000;
-var _4=dojo.connect(_1,"onclose",function(_5){
+//>>built
+define("dojox/socket/Reconnect",["dojox/socket","dojo/aspect"],function(_1,_2){
+_1.Reconnect=function(_3,_4){
+var _5=_4.reconnectTime||10000;
+var _6,_7;
+_4=_4||{};
+_2.after(_3,"onclose",function(_8){
 clearTimeout(_6);
-if(!_5.wasClean){
-_1.disconnected(function(){
-dojox.socket.replace(_1,_7=_1.reconnect());
+if(!_8.wasClean){
+_3.disconnected(function(){
+_1.replace(_3,_7=_3.reconnect());
 });
 }
-});
-var _6,_7;
-if(!_1.disconnected){
-_1.disconnected=function(_8){
+},true);
+if(!_3.disconnected){
+_3.disconnected=function(_9){
 setTimeout(function(){
-_8();
+_9();
 _6=setTimeout(function(){
 if(_7.readyState<2){
-_3=_2.reconnectTime||10000;
+_5=_4.reconnectTime||10000;
 }
 },10000);
-},_3);
-_3*=_2.backoffRate||2;
+},_5);
+_5*=_4.backoffRate||2;
 };
 }
-if(!_1.reconnect){
-_1.reconnect=function(){
-return _1.args?dojox.socket.LongPoll(_1.args):dojox.socket.WebSocket({url:_1.URL||_1.url});
+if(!_3.reconnect){
+_3.reconnect=function(){
+return _3.args?_1.LongPoll(_3.args):_1.WebSocket({url:_3.URL||_3.url});
 };
 }
-return _1;
+return _3;
 };
-}
+return _1.Reconnect;
+});

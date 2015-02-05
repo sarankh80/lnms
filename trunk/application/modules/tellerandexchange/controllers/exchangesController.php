@@ -69,7 +69,6 @@ class Tellerandexchange_ExchangesController extends Zend_Controller_Action
 				}else{
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/exchanges/index');
 				}
-				
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
