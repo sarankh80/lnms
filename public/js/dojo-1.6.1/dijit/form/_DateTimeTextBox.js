@@ -1,105 +1,119 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dijit.form._DateTimeTextBox"]){
-dojo._hasResource["dijit.form._DateTimeTextBox"]=true;
-dojo.provide("dijit.form._DateTimeTextBox");
-dojo.require("dojo.date");
-dojo.require("dojo.date.locale");
-dojo.require("dojo.date.stamp");
-dojo.require("dijit.form.ValidationTextBox");
-dojo.require("dijit._HasDropDown");
+//>>built
+require({cache:{"url:dijit/form/templates/DropDownBox.html":"<div class=\"dijit dijitReset dijitInline dijitLeft\"\n\tid=\"widget_${id}\"\n\trole=\"combobox\"\n\taria-haspopup=\"true\"\n\tdata-dojo-attach-point=\"_popupStateNode\"\n\t><div class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer'\n\t\tdata-dojo-attach-point=\"_buttonNode\" role=\"presentation\"\n\t\t><input class=\"dijitReset dijitInputField dijitArrowButtonInner\" value=\"&#9660; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"button presentation\" aria-hidden=\"true\"\n\t\t\t${_buttonInputDisabled}\n\t/></div\n\t><div class='dijitReset dijitValidationContainer'\n\t\t><input class=\"dijitReset dijitInputField dijitValidationIcon dijitValidationInner\" value=\"&#935; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"presentation\"\n\t/></div\n\t><div class=\"dijitReset dijitInputField dijitInputContainer\"\n\t\t><input class='dijitReset dijitInputInner' ${!nameAttrSetting} type=\"text\" autocomplete=\"off\"\n\t\t\tdata-dojo-attach-point=\"textbox,focusNode\" role=\"textbox\"\n\t/></div\n></div>\n"}});
+define("dijit/form/_DateTimeTextBox",["dojo/date","dojo/date/locale","dojo/date/stamp","dojo/_base/declare","dojo/_base/lang","./RangeBoundTextBox","../_HasDropDown","dojo/text!./templates/DropDownBox.html"],function(_1,_2,_3,_4,_5,_6,_7,_8){
 new Date("X");
-dojo.declare("dijit.form._DateTimeTextBox",[dijit.form.RangeBoundTextBox,dijit._HasDropDown],{templateString:dojo.cache("dijit.form","templates/DropDownBox.html","<div class=\"dijit dijitReset dijitInlineTable dijitLeft\"\n\tid=\"widget_${id}\"\n\trole=\"combobox\"\n\t><div class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer'\n\t\tdojoAttachPoint=\"_buttonNode, _popupStateNode\" role=\"presentation\"\n\t\t><input class=\"dijitReset dijitInputField dijitArrowButtonInner\" value=\"&#9660; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"presentation\"\n\t\t\t${_buttonInputDisabled}\n\t/></div\n\t><div class='dijitReset dijitValidationContainer'\n\t\t><input class=\"dijitReset dijitInputField dijitValidationIcon dijitValidationInner\" value=\"&#935; \" type=\"text\" tabIndex=\"-1\" readonly=\"readonly\" role=\"presentation\"\n\t/></div\n\t><div class=\"dijitReset dijitInputField dijitInputContainer\"\n\t\t><input class='dijitReset dijitInputInner' ${!nameAttrSetting} type=\"text\" autocomplete=\"off\"\n\t\t\tdojoAttachPoint=\"textbox,focusNode\" role=\"textbox\" aria-haspopup=\"true\"\n\t/></div\n></div>\n"),hasDownArrow:true,openOnClick:true,regExpGen:dojo.date.locale.regexp,datePackage:"dojo.date",compare:function(_1,_2){
-var _3=this._isInvalidDate(_1);
-var _4=this._isInvalidDate(_2);
-return _3?(_4?0:-1):(_4?1:dojo.date.compare(_1,_2,this._selector));
-},forceWidth:true,format:function(_5,_6){
-if(!_5){
+var _9=_4("dijit.form._DateTimeTextBox",[_6,_7],{templateString:_8,hasDownArrow:true,cssStateNodes:{"_buttonNode":"dijitDownArrowButton"},_unboundedConstraints:{},pattern:_2.regexp,datePackage:"",postMixInProperties:function(){
+this.inherited(arguments);
+this._set("type","text");
+},compare:function(_a,_b){
+var _c=this._isInvalidDate(_a);
+var _d=this._isInvalidDate(_b);
+if(_c||_d){
+return (_c&&_d)?0:(!_c?1:-1);
+}
+var _e=this.format(_a,this._unboundedConstraints),_f=this.format(_b,this._unboundedConstraints),_10=this.parse(_e,this._unboundedConstraints),_11=this.parse(_f,this._unboundedConstraints);
+return _e==_f?0:_1.compare(_10,_11,this._selector);
+},autoWidth:true,format:function(_12,_13){
+if(!_12){
 return "";
 }
-return this.dateLocaleModule.format(_5,_6);
-},"parse":function(_7,_8){
-return this.dateLocaleModule.parse(_7,_8)||(this._isEmpty(_7)?null:undefined);
-},serialize:function(_9,_a){
-if(_9.toGregorian){
-_9=_9.toGregorian();
+return this.dateLocaleModule.format(_12,_13);
+},"parse":function(_14,_15){
+return this.dateLocaleModule.parse(_14,_15)||(this._isEmpty(_14)?null:undefined);
+},serialize:function(val,_16){
+if(val.toGregorian){
+val=val.toGregorian();
 }
-return dojo.date.stamp.toISOString(_9,_a);
-},dropDownDefaultValue:new Date(),value:new Date(""),_blankValue:null,popupClass:"",_selector:"",constructor:function(_b){
-var _c=_b.datePackage?_b.datePackage+".Date":"Date";
-this.dateClassObj=dojo.getObject(_c,false);
-this.value=new this.dateClassObj("");
-this.datePackage=_b.datePackage||this.datePackage;
-this.dateLocaleModule=dojo.getObject(this.datePackage+".locale",false);
-this.regExpGen=this.dateLocaleModule.regexp;
-this._invalidDate=dijit.form._DateTimeTextBox.prototype.value.toString();
+return _3.toISOString(val,_16);
+},dropDownDefaultValue:new Date(),value:new Date(""),_blankValue:null,popupClass:"",_selector:"",constructor:function(_17){
+_17=_17||{};
+this.dateModule=_17.datePackage?_5.getObject(_17.datePackage,false):_1;
+this.dateClassObj=this.dateModule.Date||Date;
+if(!(this.dateClassObj instanceof Date)){
+this.value=new this.dateClassObj(this.value);
+}
+this.dateLocaleModule=_17.datePackage?_5.getObject(_17.datePackage+".locale",false):_2;
+this._set("pattern",this.dateLocaleModule.regexp);
+this._invalidDate=this.constructor.prototype.value.toString();
 },buildRendering:function(){
 this.inherited(arguments);
 if(!this.hasDownArrow){
 this._buttonNode.style.display="none";
 }
-if(this.openOnClick||!this.hasDownArrow){
+if(!this.hasDownArrow){
 this._buttonNode=this.domNode;
 this.baseClass+=" dijitComboBoxOpenOnClick";
 }
-},_setConstraintsAttr:function(_d){
-_d.selector=this._selector;
-_d.fullYear=true;
-var _e=dojo.date.stamp.fromISOString;
-if(typeof _d.min=="string"){
-_d.min=_e(_d.min);
+},_setConstraintsAttr:function(_18){
+_18.selector=this._selector;
+_18.fullYear=true;
+var _19=_3.fromISOString;
+if(typeof _18.min=="string"){
+_18.min=_19(_18.min);
+if(!(this.dateClassObj instanceof Date)){
+_18.min=new this.dateClassObj(_18.min);
 }
-if(typeof _d.max=="string"){
-_d.max=_e(_d.max);
 }
-this.inherited(arguments);
-},_isInvalidDate:function(_f){
-return !_f||isNaN(_f)||typeof _f!="object"||_f.toString()==this._invalidDate;
-},_setValueAttr:function(_10,_11,_12){
-if(_10!==undefined){
-if(typeof _10=="string"){
-_10=dojo.date.stamp.fromISOString(_10);
-}
-if(this._isInvalidDate(_10)){
-_10=null;
-}
-if(_10 instanceof Date&&!(this.dateClassObj instanceof Date)){
-_10=new this.dateClassObj(_10);
+if(typeof _18.max=="string"){
+_18.max=_19(_18.max);
+if(!(this.dateClassObj instanceof Date)){
+_18.max=new this.dateClassObj(_18.max);
 }
 }
 this.inherited(arguments);
+this._unboundedConstraints=_5.mixin({},this.constraints,{min:null,max:null});
+},_isInvalidDate:function(_1a){
+return !_1a||isNaN(_1a)||typeof _1a!="object"||_1a.toString()==this._invalidDate;
+},_setValueAttr:function(_1b,_1c,_1d){
+if(_1b!==undefined){
+if(typeof _1b=="string"){
+_1b=_3.fromISOString(_1b);
+}
+if(this._isInvalidDate(_1b)){
+_1b=null;
+}
+if(_1b instanceof Date&&!(this.dateClassObj instanceof Date)){
+_1b=new this.dateClassObj(_1b);
+}
+}
+this.inherited(arguments,[_1b,_1c,_1d]);
+if(this.value instanceof Date){
+this.filterString="";
+}
 if(this.dropDown){
-this.dropDown.set("value",_10,false);
+this.dropDown.set("value",_1b,false);
 }
-},_set:function(_13,_14){
-if(_13=="value"&&this.value instanceof Date&&this.compare(_14,this.value)==0){
+},_set:function(_1e,_1f){
+if(_1e=="value"){
+if(_1f instanceof Date&&!(this.dateClassObj instanceof Date)){
+_1f=new this.dateClassObj(_1f);
+}
+var _20=this._get("value");
+if(_20 instanceof this.dateClassObj&&this.compare(_1f,_20)==0){
 return;
+}
 }
 this.inherited(arguments);
 },_setDropDownDefaultValueAttr:function(val){
 if(this._isInvalidDate(val)){
 val=new this.dateClassObj();
 }
-this.dropDownDefaultValue=val;
-},openDropDown:function(_15){
+this._set("dropDownDefaultValue",val);
+},openDropDown:function(_21){
 if(this.dropDown){
 this.dropDown.destroy();
 }
-var _16=dojo.getObject(this.popupClass,false),_17=this,_18=this.get("value");
-this.dropDown=new _16({onChange:function(_19){
-dijit.form._DateTimeTextBox.superclass._setValueAttr.call(_17,_19,true);
-},id:this.id+"_popup",dir:_17.dir,lang:_17.lang,value:_18,currentFocus:!this._isInvalidDate(_18)?_18:this.dropDownDefaultValue,constraints:_17.constraints,filterString:_17.filterString,datePackage:_17.datePackage,isDisabledDate:function(_1a){
-return !_17.rangeCheck(_1a,_17.constraints);
+var _22=_5.isString(this.popupClass)?_5.getObject(this.popupClass,false):this.popupClass,_23=this,_24=this.get("value");
+this.dropDown=new _22({onChange:function(_25){
+_23.set("value",_25,true);
+},id:this.id+"_popup",dir:_23.dir,lang:_23.lang,value:_24,textDir:_23.textDir,currentFocus:!this._isInvalidDate(_24)?_24:this.dropDownDefaultValue,constraints:_23.constraints,filterString:_23.filterString,datePackage:_23.datePackage,isDisabledDate:function(_26){
+return !_23.rangeCheck(_26,_23.constraints);
 }});
 this.inherited(arguments);
 },_getDisplayedValueAttr:function(){
 return this.textbox.value;
-},_setDisplayedValueAttr:function(_1b,_1c){
-this._setValueAttr(this.parse(_1b,this.constraints),_1c,_1b);
+},_setDisplayedValueAttr:function(_27,_28){
+this._setValueAttr(this.parse(_27,this.constraints),_28,_27);
 }});
-}
+return _9;
+});

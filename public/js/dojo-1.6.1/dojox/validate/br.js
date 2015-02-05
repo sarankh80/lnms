@@ -1,155 +1,147 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dojox.validate.br"]){
-dojo._hasResource["dojox.validate.br"]=true;
-dojo.provide("dojox.validate.br");
-dojo.require("dojox.validate._base");
-dojox.validate.br.isValidCnpj=function(_1){
-if(!dojo.isString(_1)){
-if(!_1){
+//>>built
+define("dojox/validate/br",["dojo/_base/lang","./_base"],function(_1,_2){
+var br=_1.getObject("br",true,_2);
+br.isValidCnpj=function(_3){
+if(!_1.isString(_3)){
+if(!_3){
 return false;
 }
-_1=_1+"";
-while(_1.length<14){
-_1="0"+_1;
+_3=_3+"";
+while(_3.length<14){
+_3="0"+_3;
 }
 }
-var _2={format:["##.###.###/####-##","########/####-##","############-##","##############"]};
-if(dojox.validate.isNumberFormat(_1,_2)){
-_1=_1.replace("/","").replace(/\./g,"").replace("-","");
-var _3=[];
+var _4={format:["##.###.###/####-##","########/####-##","############-##","##############"]};
+if(_2.isNumberFormat(_3,_4)){
+_3=_3.replace("/","").replace(/\./g,"").replace("-","");
+var _5=[];
 var dv=[];
-var i,j,_4;
+var i,j,_6;
 for(i=0;i<10;i++){
-_4="";
-for(j=0;j<_1.length;j++){
-_4+=""+i;
+_6="";
+for(j=0;j<_3.length;j++){
+_6+=""+i;
 }
-if(_1===_4){
+if(_3===_6){
 return false;
 }
 }
 for(i=0;i<12;i++){
-_3.push(parseInt(_1.charAt(i),10));
+_5.push(parseInt(_3.charAt(i),10));
 }
 for(i=12;i<14;i++){
-dv.push(parseInt(_1.charAt(i),10));
+dv.push(parseInt(_3.charAt(i),10));
 }
-var _5=[9,8,7,6,5,4,3,2,9,8,7,6].reverse();
-var _6=0;
-for(i=0;i<_3.length;i++){
-_6+=_3[i]*_5[i];
+var _7=[9,8,7,6,5,4,3,2,9,8,7,6].reverse();
+var _8=0;
+for(i=0;i<_5.length;i++){
+_8+=_5[i]*_7[i];
 }
-var _7=_6%11;
-if(_7==dv[0]){
-_6=0;
-_5=[9,8,7,6,5,4,3,2,9,8,7,6,5].reverse();
-_3.push(_7);
-for(i=0;i<_3.length;i++){
-_6+=_3[i]*_5[i];
+var _9=_a(_8);
+if(_9==dv[0]){
+_8=0;
+_7=[9,8,7,6,5,4,3,2,9,8,7,6,5].reverse();
+_5.push(_9);
+for(i=0;i<_5.length;i++){
+_8+=_5[i]*_7[i];
 }
-var _8=_6%11;
-if(_8===dv[1]){
+var _b=_a(_8);
+if(_b===dv[1]){
 return true;
 }
 }
 }
 return false;
 };
-dojox.validate.br.computeCnpjDv=function(_9){
-if(!dojo.isString(_9)){
-if(!_9){
+br.computeCnpjDv=function(_c){
+if(!_1.isString(_c)){
+if(!_c){
 return "";
 }
-_9=_9+"";
-while(_9.length<12){
-_9="0"+_9;
+_c=_c+"";
+while(_c.length<12){
+_c="0"+_c;
 }
 }
-var _a={format:["##.###.###/####","########/####","############"]};
-if(dojox.validate.isNumberFormat(_9,_a)){
-_9=_9.replace("/","").replace(/\./g,"");
-var _b=[];
-var i,j,_c;
+var _d={format:["##.###.###/####","########/####","############"]};
+if(_2.isNumberFormat(_c,_d)){
+_c=_c.replace("/","").replace(/\./g,"");
+var _e=[];
+var i,j,_f;
 for(i=0;i<10;i++){
-_c="";
-for(j=0;j<_9.length;j++){
-_c+=""+i;
+_f="";
+for(j=0;j<_c.length;j++){
+_f+=""+i;
 }
-if(_9===_c){
+if(_c===_f){
 return "";
 }
 }
-for(i=0;i<_9.length;i++){
-_b.push(parseInt(_9.charAt(i),10));
+for(i=0;i<_c.length;i++){
+_e.push(parseInt(_c.charAt(i),10));
 }
-var _d=[9,8,7,6,5,4,3,2,9,8,7,6].reverse();
-var _e=0;
-for(i=0;i<_b.length;i++){
-_e+=_b[i]*_d[i];
+var _10=[9,8,7,6,5,4,3,2,9,8,7,6].reverse();
+var sum=0;
+for(i=0;i<_e.length;i++){
+sum+=_e[i]*_10[i];
 }
-var _f=_e%11;
-_e=0;
-_d=[9,8,7,6,5,4,3,2,9,8,7,6,5].reverse();
-_b.push(_f);
-for(i=0;i<_b.length;i++){
-_e+=_b[i]*_d[i];
+var dv0=_a(sum);
+sum=0;
+_10=[9,8,7,6,5,4,3,2,9,8,7,6,5].reverse();
+_e.push(dv0);
+for(i=0;i<_e.length;i++){
+sum+=_e[i]*_10[i];
 }
-var dv1=_e%11;
-return (""+_f)+dv1;
+var dv1=_a(sum);
+return (""+dv0)+dv1;
 }
 return "";
 };
-dojox.validate.br.isValidCpf=function(_10){
-if(!dojo.isString(_10)){
-if(!_10){
+br.isValidCpf=function(_11){
+if(!_1.isString(_11)){
+if(!_11){
 return false;
 }
-_10=_10+"";
-while(_10.length<11){
-_10="0"+_10;
+_11=_11+"";
+while(_11.length<11){
+_11="0"+_11;
 }
 }
-var _11={format:["###.###.###-##","#########-##","###########"]};
-if(dojox.validate.isNumberFormat(_10,_11)){
-_10=_10.replace("-","").replace(/\./g,"");
+var _12={format:["###.###.###-##","#########-##","###########"]};
+if(_2.isNumberFormat(_11,_12)){
+_11=_11.replace("-","").replace(/\./g,"");
 var cpf=[];
 var dv=[];
 var i,j,tmp;
 for(i=0;i<10;i++){
 tmp="";
-for(j=0;j<_10.length;j++){
+for(j=0;j<_11.length;j++){
 tmp+=""+i;
 }
-if(_10===tmp){
+if(_11===tmp){
 return false;
 }
 }
 for(i=0;i<9;i++){
-cpf.push(parseInt(_10.charAt(i),10));
+cpf.push(parseInt(_11.charAt(i),10));
 }
 for(i=9;i<12;i++){
-dv.push(parseInt(_10.charAt(i),10));
+dv.push(parseInt(_11.charAt(i),10));
 }
-var _12=[9,8,7,6,5,4,3,2,1].reverse();
+var _13=[9,8,7,6,5,4,3,2,1].reverse();
 var sum=0;
 for(i=0;i<cpf.length;i++){
-sum+=cpf[i]*_12[i];
+sum+=cpf[i]*_13[i];
 }
-var dv0=sum%11;
+var dv0=_a(sum);
 if(dv0==dv[0]){
 sum=0;
-_12=[9,8,7,6,5,4,3,2,1,0].reverse();
+_13=[9,8,7,6,5,4,3,2,1,0].reverse();
 cpf.push(dv0);
 for(i=0;i<cpf.length;i++){
-sum+=cpf[i]*_12[i];
+sum+=cpf[i]*_13[i];
 }
-var dv1=sum%11;
+var dv1=_a(sum);
 if(dv1===dv[1]){
 return true;
 }
@@ -157,47 +149,55 @@ return true;
 }
 return false;
 };
-dojox.validate.br.computeCpfDv=function(_13){
-if(!dojo.isString(_13)){
-if(!_13){
+br.computeCpfDv=function(_14){
+if(!_1.isString(_14)){
+if(!_14){
 return "";
 }
-_13=_13+"";
-while(_13.length<9){
-_13="0"+_13;
+_14=_14+"";
+while(_14.length<9){
+_14="0"+_14;
 }
 }
-var _14={format:["###.###.###","#########"]};
-if(dojox.validate.isNumberFormat(_13,_14)){
-_13=_13.replace(/\./g,"");
+var _15={format:["###.###.###","#########"]};
+if(_2.isNumberFormat(_14,_15)){
+_14=_14.replace(/\./g,"");
 var cpf=[];
 for(i=0;i<10;i++){
 tmp="";
-for(j=0;j<_13.length;j++){
+for(j=0;j<_14.length;j++){
 tmp+=""+i;
 }
-if(_13===tmp){
+if(_14===tmp){
 return "";
 }
 }
-for(i=0;i<_13.length;i++){
-cpf.push(parseInt(_13.charAt(i),10));
+for(i=0;i<_14.length;i++){
+cpf.push(parseInt(_14.charAt(i),10));
 }
-var _15=[9,8,7,6,5,4,3,2,1].reverse();
+var _16=[9,8,7,6,5,4,3,2,1].reverse();
 var sum=0;
 for(i=0;i<cpf.length;i++){
-sum+=cpf[i]*_15[i];
+sum+=cpf[i]*_16[i];
 }
-var dv0=sum%11;
+var dv0=_a(sum);
 sum=0;
-_15=[9,8,7,6,5,4,3,2,1,0].reverse();
+_16=[9,8,7,6,5,4,3,2,1,0].reverse();
 cpf.push(dv0);
 for(i=0;i<cpf.length;i++){
-sum+=cpf[i]*_15[i];
+sum+=cpf[i]*_16[i];
 }
-var dv1=sum%11;
+var dv1=_a(sum);
 return (""+dv0)+dv1;
 }
 return "";
 };
+var _a=function(sum){
+var dv=sum%11;
+if(dv===10){
+dv=0;
 }
+return dv;
+};
+return br;
+});

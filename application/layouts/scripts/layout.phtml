@@ -40,7 +40,7 @@
 	</style>	
 </head>
 <script type="text/javascript">
-dojo.require("dijit.form.DateTextBox");
+/*dojo.require("dijit.form.DateTextBox");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require('dijit.form.Form');
 dojo.require('dijit.form.FilteringSelect');	
@@ -56,7 +56,22 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.AccordionContainer");
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dojo.parser");
+dojo.require("dojo.parser");*/
+
+require([
+         "dojo/ready","dijit/form/DateTextBox","dijit/form/ValidationTextBox","dijit/form/Form",
+         "dijit/form/FilteringSelect","dijit/form/Button","dijit/form/NumberTextBox",
+         "dijit/form/CheckBox","dijit/form/CheckBox","dojo/number","dojox/form/BusyButton",
+         "dijit/form/RadioButton","dijit/Dialog","dijit/layout/BorderContainer","dijit/layout/TabContainer",
+		 "dijit/layout/AccordionContainer","dijit/layout/AccordionContainer","dijit/layout/ContentPane", 
+         "dojo/parser","dijit/layout/ContentPane"]);
+/*require(["dojo/ready", "dijit/registry", "dojo/parser", "dijit/form/Button"],
+		function(ready, registry){
+		  ready(function(){
+		    registry.byId("myWidget").set("label", "I fired after parser!");
+		  });
+		});*/
+
 </script>
     <!-- <body class="soria">
     <body class="soria"> -->

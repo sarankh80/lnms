@@ -15,7 +15,7 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-    	
+    	$this->_helper->layout()->disableLayout();
     	
         /* set this to login page to change the character charset of browsers to Utf-8  ...*/    	  	
 		

@@ -219,20 +219,23 @@
 	
 </script>
 <script type="text/javascript">
-dojo.ready(function(){	
-	
-	//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
-	changeCollectType();
-});
-//dojo.require("dojox.grid.DataGrid");
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dijit.form.Textarea");
-    var tran_store  = getDataStorefromJSON('','name',null);
-	var url_submit = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'add')); ?>';
-	var tran_status = {};
-	var baseurl = '<?php echo $baseurl;?>';
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		changeCollectType();
+	  });
+	});
+	//var baseurl = '<?php //echo $baseurl;?>';
 </script>
 <script type="text/javascript">
+function CompareGraicePariod(){
+	graice_pariod = dijit.byId('graice_pariod').get('value');
+	period = dijit.byId('period').get('value');
+	if(graice_pariod>=period){
+		alert('ចំនួនអនុគ្រោះប្រាក់ដើម មិនអាចធំជាងរយៈពេលខ្ចីបានទេ');
+		dijit.byId('graice_pariod').attr('value',(period-1));
+	}
+}
 function chechPaymentMethod(){
 	
 	method_id = dijit.byId('repayment_method').get('value');

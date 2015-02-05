@@ -1,60 +1,61 @@
-/*
-	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
-	Available via Academic Free License >= 2.1 OR the modified BSD license.
-	see: http://dojotoolkit.org/license for details
-*/
-
-
-if(!dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"]){
-dojo._hasResource["dijit._editor.plugins.EnterKeyHandling"]=true;
-dojo.provide("dijit._editor.plugins.EnterKeyHandling");
-dojo.require("dojo.window");
-dojo.require("dijit._editor._Plugin");
-dojo.require("dijit._editor.range");
-dojo.declare("dijit._editor.plugins.EnterKeyHandling",dijit._editor._Plugin,{blockNodeForEnter:"BR",constructor:function(_1){
-if(_1){
-if("blockNodeForEnter" in _1){
-_1.blockNodeForEnter=_1.blockNodeForEnter.toUpperCase();
+//>>built
+define("dijit/_editor/plugins/EnterKeyHandling",["dojo/_base/declare","dojo/dom-construct","dojo/keys","dojo/_base/lang","dojo/on","dojo/sniff","dojo/_base/window","dojo/window","../_Plugin","../RichText","../range"],function(_1,_2,_3,_4,on,_5,_6,_7,_8,_9,_a){
+return _1("dijit._editor.plugins.EnterKeyHandling",_8,{blockNodeForEnter:"BR",constructor:function(_b){
+if(_b){
+if("blockNodeForEnter" in _b){
+_b.blockNodeForEnter=_b.blockNodeForEnter.toUpperCase();
 }
-dojo.mixin(this,_1);
+_4.mixin(this,_b);
 }
-},setEditor:function(_2){
-if(this.editor===_2){
+},setEditor:function(_c){
+if(this.editor===_c){
 return;
 }
-this.editor=_2;
+this.editor=_c;
 if(this.blockNodeForEnter=="BR"){
 this.editor.customUndo=true;
-_2.onLoadDeferred.addCallback(dojo.hitch(this,function(d){
-this.connect(_2.document,"onkeypress",function(e){
-if(e.charOrCode==dojo.keys.ENTER){
-var ne=dojo.mixin({},e);
+_c.onLoadDeferred.then(_4.hitch(this,function(d){
+this.own(on(_c.document,"keydown",_4.hitch(this,function(e){
+if(e.keyCode==_3.ENTER){
+var ne=_4.mixin({},e);
 ne.shiftKey=true;
 if(!this.handleEnterKey(ne)){
-dojo.stopEvent(e);
+e.stopPropagation();
+e.preventDefault();
 }
 }
-});
+})));
+if(_5("ie")>=9&&_5("ie")<=10){
+this.own(on(_c.document,"paste",_4.hitch(this,function(e){
+setTimeout(_4.hitch(this,function(){
+var r=this.editor.document.selection.createRange();
+r.move("character",-1);
+r.select();
+r.move("character",1);
+r.select();
+}),0);
+})));
+}
 return d;
 }));
 }else{
 if(this.blockNodeForEnter){
-var h=dojo.hitch(this,this.handleEnterKey);
-_2.addKeyHandler(13,0,0,h);
-_2.addKeyHandler(13,0,1,h);
-this.connect(this.editor,"onKeyPressed","onKeyPressed");
+var h=_4.hitch(this,"handleEnterKey");
+_c.addKeyHandler(13,0,0,h);
+_c.addKeyHandler(13,0,1,h);
+this.own(this.editor.on("KeyPressed",_4.hitch(this,"onKeyPressed")));
 }
 }
-},onKeyPressed:function(e){
+},onKeyPressed:function(){
 if(this._checkListLater){
-if(dojo.withGlobal(this.editor.window,"isCollapsed",dijit)){
-var _3=dojo.withGlobal(this.editor.window,"getAncestorElement",dijit._editor.selection,["LI"]);
-if(!_3){
-dijit._editor.RichText.prototype.execCommand.call(this.editor,"formatblock",this.blockNodeForEnter);
-var _4=dojo.withGlobal(this.editor.window,"getAncestorElement",dijit._editor.selection,[this.blockNodeForEnter]);
-if(_4){
-_4.innerHTML=this.bogusHtmlContent;
-if(dojo.isIE){
+if(this.editor.selection.isCollapsed()){
+var _d=this.editor.selection.getAncestorElement("LI");
+if(!_d){
+_9.prototype.execCommand.call(this.editor,"formatblock",this.blockNodeForEnter);
+var _e=this.editor.selection.getAncestorElement(this.blockNodeForEnter);
+if(_e){
+_e.innerHTML=this.bogusHtmlContent;
+if(_5("ie")<=9){
 var r=this.editor.document.selection.createRange();
 r.move("character",-1);
 r.select();
@@ -63,19 +64,19 @@ r.select();
 console.error("onKeyPressed: Cannot find the new block node");
 }
 }else{
-if(dojo.isMoz){
-if(_3.parentNode.parentNode.nodeName=="LI"){
-_3=_3.parentNode.parentNode;
+if(_5("mozilla")){
+if(_d.parentNode.parentNode.nodeName=="LI"){
+_d=_d.parentNode.parentNode;
 }
 }
-var fc=_3.firstChild;
+var fc=_d.firstChild;
 if(fc&&fc.nodeType==1&&(fc.nodeName=="UL"||fc.nodeName=="OL")){
-_3.insertBefore(fc.ownerDocument.createTextNode(" "),fc);
-var _5=dijit.range.create(this.editor.window);
-_5.setStart(_3.firstChild,0);
-var _6=dijit.range.getSelection(this.editor.window,true);
-_6.removeAllRanges();
-_6.addRange(_5);
+_d.insertBefore(fc.ownerDocument.createTextNode(" "),fc);
+var _f=_a.create(this.editor.window);
+_f.setStart(_d.firstChild,0);
+var _10=_a.getSelection(this.editor.window,true);
+_10.removeAllRanges();
+_10.addRange(_f);
 }
 }
 }
@@ -87,340 +88,336 @@ this.removeTrailingBr(this._pressedEnterInBlock.previousSibling);
 }
 delete this._pressedEnterInBlock;
 }
-},bogusHtmlContent:"&nbsp;",blockNodes:/^(?:P|H1|H2|H3|H4|H5|H6|LI)$/,handleEnterKey:function(e){
-var _7,_8,_9,_a,_b,_c,_d=this.editor.document,br,rs,_e;
+},bogusHtmlContent:"&#160;",blockNodes:/^(?:P|H1|H2|H3|H4|H5|H6|LI)$/,handleEnterKey:function(e){
+var _11,_12,_13,_14,_15,_16,doc=this.editor.document,br,rs,txt;
 if(e.shiftKey){
-var _f=dojo.withGlobal(this.editor.window,"getParentElement",dijit._editor.selection);
-var _10=dijit.range.getAncestor(_f,this.blockNodes);
-if(_10){
-if(_10.tagName=="LI"){
+var _17=this.editor.selection.getParentElement();
+var _18=_a.getAncestor(_17,this.blockNodes);
+if(_18){
+if(_18.tagName=="LI"){
 return true;
 }
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
-if(!_8.collapsed){
-_8.deleteContents();
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
+if(!_12.collapsed){
+_12.deleteContents();
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
 }
-if(dijit.range.atBeginningOfContainer(_10,_8.startContainer,_8.startOffset)){
-br=_d.createElement("br");
-_9=dijit.range.create(this.editor.window);
-_10.insertBefore(br,_10.firstChild);
-_9.setStartBefore(br.nextSibling);
-_7.removeAllRanges();
-_7.addRange(_9);
+if(_a.atBeginningOfContainer(_18,_12.startContainer,_12.startOffset)){
+br=doc.createElement("br");
+_13=_a.create(this.editor.window);
+_18.insertBefore(br,_18.firstChild);
+_13.setStartAfter(br);
+_11.removeAllRanges();
+_11.addRange(_13);
 }else{
-if(dijit.range.atEndOfContainer(_10,_8.startContainer,_8.startOffset)){
-_9=dijit.range.create(this.editor.window);
-br=_d.createElement("br");
-_10.appendChild(br);
-_10.appendChild(_d.createTextNode(" "));
-_9.setStart(_10.lastChild,0);
-_7.removeAllRanges();
-_7.addRange(_9);
+if(_a.atEndOfContainer(_18,_12.startContainer,_12.startOffset)){
+_13=_a.create(this.editor.window);
+br=doc.createElement("br");
+_18.appendChild(br);
+_18.appendChild(doc.createTextNode(" "));
+_13.setStart(_18.lastChild,0);
+_11.removeAllRanges();
+_11.addRange(_13);
 }else{
-rs=_8.startContainer;
+rs=_12.startContainer;
 if(rs&&rs.nodeType==3){
-_e=rs.nodeValue;
-dojo.withGlobal(this.editor.window,function(){
-_a=_d.createTextNode(_e.substring(0,_8.startOffset));
-_b=_d.createTextNode(_e.substring(_8.startOffset));
-_c=_d.createElement("br");
-if(_b.nodeValue==""&&dojo.isWebKit){
-_b=_d.createTextNode(" ");
+txt=rs.nodeValue;
+_14=doc.createTextNode(txt.substring(0,_12.startOffset));
+_15=doc.createTextNode(txt.substring(_12.startOffset));
+_16=doc.createElement("br");
+if(_15.nodeValue==""&&_5("webkit")){
+_15=doc.createTextNode(" ");
 }
-dojo.place(_a,rs,"after");
-dojo.place(_c,_a,"after");
-dojo.place(_b,_c,"after");
-dojo.destroy(rs);
-_9=dijit.range.create(dojo.gobal);
-_9.setStart(_b,0);
-_7.removeAllRanges();
-_7.addRange(_9);
-});
+_2.place(_14,rs,"after");
+_2.place(_16,_14,"after");
+_2.place(_15,_16,"after");
+_2.destroy(rs);
+_13=_a.create(this.editor.window);
+_13.setStart(_15,0);
+_11.removeAllRanges();
+_11.addRange(_13);
 return false;
 }
 return true;
 }
 }
 }else{
-_7=dijit.range.getSelection(this.editor.window);
-if(_7.rangeCount){
-_8=_7.getRangeAt(0);
-if(_8&&_8.startContainer){
-if(!_8.collapsed){
-_8.deleteContents();
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
+_11=_a.getSelection(this.editor.window);
+if(_11.rangeCount){
+_12=_11.getRangeAt(0);
+if(_12&&_12.startContainer){
+if(!_12.collapsed){
+_12.deleteContents();
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
 }
-rs=_8.startContainer;
+rs=_12.startContainer;
 if(rs&&rs.nodeType==3){
-dojo.withGlobal(this.editor.window,dojo.hitch(this,function(){
-var _11=false;
-var _12=_8.startOffset;
-if(rs.length<_12){
-ret=this._adjustNodeAndOffset(rs,_12);
-rs=ret.node;
-_12=ret.offset;
-}
-_e=rs.nodeValue;
-_a=_d.createTextNode(_e.substring(0,_12));
-_b=_d.createTextNode(_e.substring(_12));
-_c=_d.createElement("br");
-if(!_b.length){
-_b=_d.createTextNode(" ");
-_11=true;
-}
-if(_a.length){
-dojo.place(_a,rs,"after");
-}else{
-_a=rs;
-}
-dojo.place(_c,_a,"after");
-dojo.place(_b,_c,"after");
-dojo.destroy(rs);
-_9=dijit.range.create(dojo.gobal);
-_9.setStart(_b,0);
-_9.setEnd(_b,_b.length);
-_7.removeAllRanges();
-_7.addRange(_9);
-if(_11&&!dojo.isWebKit){
-dijit._editor.selection.remove();
-}else{
-dijit._editor.selection.collapse(true);
-}
-}));
-}else{
-dojo.withGlobal(this.editor.window,dojo.hitch(this,function(){
-var _13=_d.createElement("br");
-rs.appendChild(_13);
-var _14=_d.createTextNode(" ");
-rs.appendChild(_14);
-_9=dijit.range.create(dojo.global);
-_9.setStart(_14,0);
-_9.setEnd(_14,_14.length);
-_7.removeAllRanges();
-_7.addRange(_9);
-dijit._editor.selection.collapse(true);
-}));
-}
-}
-}else{
-dijit._editor.RichText.prototype.execCommand.call(this.editor,"inserthtml","<br>");
-}
-}
-return false;
-}
-var _15=true;
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
-if(!_8.collapsed){
-_8.deleteContents();
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
-}
-var _16=dijit.range.getBlockAncestor(_8.endContainer,null,this.editor.editNode);
-var _17=_16.blockNode;
-if((this._checkListLater=(_17&&(_17.nodeName=="LI"||_17.parentNode.nodeName=="LI")))){
-if(dojo.isMoz){
-this._pressedEnterInBlock=_17;
-}
-if(/^(\s|&nbsp;|\xA0|<span\b[^>]*\bclass=['"]Apple-style-span['"][^>]*>(\s|&nbsp;|\xA0)<\/span>)?(<br>)?$/.test(_17.innerHTML)){
-_17.innerHTML="";
-if(dojo.isWebKit){
-_9=dijit.range.create(this.editor.window);
-_9.setStart(_17,0);
-_7.removeAllRanges();
-_7.addRange(_9);
-}
-this._checkListLater=false;
-}
-return true;
-}
-if(!_16.blockNode||_16.blockNode===this.editor.editNode){
-try{
-dijit._editor.RichText.prototype.execCommand.call(this.editor,"formatblock",this.blockNodeForEnter);
-}
-catch(e2){
-}
-_16={blockNode:dojo.withGlobal(this.editor.window,"getAncestorElement",dijit._editor.selection,[this.blockNodeForEnter]),blockContainer:this.editor.editNode};
-if(_16.blockNode){
-if(_16.blockNode!=this.editor.editNode&&(!(_16.blockNode.textContent||_16.blockNode.innerHTML).replace(/^\s+|\s+$/g,"").length)){
-this.removeTrailingBr(_16.blockNode);
-return false;
-}
-}else{
-_16.blockNode=this.editor.editNode;
-}
-_7=dijit.range.getSelection(this.editor.window);
-_8=_7.getRangeAt(0);
-}
-var _18=_d.createElement(this.blockNodeForEnter);
-_18.innerHTML=this.bogusHtmlContent;
-this.removeTrailingBr(_16.blockNode);
-var _19=_8.endOffset;
-var _1a=_8.endContainer;
-if(_1a.length<_19){
-var ret=this._adjustNodeAndOffset(_1a,_19);
-_1a=ret.node;
-_19=ret.offset;
-}
-if(dijit.range.atEndOfContainer(_16.blockNode,_1a,_19)){
-if(_16.blockNode===_16.blockContainer){
-_16.blockNode.appendChild(_18);
-}else{
-dojo.place(_18,_16.blockNode,"after");
-}
-_15=false;
-_9=dijit.range.create(this.editor.window);
-_9.setStart(_18,0);
-_7.removeAllRanges();
-_7.addRange(_9);
-if(this.editor.height){
-dojo.window.scrollIntoView(_18);
-}
-}else{
-if(dijit.range.atBeginningOfContainer(_16.blockNode,_8.startContainer,_8.startOffset)){
-dojo.place(_18,_16.blockNode,_16.blockNode===_16.blockContainer?"first":"before");
-if(_18.nextSibling&&this.editor.height){
-_9=dijit.range.create(this.editor.window);
-_9.setStart(_18.nextSibling,0);
-_7.removeAllRanges();
-_7.addRange(_9);
-dojo.window.scrollIntoView(_18.nextSibling);
-}
-_15=false;
-}else{
-if(_16.blockNode===_16.blockContainer){
-_16.blockNode.appendChild(_18);
-}else{
-dojo.place(_18,_16.blockNode,"after");
-}
-_15=false;
-if(_16.blockNode.style){
-if(_18.style){
-if(_16.blockNode.style.cssText){
-_18.style.cssText=_16.blockNode.style.cssText;
-}
-}
-}
-rs=_8.startContainer;
-var _1b;
-if(rs&&rs.nodeType==3){
-var _1c,_1d;
-_19=_8.endOffset;
+var _19=_12.startOffset;
 if(rs.length<_19){
 ret=this._adjustNodeAndOffset(rs,_19);
 rs=ret.node;
 _19=ret.offset;
 }
-_e=rs.nodeValue;
-_a=_d.createTextNode(_e.substring(0,_19));
-_b=_d.createTextNode(_e.substring(_19,_e.length));
-dojo.place(_a,rs,"before");
-dojo.place(_b,rs,"after");
-dojo.destroy(rs);
-var _1e=_a.parentNode;
-while(_1e!==_16.blockNode){
-var tg=_1e.tagName;
-var _1f=_d.createElement(tg);
+txt=rs.nodeValue;
+_14=doc.createTextNode(txt.substring(0,_19));
+_15=doc.createTextNode(txt.substring(_19));
+_16=doc.createElement("br");
+if(!_15.length){
+_15=doc.createTextNode(" ");
+}
+if(_14.length){
+_2.place(_14,rs,"after");
+}else{
+_14=rs;
+}
+_2.place(_16,_14,"after");
+_2.place(_15,_16,"after");
+_2.destroy(rs);
+_13=_a.create(this.editor.window);
+_13.setStart(_15,0);
+_13.setEnd(_15,_15.length);
+_11.removeAllRanges();
+_11.addRange(_13);
+this.editor.selection.collapse(true);
+}else{
+var _1a;
+if(_12.startOffset>=0){
+_1a=rs.childNodes[_12.startOffset];
+}
+var _16=doc.createElement("br");
+var _15=doc.createTextNode(" ");
+if(!_1a){
+rs.appendChild(_16);
+rs.appendChild(_15);
+}else{
+_2.place(_16,_1a,"before");
+_2.place(_15,_16,"after");
+}
+_13=_a.create(this.editor.window);
+_13.setStart(_15,0);
+_13.setEnd(_15,_15.length);
+_11.removeAllRanges();
+_11.addRange(_13);
+this.editor.selection.collapse(true);
+}
+}
+}else{
+_9.prototype.execCommand.call(this.editor,"inserthtml","<br>");
+}
+}
+return false;
+}
+var _1b=true;
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
+if(!_12.collapsed){
+_12.deleteContents();
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
+}
+var _1c=_a.getBlockAncestor(_12.endContainer,null,this.editor.editNode);
+var _1d=_1c.blockNode;
+if((this._checkListLater=(_1d&&(_1d.nodeName=="LI"||_1d.parentNode.nodeName=="LI")))){
+if(_5("mozilla")){
+this._pressedEnterInBlock=_1d;
+}
+if(/^(\s|&nbsp;|&#160;|\xA0|<span\b[^>]*\bclass=['"]Apple-style-span['"][^>]*>(\s|&nbsp;|&#160;|\xA0)<\/span>)?(<br>)?$/.test(_1d.innerHTML)){
+_1d.innerHTML="";
+if(_5("webkit")){
+_13=_a.create(this.editor.window);
+_13.setStart(_1d,0);
+_11.removeAllRanges();
+_11.addRange(_13);
+}
+this._checkListLater=false;
+}
+return true;
+}
+if(!_1c.blockNode||_1c.blockNode===this.editor.editNode){
+try{
+_9.prototype.execCommand.call(this.editor,"formatblock",this.blockNodeForEnter);
+}
+catch(e2){
+}
+_1c={blockNode:this.editor.selection.getAncestorElement(this.blockNodeForEnter),blockContainer:this.editor.editNode};
+if(_1c.blockNode){
+if(_1c.blockNode!=this.editor.editNode&&(!(_1c.blockNode.textContent||_1c.blockNode.innerHTML).replace(/^\s+|\s+$/g,"").length)){
+this.removeTrailingBr(_1c.blockNode);
+return false;
+}
+}else{
+_1c.blockNode=this.editor.editNode;
+}
+_11=_a.getSelection(this.editor.window);
+_12=_11.getRangeAt(0);
+}
+var _1e=doc.createElement(this.blockNodeForEnter);
+_1e.innerHTML=this.bogusHtmlContent;
+this.removeTrailingBr(_1c.blockNode);
+var _1f=_12.endOffset;
+var _20=_12.endContainer;
+if(_20.length<_1f){
+var ret=this._adjustNodeAndOffset(_20,_1f);
+_20=ret.node;
+_1f=ret.offset;
+}
+if(_a.atEndOfContainer(_1c.blockNode,_20,_1f)){
+if(_1c.blockNode===_1c.blockContainer){
+_1c.blockNode.appendChild(_1e);
+}else{
+_2.place(_1e,_1c.blockNode,"after");
+}
+_1b=false;
+_13=_a.create(this.editor.window);
+_13.setStart(_1e,0);
+_11.removeAllRanges();
+_11.addRange(_13);
+if(this.editor.height){
+_7.scrollIntoView(_1e);
+}
+}else{
+if(_a.atBeginningOfContainer(_1c.blockNode,_12.startContainer,_12.startOffset)){
+_2.place(_1e,_1c.blockNode,_1c.blockNode===_1c.blockContainer?"first":"before");
+if(_1e.nextSibling&&this.editor.height){
+_13=_a.create(this.editor.window);
+_13.setStart(_1e.nextSibling,0);
+_11.removeAllRanges();
+_11.addRange(_13);
+_7.scrollIntoView(_1e.nextSibling);
+}
+_1b=false;
+}else{
+if(_1c.blockNode===_1c.blockContainer){
+_1c.blockNode.appendChild(_1e);
+}else{
+_2.place(_1e,_1c.blockNode,"after");
+}
+_1b=false;
+if(_1c.blockNode.style){
 if(_1e.style){
-if(_1f.style){
-if(_1e.style.cssText){
-_1f.style.cssText=_1e.style.cssText;
+if(_1c.blockNode.style.cssText){
+_1e.style.cssText=_1c.blockNode.style.cssText;
 }
 }
 }
-if(_1e.tagName==="FONT"){
-if(_1e.color){
-_1f.color=_1e.color;
+rs=_12.startContainer;
+var _21;
+if(rs&&rs.nodeType==3){
+var _22,_23;
+_1f=_12.endOffset;
+if(rs.length<_1f){
+ret=this._adjustNodeAndOffset(rs,_1f);
+rs=ret.node;
+_1f=ret.offset;
 }
-if(_1e.face){
-_1f.face=_1e.face;
-}
-if(_1e.size){
-_1f.size=_1e.size;
-}
-}
-_1c=_b;
-while(_1c){
-_1d=_1c.nextSibling;
-_1f.appendChild(_1c);
-_1c=_1d;
-}
-dojo.place(_1f,_1e,"after");
-_a=_1e;
-_b=_1f;
-_1e=_1e.parentNode;
-}
-_1c=_b;
-if(_1c.nodeType==1||(_1c.nodeType==3&&_1c.nodeValue)){
-_18.innerHTML="";
-}
-_1b=_1c;
-while(_1c){
-_1d=_1c.nextSibling;
-_18.appendChild(_1c);
-_1c=_1d;
+txt=rs.nodeValue;
+_14=doc.createTextNode(txt.substring(0,_1f));
+_15=doc.createTextNode(txt.substring(_1f,txt.length));
+_2.place(_14,rs,"before");
+_2.place(_15,rs,"after");
+_2.destroy(rs);
+var _24=_14.parentNode;
+while(_24!==_1c.blockNode){
+var tg=_24.tagName;
+var _25=doc.createElement(tg);
+if(_24.style){
+if(_25.style){
+if(_24.style.cssText){
+_25.style.cssText=_24.style.cssText;
 }
 }
-_9=dijit.range.create(this.editor.window);
-var _20;
-var _21=_1b;
+}
+if(_24.tagName==="FONT"){
+if(_24.color){
+_25.color=_24.color;
+}
+if(_24.face){
+_25.face=_24.face;
+}
+if(_24.size){
+_25.size=_24.size;
+}
+}
+_22=_15;
+while(_22){
+_23=_22.nextSibling;
+_25.appendChild(_22);
+_22=_23;
+}
+_2.place(_25,_24,"after");
+_14=_24;
+_15=_25;
+_24=_24.parentNode;
+}
+_22=_15;
+if(_22.nodeType==1||(_22.nodeType==3&&_22.nodeValue)){
+_1e.innerHTML="";
+}
+_21=_22;
+while(_22){
+_23=_22.nextSibling;
+_1e.appendChild(_22);
+_22=_23;
+}
+}
+_13=_a.create(this.editor.window);
+var _26;
+var _27=_21;
 if(this.blockNodeForEnter!=="BR"){
-while(_21){
-_20=_21;
-_1d=_21.firstChild;
-_21=_1d;
+while(_27){
+_26=_27;
+_23=_27.firstChild;
+_27=_23;
 }
-if(_20&&_20.parentNode){
-_18=_20.parentNode;
-_9.setStart(_18,0);
-_7.removeAllRanges();
-_7.addRange(_9);
+if(_26&&_26.parentNode){
+_1e=_26.parentNode;
+_13.setStart(_1e,0);
+_11.removeAllRanges();
+_11.addRange(_13);
 if(this.editor.height){
-dijit.scrollIntoView(_18);
+_7.scrollIntoView(_1e);
 }
-if(dojo.isMoz){
-this._pressedEnterInBlock=_16.blockNode;
+if(_5("mozilla")){
+this._pressedEnterInBlock=_1c.blockNode;
 }
 }else{
-_15=true;
+_1b=true;
 }
 }else{
-_9.setStart(_18,0);
-_7.removeAllRanges();
-_7.addRange(_9);
+_13.setStart(_1e,0);
+_11.removeAllRanges();
+_11.addRange(_13);
 if(this.editor.height){
-dijit.scrollIntoView(_18);
+_7.scrollIntoView(_1e);
 }
-if(dojo.isMoz){
-this._pressedEnterInBlock=_16.blockNode;
-}
-}
+if(_5("mozilla")){
+this._pressedEnterInBlock=_1c.blockNode;
 }
 }
-return _15;
-},_adjustNodeAndOffset:function(_22,_23){
-while(_22.length<_23&&_22.nextSibling&&_22.nextSibling.nodeType==3){
-_23=_23-_22.length;
-_22=_22.nextSibling;
 }
-var ret={"node":_22,"offset":_23};
-return ret;
-},removeTrailingBr:function(_24){
-var _25=/P|DIV|LI/i.test(_24.tagName)?_24:dijit._editor.selection.getParentOfType(_24,["P","DIV","LI"]);
-if(!_25){
+}
+return _1b;
+},_adjustNodeAndOffset:function(_28,_29){
+while(_28.length<_29&&_28.nextSibling&&_28.nextSibling.nodeType==3){
+_29=_29-_28.length;
+_28=_28.nextSibling;
+}
+return {"node":_28,"offset":_29};
+},removeTrailingBr:function(_2a){
+var _2b=/P|DIV|LI/i.test(_2a.tagName)?_2a:this.editor.selection.getParentOfType(_2a,["P","DIV","LI"]);
+if(!_2b){
 return;
 }
-if(_25.lastChild){
-if((_25.childNodes.length>1&&_25.lastChild.nodeType==3&&/^[\s\xAD]*$/.test(_25.lastChild.nodeValue))||_25.lastChild.tagName=="BR"){
-dojo.destroy(_25.lastChild);
+if(_2b.lastChild){
+if((_2b.childNodes.length>1&&_2b.lastChild.nodeType==3&&/^[\s\xAD]*$/.test(_2b.lastChild.nodeValue))||_2b.lastChild.tagName=="BR"){
+_2.destroy(_2b.lastChild);
 }
 }
-if(!_25.childNodes.length){
-_25.innerHTML=this.bogusHtmlContent;
+if(!_2b.childNodes.length){
+_2b.innerHTML=this.bogusHtmlContent;
 }
 }});
-}
+});
