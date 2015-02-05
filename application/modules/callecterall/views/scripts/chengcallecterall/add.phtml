@@ -1,0 +1,86 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->Form_Frmcallecterall;
+?>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Chengcallecterall','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				//return false;
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong>Chengcallecterall</strong></legend>
+					<table cellspacing="10"  width="100%">
+						<tr>
+							<td><?php echo $tr->translate("Branch")?></td>
+							<td><?php echo $frm->getElement('branch')?></td>	
+							<td><?php echo $tr->translate("Owner")?></td>
+							<td><?php echo $frm->getElement('owner')?></td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("From")?></td>
+							<td><?php echo $frm->getElement('from')?></td>	
+							<td><?php echo $tr->translate("To")?></td>
+							<td><?php echo $frm->getElement('to')?></td>	
+						</tr>
+							<tr>
+							<td><?php echo $tr->translate("Nameowner")?></td>
+							<td><?php echo $frm->getElement('owners')?></td>	
+							<td><?php echo $tr->translate("ដាក់បញ្ចាំទ្រព្យ<br />ធានាលើប្រាក់កម្ចី ")?></td>
+							<td><?php echo $frm->getElement('personal')?></td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("Date")?></td>
+							<td><?php echo $frm->getElement('date')?></td>	
+							<td><?php echo $tr->translate("Numbernote")?></td>
+							<td><?php echo $frm->getElement('numbernote')?></td>	
+						</tr>
+						<tr>
+					    	<td><?php echo $tr->translate("Note")?></td>
+							<td><?php echo $frm->getElement('note')?></td>	
+							<td><?php echo $tr->translate("Status")?></td>
+							<td><?php echo $frm->getElement('status')?></td>	
+							
+						</tr>
+					</table>
+					</fieldset>
+		</td>
+	</tr>		
+	<tr>
+		<td align="center">
+			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
+				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		</td>
+	</tr>	
+</table>
+</form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+
+//select data show on control
+var url_submiinfo = '<?php echo $this->url(array('module'=>'callecterall','controller'=>'chengcallecterall','action'=>'ownerinfo')); ?>';
+function popupCheckStaff(){
+	dojo.xhrPost({
+	    url: url_submiinfo,	
+	    content : { 
+		    'owner_id' :dijit.byId('owner').get('value'),
+		},	
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('from').attr('value',data.id);
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+		}
+	});
+}
+</script>
