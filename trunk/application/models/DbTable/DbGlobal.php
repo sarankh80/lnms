@@ -219,6 +219,30 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $db->fetchAll($sql.$where);
    }
+   public function getOwnerByType($type=null,$client_id=null ,$row=null){
+   	$this->_name='ln_client';
+   	$where='';
+   	if($type!=null){
+   		$where=' AND is_group = 1';
+   	}
+   	$sql = " SELECT client_id,name_en,client_number,
+   	(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) AS village_name,
+   	(SELECT commune_name FROM `ln_commune` WHERE com_id = com_id  LIMIT 1) AS commune_name,
+   	(SELECT district_name FROM `ln_district` AS ds WHERE dis_id = ds.dis_id  LIMIT 1) AS district_name,
+   	(SELECT province_en_name FROM `ln_province` WHERE province_id = pro_id  and type=2 LIMIT 1) AS province_en_name
+   
+   	FROM $this->_name  WHERE `type` = 2 and  status=1 AND name_en!='' ";
+   	$db = $this->getAdapter();
+   	if($row!=null){
+   		if($client_id!=null){
+   			$where.=" AND client_id  =".$client_id ." LIMIT 1";
+   		}
+   		return $db->fetchRow($sql.$where);
+   	}
+   	return $db->fetchAll($sql.$where);
+   }
+    
+   
    public static function getCurrencyType($curr_type){
    	$curr_option = array(
    			1=>'រៀល',
@@ -352,7 +376,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getVewOptoinTypeByType($type=null,$option = null,$limit =null){
   	$db = $this->getAdapter();
-  	$sql="SELECT key_code,name_en,name_kh,displayby FROM `ln_view` WHERE status =1 ";
+  	$sql="SELECT id,key_code,name_en,name_kh,displayby FROM `ln_view` WHERE status =1 ";
   	if($type!=null){
   		$sql.=" AND type = $type ";
   	}
@@ -363,7 +387,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($option!=null){
   		$options=array(''=>"---ជ្រើសរើស---");
   		if(!empty($rows))foreach($rows AS $row){
-  			$options[$row['key_code']]=($row['displayby']==1)?$row['name_kh']:$row['name_en'];
+  			$options[$row['id']]=($row['displayby']==1)?$row['name_kh']:$row['name_en'];
   		}
   		return $options;
   	}else{

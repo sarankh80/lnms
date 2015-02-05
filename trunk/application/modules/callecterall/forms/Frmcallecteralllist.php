@@ -46,8 +46,14 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$num_vi->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>true
+				'required'=>true,
+				'style'=>'color:red; font-weight: bold;'
 		));
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$loan_number = $db->getLoanNumber();
+		$num_vi->setValue($loan_number);
+		
 		
 		$date = new Zend_Dojo_Form_Element_DateTextBox('$date');
 		$date->setAttribs(array(
@@ -91,11 +97,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$callecterall_type->setMultiOptions($opt);
 		$callecterall_type->setValue(1);
 		
-// 		$callecterall_code = new Zend_Dojo_Form_Element_NumberTextBox('callecterall_code');
-// 		$callecterall_code->setAttribs(array(
-// 				'dojoType'=>'dijit.form.NumberTextBox',
-// 				'class'=>'fullside',
-// 		));
+
 		$callecterall_code = new Zend_Dojo_Form_Element_TextBox('callecterall_code');
 		$callecterall_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -128,8 +130,32 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-		$_id = new Zend_Form_Element_Hidden('id');
+	
 		
+		$nameouner= new Zend_Dojo_Form_Element_TextBox('nameouner');
+		$nameouner->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$nunbernameouner= new Zend_Dojo_Form_Element_NumberTextBox('nunbernameouner');
+		$nunbernameouner->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
+		
+		$dayless= new Zend_Dojo_Form_Element_DateTextBox('dayless');
+		$dayless->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+		));
+		$dayless->setValue(date('Y-m-d'));
+		
+		
+		
+		
+		$_id = new Zend_Form_Element_Hidden('id');
+
 		if($data!=null){
 			$branch->setValue($data['branch']);
 			$customer_name->setValue($data['name_customer']);
@@ -147,7 +173,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 			$_id->setValue($data['id']);
 		}
 		$this->addElements(array($branch,$customer_name,$cus_code,$num_vi,$date,$time_think,$time_short,
-				$date_call,$callecterall_type,$callecterall_code,$note,$cash_type,$much_boro,$_id,));
+				$date_call,$callecterall_type,$callecterall_code,$note,$cash_type,$much_boro,$_id,$dayless,$nunbernameouner,$nameouner));
 		return $this;
 		
 	}	
