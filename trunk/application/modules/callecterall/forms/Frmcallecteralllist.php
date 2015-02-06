@@ -14,9 +14,29 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				));
 		$options= array(1=>"សាខា កណ្តាល",2=>"សាខា ទី១");
 		$branch->setMultiOptions($options);
-	
+	    
+		$db = new Application_Model_DbTable_DbGlobal();
+		$id_client = $db->getNewReceiptId();
+		$receipt = new Zend_Dojo_Form_Element_TextBox('receipt');
+		$receipt->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true,
+				'style'=>'color:red; font-weight: bold;'
+		));
 		
-
+		$receipt->setValue($id_client);
+	
+		$id_client = $db->getCodecallId();
+		$code_call = new Zend_Dojo_Form_Element_TextBox('code_call');
+		$code_call->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'readonly'=>true,
+				'style'=>'color:red; font-weight: bold;'
+		));
+		$code_call->setValue($id_client);
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$customer_name = new Zend_Dojo_Form_Element_FilteringSelect('customer_name');
 		$customer_name->setAttribs(array(
@@ -42,26 +62,35 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['client_number'];
 		$cus_code->setMultiOptions($options);
 		
-		$num_vi = new Zend_Dojo_Form_Element_TextBox('num_vi');
-		$num_vi->setAttribs(array(
+		$db = new Application_Model_DbTable_DbGlobal();
+		$callecterall_type = new Zend_Dojo_Form_Element_FilteringSelect('callecterall_type');
+		$callecterall_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt= $db->getVewOptoinTypeByType(13,1);
+		$callecterall_type->setMultiOptions($opt);
+		$callecterall_type->setValue(1);
+		
+		$nameouner= new Zend_Dojo_Form_Element_TextBox('nameouner');
+		$nameouner->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>true,
-				'style'=>'color:red; font-weight: bold;'
 		));
 		
-		$db = new Application_Model_DbTable_DbGlobal();
-		$loan_number = $db->getLoanNumber();
-		$num_vi->setValue($loan_number);
+		$callnumber= new Zend_Dojo_Form_Element_NumberTextBox('callnumber');
+		$callnumber->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
 		
-		
-		$date = new Zend_Dojo_Form_Element_DateTextBox('$date');
-		$date->setAttribs(array(
+		$date_call = new Zend_Dojo_Form_Element_DateTextBox('date_call');
+		$date_call->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$date->setValue(date('Y-m-d'));
+		$date_call->setValue(date('Y-m-d'));
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$time_think = new Zend_Dojo_Form_Element_FilteringSelect('time_think');
@@ -75,45 +104,20 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$time_think->setValue(1);
 	
 		
-		$time_short = new Zend_Dojo_Form_Element_NumberTextBox('time_short');
-		$time_short->setAttribs(array(
+		$time_boro = new Zend_Dojo_Form_Element_NumberTextBox('time_boro');
+		$time_boro->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$date_call = new Zend_Dojo_Form_Element_DateTextBox('date_call');
-		$date_call->setAttribs(array(
+		
+		$dayless= new Zend_Dojo_Form_Element_DateTextBox('dayless');
+		$dayless->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required'=>true
 		));
-		$db = new Application_Model_DbTable_DbGlobal();
-		$callecterall_type = new Zend_Dojo_Form_Element_FilteringSelect('callecterall_type');
-		$callecterall_type->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-		));
-		$opt= $db->getVewOptoinTypeByType(13,1);
-		$callecterall_type->setMultiOptions($opt);
-		$callecterall_type->setValue(1);
+		$dayless->setValue(date('Y-m-d'));
 		
-
-		$callecterall_code = new Zend_Dojo_Form_Element_TextBox('callecterall_code');
-		$callecterall_code->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
-				'readonly'=>true,
-				'style'=>'color:red; font-weight: bold;'
-		));
-		$db = new Application_Model_DbTable_DbGlobal();
-		$loan_number = $db->getLoanNumber();
-		$callecterall_code->setValue($loan_number);
-		
-		$note = new Zend_Dojo_Form_Element_TextBox('note');
-		$note->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
-		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$cash_type = new Zend_Dojo_Form_Element_FilteringSelect('cash_type');
 		$cash_type->setAttribs(array(
@@ -130,50 +134,33 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-	
-		
-		$nameouner= new Zend_Dojo_Form_Element_TextBox('nameouner');
-		$nameouner->setAttribs(array(
+		$note = new Zend_Dojo_Form_Element_TextBox('note');
+		$note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
 		
-		$nunbernameouner= new Zend_Dojo_Form_Element_NumberTextBox('nunbernameouner');
-		$nunbernameouner->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
-		));
-		
-		$dayless= new Zend_Dojo_Form_Element_DateTextBox('dayless');
-		$dayless->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-				'class'=>'fullside',
-		));
-		$dayless->setValue(date('Y-m-d'));
-		
-		
-		
-		
-		$_id = new Zend_Form_Element_Hidden('id');
+	  $_id = new Zend_Form_Element_Hidden('id');
 
 		if($data!=null){
 			$branch->setValue($data['branch']);
-			$customer_name->setValue($data['name_customer']);
-			$cus_code->setValue($data['code']);
-			$num_vi->setValue($data['number_invo']);
-			$date->setValue($data['date']);
-			$time_think->setValue($data['time_boro']);
-			$time_short->setValue($data['huch_bro']);
-			$date_call->setValue($data['date_call']);
+			$receipt->setValue($data['receipt']);
+			$code_call->setValue($data['code_call']);
+			$customer_name->setValue($data['customer_id']);
 			$callecterall_type->setValue($data['type_call']);
-			$callecterall_code->setValue($data['code_call']);
+			$nameouner->setValue($data['owner_call']);
+			$callnumber->setValue($data['callnumber']);
+			$date_call->setValue($data['date_debt']);
+			$time_think->setValue($data['term']);
+			$time_boro->setValue($data['amount_term']);
+			$dayless->setValue($data['date_line']);
+			$cash_type->setValue($data['curr_type']);
+			$much_boro->setValue($data['amount_debt']);
 			$note->setValue($data['note']);
-			$cash_type->setValue($data['cash_type']);
-			$much_boro->setValue($data['cash_type']);
 			$_id->setValue($data['id']);
 		}
-		$this->addElements(array($branch,$customer_name,$cus_code,$num_vi,$date,$time_think,$time_short,
-				$date_call,$callecterall_type,$callecterall_code,$note,$cash_type,$much_boro,$_id,$dayless,$nunbernameouner,$nameouner));
+		$this->addElements(array($branch,$customer_name,$cus_code,$receipt,$time_think,$time_boro,
+				$date_call,$callecterall_type,$code_call,$note,$cash_type,$much_boro,$_id,$dayless,$callnumber,$nameouner));
 		return $this;
 		
 	}	

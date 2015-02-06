@@ -56,9 +56,9 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 				'required'=>true
 		));
 		
-		$_personal=new Zend_Dojo_Form_Element_RadioButton('personal');
+		$_personal=new Zend_Dojo_Form_Element_FilteringSelect('personal');
 		$_personal->setAttribs(array(
-				'dojoType'=>'dijit.form.RadioButton',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 		));
 		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');

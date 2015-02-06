@@ -44,13 +44,13 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
 //     		$glClass = new Application_Model_GlobalClass();
 //     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("សាខា ","ឈ្មោះអតិថជន ","លេខកូដ","លេខវិក័យបត្រ",
-    				   "ថ្ញៃ​ ខ្ចី ","រយះពេលខ្ចីគិតជា ","ចំនូនរយះពេលខ្ចី","ថ្ញៃបពាំ្ច","ប្រភេទទ្រព្យបពាំ្ច","លេខកូដទ្រព្យបពាំ្ច",
-    				   "សំគាល់","ប្រភេទប្រាក់","ចំនួនខ្ចី");
+    		$collumns = array("សាខា ","លេខវិក័យបត្រ ","លេខកូដបពាំ្ច",
+    				   "ឈ្មោះអតិថជន ","ថ្ញៃបពាំ្ច","រយះពេលខ្ចីគិតជា",
+    				   "រយះពេលខ្ចី","ថ្ញៃផុតកំណត់","ប្រភេទប្រាក់","ចំនួនខ្ចី","សំគាល់");
     		$link=array(
     				'module'=>'callecterall','controller'=>'Callecteralllist','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_customer'=>$link,'code'=>$link));
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('customer_name'=>$link,'date_debt'=>$link));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
     		echo $e->getMessage();
