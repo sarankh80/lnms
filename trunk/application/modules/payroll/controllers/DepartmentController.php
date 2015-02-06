@@ -1,5 +1,5 @@
 <?php
-class Payroll_PositionController extends Zend_Controller_Action {
+class Payroll_DepartmentController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
 	const REDIRECT_URL = '/payroll';
     public function init()
@@ -10,7 +10,7 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	}
 	public function indexAction(){
 		try{
-			$db = new Other_Model_DbTable_DbPosition();
+			$db = new Payroll_Model_DbTable_DbDepartment();
 			if($this->getRequest()->isPost()){
 				$search=$this->getRequest()->getPost();
 			}
@@ -19,39 +19,38 @@ class Payroll_PositionController extends Zend_Controller_Action {
 						'adv_search' => '',
 						'status_search' => -1);
 			}
-			$rs_rows= $db->getAllStaffPosition($search);
+			$rs_rows= $db->getAllStaffDepartment($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Position English","Position Khmer","Display By","Status");
+			$collumns = array("Department Khmer","Department English","Display By","Date","Status","User Id");
 			$link=array(
-					'module'=>'payroll','controller'=>'position','action'=>'edit',
+					'module'=>'payroll','controller'=>'department','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('position_en'=>$link,'position_kh'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('department_kh'=>$link,'department_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-
-		$frm = new Other_Form_FrmPosition();
-		 $frm_co=$frm->FrmAddPosition();
-		 Application_Model_Decorator::removeAllDecorator($frm_co);
-		 $this->view->frm_position = $frm_co;
+		$frm = new Payroll_Form_FrmDepartment();
+		 $frm_partment=$frm->FrmAddDepartment();
+		 Application_Model_Decorator::removeAllDecorator($frm_partment);
+		 $this->view->frm_department = $frm_partment;
 	}
 	
-
+//syheng
  function addAction(){
 	  if($this->getRequest()->isPost()){
 	  	$_data = $this->getRequest()->getPost();
-	  	$db = new Other_Model_DbTable_DbMyPosition();
+	  	$db = new Payroll_Model_DbTable_DbDepartment();
 	  	try {
-	  	        $db->addPosition($_data);
+	  	        $db->addDepartment($_data);
 	  			if(!empty($_data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/department/index');
 				}
 	  	}catch(Exception $e){
 	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
@@ -59,11 +58,10 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}
 	  }
-	   //catch id form select table
-		   	$frm = new Other_Form_FrmPosition();
-		   	$frm_co=$frm->FrmAddPosition();
-		   	Application_Model_Decorator::removeAllDecorator($frm_co);
-		   	$this->view->frm_position = $frm_co;
+		 $frm = new Payroll_Form_FrmDepartment();
+		 $frm_partment=$frm->FrmAddDepartment();
+		 Application_Model_Decorator::removeAllDecorator($frm_partment);
+		 $this->view->frm_department = $frm_partment;
    }
    function getpositionAction(){
    	
@@ -71,15 +69,14 @@ class Payroll_PositionController extends Zend_Controller_Action {
 			     $rows=$db->getallPosition();
    	             $this->view->list=$rows;
    }
-  
-   //end
+ 
    function editAction(){
-    $db = new Other_Model_DbTable_DbMyPosition();
+    $db = new Payroll_Model_DbTable_DbDepartment();
 	   	if($this->getRequest()->isPost()){
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
-	   			$db->upDatePosition($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/position');
+	   			$db->upDateDepartment($_data);
+	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/department');
 	   		}catch(Exception $e){
 	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 	   			$err =$e->getMessage();
@@ -87,19 +84,14 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	   		}
 	   	}
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
-	   	$row = $db->getPositionById($id);
+	   	$row = $db->getDepartmemtById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('payroll/co');
+	   		$this->_redirect('payroll/department');
 	   	}
-// 	   	if(!empty($row['save_new'])){
-// 	   		Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-// 	   	}else{
-// 	   		Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
-// 	   	}
-        $frm = new Other_Form_FrmPosition();
-		$frm_co=$frm->FrmAddPosition($row);
-		Application_Model_Decorator::removeAllDecorator($frm_co);
-		$this->view->frm_position = $frm_co;
+		 $frm = new Payroll_Form_FrmDepartment();
+		 $frm_partment=$frm->FrmAddDepartment($row);
+		 Application_Model_Decorator::removeAllDecorator($frm_partment);
+		 $this->view->frm_department = $frm_partment;
 		   	
    }
 }

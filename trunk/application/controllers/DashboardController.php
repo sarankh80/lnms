@@ -13,8 +13,6 @@ class DashboardController extends Zend_Controller_Action
 	public  function menuAction(){
 		$this->_helper->layout()->disableLayout();
 	}
-	
-
 }
 
 

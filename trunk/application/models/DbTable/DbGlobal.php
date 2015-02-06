@@ -279,6 +279,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    public function getAllDegree($id=null){
    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
    	$opt_degree = array(
+   			''=>$this->tr->translate("----ជ្រើសរើស----"),
    			1=>$this->tr->translate("Diploma"),
    			2=>$this->tr->translate("Associate"),
    			3=>$this->tr->translate("Bechelor"),
@@ -379,6 +380,26 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $rows;
   	}
   }
+  
+  public function getAllDepartment($id=null,$option = null){
+  	$db = $this->getAdapter();
+  	$sql=" SELECT id,department_kh,department_en,displayby
+  	FROM `ln_department` WHERE status =1 ";
+  	if($id!=null){
+  		$sql.=" AND id = $id LIMIT 1";
+  	}
+  	$rows = $db->fetchAll($sql);
+  	if($option!=null){
+  		$options=array(''=>"----ជ្រើសរើស----");
+  		if(!empty($rows))foreach($rows AS $row){
+  			$options[$row['id']]=($row['displayby']==1)?$row['department_kh']:$row['department_kh'];
+  		}
+  		return $options;
+  	}else{
+  		return $rows;
+  	}
+  }
+  
   public function getVewOptoinTypeByType($type=null,$option = null,$limit =null){
   	$db = $this->getAdapter();
   	$sql="SELECT id,key_code,name_en,name_kh,displayby FROM `ln_view` WHERE status =1 ";
@@ -390,7 +411,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"---ជ្រើសរើស---");
+  		$options=array(''=>"-----ជ្រើសរើស-----");
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['name_kh']:$row['name_en'];
   		}

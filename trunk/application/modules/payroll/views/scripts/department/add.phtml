@@ -1,9 +1,9 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add Staff Position'));
+	echo $this->headTitle($tr->translate('Add Staff Department'));
 ?>	
-<?php  $techer= $this->frm_position;?>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'Add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<?php  $frm= $this->frm_department;?>
+<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'department','action'=>'Add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				/*if(dijit.byId('province').get('value')==''){
@@ -19,20 +19,20 @@
 	<tr>
 		<td>
 		<fieldset>
-					<legend><strong><?php echo $tr->translate("ព៌ត័មាន តួនាទី មន្ត្រីឥណទាន");?></strong></legend>
+					<legend><strong><?php echo $tr->translate("ព៌ត័មាន តាមផ្នែកនៃបុគ្គលិក");?></strong></legend>
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("តូនាទីជាភាសាខ្មែរ")?></td>
-							<td><?php  echo $techer->getElement('position_kh');?></td>
-							<td><?php echo $tr->translate("តួនាទីជាភាអង់គ្លេស")?></td>
-							<td><?php  echo $techer->getElement('position_en');?></td>
+							<td><?php echo $tr->translate("ផ្នែកជាភាសាខ្មែរ")?></td>
+							<td><?php  echo $frm->getElement('department_kh');?></td>
+							<td><?php echo $tr->translate("ផ្នែកជាភាអង់គ្លេស")?></td>
+							<td><?php  echo $frm->getElement('department_en');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("បង្ហាញជាភាសាខ្មែរ/English")?></td>
-							<td><?php  echo $techer->getElement('display');?></td>
+							<td><?php  echo $frm->getElement('display');?></td>
 							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $techer->getElement('status');?></td>
+							<td><?php  echo $frm->getElement('status');?></td>
 						</tr>
 					</table>	
 					<div style="text-align: center; margin: 10px 0px;"> 

@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add Commune'));
+	echo $this->headTitle($tr->translate('Add Staff Permision'));
 	$this->headTitle('Open salary | Agent add page'); 
 	echo $this->headTitle();
 	$frm = $this->frm_permistion;
@@ -77,13 +77,18 @@
 							<td><?php  echo $frm->getElement('status');?></td>
 						</tr>
 					</table>
+					<div style="text-align: center; margin: 10px 0px;"> 
+						<input type="hidden" name="exchangefrom" value="2" />
+						<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+						<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"/>
+						<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+						<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+					</div>
 				</fieldset>
 			</td>			
 		</tr>
-		<tr>
-			<td colspan="2" align="center">
-				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
-			</td>
 		</tr>
 	</table>		
 </form>

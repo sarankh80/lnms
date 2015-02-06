@@ -1,6 +1,7 @@
 <?php
 class Payroll_CoController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
      /* Initialize action controller here */
@@ -16,14 +17,14 @@ class Payroll_CoController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'status_search' => -1);
 			}
 			$rs_rows= $db->getAllCreditOfficer($search);
 			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,1);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("CODE","Name Khmer","Name In ENG","National ID","Address","Tel",
-					"Email","Degree","Status");
+					"Email","Degree","Department","Annual Lives","Status");
 			$link=array(
 					'module'=>'payroll','controller'=>'co','action'=>'edit',
 			);
@@ -34,10 +35,10 @@ class Payroll_CoController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$fm = new Other_Form_FrmCO();
+   		$frm_co=$fm->FrmAddCO();
+   		Application_Model_Decorator::removeAllDecorator($frm_co);
+   		$this->view->frm_co = $frm_co;
 	
 	}
 	public function settingAction(){
@@ -100,10 +101,15 @@ class Payroll_CoController extends Zend_Controller_Action {
    function addAction(){
    	if($this->getRequest()->isPost()){
    		$_data = $this->getRequest()->getPost();
+   		$db_co = new Other_Model_DbTable_DbCreditOfficer();
+   		 
    		try{
-   			$db_co = new Other_Model_DbTable_DbCreditOfficer();
    			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+   				if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/co/index');
+				}
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
    			$err =$e->getMessage();
@@ -130,6 +136,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    	}
    	$id = $this->getRequest()->getParam("id");
    	$row = $db_co->getCOById($id);
+   	$this->view->photo = $row['photo'];
    	if(empty($row)){
    		$this->_redirect('payroll/co');
    	}
@@ -137,6 +144,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    	$frm_co=$frm->FrmAddCO($row);
    	Application_Model_Decorator::removeAllDecorator($frm_co);
    	$this->view->frm_co = $frm_co;
+   
    }
    public function addNewcoAction(){
    	if($this->getRequest()->isPost()){

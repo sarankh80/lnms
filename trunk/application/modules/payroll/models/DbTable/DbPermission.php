@@ -56,9 +56,9 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		from_date,to_date,time,reason,
 		(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id,
 		 date, status FROM `ln_permission` WHERE 1 ";
-		
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+// 		$where=" ";
+		if($search['status_search']>-1){
+			$where.= " AND status = ".$search['status_search'];
 		}
 		if(!empty($search['employee'])){
 			$where.= " AND employee_id = ".$search['employee'];
@@ -75,7 +75,7 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = $search['adv_search'];
-			$s_where[] = " employee_id '%{$s_search}%'";
+			$s_where[] = " employee_id LIKE '%{$s_search}%'";
 			$s_where[] = " reason LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}

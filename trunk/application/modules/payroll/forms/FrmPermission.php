@@ -3,18 +3,52 @@
 class Payroll_Form_FrmPermission extends Zend_Dojo_Form
 {
 	protected $tr;
+	protected $tvalidate =null;//text validate
+	protected $filter=null;
+	protected $t_num=null;
+	protected $text=null;
+	protected $tarea=null;
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$this->tvalidate = 'dijit.form.ValidationTextBox';
+		$this->filter = 'dijit.form.FilteringSelect';
+		$this->text = 'dijit.form.TextBox';
+		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
 
     public function frmPermission($data=null)
     {
     	$db = new Application_Model_DbTable_DbGlobal();
     	
+    	$request=Zend_Controller_Front::getInstance()->getRequest();
+    	
+    	$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+    	$_title->setAttribs(array('dojoType'=>$this->tvalidate,
+    			'onkeyup'=>'this.submit()',
+    			'placeholder'=>$this->tr->translate("SEARCH STAFF PERMISTION")
+    			));
+    	$_title->setValue($request->getParam("adv_search"));
+    	
+    	$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
+    	$_btn_search->setAttribs(array(
+    			'dojoType'=>'dijit.form.Button',
+    			'iconclass'=>'dijitIconSearch'
+    	));
+    	
+    	
+    	$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
+    	$_status_search->setAttribs(array('dojoType'=>$this->filter));
+    	$_status_opt = array(
+    			-1=>$this->tr->translate("ALL"),
+    			1=>$this->tr->translate("ACTIVE"),
+    			0=>$this->tr->translate("DACTIVE"));
+    	$_status_search->setMultiOptions($_status_opt);
+    	$_status_search->setValue($request->getParam("status_search"));
+    	
     	$employee = new Zend_Dojo_Form_Element_FilteringSelect('employee');
     	$rows = $db ->getAllCOName();
-    	$options=array(''=>"------Select------",-1=>"Add New");
+    	$options=array(''=>"------ជ្រើសរើស------",-1=>"Add New");
     	if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
     	$employee->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
@@ -25,7 +59,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
   
     	$approve_by = new Zend_Dojo_Form_Element_FilteringSelect('approve_by');
     	$rows = $db ->getAllCOName();
-    	$options=array(''=>"------Select------",-1=>"Add New");
+    	$options=array(''=>"------ជ្រើសរើស------",-1=>"Add New");
     	if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
     	$approve_by->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
@@ -40,6 +74,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
     			'required'=>true,
     			'class'=>'fullside'
     			));
+    	$request_date->setValue(date('Y-m-d'));
     	$db_type=new Application_Model_DbTable_DbGlobal();
     	$opt_type=$db_type->getVewOptoinTypeByType(7,1);
     	$type=new Zend_Dojo_Form_Element_FilteringSelect('type');
@@ -55,7 +90,11 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
     			'required'=>true,
     			'class'=>'fullside'
     			));
-    	$from_date->setValue(date('Y-m-d'));
+    	$fromdate=$request->getParam('from_date');
+    	if(empty($fromdate)){
+    		$fromdate=date('Y-m-d');
+    	}
+    	$from_date->setValue($fromdate);
     	
     	
     	$to_date=new Zend_Dojo_Form_Element_DateTextBox('to_date');
@@ -64,7 +103,11 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
     			'required'=>true,
     			'class'=>'fullside'
     			));
-    	$to_date->setValue(date('Y-m-d'));
+    	$todate=$request->getParam('to_date');
+    	if(empty($todate)){
+    		$todate=date('Y-m-d');
+    	}
+    	$to_date->setValue($todate);
     	
     	$time=new Zend_Dojo_Form_Element_TextBox('time');
     	$time->setAttribs(array(
@@ -117,7 +160,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
-		
+	
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$employee->setValue($data['employee_id']);
@@ -137,7 +180,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
 			$_id->setValue($data['id']);
 		}
 		
-		$this->addElements(array($_status,$_id,$employee,$approve_by,$request_date,$type,$from_date,$to_date,$time,
+		$this->addElements(array($_btn_search,$_title,$_status_search,$_status,$_id,$employee,$approve_by,$request_date,$type,$from_date,$to_date,$time,
 				$all_day,$reason,$paid_leave,$every_day,$branch_id));
 		return $this;
     }

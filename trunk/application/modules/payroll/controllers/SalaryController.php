@@ -2,7 +2,7 @@
 
 class Payroll_SalaryController extends Zend_Controller_Action
 {
-	const REDIRECT_URL = '/agent';
+	const REDIRECT_URL = '/payroll';
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
 	
     public function init()
@@ -23,7 +23,9 @@ class Payroll_SalaryController extends Zend_Controller_Action
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1
+						'status_search' => -1,
+						'from_date' =>date('Y-m-d'),
+						'to_date' => date('Y-m-d'),
 				);
 			}
 			$rs_rows= $db->getAllSalary($search);
@@ -40,11 +42,10 @@ class Payroll_SalaryController extends Zend_Controller_Action
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
-		$fm = new Application_Form_FrmAdvanceSearch();
-		$frm = $fm->AdvanceSearch();
+		$fm=new Payroll_Form_FrmSalary();
+		$frm = $fm->frmaddSalary();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$this->view->frm=$frm;
 	}
 	public function detailAction(){
 		$db_salary = new Payroll_Model_DbTable_DbSalary();
@@ -60,18 +61,22 @@ class Payroll_SalaryController extends Zend_Controller_Action
     {
     	if($this->getRequest()->isPost()){
    		$_data = $this->getRequest()->getPost();
+   		$db_salary = new Payroll_Model_DbTable_DbSalary();
    		try{
-   			$db_salary = new Payroll_Model_DbTable_DbSalary();
    			$db_salary->addSalary($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/salary');
+   			if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/salary/index');
+				}
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    			}
    		}
-    	$pructis=new Payroll_Form_FrmSalary();
-    	$frm = $pructis->frmaddSalary();
+    	$fm=new Payroll_Form_FrmSalary();
+    	$frm = $fm->frmaddSalary();
     	Application_Model_Decorator::removeAllDecorator($frm);
     	$this->view->frm=$frm;
     	$db = new Payroll_Model_DbTable_DbSalary();

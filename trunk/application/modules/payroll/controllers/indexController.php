@@ -23,23 +23,6 @@ class Payroll_indexController extends Zend_Controller_Action {
 						 );
 			}
 			$rs_rows= $db->getAllIndividuleLoan($search);
-// 			print_r($rs_rows);
-// 			foreach ($rs_rows as $key =>$rs){
-// // 				$result[$key]=array(
-// // 						'client_id'=>$rs['client_id'],
-// // 						'client_number'=>$rs['client_number'],
-// // 						'name_kh'=>$rs['name_kh'],
-// // 						'name_en'=>$rs['name_en'],
-// // 						'sex'=>$this->sex[$rs['sex']],
-// // 						'phone'=>$rs['phone'],
-// // 						'house'=>$rs['house'],
-// // 						'street'=>$rs['street'],
-// // 						'village_name'=>$rs['village_name'],
-// // 						'spouse_name'=>$rs['spouse_name'],
-// // 						'user_name'=>$rs['user_name'],
-// // 						'status'=>$rs['status'],
-// // 						);
-// 			}
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();

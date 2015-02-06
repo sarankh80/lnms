@@ -1,5 +1,5 @@
 <?php 
-Class Other_Form_FrmPosition extends Zend_Dojo_Form {
+Class Payroll_Form_FrmDepartment extends Zend_Dojo_Form {
 	protected $tr=null;
 	protected $tvalidate=null ;//text validate
 	protected $filter=null;
@@ -13,7 +13,7 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 		$this->text = 'dijit.form.TextBox';
 		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
-	public function FrmAddPosition($_data=null){
+	public function FrmAddDepartment($_data=null){
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
@@ -21,7 +21,7 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH POSITION")
+				'placeholder'=>$this->tr->translate("SEARCH DEPARTMENT")
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		
@@ -40,11 +40,19 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 				'iconclass'=>'dijitIconSearch'
 		));
 		
-		$position_en = new Zend_Dojo_Form_Element_TextBox('position_en');
-		$position_en->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		$department_kh = new Zend_Dojo_Form_Element_TextBox('department_kh');
+		$department_kh->setAttribs(array(
+				'dojoType'=>$this->tvalidate,
+				'required'=>'true',
+				'class'=>'fullside',
+				));
 		
-		$position_kh = new Zend_Dojo_Form_Element_TextBox('position_kh');
-		$position_kh->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		$department_en = new Zend_Dojo_Form_Element_TextBox('department_en');
+		$department_en->setAttribs(array(
+				'dojoType'=>$this->tvalidate,
+				'required'=>'true',
+				'class'=>'fullside',
+				));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
@@ -67,14 +75,13 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 // 			$position_en->setValue($_data['position_en']);
 		
 		if(!empty($_data)){
-			$position_en->setValue($_data['position_en']);
-			$position_kh->setValue($_data['position_kh']);
+			$department_kh->setValue($_data['department_kh']);
+			$department_en->setValue($_data['department_en']);
 			$_status->setValue($_data['status']);
 			$_display->setValue($_data['displayby']);
 			$_id->setValue($_data['id']);
-
 		}
-		$this->addElements(array($_btn_search,$_status_search,$_title,$_id,$position_en,$position_kh,$_status,$_display));
+		$this->addElements(array($_btn_search,$_status_search,$_title,$_id,$department_en,$department_kh,$_status,$_display));
 		
 		return $this;
 	}

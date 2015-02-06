@@ -1,9 +1,10 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add CO'));
+	echo $this->headTitle($tr->translate('Update Staff'));
 ?>	
+
 <?php  $techer= $this->frm_co;?>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				/*if(dijit.byId('province').get('value')==''){
@@ -59,8 +60,19 @@
 							<td><?php  echo $techer->getElement('email');?></td>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $techer->getElement('status');?></td>
+							<td><?php echo $tr->translate("រូបថត")?></td>
+							<td><?php  echo $techer->getElement('photo');?>
+							</td>
 						</tr>
-						
+						<tr>
+							<td valign="top"><?php echo $tr->translate("ផ្នែក")?></td>
+							<td valign="top"><?php  echo $techer->getElement('department_id');?></td>
+							<td valign="top"><?php echo $tr->translate("លេខស្នាមម្រាមដៃ")?></td>
+							<td valign="top"><?php  echo $techer->getElement('figer_print_id');?></td>
+							<td></td>
+							<td> <img height="60px" src="<?php echo $this->baseUrl().'/images/'.$this->photo;?>" />
+							</td>
+						</tr>
 					</table>
 					<fieldset>
 						<legend><strong>ព័ត៏មានប្រាក់បៀវត្សន៍</strong></legend>
@@ -84,15 +96,12 @@
 								<tr>
 									<td><?php echo $tr->translate("ម៉ោងធ្វើការ")?></td>
 									<td><?php  echo $techer->getElement('workingtime');?></td>
-									<td><?php echo $tr->translate("")?></td>
-									<td><?php  echo $techer->getElement('');?></td>
-									<td><?php echo $tr->translate("")?></td>
-									<td><?php  echo $techer->getElement('');?></td>
+									<td><?php echo $tr->translate("ចំនួនឈប់ប្រចាំឆ្នាំ")?></td>
+									<td><?php  echo $techer->getElement('annual_lives');?></td>
 								</tr>
 								<tr>
 									<td colspan="4" align="center">
-										<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-										 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
+										<input type="submit" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
 									</td>
 								</tr>
 							</table>
@@ -102,3 +111,16 @@
 	</tr>
 </table>	
 </form>
+<script type="text/javascript">
+	function calculateDay(){
+		start_date = dijit.byId("start_date").get('value');
+		var a=new Date(start_date);
+		m=a.getMonth()+1;
+		d=a.getDate();
+		if(d<15){
+			m=m-1;
+		}
+		t_day=18*(12-m)/12;
+		dijit.byId('annual_lives').attr('value',t_day);
+	}
+</script>

@@ -3,7 +3,7 @@
 class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 {
 
-protected $tr;
+	protected $tr;
 	protected $tvalidate =null;//text validate
 	protected $filter=null;
 	protected $t_num=null;
@@ -102,7 +102,7 @@ protected $tr;
 				'class'=>'fullside'
 		));
 		$from_date->setValue(date('Y-m-d'));
-		 
+// 		$from_date->setValue($request->getParam("from_date"));
 		 
 		$to_date=new Zend_Dojo_Form_Element_DateTextBox('to_date');
 		$to_date->setAttribs(array(
@@ -111,6 +111,7 @@ protected $tr;
 				'class'=>'fullside'
 		));
 		$to_date->setValue(date('Y-m-d'));
+// 		$to_date->setValue($request->getParam("to_date"));
 		
 		$position_=new Zend_Dojo_Form_Element_FilteringSelect('position');
 		$position_->setAttribs(array(

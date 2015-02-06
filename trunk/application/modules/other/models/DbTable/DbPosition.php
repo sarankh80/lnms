@@ -22,7 +22,7 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 		(SELECT displayby_en FROM `ln_displayby` AS ld WHERE ld.id = id LIMIT 1) AS displayby,
 		status
 		FROM `ln_position` WHERE 1 ";
-		$order=" order by position_en";
+		$order=" order by id DESC";
 		$where = '';
 		
 		if(!empty($search['adv_search'])){
@@ -34,8 +34,8 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 			$s_where[] = " displayby LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['status_search']>-1){
+			$where.= " AND status = ".$search['status_search'];
 		}
 		return $db->fetchAll($sql.$where.$order);	
 	}	
