@@ -19,11 +19,11 @@ $frm = $this->Form_Frmcallecterall;
 					<table cellspacing="10"  width="100%">
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch')?></td>
+							<td><?php echo$frm ->getElement('branch')?></td>
 							<td><?php echo $tr->translate("លេខវិក័យបត្រ")?></td>
-						​	<td><?php echo $frm->getElement('num_vi')?></td>
+						​	<td><?php echo $frm->getElement('receipt')?></td>
 						    <td><?php echo $tr->translate("លេខកូដបពាំ្ច")?></td>
-							<td><?php echo $frm->getElement('callecterall_code')?></td>		
+							<td><?php echo $frm->getElement('code_call')?></td>		
 						 </tr>
 					     <tr>
 					        ​​​<td><?php echo $tr->translate("លេខកូដ")?></td>
@@ -39,8 +39,8 @@ $frm = $this->Form_Frmcallecterall;
 					        <td><?php echo $tr->translate("ម្ចាស់កម្មសិទ្ធ")?></td>
 							<td><?php echo $frm->getElement('nameouner')?></td>
 							<td><?php echo $tr->translate("លេខសំគាសអចលនវត្ថុ")?></td>
-							<td><?php echo $frm->getElement('nunbernameouner')?></td>
-							<td><?php echo $tr->translate("ថ្ញៃបពាំ្ច")?></td>
+							<td><?php echo $frm->getElement('callnumber')?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបព្ជាំ")?></td>
 							<td><?php echo $frm->getElement('date_call')?></td>	
 							
 						
@@ -49,7 +49,7 @@ $frm = $this->Form_Frmcallecterall;
 							<td><?php echo $tr->translate("រយះពេលខ្ចីគិតជា")?></td>
 							<td><?php echo $frm->getElement('time_think')?></td>
 							<td><?php echo $tr->translate("ចំនូនរយះពេលខ្ចី")?></td>
-							<td><?php echo $frm->getElement('time_short')?></td>	
+							<td><?php echo $frm->getElement('time_boro')?></td>	
 							<td><?php echo $tr->translate("ថ្ញៃផុតកំណត់")?></td>
 							<td><?php echo $frm->getElement('dayless')?></td>
 							
@@ -65,12 +65,18 @@ $frm = $this->Form_Frmcallecterall;
 					   
 					  </table>
 					</fieldset>
-		</td>
+			</td>
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="hidden" name="exchangefrom" value="2" />
+						<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+						<input type="button" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button" 
+							iconClass="dijitIconClear"  class="fixed_size" onclick="clearTextBox(1);"/>
+						<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+						<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>	
 </table>
