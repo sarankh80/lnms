@@ -84,8 +84,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$db->addClient($data);
 				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/Client");
 			}catch (Exception $e){
-				echo $e->getMessage();exit();
-				Application_Form_FrmMessage::message("Application Error");
+				Application_Form_FrmMessage::message("INSERT_FAILE");
 				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}

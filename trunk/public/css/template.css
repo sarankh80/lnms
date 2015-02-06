@@ -519,6 +519,7 @@ td.input-train input,select{
     //padding: 2px;
     // width: 200px;
 }
+.pagesize{ height: 25px !important;}
 
 td.input-add-1col input{
     border: 1px solid #BDB597;

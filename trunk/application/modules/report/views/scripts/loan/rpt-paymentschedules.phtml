@@ -48,7 +48,7 @@ margin: -4px 4px 0 4px;
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
-		line-height: 20px;font-size: 12px;
+		line-height: 20px;font-size: 11px;
 		font-family: 'Khmer OS Battambang';
 	}
 	.font_bold{
@@ -60,7 +60,7 @@ margin: -4px 4px 0 4px;
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
-	        	<table width="100%" style="font-family:khmer;" style="margin:0 auto;padding:0px; border:none;">
+	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 	            	<tr>
 	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
 	                	<td width="60%" valign="top">
@@ -89,7 +89,7 @@ margin: -4px 4px 0 4px;
 				                	<td colspan="2">
 				                	<p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> , លេខ សំគាល់: <?php echo $client['client_number']?></p>
 				                	</td>
-				                    <td><b>ប្រាក់កម្ចី : <?php echo $client['total_capital'];echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></b></td>
+				                    <td style="font-weight: bold !important;">ប្រាក់កម្ចី : <?php echo $client['total_capital'];echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
 				                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
 				                </tr>
 				                <tr class='style'>
@@ -116,8 +116,8 @@ margin: -4px 4px 0 4px;
 	    </tr>
 	    <tr>
 	    	<td>
-	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellpadding="3">
-	                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
+	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px;">
 	                    <td rowspan="2">លរ</td>
 	                    <td rowspan="2" colspan="2">ថ្ងៃបង់ប្រាក់</td>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
@@ -125,14 +125,14 @@ margin: -4px 4px 0 4px;
 	                    <td colspan="3">ចំនួនប្រាក់ត្រូវបង់</td>
 	                    <td rowspan="2">ប្រាក់ដើមសល់</td>
 	                </tr>
-	                <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
+	                <tr class="style" align="center" style="font-weight:bold; line-height: 20px;">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
 	                    <td>ប្រាក់ដើម</td>
 	                    <td>ប្រាក់ការ</td>
 	                    <td>សរុប</td>
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
-	               	<tr align="center" style="font-weight:bold; font-family:'Khmer OS';">
+	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
 	                    <td ><?php echo $key+1;?></td>
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
@@ -165,20 +165,18 @@ margin: -4px 4px 0 4px;
 	               <?php }?>
 	            </table>
 	            <table width="100%" cellpadding="3">
-	            	<tr class="font_bold" style="height:50px;">
-	            		<td width="35%" align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
+	            	<tr class="font_bold" style="height:40px;">
+	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
 	            		<td></td> 
-	            		<td width="35%" align="center" valign="bottom">ហត្ថលេខ ឫស្នាមមេដៃ និងឈ្មោះអតិថិជន</td>
-	            	</tr>
-	            	<tr>
-	            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
-	            		<td><br /><br /><br />
-	            		<td width="40%" align="center" valign="bottom">--------------------------------------</td>
+	            		<td align="center" valign="bottom">ស្នាមមេដៃ និងឈ្មោះអតិថិជន</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center"> <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center">
+	            			<p style="margin-top: 20px;margin-bottom:-25px;">--------------------------------------</p>
+	            			<p><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></p></td>
 	            		<td></td>
-	            		<td align="center"> <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </td>
+	            		<td align="center"><p style="margin-top: 20px;margin-bottom:-25px;">--------------------------------------</p>
+	            			<p><?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></p></td>
 	            	</tr>
 	            </table>
 	    	</td>

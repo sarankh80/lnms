@@ -46,7 +46,7 @@
 				return false;
 			}
 </script>
-<table cellspacing="10" class='fullside' >
+<table cellspacing="10" class='fullside' border=1 >
 	<tr>
 		<td>
 				<fieldset>
@@ -144,11 +144,6 @@
 	</tr>		
 	<tr>
 		<td align="center">
-		 <div id="tran_list"></div>		
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
 			<input type="reset" value="សម្អាត" label="សម្អាត" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="រក្សាទុកនិងបិទ" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
@@ -237,7 +232,6 @@ function CompareGraicePariod(){
 	}
 }
 function chechPaymentMethod(){
-	
 	method_id = dijit.byId('repayment_method').get('value');
 	dojo.byId('lbl_payment').innerHTML="រយៈពេលបង់រំលោៈដើម";
 	dijit.byId('amount_collect_pricipal').attr('value',0);
@@ -267,20 +261,7 @@ function chechPaymentMethod(){
 		dijit.byId('graice_pariod').set('readOnly',true);
 	}
 }
-function submitData(){
-	var json_data_t = itemToJSON(dijit.byId('tran_list'));
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloan')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
-			load: function(data) {	
-				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-			},
-			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
-			}
-		});
-}
+
 function changeCollectType(){
 	get_id = dijit.byId('pay_every').get('value');
 	dijit.byId('collect_termtype').attr('value',get_id);
