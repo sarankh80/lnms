@@ -80,34 +80,46 @@ public function addSalary($_data){
 	}
 	public function getSalaryById($id){
 		$db = $this->getAdapter();
+		$db->beginTransaction();
+		try {
 		$sql = "SELECT * FROM $this->_name WHERE id = ".$db->quote($id);
 		$sql.=" LIMIT 1 ";
 		$row=$db->fetchRow($sql);
 		return $row;
+		$db->commit();
+		}catch (Exception $e){
+			$db->rollBack();
+		}
 	}
 	function getAllSalary($search=null){
+		
+		$from_date =(empty($search['from_date']))? '1': "date_start >= '".$search['from_date']." 00:00:00'";
+		$to_date = (empty($search['to_date']))? '1': "date_get_salary <= '".$search['to_date']." 23:59:59'";
+		$where = " AND ".$from_date." AND ".$to_date;
+		
 		$db = $this->getAdapter();
 		$sql = "SELECT id,
-		(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id) AS branch_name,
-		(SELECT co_khname FROM ln_co WHERE co_id = staff_id limit 1 ) AS staff_id,basic_salary,
+		(SELECT branch_namekh FROM ln_branch WHERE br_id = ln_salary.branch_id) AS branch_name,
+		(SELECT co_khname FROM ln_co WHERE co_id = staff_id limit 1 ) AS staff_id,ln_salary.basic_salary,
 		(SELECT position_kh FROM ln_position WHERE id = 
 		(SELECT position_id FROM ln_co WHERE co_id = staff_id limit 1 ) limit 1) as position_name,
 		 date_start,date_get_salary,(SELECT end_date FROM ln_co WHERE co_id=staff_id limit 1) AS end_date,
-		 date,(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id,
-		 status,detail
-		 FROM ln_salary WHERE 1";
-		$where = "";
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		 date,(SELECT user_name FROM rms_users WHERE id = ln_salary.user_id limit 1 ) AS user_id,
+		 ln_salary.status,detail FROM ln_salary ";
+		if(!empty($search['position'])){
+				$sql.= " ,ln_co WHERE staff_id =co_id AND  position_id = ".$search['position'];
+		}else{
+			   $sql.=" WHERE 1";
+		}
+		if($search['status_search']>-1){
+			$where.= " AND status = ".$search['status_search'];
 		}
 		if(!empty($search['employee'])){
 			$where.= " AND staff_id = ".$search['employee'];
 		}
 		if(!empty($search['branch_id'])){
-			$where.= " AND branch_id = ".$search['branch_id'];
-		}
-		if(!empty($search['position'])){
-			$where.= " AND (SELECT position_id FROM ln_co WHERE co_id = staff_id limit 1) AS position_id = ".$search['position'];
+			
+			$where.= " AND ln_salary.branch_id = ".$search['branch_id'];
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();

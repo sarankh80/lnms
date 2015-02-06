@@ -1,6 +1,7 @@
 <?php
 class Payroll_PermissionController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	const REDIRECT_URL = '/payroll';
     public function init()
     {    	
      /* Initialize action controller here */
@@ -16,7 +17,7 @@ class Payroll_PermissionController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1,
+						'status_search' => -1,
 						'from_date' =>date('Y-m-d'),
 						'to_date' => date('Y-m-d'),
 						);
@@ -37,19 +38,27 @@ class Payroll_PermissionController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$fm_ = new Application_Form_FrmAdvanceSearch();
+		$frm_ = $fm_->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($frm_);
+		$this->view->frm_search = $frm_;
+		$fm = new Payroll_Form_FrmPermission();
+		$frm_permission=$fm->frmPermission();
+		Application_Model_Decorator::removeAllDecorator($frm_permission);
+		$this->view->frm_permistion = $frm_permission;
 	}
 	
    function addAction(){
    	if($this->getRequest()->isPost()){
    		$_data = $this->getRequest()->getPost();
+   		$db_permission = new Payroll_Model_DbTable_DbPermission();
    		try{
-   			$db_permission = new Payroll_Model_DbTable_DbPermission();
    			$db_permission->addPermission($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/permission');
+   			if(!empty($_data['save_new'])){
+   				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+   			}else{
+   				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/permission/index');
+   			}
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
    			$err =$e->getMessage();
