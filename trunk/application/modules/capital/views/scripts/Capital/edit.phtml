@@ -23,14 +23,7 @@ $frm = $this->frm;
 				<fieldset>
 					<legend><strong>Form Add Capital</strong></legend>
 					<table cellspacing="10"  width="100%">
-						<tr>
-							<td>Note</td>
-							<td><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
-							<td></td>
-							<td></td>
-							<td></td>	
-							<td></td>
-						</tr>
+						
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('brance')?></td>
@@ -48,17 +41,25 @@ $frm = $this->frm;
 							<td><?php echo $frm->getElement('reil')?></td>
 							
 						</tr>
-						
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>	
+							<td></td>
+							<td>Note</td>
+							<td><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
+							
+						</tr>
 					</table>
 				</fieldset>
 				
 		</td>
 	</tr>		
 	<tr>
-		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
-		</td>
+			<td align="center"><input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+						<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+						<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/></td>
+		
 	</tr>	
 </table>
 </form>
