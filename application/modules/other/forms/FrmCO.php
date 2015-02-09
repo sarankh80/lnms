@@ -175,14 +175,20 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		
 		$opt_shift=array(1=>'ពេញម៉ោង',2=>'ក្រៅម៉ោង');
 		$_shift =  new Zend_Dojo_Form_Element_FilteringSelect('shift');
-		$_shift->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'));
+		$_shift->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'Checktime(2)'
+				));
 		$_shift->setMultiOptions($opt_shift);
 		
 		$opt_workingtime=array(1=>'ពេលព្រឹក និង ពេលល្ងាច​',2=>'ពេលព្រឹក',3=>'ពេលល្ងាច');
 		$_workingtime =  new Zend_Dojo_Form_Element_FilteringSelect('workingtime');
-		$_workingtime->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'));
+		$_workingtime->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'Checktime(1)'
+				));
 		$_workingtime->setMultiOptions($opt_workingtime);
 		
 		$_annual_lives=new Zend_Dojo_Form_Element_NumberTextBox('annual_lives');
