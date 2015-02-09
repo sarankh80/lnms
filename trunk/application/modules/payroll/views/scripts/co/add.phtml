@@ -65,7 +65,7 @@
 						<tr>
 							<td><?php echo $tr->translate("ផ្នែក")?></td>
 							<td><?php  echo $techer->getElement('department_id');?></td>
-							<td><?php echo $tr->translate("លេខស្នាមម្រាមដៃ")?></td>
+							<td><?php echo $tr->translate("លេខស្នាមក្រយ៉ៅដៃ")?></td>
 							<td><?php  echo $techer->getElement('figer_print_id');?></td>
 						</tr>
 						
@@ -126,5 +126,34 @@
 		}
 		t_day=18*(12-m)/12;
 		dijit.byId('annual_lives').attr('value',t_day);
+	}
+	function Checktime(type){
+		workingtime_id=dijit.byId("workingtime").get("value");
+		shift_id=dijit.byId("shift").get("value");
+		if(type==1){
+			if(workingtime_id==1){
+				dijit.byId("shift").attr('value',1);
+				dijit.byId("workingtime").set('readOnly',true);
+			}
+			else if(workingtime_id==2){
+				dijit.byId("shift").attr('value',2);
+			}
+			else if(workingtime_id==3){
+				dijit.byId("shift").attr('value',2);
+			}
+		}else{
+			if(shift_id==1){
+				dijit.byId("workingtime").attr('value',1);
+				dijit.byId("workingtime").set('readOnly',true);
+			}
+			else if(shift_id==2){
+				dijit.byId("workingtime").attr('value',2);
+				dijit.byId("workingtime").set('readOnly',false);
+			}
+			else if(shift_id==2){
+				dijit.byId("workingtime").attr('value',3);
+				dijit.byId("workingtime").set('readOnly',false);
+			}
+		}
 	}
 </script>
