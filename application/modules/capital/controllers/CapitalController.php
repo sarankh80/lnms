@@ -10,7 +10,15 @@ class Capital_CapitalController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Capital_Model_DbTable_DbCapital();
-			$rs_rows= $db->getAllCapital($search=null);
+			if($this->getRequest()->isPost()){
+				$search=$this->getRequest()->getPost();
+			}
+			else{
+				$search = array(
+						'search' => '',
+						'status' => -1);
+			}
+			$rs_rows= $db->getAllCapital($search);
 			$glClass = new Application_Model_GlobalClass();//status
  			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
@@ -24,7 +32,10 @@ class Capital_CapitalController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
+		$fm = new Capital_Form_FrmCapitale();
+		$frm = $fm->frmSearch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm= $frm;
 	}
 	public function addAction()
 	{
@@ -33,18 +44,19 @@ class Capital_CapitalController extends Zend_Controller_Action {
 			$db_acc = new Capital_Model_DbTable_DbCapital();
 			try {
 				if(isset($accdata["save"])){
-					$db = $db_acc->getUserId($accdata);
+					$db = $db_acc->addCapital($accdata);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/add');
 				}elseif (isset($accdata["save_close"])){
-					$db = $db_acc->getUserId($accdata);
+					$db = $db_acc->addCapital($accdata);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital');
 				}else {
 					Application_Form_FrmMessage::redirectUrl("/capital/capital");
 				}
 				
 			} catch (Exception $e) {
-	
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
 		$fm = new Capital_Form_FrmCapitale();
@@ -78,10 +90,6 @@ class Capital_CapitalController extends Zend_Controller_Action {
 		$frm = $deposite->frmCapital($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm=$frm;
-// 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$this->view->currency_type = $db->CurruncyTypeOption();
-	
-// 		$this->view->rs_rows = $db_deposite->getAllCapital($id);
 	}
 	
 }

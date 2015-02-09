@@ -3,6 +3,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 	public function frmCapital($_data=null)
 	{
 		/* Form Elements & Other Definitions Here ... */
+		
+		
 		$brance = new Zend_Dojo_Form_Element_FilteringSelect('brance');
 		$brance->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -112,13 +114,15 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'OnChange' => 'statusCheck();'
 		));
 		$options= array(-1=>"ជ្រើសរើស ស្ថានភាព",1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'class'	=>	'fullside'));
+				'class'	=>	'fullside',
+				));
 		$usa=new Zend_Dojo_Form_Element_NumberTextBox('usa');
 		$usa->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -220,7 +224,7 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				$note,$bath,$usa,$reil,$usa_from,$bath_from,$reil_from,$usa_to,$bath_to,$reil_to,$id,$btnSearch));
 		return $this;
 	}
-	public function frmSearch($data = NULL){
+	public function frmSearch(){
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
@@ -262,13 +266,12 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox'
 		));
 		$date->setValue(date('Y-m-d'));
-		if($data!=null){
-			//$date->setValue($request->getParam("date"));
-		}
+		$search = new Zend_Dojo_Form_Element_TextBox("search");
+		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'   =>  'ឈ្មោះសាខា ជាភាសាខ្មែរ ឬ អង់គ្លេស',));
+		$search->setValue($request->getParam("search"));
 		
 		
-		
-		return $this->addElements(array($brance_from,$brance_to,$_stutas,$btnSearch,$date));
+		return $this->addElements(array($search,$brance_from,$brance_to,$_stutas,$btnSearch,$date));
 	}
 	
 }

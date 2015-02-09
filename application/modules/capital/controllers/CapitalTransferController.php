@@ -12,7 +12,6 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 			$db = new Capital_Model_DbTable_DbCapitalTransfer();
 			if($this->getRequest()->isPost()){
 				$search=$this->getRequest()->getPost();
-				//print_r($search);exit();
 			}
 			else{
 				$search = array(
@@ -21,7 +20,6 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 						'status' => -1);
 			}
 			$rs_rows= $db->getAllTransfer($search);
-			//print_r($rs_rows);exit();
 			$glClass = new Application_Model_GlobalClass();//status
  			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
@@ -48,6 +46,7 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 			try {
 				$db->addTransfer($data);
 				if(isset($data["save"])){
+					print_r($data);exit();
 					$db->addTransfer($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer/add');
 				}elseif (isset($data["save_close"])){
@@ -57,9 +56,9 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer');
 				}
 			}catch (Exception $e) {
-				echo $e->getMessage();
-				exit();
-// 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 				
 			}
 		}
@@ -93,7 +92,7 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 				}else {
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer');
 				}
-				//Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer');
+				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer');
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();

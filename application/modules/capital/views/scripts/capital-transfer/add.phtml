@@ -81,14 +81,21 @@ dojo.require("dijit.form.NumberTextBox");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.FilteringSelect");
 dojo.require("dijit.form.DateTextBox");
+dojo.ready(function(){
+	dijit.byId('status').attr('value',1);
+	var status = dijit.byId('status').get('value');
+});
 
+function statusCheck(){
+	var status = dijit.byId('status').get('value');
+	if(status == -1){
+		alert("សូមមេត្តាជ្រើសរើសស្ថានភាពយ៉ាងហោចមួយ!!");
+	}
+}
 function validateTransfer(type){
-	//alert(type);
 	if(type==1){
 		var usa = dijit.byId('usa').get('value');
 		var usa_from = dijit.byId('usa_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(usa > usa_from){
 			alert("Money transfer is not enought");
 			dijit.byId('usa').attr('value',usa_from);
@@ -98,8 +105,6 @@ function validateTransfer(type){
 	if(type==2){
 		var bath = dijit.byId('bath').get('value');
 		var bath_from = dijit.byId('bath_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(bath > bath_from){
 			alert("Money transfer is not enought");
 			dijit.byId('bath').attr('value',bath_from);
@@ -109,8 +114,6 @@ function validateTransfer(type){
 	if(type==3){
 		var riel = dijit.byId('reil').get('value');
 		var riel_from = dijit.byId('reil_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(riel > riel_from){
 			alert("Money transfer is not enought");
 			dijit.byId('reil').attr('value',riel_from);
@@ -136,7 +139,6 @@ function getAmountFrom(){
 		}
 	});
 }
-
 function getAmountTo(){
 	dojo.xhrPost({
 	    url: getAmount,	
