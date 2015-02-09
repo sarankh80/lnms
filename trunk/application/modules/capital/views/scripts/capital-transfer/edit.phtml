@@ -75,8 +75,7 @@ $frm = $this->frm;
 						<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/></td>
 					</tr>
 				</table>
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"dijit.byId('usa_from').set('readOnly',true); iconClass="dijitEditorIcon dijitEditorIconSave"/>
 
 </form>
 <script type="text/javascript">
@@ -84,16 +83,18 @@ $frm = $this->frm;
 dojo.ready(function(){
 	getAmountFrom();
 	getAmountTo();
-	
+	dijit.byId('usa_from').set('readOnly',true);
+	dijit.byId('bath_from').set('readOnly',true);
+	dijit.byId('reil_from').set('readOnly',true);
+	dijit.byId('usa_to').set('readOnly',true);
+	dijit.byId('bath_to').set('readOnly',true);
+	dijit.byId('reil_to').set('readOnly',true);
 });
 
 function validateTransfer(type){
-	//alert(type);
 	if(type==1){
 		var usa = dijit.byId('usa').get('value');
 		var usa_from = dijit.byId('usa_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(usa > usa_from){
 			alert("Money transfer is not enought");
 			dijit.byId('usa').attr('value',usa_from);
@@ -103,8 +104,6 @@ function validateTransfer(type){
 	if(type==2){
 		var bath = dijit.byId('bath').get('value');
 		var bath_from = dijit.byId('bath_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(bath > bath_from){
 			alert("Money transfer is not enought");
 			dijit.byId('bath').attr('value',bath_from);
@@ -114,8 +113,6 @@ function validateTransfer(type){
 	if(type==3){
 		var riel = dijit.byId('reil').get('value');
 		var riel_from = dijit.byId('reil_from').get('value');
-		//alert(usa);
-		//alert(usa_from);
 		if(riel > riel_from){
 			alert("Money transfer is not enought");
 			dijit.byId('reil').attr('value',riel_from);

@@ -32,72 +32,56 @@ class Capital_Model_DbTable_DbCapitalTransfer extends Zend_Db_Table_Abstract
    		
    		try {
    			if($_data["brance_from"] != $_data["brance_to"]){
-				$row_brance_from	=	$this->getAmountByBranch($brance_from);
-				$row_brance_to 		= 	$this->getAmountByBranch($brance_to);
-   				
-   				if($row_brance_from){
-   					$amount_dollar_from = $row_brance_from["amount_dollar"] - $dollar_transfer;
-   					$amount_bath_from 	= $row_brance_from["amount_bath"] - $bath_transfer;
-   					$amount_reil_from 	= $row_brance_from["amount_riel"] - $riel_transfer;
-   					
-   					$db->getProfiler()->setEnabled(true);
-   					
-   					$update_brance_from  = array(
-   							'amount_dollar'		=>	$amount_dollar_from,
-   							'amount_bath'		=>	$amount_bath_from,
-   							'amount_riel'		=>	$amount_reil_from,
-   					);
-   					$this->_name = "ln_branch_capital";
-   					$where = $db->quoteInto("branch_id=?", $_data["brance_from"]);
-   					$this->update($update_brance_from, $where);
-   					
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-   					$db->getProfiler()->setEnabled(false);
-   				}
-   				if($row_brance_to){
-   					$amount_dollar_to 	= $row_brance_to["amount_dollar"] + $dollar_transfer;
-   					$amount_bath_to 	= $row_brance_to["amount_bath"] + $bath_transfer;
-   					$amount_reil_to 	= $row_brance_to["amount_riel"] + $riel_transfer;
-   					
-   					$db->getProfiler()->setEnabled(true);
-   					$update_brance_to  = array(
-   							'amount_dollar'		=>	$amount_dollar_to,
-   							'amount_bath'		=>	$amount_bath_to,
-   							'amount_riel'		=>	$amount_reil_to,
-   					);
-   					$this->_name = "ln_branch_capital";
-   					$where = $db->quoteInto("branch_id=?", $_data["brance_to"]);
-   					$this->update($update_brance_to, $where);
-   					
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-   					$db->getProfiler()->setEnabled(false);
-   					
-   				}else{
-   					$session_user=new Zend_Session_Namespace('auth');
-   					$user_id = $session_user->user_id;
-   					
-   					$db->getProfiler()->setEnabled(true);
-   					$insert_arr = array(
-   							'branch_id'		=>	$brance_to,
-   							'date'			=>	$_data['date'],
-   							'status'		=>	$_data['status'],
-   							'amount_dollar'	=>	$_data['usa'],
-   							'amount_riel'	=>	$_data['reil'],
-   							'amount_bath'	=>	$_data['bath'],
-   							'note'			=>	$_data['note'],
-   							'user_id'		=> 	$user_id
-   					);
-   					$this->_name = "ln_branch_capital";
-   					$this->insert($insert_arr);
-   					
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-   					$db->getProfiler()->setEnabled(false);
-   				}
-   				
-   				$db->getProfiler()->setEnabled(true);
+   				if($_data["status"] == 1){
+					$row_brance_from	=	$this->getAmountByBranch($brance_from);
+					$row_brance_to 		= 	$this->getAmountByBranch($brance_to);
+	   				
+	   				if($row_brance_from){
+	   					$amount_dollar_from = $row_brance_from["amount_dollar"] - $dollar_transfer;
+	   					$amount_bath_from 	= $row_brance_from["amount_bath"] - $bath_transfer;
+	   					$amount_reil_from 	= $row_brance_from["amount_riel"] - $riel_transfer;
+	   					
+	   					$update_brance_from  = array(
+	   							'amount_dollar'		=>	$amount_dollar_from,
+	   							'amount_bath'		=>	$amount_bath_from,
+	   							'amount_riel'		=>	$amount_reil_from,
+	   					);
+	   					$this->_name = "ln_branch_capital";
+	   					$where = $db->quoteInto("branch_id=?", $_data["brance_from"]);
+	   					$this->update($update_brance_from, $where);
+	   					
+	   				}
+	   				if($row_brance_to){
+	   					$amount_dollar_to 	= $row_brance_to["amount_dollar"] + $dollar_transfer;
+	   					$amount_bath_to 	= $row_brance_to["amount_bath"] + $bath_transfer;
+	   					$amount_reil_to 	= $row_brance_to["amount_riel"] + $riel_transfer;
+	   					
+	   					$update_brance_to  = array(
+	   							'amount_dollar'		=>	$amount_dollar_to,
+	   							'amount_bath'		=>	$amount_bath_to,
+	   							'amount_riel'		=>	$amount_reil_to,
+	   					);
+	   					$this->_name = "ln_branch_capital";
+	   					$where = $db->quoteInto("branch_id=?", $_data["brance_to"]);
+	   					$this->update($update_brance_to, $where);
+	   					
+	   				}else{
+	   					$session_user=new Zend_Session_Namespace('auth');
+	   					$user_id = $session_user->user_id;
+	   					$insert_arr = array(
+	   							'branch_id'		=>	$brance_to,
+	   							'date'			=>	$_data['date'],
+	   							'status'		=>	$_data['status'],
+	   							'amount_dollar'	=>	$_data['usa'],
+	   							'amount_riel'	=>	$_data['reil'],
+	   							'amount_bath'	=>	$_data['bath'],
+	   							'note'			=>	$_data['note'],
+	   							'user_id'		=> 	$user_id
+	   					);
+	   					$this->_name = "ln_branch_capital";
+	   					$this->insert($insert_arr);
+	   				}
+	   				
 			    	$_arr = array(
 			    		'from_branch'		=>	$_data['brance_from'],
 			    		'to_branch'			=>	$_data['brance_to'],
@@ -111,15 +95,28 @@ class Capital_Model_DbTable_DbCapitalTransfer extends Zend_Db_Table_Abstract
 			    	);
 			    	$this->_name= "ln_capital_transfer";
 				    $this->insert($_arr);
-				    
-				    Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-				    Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-				    $db->getProfiler()->setEnabled(false);
+   				}else {
+   					$db->getProfiler()->setEnabled(true);
+   					$_arr = array(
+   							'from_branch'		=>	$_data['brance_from'],
+   							'to_branch'			=>	$_data['brance_to'],
+   							'date'				=>	$_data['date'],
+   							'amount_dollar'		=>	$_data['usa'],
+   							'amount_bath'		=>	$_data['bath'],
+   							'amount_riel'		=>	$_data['reil'],
+   							'note'				=>	$_data['note'],
+   							'user_id'			=> 	$user_id,
+   							'status'			=>	$_data['status'],
+   					);
+   					$this->_name= "ln_capital_transfer";
+   					$this->insert($_arr);
+   				}
    			}
 	    	$db->commit();
    		}catch (Exception $e){
    			$db->rollBack();
-   			echo $e->getMessage();exit();
+   			$err =$e->getMessage();
+			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
     }
     function updateTransfer($_data){
@@ -143,168 +140,159 @@ class Capital_Model_DbTable_DbCapitalTransfer extends Zend_Db_Table_Abstract
     	$dollar_transfer = $_data["usa"];
     	$bath_transfer = $_data["bath"];
     	$riel_transfer =$_data["reil"];
+    	
+    	$statuss = $_data["status"];
     	try {
     		if($_data["brance_from"] != $_data["brance_to"]){
-    			$row_transfer = $this->getTransferByID($id);
-    			if($row_transfer){
-    				$branch_from 	= $row_transfer["from_branch"];
-    				$branch_to	 	= $row_transfer["to_branch"];
-    				$amount_dollor	= $row_transfer["amount_dollar"];
-    				$amount_bath	= $row_transfer["amount_bath"];
-    				$amount_reil	= $row_transfer["amount_riel"];
-    			
-    				$row_branch_from = $this->getAmountByBranch($branch_from);
-    				$row_branch_to	 = $this->getAmountByBranch($branch_to);
-    				
-    				$oldamount_dollar = $row_branch_from["amount_dollar"] + $amount_dollor;
-    				$oldamount_bath = $row_branch_from["amount_bath"] + $amount_bath;
-    				$oldamount_reil = $row_branch_from["amount_riel"] + $amount_reil;
-    				
-    				$db->getProfiler()->setEnabled(true);
-    				$arr_oldamount = array(
-    						'amount_dollar'		=>	$oldamount_dollar,
-    						'amount_bath'		=>	$oldamount_bath,
-    						'amount_riel'		=>	$oldamount_reil,
-    				);
-    				$this->_name = "ln_branch_capital";
-    				$where = $db->quoteInto("branch_id=?", $branch_from);
-    				$this->update($arr_oldamount, $where);
-    				
-    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    				$db->getProfiler()->setEnabled(false);
-    				
-    				if($row_branch_to){
-    					$oldamount_dollar_to = $row_branch_to["amount_dollar"] - $amount_dollor;
-    					$oldamount_bath_to = $row_branch_to["amount_bath"] - $amount_bath;
-    					$oldamount_reil_to = $row_branch_to["amount_riel"] - $amount_reil;
-	    				$db->getProfiler()->setEnabled(true);
-	    				if($oldamount_dollar_to < $dollar_transfer or $oldamount_bath_to < $bath_transfer or $oldamount_reil_to < $riel_transfer  ){
-	    					Application_Form_FrmMessage::Sucessfull("The Branch that have been transfer is not enought money!", "/capital/capital-transfer");
-	    				}else {
+	    			$row_transfer = $this->getTransferByID($id);
+	    			if($row_transfer){
+	    				$branch_from 	= $row_transfer["from_branch"];
+	    				$branch_to	 	= $row_transfer["to_branch"];
+	    				$amount_dollor	= $row_transfer["amount_dollar"];
+	    				$amount_bath	= $row_transfer["amount_bath"];
+	    				$amount_reil	= $row_transfer["amount_riel"];
+	    				$status = $row_transfer["status"];
+	    				
+	    				print_r($status);
+	    				 
+	    				$row_branch_from = $this->getAmountByBranch($branch_from);
+	    				$row_branch_to	 = $this->getAmountByBranch($branch_to);
+	    				if($row_transfer["status"] == 1){
+		    				$oldamount_dollar = $row_branch_from["amount_dollar"] + $amount_dollor;
+		    				$oldamount_bath = $row_branch_from["amount_bath"] + $amount_bath;
+		    				$oldamount_reil = $row_branch_from["amount_riel"] + $amount_reil;
+		    				
 		    				$arr_oldamount = array(
-		    						'amount_dollar'		=>	$row_branch_to["amount_dollar"] - $amount_dollor,
-		    						'amount_bath'		=>	$row_branch_to["amount_bath"] - $amount_bath,
-		    						'amount_riel'		=>	$row_branch_to["amount_riel"] - $amount_reil,
+		    						'amount_dollar'		=>	$oldamount_dollar,
+		    						'amount_bath'		=>	$oldamount_bath,
+		    						'amount_riel'		=>	$oldamount_reil,
 		    				);
 		    				$this->_name = "ln_branch_capital";
-		    				$where = $db->quoteInto("branch_id=?", $branch_to);
+		    				$where = $db->quoteInto("branch_id=?", $branch_from);
 		    				$this->update($arr_oldamount, $where);
 		    				
-		    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-		    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-		    				$db->getProfiler()->setEnabled(false);
+		    				if($row_branch_to){
+		    					$oldamount_dollar_to = $row_branch_to["amount_dollar"] - $amount_dollor;
+		    					$oldamount_bath_to = $row_branch_to["amount_bath"] - $amount_bath;
+		    					$oldamount_reil_to = $row_branch_to["amount_riel"] - $amount_reil;
+		    					
+		    					if($oldamount_dollar_to < $dollar_transfer or $oldamount_bath_to < $bath_transfer or $oldamount_reil_to < $riel_transfer  ){
+		    						Application_Form_FrmMessage::Sucessfull("The Branch that have been transfer is not enought money!", "/capital/capital-transfer");
+		    					}else {
+		    						$arr_oldamount = array(
+		    								'amount_dollar'		=>	$row_branch_to["amount_dollar"] - $amount_dollor,
+		    								'amount_bath'		=>	$row_branch_to["amount_bath"] - $amount_bath,
+		    								'amount_riel'		=>	$row_branch_to["amount_riel"] - $amount_reil,
+		    						);
+		    						$this->_name = "ln_branch_capital";
+		    						$where = $db->quoteInto("branch_id=?", $branch_to);
+		    						$this->update($arr_oldamount, $where);
+		    				
+		    					}
+		    				}else{
+		    					$insert_arr = array(
+		    							'branch_id'		=>	$branch_to,
+		    							'date'			=>	$_data['date'],
+		    							'status'		=>	1,
+		    							'amount_dollar'	=>	$_data['usa'],
+		    							'amount_riel'	=>	$_data['reil'],
+		    							'amount_bath'	=>	$_data['bath'],
+		    							'note'			=>	$_data['note'],
+		    							'user_id'		=> 	$user_id
+		    					);
+		    					$this->_name = "ln_branch_capital";
+		    					$this->insert($insert_arr);
+		    				
+		    				}
 	    				}
-    				}else{
-    					$db->getProfiler()->setEnabled(true);
-    					$insert_arr = array(
-   							'branch_id'		=>	$branch_to,
-   							'date'			=>	$_data['date'],
-   							'status'		=>	1,
-   							'amount_dollar'	=>	$_data['usa'],
-   							'amount_riel'	=>	$_data['reil'],
-   							'amount_bath'	=>	$_data['bath'],
-   							'note'			=>	$_data['note'],
-   							'user_id'		=> 	$user_id
-	   					);
-	   					$this->_name = "ln_branch_capital";
-	   					$this->insert($insert_arr);
-    					 
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    					$db->getProfiler()->setEnabled(false);
-    				}
-    				
-	    			$row_brance_from	=	$this->getAmountByBranch($brance_from);
-	    			$row_brance_to 		= 	$this->getAmountByBranch($brance_to);
-	    				
-	    			if($row_brance_from){
-	    				$amount_dollar_from = $row_brance_from["amount_dollar"] - $dollar_transfer;
-	    				$amount_bath_from 	= $row_brance_from["amount_bath"] - $bath_transfer;
-	    				$amount_reil_from 	= $row_brance_from["amount_riel"] - $riel_transfer;
-	    		
-	    				$db->getProfiler()->setEnabled(true);
-	    		
-	    				$update_brance_from  = array(
-	    						'amount_dollar'		=>	$amount_dollar_from,
-	    						'amount_bath'		=>	$amount_bath_from,
-	    						'amount_riel'		=>	$amount_reil_from,
-	    				);
-	    				$this->_name = "ln_branch_capital";
-	    				$where = $db->quoteInto("branch_id=?", $_data["brance_from"]);
-	    				$this->update($update_brance_from, $where);
-	    		
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    				$db->getProfiler()->setEnabled(false);
+
+	    				if($_data["status"] == 1){
+			    			$row_brance_from	=	$this->getAmountByBranch($brance_from);
+			    			$row_brance_to 		= 	$this->getAmountByBranch($brance_to);
+			    				
+			    			if($row_brance_from){
+			    				$amount_dollar_from = $row_brance_from["amount_dollar"] - $dollar_transfer;
+			    				$amount_bath_from 	= $row_brance_from["amount_bath"] - $bath_transfer;
+			    				$amount_reil_from 	= $row_brance_from["amount_riel"] - $riel_transfer;
+			    		
+			    				$update_brance_from  = array(
+			    						'amount_dollar'		=>	$amount_dollar_from,
+			    						'amount_bath'		=>	$amount_bath_from,
+			    						'amount_riel'		=>	$amount_reil_from,
+			    				);
+			    				$this->_name = "ln_branch_capital";
+			    				$where = $db->quoteInto("branch_id=?", $_data["brance_from"]);
+			    				$this->update($update_brance_from, $where);
+			    		
+			    			}
+			    			if($row_brance_to){
+			    				$amount_dollar_to 	= $row_brance_to["amount_dollar"] + $dollar_transfer;
+			    				$amount_bath_to 	= $row_brance_to["amount_bath"] + $bath_transfer;
+			    				$amount_reil_to 	= $row_brance_to["amount_riel"] + $riel_transfer;
+			    		
+			    				$update_brance_to  = array(
+			    						'amount_dollar'		=>	$amount_dollar_to,
+			    						'amount_bath'		=>	$amount_bath_to,
+			    						'amount_riel'		=>	$amount_reil_to,
+			    				);
+			    				$this->_name = "ln_branch_capital";
+			    				$where = $db->quoteInto("branch_id=?", $_data["brance_to"]);
+			    				$this->update($update_brance_to, $where);
+			    		
+			    			}else{
+			    				$session_user=new Zend_Session_Namespace('auth');
+			    				$user_id = $session_user->user_id;
+			    		
+			    				$insert_arr = array(
+			    						'branch_id'		=>	$brance_to,
+			    						'date'			=>	$_data['date'],
+			    						'status'		=>	$_data['status'],
+			    						'amount_dollar'	=>	$_data['usa'],
+			    						'amount_riel'	=>	$_data['reil'],
+			    						'amount_bath'	=>	$_data['bath'],
+			    						'note'			=>	$_data['note'],
+			    						'user_id'		=> 	$user_id
+			    				);
+			    				$this->_name = "ln_branch_capital";
+			    				$this->insert($insert_arr);
+			    			}
+			    			$_arr = array(
+			    					'from_branch'		=>	$_data['brance_from'],
+			    					'to_branch'			=>	$_data['brance_to'],
+			    					'date'				=>	$_data['date'],
+			    					'amount_dollar'		=>	$_data['usa'],
+			    					'amount_bath'		=>	$_data['bath'],
+			    					'amount_riel'		=>	$_data['reil'],
+			    					'note'				=>	$_data['note'],
+			    					'user_id'			=> 	$user_id,
+			    					'status'			=>	$_data['status'],
+			    			);
+			    			$this->_name= "ln_capital_transfer";
+			    			$where = $db->quoteInto("id", $id);
+			    			$this->update($_arr, $where);
+	    				}else {
+	    					$_arr = array(
+	    							'from_branch'		=>	$_data['brance_from'],
+	    							'to_branch'			=>	$_data['brance_to'],
+	    							'date'				=>	$_data['date'],
+	    							'amount_dollar'		=>	$_data['usa'],
+	    							'amount_bath'		=>	$_data['bath'],
+	    							'amount_riel'		=>	$_data['reil'],
+	    							'note'				=>	$_data['note'],
+	    							'user_id'			=> 	$user_id,
+	    							'status'			=>	$_data['status'],
+	    					);
+	    					$this->_name= "ln_capital_transfer";
+	    					$where = $db->quoteInto("id", $id);
+	    					$this->update($_arr, $where);
+	    				}
 	    			}
-	    			if($row_brance_to){
-	    				$amount_dollar_to 	= $row_brance_to["amount_dollar"] + $dollar_transfer;
-	    				$amount_bath_to 	= $row_brance_to["amount_bath"] + $bath_transfer;
-	    				$amount_reil_to 	= $row_brance_to["amount_riel"] + $riel_transfer;
-	    		
-	    				$db->getProfiler()->setEnabled(true);
-	    				$update_brance_to  = array(
-	    						'amount_dollar'		=>	$amount_dollar_to,
-	    						'amount_bath'		=>	$amount_bath_to,
-	    						'amount_riel'		=>	$amount_reil_to,
-	    				);
-	    				$this->_name = "ln_branch_capital";
-	    				$where = $db->quoteInto("branch_id=?", $_data["brance_to"]);
-	    				$this->update($update_brance_to, $where);
-	    		
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    				$db->getProfiler()->setEnabled(false);
-	    		
-	    			}else{
-	    				$session_user=new Zend_Session_Namespace('auth');
-	    				$user_id = $session_user->user_id;
-	    		
-	    				$db->getProfiler()->setEnabled(true);
-	    				$insert_arr = array(
-	    						'branch_id'		=>	$brance_to,
-	    						'date'			=>	$_data['date'],
-	    						'status'		=>	$_data['status'],
-	    						'amount_dollar'	=>	$_data['usa'],
-	    						'amount_riel'	=>	$_data['reil'],
-	    						'amount_bath'	=>	$_data['bath'],
-	    						'note'			=>	$_data['note'],
-	    						'user_id'		=> 	$user_id
-	    				);
-	    				$this->_name = "ln_branch_capital";
-	    				$this->insert($insert_arr);
-	    		
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    				$db->getProfiler()->setEnabled(false);
-	    			}
-	    				
-	    			$db->getProfiler()->setEnabled(true);
-	    			$_arr = array(
-	    					'from_branch'		=>	$_data['brance_from'],
-	    					'to_branch'			=>	$_data['brance_to'],
-	    					'date'				=>	$_data['date'],
-	    					'amount_dollar'		=>	$_data['usa'],
-	    					'amount_bath'		=>	$_data['bath'],
-	    					'amount_riel'		=>	$_data['reil'],
-	    					'note'				=>	$_data['note'],
-	    					'user_id'			=> 	$user_id,
-	    					'status'			=>	$_data['status'],
-	    			);
-	    			$this->_name= "ln_capital_transfer";
-	    			$where = $db->quoteInto("id", $id);
-	    			$this->update($_arr, $where);
-	    		
-	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    			$db->getProfiler()->setEnabled(false);
-    			}
     		}
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();exit();
+    		$err =$e->getMessage();
+			Application_Model_DbTable_DbUserLog::writeMessageError($err);
     	}
     }
     public function getAmountByBranceId($data){
@@ -366,7 +354,8 @@ class Capital_Model_DbTable_DbCapitalTransfer extends Zend_Db_Table_Abstract
 	    	}
 	    	return $db->fetchAll($sql.$where.$order);
     	}catch (Exception $e){
-    		echo $e->getMessage();exit();
+    		$err =$e->getMessage();
+			Application_Model_DbTable_DbUserLog::writeMessageError($err);
     	}
     }
     
