@@ -24,11 +24,11 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 		$owner->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"popupCheckStaff(1);"
+				'onchange'=>"popupCheckStaff();"
 		));
 		$rows = $db->getOwnerByType();
 		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
+		if(!empty($rows))foreach($rows AS $row) $options[$row['customer_id']]=$row['customer_name'];
 		$owner->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();

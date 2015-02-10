@@ -68,27 +68,22 @@ $frm = $this->Form_Frmcallecterall;
 </table>
 </form>
 <script type="text/javascript">
-dojo.require("dijit.form.Textarea");
-dojo.require("dijit.form.NumberTextBox");
-var url_submiinfo = '<?php echo $this->url(array('module'=>'callecterall','controller'=>'chengcallecterall','action'=>'get-chenginfo')); ?>';
-function popupCheckStaff(type=1){
-	if(type==1){
-		values = dijit.byId('staff_name').get('value');
-	}else{
-		values = dijit.byId('staff_code').get('value')
-	}
+var url_submiinfo = '<?php echo $this->url(array('module'=>'callecterall','controller'=>'chengcallecterall','action'=>'get-changeinfo')); ?>';
+function popupCheckStaff(){
+//	if(type==1){
+//		values=dijit.byId("owner").get('value');
+//	}else{
+//		values=dijit.byId("from").get('value');
+//	}
 	dojo.xhrPost({
 	    url: url_submiinfo,	
 	    content : { 
-		    'stff_id':values,
-		    'type':type,
+		    'owner_id':dijit.byId("owner").get('value'),
 		},	
 		handleAs:"json",
 		load: function(data) {
-			dijit.byId('basic_salary').attr('value',data.basic_salary);
-			
-			
-		},
+			dijit.byId('from').attr('value',data.type_call);
+			},
 		error: function(err) {
 			alert(err);
 		alert("Your message could not be sent, please try again!.");
