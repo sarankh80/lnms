@@ -252,23 +252,21 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $db->fetchAll($sql.$where);
    }
-   public function getOwnerByType($type=null,$client_id=null ,$row=null){
-   	$this->_name='ln_client';
+   public function getOwnerByType($type=null,$customer_id=null ,$row=null){
+   	$this->_name='ln_callecteralllist';
    	$where='';
    	if($type!=null){
    		$where=' AND is_group = 1';
    	}
-   	$sql = " SELECT client_id,name_en,client_number,
-   	(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) AS village_name,
-   	(SELECT commune_name FROM `ln_commune` WHERE com_id = com_id  LIMIT 1) AS commune_name,
-   	(SELECT district_name FROM `ln_district` AS ds WHERE dis_id = ds.dis_id  LIMIT 1) AS district_name,
-   	(SELECT province_en_name FROM `ln_province` WHERE province_id = pro_id  and type=2 LIMIT 1) AS province_en_name
-   
-   	FROM $this->_name  WHERE `type` = 2 and  status=1 AND name_en!='' ";
+   	$sql = "SELECT branch,receipt,code_call,
+            customer_id,(SELECT name_en FROM ln_client WHERE client_id=customer_id) AS customer_name,
+   			type_call,owner_call,callnumber,create_date,date_debt,
+   			term,amount_term,date_line,curr_type,amount_debt,note,user_id,status,is_verify,verify_by,
+   			is_fund FROM $this->_name  WHERE status=1 AND customer_id!='' ";
    	$db = $this->getAdapter();
    	if($row!=null){
-   		if($client_id!=null){
-   			$where.=" AND client_id  =".$client_id ." LIMIT 1";
+   		if($customer_id!=null){
+   			$where.=" AND id  =".$customer_id ." LIMIT 1";
    		}
    		return $db->fetchRow($sql.$where);
    	}
