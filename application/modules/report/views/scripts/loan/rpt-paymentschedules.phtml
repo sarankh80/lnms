@@ -52,7 +52,7 @@ margin: -4px 4px 0 4px;
 		font-family: 'Khmer OS Battambang';
 	}
 	.font_bold{
-		font-family:'Khmer OS Muol';
+		font-family:'Khmer MEF2';
 		font-size: 12px;
 		
 	}
@@ -64,9 +64,9 @@ margin: -4px 4px 0 4px;
 	            	<tr>
 	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
 	                	<td width="60%" valign="top">
-	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label><?php echo $client['branch_name'];?></label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
 	                    <td width="20%"><img src="<?php echo $url_barcode;?>" /></td>
 	                </tr>
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
@@ -89,7 +89,7 @@ margin: -4px 4px 0 4px;
 				                	<td colspan="2">
 				                	<p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> , លេខ សំគាល់: <?php echo $client['client_number']?></p>
 				                	</td>
-				                    <td style="font-weight: bold !important;">ប្រាក់កម្ចី : <?php echo $client['total_capital'];echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
+				                    <td style="font-weight: bold !important;">ប្រាក់កម្ចី : <?php echo number_format($client['total_capital'],(!strrpos($client['total_capital'],". "))? 0 : 2);echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
 				                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
 				                </tr>
 				                <tr class='style'>
@@ -140,10 +140,10 @@ margin: -4px 4px 0 4px;
 	                    <td align="right">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;&nbsp;&nbsp;</td>
 	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
 	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
-	                    <td><?php echo number_format($row['total_principal'],(!strrpos($row['total_principal'],"."))? 0 : 2);?></td>
-	                    <td><?php echo number_format($row['principal_permonth'],(!strrpos($row['principal_permonth'],"."))? 0 : 2);?></td>
-	                    <td><?php echo number_format($row['total_interest'],(!strrpos($row['total_interest'],"."))? 0 : 2);?></td>
-	                    <td><?php echo number_format($row['total_payment'],(!strrpos($row['total_payment'],"."))? 0 : 2); ?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
@@ -168,7 +168,7 @@ margin: -4px 4px 0 4px;
 	            	<tr class="font_bold" style="height:40px;">
 	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
 	            		<td></td> 
-	            		<td align="center" valign="bottom">ស្នាមមេដៃ និងឈ្មោះអតិថិជន</td>
+	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
 	            	</tr>
 	            	<tr class="font_bold">
 	            		<td align="center">
