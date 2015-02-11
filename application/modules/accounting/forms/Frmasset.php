@@ -26,28 +26,41 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
-		$asset_name = new Zend_Dojo_Form_Element_TextBox('asset_name');
+		$db = new Application_Model_DbTable_DbGlobal();
+		$asset_name = new Zend_Dojo_Form_Element_FilteringSelect('asset_name');
 		$asset_name->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required'=>true
+				'onchange'=>"getAssetInfo(1);"
 				));
+		$rows = $db->getAssetByType();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['fixed_assetname'];
+		$asset_name->setMultiOptions($options);
 	
-		$asset_code = new Zend_Dojo_Form_Element_NumberTextBox('asset_code');
+		$asset_code = new Zend_Dojo_Form_Element_FilteringSelect('asset_code');
 		$asset_code->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>"getAssetInfo(2);",
 				'required'=>true
 		));
+		
+		$rows = $db->getAssetByType();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['asset_code'];
+		$asset_code->setMultiOptions($options);
+		
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$paid_type = new Zend_Dojo_Form_Element_FilteringSelect('paid_type');
 		$paid_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'checkasset();',
 				'required'=>true
 		));
-		$opt= $db->getVewOptoinTypeByType(18,1);
+		$opt= $db->getVewOptoinTypeByType(19,1);
 		$paid_type->setMultiOptions($opt);
 		$paid_type->setValue(1);
 		
@@ -151,6 +164,33 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
 		$_branch_id->setMultiOptions($options);
+		
+		$current_type = new Zend_Dojo_Form_Element_FilteringSelect('current_type');
+		$current_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$opt= $db->getVewOptoinTypeByType(15,1);
+		$current_type->setMultiOptions($opt);
+		$current_type->setValue(1);
+		
+		$tem_type = new Zend_Dojo_Form_Element_FilteringSelect('tem_type');
+		$tem_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$opt= $db->getVewOptoinTypeByType(20,1);
+		$tem_type->setMultiOptions($opt);
+		$tem_type->setValue(1);
+		
+		$journal = new Zend_Dojo_Form_Element_CheckBox('journal');
+		$journal->setAttribs(array(
+				'dojoType'=>'dijit.form.CheckBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
 		 
 		$_id = new Zend_Form_Element_Hidden('id');
 		
@@ -174,7 +214,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		}
 		
 		$this->addElements(array($_title,$asset_name,$asset_type,$asset_cost,$start_date,$useful_life,$salvage_value,$payment_method,
-				$Date,$_branch_id,$_id,$asset_code,$paid_type,$note,$_stutas,$some_payamount));
+				$Date,$_branch_id,$_id,$asset_code,$paid_type,$note,$_stutas,$some_payamount,$current_type,$journal,$tem_type));
 		return $this;
 		
 	}	

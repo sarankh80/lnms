@@ -51,7 +51,7 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch_id ","Fixed_Assetname ","Fixed_Asset_Type","Asset_Cost","Pay_type","Usefull_Life","Salvagevalue","Payment_method","Status","Note");
+			$collumns = array("BRANCH_NAME  ","FIXED_ASSETNAME ","FIXED_ASSET_TYPE","ASSET_COST","PAY_TYPE","USEFULL_LIFE","SALVAGEVALUE","PAYMANT_MATHOD","Status","NOTE");
 			$link=array(
 					'module'=>'accounting','controller'=>'FixedAsset','action'=>'edit',
 			);
