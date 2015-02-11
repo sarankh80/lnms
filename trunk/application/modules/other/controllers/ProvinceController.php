@@ -29,7 +29,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 			$rs = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 		
 			$list = new Application_Form_Frmtable();
-			$collumns = array("EN_PROVINCE","KH_PROVINCE","Display By","MODIFY_DATE","STATUS","BY_USER");
+			$collumns = array("EN_PROVINCE","KH_PROVINCE","DISPLAY_BY","MODIFY_DATE","STATUS","BY_USER");
 			$link=array(
 					'module'=>'other','controller'=>'Province','action'=>'edit',
 			);

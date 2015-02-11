@@ -252,6 +252,26 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $db->fetchAll($sql.$where);
    }
+   
+   public function getAssetByType($type=null,$Asset_id=null ,$row=null){
+   	$this->_name='ln_fixed_asset';
+   	$where='';
+   	if($type!=null){
+   		$where=' AND is_group = 1';
+   	}
+   	$sql = " SELECT id,branch_id,depre_code,fixed_assetname,fixed_asset_type,asset_code,
+   asset_cost,usefull_life,salvagevalue,payment_method,depreciation_start,status
+   	FROM $this->_name WHERE status=1 AND fixed_assetname!='' ";
+   	$db = $this->getAdapter();
+   	if($row!=null){
+   		if($Asset_id!=null){
+   			$where.=" AND id  =".$Asset_id ." LIMIT 1";
+   		}
+   		return $db->fetchRow($sql.$where);
+   	}
+   	return $db->fetchAll($sql.$where);
+   }
+   
    public function getOwnerByType($type=null,$customer_id=null ,$row=null){
    	$this->_name='ln_callecteralllist';
    	$where='';
