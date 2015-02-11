@@ -88,11 +88,11 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
 	/*background:#EDF7DF;*/
     border-bottom: 0px solid #CCCCCC;
     border-left: 0px solid #CCCCCC;    
-    padding-top:10px;
     margin-right:0px;
-	background: #ccc;
-	height: 100%;
+		height: 100%;
 	/*
+	background: #ccc;
+	
 	padding-left:10px;
 	height: 100%;
     width: 239px;*/
@@ -104,8 +104,8 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
    list-style:none;
    margin:0;
    padding:0;
-   position:relative;   
    text-align:left;
+   width: 100%;
 }
 #header-left ul li{     
    display:block;   
@@ -114,7 +114,9 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
    padding:0px;
    margin-top:3px;
    margin-bottom:3px;
-   position:relative;   
+   position:relative;
+   border: 1px solid #ccc;
+
 }
 #header-left ul li a {
     color: #333333;
@@ -124,7 +126,7 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
     font-size: 14px;
     font-weight: normal;
     line-height: 35px;
-    padding: 0px 25px;
+    padding: 0px 5px;
 	border-right-color:#9BC37C;
 	border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;    
@@ -138,7 +140,7 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
     font-size: 15px;
     font-weight: normal;
     line-height: 35px;
-    padding: 0 24px;
+    padding: 0 5px;
 	/*width:189px;*/
 	text-decoration:none;
     text-shadow: 0 1px 0 #EEEEEE;
@@ -159,11 +161,7 @@ span.current-left {
 #header-left ul li a:hover,
 #header-left ul li a:active,
 #header-left ul li a:focus{	
-	background: none repeat scroll 0 0 #f1f1f1;
-	border:1px solid #C6C6C6;  
-	border-right:0px;
-	line-height: 33px;
-	padding: 0px 24px;	
+	background: #EDF7F8;
   /*  border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;	*/	
 }

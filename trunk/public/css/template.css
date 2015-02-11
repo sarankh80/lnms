@@ -799,4 +799,7 @@ form dl fieldset{
 	text-align: center;
 	cursor: pointer;
 }
+.dijitButtonText {
+    font-size: 12px !important;
+}
 
