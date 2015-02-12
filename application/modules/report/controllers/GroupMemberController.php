@@ -24,26 +24,32 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$this->view->calleteral_list = $db->getAllCalleteral();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
+  				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
+  		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
+  	}
   }
-  function rptClientAction($rs=null,$table='ln_account_name'){
+  function rptClientAction($table='ln_account_name'){
   	header('Content-Type: text/html; charset=utf-8');
     $db  = new Report_Model_DbTable_DbLnClient();
-  	$this->view->client_list = $db->getAllLnClient();
+    $rs = $db->getAllLnClient();
+  	$this->view->client_list =$rs;
   	//  	print_r($rows);exit();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	
   	if($this->getRequest()->isPost()){
-  		$this->exportFileToExcel($table,$db->getAllLnClient());
+  		$collumn = array("client_number","name_kh","name_en","sex","branch_name","pro_id","dis_id","com_id",
+  				"village_id");
+  		$this->exportFileToExcel($table,$rs,$collumn);
   	}
   	
   }
-  public function exportFileToExcel($table,$data){
+  public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();
   	$db = new Report_Model_DbTable_DbExportfile();
-  	$arr = $db->getFileby($table,$data);
-  	$thead = $arr['header_title'];
-  	$finalData=$arr['data'];
+  	$finalData = $db->getFileby($table,$data,$thead);
   	
   	$filename = APPLICATION_PATH . "/tmp/$table-" . date( "m-d-Y" ) . ".xlsx";
   	$realPath = realpath( $filename );
