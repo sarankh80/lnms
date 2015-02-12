@@ -125,13 +125,67 @@ class Loan_indexController extends Zend_Controller_Action {
 // 		}
 		
 // 	}
-	public function testAction(){
-		$start = '2014-01-01';
-		$db = new Application_Model_DbTable_DbGlobal();
-		$rs = $db->checkHolidayExist(1,$start);
-		echo $rs;
-// 		print_r($rs);
-// 		exit();
+	public function testAction($result=null,$table='ln_branch'){
+// 		$start = '2014-01-01';
+// 		$db = new Application_Model_DbTable_DbGlobal();
+// 		$rs = $db->checkHolidayExist(1,$start);
+// 		echo $rs;
+			//set_time_limit(0);
+			$sql="CALL stgetAllPaymentById(3);";
+			$db = new Application_Model_DbTable_DbGlobal();
+			$data=$db->getGlobalDb($sql);
+			
+			$sql = "SHOW COLUMNS FROM $table ";
+			$datahead=$db->getGlobalDb($sql);
+			foreach($datahead as $id =>$rs){
+				$thead[]=$rs['Field'];
+			}
+			 
+			$filename = APPLICATION_PATH . "/tmp/$table-" . date( "m-d-Y" ) . ".xlsx";
+			 
+			$realPath = realpath( $filename );
+			 
+			if ( false === $realPath )
+			{
+				touch( $filename );
+				chmod( $filename, 0777 );
+			}
+			 
+			$filename = realpath( $filename );
+			$handle = fopen( $filename, "w" );
+			fputcsv( $handle, $thead, "\t" );
+			$finalData = array();
+			 
+			foreach ( $data AS $row )
+			{
+				$finalData[] = array(
+						utf8_decode($row["total_principal"] ), // For chars with accents.
+						utf8_decode($row["principal_permonth"] ),
+						utf8_decode($row["total_interest"] ),
+				);
+			}
+// 			print_r($finalData);exit();
+			 
+			foreach ( $finalData AS $finalRow )
+			{
+				fputcsv( $handle, $finalRow, "\t" );
+			}
+			 
+			fclose( $handle );
+			 
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+			 
+			$this->getResponse()->setRawHeader( "Content-Type: application/vnd.ms-excel; charset=UTF-8" )
+			->setRawHeader( "Content-Disposition: attachment; filename=excel.xls" )
+			->setRawHeader( "Content-Transfer-Encoding: binary" )
+			->setRawHeader( "Expires: 0" )
+			->setRawHeader( "Cache-Control: must-revalidate, post-check=0, pre-check=0" )
+			->setRawHeader( "Pragma: public" )
+			->setRawHeader( "Content-Length: " . filesize( $filename ) )
+			->sendResponse();
+			 
+			readfile( $filename );// exit();
 		
 	}
 }

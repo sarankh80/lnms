@@ -25,12 +25,54 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
-  function rptClientAction(){
+  function rptClientAction($rs=null,$table='ln_account_name'){
+  	header('Content-Type: text/html; charset=utf-8');
     $db  = new Report_Model_DbTable_DbLnClient();
   	$this->view->client_list = $db->getAllLnClient();
   	//  	print_r($rows);exit();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	
+  	if($this->getRequest()->isPost()){
+  		$this->exportFileToExcel($table,$db->getAllLnClient());
+  	}
+  	
+  }
+  public function exportFileToExcel($table,$data){
+  	$this->_helper->layout->disableLayout();
+  	$db = new Report_Model_DbTable_DbExportfile();
+  	$arr = $db->getFileby($table,$data);
+  	$thead = $arr['header_title'];
+  	$finalData=$arr['data'];
+  	
+  	$filename = APPLICATION_PATH . "/tmp/$table-" . date( "m-d-Y" ) . ".xlsx";
+  	$realPath = realpath( $filename );
+  	if ( false === $realPath ){
+  		touch( $filename );
+  		chmod( $filename, 0777 );
+  	}
+  	$filename = realpath( $filename );
+  	$handle = fopen( $filename, "w" );
+  	fputcsv( $handle, $thead, "\t" );
+  	
+  	$this->getResponse()->setRawHeader( "Content-Type: application/vnd.ms-excel; charset=utf-8" )
+  	->setRawHeader( "Content-Disposition: attachment; filename=excel.xls" )
+  	->setRawHeader( "Content-Transfer-Encoding: binary" )
+  	->setRawHeader( "Expires: 0" )
+  	->setRawHeader( "Cache-Control: must-revalidate, post-check=0, pre-check=0" )
+  	->setRawHeader( "Pragma: public" )
+  	->setRawHeader( "Content-Length: " . filesize( $filename ) )
+  	->sendResponse();
+  	
+  	foreach ( $finalData AS $finalRow )
+  	{
+  		fputcsv( $handle,$finalRow, "\t" );
+  	}
+  	
+  	fclose( $handle );
+  	$this->_helper->viewRenderer->setNoRender();
+  	readfile( $filename );//exit();
+  	
   }
   function rptGroupAction(){
   	$key = new Application_Model_DbTable_DbKeycode();
