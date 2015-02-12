@@ -1,4 +1,7 @@
-<title>rpt_payment</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("RPT PAYMENT");?></title>
 <div style="width:21cm; margin:0 auto;">
 <table width="100%">
 	<tr>
@@ -26,13 +29,13 @@
     	<td>
             <table width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" bgcolor="#FFFFCC">
-                    <td>date</td>
-                    <td>payData</td>
-                    <td>code</td>
-                    <td>Applicatio</td>
-                    <td>month</td>
-                    <td>year</td>
-                    <td>total</td>
+                    <td><?php echo $tr->translate("DATE");?></td>
+                    <td><?php echo $tr->translate("PAYDATE");?></td>
+                    <td><?php echo $tr->translate("CODE");?></td>
+                    <td><?php echo $tr->translate("APPLICATION");?></td>
+                    <td><?php echo $tr->translate("MONTH");?></td>
+                    <td><?php echo $tr->translate("YEAR");?></td>
+                    <td><?php echo $tr->translate("TOTAL");?></td>
                 </tr>
             </table>
             <hr style="height: 2px; width:100%; color: #005;">

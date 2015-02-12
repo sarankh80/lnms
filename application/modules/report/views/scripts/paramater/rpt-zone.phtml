@@ -1,4 +1,7 @@
-<title>Report Zone</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("REPORT ZONE");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
@@ -43,10 +46,10 @@
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
-        	<th>N<sup>0</sup></th>
-            <th>Zone Name</th>
-            <th>Zone Number</th>
-            <th>Date</th>
+        	<th><?php echo  $tr->translate("NO");?></th>
+            <th><?php echo  $tr->translate("ZONE_NAME");?></th>
+            <th><?php echo  $tr->translate("ZONE_NUMBER");?></th>
+            <th><?php echo  $tr->translate("DATE");?></th>
            
          </tr>
         <?php foreach($this->zone_list as $key =>$row){?>

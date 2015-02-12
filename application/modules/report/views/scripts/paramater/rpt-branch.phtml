@@ -1,0 +1,68 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+
+?>
+<title><?php $tr->translate("Report branch")?></title>
+<div style=" width:21cm; margin:0 auto;">
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+
+}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['rpt_branch'];?></label></h2></td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td width="45%">
+                					<?php echo $this->data['brand_adress'];?>
+								<br /><?php echo $this->data['phone_brand'];?>
+                				</td>
+                				<td></td>
+                				
+                				<td></td>
+                			</tr>
+			               
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
+        <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+				    <tr bgcolor="#BBBBBB">
+				        <th><?php echo $tr->translate("BR_ID");?></th>
+				        <th><?php echo $tr->translate("BRANCH_KHMER");?></th>
+				        <th><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
+				        <th><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
+				        <th><?php echo $tr->translate("BRANCH_CODE");?></th>
+				        <th><?php echo $tr->translate("BRANCH_TEL");?></th>
+				        <th><?php echo $tr->translate("FAX");?></th>
+				        <th><?php echo $tr->translate("OTHER");?></th>
+				    </tr>
+					<?php 
+					 foreach($this->branch_list as $key =>$row){
+					 	?>
+					     <tr align="center">
+					        <td><?php echo $key+1; ?></td>
+					        <td><?php echo $row['branch_namekh']?></td>
+					        <td><?php echo $row['branch_nameen']?></td>
+					        <td><?php echo $row['branch_address']?></td>
+					        <td><?php echo $row['branch_code']?></td>
+					        <td><?php echo $row['branch_tel']?></td>
+					        <td><?php echo $row['fax']?></td>
+					        <td><?php echo $row['other']?></td>
+					    </tr>
+					    <?php }?>
+				   </table>
+ </div>

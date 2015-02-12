@@ -1,4 +1,7 @@
-<title>Report Staff</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("Report Staff");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
@@ -36,25 +39,25 @@
             </table>
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
     	<tr bgcolor="#BBBBBB" >
-        	<th>&nbsp;N<sup>0</sup></th>
-            <th>&nbsp;StaffID</th>
-            <th style="white-space: pre;">&nbsp;Name Khmer</th>
-            <th style="white-space: pre;">&nbsp;Name Eng</th>
-            <th>&nbsp;Sex</th>
-            <th>&nbsp;Phone</th>
-            <th>&nbsp;National_id</th>
-            <th>&nbsp;Adress</th>
-            <th>&nbsp;Degree</th>
-            <th>&nbsp;Email</th>
-            <th style="white-space:nowrap;">&nbsp;Basic salary</th>
-            <th style="white-space:nowrap;">&nbsp;Start date</th>
-            <th style="white-space:nowrap;">&nbsp;End date</th>
-            <th style="white-space:pre;">&nbsp;Number of Contract</th>
+        	<th>&nbsp;<?php echo $tr->translate("NO");?></th>
+            <th>&nbsp;<?php echo $tr->translate("STAFF_ID");?></th>
+            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("NAME_KHMER");?></th>
+            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("NAME_EN");?></th>
+            <th>&nbsp;<?php echo $tr->translate("SEX");?></th>
+            <th>&nbsp;<?php echo $tr->translate("PHONE");?></th>
+            <th>&nbsp;<?php echo $tr->translate("NATIONAL_ID");?></th>
+            <th>&nbsp;<?php echo $tr->translate("ADDRESS");?></th>
+            <th>&nbsp;<?php echo $tr->translate("DEGREE");?></th>
+            <th>&nbsp;<?php echo $tr->translate("EMAIL");?></th>
+            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("BASIC_SALARY");?></th>
+            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("START_DATE");?></th>
+            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("END_DATE");?></th>
+            <th style="white-space:pre;">&nbsp;<?php echo $tr->translate("NUMBER_OF_CONTROCT");?></th>
             <th>&nbsp;Shift</th>
-            <th style="white-space: pre;">&nbsp;Working hour</th>
+            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("WORKING_HOUR");?></th>
             <th>&nbsp;Position</th>
-            <th style="white-space: pre;">&nbsp;Branch Name</th>
-           <th>&nbsp;Note</th>
+            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?></th>
+           <th>&nbsp;<?php echo $tr->translate("NOTE");?></th>
          </tr>
        <?php foreach($this->staff_list as $key =>$row){?>
 		   <tr style="font-size: 11px;">
