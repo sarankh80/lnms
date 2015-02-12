@@ -82,6 +82,7 @@
             ?>
              <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
 					<div style="clear: both;"></div>
+				<div style="height: auto; width:100%;">
 				<?php if($module=='report' AND $action!='rpt-paymentschedules'){?>
 				<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
 					showLabel="false" type="button" onclick="doPrint();">Print</button>
@@ -92,6 +93,8 @@
 	                ?>
                 </div>
                 <?php }?>
+                <div style="clear: both;"></div>
+                </div>
             </div><!-- end center -->
         </div>
     </body>
