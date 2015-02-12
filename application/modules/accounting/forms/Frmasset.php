@@ -35,7 +35,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 				));
 		$rows = $db->getAssetByType();
 		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['fixed_assetname'];
+		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['account_name_en'];
 		$asset_name->setMultiOptions($options);
 	
 		$asset_code = new Zend_Dojo_Form_Element_FilteringSelect('asset_code');
@@ -48,7 +48,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		
 		$rows = $db->getAssetByType();
 		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['asset_code'];
+		if(!empty($rows))foreach($rows AS $row) $options[$row['id']]=$row['account_code'];
 		$asset_code->setMultiOptions($options);
 		
 		
@@ -62,7 +62,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		));
 		$opt= $db->getVewOptoinTypeByType(19,1);
 		$paid_type->setMultiOptions($opt);
-		$paid_type->setValue(1);
+// 		$paid_type->setValue(1);
 		
 		$note = new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
@@ -103,6 +103,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		$asset_cost=new Zend_Dojo_Form_Element_NumberTextBox('asset_cost');
 		$asset_cost->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
+				'onchange'=>'calculateDepreciation();',
 				'class'=>'fullside',
 				'required'=>'true'
 				));
@@ -110,6 +111,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		$useful_life = new Zend_Dojo_Form_Element_NumberTextBox('usefull_life');
 		$useful_life->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
+				'onchange'=>'calculateDepreciation();',
 				'class'=>'fullside',
 				'required'=>true
 		));
@@ -118,6 +120,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		$salvage_value->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'onchange'=>'calculateDepreciation();',
 				'required'=>'true'
 				));
 		
@@ -191,6 +194,13 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
+		
+		$amount = new Zend_Dojo_Form_Element_TextBox('amount');
+		$amount->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
 		 
 		$_id = new Zend_Form_Element_Hidden('id');
 		
@@ -201,6 +211,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 			$asset_cost->setValue($data['asset_cost']);
 			$useful_life->setValue($data['usefull_life']);
 			$salvage_value->setValue($data['salvagevalue']);
+			$amount->setValue($data['total_amount']);
 			$payment_method->setValue($data['payment_method']);
 			$Date->setValue($data['depreciation_start']);
 			$start_date->setValue($data['date']);
@@ -214,7 +225,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		}
 		
 		$this->addElements(array($_title,$asset_name,$asset_type,$asset_cost,$start_date,$useful_life,$salvage_value,$payment_method,
-				$Date,$_branch_id,$_id,$asset_code,$paid_type,$note,$_stutas,$some_payamount,$current_type,$journal,$tem_type));
+				$amount,$Date,$_branch_id,$_id,$asset_code,$paid_type,$note,$_stutas,$some_payamount,$current_type,$journal,$tem_type));
 		return $this;
 		
 	}	
