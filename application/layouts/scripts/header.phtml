@@ -15,7 +15,7 @@
 	  $backup=$this->url(array('module'=>'backup','controller'=>'index','action'=>'index'), null, true);
       $user=$this->url(array('module'=>'user','controller'=>'index','action'=>'index'), null, true);
       $acl=$this->url(array('module'=>'rsvAcl','controller'=>'index','action'=>'index'), null, true);
-      $logout=$this->url(array('module'=>'default','controller'=>'index','action'=>'logout'), null, true);
+      $setting=$this->url(array('module'=>'setting','controller'=>'index','action'=>'index'), null, true);
 	  $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
 	  $item_arr=array(
 		'index'=>'<li class="link">
@@ -38,31 +38,31 @@
 							<span>'.$tr->translate("Loan View").'</span>
 						</a>
 					</li>',	 
-	  	'accounting'=>'<li class="link">
-		  		<a title="ព័ត៏មានចំណាយផ្សេងៗ" href="'.$accounting_view.'">
-		  		<span>'.$tr->translate("Accounting").'</span>
-		  		</a>
+	  	'callecterall'=>'<li class="link">
+			  		<a title="" href="'.$callecterall.'">
+			  			<span>'.$tr->translate("Callecterall").'</span>
+			  		</a>
 	  		</li>',
 	  	'payroll'=>'<li class="link">
-		  		<a title="ព័ត៏មានប្រាក់ខែ" href="'.$payroll_view.'">
-		  		<span>'.$tr->translate("Payroll").'</span>
-		  		</a>
-	  		</li>',
-	  	'capital'=>'<li class="link">
-	  		<a title="ព័ត៏មានប្រាក់ខែ" href="'.$capital.'">
-	  		<span>'.$tr->translate("Capital").'</span>
-	  		</a>
+			  		<a title="ព័ត៏មានប្រាក់ខែ" href="'.$payroll_view.'">
+			  			<span>'.$tr->translate("Payroll").'</span>
+			  		</a>
 	  		</li>',
 	  	'tellerandexchange'=>'<li class="link">
-	  		<a title="" href="'.$teller.'">
-	  		<span>'.$tr->translate("TELLER Module").'</span>
-	  		</a>
-	  		</li>',
-	   'callecterall'=>'<li class="link">
-	  		<a title="" href="'.$callecterall.'">
-	  		<span>'.$tr->translate("Callecterall").'</span>
-	  		</a>
-	  		</li>',
+			  		<a title="" href="'.$teller.'">
+			  			<span>'.$tr->translate("TELLER Module").'</span>
+			  		</a>
+	    </li>',
+	  	'capital'=>'<li class="link">
+		  			<a title="ព័ត៏មានប្រាក់ខែ" href="'.$capital.'">
+		  				<span>'.$tr->translate("Capital").'</span>
+		  			</a>
+	  			</li>',
+	  	'accounting'=>'<li class="link">
+			  		<a title="ព័ត៏មានចំណាយផ្សេងៗ" href="'.$accounting_view.'">
+			  			<span>'.$tr->translate("Accounting").'</span>
+			  		</a>
+	  			</li>',
 	  	'report'=>'<li class="link">
 			  		<a title="Report" href="'.$report.'">
 			  			<span>'.$tr->translate("Reports").'</span>
@@ -79,9 +79,9 @@
 						</a>
 					 </li>',	  
 	  
-	  'logout'=>'<li class="link">
-	  		<a title="USER" href="'.$logout.'">
-	  		<span>'.$tr->translate("LOGOUT").'</span>
+	  'setting'=>'<li class="link">
+	  		<a title="USER" href="'.$setting.'">
+	  		<span>'.$tr->translate("SETTING").'</span>
 	  		</a>
 	  		</li>',
 	  );
