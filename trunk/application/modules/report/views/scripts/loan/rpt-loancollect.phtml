@@ -1,25 +1,28 @@
-<title>Rpt_LoanCollection</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("LOANCOLLECT");?></title>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
-</head>
+<title></title>
 
+</head>
 <body>
 	<h2 align="center"><?php echo $this->data['brand_rptcollection'];?></h2>
 	<table width="100%" border="1" style="border-collapse:collapse;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB">
-        	<th>N<sub>0</sub></th>
-            <th>Loan-Code</th>
-            <th style="white-space: pre;">Client Namekh</th>
-            <th>Branch</th>
-            <th>Co</th>
-            <th>Principal</th>
-            <th>Interest</th>
-            <th>Penalize</th>
-            <th style="white-space: pre;">Total Payment</th>
-            <th>Date</th>
+        	<th><?php echo $tr->translate("NO");?></th>
+            <th><?php echo $tr->translate("LOAN_CODE");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("CLIENT_NAMEKH");?></th>
+            <th><?php echo $tr->translate("BRANCH");?></th>
+            <th><?php echo $tr->translate("CO");?>Co</th>
+            <th><?php echo $tr->translate("PRINCIPAL");?></th>
+            <th><?php echo $tr->translate("ENTEREST");?></th>
+            <th><?php echo $tr->translate("PENALIIZE");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("TOTAL__PAYMENT");?></th>
+            <th><?php echo $tr->translate("DATE");?></th>
          </tr>
          <?php foreach($this->loancllect_list as $key =>$row){?>
 		   <tr>

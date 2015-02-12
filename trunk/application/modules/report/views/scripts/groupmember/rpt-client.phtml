@@ -1,4 +1,7 @@
-<title>Report Client</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("REPORT CLIENT");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 
@@ -44,15 +47,15 @@
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB" >
-        	<th aling=center;>N<sup>0</sup></th>
-            <th style="white-space: pre;">Client N.</th>
-            <th style="white-space: pre;">Name Khmer</th>
-            <th>Name Eng</th>
-            <th>Sex</th>
-            <th style="white-space: pre;">Branch</th>
-            <th colspan=4>Adress</th>
-            <th style="white-space: pre;">Spouse Name</th>
-            <th>Phone</th>
+        	<th aling=center;><?php echo $tr->translate("NO");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("CLIENT_NO");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("NAME_KHMER");?></th>
+            <th><?php echo $tr->translate("NAME_EN");?></th>
+            <th><?php echo $tr->translate("SEX");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("BRANCH");?></th>
+            <th colspan=4><?php echo $tr->translate("ADRESS");?></th>
+            <th style="white-space: pre;"><?php echo $tr->translate("POUSE_NAME");?></th>
+            <th><?php echo $tr->translate("PHONE");?></th>
           </tr>
           <?php foreach($this->client_list as $key =>$row){?>
 		   <tr>

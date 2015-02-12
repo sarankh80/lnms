@@ -1,4 +1,7 @@
-<title>Report Holiday</title>
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("REPORT HOLIDAY");?>Report Holiday</title>
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
@@ -38,11 +41,11 @@
             </table>
         <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th>N<sup>0</sup></th>
-				        <th>Holiday Name</th>
-				        <th>Date</th>
-				        <th>Amount</th>
-				        <th>Note</th>
+				        <th><?php echo $tr->translate("NO");?></th>
+				        <th><?php echo $tr->translate("HOLIDAY_NAME");?>Holiday Name</th>
+				        <th><?php echo $tr->translate("DATE");?></th>
+				        <th><?php echo $tr->translate("AMOUNT");?></th>
+				        <th><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
 					<?php $amount_day = 0;
 					 foreach($this->holiday_list as $key =>$row){

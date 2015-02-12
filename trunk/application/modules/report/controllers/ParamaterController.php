@@ -17,6 +17,13 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
+  function  rptVillageAction(){
+  	$db  = new Report_Model_DbTable_DbParamater();
+  	$this->view->village_list = $db->getAllVillage();
+  	//print_r($db->getAllstaff());
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
   	$this->view->zone_list = $db->getAllZone();
@@ -29,6 +36,13 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	
+  }
+  function rptBranchAction(){
+  	$db  = new Report_Model_DbTable_DbParamater();
+  	$this->view->branch_list = $db->getAllBranch();
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	 
   }
 }
 

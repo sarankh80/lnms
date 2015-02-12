@@ -2,7 +2,31 @@
 class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_exchange';
-	
+	function addXchange($_data){
+		$arr = array(
+				'branch_id'=>$_data['branch_id'],
+				'invoice_code'=>$_data['number_code'],
+				'receive_amount'=>$_data['onetomany'],
+				'date'=>$_data['date'],
+				'user_id'=>$_data['cusomer'],
+				
+		);
+		$id = $this->insert($arr);
+		$this->_name='ln_exchange_detail';
+		$ids = explode(',', $_data['record_row']);
+		foreach ($ids as $i){
+			$arr = array(
+				'exchange_id'=>$id,
+				'from_currency_type'=>$_data['from_type'.$i],
+				'to_currency_type'=>$_data['to_type'.$i],
+				'specail_customer'=>empty($_data['is_spacial'.$i])?0:1,
+				'exchange_rate'=>$_data['exchange_rate'.$i],
+				'changed_amount'=>$_data['exchange_amount'.$i],
+				'recieved_amount'=>$_data['amount_exchanged'.$i],
+				);
+		$this->insert($arr);
+		}
+	}
 	function updatexchange($_data){
 		$arr = array(
 				'branch_id'=>$_data['branch_id'],

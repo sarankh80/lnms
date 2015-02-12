@@ -1,4 +1,6 @@
-
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
  <?php 
    $rows=$this->list;
 //    print_r($rows);
@@ -7,7 +9,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Client Info</title>
+<title><?php echo $tr->translate("CLIENT INFO");?>Client Info</title>
 </head>
 
 <body>
@@ -16,19 +18,18 @@
 	<table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB">
-        	<th>NUM</th>
-        	<th>Term</th>
-            <th>Loan N.</th>
-            <th>Date Due</th>
-            <th>OS</th>
-            <th>Principal</th>
-            <th>Interest Rate</th>
-            <th>Paid Principal</th>
-            <th>Paid Interest Rate</th>
-            
-            <th>CO</th>
-            <th>By</th>
-            <th>Status</th>
+        	<th><?php echo $tr->translate("NUM");?></th>
+        	<th><?php echo $tr->translate("TERM");?></th>
+            <th><?php echo $tr->translate("LOAN_NO");?></th>
+            <th><?php echo $tr->translate("DATE_DUE");?></th>
+            <th><?php echo $tr->translate("OS");?></th>
+            <th><?php echo $tr->translate("PRINCIPAL");?></th>
+            <th><?php echo $tr->translate("INTEREST");?></th>
+            <th><?php echo $tr->translate("PAID_PRINCIPAL");?></th>
+            <th><?php echo $tr->translate("PAID_INTEREST_RATE");?></th>
+            <th><?php echo $tr->translate("CO");?></th>
+            <th><?php echo $tr->translate("BY");?></th>
+            <th><?php echo $tr->translate("STATUS");?></th>
         </tr>
   
     </table>
