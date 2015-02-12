@@ -254,14 +254,13 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    }
    
    public function getAssetByType($type=null,$Asset_id=null ,$row=null){
-   	$this->_name='ln_fixed_asset';
+   	$this->_name='ln_account_name';
    	$where='';
    	if($type!=null){
    		$where=' AND is_group = 1';
    	}
-   	$sql = " SELECT id,branch_id,depre_code,fixed_assetname,fixed_asset_type,asset_code,
-   asset_cost,usefull_life,salvagevalue,payment_method,depreciation_start,status
-   	FROM $this->_name WHERE status=1 AND fixed_assetname!='' ";
+   	$sql = "SELECT id,account_code,account_name_en FROM $this->_name WHERE STATUS=1 AND parent_id=49";
+   
    	$db = $this->getAdapter();
    	if($row!=null){
    		if($Asset_id!=null){

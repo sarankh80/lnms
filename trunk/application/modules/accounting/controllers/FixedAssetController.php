@@ -15,9 +15,9 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			try {
 				$db->addasset($data);
 				if(!empty($data['save_new'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					//Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
+					//Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/position/index');
 				}
 				
 			} catch (Exception $e) {
@@ -51,7 +51,7 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME  ","FIXED_ASSETNAME ","FIXED_ASSET_TYPE","ASSET_COST","PAY_TYPE","USEFULL_LIFE","SALVAGEVALUE","PAYMANT_MATHOD","Status","NOTE");
+			$collumns = array("BRANCH_NAME  ","FIXED_ASSETNAME ","FIXED_ASSET_TYPE","ASSET_COST","PAY_TYPE","USEFULL_LIFE","SALVAGEVALUE","TOTA_AMOUNT","PAYMANT_MATHOD","Status","NOTE");
 			$link=array(
 					'module'=>'accounting','controller'=>'FixedAsset','action'=>'edit',
 			);

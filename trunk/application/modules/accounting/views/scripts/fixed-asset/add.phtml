@@ -1,6 +1,9 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_fixedasset;
+// echo date("Y-m-d","+1 month", strtotime(date("Y-m-d")));
+// $next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+// date("Y-m-d", strtotime("$next_payment '+1 month'"));
 ?>
 <style>	
 .fullside {
@@ -55,22 +58,24 @@ $frm = $this->frm_fixedasset;
 						<tr>
 						    <td><?php echo $tr->translate("TEM_TYPE")?></td>
 							<td><?php echo $frm->getElement('tem_type')?></td>
+							<td><?php echo $tr->translate("SALVAGE_VALUE")?></td>
+							<td><?php echo $frm->getElement('salvage_value')?></td>
 							<td><?php echo $tr->translate("AUTO_POST_ACC")?></td>
-							<td><?php echo $frm->getElement('journal');?></td>
-						    <td><?php echo $tr->translate("SALVAGE_VALUE")?></td>
-							<td><?php echo $frm->getElement('salvage_value')?></td>	
+							<td><?php echo $frm->getElement('journal');?></td>	
 						</tr>
 						<tr>
 							
 							<td><?php echo $tr->translate("PAYMENT_METHOD")?></td>
 							<td><?php echo $frm->getElement('payment_method')?></td>
-							<td><?php echo $tr->translate("DEPRECIATION START DATE")?></td>
+							<td><?php echo $tr->translate("TOTAL_DEPRECIATION")?></td>
+							<td><?php echo $frm->getElement('amount')?></td>						
+						    <td><?php echo $tr->translate("DEPRECIATION START DATE")?></td>
 							<td><?php echo $frm->getElement('start_date')?></td>		
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('date')?></td>						
-						</tr>
+						</tr>	
 						
 						<tr>
+						    <td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>	
 						   	<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php echo $frm->getElement('note')?></td>
 							<td><?php echo $tr->translate("STATUS")?></td>
@@ -94,12 +99,16 @@ $frm = $this->frm_fixedasset;
 		</td>
 	</tr>	
 </table>
+
 </form>
 
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
-
+dojo.ready(function(){	
+	var a = dojo.byId("date").get('value');
+	dijit.byId("test").attr('value',a);
+});
 function getAssetInfo(type){
 	if(type==1){
 		asset_id = dijit.byId('asset_name').get('value');
@@ -111,17 +120,25 @@ function getAssetInfo(type){
 } 
 function checkasset(){
 	asset_id=dijit.byId("paid_type").get('value');
-	if(asset_id==3){
+	if(asset_id==1){
 		dijit.byId("some_payamount").set('readOnly',true);
 	}
-	else if(asset_id==1){
-		dijit.byId("some_payamount").set('readOnly',false);
+	else if(asset_id==2){
+		dijit.byId("some_payamount").set('readOnly',true);
 	}
 	else{
 		dijit.byId("some_payamount").set('readOnly',false);
 	}
 }
+function calculateDepreciation(){
+	asset_cost=dijit.byId("asset_cost").get('value');
+	salvage_value=dijit.byId("salvage_value").get('value');
+	usefull_life=dijit.byId("usefull_life").get('value');
+	total_depreciation=(asset_cost-salvage_value)/usefull_life;
+	dijit.byId("amount").attr('value',total_depreciation);
+}
 
 </script>
+
 
 
