@@ -6,7 +6,7 @@
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 </script>
-<form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('province').get('value')==''){
@@ -66,16 +66,16 @@ dojo.require("dijit.form.Textarea");
 							<td><?php  echo $frm->getElement('house');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ប្រភេទឯកសារ")?></td>
-							<td><?php  echo $frm->getElement('id_type');?></td>
-							<td><?php echo $tr->translate("លេខសំគាល់ឯកសារ")?></td>
-							<td><?php  echo $frm->getElement('id_no');?></td>
+							<td><?php echo $tr->translate("រូបថត")?></td>
+							<td><?php echo $frm->getElement('photo');?></td>
+							<td><?php echo $tr->translate("JOB_TYPE")?></td>
+							<td><?php echo $frm->getElement('job');?></td>
 							<td><?php echo $tr->translate("លេខទូរស័ព្ទ")?></td>
 							<td><?php  echo $frm->getElement('phone');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះអ្នកធានា")?></td>
-							<td><?php  echo $frm->getElement('spouse');?></td>
+							<td></td>
+							<td></td>
 							<td><?php echo $tr->translate("ស្ថានភាព")?></td>
 							<td><?php  echo $frm->getElement('status');?></td>
 							<td><?php echo $tr->translate("សំគាល់")?></td>
@@ -100,18 +100,44 @@ dojo.require("dijit.form.Textarea");
 <script type="text/javascript">
     url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupcode'));?>';
 function getGroupCode(){
-		dojo.hrPost({
-		url:url_submit,
+	group_id=dijit.byId('group_id').get('value');
+	alert(group_id);
+	is_group = dijit.byId('is_group').get('value');
+	dojo.xhrPost({
+		url:url_submit,	
 		content:{ 
-		    'branch_id':  dijit.byId('branch_id').get('value')
-		},
+		    'group_id':group_id,
+		    'is_group':is_group
+		},		    
 		handleAs:"json",
-		load : function(data){
-			alert(data);
+		load: function(data) {	
+			dijit.byId('group_code').attr('value',data);
 		},
-		error : function(err){
-			alert(err);
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
 		}
 	});
 }
+/*url_submitgroup_id = '<?php //echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupid'));?>';
+function getGroupID(){
+	alert('hello');
+	group_id=dijit.byId('group_id').get('value');
+	is_group = dijit.byId('is_group').get('value');
+	dojo.xhrPost({
+		url:url_submitgroup_id,	
+		content:{ 
+		    'group_id':group_id,
+		    'is_group':is_group
+		},		    
+		handleAs:"json",
+		load: function(data) {	
+			dijit.byId('group_code').attr('value',data);
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}*/
 </script>

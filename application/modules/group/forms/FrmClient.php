@@ -10,7 +10,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
 		$_group->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
-				'onchange'=>'getGroupCode();'
+				'onClick'=>'getGroupCode();'
 				));
 		
 		$_group_code = new Zend_Dojo_Form_Element_TextBox('group_code');
@@ -41,6 +41,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'getGroupCode();'
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getClientByType();
@@ -174,7 +175,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
-		
+		$photo=new Zend_Form_Element_File('photo');
+		$photo->setAttribs(array(
+		));
+		$job = new Zend_Dojo_Form_Element_TextBox('job');
+		$job->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
 		$_desc = new Zend_Dojo_Form_Element_Textarea('desc');
 		$_desc->setAttribs(array('dojoType'=>'dijit.form.SimpleTextarea','class'=>'fullside',
 				'style'=>'width:96%;min-height:50px;'));
@@ -209,7 +217,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$_clientno->setValue($data['client_number']);	
 		}
-		$this->addElements(array($_id,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_id,$photo,$job,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;
