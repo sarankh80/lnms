@@ -16,8 +16,16 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
     		$data=$this->getRequest()->getPost();
     		$db = new Callecterall_Model_DbTable_DbCallecteralllist();
     		try {
-    			$db->addcallecteralllist($data);
-    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+    			//print_r($data);exit();
+    			if(isset($data['save_close'])){
+	    			$db->addcallecteralllist($data);
+	    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+	    			Application_Form_FrmMessage::redirectUrl('/callecterall/callecteralllist');
+    			}
+    			if(isset($data['save_new'])){
+    				$db->addcallecteralllist($data);
+    				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+    			}
     		} catch (Exception $e) {
     			Application_Form_FrmMessage::message("INSERT_FAIL");
     			$err = $e->getMessage();
@@ -29,9 +37,7 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
        $fm = new Callecterall_Form_Frmcallecteralllist();
 	   $frm = $fm->callecteralllist(); 
 	   Application_Model_Decorator::removeAllDecorator($frm);
-	   $this->view->Form_Frmcallecterall = $frm;
-	   
-	   
+	   $this->view->Form_Frmcallecterall = $frm;   
 	   
     }
     
@@ -63,9 +69,19 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
     if($this->getRequest()->isPost()){
     		$data=$this->getRequest()->getPost();
     		$db = new Callecterall_Model_DbTable_DbCallecteralllist();
+    		//print_r($data);exit();
     		try {
-    			$db->updatcallecteralllist($data);
-    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+    			if(isset($data['save_close'])){
+	    			$db->updatcallecteralllist($data);
+	    			//print_r($data);exit();
+	    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+	    			Application_Form_FrmMessage::redirectUrl('/callecterall/Callecteralllist/');
+	    		}
+	    		if(isset($data['save_new'])){
+	    			$db->updatcallecteralllist($data);
+	    			Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+	    			Application_Form_FrmMessage::redirectUrl('/callecterall/Callecteralllist/add');
+	    		}
     		} catch (Exception $e) {
     			Application_Form_FrmMessage::message("INSERT_FAIL");
     			$err = $e->getMessage();
@@ -81,9 +97,6 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
 	    $frm = $fm->callecteralllist($row); 
 	    Application_Model_Decorator::removeAllDecorator($frm);
 	    $this->view->Form_Frmcallecterall = $frm;
-    
-    }
-   
-    
+    }   
 }
 ?>

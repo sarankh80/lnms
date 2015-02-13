@@ -8,7 +8,9 @@ class Callecterall_ChengcallecterallController extends Zend_Controller_Action
         
     	
     }
-
+	public function indexAction(){
+		
+	}
     public function addAction()
     {
     	$db = new Application_Model_DbTable_DbGlobal();

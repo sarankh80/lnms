@@ -22,6 +22,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'required'=>true,
+				'readonly'=>true,
 				'style'=>'color:red; font-weight: bold;'
 		));
 		
@@ -68,9 +69,9 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt= $db->getVewOptoinTypeByType(13,1);
+		$opt= $db->getVewOptoinTypeBys(1);
 		$callecterall_type->setMultiOptions($opt);
-		$callecterall_type->setValue(1);
+		//$callecterall_type->setValue();
 		
 		$nameouner= new Zend_Dojo_Form_Element_TextBox('nameouner');
 		$nameouner->setAttribs(array(
@@ -78,9 +79,9 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-		$callnumber= new Zend_Dojo_Form_Element_NumberTextBox('callnumber');
+		$callnumber= new Zend_Dojo_Form_Element_TextBox('callnumber');
 		$callnumber->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
 		
@@ -88,6 +89,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$date_call->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
+				'onchange'=>'checkReleaseDate();',
 				'required'=>true
 		));
 		$date_call->setValue(date('Y-m-d'));
@@ -97,6 +99,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$time_think->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'checkTerm();',
 				'required'=>true
 		));
 		$opt= $db->getVewOptoinTypeByType(14,1);
@@ -108,6 +111,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$time_boro->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'onkeyup'=>'calCulatePeriod()',
 				'required'=>true
 		));
 		
@@ -115,6 +119,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		$dayless->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
+				
 		));
 		$dayless->setValue(date('Y-m-d'));
 		
@@ -139,7 +144,16 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
-		
+		$term_fun = new Zend_Dojo_Form_Element_FilteringSelect('term_fun');
+		$term_fun->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$charge_term = new Zend_Dojo_Form_Element_FilteringSelect('charge_term');
+		$charge_term->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
 	  $_id = new Zend_Form_Element_Hidden('id');
 
 		if($data!=null){
@@ -158,8 +172,9 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 			$much_boro->setValue($data['amount_debt']);
 			$note->setValue($data['note']);
 			$_id->setValue($data['id']);
+			$cus_code->setValue($data['customer_id']);
 		}
-		$this->addElements(array($branch,$customer_name,$cus_code,$receipt,$time_think,$time_boro,
+		$this->addElements(array($branch,$customer_name,$cus_code,$receipt,$time_think,$time_boro,$term_fun,$charge_term,
 				$date_call,$callecterall_type,$code_call,$note,$cash_type,$much_boro,$_id,$dayless,$callnumber,$nameouner));
 		return $this;
 		
