@@ -23,7 +23,7 @@ class Payroll_PositionController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Position English","Position Khmer","Display By","Status");
+			$collumns = array("POSITION_EN","POSITION_KH","DISPLAY_BY","STATUS");
 			$link=array(
 					'module'=>'payroll','controller'=>'position','action'=>'edit',
 			);

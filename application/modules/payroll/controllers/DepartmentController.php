@@ -23,7 +23,7 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Department Khmer","Department English","Display By","Date","Status","User Id");
+			$collumns = array("DEPARTMENT_KH","DEPARTMENT_EN","DISPLAY_BY","DATE","STATUS","USER");
 			$link=array(
 					'module'=>'payroll','controller'=>'department','action'=>'edit',
 			);

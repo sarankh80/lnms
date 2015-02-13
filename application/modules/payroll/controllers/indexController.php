@@ -26,7 +26,7 @@ class Payroll_indexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Client Name","Client NameKh","Release Amount","Interest Rate","Method","Time Collect","Zone","CO",
+			$collumns = array("CLIENT_EN","CLIENT_KH","RELEASE_AMOUNT","INTEREST_RATE","METHOD","TIME_COLLECTION","ZONE","CO",
 				"By","status");
 			$link=array(
 					'module'=>'group','controller'=>'Client','action'=>'edit',

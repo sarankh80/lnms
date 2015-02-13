@@ -23,8 +23,8 @@ class Payroll_CoController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CODE","Name Khmer","Name In ENG","National ID","Address","Tel",
-					"Email","Degree","Department","Annual Lives","Status");
+			$collumns = array("CODE","NAME_KH","NAME_EN","NATIONAL_ID","ADDRESS","PHONE",
+					"EMAIL","DEGREE","DEPARTMENT","ANNUAL_LIVES","STATUS");
 			$link=array(
 					'module'=>'payroll','controller'=>'co','action'=>'edit',
 			);

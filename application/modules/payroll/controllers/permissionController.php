@@ -26,8 +26,8 @@ class Payroll_PermissionController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();//status
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("បុគ្គលិក","សាខា","យល់ព្រមដោយ","ថ្ងៃស្នើសុំ","ប្រភេទ","ចាប់ពីថ្ងៃ",
-					"ដល់ថ្ងៃ","ម៉ោង","មូលហេតុ","User Id","ថ្ងៃ","Status");
+			$collumns = array("STAFF","BRANCH","APPROVE_BY","DATE_REQUEST","TYPE","FROM_DATE",
+					"TO_DATE","TIME","REASON","USER","DATE","STATUS");
 			$link=array(
 					'module'=>'payroll','controller'=>'permission','action'=>'edit',
 			);

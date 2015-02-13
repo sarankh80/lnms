@@ -21,7 +21,7 @@ Class Other_Form_FrmPosition extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH POSITION")
+				'placeholder'=>$this->tr->translate("SEARCH_POSITION")
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		
