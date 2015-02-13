@@ -26,7 +26,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
     	$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
     	$_title->setAttribs(array('dojoType'=>$this->tvalidate,
     			'onkeyup'=>'this.submit()',
-    			'placeholder'=>$this->tr->translate("SEARCH STAFF PERMISTION")
+    			'placeholder'=>$this->tr->translate("SEARCH_STAFF_PERMISTION")
     			));
     	$_title->setValue($request->getParam("adv_search"));
     	
@@ -48,7 +48,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
     	
     	$employee = new Zend_Dojo_Form_Element_FilteringSelect('employee');
     	$rows = $db ->getAllCOName();
-    	$options=array(''=>"------ជ្រើសរើស------",-1=>"Add New");
+    	$options=array(''=>"------SELECT------",-1=>"Add New");
     	if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
     	$employee->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
@@ -59,7 +59,7 @@ class Payroll_Form_FrmPermission extends Zend_Dojo_Form
   
     	$approve_by = new Zend_Dojo_Form_Element_FilteringSelect('approve_by');
     	$rows = $db ->getAllCOName();
-    	$options=array(''=>"------ជ្រើសរើស------",-1=>"Add New");
+    	$options=array(''=>"------SELECT------",-1=>"Add New");
     	if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
     	$approve_by->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',

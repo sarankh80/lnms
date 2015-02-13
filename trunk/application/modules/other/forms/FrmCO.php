@@ -21,7 +21,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH STAFF INFO")
+				'placeholder'=>$this->tr->translate("SEARCH_STAFF_INFO")
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		

@@ -2,6 +2,7 @@
 	$this->headTitle('Currency Smart | Agent add page'); 
 	echo $this->headTitle();
 	$form = $this->frm;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
@@ -25,23 +26,23 @@
 		<tr>
 			<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន បើកប្រាក់ខែរ</strong></legend>
+					<legend><strong><?php echo $tr->translate("SALARY_INFO");?></strong></legend>
 					<table width="100%" cellspacing="10">
 						<tr>
-							<td>ឈ្មោះបុគ្គលិក</td>
+							<td><?php echo $tr->translate("STAFF_NAME");?></td>
 							<td><?php echo $form->getElement('staff_name');?></td>
-							<td>ភេទ</td>
+							<td><?php echo $tr->translate("SEX");?></td>
 							<td><?php echo $form->getElement('Sex');?></td>
-							<td>ទួនាទី</td>
+							<td><?php echo $tr->translate("POSITION");?></td>
 							<td><?php echo $form->getElement('position');?></td>
 						</tr>
 						
 						<tr>
-							<td>ប្រាក់ខែគោល</td>
+							<td><?php echo $tr->translate("BASIC_SALARY");?></td>
 							<td><?php echo $form->getElement('Basic_salary');?></td>
-							<td>ថ្ងៃចូលធ្វើការ</td>
+							<td><?php echo $tr->translate("FOR_MONTH")?></td>
 							<td><?php echo $form->getElement('for_manth');?></td>
-							<td>ថ្ងៃបើកប្រាក់ខែ</td>
+							<td><?php echo $tr->translate("START_DAY")?></td>
 							<td><?php echo $form->getElement('Start_day');?></td>
 						</tr>
 					</table>

@@ -1,6 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("Staff Position"));
+echo $this->headTitle($tr->translate("STAFF_POSITION"));
 $frm = $this->frm_position;
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">

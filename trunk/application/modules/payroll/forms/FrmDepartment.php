@@ -21,7 +21,7 @@ Class Payroll_Form_FrmDepartment extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH DEPARTMENT")
+				'placeholder'=>$this->tr->translate("SEARCH_DEPARTMENT")
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		

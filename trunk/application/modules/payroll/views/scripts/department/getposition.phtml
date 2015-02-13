@@ -5,13 +5,12 @@
 <table border="1" width="50%">
     <tr>  
          <th>ID</th>
-         <th>Position_En</th>
-         <th>Position_Kh</th>
-         <th>Date</th>
-         <th>Status</th>
-         <th>User_Id</th>
-         <th>Display</th>
-         
+         <th>POSITION_EN</th>
+         <th>POSITION_KH</th>
+         <th>DATE</th>
+         <th>STATUS</th>
+         <th>USER</th>
+         <th>DISPLAY_BY</th>
     </tr>
 <?php 
      foreach ($rows as $key => $row){?>
@@ -23,7 +22,6 @@
      	     <td><?php echo $row['status'] ?> </td> 
      	     <td><?php echo $row['user_id'] ?> </td> 
        	     <td><?php echo $row['displayby'] ?> </td>
-     	
      	</tr>
  <?php } 
  

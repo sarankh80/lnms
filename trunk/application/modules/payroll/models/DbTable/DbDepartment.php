@@ -42,10 +42,10 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 	
 	function getAllStaffDepartment($search=null){
 		$db = $this->getAdapter();
-		$sql="SELECT id,department_kh,department_en,
-		(SELECT displayby_en FROM `ln_displayby` AS ld WHERE ld.id = id LIMIT 1) AS displayby,date,
-		status,(SELECT user_name FROM rms_users WHERE id = user_id limit 1 ) AS user_id FROM `ln_department` WHERE 1 ";
-		$order=" order by id DESC";
+		$str=$search['adv_search'];
+		$status=$search['status_search'];
+		$sql="CALL stGetAllStaffDepartment()";
+// 		$order=" order by id DESC";
 		$where = '';
 		
 		if(!empty($search['adv_search'])){
@@ -61,7 +61,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 		if($search['status_search']>-1){
 			$where.= " AND status = ".$search['status_search'];
 		}
-		return $db->fetchAll($sql.$where.$order);	
+		return $db->fetchAll($sql.$where);	
 	}	
 }
 
