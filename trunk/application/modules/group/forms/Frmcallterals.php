@@ -128,40 +128,34 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$_personal=new Zend_Dojo_Form_Element_RadioButton('personal');
+		$_personal=new Zend_Dojo_Form_Element_FilteringSelect('personal');
 		$_personal->setAttribs(array(
-				'dojoType'=>'dijit.form.RadioButton',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 				));
 		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
 		$_personal->setMultiOptions($opt);
 		$_personal->setValue(1);
-// 		print_r($_personal);exit();
-// 		$_bollow=new Zend_Dojo_Form_Element_CheckBox('bollow');
-// 		$_bollow->setAttribs(array(
-// 				'dojoType'=>'dijit.form.CheckBok',
-// 				'class'=>'fullside'
-// 				));
+		
         $db = new Application_Model_DbTable_DbGlobal();
 		$represent_property=new Zend_Dojo_Form_Element_FilteringSelect('represent_property');
 		$represent_property->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 				));
-		$opt= $db->getVewOptoinTypeByType(6,1);
+		$opt= $db->getCollteralType(1);
 		$represent_property->setMultiOptions($opt);
-		$represent_property->setValue(1);
-		$estate_code=new Zend_Dojo_Form_Element_NumberTextBox('estate_code');
-		$estate_code->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+		$note=new Zend_Dojo_Form_Element_TextBox('note');
+		$note->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required'=>true
 		));
 		$Date_estate=new Zend_Dojo_Form_Element_DateTextBox('date_estate');
 		$Date_estate->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside'
 		));
+		$Date_estate->setValue(date('Y-m-d'));
 		$stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
 		$stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -170,44 +164,42 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$options= array(1=>"ប្រើប្រាស់",2=>"មិនប្រើប្រាស់");
 		$stutas->setMultiOptions($options);
 		
-		$cod_cal = new Zend_Dojo_Form_Element_NumberTextBox('cod_cal');
+		$cod_cal = new Zend_Dojo_Form_Element_TextBox('cod_cal');
 		$cod_cal ->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
+				'readOnly'=>'readOnly',
 				'class'=>'fullside',
+				'style'=>'color:red'
 		));
+		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
+// 		echo$code;exit();
+		$cod_cal->setValue($code);
 		
 		$id = new Zend_Form_Element_Hidden("id");
-		
+// 		print_r($data);exit();
 		if($data!=null){
 		
 			$_branch_id->setValue($data['branch_id']);
 			$cod_cal->setValue($data['code_call']);
 			$co_name->setValue($data['co_id']);
-			$getter_name->setValue($data['getter_name']);
-			$giver_name->setValue($data['giver_name']);
-			$Date->setValue($data['date_delivery']);
-			$customer_code->setValue($data['client_code']);
-			$contract_code->setValue($data['contracts_borrow']);
-			$_code->setValue($data['mortgage_Contract']);
-			$borrower->setValue($data['name_borrower']);
+			$contract_code->setValue($data['contract_code']);
+// 			$_code->setValue($data['mortgage_Contract']);
+			$borrower->setValue($data['client_name']);
 			$_name->setValue($data['with']);
 			$_name_->setValue($data['relativewith']);
 			$owner->setValue($data['owner']);
 			$_And_name->setValue($data['withs']);
 			$_And_name_->setValue($data['relativewiths']);
 			$represent_property->setValue($data['callate_type']);
-			$estate_code->setValue($data['note']);
+			$note->setValue($data['note']);
 			$Date_estate->setValue($data['date_registration']);
 			$stutas->setValue($data['status']);
-		
 			$id->setValue($data['id']);
-		
-		
-		
+			
 		}
 		
 		$this->addElements(array($co_name,$getter_name,$giver_name,$Date,$customer_code,$contract_code,$_code,$belong_borrower,
-				$borrower,$_name,$_name_,$owner,$_And_name,$_And_name_,$_personal,$represent_property,$estate_code,
+				$borrower,$_name,$_name_,$owner,$_And_name,$_And_name_,$_personal,$represent_property,$note,
 				$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		
