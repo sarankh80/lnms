@@ -2,11 +2,26 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->Form_Frmcallecterall;
 ?>
+<title> <?php echo $tr->translate("CALLECTERALL_TYPE")?></title>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecteralllist','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				//return false;
+				if(dijit.byId('callecterall_type').get('value')==''){
+					alert('សូមមេតាជ្រើសរើសប្រភេទទ្រព្យបពាំ្ច');
+					dijit.byId('callecterall_type').focus();
+					return false;
+                }
+				if(dijit.byId('customer_name').get('value')==''){
+					alert('សូមមេតាជ្រើសរើសប្រភេទឈ្មោះអតិថជន');
+					dijit.byId('callecterall_type').focus();
+					return false;
+                }
+				if(dijit.byId('cus_code').get('value')==''){
+					alert('សូមមេតាជ្រើសរើសប្រភេទលេខកូដ');
+					dijit.byId('callecterall_type').focus();
+					return false;
+                }
 				return true;
 			}else {
 				return false;
@@ -20,48 +35,44 @@ $frm = $this->Form_Frmcallecterall;
 					<table cellspacing="10"  width="100%">
 						<tr>
 						        <?php echo $frm->getElement('id');?>
-							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo$frm ->getElement('branch')?></td>
-							<td><?php echo $tr->translate("លេខវិក័យបត្រ")?></td>
+							<td><?php echo $tr->translate("RECEIPT")?></td>
 						​	<td><?php echo $frm->getElement('receipt')?></td>
-						    <td><?php echo $tr->translate("លេខកូដបពាំ្ច")?></td>
+						    <td><?php echo $tr->translate("CODE_CALL")?></td>
 							<td><?php echo $frm->getElement('code_call')?></td>		
 						 </tr>
 					     <tr>
-					        ​​​<td><?php echo $tr->translate("លេខកូដ")?></td>
+					        ​​​<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><?php echo $frm->getElement('cus_code')?></td>
-					        <td><?php echo $tr->translate("ឈ្មោះអតិថជន")?></td>
+					        <td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><?php echo $frm->getElement('customer_name')?></td>	
-							<td><?php echo $tr->translate("ប្រភេទទ្រព្យបពាំ្ច")?></td>
-							<td><?php echo $frm->getElement('callecterall_type')?></td>	
-						    
+							<td><?php echo $tr->translate("CALLECTERALL_TYPE")?></td>
+							<td><?php echo $frm->getElement('callecterall_type')?></td>							    
 					     </tr>
 					      <tr>
-					      
-					        <td><?php echo $tr->translate("ម្ចាស់កម្មសិទ្ធ")?></td>
+					        <td><?php echo $tr->translate("NAMEOUNER")?></td>
 							<td><?php echo $frm->getElement('nameouner')?></td>
-							<td><?php echo $tr->translate("លេខសំគាសអចលនវត្ថុ")?></td>
+							<td><?php echo $tr->translate("CALLNUMBER")?></td>
 							<td><?php echo $frm->getElement('callnumber')?></td>
-							<td><?php echo $tr->translate("ថ្ញៃបពាំ្ច")?></td>
+							<td><?php echo $tr->translate("DATE_CALL")?></td>
 							<td><?php echo $frm->getElement('date_call')?></td>	
-							
-						
 					     </tr>
 					     <tr>
-							<td><?php echo $tr->translate("រយះពេលខ្ចីគិតជា")?></td>
+							<td><?php echo $tr->translate("TIME_THINK")?></td>
 							<td><?php echo $frm->getElement('time_think')?></td>
-							<td><?php echo $tr->translate("ចំនូនរយះពេលខ្ចី")?></td>
+							<td><?php echo $tr->translate("TIME_BORO")?></td>
 							<td><?php echo $frm->getElement('time_boro')?></td>	
-							<td><?php echo $tr->translate("ថ្ញៃផុតកំណត់")?></td>
+							<td><?php echo $tr->translate("DAYLESS")?></td>
 							<td><?php echo $frm->getElement('dayless')?></td>
 							
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("ប្រភេទប្រាក់")?></td>
+					        <td><?php echo $tr->translate("CASH_TYPE")?></td>
 							<td><?php echo $frm->getElement('cash_type')?></td>	
-							<td><?php echo $tr->translate("ចំនួនខ្ចី")?></td>
+							<td><?php echo $tr->translate("MUCH_BROR")?></td>
 							<td><?php echo $frm->getElement('much_boro')?></td>	
-							<td><?php echo $tr->translate("សំគាល់")?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php echo $frm->getElement('note')?></td>
 					    </tr>
 					</table>
@@ -70,8 +81,12 @@ $frm = $this->Form_Frmcallecterall;
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+ចាកចេញ" id="submitButton" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave" />
+			<?php $url_close = $this->url(array('module'=>'callecterall','controller'=>'callecteralllist','action'=>''),null,true); ?>
+			<a href="<?php echo $url_close ?>">
+				<input type="button" value="ចាកចេញ" name="btn_close" label="ចាកចេញ" id="submitButton_Close" dojoType="dijit.form.Button"  iconClass=" dijitIconDelete"/>							
+			</a>
 		</td>
 	</tr>	
 </table>
@@ -79,4 +94,65 @@ $frm = $this->Form_Frmcallecterall;
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
+function getClientInfo(type){
+	if(type==1){
+		client_id = dijit.byId('customer_name').get('value');
+		dijit.byId("cus_code").attr('value',client_id);
+		dijit.byId("receipt").attr('value',client_id);
+		dijit.byId("code_call").attr('value',client_id);
+		dijit.byId("nameouner").attr('value',client_id);
+		dijit.byId("callnumber").attr('value',client_id);
+		dijit.byId("time_boro").attr('value',client_id);
+		dijit.byId("much_boro").attr('value',client_id);
+		dijit.byId("note").attr('value',client_id);
+		
+	}else{
+		client_id = dijit.byId('cus_code').get('value');
+		dijit.byId("customer_name").attr('value',client_id);
+	}		
+} 
+function checkReleaseDate(){
+	CalculateDate();
+}
+function calCulatePeriod(){
+	CalculateDate();
+}
+function checkTerm(){
+	CalculateDate();
+}
+function CalculateDate(){
+	pay_term = dijit.byId('time_think').get('value');
+	amount_date = dijit.byId('time_boro').get('value');
+	date_call = dijit.byId("date_call").get('value');
+	if(isNaN(amount_date)){
+		//alert('សូមបញ្ចលចំនួនរយៈពេល​ !');
+	}else{
+		setFirstPaymentAndDateLine(pay_term,date_call,amount_date);		
+    }
+	
+}
+function setFirstPaymentAndDateLine(pay_term,date_call,amount_date){
+	//alert('date release'+date_release);
+	var a = new Date(date_call);
+	if(pay_term==3){//month
+		a.setDate(a.getDate()*30);
+		var mm = a.getMonth()+1;
+	}else if(pay_term==2){//week
+		a.setDate(a.getDate() + (amount_date*7)); 
+		var mm = a.getMonth() + 1;
+	}else if(pay_term==1){//day
+		a.setDate(a.getDate() + (amount_date)); 
+		var mm = a.getMonth() + 1;
+	}
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('dayless').attr('value',epx_date);
+}
 </script>

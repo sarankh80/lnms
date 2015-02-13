@@ -16,8 +16,16 @@ class Callecterall_CallecterallController extends Zend_Controller_Action
 			$data=$this->getRequest()->getPost();
 			$db = new Callecterall_Model_DbTable_DbCallecterall();
 			try {
-				$db->addcallecterall($data);
-				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				//print_r($data);exit();
+				if(isset($data['btn_save'])){
+					$db->addcallecterall($data);
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}
+				if(isset($data['btn_save_close'])){
+					$db->addcallecterall($data);
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::redirectUrl('/callecterall/Callecterall');
+				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
@@ -40,11 +48,11 @@ class Callecterall_CallecterallController extends Zend_Controller_Action
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("name_en ","name_kh ","key_code","status");
+    		$collumns = array("NAME_EN","NAME_KH","DATE","STATUS");
     		$link=array(
     				'module'=>'callecterall','controller'=>'Callecterall','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_en'=>$link,'name_kh'=>$link));
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('title_en'=>$link,'title_kh'=>$link));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
     		echo $e->getMessage();
@@ -57,8 +65,15 @@ class Callecterall_CallecterallController extends Zend_Controller_Action
 			$data=$this->getRequest()->getPost();
 			$db = new Callecterall_Model_DbTable_DbCallecterall();
 			try {
-				$db->updatcallecterall($data);
-				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				if(isset($data['btn_save'])){
+					$db->updatcallecterall($data);
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}
+				if(isset($data['btn_save_close'])){
+					$db->updatcallecterall($data);
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::redirectUrl('/callecterall/Callecterall');
+				}				
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
