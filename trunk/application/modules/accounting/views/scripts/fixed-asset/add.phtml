@@ -2,8 +2,8 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_fixedasset;
 // echo date("Y-m-d","+1 month", strtotime(date("Y-m-d")));
-// $next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
-// date("Y-m-d", strtotime("$next_payment '+1 month'"));
+
+
 ?>
 <style>	
 .fullside {
@@ -24,9 +24,10 @@ $frm = $this->frm_fixedasset;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>NEW ABOUT CALLECTERALL</strong></legend>
+					<legend><strong><?php echo $tr->translate("NEW ABOUT CALLECTERALL")?></strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
+						    
 							<td><?php echo $tr->translate("BRANCH")?></td>
 							<td><?php echo $frm->getElement('branch')?></td>
 							<td><?php echo $tr->translate("ASSET_CODE")?></td>
@@ -41,7 +42,7 @@ $frm = $this->frm_fixedasset;
 							<td><?php echo $frm->getElement('asset_type');?></td>
 							<td><?php echo $tr->translate("PAID_TYPE")?></td>
 							<td><?php echo $frm->getElement('paid_type')?></td>
-							 <td><?php echo $tr->translate("SOME_PAYAMOUNT")?></td>
+							<td><?php echo $tr->translate("SOME_PAYAMOUNT")?></td>
 							<td><?php echo $frm->getElement('some_payamount')?></td>	
 							
 						</tr>
