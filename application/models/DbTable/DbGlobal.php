@@ -232,6 +232,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
+ 
    public function getClientByType($type=null,$client_id=null ,$row=null){
    $this->_name='ln_client';
    $where='';

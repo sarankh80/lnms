@@ -11,6 +11,7 @@ class accounting_FixedAssetController extends Zend_Controller_Action {
 		
 		if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
+// 			ripnt_r($data);exit();
 			$db = new Accounting_Model_DbTable_DbAsset();
 			try {
 				$db->addasset($data);

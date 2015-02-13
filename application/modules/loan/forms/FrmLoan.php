@@ -136,15 +136,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		));
 		$_level->setValue(1);
 		
-// 		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('interest_rate');
-// 		$_rate->setAttribs(array(
-// 				'data-dojo-Type'=>'dijit.form.NumberTextBox',
-// 				'data-dojo-props'=>"regExp:'[0-9]{1,2}',
-// 				'required':true,
-// 				'name':'batch',
-// 				'value':2.5,
-// 				'class':'fullside',
-// 				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់ 99'"));
+
 
 		$_rate =  new Zend_Dojo_Form_Element_ValidationTextBox("interest_rate");
 		$_rate->setAttribs(array(

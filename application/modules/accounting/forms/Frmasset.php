@@ -203,7 +203,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 		));
 		 
 		$_id = new Zend_Form_Element_Hidden('id');
-		
+// 		print_r($data);exit();
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
 			$asset_name->setValue($data['fixed_assetname']);
@@ -220,6 +220,7 @@ Class Accounting_Form_Frmasset extends Zend_Dojo_Form {
 			$some_payamount->setValue($data['some_payamount']);
 			$note->setValue($data['note']);
 			$_stutas->setValue($data['status']);
+			$journal->setValue($data['auto_post']);
 			$_id->setValue($data['id']);
 			
 		}

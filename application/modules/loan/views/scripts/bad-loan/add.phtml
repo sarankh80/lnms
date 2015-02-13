@@ -20,24 +20,38 @@ $frm = $this->frm_loan;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>Bad Loan</strong></legend>
+					<legend><strong>BAD LOAN</strong></legend>
 					<table cellspacing="10"  width="100%">
+					
+					   <tr>
+							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td><?php echo $frm->getElement('branch');?></td>
+							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $frm->getElement('client_code');?></td>
+							<td><?php echo $tr->translate("CLIEN_NAME")?></td>
+							<td><?php echo $frm->getElement('client_name')?></td>
+						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Client Name")?></td>
-							<td><?php echo $frm->getElement('client_name');?></td>
-							<td><?php echo $tr->translate("Total amount")?></td>
-							<td><?php echo $frm->getElement('Total_amount');?></td>
-							<td><?php echo $tr->translate("Interest amount")?></td>
-							<td><?php echo $frm->getElement('Interest_amount')?></td>
+							<td><?php echo $tr->translate("NUMBER_CODE")?></td>
+							<td><?php echo $frm->getElement('number_code');?></td>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('Date');?></td>
+							<td><?php echo $tr->translate("LOSS_DATE")?></td>
+							<td><?php echo $frm->getElement('date_loss')?></td>
 						</tr>
 						<tr>
 							
-							<td><?php echo $tr->translate("Date")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("Term")?></td>
-							<td><?php echo $frm->getElement('Term');?></td>
-							<td><?php echo $tr->translate("Note")?></td>
+							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('Total_amount');?></td>
+							<td><?php echo $tr->translate("INTERREST_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('Interest_amount');?></td>
+							<td><?php echo $tr->translate("TEM")?></td>
+							<td><?php  echo $frm->getElement('Term');?></td>
+						</tr>
+						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
+						<tr>
+						
 						</tr>
 					</table>
 				</fieldset>
@@ -53,4 +67,22 @@ $frm = $this->frm_loan;
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+
+function getClientInfo(type){
+	if(type==1){
+		id = dijit.byId("client_name").get('value');
+	}else if(type==2){
+		id = dijit.byId("number_code").get('value');
+	}else{
+		id = dijit.byId("client_code").get('value');
+	}
+	
+	dijit.byId("client_code").attr('value',id);
+	dijit.byId("client_name").attr('value',id);
+	dijit.byId("number_code").attr('value',id);
+	
+	
+		
+} 
 </script>
