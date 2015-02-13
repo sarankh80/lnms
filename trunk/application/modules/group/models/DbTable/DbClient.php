@@ -89,9 +89,15 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	public function getGroupCode($data){
 		$db = $this->getAdapter();
 		$sql = "SELECT COUNT(group_code) AS number FROM `ln_client` 
-			WHERE is_group =1 AND branch_id=".$data['branch_id'];
-		$rs = $db->fetchOne($sql);
-		return $rs+1;
+			WHERE is_group =1 ";
+		$acc_no = $db->fetchOne($sql);
+		$new_acc_no= (int)$acc_no+1;
+		$acc_no= strlen((int)$acc_no+1);
+		$pre = "";
+		for($i = $acc_no;$i<6;$i++){
+			$pre.='0';
+		}
+		return $pre.$new_acc_no;
 	}	
 }
 

@@ -1,6 +1,6 @@
 <?php
 class Group_indexController extends Zend_Controller_Action {
-	
+	//const REDIRECT_URL = '/group/index/add';
 	public function init()
 	{
 		/* Initialize action controller here */
@@ -63,7 +63,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$data = $this->getRequest()->getPost();
 				$db = new Group_Model_DbTable_DbClient();
 				$db->addClient($data);
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+				Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/add');
 			}catch (Exception $e){
 				echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("Application Error");
