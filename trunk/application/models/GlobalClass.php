@@ -252,6 +252,16 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $options;
 		}
+		public function getAllClientCodeOption(){
+			$_db = new Application_Model_DbTable_DbGlobal();
+			$rows = $_db->getClientByType();
+// 			array_unshift($rows, array('client_id'=>-1,'client_number'=>"Add New"));
+			$options = '';
+			if(!empty($rows))foreach($rows as $value){
+				$options .= '<option value="'.$value['client_id'].'" >'.htmlspecialchars($value['client_number'], ENT_QUOTES).'</option>';
+			}
+			return $options;
+		}
 		
 }
 

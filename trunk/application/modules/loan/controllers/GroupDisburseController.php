@@ -89,6 +89,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 		$db_option = new Application_Model_GlobalClass();
 		$this->view->member_option = $db_option->getAllClientGroupOption();
+		$this->view->code_option = $db_option->getAllClientCodeOption();
+		
 	}	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){

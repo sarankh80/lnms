@@ -61,20 +61,12 @@
 							<td><?php echo $frm->getElement('level');?></td>
 						</tr>
 						<tr>
-							<td>Admin Fee</td>
-							<td><?php echo $frm->getElement('loan_fee');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("លេខតំបន់")?></td>
 							<td><?php  echo $frm->getElement('zone');?></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -146,7 +138,7 @@
 		<td align="center">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-							<tr style="background:#eee; font-size: 12px;" id="head_title" class="head-title" align="center"></tr>
+							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
 				</table>		
 		</td>
 	</tr>
@@ -196,6 +188,7 @@ function deleteRecord(index){
 	}
 }
 member_option = '<?php echo $this->member_option;;?>';
+code_option = '<?php echo $this->code_option;;?>';
 temp='';
 r = 0;
 fund_title=0;
@@ -203,19 +196,19 @@ function addAmountTypeMoney(){
 		r++;
 		if(fund_title!=1){
 			thead='<th>លុប</th>';
-			thead+='<th>កូដកម្ចី</th>';
 			thead+='<th>កូដអតិថិជន</th>';
 			thead+='<th>ឈ្មោះអតិថិជន</th>';
 			thead+='<th>ចំនួនទឹប្រាក់</th>';
+			thead+='<th>ថ្លៃរដ្ឋបាល</th>';
 			thead+='<th>សម្គាល់ </th>';
 			fund_title=1;
 			dojo.query("#head_title").append(thead);
         }
 		temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-		temp+='<td><input style=" width:90%;" type="text" required="true" onclick="enableExchangeRate('+r+')" name="is_spacial'+r+'" dojoType="dijit.form.TextBox"/></td>';
-		temp+='<td><select style=" width:90%;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+member_option+'</select></td>';
-		temp+='<td><select style=" width:90%;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
+		temp+='<td><select readonly="true" style=" width:90%;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+code_option+'</select></td>';
+		temp+='<td><select readonly="true" style=" width:90%;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
 		temp+='<td><input style=" width:90%;" type="text" required="true" onclick="enableExchangeRate('+r+')" name="debt_amount'+r+'" id="debt_amount'+r+'" dojoType="dijit.form.NumberTextBox"/></td>';
+		temp+='<td><input type="text" name="admin_fee'+r+'" id="admin_fee'+r+'" dojoType="dijit.form.NumberTextBox" value="0"/></td>';
 		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" s/></td>';
 		tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
 		tmp+="</tr>";
@@ -391,9 +384,27 @@ function clearTextBox(){
 	dijit.byId('member').set('value','');
 	dijit.byId('total_amount').set('value',0);
 }
+var url_get = '<?php echo $this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'getclient-group')); ?>';
 function popupCheckClient(){
 	if(dijit.byId('group_id').get('value')==-1){
 		 dijit.byId('frm_client').show();
+	}else{
+		dojo.xhrPost({
+		    url: url_submit,	
+		   content : { 
+				'group_id':dijit.byId('group_id').get('value'),
+			},		    
+			handleAs:"json", 
+			load: function(data) {	
+				//dijit.byId('frm_client').reset(); 
+				//dijit.byId('frm_client').hide();
+			},
+			error: function() {
+			alert("Your message could not be sent, please try again!.");
+					        
+			}
+		});
+
 	}
 }
 function popupCheckCO(){
