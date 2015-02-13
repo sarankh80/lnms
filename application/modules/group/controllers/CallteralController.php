@@ -10,24 +10,24 @@ class Group_CallteralController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Group_Model_DbTable_DbCallteral();
-			//     		if($this->getRequest()->isPost()){
-			//     			$search=$this->getRequest()->getPost();
-			//     		}
-			//     		else{
-			//     			$search = array(
-			//     					'adv_search' => '',
-			//     					'status' => -1);
-			//     		}
+			    		if($this->getRequest()->isPost()){
+			    			$search=$this->getRequest()->getPost();
+			    		}
+			    		else{
+			    			$search = array(
+			    					'adv_search' => '',
+			    					'status' => -1);
+			    		}
 			$rs_rows= $db->geteAllcallteral($search=null);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch_id ","Code_callteral","Co_id ","Getter_name","Giver_name","Date_delivery","Client_code","Contracts_borrow","Mortgage_Contract","Status");
+			$collumns = array("BRANCH","CODE_CALLTERAL","STAFF_NAME ","CLIENT_NAME","OWNER","COLLTERAL_TYPE","CONTRACT_CODE","DATE","NOTE","STATUS");
 			$link=array(
-					'module'=>'accounting','controller'=>'asset','action'=>'index',
+					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
 			//print_r($rs_rows);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('asset_name'=>$link,'asset_cost'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'code_call'=>$link,'co_id'=>$link));
 			
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -51,6 +51,8 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$frm = $fm->FrmCallTeral();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 	}
 	public function editAction()
 	{
