@@ -10,10 +10,24 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     	 
     }
 	public function addClient($_data){
+		$photoname = str_replace(" ", "_", $_data['name_en']) . '.jpg';
+		$upload = new Zend_File_Transfer();
+		$upload->addFilter('Rename',
+				array('target' => PUBLIC_PATH . '/images/'. $photoname, 'overwrite' => true) ,'photo');
+		$receive = $upload->receive();
+		//echo $receive; exit();
+		if($receive)
+		{
+			$_data['photo'] = $photoname;
+		}
+		else{
+			$_data['photo']="";
+		}
 		try{
 		$_arr=array(
 				'is_group'	  => $_data['is_group'],
-				'parent_id'	  => $_data['group_id'],
+				'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
+				'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
 				'client_number'=> $_data['client_no'],
 				'name_kh'	  => $_data['name_kh'],
 				'name_en'	  => $_data['name_en'],
@@ -25,12 +39,15 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'village_id'  => $_data['village'],
 				'street'	  => $_data['street'],
 				'house'	      => $_data['house'],
-				'id_type'	  => $_data['id_type'],
-				'id_number'	  => $_data['id_no'],
+				'photo_name'  =>$_data['photo'],
+				'job'        =>$_data['job'],
+				'national_id'=>$_data['national_id'],
+				//'id_type'	  => $_data['id_type'],
+				//'id_number'	  => $_data['id_no'],
 				'phone'	      => $_data['phone'],
-				'spouse_name' => $_data['spouse'],
+				//'spouse_name' => $_data['spouse'],
 				'remark'	  => $_data['desc'],
-				'create_date' => date("Y-m-d"),
+				//'create_date' => date("Y-m-d"),
 				'status'      => $_data['status'],
 				'user_id'	  => $this->getUserId()
 		);
@@ -88,8 +105,14 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	}
 	public function getGroupCode($data){
 		$db = $this->getAdapter();
-		$sql = "SELECT COUNT(group_code) AS number FROM `ln_client` 
+		if($data['is_group']==1){
+			$sql = "SELECT COUNT(client_id) AS number FROM `ln_client`
 			WHERE is_group =1 ";
+		}else{
+			$sql = " SELECT group_code FROM `ln_client`
+			WHERE client_id = ".$data['group_id'] ;
+			return $db->fetchOne($sql);
+		}
 		$acc_no = $db->fetchOne($sql);
 		$new_acc_no= (int)$acc_no+1;
 		$acc_no= strlen((int)$acc_no+1);
@@ -97,7 +120,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		for($i = $acc_no;$i<6;$i++){
 			$pre.='0';
 		}
-		return $pre.$new_acc_no;
+		return "G".$pre.$new_acc_no;
 	}	
 }
 

@@ -6,7 +6,7 @@
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 </script>
-<form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'edit')); ?>" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('province').get('value')==''){
@@ -22,69 +22,84 @@ dojo.require("dijit.form.Textarea");
 	<tr>
 		<td>
 		<fieldset>
-					<legend align="center" ><strong><?php echo $tr->translate("បន្ថែមឈ្មោះអតិថិជន");?></strong></legend>
+					<legend align="center" ><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
 					<table style="margin: 0 auto; width:100%;" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះសាខា")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME");echo $frm->getElement('id')?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("ជាក្រុម")?></td>
+							<td><?php echo $tr->translate("IS_GROUP")?></td>
 							<td><?php echo $frm->getElement('is_group');?></td>		
-							<td><?php echo $tr->translate("លេខកូដក្រុម")?></td>
-							<td><?php echo $frm->getElement('group_code');?></td>				</tr>
+							<td><?php echo $tr->translate("GROUP_CODE ")?></td>
+							<td><?php echo $frm->getElement('group_code');?></td>	
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
+							<td><?php echo $tr->translate("GROUP_NAME")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
-							<td><?php echo $tr->translate("លេខអតិជន")?><sup>o</sup></td>
+							<td><?php echo $tr->translate("CLIENT_NO ")?></td>
 							<td><?php echo $frm->getElement('client_no');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះជាខ្មែ")?></td>
+							<td><?php echo $tr->translate("NANE_KHMER")?></td>
 							<td><?php  echo $frm->getElement('name_kh');?></td>
 						</tr>
 						<tr>
 							
-							<td><?php echo $tr->translate("ឈ្មោះជាអង់គ្គេស")?></td>
+							<td><?php echo $tr->translate("NAME_ENGLISH")?></td>
 							<td><?php  echo $frm->getElement('name_en');?></td>
-							<td><?php echo $tr->translate("ភេទ")?></td>
+							<td><?php echo $tr->translate("SEX")?></td>
 							<td><?php  echo $frm->getElement('sex');?></td>
-							<td><?php echo $tr->translate("ស្ថានភាព")?></td>
+							<td><?php echo $tr->translate("SITU_STATUS")?></td>
 							<td><?php  echo $frm->getElement('situ_status');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ខេត្ត/រាជធានី")?></td>
-							<td><?php  echo $frm->getElement('province');?></td>
-							<td><?php echo $tr->translate("ស្រុក/ខណ្ឌ")?></td>
-							<td><?php  echo $frm->getElement('district');?></td>
-							<td><?php echo $tr->translate("ឃុំ/សង្កាត់")?></td>
-							<td><?php  echo $frm->getElement('commune');?></td>
+							<td><?php echo $tr->translate("PROVINCE")?></td>
+							<td><?php echo $frm->getElement('province');?></td>
+							<td><?php echo $tr->translate("DISTRICT")?></td>
+							<td><input id="district" ><?php //echo $frm->getElement('district');?></td>
+							<td><?php echo $tr->translate("COMMUNE")?></td>
+							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ភូមិ")?></td>
+							<td><?php echo $tr->translate("VILLAGE")?></td>
 							<td><?php  echo $frm->getElement('village');?></td>
-							<td><?php echo $tr->translate("ផ្លូវ")?></td>
+							<td><?php echo $tr->translate("STREET")?></td>
 							<td><?php  echo $frm->getElement('street');?></td>
-							<td><?php echo $tr->translate("ផ្ទះលេខ")?></td>
+							<td><?php echo $tr->translate("HOUSE")?></td>
 							<td><?php  echo $frm->getElement('house');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ប្រភេទឯកសារ")?></td>
-							<td><?php  echo $frm->getElement('id_type');?></td>
-							<td><?php echo $tr->translate("លេខសំគាល់ឯកសារ")?></td>
-							<td><?php  echo $frm->getElement('id_no');?></td>
-							<td><?php echo $tr->translate("លេខទូរស័ព្ទ")?></td>
-							<td><?php  echo $frm->getElement('phone');?></td>
+							
+							<td><?php echo $tr->translate("JOB_TYPE")?></td>
+							<td><?php echo $frm->getElement('job');?></td>
+							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td><?php  echo $frm->getElement('national_id');?></td>
+							<td><?php echo $tr->translate("COLLATERAL")?></td>
+							<td><?php  echo $frm->getElement('chackcall');?></td>
+							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះអ្នកធានា")?></td>
-							<td><?php  echo $frm->getElement('spouse');?></td>
-							<td><?php echo $tr->translate("ស្ថានភាព")?></td>
+							<td><?php echo $tr->translate("PHONE")?></td>
+							<td><?php  echo $frm->getElement('phone');?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $frm->getElement('status');?></td>
-							<td><?php echo $tr->translate("សំគាល់")?></td>
-							<td><?php  echo $frm->getElement('សំគាល់');?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php  echo $frm->getElement('desc');?></td>
+						</tr>
+						<tr>
+						   
+							<td><?php echo $tr->translate("PHOTO")?></td>
+							<td><?php echo $frm->getElement('photo');?><br/>
+							 <img height="100px" width="100px" src="<?php echo $this->baseUrl().'/images/'.$this->photo;?>" /> 
+							</td>
 						</tr>
 						<tr>
 							<td colspan="6" align="center">
+							<input type="submit" value="SAVE_NEW" label="<?php echo $tr->translate('SAVE_NEW');?>" id="submitButtonnew" dojoType="dijit.form.Button" 
+								 iconClass="dijitEditorIcon dijitEditorIconSave"/> 
+							
 							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
 								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/>
+						    
+						    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submitButtonclose" dojoType="dijit.form.Button" 
+								 iconClass="dijitEditorIcon dijitEditorIconSave"/> 
 							</td>
 						</tr>
 					</table>	
@@ -97,20 +112,76 @@ dojo.require("dijit.form.Textarea");
 <tr>
 </tr>
 </table>
+
 <script type="text/javascript">
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dojo.store.Memory");
+dojo.require("dojo.data.ObjectStore");
+dojo.ready(function(){
+	var district_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->district));?>
+	});
+	 
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: district_data}),
+	autoComplete: true,
+	query: {
+		pro_id: "-1"
+	},            
+	required: false,		           
+	name: "district",
+	id: "district",
+	searchAttr: "name",
+	class: 'fullside',
+	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
+		onChange: function() {
+				filterCommune();
+	    }
+	}, "district");
+
+	var commune_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->commune_name));?>
+	});
+	 
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: commune_data}),
+	autoComplete: true,
+	query: {
+		district_id: "-1"
+	},            
+	required: false,		           
+	name: "commune",
+	id: "commune",
+	searchAttr: "name",
+	class: 'fullside',
+	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
+		onChange: function() {
+  }
+	}, "commune");
+
+	
+});
+function filterDistrict(){
+	dijit.byId('district').query.pro_id = dijit.byId('province').get('value');
+}
+function filterCommune(){
+	dijit.byId('commune').query.district_id = dijit.byId('district').get('value');
+}
     url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupcode'));?>';
 function getGroupCode(){
-		dojo.hrPost({
-		url:url_submit,
+	group_id=dijit.byId('group_id').get('value');
+	is_group = dijit.byId('is_group').get('value');
+	dojo.xhrPost({
+		url:url_submit,	
 		content:{ 
-		    'branch_id':  dijit.byId('branch_id').get('value')
-		},
+		    'group_id':group_id,
+		    'is_group':is_group
+		},		    
 		handleAs:"json",
-		load : function(data){
-			alert(data);
+		load: function(data) {	
+			dijit.byId('group_code').attr('value',data);
 		},
-		error : function(err){
-			alert(err);
+		error: function(err) {
 		}
 	});
 }
