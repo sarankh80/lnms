@@ -44,7 +44,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'onchange'=>'getGroupCode();'
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
-		$rows = $db->getClientByType();
+		$rows = $db->getClientByType(1);
 		$options=array(''=>"------Select------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
 		$_member->setMultiOptions($options);
@@ -93,6 +93,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_province->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'filterDistrict();'
 		));
 		$rows =  $db->getAllProvince();
 		$options=array(''=>"------Select------",-1=>"Add New");
@@ -183,6 +184,18 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		$national_id=new Zend_Dojo_Form_Element_TextBox('national_id');
+		$national_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				));
+		$chackcall = new Zend_Dojo_Form_Element_CheckBox('chackcall');
+		$chackcall->setAttribs(array(
+				'dojoType'=>'dijit.form.CheckBox',
+				//'onClick'=>''
+		));
+// 		$_id=new Zend_Form_Element_Hidden('id');
+		$_id = new Zend_Form_Element_Hidden("id");
 		$_desc = new Zend_Dojo_Form_Element_Textarea('desc');
 		$_desc->setAttribs(array('dojoType'=>'dijit.form.SimpleTextarea','class'=>'fullside',
 				'style'=>'width:96%;min-height:50px;'));
@@ -194,9 +207,8 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
 		
-		$_id = new Zend_Form_Element_Hidden('id');
+// 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
-			$_id->setValue($data['client_id']);
 			$_member->setValue($data['parent_id']);
 			$_group->setValue($data['is_group']);
 			$_namekh->setValue($data['name_kh']);
@@ -216,8 +228,10 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_desc->setValue($data['remark']);
 			$_status->setValue($data['status']);
 			$_clientno->setValue($data['client_number']);	
+			$photo->setValue($data['photo_name']);
+			$_id->setValue($data['client_id']);
 		}
-		$this->addElements(array($_id,$photo,$job,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_id,$photo,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

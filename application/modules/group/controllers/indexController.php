@@ -75,6 +75,10 @@ class Group_indexController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
+		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
 	}
 	public function editAction(){
 		$db = new Group_Model_DbTable_DbClient();
@@ -91,6 +95,7 @@ class Group_indexController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
+		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
 			$this->_redirect("/group/Client");
 		}
