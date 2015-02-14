@@ -48,7 +48,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				$_dbmodel = new Global_Model_DbTable_DbProvince();
+				$_dbmodel = new Other_Model_DbTable_DbProvince();
 				$_dbmodel->addNewProvince($_data);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/Province/index");
 			}catch (Exception $e) {

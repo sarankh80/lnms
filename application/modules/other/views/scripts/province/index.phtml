@@ -1,7 +1,7 @@
 <?php $tr = Application_Form_FrmLanguages::getCurrentlanguage();?>
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("Province List"));
+	echo $this->headTitle($tr->translate("PROVINCE_LIST"));
 ?>	
 <?php $frm =  $this->frm_search;?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'other','controller'=>'Province','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">

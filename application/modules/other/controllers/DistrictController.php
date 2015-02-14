@@ -20,7 +20,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("District KH","District ENG","Display By","Province","Date","Status","By");
+			$collumns = array("DISTRICT_KH","DISTRICT_ENG","DISPLAYT_BY","PROVINCE","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'District','action'=>'edit',
 			);

@@ -29,11 +29,11 @@ class Other_BranchController extends Zend_Controller_Action {
 			$rs = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 		
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch Kh","Branch En","Address","MODIFY_DATE","Code","Tel","Fax","Other","Status","Display");
+			$collumns = array("Branch Kh","Branch En","Address","Code","Tel","Fax","Display","Other","Status");
 			$link=array(
-					'module'=>'other','controller'=>'Province','action'=>'edit',
+					'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs,array('province_kh_name'=>$link,'province_en_name'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs,array('branch_namekh'=>$link,'branch_nameen'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -43,27 +43,8 @@ class Other_BranchController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 	}
+	
 	function addAction()
-	{
-		if($this->getRequest()->isPost()){//check condition return true click submit button
-			$_data = $this->getRequest()->getPost();
-			try {
-				
-				$_dbmodel = new Other_Model_DbTable_DbProvinces();
-				$_dbmodel->addTesting($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/Province/index");
-			}catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			}
-		}
-		$fm=new Other_Form_FrmProvince();
-		$frm_province=$fm->FrmProvince();
-		Application_Model_Decorator::removeAllDecorator($frm_province);
-		$this->view->frm_province = $frm_province;
-	}
-	function branchAction()
 	{
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
@@ -71,7 +52,7 @@ class Other_BranchController extends Zend_Controller_Action {
 	
 				$_dbmodel = new Other_Model_DbTable_DbBranch();
 				$_dbmodel->addbranch($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/Province/index");
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/branch/index");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
@@ -85,18 +66,18 @@ class Other_BranchController extends Zend_Controller_Action {
 	}
 	function editAction(){
 		$id=$this->getRequest()->getParam("id");
-		$db=new Other_Model_DbTable_DbProvince();
-		$row=$db->getProvinceById($id);
 		if($this->getRequest()->isPost())
 		{
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbProvince();
-			$db->updateProvince($data,$id);
-			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/other/Province/index");
+			$db->updateBranch($data,$id);
+			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/other/branch/index");
 		}
-		$frm= new Other_Form_FrmProvince();
-		$update=$frm->FrmProvince($row);
-		$this->view->frm_province=$update;
+		$db=new Other_Model_DbTable_DbProvince();
+		$row=$db->getProvinceById($id);
+		$frm= new Other_Form_Frmbranch();
+		$update=$frm->FrmBranch($row);
+		$this->view->frm_branch=$update;
 		Application_Model_Decorator::removeAllDecorator($update);
 	}
 }

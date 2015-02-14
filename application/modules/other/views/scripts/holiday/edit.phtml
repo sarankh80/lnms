@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add Holiday'));
+	echo $this->headTitle($tr->translate('EDIT_HOLIDAY'));
 ?>	
 <?php  $holiday= $this->frm_holiday;?>
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'holiday','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -14,29 +14,29 @@
 <table cellspacing="10" width="45%" style="margin: 0 auto;">
 	<tr>
 		<td>
-		<fieldset style="background-color:menu;">
-					<legend align="center" ><strong><?php echo $tr->translate("Add Holiday");?></strong></legend>
+		<fieldset>
+					<legend align="center" ><strong><?php echo $tr->translate("EDIT_HOLIDAY");?></strong></legend>
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("Holiday Name")?></td>
+							<td><?php echo $tr->translate("HOLIDAY_NAME")?></td>
 							<td><?php  echo $holiday->getElement('holiday_name');?>
 							<?php  echo $holiday->getElement('id');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Start date")?></td>
+							<td><?php echo $tr->translate("START_DATE")?></td>
 							<td><?php  echo $holiday->getElement('start_date');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Amount Day")?></td>
+							<td><?php echo $tr->translate("AMOUNT_DAY")?></td>
 							<td><?php  echo $holiday->getElement('amount_day');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("End Date")?></td>
+							<td><?php echo $tr->translate("END_DATE")?></td>
 							<td><?php  echo $holiday->getElement('end_date');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Note")?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $holiday->getElement('note');?></td>
 						</tr>
 						<tr>
@@ -45,8 +45,10 @@
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
+							<input type="reset" label="សំអាត" id="" dojoType="dijit.form.Button"
+				                 iconClass="dijitIconClear" />
+							<input type="submit" value="កែប្រែទិន្នន័យ" label="កែប្រែទិន្នន័យ" id="submitButton" dojoType="dijit.form.Button" 
+								 iconClass=""/>
 							</td>
 						</tr>
 					</table>	

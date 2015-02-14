@@ -21,7 +21,7 @@ class Other_HolidayController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Holiday Name","Amount","Start Date","End Date","Status","By");
+			$collumns = array("HOLIDAY_NAME","AMOUNT","START_DATE","END_DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'Holiday','action'=>'edit',
 			);
@@ -59,7 +59,7 @@ class Other_HolidayController extends Zend_Controller_Action {
 	function editAction()
 	{
 		$db =new  Other_Model_DbTable_DbHoliday();
-		$db->deleteHoliday();
+		//$db->deleteHoliday();
 		$db = new Other_Model_DbTable_DbHoliday();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
