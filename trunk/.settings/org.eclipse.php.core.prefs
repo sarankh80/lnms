@@ -1,3 +1,4 @@
+#Tue Feb 10 16:56:41 ICT 2015
 eclipse.preferences.version=1
-include_path=0;/lnms
+include_path=5;org.zend.php.framework.CONTAINER\u00050;/loan
 use_asp_tags_as_php=false

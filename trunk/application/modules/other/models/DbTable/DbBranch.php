@@ -20,29 +20,24 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 //     	$where = 'id = 1';
 //     	$this->delete($where);
     }
+    public function updateBranch($_data,$id){
+    	$_arr=array(
+    			'province_en_name' => $_data['en_province'],
+    			'province_kh_name' => $_data['kh_province'],
+    			'displayby'	       => $_data['display'],
+    			'modify_date'      => Zend_Date::now(),
+    			'status'           => $_data['status'],
+    			'user_id'	       => $this->getUserId()
+    	);
+    	$where=$this->getAdapter()->quoteInto("br_id=?", $id);
+    	$this->update($_arr, $where);
+    	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT br_id,branch_namekh,branch_nameen,branch_address,branch_code,branch_tel,fax,other,status,display FROM 
+    	$sql = "SELECT br_id,branch_namekh,branch_nameen,branch_address,branch_code,branch_tel,fax,displayby,other,status FROM 
     	$this->_name ";
     	$where = ' WHERE branch_namekh!="" AND branch_nameen !="" ';
-    
-//     	if($search['status']>-1){
-//     		$where.= " AND status = ".$search['status'];
-//     	}
-//     	if(!empty($search['adv_search'])){
-//     		$s_where = array();
-//     		$search = ($search['adv_search']);
-//     		$s_where[] = " co_code LIKE '%{$search}%'";
-//     		$s_where[] = "co_khname LIKE '%{$search}%'";
-//     		$s_where[] = " co_firstname LIKE '%{$search}%'";
-//     		$s_where[] = "co_lastname LIKE '%{$search}%'";
-//     		$s_where[] = " tel LIKE '%{$search}%'";
-//     		$s_where[] = "email LIKE '%{$search}%'";
-//     		$s_where[] = "address LIKE '%{$search}%'";
-//     		$where .=' AND ('.implode(' OR ',$s_where).')';
-//     	}
-    
-    	// 		echo $sql.$where;
+
     	return $db->fetchAll($sql.$where);
     }
     

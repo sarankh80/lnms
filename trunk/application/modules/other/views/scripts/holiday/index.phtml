@@ -1,6 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("Holiday List"));
+echo $this->headTitle($tr->translate("HOLIDAY_LIST"));
 $frm = $this->frm_search;
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'other','controller'=>'Holiday','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">

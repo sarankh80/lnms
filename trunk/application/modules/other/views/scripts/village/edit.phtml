@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Edit Village'));
+	echo $this->headTitle($tr->translate('EDIT_VILLAGE'));
 ?>	
 <?php  $commune = $this->frm_village;?>
 <script type="text/javascript">
@@ -66,34 +66,34 @@ function filterCommune(){
 <table cellspacing="10" width="45%" style="margin: 0 auto;">
 	<tr>
 		<td>
-		<fieldset style="background-color:menu;">
-					<legend align="center" ><strong><?php echo $tr->translate("Edit Village");?></strong></legend>
+		<fieldset>
+					<legend align="center" ><strong><?php echo $tr->translate("EDIT_VILLAGE");?></strong></legend>
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						 <tr>
-							<td><?php echo $tr->translate("Village kh")?></td>
+							<td><?php echo $tr->translate("VILLAGE_KH")?></td>
 							<td><?php  echo $commune->getElement('village_namekh');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Village Name")?></td>
+							<td><?php echo $tr->translate("VILLAGE_NAME")?></td>
 							<td><?php  echo $commune->getElement('village_name');?>
 								<?php  echo $commune->getElement('id');?>
 							</td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Display by")?></td>
+							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
 							<td><?php  echo $commune->getElement('display'); echo $commune->getElement('id')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Province Name")?></td>
+							<td><?php echo $tr->translate("PROVINCE_NAME")?></td>
 							<td><?php  echo $commune->getElement('province_name');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("District Name")?></td>
+							<td><?php echo $tr->translate("DISTRICT_NAME")?></td>
 							<td><input id="district_name" ><?php  //echo $commune->getElement('district_name');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Commune Name")?></td>
+							<td><?php echo $tr->translate("COMMUNE_NAME")?></td>
 							<td><input id="commune_name" > <?php  //echo $commune->getElement('commune_name');?></td>
 						</tr>
 						<tr>
@@ -102,8 +102,10 @@ function filterCommune(){
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-							<input type="submit" value="GO_SAVE" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_techer").submit();"/>
+							  <input type="reset" label="សំអាត" id="" dojoType="dijit.form.Button"
+				                  iconClass="dijitIconClear" />
+							<input type="submit" value="កែប្រែទិន្នន័យ" label="កែប្រែទិន្នន័យ" id="submitButton" dojoType="dijit.form.Button" 
+								 iconClass=""/>
 							</td>
 						</tr>
 					</table>	

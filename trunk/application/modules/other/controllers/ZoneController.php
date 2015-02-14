@@ -22,7 +22,7 @@ class Other_ZoneController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Zone Name","Zone Number","Date","STATUS","By");
+			$collumns = array("ZONE_NAME","ZONE_NUMBER","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'Zone','action'=>'edit',
 			);

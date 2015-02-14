@@ -20,7 +20,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Villagename Kh","Village Name","Display By","Commenu Name","Date","Status","By");
+			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","DISPLAY_BY","COMMNUE_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'Village','action'=>'edit',
 			);

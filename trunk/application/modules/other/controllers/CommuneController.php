@@ -20,7 +20,7 @@ class Other_CommuneController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CommuneName Kh","CommuneName En","District Name","Date","Status","By");
+			$collumns = array("COMMUNENAME_KN","COMMUNENAME_EN","DISTRICT_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'Commune','action'=>'edit',
 			);
