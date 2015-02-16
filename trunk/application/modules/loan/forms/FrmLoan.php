@@ -42,6 +42,32 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
+		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
+		$_group_code->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getmemberIdGroup();'
+		));
+		$group_opt = $db ->getGroupCodeById(1,1,1);
+		$_group_code->setMultiOptions($group_opt);
+		
+		$_customer_code = new Zend_Dojo_Form_Element_FilteringSelect('customer_code');
+		$_customer_code->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getmemberIdGroup();'
+		));
+		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
+		$_customer_code->setMultiOptions($group_opt);
+		
+		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
+		$_member->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'checkMember()'
+		));
+		$options = $db->getGroupCodeById(2,0,1);
+		$_member->setMultiOptions($options);
 		
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
@@ -49,33 +75,17 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'class'=>'fullside',
  				'onchange'=>'popupCheckClient();'
 				));
-		$rows = $db ->getClientByType(1);
-		$options=array(''=>"------Select------",-1=>"Add New new group");
-		if(!empty($rows))foreach($rows AS $row){
-			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
-		}
+		$options = $db ->getGroupCodeById(2,1,1);//show name,show group,show option
 		$_groupid->setMultiOptions($options);
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
-		$rows = $db ->getAllCOName();
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-								'class'=>'fullside',
-		 						'onchange'=>'popupCheckCO();'
-		));
-		$_coid->setMultiOptions($options);
-		
-		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
-		$_member->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
 		));
-		$rows = $db->getClientByType();
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
-		$_member->setMultiOptions($options);
+		$options = $db ->getAllCOName(1);
+		$_coid->setMultiOptions($options);
 		
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
@@ -91,10 +101,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'onchange'=>'popupCheckZone();'
 		));
-		$rows = $db ->getZoneList();
-		
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['zone_id']]=$row['zone_name'];
+		$options = $db ->getZoneList(1);
 		$_zone->setMultiOptions($options);
 		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');
@@ -276,15 +283,6 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'required' =>'true',
 				'onchange'=>'chechPaymentMethod()'
 		));
-		//$options= array(1=>"Decline",2=>"Baloon",3=>"Fixed Rate",4=>"Fixed Payment",5=>"Semi Baloon");
-		
-// 		$options= array(
-// 				1=>"Decline",
-// 				2=>"Baloon",
-// 				3=>"Fixed Rate",
-// 				4=>"Fixed Pyment(Full Last Period)",
-// 				5=>"Semi Baloon",
-// 				6=>"Fixed Payment (Fixed Rate)");
 		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
 		
@@ -299,31 +297,37 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		
 		if($data!=null){
 			print_r($data);
-			$_branch_id->setValue($data['member_id']);
+			$_branch_id->setValue($data['branch_id']);
+			$_loan_code->setValue($data['loan_number']);
 			$_level->setValue($data['level']);
 			$_loan_fee->setValue($data['admin_fee']);
 			$_member->setValue($data['client_id']);
+			$_customer_code->setValue($data['client_id']);
 			$_coid->setValue($data['co_id']);
 			$_zone->setValue($data['zone_id']);
-			
 			$_releasedate->setValue($data['date_release']);
-			$_period->setValue($data['zone_id']);
-			$_first_payment->setValue($data['zone_id']);
+			$_period->setValue($data['total_duration']);
+			$_first_payment->setValue($data['first_payment']);
 			$_time->setValue($data['time_collect']);
-			$_every_payamount->setValue($data['pay_term']);
+			$_every_payamount->setValue($data['holiday']);
 			$_amount->setValue($data['total_capital']);
-			
-			$_currency_type->setValue($data['payment_method']);
-			$_rate->setValue($data['zone_id']);
-			
+			$_currency_type->setValue($data['currency_type']);
+			$_rate->setValue($data['interest_rate']);//
 			$_repayment_method->setValue($data['payment_method']);
-			$_graice_pariod->setValue($data['graice_pariod']);
-			$_time_collect_pri->setValue($data['amount_collect_pricipal']);
+			$_graice_pariod->setValue($data['graice_period']);
+			$_time_collect_pri->setValue($data['amount_collect_principal']);
 			
+			$_dateline->setValue('Y-m-d');
+			$_pay_every->setValue($data['pay_term']);
+			$_time_collect->setValue($data['amount_collect_principal']);
+			$_collect_term->setValue($data['collect_typeterm']);
+			$_pay_late->setValue($data['pay_after']);
+			$_paybefore->setValue($data['pay_before']);
 		}
 		$this->addElements(array($_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
-				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline));
+				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
+				$_group_code,$_customer_code));
 		return $this;
 		
 	}	

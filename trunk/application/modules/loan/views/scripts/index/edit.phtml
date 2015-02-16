@@ -1,6 +1,4 @@
 <?php
-// echo 66666.66."<br />";
-// echo round(66666.66,-2);
 	$this->headTitle('Add Loan IL'); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
@@ -39,111 +37,169 @@
 				dijit.byId('zone').focus();
 				return false;
 			}
+			rs = checkValidateDate();
+			if(rs==false){
+              return false;			
+            }
 				return true;
 			}else {
 				return false;
 			}
 </script>
-<table cellspacing="10" class='fullside' >
+<table cellspacing="10" class='fullside'>
 	<tr>
 		<td>
 				<fieldset>
 					<legend><strong>ព៌ត័មាន ឥណទានទោល</strong></legend>
-					<table cellspacing="10"  width="100%">
+					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("ឥណទានវគ្គទី")?></td>
+							<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><?php echo $frm->getElement('loan_code');?></td>
+							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
+						</tr>
+						<tr>
 							<td>Admin Fee</td>
 							<td><?php echo $frm->getElement('loan_fee');?></td>
-						</tr>
-						<tr>
-							
+							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $frm->getElement('customer_code');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
 							<td><?php echo $frm->getElement('member');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
-							<td><?php echo $tr->translate("លេខតំបន់")?></td>
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
 							<td><?php  echo $frm->getElement('zone');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃចេញ")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-							<td><?php echo $tr->translate("រយះពេលខ្ចី")?></td>
-							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("រយះពេលគិតជា")?></td>
-							<td><?php echo $frm->getElement('pay_every');?></td>
-							
-								
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃយកប្រាក់ដំបូង")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>
-							<td><?php echo $tr->translate("ម៉ោងយកប្រាក់")?></td>
-							<td><?php echo $frm->getElement('time');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃឈប់សំរាក")?></td>
-							<td><?php  echo $frm->getElement('every_payamount');?></td>
-							
-						</tr>
-						<tr>
-							<td><?php //echo $tr->translate("ថ្ងៃយកប្រាក់ដំបូង")?></td>
-							<td><?php //echo $frm->getElement('first_payment');?></td>
-							<td><?php //echo $tr->translate("រយៈពេលអនុគ្រោះដើម")?></td>
-							<td><?php //echo $frm->getElement('graice_pariod');?></td>
-							<td><?php echo $tr->translate("រយៈពេលបង់ប្រាក់")?></td>
-							<td><?php echo $frm->getElement('amount_collect');?></td>
-							
+							<td></td>
+							<td></td>
 						</tr>
 					</table>
 				</fieldset>
 				<fieldset>
 					<legend><strong>ព៌ត័មាន កម្ចីសាច់ប្រាក់</strong></legend>
-					<table class="center" cellspacing="10">
+					<table cellspacing="10" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("រូបិយប័ណ្ណ")?></td>
+							<td><?php echo $tr->translate("រយះពេលខ្ចី(គិតជា)")?></td>
+							<td><?php echo $frm->getElement('pay_every');?></td>
+							<td><?php echo $tr->translate("រយះពេលខ្ចី")?></td>
+							<td><?php echo $frm->getElement('period');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃចេញ")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់កម្ចី")?></td>
+							<td><?php echo $frm->getElement('date_line');?></td>
+							<td><?php //echo $tr->translate("អាត្រាការប្រាក់")?></td>
+							<td><?php //echo $frm->getElement('interest_rate');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("រូបិយ៍វត្ថុ")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
 							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចី")?></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ការប្រាក់")?></td>
+							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
-							<td><?php echo $tr->translate("វិធីសាស្រ្ត")?></td>
-							<td><?php echo $frm->getElement('repayment_method');?></td>
-							<td><?php //echo $tr->translate("រូបិយប័ណ្ណ")?></td>
-							<td><?php //echo $frm->getElement('amount_collect_pricipal');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></td>
+							<td><?php echo $tr->translate("វិធីសាស្រ្តបង់ប្រាក់")?></td>
+							<td><?php echo $frm->getElement('repayment_method');?></td>
+							<td><label style="font-size:10px;"><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
 							<td><label id="lbl_payment"><?php echo $tr->translate("រយៈពេលបង់រំលោៈដើម")?></label></td>
 							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
-							<td><?php //echo $tr->translate("វិធីសាស្រ្ត")?></td>
-							<td><?php //echo $frm->getElement('repayment_method');?></td>
 						</tr>
 					</table>
 				</fieldset>
+				<fieldset>
+					<legend><strong>ព៌ត័មាន សងប្រាក់</strong></legend>
+					<table cellspacing="10" style="margin-top: -10px;">
+						<tr>
+							<td><?php echo $tr->translate("ម៉ោងយកប្រាក់")?></td>
+							<td><?php echo $frm->getElement('time');?></td>
+							<td><?php echo $tr->translate("រយៈពេលបង់(គិតជា)")?></td>
+							<td><?php echo $frm->getElement('collect_termtype');?></td>
+							<td><?php echo $tr->translate("រយៈពេលបង់")?></td>
+							<td><?php echo $frm->getElement('amount_collect');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("ថ្ងៃឈប់សំរាក")?></td>
+							<td><?php  echo $frm->getElement('every_payamount');?></td>
+							<td><?php echo $tr->translate("បង់យឺតផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('pay_late');?></td>
+							<td><?php echo $tr->translate("បង់មុនថ្ងៃកំណត់")?></td>
+							<td><?php echo $frm->getElement('pay_before');?></td>
+							
+						</tr>
+					</table>
+				</fieldset>
+				
 				<input type="hidden" name="invoice_no" id="invoice_no" >
 				<input type="hidden" name="s_name" id="s_name">
 		</td>
 	</tr>		
 	<tr>
 		<td align="center">
-		 <div id="tran_list"></div>		
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="reset" value="សម្អាត" label="សម្អាត" dojoType="dijit.form.Button"
+				 iconClass="dijitIconClear"/>
+			<input type="submit" label="រក្សាទុកនិងបិទ" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+				 iconClass="dijitIconDelete"/>
+			<input type="submit" label="រក្សាទុកនិងបន្ថែមថ្មី" name='savenew' value='savenew' dojoType="dijit.form.Button"
+				 iconClass="dijitIconNewTask"/>
+		
 		</td>
 	</tr>	
 </table>
 </form>
 <script type="text/javascript">	
+    function checkValidateDate(){
+    	debt_term = dijit.byId('pay_every').get('value');
+		if(debt_term==1){
+			term_d =1; 
+		}else if(debt_term==2){
+			term_d =7; 
+		}else{
+			term_d =30; 
+		}
+		
+		collect_term = dijit.byId('collect_termtype').get('value');
+		if(collect_term==1){
+			term_c =1; 
+		}else if(collect_term==2){
+			term_c =7; 
+		}else{
+			term_c =30; 
+		}
+		debt_amount = dijit.byId('period').get('value');
+		collect_amount = dijit.byId('amount_collect').get('value');
+		if((collect_amount*term_c)>(debt_amount*term_d)){
+			alert('រយៈពេលសង់ប្រាក់មិនអាចធំជាង រយៈពេលខ្ចីប្រាក់បានទេ !');
+			dijit.byId('collect_termtype').focus();
+			return false;
+		}
+		/*method = dijit.byId('repayment_method').get('value');
+		amount_collect = dijit.byId('amount_collect_pricipal').get('value');
+		amount_principal = dijit.byId('total_amount').get('value');
+		if(method==4 AND (debt_amount*term_d)/(collect_amount*term_c)*amount_collect>amount_principal ){
+			
+		}*/
+		return true;
+     }
+    function setDefaultPaymentAmount(){
+    	amount_principal = dijit.byId('total_amount').get('value');
+    	debt_term = dijit.byId('pay_every').get('value');
+    	debt_amount = dijit.byId('period').get('value');
+    	
+    	collect_term = dijit.byId('collect_termtype').get('value');
+		collect_amount = dijit.byId('amount_collect').get('value');
+		
+		amount_payment  = amount_principal/((debt_term*debt_amount)/(collect_term*collect_amount));
+		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);
+    }
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
 		saveTrans(); 
@@ -158,26 +214,42 @@
 	
 </script>
 <script type="text/javascript">
-dojo.require("dojox.grid.DataGrid");
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dijit.form.Textarea");
-    var tran_store  = getDataStorefromJSON('','name',null);
-	var url_submit = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'add')); ?>';
-	var tran_status = {};
-	var baseurl = '<?php echo $baseurl;?>';
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		//changeCollectType();
+	  });
+	});
+	//var baseurl = '<?php //echo $baseurl;?>';
 </script>
 <script type="text/javascript">
+function CompareGraicePariod(){
+	graice_pariod = dijit.byId('graice_pariod').get('value');
+	period = dijit.byId('period').get('value');
+	if(graice_pariod>=period){
+		alert('ចំនួនអនុគ្រោះប្រាក់ដើម មិនអាចធំជាងរយៈពេលខ្ចីបានទេ');
+		dijit.byId('graice_pariod').attr('value',(period-1));
+	}
+}
 function chechPaymentMethod(){
-	
 	method_id = dijit.byId('repayment_method').get('value');
+	dojo.byId('lbl_payment').innerHTML="រយៈពេលបង់រំលោៈដើម";
+	dijit.byId('amount_collect_pricipal').attr('value',0);
+
+	dijit.byId("amount_collect").set('readOnly',false);
+	dijit.byId("collect_termtype").set('readOnly',false);
+	
 	if(method_id==5){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dijit.byId('amount_collect_pricipal').focus();
+		dijit.byId("amount_collect").set('readOnly',true);
+		dijit.byId("collect_termtype").set('readOnly',true);
 	}else if(method_id==4){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="ចំនួនទឹកប្រាក់បង់ថេរ";
 		dijit.byId('amount_collect_pricipal').attr('value','');
 		dijit.byId('amount_collect_pricipal').focus();
+		setDefaultPaymentAmount();
 		}
 	else{
 		dijit.byId('amount_collect_pricipal').set('readOnly',true);
@@ -189,21 +261,18 @@ function chechPaymentMethod(){
 		dijit.byId('graice_pariod').set('readOnly',true);
 	}
 }
-function submitData(){
-	var json_data_t = itemToJSON(dijit.byId('tran_list'));
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloan')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
-			load: function(data) {	
-				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-				//alert(data);
-				
-			},
-			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
-			}
-		});
+
+function changeCollectType(){
+	get_id = dijit.byId('pay_every').get('value');
+	dijit.byId('collect_termtype').attr('value',get_id);
+	changeGraicePeroid();
+	CalculateDate();
+}
+function changeGraicePeroid(){
+	disp_value = dijit.byId('collect_termtype').attr('displayedValue');
+	dojo.byId('graice_type').innerHTML=disp_value;
+	calCulateFirstPayment();
+	
 }
 function clearTextBox(){
 	dijit.byId('member').set('value','');
@@ -239,6 +308,15 @@ function popupCheckVillage(){
 		 dijit.byId('frm_village').show();
 	}
 }
+function getmemberIdGroup(){
+	customer_code= dijit.byId('customer_code').get('value');
+	dijit.byId('member').attr('value',customer_code);
+}
+function checkMember(){
+	customer_code= dijit.byId('member').get('value');
+	dijit.byId('customer_code').attr('value',customer_code);
+}
+
 
 var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
 function addNewClient(){
@@ -280,7 +358,7 @@ function addNewZone(){
 		form: dojo.byId("form_zone"),		    
 		handleAs:"json",
 		load: function(data) {	
-			alert(data);
+			//alert(data);
 			dojo.byId('form_zone').reset(); 
 			dijit.byId('frm_zone').hide();
 		},
@@ -345,9 +423,6 @@ function addNewVillage(){
 		}
 	});
 }
-
-
-
 </script>
 <?php 
  echo $this->frmpupopclient;
@@ -356,6 +431,76 @@ function addNewVillage(){
  echo $this->frmPopupCommune;
  echo $this->frmPopupDistrict;
  echo $this->frmPopupVillage;
- 
- 
 ?>
+<script>
+function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
+	//alert('date release'+date_release);
+	var a = new Date(release_date);
+	if(pay_term==3){//month
+		mm = a.getMonth()+amount_date+1;
+	}else if(pay_term==2){//week
+		a.setDate(a.getDate() + (amount_date*7)); 
+		var mm = a.getMonth() + 1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (amount_date)); 
+		var mm = a.getMonth() + 1;
+	}
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('date_line').attr('value',epx_date);
+	calCulateFirstPayment();
+}
+function CalculateDate(){
+	pay_term = dijit.byId('pay_every').get('value');
+	amount_date = dijit.byId('period').get('value');
+	release_date = dijit.byId("release_date").get('value');
+	//alert('date first'+release_date);
+	
+	if(isNaN(amount_date)){
+		//alert('សូមបញ្ចលចំនួនរយៈពេល​ !');
+	}else{
+		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
+    }
+}
+function checkReleaseDate(){
+	CalculateDate();
+}
+function calCulatePeriod(){
+	CalculateDate();
+}
+function getFirstPayment(){
+	calCulateFirstPayment();
+}
+function calCulateFirstPayment(){
+	pay_term = dijit.byId('collect_termtype').get('value');
+	amount_date = dijit.byId('amount_collect').get('value');
+	release_date = dijit.byId("release_date").get('value');
+	var a = new Date(release_date);
+	if(pay_term==3){//month
+		mm = a.getMonth()+amount_date+1;
+	}else if(pay_term==2){//week
+		a.setDate(a.getDate() + (amount_date*7)); 
+		var mm = a.getMonth() + 1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (amount_date)); 
+		var mm = a.getMonth() + 1;
+	}
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('first_payment').attr('value',epx_date);
+}
+</script>

@@ -23,10 +23,12 @@
 			if(this.validate()) {
 			zone = dijit.byId('zone').get('value');
 			co_id = dijit.byId('co_id').get('value');
-			client = dijit.byId('member').get('value');
+			client = dijit.byId('group_code').get('value');
+			record_row = dijit.byId('record_row').get('value');
+
 			if (client=='' || client==-1){
 				alert('Please Select Client Name !');
-				dijit.byId('member').focus();
+				dijit.byId('group_code').focus();
 				return false;
 			}else if(co_id=='' || co_id==-1){
 				alert('Please Select CO Name !');
@@ -35,6 +37,9 @@
 			}else if(zone=='' || zone==-1){
 				alert('Please Select Zone !');
 				dijit.byId('zone').focus();
+				return false;
+			}else if(record_row==''){
+				alert('Group Disburse Must Have Record !');
 				return false;
 			}
 			rs = checkValidateDate();
@@ -56,13 +61,13 @@
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("លេខកូដកម្ចី")?></td>
-							<td><?php echo $frm->getElement('loan_code');?></td>
-							<td><?php echo $tr->translate("ឥណទានវគ្គទី")?></td>
-							<td><?php echo $frm->getElement('level');?></td>
-						</tr>
-						<tr>
+							<td><?php echo $frm->getElement('group_code');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("ឥណទានវគ្គទី")?></td>
+							<td><?php echo $frm->getElement('level');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
 							<td><?php echo $tr->translate("លេខតំបន់")?></td>
@@ -136,17 +141,17 @@
 	</tr>		
 	<tr>
 		<td align="center">
-				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<input type="text" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
 							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
 				</table>		
 		</td>
 	</tr>
-	<tr style="border:1px solid #ccc !important;">
+	 <!--<tr style="border:1px solid #ccc !important;">
 		<td align="left" valign="top">
-		   <input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountTypeMoney();" />
+		  <input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountTypeMoney();" /> 
 	   </td>
-	</tr>
+	</tr>-->
 	<tr>
 		<td align="center">
 			<input type="reset" value="សម្អាត" label="សម្អាត" dojoType="dijit.form.Button"
@@ -166,7 +171,9 @@
 	dojo.require("dojo.NodeList-manipulate");
 	dojo.require("dojo.html");
 	dojo.ready(function(){
-		addAmountTypeMoney();		
+		//addAmountTypeMoney();		
+		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		changeCollectType();
 	});  
 	    
 </script>
@@ -205,8 +212,8 @@ function addAmountTypeMoney(){
 			dojo.query("#head_title").append(thead);
         }
 		temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-		temp+='<td><select readonly="true" style=" width:90%;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+code_option+'</select></td>';
-		temp+='<td><select readonly="true" style=" width:90%;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
+		temp+='<td><select readonly="true" style=" width:90%;background:#fff; padding-left:5px;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+code_option+'</select></td>';
+		temp+='<td><select readonly="true" style=" width:90%; background:#fff; padding-left:5px;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
 		temp+='<td><input style=" width:90%;" type="text" required="true" onclick="enableExchangeRate('+r+')" name="debt_amount'+r+'" id="debt_amount'+r+'" dojoType="dijit.form.NumberTextBox"/></td>';
 		temp+='<td><input type="text" name="admin_fee'+r+'" id="admin_fee'+r+'" dojoType="dijit.form.NumberTextBox" value="0"/></td>';
 		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" s/></td>';
@@ -384,28 +391,40 @@ function clearTextBox(){
 	dijit.byId('member').set('value','');
 	dijit.byId('total_amount').set('value',0);
 }
-var url_get = '<?php echo $this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'getclient-group')); ?>';
+var url_getmember = '<?php echo $this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'getclientgroup')); ?>';
 function popupCheckClient(){
 	if(dijit.byId('group_id').get('value')==-1){
 		 dijit.byId('frm_client').show();
 	}else{
-		dojo.xhrPost({
-		    url: url_submit,	
-		   content : { 
-				'group_id':dijit.byId('group_id').get('value'),
-			},		    
-			handleAs:"json", 
-			load: function(data) {	
-				//dijit.byId('frm_client').reset(); 
-				//dijit.byId('frm_client').hide();
-			},
-			error: function() {
-			alert("Your message could not be sent, please try again!.");
-					        
-			}
-		});
-
+		group_id=dijit.byId('group_id').get('value');
+		//getAllMemberByGroup(group_id);
+		dijit.byId('group_code').attr('value',group_id);
 	}
+}
+function getmemberIdGroup(){
+	group_id=dijit.byId('group_code').get('value');
+	getAllMemberByGroup(group_id);
+	dijit.byId('group_id').attr('value',group_id);
+}
+function getAllMemberByGroup(group_id){
+	dojo.xhrPost({
+	    url: url_getmember,	
+	    content: { 
+			'group_id':group_id,
+		},		    
+		handleAs:"json", 
+		load: function(data) {
+			for(i=0;i<data.length;i++){
+				addAmountTypeMoney();
+				dijit.byId('member_id'+r).attr('value',data[i].client_id);
+				dijit.byId('from_type'+r).attr('value',data[i].client_id);
+				
+			}
+		},
+		error: function(err){
+		alert(err);
+		}
+	});
 }
 function popupCheckCO(){
 	if(dijit.byId('co_id').get('value')==-1){
