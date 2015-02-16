@@ -21,7 +21,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(3);"
+				'onchange'=>'getClientInfo(3);'
 		));
 
 		$opt= $db->getClientByTypes(1);
@@ -51,6 +51,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 		));
+		$_date->setValue(date('Y-m-d'));
 		
 		
 		$date_loss= new Zend_Dojo_Form_Element_DateTextBox('date_loss');
@@ -58,18 +59,18 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 		));
+		$date_loss->setValue(date('Y-m-d'));
+		
 		
 		$total_amount = new Zend_Dojo_Form_Element_NumberTextBox('Total_amount');
 		$total_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
+				
 		));
 		
-		
-		
-
-		
+				
 		$interest_amount = new Zend_Dojo_Form_Element_NumberTextBox('Interest_amount');
 		$interest_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -92,9 +93,25 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'style'=>'width:98%'
 		));
 		
-		$_id = new Zend_Form_Element_Hidden('id');
+		$id = new Zend_Form_Element_Hidden("id");
+// 		print_r($data);exit();
+		if($data!=null){
+				
+			$branch->setValue($data['branch']);
+			$client_code->setValue($data['client_code']);
+			$client_name->setValue($data['client_name']);
+			$number_code->setValue($data['number_code']);
+			$_date->setValue($data['date']);
+			$date_loss->setValue($data['loss_date']);
+			$total_amount->setValue($data['total_amount']);
+			$interest_amount->setValue($data['intrest_amount']);
+			$_term->setValue($data['tem']);
+			$_note->setValue($data['note']);
+			$id->setValue($data['id']);
+		}
 		
-		$this->addElements(array($branch,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		
+		$this->addElements(array($id,$branch,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
 		return $this;
 		
 	}	

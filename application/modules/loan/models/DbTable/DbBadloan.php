@@ -6,28 +6,51 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     protected $_name = 'ln_badloan';
     function addbadloan($_data){
     	$arr = array(
-    			'branch'=>$_data['client_name'],
-    			'client_code'=>$_data['Total_amount'],
-    			'client_name'=>$_data['Interest_amount'],
-    			'number_code'=>$_data['Date'],
-    			'date'=>$_data['Term'],
-    			'loss_date'=>$_data['Note'],
-    			'total_amount'=>$_data['Note'],
-    			'intrest_amount'=>$_data['Note'],
-    			'tem'=>$_data['Note'],
+    			'branch'=>$_data['branch'],
+    			'client_code'=>$_data['client_code'],
+    			'client_name'=>$_data['client_name'],
+    			'number_code'=>$_data['number_code'],
+    			'date'=>$_data['Date'],
+    			'loss_date'=>$_data['date_loss'],
+    			'total_amount'=>$_data['Total_amount'],
+    			'intrest_amount'=>$_data['Interest_amount'],
+    			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
     			);
     	$this->insert($arr);//insert data
 //     	$where = 'id = 1';
 //     	$this->delete($where);
     }
+    function updatebadloan($_data){
+    	$arr = array(
+    			'branch'=>$_data['branch'],
+    			'client_code'=>$_data['client_code'],
+    			'client_name'=>$_data['client_name'],
+    			'number_code'=>$_data['number_code'],
+    			'date'=>$_data['Date'],
+    			'loss_date'=>$_data['date_loss'],
+    			'total_amount'=>$_data['Total_amount'],
+    			'intrest_amount'=>$_data['Interest_amount'],
+    			'tem'=>$_data['Term'],
+    			'note'=>$_data['Note'],
+    			);
+    	$where=" id = ".$_data['id'];
+    	$this->update($arr, $where);
+    }
+    function getbadloanbyid($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT id,branch,client_code,client_name,number_code,date,loss_date,total_amount,intrest_amount
+    	,tem,note FROM  $this->_name where id=$id ";
+    	return $db->fetchRow($sql);
+    }
     function getAllBadloan($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT cli_name,to_amount,inter_amount,date_,term_,note_ FROM 
-    	$this->_name ";
-    	$where = ' WHERE cli_name!=""';
-    
-    	return $db->fetchAll($sql.$where);
+    	$sql = "SELECT id,(SELECT branch_namekh FROM ln_branch WHERE br_id = branch limit 1)as branch,
+    	(SELECT client_number FROM `ln_client` WHERE client_id=client_code limit 1)AS client_code,
+    	(SELECT name_en FROM `ln_client` WHERE client_id=client_name limit 1) AS client_name,number_code,date,loss_date,total_amount,intrest_amount
+    	,tem,note FROM  $this->_name ";
+    	
+        return $db->fetchAll($sql);
     }
     public function getClientByTypes($type){
     	$this->_name='ln_loan_member';
@@ -48,8 +71,5 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	}
 		return $options;
     }
-    
-    
-    
- }
+  }
 
