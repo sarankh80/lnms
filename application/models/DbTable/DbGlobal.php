@@ -136,17 +136,30 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
-   public function getZoneList(){
+   public function getZoneList($option=null){
    	$this->_name='ln_zone';
-   	$sql = " SELECT zone_id,zone_name,zone_num FROM $this->_name WHERE status=1 AND zone_name!='' ";
+   	$sql = " CALL `stGetAllZone`() ";
    	$db = $this->getAdapter();
-   	return $db->fetchAll($sql);
+   	$rows =  $db->fetchAll($sql);
+   	if($option!=null){
+   		if(!empty($rows))foreach($rows as $rs){
+   				$options[$rs['zone_id']]=$rs['zone_name'].' - '.$rs['zone_num'];}
+   				return $options;
+   	}
+   	return $rows;
    }
-   public function getAllCOName(){
+   public function getAllCOName($option=null){
    	$this->_name='ln_co';
-   	$sql = " SELECT co_id,co_khname FROM $this->_name WHERE status=1 AND co_khname!='' ";
+   	$sql = " call stGetAllCOName();";
    	$db = $this->getAdapter();
-   	return $db->fetchAll($sql);
+   	$rows =  $db->fetchAll($sql);
+   	$options = array(''=>'----------Select----------');
+   	if($option!=null){
+   		if(!empty($rows))foreach($rows as $rs){
+   				$options[$rs['co_id']]=$rs['co_firstname'];}
+   				return $options;
+   	}
+   	return $rows;
    }
    public function getAllCurrency($id,$opt = null){
 	   	$sql = "SELECT * FROM ln_currency WHERE status = 1 ";
@@ -650,7 +663,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	
   }
   public function getAccountBranchByOther($acc_id, $br_id ,$curr_id,$balance=null,$increase=null){
-//   	$sql = " CALL stGetAccountNamebyOther($acc_id,$br_id,$curr_id)";
 		$sql =" SELECT * FROM ln_account_branch 
 		WHERE  account_id = $acc_id AND branch_id=$br_id AND currency_type = $curr_id LIMIT 1";
   	$db = $this->getAdapter();
@@ -667,17 +679,33 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 				'date'=>date('Y-m-d'),
   				);
 		$db->insert($table, $arr);
-// 		echo 111111;exit();
   		return $arr;
-  		
   	}else{
-//   		print_r($row);
-//   		echo 22222;exit();
-  		$where ='id = '.$row['id'] ;
+
+ 		$where ='id = '.$row['id'] ;
   		$data = array(
   				'balance'=>($increase.$balance)+$row['balance']
   				);
   		$db->update($table,$data,$where);
+  	}
+  }
+  public function getGroupCodeById($diplayby=1,$group_type,$opt=null){
+  	$db = $this->getAdapter();
+  	$sql = " CALL `stGetAllClientType`($group_type)";
+  	$result = $db->fetchAll($sql);
+  	$options=array(-1=>"------Select------");
+  	if($opt!=null){
+		if(!empty($result))foreach($result AS $row){
+			if($group_type==1){
+				$label = ($diplayby==1)?$row['group_code']:$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];	
+			}else{
+				$label = ($diplayby==1)?$row['client_number']:$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];	
+			}
+  			$options[$row['client_id']]=$label;
+		}  
+  		return $options;	
+  	}else{
+  		return $result;
   	}
   }
 }

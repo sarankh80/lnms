@@ -102,24 +102,15 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	function addAddAction()
+	function getclientgroupAction()
 	{
 		if($this->getRequest()->isPost()){
-			// 			$_data = $this->getRequest()->getPost();
-			// 			try {
-			// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
-			// 				$_dbmodel->addNewProvince($_data);
-			// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
-			// 			}catch (Exception $e) {
-			// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-			// 				$err =$e->getMessage();
-			// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			// 			}
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanGroup();
+			$result = $db->getAllMemberByGroup($data['group_id']);
+			print_r(Zend_Json::encode($result));
+			exit();
 		}
-		$frm = new Loan_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan();
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		$this->view->frm_loan = $frm_loan;
 	}
 }
 

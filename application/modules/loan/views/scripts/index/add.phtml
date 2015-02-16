@@ -53,26 +53,26 @@
 					<legend><strong>ព៌ត័មាន ឥណទានទោល</strong></legend>
 					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("លេខកូដកម្ចី")?></td>
+							<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
-							<td><?php echo $tr->translate("ឥណទានវគ្គទី")?></td>
+							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
 						</tr>
 						<tr>
 							<td>Admin Fee</td>
 							<td><?php echo $frm->getElement('loan_fee');?></td>
+							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $frm->getElement('customer_code');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
 							<td><?php echo $frm->getElement('member');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
-							<td><?php echo $frm->getElement('co_id');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("លេខតំបន់")?></td>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
 							<td><?php  echo $frm->getElement('zone');?></td>
-							<td></td>
-							<td></td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -308,6 +308,15 @@ function popupCheckVillage(){
 		 dijit.byId('frm_village').show();
 	}
 }
+function getmemberIdGroup(){
+	customer_code= dijit.byId('customer_code').get('value');
+	dijit.byId('member').attr('value',customer_code);
+}
+function checkMember(){
+	customer_code= dijit.byId('member').get('value');
+	dijit.byId('customer_code').attr('value',customer_code);
+}
+
 
 var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
 function addNewClient(){

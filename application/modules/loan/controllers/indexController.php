@@ -38,7 +38,7 @@ class Loan_indexController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
-		$frm = new Application_Form_FrmAdvanceSearch();
+		$frm = new Loan_Form_FrmSearchLoan();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
