@@ -32,7 +32,7 @@ Class Payroll_Form_FrmDepartment extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status_search->setMultiOptions($_status_opt);
-		$_status_search->setValue($request->getParam("status"));
+		$_status_search->setValue($request->getParam("status_search"));
 		
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
