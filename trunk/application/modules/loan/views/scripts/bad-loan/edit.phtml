@@ -8,7 +8,7 @@ $frm = $this->frm_loan;
 	height: 30px;
 }
 </style>
-<form id="add_province" action="<?php echo $this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id="add_province" action="<?php echo $this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				return true;
@@ -24,6 +24,7 @@ $frm = $this->frm_loan;
 					<table cellspacing="10"  width="100%">
 					
 					   <tr>
+					         <?php echo $frm->getElement('id');?>
 							<td><?php echo $tr->translate("BRANCH")?></td>
 							<td><?php echo $frm->getElement('branch');?></td>
 							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
@@ -58,21 +59,19 @@ $frm = $this->frm_loan;
 		</td>
 	</tr>		
 	<tr>
-	</tr>	
-</table>
-</form>
 		<td align="center">
 			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
 				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
+	</tr>	
+</table>
+</form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
 
 function getClientInfo(type){
-	//alert(9);
 	if(type==1){
-		
 		id = dijit.byId("client_name").get('value');
 	}else if(type==2){
 		id = dijit.byId("number_code").get('value');
@@ -83,5 +82,8 @@ function getClientInfo(type){
 	dijit.byId("client_code").attr('value',id);
 	dijit.byId("client_name").attr('value',id);
 	dijit.byId("number_code").attr('value',id);
-    } 
+	
+	
+		
+} 
 </script>
