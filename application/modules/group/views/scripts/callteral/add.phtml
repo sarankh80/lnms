@@ -54,7 +54,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 								<td><?php echo $tr->translate("OWNER")?></td>
 								<td><?php echo $frm->getElement('personal')?></td>
 								<td><?php echo $tr->translate('COLLTERAL_TYPE')?></td>
-								<td><?php echo $frm->getElement("represent_property")?></td>
+								<td><?php echo $frm->getElement("collteral_type")?></td>
 								<td><?php echo $tr->translate("CONTRACT_CODE")?></td>
 							<td><?php echo $frm->getElement('contract_code');?></td>
 							</tr>
@@ -73,13 +73,21 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="hidden" name="exchangefrom" value="2" />
+									<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+									<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"/>
+									<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+										iconClass="dijitEditorIcon dijitEditorIconSave" />
+									<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+										iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>	
 </table>
 </form>
-
+<?php 
+echo $this->frmpupopclient;
+echo $this->frmPopupCO;
+?>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
@@ -103,7 +111,7 @@ function AddNewCo(){
 }
 
 function popupCheckCO(){
-	if(dijit.byId('co_id').get('value')==-1){
+	if(dijit.byId('co_name').get('value')==-1){
 		 dijit.byId('frm_co').show();
 	}
 }

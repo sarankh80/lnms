@@ -1,6 +1,6 @@
 <?php
 class Group_CallteralController extends Zend_Controller_Action {
-	const REDIRECT_URL='/group/Callteral';
+	const REDIRECT_URL='/group';
 	public function init()
 	{
 		/* Initialize action controller here */
@@ -8,17 +8,17 @@ class Group_CallteralController extends Zend_Controller_Action {
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
 	public function indexAction(){
-		try{
-			$db = new Group_Model_DbTable_DbCallteral();
+			try{
+				$db = new Group_Model_DbTable_DbCallteral();
 			    		if($this->getRequest()->isPost()){
 			    			$search=$this->getRequest()->getPost();
 			    		}
 			    		else{
 			    			$search = array(
 			    					'adv_search' => '',
-			    					'status' => -1);
+			    					'status_search' => -1);
 			    		}
-			$rs_rows= $db->geteAllcallteral($search=null);//call frome model
+			$rs_rows= $db->geteAllcallteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
@@ -28,12 +28,15 @@ class Group_CallteralController extends Zend_Controller_Action {
 			);
 			//print_r($rs_rows);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'code_call'=>$link,'co_id'=>$link));
-			
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+		$fm=new Group_Form_Frmcallterals();
+		$frm=$fm->FrmCallTeral();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_callteral=$frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
@@ -41,8 +44,12 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$db_call = new Group_Model_DbTable_DbCallteral();
 			try {
 				$db = $db_call->addcallteral($calldata);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-			} catch (Exception $e) {
+				if(!empty($calldata['save_new'])){
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/Callteral/index');
+				}
+			} catch (Exception $e) { 
 				echo $e->getMessage();exit();
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
@@ -51,8 +58,12 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$frm = $fm->FrmCallTeral();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
+		
 		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+		
 	}
 	public function editAction()
 	{
