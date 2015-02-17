@@ -1,6 +1,6 @@
 <?php
 
-class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
+class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'ln_client_callecteral';
@@ -101,6 +101,11 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$pre.='0';
 		}
 		return "CL".$pre.$new_acc_no;
+	}
+	function getOwnerInfo($id){//ajax
+		$db = $this->getAdapter();
+		$sql = "SELECT client_name,owner,callate_type,number_collteral FROM `ln_client_callecteral` WHERE id=$id AND status=1  LIMIT 1";
+		return $db->fetchRow($sql);
 	}
 }
 

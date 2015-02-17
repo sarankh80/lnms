@@ -1,5 +1,5 @@
 <?php 
-Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
+Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 	protected $tr=null;
 	protected $tvalidate=null ;//text validate
 	protected $filter=null;
@@ -13,7 +13,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$this->text = 'dijit.form.TextBox';
 		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
-	public function FrmCallTeral($data=null){
+	public function FrmChangeCollteral($data=null){
 		$db = new Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
@@ -29,7 +29,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClient();'
+				'onchange'=>'getOwnerInfo();'
 		));
 		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
 		$_client_code->setMultiOptions($group_opt);
@@ -78,21 +78,6 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'onchange'=>'popupCheckCO();'
 		));
-		$co_name->setMultiOptions($options);
-		$co_name->setValue($request->getParam('co_name'));
-		$getter_name = new Zend_Dojo_Form_Element_ValidationTextBox('getter_name');
-		$getter_name->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside',
-				'required'=>true
-		));
-		
-		$giver_name = new Zend_Dojo_Form_Element_TextBox('giver_name');
-		$giver_name->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
-				'required'=>true
-		));
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
@@ -100,14 +85,14 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		
-		$customer_code = new Zend_Dojo_Form_Element_NumberTextBox('customer_code');
-		$customer_code->setAttribs(array(
+		$number_code = new Zend_Dojo_Form_Element_NumberTextBox('number_code');
+		$number_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$number_collteral = new Zend_Dojo_Form_Element_NumberTextBox('number_collteral');
-		$number_collteral->setAttribs(array(
+		$contract_code = new Zend_Dojo_Form_Element_NumberTextBox('contract_code');
+		$contract_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
@@ -119,14 +104,6 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$belong_borrower=new Zend_Dojo_Form_Element_RadioButton('belong_borrower');
-		$belong_borrower->setAttribs(array(
-				'dojoType'=>'dijit.form.RadioButton',
-				'class'=>'fullside'
-				));
-		$option=array(1=>'កម្មសិទ្ធិរបស់អ្នកខ្ចីប្រាក់',2=>'កម្មសិទិ្ធរបស់អ្នកធានា');
-		$belong_borrower->setMultiOptions($option);
-		$belong_borrower->setValue(1);
 
 		$clint_name = new Zend_Dojo_Form_Element_FilteringSelect('client_name');
 		$clint_name->setAttribs(array(
@@ -137,39 +114,11 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$options = $db->getGroupCodeById(2,0,1);
 		$clint_name->setMultiOptions($options);
 		
-		$_name=new Zend_Dojo_Form_Element_ValidationTextBox('name');
-		$_name->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside'
-				));
-		$_name_=new Zend_Dojo_Form_Element_ValidationTextBox('names');
-		$_name_->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside'
-		));
 		$owner=new Zend_Dojo_Form_Element_ValidationTextBox('owner');
 		$owner->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$_And_name=new Zend_Dojo_Form_Element_ValidationTextBox('and_name');
-		$_And_name->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside'
-		));
-		$_And_name_=new Zend_Dojo_Form_Element_ValidationTextBox('and_names');
-		$_And_name_->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside'
-		));
-		$_personal=new Zend_Dojo_Form_Element_FilteringSelect('personal');
-		$_personal->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
-				));
-		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
-		$_personal->setMultiOptions($opt);
-		$_personal->setValue(1);
 		
         $db = new Application_Model_DbTable_DbGlobal();
 		$collteral_type=new Zend_Dojo_Form_Element_FilteringSelect('collteral_type');
@@ -178,20 +127,22 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		$opt= $db->getCollteralType(1);
+		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
 		$collteral_type->setMultiOptions($opt);
-		$collteral_type->setValue($request->getParam('collteral_type'));
+		$collteral_type->setValue(1);
+		
 		
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
-		$Date_estate=new Zend_Dojo_Form_Element_DateTextBox('date_estate');
-		$Date_estate->setAttribs(array(
+		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
+		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside'
 		));
-		$Date_estate->setValue(date('Y-m-d'));
+		$Date->setValue(date('Y-m-d'));
 		$stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
 		$stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -210,31 +161,48 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
 		$cod_cal->setValue($code);
 		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$from = new Zend_Dojo_Form_Element_FilteringSelect('from');
+		$from->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$opt= $db->getVewOptoinTypeByType(13,1);
+		$from->setMultiOptions($opt);
+		$from->setValue($request->getParam('from'));
+		
+		$to = new Zend_Dojo_Form_Element_FilteringSelect('to');
+		$to->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		
+		$opt= $db->getCollteralType(1);
+		$to->setMultiOptions($opt);
+		
 		$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){
 		
 			$_branch_id->setValue($data['branch_id']);
 			$cod_cal->setValue($data['code_call']);
 			$co_name->setValue($data['co_id']);
-			$number_collteral->setValue($data['number_collteral']);
+			$contract_code->setValue($data['contract_code']);
 			$clint_name->setValue($data['client_name']);
 			$_client_code->setValue($data['client_code']);
-			$_name->setValue($data['with']);
-			$_name_->setValue($data['relativewith']);
 			$owner->setValue($data['owner']);
-			$_And_name->setValue($data['withs']);
-			$_And_name_->setValue($data['relativewiths']);
 			$collteral_type->setValue($data['callate_type']);
 			$note->setValue($data['note']);
-			$Date_estate->setValue($data['date_registration']);
+			$Date->setValue($data['date_registration']);
 			$stutas->setValue($data['status']);
 			$id->setValue($data['id']);
 			
 		}
 
-		$this->addElements(array($_client_code,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,$customer_code,$number_collteral,$_code,$belong_borrower,
-				$clint_name,$_name,$_name_,$owner,$_And_name,$_And_name_,$_personal,$collteral_type,$note,
-				$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
+		$this->addElements(array($from,$to,$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,$number_code,$contract_code,$_code,
+				$clint_name,$owner,$collteral_type,$note,
+				$Date,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		
 	}	
