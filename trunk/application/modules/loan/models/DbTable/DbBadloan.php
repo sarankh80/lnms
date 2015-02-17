@@ -12,6 +12,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'number_code'=>$_data['number_code'],
     			'date'=>$_data['Date'],
     			'loss_date'=>$_data['date_loss'],
+    			'cash_type'=>$_data['cash_type'],
     			'total_amount'=>$_data['Total_amount'],
     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
@@ -29,6 +30,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'number_code'=>$_data['number_code'],
     			'date'=>$_data['Date'],
     			'loss_date'=>$_data['date_loss'],
+    			'cash_type'=>$_data['cash_type'],
     			'total_amount'=>$_data['Total_amount'],
     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
@@ -39,7 +41,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     function getbadloanbyid($id){
     	$db = $this->getAdapter();
-    	$sql="SELECT id,branch,client_code,client_name,number_code,date,loss_date,total_amount,intrest_amount
+    	$sql="SELECT id,branch,client_code,client_name,number_code,date,loss_date,cash_type,total_amount,intrest_amount
     	,tem,note FROM  $this->_name where id=$id ";
     	return $db->fetchRow($sql);
     }
@@ -70,6 +72,32 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$options[$row['client_id']]=$lable;
     	}
 		return $options;
+    }
+    public function getClientByTypess($type=null,$client_id=null ,$row=null){
+    	$this->_name='ln_loan_member';
+    	$where='';
+    	if($type!=null){
+    		$where=' AND is_group = 1';
+    	}
+    	$sql ="SELECT client_id,
+       (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_principal,
+       (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_interest
+        FROM `ln_loan_member`";
+    	$db = $this->getAdapter();
+    	if($row!=null){
+    		if($client_id!=null){
+    			$where.=" AND client_id  =".$client_id ." LIMIT 1";
+    		}
+    		return $db->fetchRow($sql.$where);
+    	}
+    	return $db->fetchAll($sql.$where);
+    }
+    public function getLoanInfo($id){
+    	$db=$this->getAdapter();
+    	$sql="SELECT (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_principal,
+       (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_interest
+       ,currency_type FROM `ln_loan_member` WHERE client_id=$id AND status=1 AND is_completed=0";
+    	return $db->fetchRow($sql);
     }
   }
 

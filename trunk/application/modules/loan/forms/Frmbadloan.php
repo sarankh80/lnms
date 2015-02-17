@@ -21,7 +21,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo(3);'
+				'onchange'=>'getClientInfo();'
 		));
 
 		$opt= $db->getClientByTypes(1);
@@ -61,28 +61,27 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		));
 		$date_loss->setValue(date('Y-m-d'));
 		
-		
+		$db = new Loan_Model_DbTable_DbBadloan();
 		$total_amount = new Zend_Dojo_Form_Element_NumberTextBox('Total_amount');
 		$total_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
-				
+							
 		));
 		
-				
 		$interest_amount = new Zend_Dojo_Form_Element_NumberTextBox('Interest_amount');
 		$interest_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true
+				
 		));
+	
 		
-		
-		
-		$_term = new Zend_Dojo_Form_Element_ValidationTextBox('Term');
+		$_term = new Zend_Dojo_Form_Element_FilteringSelect('Term');
 		$_term->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
 		
@@ -92,6 +91,28 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'style'=>'width:98%'
 		));
+		
+		$cash_type_opt = array(
+				1=>$this->tr->translate("15"),
+				2=>$this->tr->translate("30"),
+				3=>$this->tr->translate("45"));
+		 
+		$_term->setMultiOptions($cash_type_opt);
+		
+		
+		$cash_type = new Zend_Dojo_Form_Element_FilteringSelect('cash_type');
+		$cash_type ->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$cash_type_opt = array(
+				1=>$this->tr->translate("DOLLA"),
+				2=>$this->tr->translate("RIEAL"),
+		        3=>$this->tr->translate("BATH"));
+		       
+		$cash_type->setMultiOptions($cash_type_opt);
+		
 		
 		$id = new Zend_Form_Element_Hidden("id");
 // 		print_r($data);exit();
@@ -111,7 +132,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		}
 		
 		
-		$this->addElements(array($id,$branch,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		$this->addElements(array($cash_type,$id,$branch,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
 		return $this;
 		
 	}	

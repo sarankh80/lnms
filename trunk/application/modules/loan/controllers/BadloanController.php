@@ -77,5 +77,14 @@ class Loan_BadloanController extends Zend_Controller_Action {
 	
 		 
 	}
+	public function getLoaninfoAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db=new Loan_Model_DbTable_DbBadloan();
+			$row=$db->getLoanInfo($data['loan_id']);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 }
 
