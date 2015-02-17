@@ -91,6 +91,8 @@ $frm = $this->Form_Frmcallecterall;
 							<td><?php echo $frm->getElement('term_fun')?></td>
 							<td><?php echo $tr->translate("CHARGE_TERM")?></td>
 							<td><?php echo $frm->getElement('charge_term')?></td>
+							<td><?php echo $tr->translate("AMOUN_MONEY")?></td>
+							<td><?php echo $frm->getElement('amount_money')?></td>
 						</tr>
 					</table>
 			</fieldset>	
@@ -155,7 +157,7 @@ function setFirstPaymentAndDateLine(pay_term,date_call,amount_date){
 	//alert('date release'+date_release);
 	var a = new Date(date_call);
 	if(pay_term==3){//month
-		a.setDate(a.getDate()*30);
+		a.setDate(a.getDate()+(amount_date*30));
 		var mm = a.getMonth()+1;
 	}else if(pay_term==2){//week
 		a.setDate(a.getDate() + (amount_date*7)); 

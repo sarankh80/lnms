@@ -8,6 +8,7 @@ class Callecterall_Model_DbTable_DbCallecteralllist extends Zend_Db_Table_Abstra
     	return $session_user->user_id;
     }
     function addcallecteralllist($data){
+    	try {
     	$arr = array(
     			'branch'=>$data['branch'],
     			'receipt'=>$data['receipt'],
@@ -24,14 +25,20 @@ class Callecterall_Model_DbTable_DbCallecteralllist extends Zend_Db_Table_Abstra
     			'curr_type'=>$data['cash_type'],
     			'amount_debt'=>$data['much_boro'],
     			'note'=>$data['note'],
+    			'term_fun'=>$data['term_fun'],
+    			'charge_term'=>$data['charge_term'],
+    			'amount_money'=>$data['amount_money'],
     			'user_id'  => $this->getUserId(),
-    		);
-    	
+    		);    	
          $id=$this->insert($arr);
+    	}catch (Exception $e){
+    		echo $e->getMessage();
+    	}
          
      
     }
     function updatcallecteralllist($data){
+    	try {
     	$arr = array(
     			'branch'=>$data['branch'],
     			'receipt'=>$data['receipt'],
@@ -48,15 +55,20 @@ class Callecterall_Model_DbTable_DbCallecteralllist extends Zend_Db_Table_Abstra
     			'curr_type'=>$data['cash_type'],
     			'amount_debt'=>$data['much_boro'],
     			'note'=>$data['note'],
-    			
+    			'term_fun'=>$data['term_fun'],
+    			'charge_term'=>$data['charge_term'],
+    			'amount_money'=>$data['amount_money'],
     		);
     	$where=" id = ".$data['id'];
     	$this->update($arr, $where);
+    	}catch (Exception $e){
+    		echo $e->getMessage();
+    	}
     }
     function getcallecteralllistbyid($id){
     	$db = $this->getAdapter();
     	$sql=" SELECT id,branch,receipt,code_call,customer_id,type_call,owner_call,
-    	       callnumber,create_date,date_debt,term,amount_term,date_line,curr_type,amount_debt,note FROM $this->_name where id=$id ";
+    	       callnumber,create_date,date_debt,term,amount_term,date_line,curr_type,amount_debt,note,term_fun,charge_term,amount_money FROM $this->_name where id=$id ";
     	return $db->fetchRow($sql);
     }
     
