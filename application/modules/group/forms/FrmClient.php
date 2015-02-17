@@ -53,7 +53,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_namekh->setAttribs(array(
 						'dojoType'=>'dijit.form.ValidationTextBox',
 						'class'=>'fullside',
-						'required' =>'true'
+						//'required' =>'true'
 		));
 		
 		$id_client = $db->getNewClientId();
@@ -70,7 +70,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_nameen->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+			//	'required' =>'true'
 		));
 		
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('sex');
@@ -145,7 +145,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_street->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				//'required' =>'true'
 		));
 		
 		$_id_type = new Zend_Dojo_Form_Element_FilteringSelect('id_type');
@@ -230,6 +230,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_clientno->setValue($data['client_number']);	
 			$photo->setValue($data['photo_name']);
 			$_id->setValue($data['client_id']);
+			$_group_code->setValue($data['group_code']);
+			$job->setValue($data['job']);
+			$national_id->setValue($data['national_id']);
 		}
 		$this->addElements(array($_id,$photo,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
