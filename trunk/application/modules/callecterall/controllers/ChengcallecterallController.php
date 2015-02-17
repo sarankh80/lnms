@@ -15,7 +15,6 @@ class Callecterall_ChengcallecterallController extends Zend_Controller_Action
     {
     	$db = new Application_Model_DbTable_DbGlobal();
     	$a = $db->getOwnerByType();
-    	//print_r($a);exit();
        $fm = new Callecterall_Form_Frmchengcallecterall();
 	   $frm = $fm->Frmchengcallecterall(); 
 	   Application_Model_Decorator::removeAllDecorator($frm);

@@ -1,5 +1,5 @@
 <?php
-class Group_CallteralController extends Zend_Controller_Action {
+class Group_ChangecollteralController extends Zend_Controller_Action {
 	const REDIRECT_URL='/group';
 	public function init()
 	{
@@ -22,7 +22,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH","CODE_CALLTERAL","STAFF_NAME ","CLIENT_CODE","CLIENT_NAME","OWNER","COLLTERAL_TYPE","NUMBER_COLLTERAL","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH","CODE_CALLTERAL","STAFF_NAME ","CLIENT_CODE","CLIENT_NAME","OWNER","COLLTERAL_TYPE","CONTRACT_CODE","DATE","NOTE","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
@@ -54,15 +54,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
-		$fm = new Group_Form_Frmcallterals();
-		$frm = $fm->FrmCallTeral();
+		$fm = new Group_Form_Frmchangecollteral();
+		$frm = $fm->FrmChangeCollteral();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_callteral = $frm;
-		
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+		$this->view->frm_changeCollteral = $frm;
 		
 	}
 	public function editAction()
@@ -83,10 +78,19 @@ class Group_CallteralController extends Zend_Controller_Action {
 // 		}
 		$db = new Group_Model_DbTable_DbCallteral();
 		$row  = $db->getecallteralbyid($id);
-		$fm = new Group_Form_Frmcallterals();
-		$frm = $fm->FrmCallTeral($row);
+		$fm = new Group_Form_Frmchangecollteral();
+		$frm = $fm->FrmChangeCollteral();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_callteral = $frm;
+		$this->view->frm_changeCollteral = $frm;
 	
+    }
+    public function getOwnerinfo(){
+    	if($this->getRequest()->isPost()){
+    		$data=$this->getRequest()->isPost();
+    		$db =new Group_Model_DbTable_DbChangeCollteral();
+    		$row=$db->getOwnerInfo($data['owner_id']);
+    		print_r(Zend_Json::encode($row));
+    		exit();
+    	}
     }
 }

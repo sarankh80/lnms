@@ -1,7 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$frm = $this->frm_callteral;
-echo $this->headTitle($tr->translate("ADD_CLIENT_COLLTERAL"));
+$frm = $this->frm_changeCollteral;
+echo $this->headTitle($tr->translate("ADD_CHANGE_COLLTERAL"));
 ?>
 <style>	
 .fullside {
@@ -23,54 +23,38 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong><?php echo $tr->translate("WITHDRAWAL_COLLERAL_LETTER");?></strong></legend>
-					<table cellspacing="10"  width="100%">
+					<legend><strong><?php echo $tr->translate("CHANGE_COLLTERAL_INFO");?></strong></legend>
+					<table cellspacing="10"  width="100%"> 
 						<tr>
 							<td width="16%"><?php echo $tr->translate("BRANCH ")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
-							<td><?php echo $frm->getElement('cod_cal');?></td>
-							<td width="16%"><?php echo $tr->translate("STAFF_NAME")?></td>
-							<td><?php echo $frm->getElement('co_name');?></td>
-						</tr>
-						<tr>
-							<td width="16%"><?php echo $tr->translate("CLIENT_CODE ")?></td>
+							<td><?php echo $tr->translate("OWNER_CODE")?></td>
 							<td><?php echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("CLIENT_NAME")?></td>
-						    <td><?php echo $frm->getElement('client_name')?></td>
-							<td><?php echo $tr->translate("AND_NAME")?></td>
-							<td><?php echo $frm->getElement('name')?></td>
+							<td width="16%"><?php echo $tr->translate("OWNER_NAME")?></td>
+							<td><?php echo $frm->getElement('client_name');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
-							<td><?php echo $frm->getElement('names')?></td>
-							<td><?php echo $tr->translate("OWNER_NAME")?></td>
-							<td><?php echo $frm->getElement('owner')?></td>
-							<td><?php echo $tr->translate("AND_NAME")?></td>
-							<td><?php echo $frm->getElement('and_name')?></td>
+							<td colspan="4"  style="border: 1px solid #ccc;width:65%;"><span id="display_info"></span></td>
+							<td><?php echo $tr->translate("FROM")?></td>
+						    <td><?php echo $frm->getElement('from')?></td>
 						</tr>
-						<tr>
-								<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
-								<td><?php echo $frm->getElement('and_names')?></td>
-								<td><?php echo $tr->translate("OWNER")?></td>
-								<td><?php echo $frm->getElement('personal')?></td>
+						<tr>	
+								<td><?php echo $tr->translate("TO")?></td>
+								<td><?php echo $frm->getElement('to')?></td>
 								<td><?php echo $tr->translate('COLLTERAL_TYPE')?></td>
 								<td><?php echo $frm->getElement("collteral_type")?></td>
+								<td><?php echo $tr->translate("NUMBER_CODE")?></td>
+								<td><?php echo $frm->getElement('number_code')?></td>
 							</tr>
 						
 							<tr>
-								<td><?php echo $tr->translate("NUMBER_COLLTERAL")?></td>
-								<td><?php echo $frm->getElement('number_collteral');?></td>
+								<td><?php echo $tr->translate("DATE ")?></td>
+								<td><?php echo $frm->getElement('date')?></td>
 								<td><?php echo $tr->translate("NOTE ")?></td>
 								<td><?php echo $frm->getElement('note')?></td>
-								<td><?php echo $tr->translate("DATE ")?></td>
-								<td><?php echo $frm->getElement('date_estate')?></td>
-							</tr>
-							<tr>
 								<td><?php echo $tr->translate("STATUS ")?></td>
 								<td><?php echo $frm->getElement('Stutas')?></td>
 							</tr>
-						
 					</table>
 				</fieldset>
 		</td>
@@ -125,9 +109,25 @@ function checkClientCode(){
 	dijit.byId('client_code').attr('value',client_name);
 }
 
-function getClient(){
-	client_name= dijit.byId('client_code').get('value');
-	dijit.byId('client_name').attr('value',client_name);
+var url_submiinfo = '<?php echo $this->url(array('module'=>'group','controller'=>'changecollteral','action'=>'get-ownerinfo')); ?>';
+function getOwnerInfo(){
+	client_code= dijit.byId('client_code').get('value');
+	dijit.byId('client_name').attr('value',client_code);
+	dojo.xhrPost({
+	url: url_submiinfo,	
+	   content : { 
+		    'owner_id':client_code,
+		},
+		handleAs:"json",
+		load: function(data) {
+			//dijit.byId('display_info').attr('value');
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
 }
 
 </script>
