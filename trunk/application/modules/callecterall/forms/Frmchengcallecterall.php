@@ -32,6 +32,16 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 		$owner->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();
+		$owner_code = new Zend_Dojo_Form_Element_FilteringSelect('owner_code');
+		$rows = $db ->getAllCOName();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
+		$owner_code->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
+		));
+		
 		$from = new Zend_Dojo_Form_Element_FilteringSelect('from');
 		$from->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -100,7 +110,7 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 		));
 		
 	
-		$this->addElements(array($branch,$owner,$from,$to,$date,$note,$status,$owners
+		$this->addElements(array($branch,$owner,$from,$to,$date,$note,$status,$owners,$owner_code
 				,$_personal,$numbernote));
 		return $this;
 		
