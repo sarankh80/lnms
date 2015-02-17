@@ -44,8 +44,7 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
     public function indexAction()
     {
     	try{
-    		$db = new Callecterall_Model_DbTable_DbCallecteralllist();
-    		 
+    		$db = new Callecterall_Model_DbTable_DbCallecteralllist();    		 
     		$rs_rows= $db->getcallecteralllistAllid($search=null);//call frome model
 //     		$glClass = new Application_Model_GlobalClass();
 //     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
@@ -64,9 +63,15 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
     	}
     }
     
-    public function editAction()
-    {
-    if($this->getRequest()->isPost()){
+    public function editAction(){
+    	$id = $this->getRequest()->getParam('id');
+    	$db = new Callecterall_Model_DbTable_DbCallecteralllist();
+    	$row  = $db->getcallecteralllistbyid($id);
+    	$is_fund = $db->checkisFun($id);
+    	if($is_fund['is_fund'] ==0){
+    		Application_Form_FrmMessage::Sucessfull('កាបពាំ្ចនេះបានសងរួចហើយ','/callecterall/Callecteralllist');
+    	}
+    	if($this->getRequest()->isPost()){
     		$data=$this->getRequest()->getPost();
     		$db = new Callecterall_Model_DbTable_DbCallecteralllist();
     		//print_r($data);exit();
@@ -88,15 +93,24 @@ class Callecterall_CallecteralllistController extends Zend_Controller_Action
     	
     			Application_Model_DbTable_DbUserLog::writeMessageError($err);
     		}
-    	}
-    	$id = $this->getRequest()->getParam('id');
-    
-    	$db = new Callecterall_Model_DbTable_DbCallecteralllist();
-    	$row  = $db->getcallecteralllistbyid($id);
+    	}  
     	$fm = new Callecterall_Form_Frmcallecteralllist();
 	    $frm = $fm->callecteralllist($row); 
 	    Application_Model_Decorator::removeAllDecorator($frm);
 	    $this->view->Form_Frmcallecterall = $frm;
-    }   
+    }
+	public function getfillterAction(){
+	if($this->getRequest()->isPost()){
+			$post=$this->getRequest()->getPost();
+			$ids = $post["customer_name"];
+			$sql = "SELECT id,branch,receipt,code_call,customer_id,type_call,owner_call,
+				callnumber,create_date,date_debt,term,amount_term,date_line,curr_type,
+				amount_debt,note,term_fun,charge_term,amount_money FROM `ln_callecteralllist` WHERE `customer_id`=".$ids;
+			$db = new Application_Model_DbTable_DbGlobal();
+			$row=$db->getGlobalDbRow($sql);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 }
 ?>
