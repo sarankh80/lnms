@@ -104,7 +104,9 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	}
 	function getOwnerInfo($id){//ajax
 		$db = $this->getAdapter();
-		$sql = "SELECT client_name,owner,callate_type,number_collteral FROM `ln_client_callecteral` WHERE id=$id AND status=1  LIMIT 1";
+		$sql = "SELECT (SELECT name_en FROM ln_client WHERE client_id=client_name) AS client_name,owner,
+			(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,callate_type,
+			number_collteral FROM `ln_client_callecteral` WHERE id=$id AND status=1  LIMIT 1";
 		return $db->fetchRow($sql);
 	}
 }

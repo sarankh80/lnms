@@ -84,9 +84,9 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 		$this->view->frm_changeCollteral = $frm;
 	
     }
-    public function getOwnerinfo(){
+    public function getOwnerinfoAction(){
     	if($this->getRequest()->isPost()){
-    		$data=$this->getRequest()->isPost();
+    		$data=$this->getRequest()->getPost();
     		$db =new Group_Model_DbTable_DbChangeCollteral();
     		$row=$db->getOwnerInfo($data['owner_id']);
     		print_r(Zend_Json::encode($row));
