@@ -1,6 +1,6 @@
 <?php
 class Group_indexController extends Zend_Controller_Action {
-	//const REDIRECT_URL = '/group/index/add';
+	const REDIRECT_URL = '/group/index';
 	public function init()
 	{
 		/* Initialize action controller here */
@@ -59,13 +59,23 @@ class Group_indexController extends Zend_Controller_Action {
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
-			try{
 				$data = $this->getRequest()->getPost();
 				$db = new Group_Model_DbTable_DbClient();
-				$db->addClient($data);
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/add');
+				try{
+				if(isset($data['save_new'])){
+					$db->addClient($data);
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/add');
+				}
+				else if ($data['save_close']){
+					$db->addClient($data);
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/index');
+					Application_Form_FrmMessage::redirectUrl("/group/index");
+				}
+				else if ($data['close']){ 
+					Application_Form_FrmMessage::redirectUrl("/group/index");
+					}
 			}catch (Exception $e){
-				echo $e->getMessage();exit();
+				//echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("Application Error");
 				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -79,6 +89,7 @@ class Group_indexController extends Zend_Controller_Action {
 		$db= new Application_Model_DbTable_DbGlobal();
 		$this->view->district = $db->getAllDistricts();
 		$this->view->commune_name = $db->getCommune();
+		$this->view->village_name = $db->getVillage();
 	}
 	public function editAction(){
 		$db = new Group_Model_DbTable_DbClient();
@@ -86,7 +97,7 @@ class Group_indexController extends Zend_Controller_Action {
 			try{
 				$data = $this->getRequest()->getPost();
 				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/Client");
+				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/index");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAILE");
 				echo $e->getMessage();
@@ -95,6 +106,7 @@ class Group_indexController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
+	    $this->view->row=$row;
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
 			$this->_redirect("/group/Client");
@@ -103,6 +115,11 @@ class Group_indexController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddClient($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
+		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
+		$this->view->village_name = $db->getVillage();
 	}
 	public function addNewclientAction(){//ajax
 		if($this->getRequest()->isPost()){

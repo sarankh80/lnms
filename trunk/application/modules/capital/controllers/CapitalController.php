@@ -41,9 +41,10 @@ class Capital_CapitalController extends Zend_Controller_Action {
 	{
 		if($this->getRequest()->isPost()){
 			$accdata=$this->getRequest()->getPost();
+		   
 			$db_acc = new Capital_Model_DbTable_DbCapital();
 			try {
-				if(isset($accdata["save"])){
+				if(isset($accdata["save_close"])){
 					$db = $db_acc->addCapital($accdata);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/add');
 				}elseif (isset($accdata["save_close"])){
