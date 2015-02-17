@@ -149,10 +149,24 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
+		$opt_fun= $db->getVewOptoinTypeByType(14,1);
+		$term_fun->setMultiOptions($opt_fun);
+		$term_fun->setValue(1);
+		
 		$charge_term = new Zend_Dojo_Form_Element_FilteringSelect('charge_term');
 		$charge_term->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'required'=>true,
+		));
+		$opt_ch_term = array(''=>'-----ជ្រើសរើស-----',1=>'គិតជាភាគរយ​ %',2=>'គិតជាលុយផ្ទាល់');
+		$charge_term->setMultiOptions($opt_ch_term);
+		
+		$amount_money = new Zend_Dojo_Form_Element_TextBox('amount_money');
+		$amount_money->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true,
 		));
 	  $_id = new Zend_Form_Element_Hidden('id');
 
@@ -173,8 +187,11 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 			$note->setValue($data['note']);
 			$_id->setValue($data['id']);
 			$cus_code->setValue($data['customer_id']);
+			$amount_money->setValue($data['amount_money']);
+			$charge_term->setValue($data['charge_term']);
+			$term_fun->setValue($data['term_fun']);
 		}
-		$this->addElements(array($branch,$customer_name,$cus_code,$receipt,$time_think,$time_boro,$term_fun,$charge_term,
+		$this->addElements(array($amount_money,$branch,$customer_name,$cus_code,$receipt,$time_think,$time_boro,$term_fun,$charge_term,
 				$date_call,$callecterall_type,$code_call,$note,$cash_type,$much_boro,$_id,$dayless,$callnumber,$nameouner));
 		return $this;
 		
