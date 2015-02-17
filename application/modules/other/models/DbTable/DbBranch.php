@@ -31,6 +31,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	);
     	$where=$this->getAdapter()->quoteInto("br_id=?", $id);
     	$this->update($_arr, $where);
+    }
     	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
@@ -40,10 +41,5 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
 
     	return $db->fetchAll($sql.$where);
     }
-    
-   
-    
-	
-   
 }
 
