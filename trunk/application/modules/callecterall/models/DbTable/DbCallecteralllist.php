@@ -81,5 +81,10 @@ class Callecterall_Model_DbTable_DbCallecteralllist extends Zend_Db_Table_Abstra
     	return $db->fetchAll($sql);
     	
     }
+    function checkisFun($id){
+    	$db = $this->getAdapter();
+    	$sql=" SELECT id,`is_verify`,`verify_by`,`is_fund` FROM $this->_name WHERE id = $id";
+    	return $db->fetchRow($sql);
+    }
 }
 

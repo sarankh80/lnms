@@ -109,25 +109,55 @@ $frm = $this->Form_Frmcallecterall;
 </table>
 </form>
 <script type="text/javascript">
-dojo.require("dijit.form.Textarea");
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dojo.store.Memory");
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require('dijit.form.Form');
+dojo.require('dijit.form.FilteringSelect');	
+dojo.require('dijit.form.Button');
+dojo.require("dijit.form.DateTextBox");
 function getClientInfo(type){
 	if(type==1){
 		client_id = dijit.byId('customer_name').get('value');
 		dijit.byId("cus_code").attr('value',client_id);
-		dijit.byId("receipt").attr('value',client_id);
-		dijit.byId("code_call").attr('value',client_id);
-		dijit.byId("nameouner").attr('value',client_id);
-		dijit.byId("callnumber").attr('value',client_id);
-		dijit.byId("time_boro").attr('value',client_id);
-		dijit.byId("much_boro").attr('value',client_id);
-		dijit.byId("note").attr('value',client_id);
-		
+		getValeshow();		
 	}else{
 		client_id = dijit.byId('cus_code').get('value');
 		dijit.byId("customer_name").attr('value',client_id);
+		getValeshow();
 	}		
 } 
+var url_fillter = "<?php echo $this->url(array('module'=>'callecterall','controller'=>'Callecteralllist','action'=>'getfillter'));?>";
+function getValeshow(){
+	//client_id = dijit.byId('customer_name').get('value');
+	dojo.xhrPost({
+	     url: url_fillter, 
+	     content : { 
+	     'customer_name':dijit.byId('customer_name').get('value'),
+	  }, 
+	  handleAs:"json",
+	  load: function(data) {
+	   dijit.byId('receipt').attr('value',data.receipt);
+	   dijit.byId('code_call').attr('value',data.code_call);
+	   dijit.byId('callecterall_type').attr('value',data.type_call);
+	   dijit.byId('nameouner').attr('value',data.owner_call);
+	   dijit.byId('callnumber').attr('value',data.callnumber);
+	   dijit.byId('time_boro').attr('value',data.amount_term);
+	   dijit.byId('much_boro').attr('value',data.amount_term);
+	   dijit.byId('note').attr('value',data.note);
+	   dijit.byId('term_fun').attr('value',data.term_fun);
+	   dijit.byId('charge_term').attr('value',data.charge_term);
+	   dijit.byId('amount_money').attr('value',data.amount_money);
+	  },
+	  error: function(err) {
+	   alert(err);
+	  alert("Your message could not be sent, please try again!.");         
+	  }
+	 });	
+}
 function checkReleaseDate(){
 	CalculateDate();
 }

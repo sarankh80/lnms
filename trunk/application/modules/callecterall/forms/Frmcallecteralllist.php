@@ -159,7 +159,7 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true,
 		));
-		$opt_ch_term = array(''=>'-----ជ្រើសរើស-----',1=>'គិតជាភាគរយ​ %',2=>'គិតជាលុយផ្ទាល់');
+		$opt_ch_term = array(1=>'គិតជាភាគរយ​ %',2=>'គិតជាលុយផ្ទាល់');
 		$charge_term->setMultiOptions($opt_ch_term);
 		
 		$amount_money = new Zend_Dojo_Form_Element_TextBox('amount_money');
