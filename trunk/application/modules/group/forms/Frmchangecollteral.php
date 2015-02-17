@@ -168,9 +168,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$opt= $db->getVewOptoinTypeByType(13,1);
-		$from->setMultiOptions($opt);
 		$from->setValue($request->getParam('from'));
+		$opt= $db->getCollteralType(1);
+		$from->setMultiOptions($opt);
 		
 		$to = new Zend_Dojo_Form_Element_FilteringSelect('to');
 		$to->setAttribs(array(

@@ -8,6 +8,9 @@ echo $this->headTitle($tr->translate("ADD_CHANGE_COLLTERAL"));
 	width: 100%;
 	height: 30px;
 }
+.collteral{
+	color:blue;
+}
 </style>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>" 
 dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -34,7 +37,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 							<td><?php echo $frm->getElement('client_name');?></td>
 						</tr>
 						<tr>
-							<td colspan="4"  style="border: 1px solid #ccc;width:65%;"><span id="display_info"></span></td>
+							<td colspan="4"  style="border: 1px solid #ccc;width:65%;font-size: 12px;padding: 2px 5px;"><span id="display_info"></span></td>
 							<td><?php echo $tr->translate("FROM")?></td>
 						    <td><?php echo $frm->getElement('from')?></td>
 						</tr>
@@ -120,7 +123,9 @@ function getOwnerInfo(){
 		},
 		handleAs:"json",
 		load: function(data) {
-			//dijit.byId('display_info').attr('value');
+			dojo.byId('display_info').innerHTML="<span class='collteral'>ឈ្មោះម្ចាស់កម្មសិទ្ធ​ ​:  </span>"+data.owner+",<span class='collteral'>ប្រភេទទ្រព្យបញ្ចាំ  : </span>"+data.collteral_type+", <span class='collteral'>លេខកូដសម្គាល់ :  </span>"+data.number_collteral;
+			dijit.byId('from').attr('value',data.callate_type);
+			dijit.byId('from').set('readOnly',true);
 		},
 		error: function(err) {
 			alert(err);
