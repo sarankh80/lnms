@@ -23,13 +23,12 @@ class Other_BranchController extends Zend_Controller_Action {
 		
 			}
 			$db = new Other_Model_DbTable_DbBranch();
-			$rs_rows= $db->getAllBranch($search);
-		
+			$rs_rows = $db->getAllBranch();
 			$glClass = new Application_Model_GlobalClass();
 			$rs = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 		
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch Kh","Branch En","Address","Code","Tel","Fax","Display","Other","Status");
+			$collumns = array("BRANCH_KH","BRANCH_EN","ADDRESS","CODE","TEL","FAX","DISPLAY","OTHER","STATUS");
 			$link=array(
 					'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
@@ -39,7 +38,7 @@ class Other_BranchController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$frm = new Other_Form_FrmSearch();
-		$frm =$frm->searchProvinnce();
+		//$frm =$frm->search();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 	}
@@ -60,24 +59,30 @@ class Other_BranchController extends Zend_Controller_Action {
 			}
 		}
 		$fm=new Other_Form_Frmbranch();
-		$frm_branch=$fm->FrmBranch();
+		$frm_branch=$fm->Frmbranch();
 		Application_Model_Decorator::removeAllDecorator($frm_branch);
 		$this->view->frm_branch = $frm_branch;
 	}
 	function editAction(){
 		$id=$this->getRequest()->getParam("id");
+		$db=new Other_Model_DbTable_DbBranch();
+		$row=$db->getBranchById($id);
 		if($this->getRequest()->isPost())
 		{
 			$data = $this->getRequest()->getPost();
-			$db = new Other_Model_DbTable_DbProvince();
+			$db = new Other_Model_DbTable_DbBranch();
 			$db->updateBranch($data,$id);
 			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/other/branch/index");
 		}
-		$db=new Other_Model_DbTable_DbProvince();
-		$row=$db->getProvinceById($id);
+		$db=new Other_Model_DbTable_DbBranch();
+		$row=$db->getBranchById($id);
+		//print_r($row);exit();
+	
 		$frm= new Other_Form_Frmbranch();
-		$update=$frm->FrmBranch($row);
+		$update=$frm->FrmBranch($row);//print_r($row);
 		$this->view->frm_branch=$update;
 		Application_Model_Decorator::removeAllDecorator($update);
 	}
 }
+
+

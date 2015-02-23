@@ -5,7 +5,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	public function FrmBranch($data=null){
+	public function Frmbranch($data=null){
 		
 		$br_id = new Zend_Dojo_Form_Element_NumberTextBox('br_id');
 		$br_id->setAttribs(array(
@@ -69,17 +69,32 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'class'=>'fullside',
 // 				'readonly'=>true
 				));
+		
 		$br_address = new Zend_Dojo_Form_Element_TextBox('br_address');
 		$br_address->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				// 				'readonly'=>true
+				//'readonly'=>true
 		));
 		
-		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$fax,
-				
-			 $br_other,$br_status,$branch_display ));
+		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$fax,$br_other,$br_status,$branch_display ));
 		
+		//$_id = new Zend_Form_Element_Hidden('id');
+		
+		if(!empty($data)){
+			  
+			$br_id->setValue($data['br_id']);
+			$branch_namekh->setValue($data['branch_namekh']);
+			$branch_nameen->setValue($data['branch_nameen']);
+			$br_address->setValue($data['br_address']);
+			$branch_tel->setValue($data['branch_tel']);
+			$branch_code->setValue($data['branch_code']);
+			$fax->setValue($data['_fax']);
+			$br_other->setValue($data['br_other']);
+			$br_status->setValue($data['br_status']);
+			$branch_display->setValue($data['branch_display']);
+			
+		}
 		return $this;
 		
 	}
