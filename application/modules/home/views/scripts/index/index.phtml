@@ -22,6 +22,20 @@
 	 overflow: hidden;
 }
 </style>
+<?php 
+$tr=Application_Form_FrmLanguages::getCurrentlanguage();
+$client=$this->url(array('module'=>'group','controller'=>'index','action'=>'index'), null, true);
+$collecteral=$this->url(array('module'=>'group','controller'=>'Callteral','action'=>'index'), null, true);
+$chagen_coll=$this->url(array('module'=>'group','controller'=>'changecollteral','action'=>'index'), null, true);
+$indi_loan=$this->url(array('module'=>'loan','controller'=>'index','action'=>'index'), null, true);
+$disburse_loan=$this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'index'), null, true);
+$indi_payment=$this->url(array('module'=>'loan','controller'=>'IlPayment','action'=>'index'), null, true);
+$group_payment=$this->url(array('module'=>'loan','controller'=>'GroupPayment','action'=>'index'), null, true);
+$repay_schedule=$this->url(array('module'=>'loan','controller'=>'RepaymentSchedule','action'=>'index'), null, true);
+$quickpayment=$this->url(array('module'=>'loan','controller'=>'QuickPayment','action'=>'index'), null, true);
+$co=$this->url(array('module'=>'payroll','controller'=>'co','action'=>'index'), null, true);
+$bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'index'), null, true);
+?>
  </head>
 <body class="fixed-top">
    <div id="container" class="row-fluid">
@@ -34,7 +48,7 @@
                 <!--BEGIN METRO STATES-->
                 <div class="metro-nav metro-fix-view">
                     <div class="metro-nav-block nav-block-green long">
-                        <a href="<?php echo $this->baseUrl();?>/group/client/add" style="text-align: center;" class="text-center" data-original-title="">
+                        <a href="<?php echo $client;?>" style="text-align: center;" class="text-center" data-original-title="">
                             <span class="value">
                                 <i class="icon-user"></i>
                             </span>
@@ -42,7 +56,7 @@
                         <div class="status" align="center">បង្កើតឈ្មោះអតិថិជន</div>
                     </div>
                     <div class="metro-nav-block nav-block-orange">
-                        <a href="<?php echo $this->baseUrl();?>/group/Callteral/add" data-original-title="">
+                        <a href="<?php echo $collecteral;?>" data-original-title="">
                             <i class="icon-user"></i>
                             <div class="info"></div>
                             <div class="status">ទ្រពបញ្ចំអតិថិជន</div>
@@ -50,72 +64,71 @@
                     </div>
 
                    <div class="metro-nav-block nav-block-green">
-                       <a href="#" data-original-title="">
+                       <a href="<?php $chagen_coll;?>" data-original-title="">
                            <i class="icon-comments-alt"></i>
                            <div class="info"></div>
-                           <div class="status">Comments</div>
+                           <div class="status">ប្តូរទ្រព្យបញ្ចំ</div>
                        </a>
                    </div>
                     <div class="metro-nav-block nav-block-blue double">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $indi_loan;?>" data-original-title="">
                             <i class="icon-tasks"></i>
                             <div class="info">$37624</div>
-                            <div class="status">Stock</div>
+                            <div class="status">ប្រាក់កម្ចីបុគ្គល</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-yellow">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $disburse_loan;?>" data-original-title="">
                             <i class="icon-tags"></i>
                             <div class="info"></div>
-                            <div class="status">Sales</div>
+                            <div class="status">ប្រាក់កម្ចីជាក្រុម</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">
-                        <a href="#" class="text-center" data-original-title="">
+                        <a href="<?php echo $indi_payment;?>" class="text-center" data-original-title="">
                             <i class="icon-phone"></i>
-                            <div class="status">Phone</div>
+                            <div class="status">សងប្រាក់បុគ្គល</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-red double">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $group_payment;?>" data-original-title="">
                             <i class="icon-bar-chart"></i>
                             <div class="info"></div>
-                            <div class="status">Update</div>
+                            <div class="status">សងប្រាក់ជាក្រុម</div>
                         </a>
                     </div>
-
                     <div class="metro-nav-block nav-block-orange">
-                        <a href="#" data-original-title="" class="text-center">
+                        <a href="<?php echo $repay_schedule;?>" data-original-title="" class="text-center">
                             <i class="icon-star-empty"></i>
-                            <div class="status">Rattings</div>
+                            <div class="status">កាលវិភាគថ្មី</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-purple double">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $quickpayment;?>" data-original-title="">
                             <i class="icon-eye-open"></i>
                             <div class="info"></div>
-                            <div class="status">Unique Visitor</div>
+                            <div class="status">សងប្រាក់តាមមន្ត្រីឥនទាន </div>
                         </a>
                     </div>
 
                     <div class="metro-nav-block nav-block-red">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $co;?>" data-original-title="">
                             <i class="icon-shopping-cart"></i>
                             <div class="info"></div>
-                            <div class="status">New Order</div>
+                            <div class="status">មន្ត្រីឥនទាន</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $bad_loan;?>" data-original-title="">
                             <i class="icon-remove-sign"></i>
                             <div class="info"></div>
-                            <div class="status">Cancelled</div>
+                            <div class="status">កម្ចីខូច</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-purple">
                         <a href="#" data-original-title="" class="text-center">
                             <i class="icon-cogs"></i>
-                            <div class="status">Settings</div>
+                            <div class="status">បញ្ជីកម្ចីបុគ្គល</div>
                         </a>
                     </div>
 
@@ -123,7 +136,7 @@
                         <a href="#" data-original-title="">
                             <i class="icon-shopping-cart"></i>
                             <div class="info"></div>
-                            <div class="status">New Order</div>
+                            <div class="status">បញ្ជីកម្ចីជាក្រុម</div>
                         </a>
                     </div>
 
@@ -131,34 +144,35 @@
                         <a href="#" data-original-title="">
                             <i class="icon-external-link"></i>
                             <div class="info">$53412</div>
-                            <div class="status">Total Profit</div>
+                            <div class="status">បញ្ជីឈ្មោះត្រូវសង</div>
                         </a>
                     </div>
                      <div class="metro-nav-block nav-block-blue double">
                         <a href="#" data-original-title="">
                             <i class="icon-external-link"></i>
                             <div class="info">$53412</div>
-                            <div class="status">Total Profit</div>
+                            <div class="status">ចំណូលពីសេវារដ្ឋបាល</div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">
                         <a href="#" class="text-center" data-original-title="">
                             <i class="icon-dashboard"></i>
-                            <div class="status">Dashboard</div>
+                            <div class="status">អតិជនសងរួច</div>
                         </a>
                     </div>
-                    <div class="metro-nav-block nav-block-orange">
-                        <a href="#" class="text-center" data-original-title="">
-                            <i class="icon-signout"></i>
-                            <div class="status">Sign Out</div>
-                        </a>
-                    </div>
-                    <div class="metro-nav-block nav-block-yellow">
+                     <div class="metro-nav-block nav-block-yellow">
                         <a href="#" class="text-center" data-original-title="">
                             <i class=" icon-puzzle-piece"></i>
                             <div class="status">Warning</div>
                         </a>
                     </div>
+                    <div class="metro-nav-block nav-block-orange">
+                        <a href="#" class="text-center" data-original-title="">
+                            <i class="icon-signout"></i>
+                            <div class="status">Other</div>
+                        </a>
+                    </div>
+                   
                 </div>
 
                 <div class="space10"></div>
@@ -174,7 +188,7 @@
 
    <!-- BEGIN FOOTER -->
    <div id="footer">
-       2014 &copy; SRMS.
+      Copy&copy;Right by VSS Consultancy.
    </div>
    <!-- END FOOTER -->
 

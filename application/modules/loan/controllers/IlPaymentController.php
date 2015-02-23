@@ -104,6 +104,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 // 			$row=$db->getGlobalDbRow($sql);
 // 			$_itemcode=$row["p_code"];
 			header('Content-type: image/png');
+			
 			$this->_helper->layout()->disableLayout();
 			//$barcodeOptions = array('text' => "$_itemcode",'barHeight' => 30);
 			$barcodeOptions = array('text' => "$loan_code",'barHeight' => 40);

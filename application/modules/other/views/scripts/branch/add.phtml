@@ -1,9 +1,9 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('ADD_BRANCH')); 
+	echo $this->headTitle($tr->translate('Add Province')); 
 ?>
-<?php  $frm_branch = $this->frm_branch;?>
-<form action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'branch')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<?php  $province= $this->frm_branch;?>
+<form id="add_province" action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				return true;
@@ -15,46 +15,43 @@
 		<tr>
 			<td>
 				<fieldset>
-					<legend align="center"><strong><?php echo $tr->translate("ADD_BRANCH");?></strong></legend>
+					<legend align="center"><strong><?php echo $tr->translate("ADD BRANCH");?></strong></legend>
 					<table cellspacing="20" width="100%" >
 						<tr>
 							<td align="center" valign="top">
 								<table width="100%" cellspacing="10">
 									<tr>
 										<td><?php echo $tr->translate("ID")?></td>
-										<td><?php echo $frm_branch->getElement("br_id");?></td>
-										<td><?php echo $tr->translate("Name(Khmer)");?></td>
-										<td><?php echo $frm_branch->getElement("branch_namekh");?></td>
-										<td><?php echo $tr->translate("Name(English)");?></td>
-										<td><?php echo $frm_branch->getElement("branch_nameen");?></td>
+										<td><?php echo $province->getElement("br_id");?></td>
+										<td><?php echo $tr->translate("Name(Khmer)")?></td>
+										<td><?php echo $province->getElement("branch_namekh");?></td>
+										<td><?php echo $tr->translate("Name(English)")?></td>
+										<td><?php echo $province->getElement("branch_nameen");?></td>
 									</tr>
 									<tr>
 										<td><?php echo $tr->translate("Branch Address")?></td>
-										<td><?php echo $frm_branch->getElement("br_address");?></td>
-										<td><?php echo $tr->translate("Tell");?></td>
-										<td><?php echo $frm_branch->getElement("branch_tel");?></td>
-                                        <td><?php echo $tr->translate("Branch code");?></td>
-										<td><?php echo $frm_branch->getElement("branch_code");?></td>
+										<td><?php echo $province->getElement("br_address");?></td>
+										<td><?php echo $tr->translate("Tell")?></td>
+										<td><?php echo $province->getElement("branch_tel");?></td>
+                                        <td><?php echo $tr->translate("Branch code")?></td>
+										<td><?php echo $province->getElement("branch_code");?></td>
 									</tr>
 									<tr>
 										<td><?php echo $tr->translate("Fax")?></td>
-										<td><?php echo $frm_branch->getElement("_fax");?></td>
+										<td><?php echo $province->getElement("_fax");?></td>
 										<td><?php echo $tr->translate("Other")?></td>
-										<td><?php echo $frm_branch->getElement("br_other");?></td>
-										<td><?php echo $tr->translate("Status");?></td>
-										<td><?php echo $frm_branch->getElement("br_status");?></td>
+										<td><?php echo $province->getElement("br_other");?></td>
+										<td><?php echo $tr->translate("Status")?></td>
+										<td><?php echo $province->getElement("br_status");?></td>
 									</tr>
 									<tr>
-										<td><?php echo $tr->translate("Display");?></td>
-										<td><?php echo $frm_branch->getElement("branch_display");?></td>
-										<td colspan="4"></td>
+										<td><?php echo $tr->translate("Display")?></td>
+										<td><?php echo $province->getElement("branch_display");?></td>
 									</tr>
 									<tr>
-										<td colspan="6" align="center">
-										  <input type="reset" label="សំអាត" id="" dojoType="dijit.form.Button"
-				                              iconClass="dijitIconClear" />
-										  <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button" 
-									          iconClass="dijitEditorIcon dijitEditorIconSave"/>
+										<td colspan="2" align="center">
+											<input type="submit" value="<?php echo $tr->translate("GO_SAVE");?>" label="<?php echo $tr->translate("GO_SAVE");?>" id="submitButton" dojoType="dijit.form.Button" 
+											 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId("add_province").submit();"/>
 										</td>
 									</tr>					
 								</table>

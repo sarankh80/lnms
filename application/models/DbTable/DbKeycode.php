@@ -23,6 +23,11 @@ class Application_Model_DbTable_DbKeycode extends Zend_Db_Table_Abstract
 	static function getHieghtRow(){
 		return 29;		
 	}
+	public function getLabelVaueById($id){
+		$db = $this->getAdapter();
+		$sql = "SELECT code,keyName,keyValue FROM `rms_setting` WHERE code = $id";
+		return $db->fetchRow($sql);
+	}
 	
 	function getMainBranch(){
 		$db = $this->getAdapter();

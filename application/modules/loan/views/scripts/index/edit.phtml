@@ -17,7 +17,7 @@
 </style>
 
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -53,9 +53,9 @@
 					<legend><strong>ព៌ត័មាន ឥណទានទោល</strong></legend>
 					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME");?></td>
+							<td><?php echo $frm->getElement('branch_id'); echo $frm->getElement('id');?></td>
+							<td><?php echo $tr->translate("LOAN_NO");?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
@@ -63,9 +63,9 @@
 						<tr>
 							<td>Admin Fee</td>
 							<td><?php echo $frm->getElement('loan_fee');?></td>
-							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $tr->translate("CLIENT_CODE");?></td>
 							<td><?php echo $frm->getElement('customer_code');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
+							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន");?></td>
 							<td><?php echo $frm->getElement('member');?></td>
 						</tr>
 						<tr>
@@ -216,7 +216,7 @@
 <script type="text/javascript">
 require(["dojo/ready"], function(ready){
 	 ready(function(){
-		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
 		//changeCollectType();
 	  });
 	});

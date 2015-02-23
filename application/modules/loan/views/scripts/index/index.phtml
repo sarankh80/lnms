@@ -14,10 +14,22 @@ $frm = $this->frm_search;
    <?php echo $frm->getElement("member");?>
    <?php echo $frm->getElement("repayment_method");?>
    <?php echo $frm->getElement('branch_id');?>
-   <?php echo $frm->getElement('status');?>
    <?php echo $frm->getElement('co_id');?>
    <?php echo $frm->getElement('from_date');?>
    <?php echo $frm->getElement('to_date');?>
+   <?php echo $frm->getElement('status');?>
    </div>
    <?php echo $this->list;?>
 </form>
+<script>
+function getmemberIdGroup(){
+	customer_code= dijit.byId('customer_code').get('value');
+	dijit.byId('member').attr('value',customer_code);
+}
+function checkMember(){
+	customer_code= dijit.byId('member').get('value');
+	dijit.byId('customer_code').attr('value',customer_code);
+}
+
+
+</script>

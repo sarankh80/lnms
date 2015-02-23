@@ -59,7 +59,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1) as branch_name
 		,code_call,(SELECT ln_co.co_khname FROM ln_co WHERE ln_co.co_id=ln_client_callecteral.co_id limit 1) AS co_id,
 		(SELECT client_number FROM ln_client WHERE client_id=client_code) AS client_code
-		,(SELECT name_en FROM ln_client WHERE client_id=client_name) AS client_name,owner,
+		,(SELECT name_en FROM ln_client WHERE client_id=client_code) AS client_name,owner,
 		(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,
 		number_collteral,date_registration,note,status FROM $this->_name WHERE 1";
 		$where='';
