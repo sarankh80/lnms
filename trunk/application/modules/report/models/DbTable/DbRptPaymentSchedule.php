@@ -9,7 +9,10 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     }
     public function getPaymentSchedule($id){
     	$db=$this->getAdapter();
-    	$sql = "SELECT * FROM `ln_loanmember_funddetail` WHERE member_id= $id";
+    	$sql = "SELECT id,member_id,total_principal,
+    	principal_permonth,total_interest,total_payment,
+    	amount_day,status,is_completed,is_approved,date_payment,
+    	branch_id from ln_loanmember_funddetail";
     	return $db->fetchAll($sql);
     }
     public function getAllClientPaymentListRpt(){
@@ -22,7 +25,7 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     	(SELECT co_khname FROM `ln_co` WHERE co_id = ( SELECT co_id FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) LIMIT 1 ) AS co_khname,
     	m.status FROM `ln_loan_member` AS m ORDER BY member_id ";
     	$db = $this->getAdapter();
-    	return $db->fetchAll($sql);
+    	return $db->fetchAll($sql); 
     }
 	
 }

@@ -16,8 +16,15 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 	  	 
   }
   function rptClientAgreementAction(){
+  	$db  = new Report_Model_DbTable_DbLnClient();
+  	$this->view->calleteral_list = $db->getAllAgreement();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
+  				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
+  		$this->exportFileToExcel('ln_callect',$db->getAllAgreement(),$collumn);
+  	}
   }
   function rptCalleteralAction(){
   	$db  = new Report_Model_DbTable_DbLnClient();
@@ -28,6 +35,17 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
   				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
   		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
+  	}
+  }
+  function rptGroupAction($table='rms_setting'){
+  	$db  = new Report_Model_DbTable_DbLnClient();
+  	$rs=$db->getAllGroup();
+  	$this->view->staff_list = $rs;
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$collumn = array("client_number","name_kh","name_en","sex","status","branch_name","pro_id","dis_id","com_id","village_id","spouse_name","phone");
+  		$this->exportFileToExcel($table,$rs,$collumn);
   	}
   }
   function rptClientAction($table='ln_account_name'){
@@ -46,6 +64,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	}
   	
   }
+  
   public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();
   	$db = new Report_Model_DbTable_DbExportfile();
@@ -80,10 +99,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	readfile( $filename );//exit();
   	
   }
-  function rptGroupAction(){
-  	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  }
+  
   function rptAgreementAction(){
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);

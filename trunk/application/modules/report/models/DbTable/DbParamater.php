@@ -3,12 +3,12 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 {
       public function getAllHoliday(){
     	 $db = $this->getAdapter();
-          $sql="SELECT id,holiday_name,amount_day,start_date,end_date,STATUS,modify_date,note FROM ln_holiday ORDER BY id";
+          $sql="SELECT id,holiday_name,amount_day,start_date,end_date,status,modify_date,note FROM ln_holiday ORDER BY id";
           return $db->fetchAll($sql);
     }
     public function getALLzone(){
     	$db = $this->getAdapter();
-    	$sql="SELECT zone_id,zone_name,zone_num,modify_date,STATUS FROM ln_zone ORDER BY zone_id";
+    	$sql="SELECT zone_id,zone_name,zone_num,modify_date,status FROM ln_zone ORDER BY zone_id";
     	return $db->fetchAll($sql);
     }
     public function getALLstaff(){
