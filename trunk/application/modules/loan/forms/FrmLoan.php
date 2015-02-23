@@ -154,13 +154,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'value':2.5,
 				'class':'fullside',
 				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់  100'"));
-		
-		
-
-		
-// 		$value_interest = 2.5;
-// 		$_rate->setValue($value_interest);
-		
+				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -295,8 +289,9 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
 		$_holiday->setMultiOptions($options);
 		
+		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
-			print_r($data);
+// 			print_r($data);
 			$_branch_id->setValue($data['branch_id']);
 			$_loan_code->setValue($data['loan_number']);
 			$_level->setValue($data['level']);
@@ -313,21 +308,29 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 			$_amount->setValue($data['total_capital']);
 			$_currency_type->setValue($data['currency_type']);
 			$_rate->setValue($data['interest_rate']);//
+			$_rate->setAttribs(array(
+					'data-dojo-props'=>"
+					'value':'".$data['interest_rate']."'"));
 			$_repayment_method->setValue($data['payment_method']);
 			$_graice_pariod->setValue($data['graice_period']);
-			$_time_collect_pri->setValue($data['amount_collect_principal']);
-			
-			$_dateline->setValue('Y-m-d');
+			$_time_collect_pri->setValue($data['semi']);
+			$_dateline->setValue($data['date_line']);
 			$_pay_every->setValue($data['pay_term']);
 			$_time_collect->setValue($data['amount_collect_principal']);
 			$_collect_term->setValue($data['collect_typeterm']);
 			$_pay_late->setValue($data['pay_after']);
 			$_paybefore->setValue($data['pay_before']);
+			$_id->setValue($data['g_id']);
+			
+			$_group_code->setValue($data['client_id']);
+			$_groupid->setValue($data['client_id']);
+			
+// 			print_r($data);
 		}
 		$this->addElements(array($_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
-				$_group_code,$_customer_code));
+				$_group_code,$_customer_code,$_id));
 		return $this;
 		
 	}	

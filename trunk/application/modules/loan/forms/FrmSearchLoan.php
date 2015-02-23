@@ -110,6 +110,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_dateline->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 		));
+		$_dateline->setValue($s_date);
 		
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(

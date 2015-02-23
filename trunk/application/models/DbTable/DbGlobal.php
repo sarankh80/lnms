@@ -395,7 +395,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		lm.currency_type,lm.total_capital,lm.loan_number,
   		lm.interest_rate,lm.branch_id FROM 
   	   `ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
-  		lg.g_id =lm.group_id ";
+  		lg.g_id =lm.group_id  ";
   	if(!empty($member_id)){
   		$sql.=" AND lm.member_id = $member_id";
   	}
@@ -723,6 +723,16 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}else{
   		return $result;
   	}
+  }
+  public function getLoanFundExist($loan_id){
+  	$sql = "CALL `stgetLoanFundExist`($loan_id) ";
+  	$db = $this->getAdapter();
+  	$result = $db->fetchRow($sql);
+  	print_r($result);
+  	if(!empty($result)){
+  		return true;}
+  	else{ 
+  		return false;}
   }
 }
 ?>

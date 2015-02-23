@@ -89,7 +89,7 @@ class Loan_indexController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
-				$_dbmodel->addNewLoanIL($_data);
+				$_dbmodel->updateLoanById($_data);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
 			}catch (Exception $e) {
 				echo $err =$e->getMessage();exit();
@@ -100,6 +100,10 @@ class Loan_indexController extends Zend_Controller_Action {
 		}
 		
 		$id = $this->getRequest()->getParam('id');
+		
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		$rs = $db_g->getLoanFundExist($id);
+		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getTranLoanByIdWithBranch($id);
 		
@@ -129,63 +133,63 @@ class Loan_indexController extends Zend_Controller_Action {
 // 		$start = '2014-01-01';
 // 		$db = new Application_Model_DbTable_DbGlobal();
 // 		$rs = $db->checkHolidayExist(1,$start);
-// 		echo $rs;
-			//set_time_limit(0);
-			$sql="CALL stgetAllPaymentById(3);";
-			$db = new Application_Model_DbTable_DbGlobal();
-			$data=$db->getGlobalDb($sql);
+// // 		echo $rs;
+// 			//set_time_limit(0);
+// 			$sql="CALL stgetAllPaymentById(3);";
+// 			$db = new Application_Model_DbTable_DbGlobal();
+// 			$data=$db->getGlobalDb($sql);
 			
-			$sql = "SHOW COLUMNS FROM $table ";
-			$datahead=$db->getGlobalDb($sql);
-			foreach($datahead as $id =>$rs){
-				$thead[]=$rs['Field'];
-			}
+// 			$sql = "SHOW COLUMNS FROM $table ";
+// 			$datahead=$db->getGlobalDb($sql);
+// 			foreach($datahead as $id =>$rs){
+// 				$thead[]=$rs['Field'];
+// 			}
 			 
-			$filename = APPLICATION_PATH . "/tmp/$table-" . date( "m-d-Y" ) . ".xlsx";
+// 			$filename = APPLICATION_PATH . "/tmp/$table-" . date( "m-d-Y" ) . ".xlsx";
 			 
-			$realPath = realpath( $filename );
+// 			$realPath = realpath( $filename );
 			 
-			if ( false === $realPath )
-			{
-				touch( $filename );
-				chmod( $filename, 0777 );
-			}
+// 			if ( false === $realPath )
+// 			{
+// 				touch( $filename );
+// 				chmod( $filename, 0777 );
+// 			}
 			 
-			$filename = realpath( $filename );
-			$handle = fopen( $filename, "w" );
-			fputcsv( $handle, $thead, "\t" );
-			$finalData = array();
+// 			$filename = realpath( $filename );
+// 			$handle = fopen( $filename, "w" );
+// 			fputcsv( $handle, $thead, "\t" );
+// 			$finalData = array();
 			 
-			foreach ( $data AS $row )
-			{
-				$finalData[] = array(
-						utf8_decode($row["total_principal"] ), // For chars with accents.
-						utf8_decode($row["principal_permonth"] ),
-						utf8_decode($row["total_interest"] ),
-				);
-			}
-// 			print_r($finalData);exit();
+// 			foreach ( $data AS $row )
+// 			{
+// 				$finalData[] = array(
+// 						utf8_decode($row["total_principal"] ), // For chars with accents.
+// 						utf8_decode($row["principal_permonth"] ),
+// 						utf8_decode($row["total_interest"] ),
+// 				);
+// 			}
+// // 			print_r($finalData);exit();
 			 
-			foreach ( $finalData AS $finalRow )
-			{
-				fputcsv( $handle, $finalRow, "\t" );
-			}
+// 			foreach ( $finalData AS $finalRow )
+// 			{
+// 				fputcsv( $handle, $finalRow, "\t" );
+// 			}
 			 
-			fclose( $handle );
+// 			fclose( $handle );
 			 
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
+// 			$this->_helper->layout->disableLayout();
+// 			$this->_helper->viewRenderer->setNoRender();
 			 
-			$this->getResponse()->setRawHeader( "Content-Type: application/vnd.ms-excel; charset=UTF-8" )
-			->setRawHeader( "Content-Disposition: attachment; filename=excel.xls" )
-			->setRawHeader( "Content-Transfer-Encoding: binary" )
-			->setRawHeader( "Expires: 0" )
-			->setRawHeader( "Cache-Control: must-revalidate, post-check=0, pre-check=0" )
-			->setRawHeader( "Pragma: public" )
-			->setRawHeader( "Content-Length: " . filesize( $filename ) )
-			->sendResponse();
+// 			$this->getResponse()->setRawHeader( "Content-Type: application/vnd.ms-excel; charset=UTF-8" )
+// 			->setRawHeader( "Content-Disposition: attachment; filename=excel.xls" )
+// 			->setRawHeader( "Content-Transfer-Encoding: binary" )
+// 			->setRawHeader( "Expires: 0" )
+// 			->setRawHeader( "Cache-Control: must-revalidate, post-check=0, pre-check=0" )
+// 			->setRawHeader( "Pragma: public" )
+// 			->setRawHeader( "Content-Length: " . filesize( $filename ) )
+// 			->sendResponse();
 			 
-			readfile( $filename );// exit();
+// 			readfile( $filename );// exit();
 		
 	}
 }
