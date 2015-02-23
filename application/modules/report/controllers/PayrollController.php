@@ -11,7 +11,10 @@ class Report_PayrollController extends Zend_Controller_Action {
   	
   }
   function  rptIndividualClientAction(){
-  	
+//   	$db  = new Report_Model_DbTable_DbPayroll();
+//   	$this->view->staff_list = $db->getAllIndividual();
+//   	$key = new Application_Model_DbTable_DbKeycode();
+//   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptGroupClientAction(){
   	
@@ -19,6 +22,7 @@ class Report_PayrollController extends Zend_Controller_Action {
   function rptClientAgreementAction(){
   	
   }
+
   
 }
 

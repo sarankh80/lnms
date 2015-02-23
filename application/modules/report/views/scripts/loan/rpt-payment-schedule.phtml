@@ -4,9 +4,7 @@ $client = $this->client;
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:50px;">
- <div dojoType="dijit.layout.ContentPane" region="top" >
- dd
- </div>
+ 
 </div>
 <div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 <style>
@@ -24,7 +22,7 @@ $client = $this->client;
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_get'];?></h2></td>
+                	
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -36,7 +34,7 @@ $client = $this->client;
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
                 				<td></td>
-                				<td><?php echo $this->data['name_co'];?> : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+                				
                 				<td></td>
                 			</tr>
 			               
@@ -78,7 +76,7 @@ $client = $this->client;
                 </tr>
                 <tr align="center" style="font-weight:bold; font-family:'Khmer OS';">
                     <td ><?php //echo $key+1;?></td>
-                    <td>ដដដ<?php //echo$row['date_payment']?></td>
+                    <td><?php //echo$row['date_payment']?></td>
                     <td><?php //echo number_format($row['total_principal'],(!strrpos($row['total_principal'],"."))? 0 : 2);?></td>
                     <td><?php //echo number_format($row['principal_permonth'],(!strrpos($row['principal_permonth'],"."))? 0 : 2);?></td>
                     <td><?php //echo number_format($row['total_interest'],(!strrpos($row['total_interest'],"."))? 0 : 2);?></td>

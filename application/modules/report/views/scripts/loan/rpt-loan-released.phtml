@@ -54,7 +54,9 @@
                     <td>រយៈពេលខ្ចី</td>
                     <td>កាលបរិឆ្ឆេទ</td>
                     <td>ឈ្មោះមន្ត្រីឥណទាន</td>
+                    
                     <td>ថ្លែរដ្នបាល</td>
+                    <td>គោលបំណងកម្ចី</td>
                 </tr>
                <?php foreach($this->loanrelease_list as $key =>$row){?>
 					<tr align="center">
@@ -66,7 +68,9 @@
 					<td><?php echo$row['total_duration']?></td>
 					<td><?php echo$row['date_release']?></td>
 					<td><?php echo$row['co_name']?></td>
+					
 					<td><?php echo$row['admin_fee']?></td>
+					<td><?php echo$row['loan_purpose']?></td>
 					</tr>
 				<?php }?>
             </table>
