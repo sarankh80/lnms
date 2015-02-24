@@ -9,7 +9,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 	}
 	public function indexAction(){
 			try{
-				$db = new Group_Model_DbTable_DbCallteral();
+				$db = new Group_Model_DbTable_DbChangeCollteral();
 			    		if($this->getRequest()->isPost()){
 			    			$search=$this->getRequest()->getPost();
 			    		}
@@ -17,37 +17,37 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			    			$search = array(
 			    					'adv_search' => '',
 			    					'status_search' => -1);
-			    		}
-			$rs_rows= $db->geteAllcallteral($search);//call frome model
+			    		}//print_r($search);exit();
+			$rs_rows= $db->getAllChangeCollteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH","CODE_CALLTERAL","STAFF_NAME ","CLIENT_CODE","CLIENT_NAME","OWNER","COLLTERAL_TYPE","CONTRACT_CODE","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH","OWNER_CODE","OWNER_NAME","FROM","TO","COLLTERAL_TYPE","NUMBER_CODE","OWNER","DATE","NOTE","STATUS","USER_ID");
 			$link=array(
-					'module'=>'group','controller'=>'callteral','action'=>'edit',
+					'module'=>'group','controller'=>'changecollteral','action'=>'edit',
 			);
 // 			print_r($rs_rows);exit();
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'code_call'=>$link,'co_id'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_id'=>$link,'owner_code_id'=>$link,'owner_id'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$fm=new Group_Form_Frmcallterals();
-		$frm=$fm->FrmCallTeral();
+		$fm = new Group_Form_Frmchangecollteral();
+		$frm = $fm->FrmChangeCollteral();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_callteral=$frm;
+		$this->view->frm_changeCollteral = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
-			$calldata=$this->getRequest()->getPost();
-			$db_call = new Group_Model_DbTable_DbCallteral();
+			$data=$this->getRequest()->getPost();
+			$db = new Group_Model_DbTable_DbChangeCollteral();
 			try {
-				$db = $db_call->addcallteral($calldata);
-				if(!empty($calldata['save_new'])){
+				$db = $db->addChangeCollteral($data);
+				if(!empty($data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/Callteral/index');
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
 				}
 			} catch (Exception $e) { 
 				echo $e->getMessage();exit();
@@ -62,24 +62,23 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 	}
 	public function editAction()
 	{
+	$db = new Group_Model_DbTable_DbChangeCollteral();
 	if($this->getRequest()->isPost()){
-			$calldata=$this->getRequest()->getPost();
-			$db_call = new Group_Model_DbTable_DbCallteral();
+			$data=$this->getRequest()->getPost();
 			try {
-				$db = $db_call->updatecallteral($calldata);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/Callteral/index');
+				$db = $db->updateChangeCollteral($data);
+				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/changecollteral/index');
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
-// 		if(empty($id)){
-// 			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-// 		}
-		$db = new Group_Model_DbTable_DbCallteral();
-		$row  = $db->getecallteralbyid($id);
+		if(empty($id)){
+			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+		}
+		$row  = $db->getChangeCollteralbyid($id);
 		$fm = new Group_Form_Frmchangecollteral();
-		$frm = $fm->FrmChangeCollteral();
+		$frm = $fm->FrmChangeCollteral($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_changeCollteral = $frm;
 	
