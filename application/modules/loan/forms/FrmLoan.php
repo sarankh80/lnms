@@ -26,16 +26,6 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$loan_number = $db->getLoanNumber();
 		$_loan_code->setValue($loan_number);
 		
-		$_collect_term = new Zend_Dojo_Form_Element_FilteringSelect('collect_termtype');
-		$_collect_term->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'changeGraicePeroid();'
-		));
-		$term_opt = $db->getVewOptoinTypeByType(1,1,3);
-		$_collect_term->setMultiOptions($term_opt);
-		
-		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -93,6 +83,7 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
+// 		$opt = $db->getVewOptoinTypeByType(15,1,3);
 		$_currency_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
@@ -202,6 +193,15 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				//'readOnly'=>true,
 		));
 		$_graice_pariod->setValue(0);
+		
+		$_collect_term = new Zend_Dojo_Form_Element_FilteringSelect('collect_termtype');
+		$_collect_term->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'changeGraicePeroid();'
+		));
+		$term_opt = $db->getVewOptoinTypeByType(1,1,3);
+		$_collect_term->setMultiOptions($term_opt);
 	
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
@@ -209,8 +209,9 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-		$options= array(1=>"Day",2=>"Week",3=>"Month");
-		$_payterm->setMultiOptions($options);
+// 		$options= array(1=>"Day",2=>"Week",3=>"Month");
+// 		$_payterm->setMultiOptions($options);
+		$_payterm->setMultiOptions($term_opt);
 		
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
 		$_pay_every->setAttribs(array(
@@ -219,9 +220,10 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'required' =>'true',
 				'onchange'=>'changeCollectType();'
 		));
-		$options= array(1=>"Day",2=>"Week",3=>"Month");
-		$_pay_every->setMultiOptions($options);
+// 		$options= array(1=>"Day",2=>"Week",3=>"Month");
+// 		$_pay_every->setMultiOptions($options);
 		$_pay_every->setValue(3);
+		$_pay_every->setMultiOptions($term_opt);
 		
 		$_every_payamount = new Zend_Dojo_Form_Element_FilteringSelect('every_payamount');
 		$_every_payamount->setAttribs(array(

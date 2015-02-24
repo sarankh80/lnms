@@ -19,21 +19,33 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
   		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
   		lm.total_capital,lm.interest_rate,
-  	   (SELECT payment_nameen FROM `ln_payment_method` WHERE id = lm.payment_method LIMIT 1) AS payment_method,
-       (SELECT zone_name FROM `ln_zone` WHERE zone_id=lg.zone_id LIMIT 1) AS zone_name,
-       (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
-       (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
-        lg.status  FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
+  	    (SELECT payment_nameen FROM `ln_payment_method` WHERE id = lm.payment_method LIMIT 1) AS payment_method,
+        (SELECT zone_name FROM `ln_zone` WHERE zone_id=lg.zone_id LIMIT 1) AS zone_name,
+        (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
+        (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
+         lg.status  FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
 				WHERE lg.g_id = lm.group_id AND loan_type =1 ";
     	if($search['status']>1){
-    		$where.= "lm.status = ".$search['status'];
+    		$where.= " lm.status = ".$search['status'];
     	}
-    	$order = " ORDER BY ";
-    	$db = $this->getAdapter();
-    	
-    	return $db->fetchAll($sql.$where);
+    	if($search['customer_code']>0){
+    		$where.= " AND lm.client_id=".$search['customer_code'];
+    	}
+    	if($search['repayment_method']>0){
+    		$where.= " AND lm.payment_method = ".$search['repayment_method'];
+    	}
+    	if($search['branch_id']>0){
+    		$where.= " AND lg.branch_id = ".$search['branch_id'];
+    	}
+    	if($search['co_id']>0){
+    		$where.= " AND lg.co_id=".$search['co_id'];
+    	}
+    	$order = " ORDER BY lg.g_id DESC";
+    	$db = $this->getAdapter();    
+//     	echo $sql.$where.$order;	
+    	return $db->fetchAll($sql.$where.$order);
+    	//`stGetAllIndividuleLoan`(IN txt_search VARCHAR(30),IN client_id INT,IN method INT,IN branch INT,IN co INT,IN s_status INT,IN from_d VARCHAR(70),IN to_d VARCHAR(70))
     }
-//     (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
     function getTranLoanByIdWithBranch($id){
     	$sql = "SELECT 
     		lg.g_id,lg.branch_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lg.date_release,
@@ -48,7 +60,38 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 	    	lg.zone_id,
 	    	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
 	    	lg.status AS str ,lg.status FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
-			WHERE lg.g_id = lm.group_id AND lg.g_id = $id LIMIT 1 ";
+			WHERE lg.g_id = lm.group_id AND lm.member_id = $id LIMIT 1 ";
+    	return $this->getAdapter()->fetchRow($sql);
+    }
+    public function getLoanviewById($id){
+    	$sql = "SELECT
+    	lg.g_id
+    	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch_name
+    	,lg.level
+    	,(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_firstname
+    	,(select concat(zone_name,'-',zone_num)as dd from `ln_zone` where zone_id = lg.zone_id ) AS zone_name
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=1 and key_code=lg.pay_term) AS pay_term
+    	,lg.date_release
+    	,lg.total_duration
+    	,lg.first_payment
+    	,lg.time_collect,
+    	lg.holiday,
+    	lg.date_line,
+    	lm.pay_after,lm.pay_before
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=1 and key_code=lm.collect_typeterm) AS collect_typeterm
+    	,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =lm.payment_method ) AS payment_nameen
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=15 and key_code=lm.currency_type) AS currency_type
+    	,lm.graice_period,
+    	lm.loan_number,lm.interest_rate,lm.amount_collect_principal,lm.semi,
+    	lm.client_id,lm.admin_fee,
+    	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
+    	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
+    	lm.total_capital,lm.interest_rate,lm.payment_method,
+    	lg.time_collect,
+    	lg.zone_id,
+    	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
+    	lg.status AS str ,lg.status FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
+    	WHERE lg.g_id = lm.group_id AND lm.member_id = $id LIMIT 1 ";
     	return $this->getAdapter()->fetchRow($sql);
     }
     function round_up($value, $places)

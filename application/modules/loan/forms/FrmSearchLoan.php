@@ -22,7 +22,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>'dijit.form.TextBox',
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH_FACULTY_NAME")
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
@@ -41,6 +41,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$group_opt = $db ->getGroupCodeById(1,1,1);
 		$_group_code->setMultiOptions($group_opt);
+		$_group_code->setValue($request->getParam("group_code"));
 		
 		$_customer_code = new Zend_Dojo_Form_Element_FilteringSelect('customer_code');
 		$_customer_code->setAttribs(array(
@@ -49,6 +50,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
+		$_customer_code->setValue($request->getParam("customer_code"));
 		
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(
@@ -57,6 +59,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options = $db->getGroupCodeById(2,0,1);
 		$_member->setMultiOptions($options);
+		$_member->setValue($request->getParam("member"));
 		
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
@@ -65,6 +68,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				));
 		$options = $db ->getGroupCodeById(2,1,1);//show name,show group,show option
 		$_groupid->setMultiOptions($options);
+		$_groupid->setValue($request->getParam("group_id"));
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid->setAttribs(array(
@@ -73,6 +77,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options = $db ->getAllCOName(1);
 		$_coid->setMultiOptions($options);
+		$_coid->setValue($request->getParam("co_id"));
 		
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
@@ -80,6 +85,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
+		$_currency_type->setValue($request->getParam("currency_type"));
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -89,6 +95,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
+		$_repayment_method->setValue($request->getParam("repayment_method"));
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
@@ -97,6 +104,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options = $db ->getZoneList(1);
 		$_zone->setMultiOptions($options);
+		$_zone->setValue($request->getParam("zone"));
 		
 		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('from_date');
 		$_releasedate->setAttribs(array(
@@ -120,6 +128,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options= array(1=>"Day",2=>"Week",3=>"Month");
 		$_payterm->setMultiOptions($options);
+		$_payterm->setValue($request->getParam("payment_term"));
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -132,6 +141,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
+		$_branch_id->setValue($request->getParam("branch_id"));
 		
 		if($data!=null){
 			print_r($data);
