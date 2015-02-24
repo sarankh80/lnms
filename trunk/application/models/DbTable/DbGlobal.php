@@ -481,7 +481,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getVewOptoinTypeBys($option = null,$limit =null){
   	$db = $this->getAdapter();
-  	$sql="SELECT id,title_en,title_kh,display_by,date,status FROM ln_callecteral_type WHERE status =1 ";
+  	$sql="SELECT id,title_en,title_kh,displayby,date,status FROM ln_callecteral_type WHERE status =1 ";
   	if($limit!=null){
   		$sql.=" LIMIT $limit ";
   	}
@@ -489,7 +489,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($option!=null){
   		$options=array(''=>"-----ជ្រើសរើស-----");
   		if(!empty($rows))foreach($rows AS $row){
-  			$options[$row['id']]=($row['display_by']==1)?$row['title_kh']:$row['title_en'];
+  			$options[$row['id']]=($row['displayby']==1)?$row['title_kh']:$row['title_en'];
   		}
   		return $options;
   	}else{
