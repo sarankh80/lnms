@@ -7,6 +7,7 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 	}
 	public function Frmchengcallecterall(){
 		$db = new Application_Model_DbTable_DbGlobal();
+		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$branch = new Zend_Dojo_Form_Element_FilteringSelect('branch');
 		$branch->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -26,21 +27,14 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'onchange'=>"popupCheckStaff();"
 		));
-		$rows = $db->getOwnerByType();
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['customer_id']]=$row['customer_name'];
+		$options = $db->getGroupCodeById(2,0,1);
 		$owner->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$owner_code = new Zend_Dojo_Form_Element_FilteringSelect('owner_code');
-		$rows = $db ->getAllCOName();
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
-		$owner_code->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'popupCheckCO();'
-		));
+		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
+		$owner_code->setMultiOptions($group_opt);
+		$owner_code->setValue($request->getParam('client_code'));
 		
 		$from = new Zend_Dojo_Form_Element_FilteringSelect('from');
 		$from->setAttribs(array(
@@ -48,9 +42,9 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 				));
-		$opt= $db->getVewOptoinTypeByType(13,1);
+		$from->setValue($request->getParam('from'));
+		$opt= $db->getCollteralType(1);
 		$from->setMultiOptions($opt);
-		$from->setValue(1);
 		
 		$to = new Zend_Dojo_Form_Element_FilteringSelect('to');
 		$to->setAttribs(array(
@@ -58,6 +52,8 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
+		$opt= $db->getCollteralType(1);
+		$to->setMultiOptions($opt);
 		
 		$owners = new Zend_Dojo_Form_Element_TextBox('owners');
 		$owners->setAttribs(array(
@@ -108,9 +104,17 @@ Class Callecterall_Form_Frmchengcallecterall extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
+		$options= array(1=>"ប្រើប្រាស់",2=>"មិនប្រើប្រាស់");
+		$status->setMultiOptions($options);
 		
+		$detial = new Zend_Dojo_Form_Element_TextBox('detial');
+		$detial ->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
 	
-		$this->addElements(array($branch,$owner,$from,$to,$date,$note,$status,$owners,$owner_code
+		$this->addElements(array($branch,$owner,$from,$to,$date,$note,$status,$owners,$owner_code,$detial
 				,$_personal,$numbernote));
 		return $this;
 		
