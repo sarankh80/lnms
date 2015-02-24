@@ -27,12 +27,14 @@ $frm = $this->Form_Frmcallecterall;
 							<td><?php echo $frm->getElement('owner')?></td>	
 						</tr>
 						<tr>
+							<td colspan="4"><?php echo $frm->getElement('detial')?></td>
 							<td><?php echo $tr->translate("FROM")?></td>
 							<td><?php echo $frm->getElement('from')?></td>	
-							<td><?php echo $tr->translate("TO")?></td>
-							<td><?php echo $frm->getElement('to')?></td>	
+								
 						</tr>
-							<tr>
+						<tr>
+							<td><?php echo $tr->translate("TO")?></td>
+							<td><?php echo $frm->getElement('to')?></td>
 							<td><?php echo $tr->translate("NAME_OWNER")?></td>
 							<td><?php echo $frm->getElement('owners')?></td>	
 							<td><?php echo $tr->translate("TYPE_CALLECTERALL")?></td>
@@ -42,11 +44,12 @@ $frm = $this->Form_Frmcallecterall;
 							<td><?php echo $tr->translate("DATE")?></td>
 							<td><?php echo $frm->getElement('date')?></td>	
 							<td><?php echo $tr->translate("NUMBER_NOTE")?></td>
-							<td><?php echo $frm->getElement('numbernote')?></td>	
+							<td><?php echo $frm->getElement('numbernote')?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php echo $frm->getElement('note')?></td>	
 						</tr>
 						<tr>
-					    	<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php echo $frm->getElement('note')?></td>	
+					    	<td colspan="4"></td>	
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>	
 							
