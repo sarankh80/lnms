@@ -41,14 +41,16 @@ $frm = $this->frm_loan;
 							<td><?php echo $frm->getElement('date_loss')?></td>
 						</tr>
 						<tr>
-							
+							<td><?php echo $tr->translate("CASH")?></td>
+							<td><?php  echo $frm->getElement('cash_type');?></td>
 							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Total_amount');?></td>
 							<td><?php echo $tr->translate("INTERREST_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Interest_amount');?></td>
-							<td><?php echo $tr->translate("TEM")?></td>
-							<td><?php  echo $frm->getElement('Term');?></td>
+							
 						</tr>
+						    <td><?php echo $tr->translate("TEM")?></td>
+							<td><?php  echo $frm->getElement('Term');?></td>
 						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
 						<tr>

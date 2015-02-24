@@ -23,6 +23,11 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo();'
 		));
+// 		$rows = $db->getClientByType();
+// 		$options=array(''=>"------Select------",-1=>"Add New");
+// 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
+// 		$customer_name->setMultiOptions($options);
+		
 
 		$opt= $db->getClientByTypes(1);
 		$client_code->setMultiOptions($opt);
