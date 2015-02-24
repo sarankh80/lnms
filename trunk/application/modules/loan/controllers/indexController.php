@@ -16,7 +16,11 @@ class Loan_indexController extends Zend_Controller_Action {
 			}
 			else{
 				$search = array(
-						'client_id' => -1,
+						'txt_search'=>'',
+						'customer_code'=> -1,
+						'repayment_method' => -1,
+						'branch_id' => -1,
+						'co_id' => -1,
 						'status' => -1,
 						'from_date' =>date('Y-m-d'),
 						'to_date' => date('Y-m-d'),
@@ -32,7 +36,7 @@ class Loan_indexController extends Zend_Controller_Action {
 					'module'=>'loan','controller'=>'index','action'=>'edit',
 			);
 			$link_info=array('module'=>'group','controller'=>'client','action'=>'view-clientinfo',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'client_name_kh'=>$link_info,'client_name_en'=>$link_info));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'client_name_kh'=>$link_info,'client_name_en'=>$link_info),2);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -118,6 +122,44 @@ class Loan_indexController extends Zend_Controller_Action {
 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+	}
+	
+	public function viewAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try{
+				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
+				$_dbmodel->updateLoanById($_data);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+			}catch (Exception $e) {
+				echo $err =$e->getMessage();exit();
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
+		}
+	
+		$id = $this->getRequest()->getParam('id');
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		$rs = $db_g->getLoanFundExist($id);
+		if($rs==true){
+			Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");
+		}
+		$db = new Loan_Model_DbTable_DbLoanIL();
+		$row = $db->getLoanviewById($id);
+		$this->view->tran_rs = $row;
+		print_r($row);
+// 		$frm = new Loan_Form_FrmLoan();
+// 		$frm_loan=$frm->FrmAddLoan($row);
+// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
+// 		$this->view->frm_loan = $frm_loan;
+// 		$frmpopup = new Application_Form_FrmPopupGlobal();
+// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
+// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
+// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
+// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 	}
 // 	function getLoannumberAction(){
 // 		if($this->getRequest()->isPost()){

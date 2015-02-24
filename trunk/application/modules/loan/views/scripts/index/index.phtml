@@ -8,7 +8,6 @@ $frm = $this->frm_search;
 </style>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
    <div class="input-search">
-   <?php echo $frm->getElement("btn_search");?>
    <?php echo $frm->getElement("adv_search");?>
    <?php echo $frm->getElement("customer_code");?>
    <?php echo $frm->getElement("member");?>
@@ -18,6 +17,7 @@ $frm = $this->frm_search;
    <?php echo $frm->getElement('from_date');?>
    <?php echo $frm->getElement('to_date');?>
    <?php echo $frm->getElement('status');?>
+   <?php echo $frm->getElement("btn_search");?>
    </div>
    <?php echo $this->list;?>
 </form>
