@@ -63,7 +63,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	FROM `ln_loan_member` AS lm WHERE is_completed = 0 AND status=1 ";
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
-    	$options=array();
+    	$options=array(0=>'------Select------');
     	if(!empty($rows))foreach($rows AS $row){
     		 if($type==1){
     			$lable = $row['client_number'];
@@ -94,9 +94,10 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     public function getLoanInfo($id){
     	$db=$this->getAdapter();
-    	$sql="SELECT (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_principal,
-       (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_interest
-       ,currency_type FROM `ln_loan_member` WHERE client_id=$id AND status=1 AND is_completed=0";
+    	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal,
+    	                (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_interest
+       ,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND STATUS=1 AND l.is_completed=0
+       ";
     	return $db->fetchRow($sql);
     }
   }
