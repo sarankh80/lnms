@@ -49,7 +49,7 @@ Class Group_Form_Frmcallecteralltype extends Zend_Dojo_Form {
 				'required'=>true
 		));
 		$date_call->setValue(date('Y-m-d'));
-	  $_id = new Zend_Form_Element_Hidden('id');
+	    $_id = new Zend_Form_Element_Hidden('id');
 		
 		if($data!=null){
 			$name_en->setValue($data['title_en']);

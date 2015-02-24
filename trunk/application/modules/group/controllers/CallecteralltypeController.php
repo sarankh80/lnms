@@ -43,8 +43,17 @@ public function init()
     {
     	try{
     		$db = new Callecterall_Model_DbTable_DbCallecterall();
+    		if($this->getRequest()->isPost()){
+    			$search=$this->getRequest()->getPost();
+    		}
+    		else{
+    			$search = array(
+    					'adv_search' => '',
+    					'status_search' => -1);
+    		}
+    		
     			
-    		$rs_rows= $db->geteAllid($search=null);//call frome model
+    		$rs_rows= $db->geteAllid($search);//call frome model
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
@@ -58,6 +67,10 @@ public function init()
     		echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
+    	$frm = new Callecterall_Form_Frmcallecterall();
+    	$frm = $frm->Frmcallecterall();
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frm_search = $frm;
     }
     public function editAction()
     {
