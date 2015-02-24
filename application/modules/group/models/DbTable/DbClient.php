@@ -45,7 +45,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				//'id_type'	  => $_data['id_type'],
 				//'id_number'	  => $_data['id_no'],
 				'phone'	      => $_data['phone'],
-				//'spouse_name' => $_data['spouse'],
+				'spouse_name' => $_data['spouse'],
 				'remark'	  => $_data['desc'],
 				//'create_date' => date("Y-m-d"),
 				'status'      => $_data['status'],

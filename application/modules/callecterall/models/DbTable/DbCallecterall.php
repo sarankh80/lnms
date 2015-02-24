@@ -41,8 +41,26 @@ class Callecterall_Model_DbTable_DbCallecterall extends Zend_Db_Table_Abstract
     }
     function geteAllid($search=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT id,title_en,title_kh,date,status FROM $this->_name where id ORDER BY id DESC";
-    	return $db->fetchAll($sql);
+    	$sql=" SELECT id,title_en,title_kh,date,status FROM $this->_name where 1";
+    	//return $db->fetchAll($sql);
+    	$Other=" ORDER BY id DESC";
+    	$where = '';
+    	 
+    	if(!empty($search['adv_search'])){
+    		$s_where = array();
+    		$s_search = $search['adv_search'];
+    		$s_where[] = "title_kh LIKE '%{$s_search}%'";
+    		$s_where[]="title_en LIKE '%{$s_search}%'";
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
+    	}
+    	if($search['status_search']>-1){
+    		$where.= " AND status = ".$search['status_search'];
+    	}
+//     	if(!empty($search['main_branch'])){
+//     		$where.=" AND parent= ".$search['main_branch'];
+//     	}
+    	 
+    	return $db->fetchAll($sql.$where.$Other);
     	
     }
 }

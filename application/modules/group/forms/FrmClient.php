@@ -6,6 +6,11 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddClient($data=null){
+		$_spouse = new Zend_Dojo_Form_Element_TextBox('spouse');
+		$_spouse->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
 		
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
 		$_group->setAttribs(array(
@@ -234,7 +239,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$job->setValue($data['job']);
 			$national_id->setValue($data['national_id']);
 		}
-		$this->addElements(array($_id,$photo,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

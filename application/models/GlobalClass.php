@@ -221,6 +221,7 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 					}
 					else{
 						$rows[$i]['status'] = $imgnone;
+						
 					}
 					
 				}

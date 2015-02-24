@@ -55,4 +55,14 @@ $frm = $this->Form_client_blacklist;
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
+
+
+function getmemberIdGroup(){
+	client_code= dijit.byId('client_code').get('value');
+	dijit.byId('client_name').attr('value',client_code);
+}
+function checkMember(){
+	client_name= dijit.byId('client_name').get('value');
+	dijit.byId('client_code').attr('value',client_name);
+}
 </script>
