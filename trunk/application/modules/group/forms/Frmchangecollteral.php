@@ -5,6 +5,10 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 	protected $filter=null;
 	protected $text=null;
 	protected $tarea=null;
+	public function getUserName(){
+		$session_user=new Zend_Session_Namespace('auth');
+		return $session_user->user_name;
+	}
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -21,7 +25,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH_COLLTERAL")
+				'placeholder'=>$this->tr->translate("SEARCH_CHANGE_COLLTERAL")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
@@ -127,9 +131,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		$opt= $db->getCollteralType(1);
-		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
+		$opt=array(''=>'------Select------',1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
 		$collteral_type->setMultiOptions($opt);
-		$collteral_type->setValue(1);
+		$collteral_type->setValue($request->getParam('collteral_type'));
 		
 		
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
@@ -137,6 +141,13 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		
+		$_note=new Zend_Dojo_Form_Element_TextBox('_note');
+		$_note->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
@@ -178,31 +189,58 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		
 		$opt= $db->getCollteralType(1);
 		$to->setMultiOptions($opt);
+		$to->setValue($request->getParam('to'));
 		
+		$receiver_name=new Zend_Dojo_Form_Element_TextBox('receiver_name');
+		$receiver_name->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true
+				));
+		
+		$giver_name=new Zend_Dojo_Form_Element_TextBox('giver_name');
+		$giver_name->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		
+		$owner_name=new Zend_Dojo_Form_Element_TextBox('owner_name');
+		$owner_name->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside'
+				));
+		
+		$_id=new Zend_Form_Element_Text('_id');
+		$_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside'
+				));
 		$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){
 		
 			$_branch_id->setValue($data['branch_id']);
-			$cod_cal->setValue($data['code_call']);
-			$co_name->setValue($data['co_id']);
-			$contract_code->setValue($data['contract_code']);
-			$clint_name->setValue($data['client_name']);
-			$_client_code->setValue($data['client_code']);
+			$_client_code->setValue($data['owner_code_id']);
+			$clint_name->setValue($data['owner_id']);
+			$from->setValue($data['from_id']);
 			$owner->setValue($data['owner']);
-			$collteral_type->setValue($data['callate_type']);
+			$to->setValue($data['to_id']);
+			$collteral_type->setValue($data['collteral_type']);
+			$number_code->setValue($data['number_code']);
+			$owner_name->setValue($data['owner']);
 			$note->setValue($data['note']);
-			$Date->setValue($data['date_registration']);
+			$Date->setValue($data['date']);
 			$stutas->setValue($data['status']);
+			$_note->setValue('change collteral');
+			$receiver_name->setValue($this->getUserName());
 			$id->setValue($data['id']);
-			
 		}
-
-		$this->addElements(array($from,$to,$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,$number_code,$contract_code,$_code,
-				$clint_name,$owner,$collteral_type,$note,
-				$Date,$_branch_id,$id,$stutas,$cod_cal));
+		$this->addElements(array($_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
+				$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,
+				$number_code,$contract_code,$_code,$clint_name,$owner,$collteral_type,
+				$note,$Date,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		
 	}	

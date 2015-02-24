@@ -504,7 +504,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"-----ជ្រើសរើស-----",'-1'=>"Add New");
+  		$options=array(''=>"-----Select-----",'-1'=>"Add New");
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['title_kh']:$row['title_en'];
   		}
@@ -709,7 +709,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db = $this->getAdapter();
   	$sql = " CALL `stGetAllClientType`($group_type)";
   	$result = $db->fetchAll($sql);
-  	$options=array(-1=>"------Select------");
+  	$options=array(''=>"------Select------");
   	if($opt!=null){
 		if(!empty($result))foreach($result AS $row){
 			if($group_type==1){
