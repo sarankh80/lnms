@@ -41,27 +41,29 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'onkeyup'=>'Calfive()'
 				));
 		
-		$fax = new Zend_Dojo_Form_Element_TextBox('_fax');
-		$fax->setAttribs(array(
+		$branch_fax = new Zend_Dojo_Form_Element_TextBox('branch_fax');
+		$branch_fax->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'onkeyup'=>'Calone()'
 				));
 		
 		///*** result of calculator ///***
-		$br_other = new Zend_Dojo_Form_Element_TextBox('br_other');
-		$br_other->setAttribs(array(
+		$branch_note = new Zend_Dojo_Form_Element_TextBox('branch_note');
+		$branch_note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 // 				'readonly'=>true
 				));
 		
-		$br_status = new Zend_Dojo_Form_Element_TextBox('br_status');
-		$br_status->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+		$branch_status = new Zend_Dojo_Form_Element_FilteringSelect('branch_status');
+		$branch_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 // 				'readonly'=>true
 				));
+		$options = array(1=>"ប្រើប្រាស់", 2=>"មិនប្រើប្រាស់");
+		$branch_status->setMultiOptions($options);
 		
 		$branch_display = new Zend_Dojo_Form_Element_TextBox('branch_display');
 		$branch_display->setAttribs(array(
@@ -76,10 +78,12 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				//'readonly'=>true
 		));
+	
 		
-		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$fax,$br_other,$br_status,$branch_display ));
+		$_id = new Zend_Form_Element_Hidden('id');
 		
-		//$_id = new Zend_Form_Element_Hidden('id');
+		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$branch_fax,$branch_note,
+				$branch_status,$branch_display));
 		
 		if(!empty($data)){
 			  
@@ -89,10 +93,10 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$br_address->setValue($data['br_address']);
 			$branch_tel->setValue($data['branch_tel']);
 			$branch_code->setValue($data['branch_code']);
-			$fax->setValue($data['_fax']);
-			$br_other->setValue($data['br_other']);
-			$br_status->setValue($data['br_status']);
-			$branch_display->setValue($data['branch_display']);
+			$branch_fax->setValue($data['fax']);
+			$branch_note->setValue($data['other']);
+			$branch_status->setValue($data['status']);
+			$branch_display->setValue($data['displayby']);
 			
 		}
 		return $this;

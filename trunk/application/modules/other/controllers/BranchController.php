@@ -7,21 +7,18 @@ class Other_BranchController extends Zend_Controller_Action {
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
 	public function indexAction(){
-		try{
-			if($this->getRequest()->isPost()){
-				$_data=$this->getRequest()->getPost();
-				$search = array(
-						'title' => $_data['title'],
-						'status' => $_data['status_search']);
-			}
-			else{
-		
-				$search = array(
-						'title' => '',
-						'status' => -1,
-				);
-		
-			}
+      try{
+    	 $db = new Other_Model_DbTable_DbBranch();
+    	 if($this->getRequest()->isPost()){
+    	$search=$this->getRequest()->getPost();
+   		}
+     else{
+   		 $search = array(
+      		'adv_search' => '',
+      		'status' => -1);
+  		 }
+           $rs_rows= $db->getAllBranch($search);
+   			
 			$db = new Other_Model_DbTable_DbBranch();
 			$rs_rows = $db->getAllBranch();
 			$glClass = new Application_Model_GlobalClass();
@@ -30,17 +27,18 @@ class Other_BranchController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_KH","BRANCH_EN","ADDRESS","CODE","TEL","FAX","DISPLAY","OTHER","STATUS");
 			$link=array(
-					'module'=>'other','controller'=>'branch','action'=>'edit',
+					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs,array('branch_namekh'=>$link,'branch_nameen'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$frm = new Other_Form_FrmSearch();
-		//$frm =$frm->search();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$fm = new Application_Form_FrmAdvanceSearch();
+ 		$frm = $fm->AdvanceSearch();
+  		Application_Model_Decorator::removeAllDecorator($frm);
+  		$this->view->frm_search = $frm;
+  
 	}
 	
 	function addAction()
@@ -79,10 +77,9 @@ class Other_BranchController extends Zend_Controller_Action {
 		//print_r($row);exit();
 	
 		$frm= new Other_Form_Frmbranch();
-		$update=$frm->FrmBranch($row);//print_r($row);
+		$update=$frm->FrmBranch($row);
 		$this->view->frm_branch=$update;
 		Application_Model_Decorator::removeAllDecorator($update);
 	}
 }
-
 
