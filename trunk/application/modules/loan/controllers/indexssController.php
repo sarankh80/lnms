@@ -66,7 +66,7 @@ class Loan_IndexssController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		$frm = new Loan_Form_FrmLoan();
+		$frm = new Loan_Form_FrmSearchLoanss();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
