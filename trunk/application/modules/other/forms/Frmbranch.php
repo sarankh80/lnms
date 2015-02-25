@@ -41,8 +41,8 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'onkeyup'=>'Calfive()'
 				));
 		
-		$branch_fax = new Zend_Dojo_Form_Element_TextBox('branch_fax');
-		$branch_fax->setAttribs(array(
+		$_fax = new Zend_Dojo_Form_Element_TextBox('fax ');
+		$_fax->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'onkeyup'=>'Calone()'
@@ -82,7 +82,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		
-		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$branch_fax,$branch_note,
+		$this->addElements(array($br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
 				$branch_status,$branch_display));
 		
 		if(!empty($data)){
@@ -93,7 +93,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$br_address->setValue($data['br_address']);
 			$branch_tel->setValue($data['branch_tel']);
 			$branch_code->setValue($data['branch_code']);
-			$branch_fax->setValue($data['fax']);
+			$_fax->setValue($data['fax']);
 			$branch_note->setValue($data['other']);
 			$branch_status->setValue($data['status']);
 			$branch_display->setValue($data['displayby']);

@@ -56,10 +56,10 @@ class Other_BranchController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		$fm=new Other_Form_Frmbranch();
-		$frm_branch=$fm->Frmbranch();
-		Application_Model_Decorator::removeAllDecorator($frm_branch);
-		$this->view->frm_branch = $frm_branch;
+		$fm = new Other_Form_Frmbranch();
+		$frm = $fm->Frmbranch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_branch = $frm;
 	}
 	function editAction(){
 		$id=$this->getRequest()->getParam("id");

@@ -2,7 +2,7 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	echo $this->headTitle($tr->translate('ADD_BRANCH')); 
 ?>
-<?php  $branch= $this->frm_branch;?>
+<?php  $frm = $this->frm_branch;?>
 <form action="<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -21,32 +21,32 @@
 							<td align="center" valign="top">
 								<table width="100%" cellspacing="10">
 									<tr>
-										<td><?php echo $tr->translate("ID")?></td>
-										<td><?php echo $branch->getElement("br_id");?></td>
-										<td><?php echo $tr->translate("Name(Khmer)");?></td>
-										<td><?php echo $branch->getElement('branch_namekh');?></td>
-										<td><?php echo $tr->translate("Name(English)");?></td>
-										<td><?php echo $branch->getElement('branch_nameen');?></td>
+										<td><?php echo $tr->translate("BR_ID")?></td>
+										<td><?php echo $frm->getElement("br_id");?></td>
+										<td><?php echo $tr->translate("BRANCH_NAMEKH")?></td>
+										<td><?php echo $frm->getElement("branch_namekh");?></td>
+										<td><?php echo $tr->translate("BRANCH_NAMEEN")?></td>
+										<td><?php echo $frm->getElement("branch_nameen");?></td>
 									</tr>
 									<tr>
-										<td><?php echo $tr->translate("Branch Address");?></td>
-										<td><?php echo $branch->getElement('br_address');?></td>
-										<td><?php echo $tr->translate("Tell");?></td>
-										<td><?php echo $branch->getElement('branch_tel');?></td>
-                                        <td><?php echo $tr->translate("Branch code");?></td>
-										<td><?php echo $branch->getElement('branch_code');?></td>
+										<td><?php echo $tr->translate("BRANCH_ADDRESS")?></td>
+										<td><?php echo $frm->getElement("br_address");?></td>
+										<td><?php echo $tr->translate("BRANCH_TEL")?></td>
+										<td><?php echo $frm->getElement("branch_tel");?></td>
+                                        <td><?php echo $tr->translate("BRANCH_CODE")?></td>
+										<td><?php echo $frm->getElement("branch_code");?></td>
 									</tr>
 									<tr>
-										<td><?php echo $tr->translate("Fax")?></td>
-										<td><?php echo $branch->getElement('_fax');?></td>
-										<td><?php echo $tr->translate("Other");?></td>
-										<td><?php echo $branch->getElement('br_other');?></td>
-										<td><?php echo $tr->translate("Status")?></td>
-										<td><?php echo $branch->getElement('br_status');?></td>
+										<td><?php echo $tr->translate("BRNACH_FAX")?></td>
+										<td><?php echo $frm->getElement("fax");?></td>
+										<td><?php echo $tr->translate("BRANCH_NOTE")?></td>
+										<td><?php echo $frm->getElement("branch_note");?></td>
+										<td><?php echo $tr->translate("BRANCH_STATUS")?></td>
+										<td><?php echo $frm->getElement("branch_status");?></td>
 									</tr>
 									<tr>
-										<td><?php echo $tr->translate("Display");?></td>
-										<td><?php echo $branch->getElement('branch_display');?></td> 
+										<td><?php echo $tr->translate("BRANCH_DISPLAY")?></td>
+										<td><?php echo $frm->getElement("branch_display");?></td>
 										<td colspan="4"></td>
 									</tr>
 									<tr>
