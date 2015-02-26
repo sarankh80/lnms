@@ -66,7 +66,7 @@ class Loan_IndexssController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		$frm = new Loan_Form_FrmSearchLoanss();
+		$frm = new Loan_Form_FrmLoanss();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
@@ -233,6 +233,15 @@ class Loan_IndexssController extends Zend_Controller_Action {
 			 
 // 			readfile( $filename );// exit();
 		
+	}
+	public function getLoaninfoAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db=new Loan_Model_DbTable_DbLoanss();
+			$row=$db->getLoanInfo($data['loan_id']);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
 	}
 }
 
