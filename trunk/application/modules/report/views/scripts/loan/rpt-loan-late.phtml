@@ -1,1 +1,79 @@
-index
+<?php $tran = $this->tran_schedule;
+$client = $this->client;
+?>
+<meta charset="utf-8">
+<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:50px;">
+ 
+</div>
+<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
+                	
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td width="45%">
+                					<?php echo $this->data['brand_adress'];?>
+								<br /><?php echo $this->data['phone_brand'];?>
+                				</td>
+                				<td></td>
+                				
+                				<td></td>
+                			</tr>
+			               
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
+        </td>
+    </tr>
+    <tr>
+    	<td>
+            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
+                    <td>ID</td>
+                    <td>NAME_KH</td>
+                    <td>TOTAL_PRINCIPAL</td>
+                    <td>PRINCIPAL_PERMONTH</td>
+                    <td>TOTAL_INTEREST</td>
+                    <td>TOTAL_PAYMENT</td>
+                    <td>AMOUNT_DAY</td>
+                    <td>IS_APPROVED</td>
+                    <td>BRANCH_ID</td>
+                </tr>
+               <?php foreach ($this->loanlate_list as $index => $rs){ ?>
+                <tr>
+               		<td><?php echo $rs["id"];?></td>
+               		<td><?php echo $rs["name_kh"];?></td>
+               		<td><?php echo $rs["total_principal"];?></td>
+               		<td><?php echo $rs["principal_permonth"];?></td>
+               		<td><?php echo $rs["total_interest"];?></td>
+               		<td><?php echo $rs["total_payment"];?></td>
+               		<td><?php echo $rs["amount_day"];?></td>
+               		<td><?php echo $rs["is_approved"];?></td>
+               		<td><?php echo $rs["branch_id"];?></td>
+                </tr>
+                <?php }?>
+               
+            </table>
+    	</td>
+    </tr>
+</table>
+</div>

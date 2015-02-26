@@ -30,21 +30,21 @@
                     <th colspan="12">Loan Officer1-Instrument Personal loan(IL)</th>
                
                 </tr>
-                <?php for($i=1;$i<=7;$i++) {?>
+                 <?php foreach ($this->loandateline_list as $index => $rs){ ?>
                 <tr>
-                    <td>&nbsp;LDH/14/1l-2/17/19</td>
-                    <td>&nbsp;Jimmy</td>
-                    <td>&nbsp;page</td>
-                    <td>&nbsp;Londong District</td>
-                    <td>&nbsp;28.07.2014</td>
-                    <td>&nbsp;28.10.2014</td>
-                    <td>&nbsp;300000</td>
-                    <td>&nbsp;00000</td>
-                    <td>&nbsp;300000</td>
-                    <td>&nbsp;300</td>
-                    <td>&nbsp;30</td>
-                    <td>&nbsp;30</td>
-                    <td>&nbsp;79</td>
+               		<td><?php //echo $rs["g_id"];?></td>
+               		<td><?php echo $rs["first_name"];?></td>
+               		<td><?php echo $rs["last_name"];?></td>
+               		<td><?php echo $rs["zone_id"];?></td>
+               		<td><?php echo $rs["create_date"];?></td>
+               		<td><?php echo $rs["date_line"];?></td>
+               		<td><?php echo $rs["total_duration"];?></td>
+               		<td><?php echo $rs["first_payment"];?></td>
+               		<td><?php echo $rs["holiday"];?></td>
+               		<td><?php echo $rs["payment_method"];?></td>
+               		<td><?php echo $rs["teller_id"];?></td>
+               		<td><?php echo $rs["collect_typeterm"];?></td>
+               		<td><?php echo $rs["date_release"];?></td>
                 </tr>
                 <?php }?>
                  <tr>

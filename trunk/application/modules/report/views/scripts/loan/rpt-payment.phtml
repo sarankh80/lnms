@@ -28,52 +28,52 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     <tr>
     	<td>
             <table width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
-                <tr align="center" bgcolor="#FFFFCC">
-                    <td><?php echo $tr->translate("RECEIPT_NO");?></td>
-                    <td><?php echo $tr->translate("CLIENT_ID");?></td>
-                    <td><?php echo $tr->translate("CO_ID");?></td>
-                    <td><?php echo $tr->translate("RECEIVER_ID");?></td>
-                    <td><?php echo $tr->translate("DATE_INPUT");?></td>
-                    <td><?php echo $tr->translate("CAPITAL");?></td>
-                    <td><?php echo $tr->translate("REMAIN_CAPITAL");?></td>
-                    <td><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></td>
-                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
-                    <td><?php echo $tr->translate("PENALIZE");?></td>
-                    <td><?php echo $tr->translate("TOTAL_FUND");?></td>
-                    <td><?php echo $tr->translate("SERVICE_CHARGE");?></td>
-                    <td><?php echo $tr->translate("RECIEVER_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("RETURN_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("NOTE");?></td>
-                    <td><?php echo $tr->translate("IS_COMPLETE");?></td>
-                    <td><?php echo $tr->translate("IS_VERIFY");?></td>
-                    <td><?php echo $tr->translate("VERIFY_BY");?></td>
-                    <td><?php echo $tr->translate("IS_CLOSINGENTY");?></td>
+                <tr align="center" bgcolor="#669">
+                    <th><?php echo $tr->translate("REC_NO");?></th>
+                    <th><?php echo $tr->translate("CLIENT_ID");?></th>
+                    <th><?php echo $tr->translate("CO_ID");?></th>
+                    <th><?php echo $tr->translate("RECEIVER_ID");?></th>
+                    <th><?php echo $tr->translate("DATE_INPUT");?></th>
+                    <th><?php echo $tr->translate("CAPITAL");?></th>
+                    <th><?php echo $tr->translate("REMAIN_CAPITAL");?></th>
+                    <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
+                    <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
+                    <th><?php echo $tr->translate("PENALIZE");?></th>
+                    <th><?php echo $tr->translate("TOTAL_FUND");?></th>
+                    <th><?php echo $tr->translate("SERVICE_CHARGE");?></th>
+                    <th><?php echo $tr->translate("RECIEVER_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("RETURN_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("NOTE");?></th>
+                    <th><?php echo $tr->translate("IS_COMPLETE");?></th>
+                    <th><?php echo $tr->translate("IS_VERIFY");?></th>
+                    <th><?php echo $tr->translate("VERIFY_BY");?></th>
+                    <th><?php echo $tr->translate("IS_CLOSINGENTY");?></th>
                 </tr>
                 <?php foreach ($this->loanpayment_list as $index => $rs){ ?>
                 <tr>
-               		<td><?php echo $tr->translate("receipt_no");?></td>
-               		<td><?php echo $tr->translate("client_id");?></td>
-               		<td><?php echo $tr->translate("co_id");?></td>
-               		<td><?php echo $tr->translate("receiver_id");?></td>
-               		<td><?php echo $tr->translate("date_input");?></td>
-               		<td><?php echo $tr->translate("capital");?></td>
-               		<td><?php echo $tr->translate("remain_capital");?></td>
-               		<td><?php echo $tr->translate("principal_permonth");?></td>
-               		<td><?php echo $tr->translate("total_interest");?></td>
-               		<td><?php echo $tr->translate("penalize_amount");?></td>
-               		<td><?php echo $tr->translate("total_fund");?></td>
-               		<td><?php echo $tr->translate("service_charge");?></td>
-               		<td><?php echo $tr->translate("recieve_amount");?></td>
-               		<td><?php echo $tr->translate("reuturn_amount");?></td>
-               		<td><?php echo $tr->translate("note");?></td>
-               		<td><?php echo $tr->translate("is_complete");?></td>
-               		<td><?php echo $tr->translate("is_verify");?></td>
-               		<td><?php echo $tr->translate("verify_by");?></td>
-               		<td><?php echo $tr->translate("is_closingentry");?></td>
+               		<td><?php echo $rs["receipt_no"];?></td>
+               		<td><?php echo $rs["client_id"];?></td>
+               		<td><?php echo $rs["co_id"];?></td>
+               		<td><?php echo $rs["receiver_id"];?></td>
+               		<td><?php echo $rs["date_input"];?></td>
+               		<td><?php echo $rs["capital"];?></td>
+               		<td><?php echo $rs["remain_capital"];?></td>
+               		<td><?php echo $rs["principal_permonth"];?></td>
+               		<td><?php echo $rs["total_interest"];?></td>
+               		<td><?php echo $rs["penalize_amount"];?></td>
+               		<td><?php echo $rs["total_fund"];?></td>
+               		<td><?php echo $rs["service_charge"];?></td>
+               		<td><?php echo $rs["recieve_amount"];?></td>
+               		<td><?php echo $rs["reuturn_amount"];?></td>
+               		<td><?php echo $rs["note"];?></td>
+               		<td><?php echo $rs["is_complete"];?></td>
+               		<td><?php echo $rs["is_verify"];?></td>
+               		<td><?php echo $rs["verify_by"];?></td>
+               		<td><?php echo $rs["is_closingentry"];?></td>
                 </tr>
                 <?php }?>
             </table>
-            <hr style="height: 2px; width:100%; color: #005;">
+            
     	</td>
     </tr>
 </table>

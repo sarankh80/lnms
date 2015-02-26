@@ -44,5 +44,22 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				,reuturn_amount,note,is_complete,is_verify,verify_by,is_closingentry from ln_client_receipt_money";
       	return $db->fetchAll($sql);
       }
+      public function getALLLoanlate($search){
+     	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+      	$db = $this->getAdapter();
+      	$sql="select id,(SELECT co_khname FROM `ln_co` WHERE co_id=member_id) AS name_kh,total_principal,principal_permonth,total_interest,total_payment,
+      	amount_day,is_approved,branch_id from ln_loanmember_funddetail WHERE status=1 AND is_completed=0 AND $to_date";
+      	return $db->fetchAll($sql);
+      }
+      public function getALLLoandateline(){
+      	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+      	$db = $this->getAdapter();
+      	$sql="select g.level,(select first_name from rms_users where id=g.group_id) as first_name,(select last_name from rms_users where id=g.co_id)as last_name
+		,g.zone_id,g.date_release,g.date_line,g.create_date,g.total_duration,g.first_payment,g.time_collect
+		,g.collect_typeterm,g.pay_term,g.payment_method,g.holiday,g.is_renew,g.branch_id,g.loan_type,g.status,g.is_verify,g.is_badloan,g.teller_id
+		,m.chart_id,m.member_id,m.loan_number,m.currency_type,m.total_capital,m.admin_fee,m.interest_rate,m.loan_cycle,m.loan_purpose,m.pay_before
+		,m.pay_after,m.graice_period,m.amount_collect_principal,m.show_barcode,m.is_completed,m.semi from ln_loan_group as g,ln_loan_member as m where m.group_id = g.g_id";
+      	return $db->fetchAll($sql);
+      }
  }
 

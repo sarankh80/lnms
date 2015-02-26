@@ -43,7 +43,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	if($this->getRequest()->isPost()){
   		$collumn = array("member_id","chart_id","group_id","loan_number","client_id"
   				,"payment_method","currency_type","sum(total_capital) As total_capital"
-  				,"admin_fee","collect_typeterm","interest_rate","status,is_completed","branch_id"
+  				,"admin_fee","collect_typeterm","interest_rate","status","is_completed","branch_id"
   				,"loan_cycle","loan_purpose","pay_before","pay_after","graice_period"
   				,"amount_collect_principal","show_barcode");
   		$this->exportFileToExcel('ln_staff','$rs','$collumn');
@@ -60,8 +60,8 @@ class Report_LoanController extends Zend_Controller_Action {
   	if($this->getRequest()->isPost()){
   		$collumn = array("receipt_no","client_id","co_id","receiver_id","date_input","capital","remain_capital",
 				"principal_permonth","total_interest","penalize_amount","total_fund","service_charge","recieve_amount"
-				,"reuturn_amount","note,is_complete","is_verify","verify_by","is_closingentry");
-  		$this->exportFileToExcel('ln_staff','$rs','$collumn');
+				,"reuturn_amount","note","is_complete","is_verify","verify_by","is_closingentry");
+  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
   	}
   }
   function rptPaymentScheduleAction(){
@@ -69,6 +69,22 @@ class Report_LoanController extends Zend_Controller_Action {
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptLoanLateAction(){
+  	$db  = new Report_Model_DbTable_DbLoan();
+  	$search = array(
+  			'client_id' => -1,
+  			'status' => -1,
+  			'from_date' =>date('Y-m-d'),
+  			'to_date' => date('Y-m-d'),
+  	);
+  	$rs=$db->getALLLoanlate($search);
+  	$this->view->loanlate_list =$rs;
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$collumn = array("id","name_kh","total_principal","principal_permonth","total_interest","total_payment",
+      	"amount_day","is_approved","branch_id");
+  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+  	}
   }
   function rptLoanCycleAction(){
   }
@@ -91,6 +107,22 @@ class Report_LoanController extends Zend_Controller_Action {
   function repaymentAction(){
 }
 function rptLoanDatelineAction(){
+	$db  = new Report_Model_DbTable_DbLoan();
+	$rs=$db->getALLLoandateline();
+	$this->view->loandateline_list =$rs;
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	if($this->getRequest()->isPost()){
+		$collumn = array("level","first_name","last_name","zone_id","date_release","date_line","create_date","total_duration","first_payment","time_collect","pay_term","payment_method","holiday","is_renew","branch_id","loan_type","is_verify","is_badloan","teller_id"
+				,"chart_id","member_id","loan_number","currency_type","total_capital","admin_fee","interest_rate","loan_cycle","loan_purpose","pay_before"
+				,"pay_after","graice_period","amount_collect_principal","show_barcode","is_completed","semi");
+		
+				
+		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+	}
+	
+	
+	
 }
 function rptLoanTotalCollectAction(){
 }
