@@ -503,4 +503,40 @@ function calCulateFirstPayment(){
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
+
+var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'indexss','action'=>'get-loaninfo')); ?>';
+function getClientInfo(type){
+	//alert(9);
+	if(type==1){
+	     id = dijit.byId("customer_code").get('value');
+	}else if(type==2){
+		id = dijit.byId("member").get('value');
+	
+	}
+	
+	dijit.byId('total_amount').attr('value',0);
+	
+	dojo.xhrPost({
+	    url: url_submiinfo,	
+	    content : { 
+		    'loan_id':id,
+		  //  'type':type,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('total_amount').attr('value',data.total_principal);
+		    dijit.byId("customer_code").attr('value',id);
+			dijit.byId("member").attr('value',id);
+			
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+	
+	
+	
+    } 
 </script>

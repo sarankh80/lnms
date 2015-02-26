@@ -150,6 +150,38 @@ class Loan_Model_DbTable_DbLoanss extends Zend_Db_Table_Abstract
     public function CalculateByMethod($method_type){
     	
     }
+    public function getLoanInfo($id){
+    	$db=$this->getAdapter();
+    	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal
+    	,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND STATUS=1 AND l.is_completed=0
+    	";
+    	return $db->fetchRow($sql);
+    }
+    
+    public function getClientByTypes($type){
+    	$this->_name='ln_loan_member';
+    	$sql ="SELECT
+    	(SELECT c.client_number FROM `ln_client` AS c WHERE lm.client_id=c.client_id LIMIT 1 )AS client_number,
+    	(SELECT c.name_en FROM `ln_client` AS c WHERE lm.client_id=c.client_id LIMIT 1 )AS name_en,
+    	lm.client_id ,lm.loan_number
+    	FROM `ln_loan_member` AS lm WHERE is_completed = 0 AND status=1 ";
+    	$db = $this->getAdapter();
+    	$rows = $db->fetchAll($sql);
+    	$options=array(0=>'------Select------');
+    	if(!empty($rows))foreach($rows AS $row){
+    		if($type==1){
+    			$lable = $row['client_number'];
+    		}elseif($type==2){
+    			$lable = $row['name_en'];
+    		}
+    		else{$lable = $row['loan_number'];
+    		}
+    		$options[$row['client_id']]=$lable;
+    	}
+    	return $options;
+    }
+    
+    }
   
-}
+
 
