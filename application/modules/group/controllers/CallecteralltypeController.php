@@ -51,8 +51,6 @@ public function init()
     					'adv_search' => '',
     					'status_search' => -1);
     		}
-    		
-    			
     		$rs_rows= $db->geteAllid($search);//call frome model
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);

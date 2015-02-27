@@ -12,13 +12,26 @@ class Group_indexController extends Zend_Controller_Action {
 		try{
 			$db = new Group_Model_DbTable_DbClient();
 			if($this->getRequest()->isPost()){
-				$search=$this->getRequest()->getPost();
+				$formdata=$this->getRequest()->getPost();
+				$search = array(
+						'adv_search' => $formdata['adv_search'],
+						'province_id'=>$formdata['province'],
+						'comm_id'=>$formdata['commune'],
+						'district_id'=>$formdata['district'],
+						'village'=>$formdata['village'],
+						'status'=>$formdata['status'],
+						);
 			}
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'status' => -1,
+						'province_id'=>-1,
+						'district_id'=>-1,
+						'comm_id'=>-1,
+						'village'=>-1,);
 			}
+			
 			$rs_rows= $db->getAllClients($search);
 			$result = array();
 			foreach ($rs_rows as $key =>$rs){
@@ -56,26 +69,51 @@ class Group_indexController extends Zend_Controller_Action {
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+		
+		$fm = new Group_Form_FrmClient();
+		$frm = $fm->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_client = $frm;
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
+		$this->view->village_name = $db->getVillage();
+		
+		$this->view->result=$search;	
+		
+		
+		
 	}
+// 	function provinceidAction(){
+	
+// 		if($this->getRequest()->isPost()){
+// 			$db = new Group_Model_DbTable_DbClient();
+// 			$data = $this->getRequest()->getPost();
+// 			$row = $db->getClientById($data);
+// 			print_r($row);exit();
+// 			$this->view->row=$row;
+// 		}
+// 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
+				
 				$db = new Group_Model_DbTable_DbClient();
 				try{
-				if(isset($data['save_new'])){
+				 if(isset($data['save_new'])){
 					$db->addClient($data);
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/add');
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 				}
-				else if ($data['save_close']){
+				else if (isset($data['save_close'])){
 					$db->addClient($data);
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/group/index/index');
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					Application_Form_FrmMessage::redirectUrl("/group/index");
 				}
-				else if ($data['close']){ 
+				else if (isset($data['close'])){
 					Application_Form_FrmMessage::redirectUrl("/group/index");
-					}
+				}
+				
 			}catch (Exception $e){
-				//echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("Application Error");
 				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -96,6 +134,7 @@ class Group_indexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
+			    
 				$db->addClient($data);
 				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/index");
 			}catch (Exception $e){

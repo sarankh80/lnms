@@ -15,7 +15,6 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$upload->addFilter('Rename',
 				array('target' => PUBLIC_PATH . '/images/'. $photoname, 'overwrite' => true) ,'photo');
 		$receive = $upload->receive();
-		//echo $receive; exit();
 		if($receive)
 		{
 			$_data['photo'] = $photoname;
@@ -42,12 +41,9 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'photo_name'  =>$_data['photo'],
 				'job'        =>$_data['job'],
 				'national_id'=>$_data['national_id'],
-				//'id_type'	  => $_data['id_type'],
-				//'id_number'	  => $_data['id_no'],
 				'phone'	      => $_data['phone'],
 				'spouse_name' => $_data['spouse'],
 				'remark'	  => $_data['desc'],
-				//'create_date' => date("Y-m-d"),
 				'status'      => $_data['status'],
 				'user_id'	  => $this->getUserId()
 		);
@@ -100,6 +96,18 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];
+		}
+		if(!empty($search['province_id'])){
+			$where.=" AND pro_id= ".$search['province_id'];
+		}
+		if(!empty($search['district_id'])){
+			$where.=" AND dis_id= ".$search['district_id'];
+		}
+		if(!empty($search['comm_id'])){
+			$where.=" AND com_id= ".$search['comm_id'];
+		}
+		if(!empty($search['village'])){
+			$where.=" AND village_id= ".$search['village'];
 		}
 		return $db->fetchAll($sql.$where.$order);	
 	}

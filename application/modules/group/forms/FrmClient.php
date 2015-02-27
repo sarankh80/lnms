@@ -12,6 +12,8 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
 		$_group->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
@@ -98,12 +100,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_province->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'filterDistrict();'
+				'onchange'=>'filterDistrict();',
+				
 		));
 		$rows =  $db->getAllProvince();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>"------Select Province------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['province_id']]=$row['province_en_name'];
 		$_province->setMultiOptions($options);
+// 		$_province->setValue($request->getParam('province'));
 		
 		
 		$_district = new Zend_Dojo_Form_Element_FilteringSelect('district');
