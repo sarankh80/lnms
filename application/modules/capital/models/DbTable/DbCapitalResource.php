@@ -14,10 +14,6 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
     	$sql="CALL getCapitalDetailById($id);";
     	return $db->fetchRow($sql);
     }
-    public function getAllCapitalDetail(){
-    	
-    }
-    
    	Public function addCapitalResource($_data){
    		$db = $this->getAdapter();
    		$db->beginTransaction();
