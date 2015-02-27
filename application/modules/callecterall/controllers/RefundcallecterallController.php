@@ -8,7 +8,9 @@ class Callecterall_RefundcallecterallController extends Zend_Controller_Action
         /* Initialize action controller here */
     	
     }
-
+	public function indexAction(){
+		
+	}
     public function addAction()
     {
        $fm = new Callecterall_Form_Frmrefundcallecterall();

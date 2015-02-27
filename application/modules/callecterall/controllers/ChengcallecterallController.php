@@ -44,11 +44,12 @@ class Callecterall_ChengcallecterallController extends Zend_Controller_Action
     	if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbChangeCollteral();
-			try {
-				$db = $db->addChangeCollteral($data);
+			try {				
 				if(!empty($data['save_new'])){
+					$db = $db->addChangeCollteral($data);
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}else{
+					$db = $db->addChangeCollteral($data);
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/chengcallecterall/index');
 				}
 			} catch (Exception $e) { 
@@ -77,9 +78,15 @@ class Callecterall_ChengcallecterallController extends Zend_Controller_Action
     	if($this->getRequest()->isPost()){
     		$data=$this->getRequest()->getPost();
     		try {
-    			//print_r($data);exit();
-    			$db = $db->updateChangeCollteral($data);
-    			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/chengcallecterall/index');
+    			//print_r($data);exit();    			
+    			if(!empty($data['save_new'])){
+    				$db = $db->updateChangeCollteral($data);
+    				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+    			}else{
+    				$db = $db->updateChangeCollteral($data);
+    				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/chengcallecterall/index');
+    			}
+    			
     		} catch (Exception $e) {
     			$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
     		}

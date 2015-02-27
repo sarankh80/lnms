@@ -6,16 +6,12 @@ Class Callecterall_Form_Frmcallecteralllist extends Zend_Dojo_Form {
 		
 	}
 	public function callecteralllist($data=null){
-		
-		$branch = new Zend_Dojo_Form_Element_FilteringSelect('branch');
-		$branch->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				));
-		$options= array(1=>"សាខា កណ្តាល",2=>"សាខា ទី១");
-		$branch->setMultiOptions($options);
-	    
 		$db = new Application_Model_DbTable_DbGlobal();
+		$branch = new Zend_Dojo_Form_Element_FilteringSelect('branch'); 
+		$branch->setAttribs(array( 'dojoType'=>'dijit.form.FilteringSelect', 'class'=>'fullside', 'required' =>'true' )); 
+		$rows = $db->getAllBranchName(); $options=''; if(!empty($rows))foreach($rows AS $row){ $options[$row['br_id']]=$row['branch_namekh']; } 
+		$branch->setMultiOptions($options);	    
+		
 		$id_client = $db->getNewReceiptId();
 		$receipt = new Zend_Dojo_Form_Element_TextBox('receipt');
 		$receipt->setAttribs(array(

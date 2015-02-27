@@ -10,7 +10,7 @@ class Callecterall_Model_DbTable_DbCallecterall extends Zend_Db_Table_Abstract
     			'title_kh'=>$data['title_kh'],
     			'date'=>$data['date'],
     			'status'=>$data['status'],
-    			'display_by'=>$data['display_by'],
+    			'displayby'=>$data['display_by'],
     			);
          $id=$this->insert($arr);
      
