@@ -57,6 +57,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	}
 	function addAction()
 	{
+		
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
@@ -76,7 +77,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		// 		$this->view->frm_loan = $frm_loan;
 	
 		$frm = new Loan_Form_FrmIlPayment();
-		$frm_loan=$frm->FrmAddIlPayment();
+		$frm_loan=$frm->FrmGroupPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
 	
@@ -90,24 +91,15 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	}
 	
 	
-	function addAddAction()
-	{
+	function getLoanDetailAction(){
 		if($this->getRequest()->isPost()){
-			// 			$_data = $this->getRequest()->getPost();
-			// 			try {
-			// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
-			// 				$_dbmodel->addNewProvince($_data);
-			// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
-			// 			}catch (Exception $e) {
-			// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-			// 				$err =$e->getMessage();
-			// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			// 			}
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanIL();
+			$row = $db->getGroupLoadDetail($data);
+			print_r(Zend_Json::encode($row));
+			exit();
 		}
-		$frm = new Loan_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan();
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		$this->view->frm_loan = $frm_loan;
+	
 	}
 }
 
