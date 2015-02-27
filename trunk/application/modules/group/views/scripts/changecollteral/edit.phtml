@@ -62,9 +62,9 @@ echo $this->headTitle($tr->translate("UPDATE_CHANGE_COLLTERAL"));
 								<td><?php echo $tr->translate("STATUS ")?></td>
 								<td><?php echo $frm->getElement('Stutas')?></td>
 								<td><?php echo $tr->translate("")?></td>
-								<td><?php echo $frm->getElement('')?></td>
+								<td><?php echo $frm->getElement('collteral_id')?></td>
 								<td><?php echo $tr->translate(" ")?></td>
-								<td><?php echo $frm->getElement('')?></td>
+								<td><?php echo $frm->getElement('changecollteral_id')?></td>
 							</tr>
 					</table>
 					<fieldset>
@@ -156,6 +156,7 @@ function getOwnerInfo(){
 			dijit.byId('from').set('readOnly',true);
 			dijit.byId('owner_name').attr('value',data.owner);
 			dijit.byId('giver_name').attr('value',data.owner);
+			dijit.byId('collteral_id').attr('value',data.id);
 		},
 		error: function(err) {
 			alert(err);

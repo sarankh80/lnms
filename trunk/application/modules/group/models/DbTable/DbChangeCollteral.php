@@ -11,41 +11,84 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
     	$db=$this->getAdapter();
     	$db->beginTransaction();
     	try {
-    	$arr = array(
-    			'branch_id'=>$data['branch_id'],
-				'owner_code_id'=>$data['client_code'],
-    			'owner_id'=>$data['client_name'],
-    			'from_id'=>$data['from'],
-    			'to_id'=>$data['to'],
-    			'collteral_type'=>$data['collteral_type'],
-    			'number_code'=>$data['number_code'],
-    			'owner'=>$data['owner_name'],
-    			'date'=>$data['date'],
-    			'note'=>$data['note'],
-    			'status'=>$data['Stutas'],
-    			'user_id'=>$this->getUserId()
-    		);
-    		$id=$this->insert($arr);
-    		$this->_name='ln_return_collteral';
-    	$_arr=array(
-    			'change_id'=>$id,
-    			'giver_name'=>$data['giver_name'],
-    			'receiver_name'=>$data['receiver_name'],
-    			'date'=>date('Y-m-d'),
-    			'user_id'=>$this->getUserId(),
-    			);
-    		$this->insert($_arr);
+	    	$this->_name='ln_client_callecteral';
+	    	$where=" id=".$data['collteral_id'];
+	    	$_arr_=array('is_changed'=>2);
+	    	$this->update($_arr_, $where);
+	    	
+	    		$arr_collteral = array(
+	    			'branch_id'=>$data['branch_id'],
+	    			'client_code'=>$data['client_code'],
+	    			'number_collteral'=>$data['number_code'],
+	    			'client_name'=>$data['client_name'],
+	    			'owner'=>$data['owner_name'],
+	    			'callate_type'=>$data['to'],
+	    			'note'=>$data['note'],
+	    			'date_registration'=>$data['date'],
+	    			'status'=>$data['Stutas'],
+	    			'user_id'=>$this->getUserId(),
+	    	);
+	    		$this->insert($arr_collteral);
+	    	
+	    		$this->_name = 'ln_changecollteral';
+	    		$arr = array(
+	    			'branch_id'=>$data['branch_id'],
+	    			'collteral_id'=>$data['collteral_id'],
+					'owner_code_id'=>$data['client_code'],
+	    			'owner_id'=>$data['client_name'],
+	    			'from_id'=>$data['from'],
+	    			'to_id'=>$data['to'],
+	    			'collteral_type'=>$data['collteral_type'],
+	    			'number_code'=>$data['number_code'],
+	    			'owner'=>$data['owner_name'],
+	    			'date'=>$data['date'],
+	    			'note'=>$data['note'],
+	    			'status'=>$data['Stutas'],
+	    			'user_id'=>$this->getUserId()
+	    		);
+	    		$id=$this->insert($arr);
+	    		$this->_name='ln_return_collteral';
+	    		$_arr=array(
+	    			'change_id'=>$id['id'],
+	    			'collteral_id'=>$data['collteral_id'],
+	    			'giver_name'=>$data['giver_name'],
+	    			'receiver_name'=>$data['receiver_name'],
+	    			'date'=>date('Y-m-d'),
+	    			'user_id'=>$this->getUserId(),
+	    			);
+	    		$this->insert($_arr);
     	$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
+    		echo $e->getMessage();
     	}
 	}
 	function updateChangeCollteral($data){
 		$db=$this->getAdapter();
 		$db->beginTransaction();
 		try {
+			$this->_name='ln_client_callecteral';
+			$where=" id=".$data['collteral_id'];
+			
+			$arr_collteral = array(
+					'branch_id'=>$data['branch_id'],
+					'changecollteral_id'=>$data['changecollteral_id'],
+					'client_code'=>$data['client_code'],
+					'number_collteral'=>$data['number_code'],
+					'client_name'=>$data['client_name'],
+					'owner'=>$data['owner_name'],
+					'callate_type'=>$data['to'],
+					'note'=>$data['note'],
+					'date_registration'=>$data['date'],
+					'status'=>$data['Stutas'],
+					'user_id'=>$this->getUserId(),
+			);
+			$this->update($arr_collteral,$where);
+			$this->_name = 'ln_changecollteral';
+			
 		$arr = array(
     			'branch_id'=>$data['branch_id'],
+				'collteral_id'=>$data['collteral_id'],
 				'owner_code_id'=>$data['client_code'],
     			'owner_id'=>$data['client_name'],
     			'from_id'=>$data['from'],
@@ -63,6 +106,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		
 		
 		$_arr=array(
+				'collteral_id'=>$data['collteral_id'],
 				'giver_name'=>$data['giver_name'],
 				'receiver_name'=>$data['receiver_name'],
 				'date'=>date('Y-m-d'),
@@ -155,7 +199,8 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	function getOwnerInfo($id){//ajax
 		$db = $this->getAdapter();
 		$sql = "SELECT id,(SELECT name_en FROM ln_client WHERE client_id=client_name) AS client_name,owner,
-			(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,callate_type,
+			(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,
+			callate_type,(SELECT id FROM `ln_changecollteral` WHERE id=$id) AS changecollteral_id,
 			number_collteral FROM `ln_client_callecteral` WHERE id=$id AND status=1  LIMIT 1";
 		return $db->fetchRow($sql);
 	}
