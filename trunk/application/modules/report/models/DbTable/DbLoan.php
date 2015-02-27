@@ -61,5 +61,25 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 		,m.pay_after,m.graice_period,m.amount_collect_principal,m.show_barcode,m.is_completed,m.semi from ln_loan_group as g,ln_loan_member as m where m.group_id = g.g_id";
       	return $db->fetchAll($sql);
       }
+      public function getALLLoanTotalcollect(){
+//       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+      	$db = $this->getAdapter();
+      	$sql="SELECT id,lfd_id,receipt_no,branch_id,loan_number,client_id,co_id,receiver_id
+      	,date_pay,date_input,capital,remain_capital,principal_permonth,total_interest
+		,service_charge,recieve_amount,return_amount,note,user_id,is_complete,is_verify
+      	,verify_by,is_closingentry FROM `ln_client_receipt_money`";
+      	return $db->fetchAll($sql);
+      }
+      public function getALLLoanCollectionco(){
+//       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+//       	$db = $this->getAdapter();
+      	//       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+      	$db = $this->getAdapter();
+      	$sql="SELECT id,(SELECT m.client_id FROM `ln_loan_member` AS m WHERE m.member_id=member_id LIMIT 1) AS Client_id
+		,(SELECT l.co_id FROM `ln_loan_group` AS l  WHERE l.branch_id=branch_id LIMIT 1)AS co_id
+		,total_principal,principal_permonth,total_interest,total_payment,amount_day
+		,STATUS,is_completed,is_approved,date_payment FROM `ln_loanmember_funddetail`";
+      	return $db->fetchAll($sql);
+      }
  }
 

@@ -1,1 +1,80 @@
-index
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("RPT PAYMENT");?></title>
+<div style="width:21cm; margin:0 auto;">
+<table width="100%">
+	<tr>
+    	<td>
+    		<h4 style="font-size:14px; font-family:'Khmer OS Muol';​​​" align="center"><?php //echo $this->data['brand_pay'];?></h4>
+    	</td>
+   	</tr>
+    <tr>
+    	<td>
+        	<table width="100%">
+            	<tr>
+                	<td><p><?php //echo $this->data['brand_siha'];?></td>
+                 </tr>
+                 <tr>
+                    <td><?php //echo $this->data['brand_loanpay'];?></td>
+                 </tr>
+                 <tr>
+                    <td><?php //echo $this->data['brand_from'];?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    
+    <tr>
+    	<td>
+            <table align="center" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;padding: 5px;" cellspacing="0">
+                <tr align="center" bgcolor="#669">
+                    <th><?php echo $tr->translate("ID");?></th>
+                    <th><?php echo $tr->translate("LFD_ID");?></th>
+                    <th><?php echo $tr->translate("RECEIPTNO");?></th>
+                    <th><?php echo $tr->translate("BRANCH_ID");?></th>
+                    <th><?php echo $tr->translate("LOAN_NUMBER");?></th>
+                    <th><?php echo $tr->translate("CLIENT_ID");?></th>
+                    <th><?php echo $tr->translate("CO_ID");?></th>
+                    <th><?php echo $tr->translate("RECEIVER_ID");?></th>
+                    <th><?php echo $tr->translate("DATE_PAY");?></th>
+                    <th><?php echo $tr->translate("DATE_INPUT");?></th>
+                    <th><?php echo $tr->translate("CAPITAL");?></th>
+                    <th><?php echo $tr->translate("REMAIN_CAPITAL");?></th>
+                    <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
+                    <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
+                    <th><?php echo $tr->translate("SERVICE_CHARGE");?></th>
+                    <th><?php echo $tr->translate("RECIEVE_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("RETURN_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("NOTE");?></th>
+                    <th><?php echo $tr->translate("USER_ID");?></th>
+                </tr>
+                <?php foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+                <tr>
+               		<td><?php echo $rs["id"];?></td>
+               		<td><?php echo $rs["lfd_id"];?></td>
+               		<td><?php echo $rs["receipt_no"];?></td>
+               		<td><?php echo $rs["branch_id"];?></td>
+               		<td><?php echo $rs["loan_number"];?></td>
+               		<td><?php echo $rs["client_id"];?></td>
+               		<td><?php echo $rs["co_id"];?></td>
+               		<td><?php echo $rs["receiver_id"];?></td>
+               		<td><?php echo $rs["date_pay"];?></td>
+               		<td><?php echo $rs["date_input"];?></td>
+               		<td><?php echo $rs["capital"];?></td>
+               		<td><?php echo $rs["remain_capital"];?></td>
+               		<td><?php echo $rs["principal_permonth"];?></td>
+               		<td><?php echo $rs["total_interest"];?></td>
+               		<td><?php echo $rs["service_charge"];?></td>
+               		<td><?php echo $rs["recieve_amount"];?></td>
+               		<td><?php echo $rs["return_amount"];?></td>
+               		<td><?php echo $rs["note"];?></td>
+               		<td><?php echo $rs["user_id"];?></td>
+                </tr>
+                <?php }?>
+            </table>
+            
+    	</td>
+    </tr>
+</table>
+</div>
