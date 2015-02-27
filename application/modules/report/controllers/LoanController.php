@@ -95,6 +95,27 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanBereleaseAction(){
   }
   function rptLoanCollectioncoAction(){
+  	$db  = new Report_Model_DbTable_DbLoan();
+//   
+
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	$rs=$db->getALLLoanCollectionco();
+  	$this->view->LoanCollectionco_list =$rs;
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$collumn = array("id","Client_id","co_id","total_principal","principal_permonth","total_interest","total_payment"
+  				,"amount_day","STATUS","is_completed"
+  				,"is_approved","date_payment"
+  				);
+  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+  	}
   }
   function activeAction(){
   }
@@ -125,6 +146,19 @@ function rptLoanDatelineAction(){
 	
 }
 function rptLoanTotalCollectAction(){
+	$db  = new Report_Model_DbTable_DbLoan();
+	$rs=$db->getALLLoanTotalcollect();
+	$this->view->loantotalcollect_list =$rs;
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	if($this->getRequest()->isPost()){
+		$collumn = array("id","lfd_id","receipt_no","branch_id","loan_number","client_id","co_id","receiver_id","date_pay","date_input","capital","remain_capital","principal_permonth"
+				,"total_interest","service_charge","recieve_amount","return_amount","note","user_id"
+				,"is_complete","is_verify","verify_by","is_closingentry");
+	
+	
+		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+	}
 }
 public function paymentscheduleListAction(){
 	try{

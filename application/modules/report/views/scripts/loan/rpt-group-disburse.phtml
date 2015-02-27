@@ -1,3 +1,6 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
 <meta charset="utf-8">
 <title>group disburse</title>
 <div style=" width="100%"  margin:0 auto;">
@@ -16,7 +19,6 @@
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['group_disburse'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -38,16 +40,16 @@
   <table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
     
                     <tr bgcolor="#888888" align="center">
-                    	<th>NO</th>
-                        <th>LOAN CODE</th>
-                        <th>FIRST NAME</th>
-                        <th>LAST NAME</th>
-                        <th>AMOUNT</th>
-                        <th>IS_RATE</th>
-                        <th>FEE</th>
-                        <th>PAMENT_METHOD</th>
-                        <th>BRANCH</th>
-                        <th>LOAN PURPOSE</th>
+                    	<th><?php echo $tr->translate("NO");?></th>
+                        <th><?php echo $tr->translate("LOAN CODE");?></th>
+                        <th><?php echo $tr->translate("FIRST NAME");?></th>
+                        <th><?php echo $tr->translate("LAST NAME");?></th>
+                        <th><?php echo $tr->translate("AMOUNT");?></th>
+                        <th><?php echo $tr->translate("IS_RATE");?></th>
+                        <th><?php echo $tr->translate("FEE");?></th>
+                        <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
+                        <th><?php echo $tr->translate("BRANCH");?></th>
+                        <th><?php echo $tr->translate("LOAN PURPOSE");?></th>
                     </tr>
                     <?php foreach ($this->loancllect_list as $index => $rs){ ?>
                     <tr height="40px">

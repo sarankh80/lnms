@@ -1,1 +1,62 @@
-index
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $tr->translate("RPT PAYMENT");?></title>
+<div style="width:21cm; margin:0 auto;">
+<table width="100%">
+	<tr>
+    	<td>
+    		<h4 style="font-size:14px; font-family:'Khmer OS Muol';​​​" align="center"><?php //echo $this->data['brand_pay'];?></h4>
+    	</td>
+   	</tr>
+    <tr>
+    	<td>
+        	<table width="100%">
+            	<tr>
+                	<td><p><?php //echo $this->data['brand_siha'];?></td>
+                 </tr>
+                 <tr>
+                    <td><?php //echo $this->data['brand_loanpay'];?></td>
+                 </tr>
+                 <tr>
+                    <td><?php //echo $this->data['brand_from'];?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    
+    <tr>
+    	<td>
+            <table width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
+                <tr align="center" bgcolor="#669">
+                    <th><?php echo $tr->translate("ID");?></th>
+                    <th><?php echo $tr->translate("CLIENT_ID");?></th>
+                    <th><?php echo $tr->translate("CO_ID");?></th>
+                    <th><?php echo $tr->translate("TOTAL_PRINCIPAL");?></th>
+                    <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
+                    <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
+                    <th><?php echo $tr->translate("TOTAL_PAMENT");?></th>
+                    <th><?php echo $tr->translate("AMOUNT_DAY");?></th>
+                    <th><?php echo $tr->translate("STATUS");?></th>
+                    <th><?php echo $tr->translate("IS_COMPLETETED");?></th>
+                </tr>
+                <?php foreach ($this->LoanCollectionco_list as $index => $rs){ ?>
+                <tr>
+               		<td><?php echo $rs["id"];?></td>
+               		<td><?php echo $rs["Client_id"];?></td>
+               		<td><?php echo $rs["co_id"];?></td>
+               		<td><?php echo $rs["total_principal"];?></td>
+               		<td><?php echo $rs["principal_permonth"];?></td>
+               		<td><?php echo $rs["total_interest"];?></td>
+               		<td><?php echo $rs["total_payment"];?></td>
+               		<td><?php echo $rs["amount_day"];?></td>
+               		<td><?php echo $rs["STATUS"];?></td>
+               		<td><?php echo $rs["is_completed"];?></td>
+               		<td><?php echo $rs["is_completed"];?></td>
+                </tr>
+                <?php }?>
+            </table>
+    	</td>
+    </tr>
+</table>
+</div>
