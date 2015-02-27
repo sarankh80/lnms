@@ -1,5 +1,5 @@
 <?php
-class Loan_IndexssController extends Zend_Controller_Action {
+class Loan_IndexController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
@@ -39,7 +39,7 @@ class Loan_IndexssController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'client_name_kh'=>$link_info,'client_name_en'=>$link_info),2);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
+			echo $e->getMessage();exit();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
 		$frm = new Loan_Form_FrmSearchLoan();
