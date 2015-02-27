@@ -16,30 +16,49 @@ $frm = $this->Form_Frmcallecterall;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>Refundcallecterall</strong></legend>
+					<legend><strong><?php echo $tr->translate("REFUND_CALLECTERALL")?></strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-							<td><?php echo $tr->translate("Branch")?></td>
-							<td><?php echo $frm->getElement('branch')?></td>	
-							<td><?php echo $tr->translate("Calleterall Code")?></td>
+								
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><?php echo $frm->getElement('customer_name')?></td>	
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+							<td><?php echo $frm->getElement('cus_code')?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('branch')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CALLECTERALL_TYPE")?></td>
+							<td><?php echo $frm->getElement('callecterall_type')?></td>								
+							<td><?php echo $tr->translate("CALLECTERALL_CODE")?></td>
 							<td><?php echo $frm->getElement('callecterall_code')?></td>	
+							<td><?php echo $tr->translate("CASH_TYPE")?></td>
+							<td><?php echo $frm->getElement('cash_type')?></td>									
+						</tr>
+						<tr>								
+							<td><?php echo $tr->translate("MUCH_BROR")?></td>
+							<td><?php echo $frm->getElement('much_boro')?></td>
+							<td><?php echo $tr->translate("FUND_AMONT")?></td>
+							<td><?php echo $frm->getElement('fund_amount')?></td>
+							<td><?php echo $tr->translate("TERM_FUN")?></td>
+							<td><?php echo $frm->getElement('term_fun')?></td>
+							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Client id")?></td>
-							<td><?php echo $frm->getElement('client_id')?></td>	
-							<td><?php echo $tr->translate("Fund Amont")?></td>
-							<td><?php echo $frm->getElement('fund_amount')?></td>	
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("Date")?></td>
+							<td><?php echo $tr->translate("CHARGE_TERM")?></td>
+							<td><?php echo $frm->getElement('charge_term')?></td>
+							<td><?php echo $tr->translate("AMOUN_MONEY")?></td>
+							<td><?php echo $frm->getElement('amount_money')?></td>
+							<td><?php echo $tr->translate("DATE")?></td>
 							<td><?php echo $frm->getElement('date')?></td>	
-							<td><?php echo $tr->translate("Innalization")?></td>
-							<td><?php echo $frm->getElement('innalization')?></td>	
+							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("Status")?></td>
+							<td><?php echo $tr->translate("INNALIZATION")?></td>
+							<td><?php echo $frm->getElement('innalization')?></td>	
+							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
-							<td><?php echo $tr->translate("note")?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php echo $frm->getElement('note')?></td>		
 							
 						</tr>

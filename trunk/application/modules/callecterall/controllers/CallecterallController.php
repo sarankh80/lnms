@@ -18,6 +18,7 @@ class Callecterall_CallecterallController extends Zend_Controller_Action
 			try {
 				//print_r($data);exit();
 				if(isset($data['btn_save'])){
+					//print_r($data);exit();
 					$db->addcallecterall($data);
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}
@@ -27,8 +28,9 @@ class Callecterall_CallecterallController extends Zend_Controller_Action
 					Application_Form_FrmMessage::redirectUrl('/callecterall/Callecterall');
 				}
 			} catch (Exception $e) {
+				echo $err = $e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err = $e->getMessage();
+				
 				
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
