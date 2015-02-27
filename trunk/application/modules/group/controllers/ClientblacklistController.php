@@ -14,7 +14,6 @@ public function init()
     {
     	if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
-	  //      print_r($data);exit();
 			$db = new Group_Model_DbTable_DbClientBlackList();
 			try {
 				//print_r($data);exit();
@@ -57,11 +56,11 @@ public function init()
     					$glClass = new Application_Model_GlobalClass();
     					$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("name_kh","name_en","sex","client_number","branch_id","is_blacklist","reasonblack_list","date_blacklist","status_blacklist");
+    		$collumns = array("name_kh","name_en","sex","client_number","branch_id","is_blacklist","reasonblack_list","date_blacklist","status_blacklist","status");
     		$link=array(
-    				'module'=>'group','controller'=>'Clientblacklist','action'=>'',
+    				'module'=>'group','controller'=>'Clientblacklist','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array(''=>$link,''=>$link,''=>$link));
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('client_number'=>$link,'is_blacklist'=>$link,'reasonblack_list'=>$link));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
     		echo $e->getMessage();
@@ -72,7 +71,28 @@ public function init()
     	$frm = $frm->FrmClientBlackList();
     	Application_Model_Decorator::removeAllDecorator($frm);
     	$this->view->frm_search = $frm;
-    	 
+    }
+    function editAction(){
+    if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db = new Group_Model_DbTable_DbClientBlackList();
+			try {
+					$db->updatClientBlackList($data);
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::redirectUrl('/group/Clientblacklist');
+			} catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err = $e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
+		}
+		$db = new Group_Model_DbTable_DbClientBlackList();
+    	$id = $this->getRequest()->getParam("id");
+    	$row = $db->getBlackListById($id);
+    	$fm = new Group_Form_FrmClientBlackList();
+    	$frm = $fm->FrmClientBlackList($row);
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->Form_client_blacklist = $frm;
     	
     }
    

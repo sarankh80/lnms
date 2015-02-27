@@ -95,10 +95,10 @@ dojo.require("dijit.form.Textarea");
 							 
 						    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
 								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/> 
-								 
+							
 							<input type="submit" value="CLOSE" label="<?php echo $tr->translate('CLOSE');?>" id="close" dojoType="dijit.form.Button" name="close"
 								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/>
-						   
+						    
 							</td>
 						</tr>
 					</table>	
@@ -193,7 +193,7 @@ function filterVillage(){
 	id =dijit.byId('commune').get('value');
 	dijit.byId('village').query.commune_id = dijit.byId('commune').get('value');
 }
-    url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupcode'));?>';
+url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupcode'));?>';
 function getGroupCode(){
 	group_id=dijit.byId('group_id').get('value');
 	is_group = dijit.byId('is_group').get('value');

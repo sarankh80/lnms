@@ -32,22 +32,7 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
-		$_status->setValue($request->getParam("status"));
-		
-		
-		$db = new Application_Model_DbTable_DbGlobal();
-		
-// 		$employee = new Zend_Dojo_Form_Element_FilteringSelect('employee');
-// 		$rows = $db ->getAllCOName();
-// 		$options=array(''=>"---ស្វែងរកតាមរយៈឈ្មោះ---");
-// 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
-// 		$employee->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'onchange'=>'popupCheckCO();'
-// 		));
-// 		$employee->setMultiOptions($options);
-// 		$employee->setValue($request->getParam('employee'));
+		$_status->setValue($request->getParam("status_search"));
 		
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
@@ -111,11 +96,16 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 				0=>$this->tr->translate("DACTIVE"));
 		$status->setMultiOptions($opt);
 	
-// 		$_id = new Zend_Form_Element_Hidden('id');
+		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
-			
+			$branch->setValue($data['branch_id']);
+			//$client_code->setValue($data['client_id']);
+			$problem->setValue($data['reasonblack_list']);
+			$date->setValue($data['date_blacklist']);
+			$status->setValue($data['status_blacklist']);
+			$_id->setValue($data['client_id']);
 		}
-		$this->addElements(array($_title,$_status,$_btn_search,$branch,$client_code,$client_name,$problem,$date,$status));
+		$this->addElements(array($_id,$_title,$_status,$_btn_search,$branch,$client_code,$client_name,$problem,$date,$status));
 				
 		return $this;
 		
