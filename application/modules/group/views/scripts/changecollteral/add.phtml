@@ -62,7 +62,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 								<td><?php echo $tr->translate("STATUS ")?></td>
 								<td><?php echo $frm->getElement('Stutas')?></td>
 								<td><?php echo $tr->translate("")?></td>
-								<td><?php echo $frm->getElement('_id')?></td>
+								<td><?php echo $frm->getElement('collteral_id')?></td>
 								<td><?php echo $tr->translate(" ")?></td>
 								<td><?php echo $frm->getElement('')?></td>
 							</tr>
@@ -149,7 +149,7 @@ function getOwnerInfo(){
 			dijit.byId('from').set('readOnly',true);
 			dijit.byId('owner_name').attr('value',data.owner);
 			dijit.byId('giver_name').attr('value',data.owner);
-			dijit.byId('_id').attr('value',data.id);
+			dijit.byId('collteral_id').attr('value',data.id);
 		},
 		error: function(err) {
 			alert(err);

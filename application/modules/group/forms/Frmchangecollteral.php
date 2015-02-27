@@ -17,6 +17,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$this->text = 'dijit.form.TextBox';
 		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
+	
 	public function FrmChangeCollteral($data=null){
 		$db = new Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
@@ -213,14 +214,19 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		
-		$_id=new Zend_Form_Element_Text('_id');
-		$_id->setAttribs(array(
+		$collteral_id=new Zend_Form_Element_Hidden('collteral_id');
+		$collteral_id->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside'
 				));
-		$id = new Zend_Form_Element_Hidden("id");
-		if($data!=null){
+		$changecollteral_id=new Zend_Form_Element_Text('changecollteral_id');
+		$changecollteral_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				));
 		
+		$id = new Zend_Form_Element_Hidden("id");
+		$receiver_name->setValue($this->getUserName());
+		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
 			$_client_code->setValue($data['owner_code_id']);
 			$clint_name->setValue($data['owner_id']);
@@ -234,10 +240,11 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 			$Date->setValue($data['date']);
 			$stutas->setValue($data['status']);
 			$_note->setValue('change collteral');
-			$receiver_name->setValue($this->getUserName());
 			$id->setValue($data['id']);
+			$collteral_id->setValue($data['collteral_id']);
+			$changecollteral_id->setValue($data['id']);
 		}
-		$this->addElements(array($_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
+		$this->addElements(array($changecollteral_id,$collteral_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
 				$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,
 				$number_code,$contract_code,$_code,$clint_name,$owner,$collteral_type,
 				$note,$Date,$_branch_id,$id,$stutas,$cod_cal));
