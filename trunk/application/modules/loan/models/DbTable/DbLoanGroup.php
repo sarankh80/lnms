@@ -33,6 +33,36 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
+    public function getGroupClient(){
+    	$db = $this->getAdapter();
+    	//$this->_name = "ln_client";
+    	$sql ="SELECT lc.`client_id`,lc.`name_kh`,lc.`name_en` FROM `ln_client` AS lc WHERE lc.`is_group`=1";
+    	return $db->fetchAll($sql);
+    }
+    public function getGroupLoadDetail($type){
+    	$db = $this->getAdapter();
+    	$loan_number= $data['loan_number'];
+    	$sql="SELECT 
+				  lmf.`id`,
+				  lmf.`member_id`,
+				  lmf.`total_principal`,
+				  lmf.`principal_permonth`,
+				  lmf.`total_interest`,
+				  lmf.`total_payment`,
+				  lmf.`date_payment`,
+				  lmf.`branch_id`,
+				  lc.`name_kh`
+				FROM
+				  `ln_loanmember_funddetail` AS lmf ,
+				  ln_loan_member AS lm, 
+				  `ln_client` AS lc
+				WHERE lmf.`is_completed` = 0 
+				  AND lmf.`status` = 1 
+				  AND lmf.`member_id` = lm.`member_id`
+				  AND lm.`group_id`=1
+				  AND lm.`client_id`=lc.`client_id`";
+    }
+=======
     function round_up($value, $places)
     {
     	$mult = pow(10, abs($places));
@@ -43,6 +73,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     function round_up_currency($curr_id, $value,$places=-2){
     	return (($curr_id==1)? $this->round_up($value, $places):$value);
     }
+>>>>>>> .r130
     public function addNewLoanGroup($data){
     	
     	$db = $this->getAdapter();
