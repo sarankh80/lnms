@@ -5,7 +5,7 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     protected $_name ='ln_branch_capital';
     public function getCapiitalById($id){
     	$db = $this->getAdapter();
-    	$sql = "SELECT bc.`branch_id`,bc.`amount_dollar`,bc.`amount_bath`,bc.`amount_riel` FROM `ln_branch_capital` AS bc WHERE bc.`branch_id`=$id";
+    	$sql = "SELECT bc.`id`,bc.`branch_id`,bc.`amount_dollar`,bc.`amount_bath`,bc.`amount_riel` FROM `ln_branch_capital` AS bc WHERE bc.`branch_id`=$id";
     	return $db->fetchRow($sql);
     }
    	Public function addCapital($_data){
@@ -29,6 +29,19 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
 	   			$this->_name = "ln_branch_capital";
 	   			$where = $this->getAdapter()->quoteInto("branch_id=?", $branch);
 	   			$this->update($update_arr, $where);
+	   			
+	   			$arr_history = array(
+	   				'transation_id'	=>	$row_capital["id"],
+	   				'transation_type'	=>	1,
+	   				'amount_dollar'		=>	$_data['usa'],
+	   				'amount_bath'		=>	$_data['reil'],
+	   				'amount_reil'		=>	$_data['bath'],
+	   				'date'				=>	$_data['note'],
+	   				'note'				=>	$_data['note'],
+	   				'user_id'			=>	$user_id
+	   			);
+	   			$this->_name = "ln_capital_detail";
+	   			$this->insert($arr_history);
 	   		}else {
 		    	$_arr = array(
 		    		'branch_id'		=>	$_data['brance'],
@@ -40,7 +53,20 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
 		    		'note'			=>	$_data['note'],
 		    		'user_id'		=> 	$user_id
 		    	);
-		    	$this->insert($_arr);
+		    	$capital = $this->insert($_arr);
+		    	
+		    	$arr_history = array(
+		    			'transation_id'	=>	$capital,
+		    			'transation_type'	=>	1,
+		    			'amount_dollar'		=>	$_data['usa'],
+		    			'amount_bath'		=>	$_data['reil'],
+		    			'amount_reil'		=>	$_data['bath'],
+		    			'date'				=>	$_data['note'],
+		    			'note'				=>	$_data['note'],
+		    			'user_id'			=>	$user_id
+		    	);
+		    	$this->_name = "ln_capital_detail";
+		    	$this->insert($arr_history);
 	   		}
 	   		$db->commit();
    		}catch (Exception $e){

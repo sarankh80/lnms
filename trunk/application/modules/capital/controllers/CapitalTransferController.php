@@ -48,7 +48,7 @@ class Capital_CapitalTransferController extends Zend_Controller_Action {
 				if(isset($data["save"])){
 					print_r($data);exit();
 					$db->addTransfer($data);
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer/add');
+					//Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer/add');
 				}elseif (isset($data["save_close"])){
 					$db->addTransfer($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital-transfer');
