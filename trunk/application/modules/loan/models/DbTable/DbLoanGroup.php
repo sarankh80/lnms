@@ -62,7 +62,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
 				  AND lm.`group_id`=1
 				  AND lm.`client_id`=lc.`client_id`";
     }
-=======
+
     function round_up($value, $places)
     {
     	$mult = pow(10, abs($places));
@@ -73,7 +73,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     function round_up_currency($curr_id, $value,$places=-2){
     	return (($curr_id==1)? $this->round_up($value, $places):$value);
     }
->>>>>>> .r130
+
     public function addNewLoanGroup($data){
     	
     	$db = $this->getAdapter();
