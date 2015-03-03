@@ -1,7 +1,7 @@
 <?php 
 Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 	protected $tr;
-	public function init()
+public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
@@ -41,24 +41,28 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 		$group_opt = $db ->getGroupCodeById(1,1,1);
 		$_group_code->setMultiOptions($group_opt);
 		
+		$dbs = new Loan_Model_DbTable_DbLoanss();
+		
 		$_customer_code = new Zend_Dojo_Form_Element_FilteringSelect('customer_code');
 		$_customer_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getmemberIdGroup();'
+				'onchange'=>'getClientInfo(1);'
 		));
-		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
+		$group_opt = $dbs ->getClientByTypes(1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
+		
 		
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'checkMember()'
+				'onchange'=>'getClientInfo(2)'
 		));
-		$options = $db->getGroupCodeById(2,0,1);
+		$options = $dbs->getClientByTypes(2);
 		$_member->setMultiOptions($options);
 		
+		$db = new Application_Model_DbTable_DbGlobal();
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -118,7 +122,8 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
  				'required'=>true
  		));
  		$_time_collect_pri->setValue(2);
-		
+ 		
+ 		$dbs = new Loan_Model_DbTable_DbLoanss();
 		$_amount = new Zend_Dojo_Form_Element_NumberTextBox('total_amount');
 		$_amount->setAttribs(array(
 						'dojoType'=>'dijit.form.NumberTextBox',
@@ -144,7 +149,8 @@ Class Loan_Form_FrmLoan extends Zend_Dojo_Form {
 				'name':'interest_rate',
 				'value':2.5,
 				'class':'fullside',
-				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់  100'"));
+				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់  
+				'"));
 				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(
