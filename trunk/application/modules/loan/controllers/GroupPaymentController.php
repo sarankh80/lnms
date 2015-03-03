@@ -49,7 +49,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
 		$frm = new Application_Form_FrmAdvanceSearch();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -61,21 +60,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				print_r($_data);exit();
-				// 				$_dbmodel = new Global_Model_DbTable_DbProvince();
-				// 				$_dbmodel->addNewProvince($_data);
-				// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+				
 			}catch (Exception $e) {
-				// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-				// 				$err =$e->getMessage();
-				// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+				
 			}
 		}
-		// 		$frm = new Loan_Form_FrmLoan();
-		// 		$frm_loan=$frm->FrmAddLoan();
-		// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		// 		$this->view->frm_loan = $frm_loan;
-	
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmGroupPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
@@ -89,8 +78,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 	
 	}
-	
-	
 	function getLoanDetailAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
@@ -99,7 +86,15 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			print_r(Zend_Json::encode($row));
 			exit();
 		}
-	
+	}
+	function getLoannumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanGroup();
+			$row = $db->getLoanPaymentByLoanNumber($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
 	}
 }
 

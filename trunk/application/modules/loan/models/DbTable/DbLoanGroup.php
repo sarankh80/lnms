@@ -62,6 +62,35 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
 				  AND lm.`group_id`=1
 				  AND lm.`client_id`=lc.`client_id`";
     }
+    public function getGroupClient(){
+    	$db = $this->getAdapter();
+    	//$this->_name = "ln_client";
+    	$sql ="SELECT lc.`client_id`,lc.`name_kh`,lc.`name_en` FROM `ln_client` AS lc WHERE lc.`is_group`=1";
+    	return $db->fetchAll($sql);
+    }
+    public function getGroupLoadDetail($type){
+    	$db = $this->getAdapter();
+    	$loan_number= $data['loan_number'];
+    	$sql="SELECT 
+				  lmf.`id`,
+				  lmf.`member_id`,
+				  lmf.`total_principal`,
+				  lmf.`principal_permonth`,
+				  lmf.`total_interest`,
+				  lmf.`total_payment`,
+				  lmf.`date_payment`,
+				  lmf.`branch_id`,
+				  lc.`name_kh`
+				FROM
+				  `ln_loanmember_funddetail` AS lmf ,
+				  ln_loan_member AS lm, 
+				  `ln_client` AS lc
+				WHERE lmf.`is_completed` = 0 
+				  AND lmf.`status` = 1 
+				  AND lmf.`member_id` = lm.`member_id`
+				  AND lm.`group_id`=1
+				  AND lm.`client_id`=lc.`client_id`";
+    }
 
     function round_up($value, $places)
     {
@@ -73,7 +102,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     function round_up_currency($curr_id, $value,$places=-2){
     	return (($curr_id==1)? $this->round_up($value, $places):$value);
     }
-
     public function addNewLoanGroup($data){
     	
     	$db = $this->getAdapter();
@@ -733,6 +761,79 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     }
     public function CalculateByMethod($method_type){
     	
+    }
+function getLoanPaymentByLoanNumber($data){
+    	$db = $this->getAdapter();
+    	$loan_number= $data['loan_number'];
+    	if($data['type']!=1){
+    		$where =($data['type']==2)?'client_number = '.$loan_number:'client_id='.$loan_number;
+    		$sql ="SELECT 
+    				  (SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
+    				  (SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
+					  lc.`client_id`,
+					  lc.`client_number`,
+					  lc.`name_kh`,
+					  lm.`loan_number`,
+					  lm.`currency_type`,
+					  lm.`branch_id`,
+					  lg.`co_id`,
+					  lg.`payment_method`,   
+					  lf.*
+					FROM
+					  `ln_client` AS lc,
+					  `ln_loan_member` AS lm ,
+					  `ln_loan_group` AS lg,
+					  `ln_loanmember_funddetail` AS lf
+					WHERE lc.`is_group` = 1 
+					AND lc.`parent_id`=(SELECT client_id FROM `ln_client` WHERE $where LIMIT 1)
+					  AND lg.`g_id`=lm.`group_id`
+					  AND lf.`member_id`=lm.`member_id`
+					  AND lm.`client_id`=lc.`client_id`
+					  AND lg.`group_id`=lc.`parent_id`
+    					AND lf.`is_completed`=0
+  						GROUP BY lc.`client_id`
+    				";
+    	}elseif($data['type']==1){
+    		$where = 'lm.`loan_number`='.$loan_number;
+    		$sql ="SELECT 
+					  (SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
+					  (SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
+					  lc.`client_id`,
+					  lc.`client_number`,
+					  lc.`name_kh`,
+					  lm.`loan_number`,
+					  lm.`currency_type`,
+					  lm.`branch_id`,
+					  lg.`co_id`,
+					  lg.`payment_method`,   
+					  lf.*
+					FROM
+					  `ln_client` AS lc,
+					  `ln_loan_member` AS lm ,
+					  `ln_loan_group` AS lg,
+					  `ln_loanmember_funddetail` AS lf
+					WHERE lc.`is_group` = 1 
+					AND lc.`parent_id`=(SELECT client_id FROM `ln_client` LIMIT 1)
+					  AND lg.`g_id`=lm.`group_id`
+					  AND lf.`member_id`=lm.`member_id`
+					  AND lm.`client_id`=lc.`client_id`
+					  AND lg.`group_id`=lc.`parent_id`
+					  AND $where
+    				AND lf.`is_completed`=0
+  					GROUP BY lc.`client_id`";
+    				
+ 	}
+    	return $db->fetchAll($sql);
+   }
+    public function addGroupPayment($data){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
+    		
+    		$db->commit();
+    	}catch (Exception $e){
+    		
+    	}
     }
     function getAllMemberByGroup($group_member){
     	$db = $this->getAdapter();
