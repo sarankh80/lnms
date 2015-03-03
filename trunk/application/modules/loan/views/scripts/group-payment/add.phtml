@@ -22,14 +22,7 @@
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table class="center" cellspacing="10">
 						
-						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
-							<td><?php  echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
-							<td><?php echo $frm->getElement('loan_number');?></td>
-						</tr>
+						
 						<tr>
 							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
@@ -155,7 +148,6 @@ function AddNewCo(){
 		}
 	});
 }
-<<<<<<< .mine
 // dojo.ready(function(){	
 // 	dijit.byId('loan_number').focus();
 // 	client_code = dojo.byId("client_code");
@@ -317,33 +309,3 @@ function totalReturn(){
 	dijit.byId('amount_return').attr('value',amonut_return);
 }
 </script>
-function getLoanById(type){
-	if(type==1){
-		var loan_number = dijit.byId('loan_number').get('value');
-	}else if(type==2){
-		var loan_number = dijit.byId('client_code').get('value');
-	}else if(type==3){
-		var loan_number = dijit.byId('group_id').get('value');
-	}
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'IlPayment','action'=>'get-loan-detail')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,
-		    content : { 
-			    'loan_number':loan_number,
-			    'type':type,
-			},	
-			handleAs:"json",
-			load: function(data) {
-				dijit.byId('priciple_amount').attr('value',data.total_priintciple);
-				dijit.byId('os_amount').attr('value',data.principal_permonth);
-				dijit.byId('total_interest').attr('value',data.total_payment);
-				dijit.byId('total_payment').attr('value',data.rate);
-				dijit.byId('client_code').attr('value',data.client_number);
-				dijit.byId('loan_number').attr('value',data.loan_number);
-			},
-			error: function(e) {
-				//alert(e);
-				//alert("Can not get loan by loan number !");
-			}
-		});
-}
