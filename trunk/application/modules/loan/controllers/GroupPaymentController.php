@@ -56,9 +56,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	}
 	function addAction()
 	{
-		
+		$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
+			//print_r($_data);exit();
+			$db->addGroupPayment($_data);
 			try {
 				
 			}catch (Exception $e) {
