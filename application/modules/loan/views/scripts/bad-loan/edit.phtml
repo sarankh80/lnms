@@ -51,6 +51,8 @@ $frm = $this->frm_loan;
 						</tr>
 						    <td><?php echo $tr->translate("TEM")?></td>
 							<td><?php  echo $frm->getElement('Term');?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status');?></td>
 						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
 						<tr>
@@ -62,8 +64,10 @@ $frm = $this->frm_loan;
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-				 iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" name="save" value="កែប្រែ  + បន្ថែមថ្មី​​ " label="កែប្រែ  + បន្ថែមថ្មី​​" id="submitButton" dojoType="dijit.form.Button"
+			iconClass="dijitIconEdit"/>
+			<input type="submit" name="save_close"​​ value="កែប្រែ  + ចាកចេញ" label="កែប្រែ  + ចាកចេញ" id="submitBtn" dojoType="dijit.form.Button"
+			iconClass="dijitIconEdit"/>
 		</td>
 	</tr>	
 </table>
@@ -83,9 +87,6 @@ function getClientInfo(type){
 	
 	dijit.byId("client_code").attr('value',id);
 	dijit.byId("client_name").attr('value',id);
-	dijit.byId("number_code").attr('value',id);
-	
-	
-		
+	dijit.byId("number_code").attr('value',id);	
 } 
 </script>
