@@ -31,8 +31,8 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 // 		}
 	}
 	public function addAction(){
-// 		if($this->getRequest()->isPost()){//check condition return true click submit button
-// 			$_data = $this->getRequest()->getPost();
+		if($this->getRequest()->isPost()){//check condition return true click submit button
+ 			$_data = $this->getRequest()->getPost();
 // 			try {
 		
 // 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
@@ -43,7 +43,7 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 // 				$err =$e->getMessage();
 // 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 // 			}
-// 		}
+ 		}
 		$fm = new Loan_Form_FrmTransfer();
 		$frm = $fm->FrmTransfer();
 		Application_Model_Decorator::removeAllDecorator($frm);

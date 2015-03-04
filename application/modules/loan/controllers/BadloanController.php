@@ -32,11 +32,16 @@ class Loan_BadloanController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
-			try {
-		
+			//print_r($_data);exit();
+			try {		
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
-				$_dbmodel->addbadloan($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+				if(isset($_data['save'])){
+					$_dbmodel->addbadloan($_data);
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+				}elseif(isset($_data['save_close'])){
+					$_dbmodel->addbadloan($_data);
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
+				}				
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
@@ -56,8 +61,23 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			try {
 		
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
-				$_dbmodel->updatebadloan($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+				if(isset($_data['save'])){
+					if($this->getRequest()->getParam('id')==$_data['client_name']){
+						$_dbmodel->updatebadloan($_data);
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+					}else{
+						$_dbmodel->updatebadloan_bad($_data);
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+					}
+				}elseif(isset($_data['save_close'])){
+					if($this->getRequest()->getParam('id')==$_data['client_name']){
+						$_dbmodel->updatebadloan($_data);
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
+					}else{
+						$_dbmodel->updatebadloan_bad($_data);
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
+					}
+				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
