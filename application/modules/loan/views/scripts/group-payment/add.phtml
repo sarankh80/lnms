@@ -13,7 +13,7 @@
 </style>
 
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <table cellspacing="10" class='fullside'>
 	<tr>
@@ -36,7 +36,7 @@
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់")?></td>
+							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('collect_date');?></td>
 						</tr>
 						<tr>
@@ -64,13 +64,21 @@
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('date_input');?></td>
+						</tr>
 					</table>
 				</fieldset>
 		   </td>
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="su" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
+			   <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitData();"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="addDatatogrid();"/>
@@ -199,6 +207,7 @@ function getLoanById(type){
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
+					+'<th class="tdheader">ប្រអប់</th>'
 					+'<th class="tdheader">កូដអតិថិជន</th>'
 					+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
 					+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
@@ -230,11 +239,13 @@ function getLoanById(type){
 					principal_permonth = respone[i].principal_permonth;
 					interest = respone[i].total_interest;
 					payment = respone[i].total_payment;
+					id = respone[i].id;
 					 tem+= '<tr>';
 					    tem += '<td>&nbsp;'+num+'</td>';
-					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_number_'+inx+'" id="client_number_'+inx+'" value="'+client_id+'" /></td>';
+					    tem += '<td>&nbsp;<input type="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" /></td>';
+					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
-					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
+					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;<input type="text" name="date_'+inx+'" id="date_'+inx+'" value="'+respone[i].date_payment+'" /></td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;</td>';
 					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="text" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="text" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';

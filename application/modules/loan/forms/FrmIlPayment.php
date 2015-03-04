@@ -297,10 +297,18 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
 		
+		$date_input = new Zend_Dojo_Form_Element_DateTextBox('date_input');
+		$date_input->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$date_input->setValue($c_date);
+		
 		$reciever = new Zend_Form_Element_text("reciever");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 	
-		$this->addElements(array($reciever,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($date_input,$reciever,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
