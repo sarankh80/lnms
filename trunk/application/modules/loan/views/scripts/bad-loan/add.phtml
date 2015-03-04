@@ -37,10 +37,10 @@ $frm = $this->frm_loan;
 						<tr>
 							<td><?php echo $tr->translate("NUMBER_CODE")?></td>
 							<td><?php echo $frm->getElement('number_code');?></td>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
 							<td><?php echo $tr->translate("LOSS_DATE")?></td>
 							<td><?php echo $frm->getElement('date_loss')?></td>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('Date');?></td>							
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CASH")?></td>
@@ -53,12 +53,18 @@ $frm = $this->frm_loan;
 						</tr>
 						    <td><?php echo $tr->translate("TEM")?></td>
 							<td><?php  echo $frm->getElement('Term');?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status');?></td>
 						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
 						<tr>
-							<td align="center">
-								<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
+							<td align="center" colspan="6">
+								<input type="submit" name="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="រក្សាទុក  + បន្ថែមថ្មី​​" id="submitButton" dojoType="dijit.form.Button"
 				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
+				 				<input type="submit" name="save_close"​​ value="រក្សាទុក​  + ចាកចេញ" label="រក្សាទុក​  + ចាកចេញ" id="submitBtn" dojoType="dijit.form.Button"
+				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
+				 					
+				 					
 							</td>
 						</tr>
 					</table>

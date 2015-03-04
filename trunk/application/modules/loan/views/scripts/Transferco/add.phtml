@@ -37,6 +37,8 @@
 							<td><?php  echo $frm->getElement('co_code');?></td>
 							<td><?php echo $tr->translate("FROM_CO")?></td>
 							<td><?php  echo $frm->getElement('formc_co');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("TO_CO")?></td>
 							<td><?php  echo $frm->getElement('to_co');?></td>
 							<td><?php echo $tr->translate("CO_ID")?></td>
@@ -60,7 +62,7 @@
 			<input type="submit" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" label="រក្សាទុក & ចាកចេញ" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 			<?php $url_close = $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'index'),null,true); ?>
 			<a href="<?php echo $url_close ?>">
-				<input type="button" value="ចាកចេញ" name="btn_close" label="ចាកចេញ" id="submitButton_Close" dojoType="dijit.form.Button"  iconClass=" dijitIconDelete"/>							
+				<input type="button" value="ចាកចេញ" name="btn_close" label="ចាកចេញ" id="submitButton_Close" dojoType="dijit.form.Button"  iconClass=" dijitIconCancel"/>							
 			</a>
 		</td>
 	</tr>	
