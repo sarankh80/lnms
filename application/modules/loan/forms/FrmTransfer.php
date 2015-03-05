@@ -6,6 +6,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmTransfer($data=null){
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$branch_name = new Zend_Dojo_Form_Element_FilteringSelect('branch_name');
@@ -21,9 +22,22 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     		$options[$row['br_id']]=$row['branch_namekh'];
     	}
     	$branch_name->setMultiOptions($options);
-    	$branch_name->setValue($request->getParam('branch_id'));
-		
-		
+    	$branch_name->setValue($request->getParam('branch_id'));    	
+    	
+    	$co_name = new Zend_Dojo_Form_Element_FilteringSelect('co_code');
+    	$co_name->setAttribs(array(
+    			'dojoType'=>'dijit.form.FilteringSelect',
+    			'class'=>'fullside',
+    			'required' =>'true'
+    	));
+    	$db_co = new Loan_Model_DbTable_DbTransferCo();
+    	$row_co = $db_co->getcoinfo();
+    	$options_co =array(''=>"------Select------");
+    	if (!empty($row_co))
+    		foreach ($row_co AS $row_cos){
+    		$options_co[$row_cos['co_id']] = $row_cos['co_code'];
+    		}
+    	$co_name->setMultiOptions($options_co);
 		
 		$_date= new Zend_Dojo_Form_Element_DateTextBox('Date');
 		$_date->setAttribs(array(
@@ -33,7 +47,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$_date->setValue(date('Y-m-d'));
 		
 		$db = new Loan_Model_DbTable_DbBadloan();
-		$co_code = new Zend_Dojo_Form_Element_FilteringSelect('co_code');
+		$co_code = new Zend_Dojo_Form_Element_FilteringSelect('co_codes');
 		$co_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
@@ -49,6 +63,14 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside',
 			    //'onchange'=>"getClientInfo(1);"
 				));
+		$row_froms = $db_co->getcoinfo();
+		$options_from =array(''=>"------Select------");
+		if (!empty($row_froms))
+			foreach ($row_froms AS $row_from){
+			$options_from[$row_from['co_id']] = $row_from['co_khname'];
+		}
+		$formc_co->setMultiOptions($options_from);
+		
 // 		$options = $db->getClientByTypes(2);
 // 		$formc_co->setMultiOptions($options);
 		
@@ -58,6 +80,13 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				//'onchange'=>"getClientInfo(1);"
 		));
+		$row_co = $db_co->getcoinfo();
+		$options_co =array(''=>"------Select------");
+		if (!empty($row_co))
+			foreach ($row_co AS $row_cos){
+			$options_co[$row_cos['co_id']] = $row_cos['co_khname'];
+		}
+		$to_co->setMultiOptions($options_co);
 		// 		$options = $db->getClientByTypes(2);
 		// 		$formc_co->setMultiOptions($options);
 		
@@ -67,6 +96,14 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				//'onchange'=>"getClientInfo(1);"
 		));
+		$row_froms = $db_co->getcoinfo();
+		$options_from =array(''=>"------Select------");
+		if (!empty($row_froms))
+			foreach ($row_froms AS $row_from){
+			$options_from[$row_from['co_id']] = $row_from['co_code'];
+		}
+		$to_co_code->setMultiOptions($options_from);
+		
 		$note = new Zend_Dojo_Form_Element_Textarea('Note');
 		$note ->setAttribs(array(
 				'dojoType'=>'dijit.form.SimpleTextarea',
@@ -105,7 +142,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 // 			$id->setValue($data['id']);
 		}		
 		
-		$this->addElements(array($_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));
+		$this->addElements(array($co_name,$_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));
 		return $this;
 		
 	}	
