@@ -76,17 +76,44 @@ $frm = $this->frm_loan;
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
 
+var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'Badloan','action'=>'get-loaninfo')); ?>';
 function getClientInfo(type){
+    
 	if(type==1){
-		id = dijit.byId("client_name").get('value');
+		values = dijit.byId("client_name").get('value');
 	}else if(type==2){
-		id = dijit.byId("number_code").get('value');
+		values = dijit.byId("number_code").get('value');
 	}else{
-		id = dijit.byId("client_code").get('value');
-	}
+		values = dijit.byId("client_code").get('value');
+	} 
+	dijit.byId('Total_amount').attr('value',0);
+	//dijit.byId('Interest_amount').attr('value',0);
+	//dijit.byId("cash_type").set('readOnly',false);
+	//values=dijit.byId("client_code").get('value');
+	dojo.xhrPost({
+	    url: url_submiinfo,	
+	    content : { 
+		    'loan_id':values,
+		  //  'type':type,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('Total_amount').attr('value',data.total_principal);
+			dijit.byId('Interest_amount').attr('value',data.total_interest);
+			dijit.byId('Term').attr('value',data.term);
+			//dijit.byId('status').attr('value',data.status);
+			dijit.byId('Note').attr('value',data.note);
+			//dijit.byId("cash_type").set('readOnly',true);
+			dijit.byId("client_name").attr('value',values);
+			dijit.byId("number_code").attr('value',values);
+			dijit.byId("client_code").attr('value',values);
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
 	
-	dijit.byId("client_code").attr('value',id);
-	dijit.byId("client_name").attr('value',id);
-	dijit.byId("number_code").attr('value',id);	
-} 
+}
 </script>
