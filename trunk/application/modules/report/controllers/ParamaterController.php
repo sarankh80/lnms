@@ -43,7 +43,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$collumn = array("zone_id","zone_name","zone_num","modify_date","STATUS");
+  		$collumn = array("zone_id","zone_name","zone_num","modify_date","status");
   		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
   	}
   }
@@ -53,7 +53,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","STATUS",
+  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status",
   				"modify_date","note");
   		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
   	}
