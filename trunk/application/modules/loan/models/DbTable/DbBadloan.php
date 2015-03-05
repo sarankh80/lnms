@@ -140,5 +140,10 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
        ";
     	return $db->fetchRow($sql);
     }
+    public function getLoanedit($id){
+    	$db=$this->getAdapter();
+    	$sql="SELECT  * FROM ln_badloan WHERE id=$id AND STATUS=1";
+    	return $db->fetchRow($sql);
+    }
   }
 
