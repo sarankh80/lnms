@@ -41,7 +41,25 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	$sql = "SELECT br_id,branch_namekh,branch_nameen,br_address,branch_code,branch_tel,fax,displayby,other,status FROM 
     	$this->_name ";
     	$where = ' WHERE branch_namekh!="" AND branch_nameen !="" ';
-   
+    	
+    	if($search['status_search']>-1){
+    		$where.= " AND status = ".$search['status_search'];
+    	}
+    	
+    	if(!empty($search['adv_search'])){
+    		$s_where=array();
+    		$s_search=$search['adv_search'];
+    		$s_where[]=" branch_namekh LIKE '%{$s_search}%'";
+    		$s_where[]=" branch_nameen LIKE '%{$s_search}%'";
+    		$s_where[]=" br_address LIKE '%{$s_search}%'";
+    		$s_where[]=" branch_code LIKE '%{$s_search}%'";
+    		$s_where[]=" branch_tel LIKE '%{$s_search}%'";
+    		$s_where[]=" fax LIKE '%{$s_search}%'";
+    		$s_where[]=" other LIKE '%{$s_search}%'";
+    		$s_where[]=" displayby LIKE '%{$s_search}%'";
+    		$where.=' AND ('.implode(' OR ',$s_where).')';
+    	}
+   //echo $sql.$where;
    return $db->fetchAll($sql.$where);
     }
     

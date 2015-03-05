@@ -1,7 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_returnCollteral;
-echo $this->headTitle($tr->translate("UPDATE_CHANGE_COLLTERAL"));
+echo $this->headTitle($tr->translate("UPDATE_RETURN_COLLTERAL"));
 ?>
 <style>	
 .fullside {
@@ -26,7 +26,7 @@ echo $this->headTitle($tr->translate("UPDATE_CHANGE_COLLTERAL"));
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong><?php echo $tr->translate("CHANGE_COLLTERAL_INFO");?></strong></legend>
+					<legend><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO");?></strong></legend>
 					<table cellspacing="10"  width="100%"> 
 						<tr>
 							<td><?php echo $tr->translate("GIVER_NAME");echo $frm->getElement('id')?></td>
@@ -82,7 +82,6 @@ function AddNewCo(){
 		error: function(err) {
 			alert(err);
 		alert("Your message could not be sent, please try again!.");
-				        
 		}
 	});
 }

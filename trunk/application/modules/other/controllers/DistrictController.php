@@ -14,7 +14,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'search_status' => -1);
 			}
 			$rs_rows= $db->getAllDistrict($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -31,10 +31,10 @@ class Other_DistrictController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
+		$fm = new Other_Form_FrmDistrict();
+		$frm = $fm->FrmAddDistrict();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$this->view->frm_district = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){

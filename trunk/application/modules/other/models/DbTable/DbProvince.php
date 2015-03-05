@@ -49,7 +49,13 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     	$order=" order by province_en_name";
     	$where = '';
     	if(!empty($search['title'])){
-    		$where.=" AND ( province_en_name LIKE '%".$search['title']."%' OR province_kh_name LIKE '%".$search['title']."%') ";
+    		$s_where=array();
+    		$s_search=$search['title'];
+    		$s_where[]=" province_en_name LIKE '%{$s_search}%'";
+    		$s_where[]=" province_kh_name LIKE '%{$s_search}%'";
+    		//$where.=" AND ( province_en_name LIKE '%".$search['title']."%' OR province_kh_name LIKE '%".$search['title']."%') ";
+    		//$where.=" AND user_id LIKE '%{$search['title']}%'";
+    		$where.=' AND ('.implode(' OR ', $s_where).')';
     	}
     	if($search['status']>-1){
     		$where.= " AND status = ".$db->quote($search['status']);

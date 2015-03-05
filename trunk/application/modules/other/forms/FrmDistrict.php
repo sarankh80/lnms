@@ -1,11 +1,46 @@
 <?php 
 Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 	protected $tr;
+	protected $tvalidate =null;//text validate
+	protected $filter=null;
+	protected $t_num=null;
+	protected $text=null;
+	protected $tarea=null;
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$this->tvalidate = 'dijit.form.ValidationTextBox';
+		$this->filter = 'dijit.form.FilteringSelect';
+		$this->text = 'dijit.form.TextBox';
+		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
 	public function FrmAddDistrict($data=null){
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH_DISTRICT_INFO")
+		));
+		$_title->setValue($request->getParam("adv_search"));
+		
+		
+		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
+		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_opt = array(
+				-1=>$this->tr->translate("ALL"),
+				1=>$this->tr->translate("ACTIVE"),
+				0=>$this->tr->translate("DACTIVE"));
+		$_status_search->setMultiOptions($_status_opt);
+		$_status_search->setValue($request->getParam("search_status"));
+		
+		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
+		$_btn_search->setAttribs(array(
+				'dojoType'=>'dijit.form.Button',
+				'iconclass'=>'dijitIconSearch',
+		
+		));
 		
 		$district_name = new Zend_Dojo_Form_Element_TextBox('district_name');
 		$district_name->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
@@ -61,7 +96,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 			
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($id,$district_name,$popupdistrict_name,$district_namekh,$_display,$_province, $_status));
+		$this->addElements(array($_status_search,$_title,$id,$district_name,$popupdistrict_name,$district_namekh,$_display,$_province, $_status));
 		return $this;
 		
 	}
