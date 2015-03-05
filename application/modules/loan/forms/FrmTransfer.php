@@ -116,6 +116,15 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				//'onchange'=>"getClientInfo(1);"
 		));
+		$row_froms = $db_co->getcoinfo();
+		$options_from =array(''=>"------Select------");
+		if (!empty($row_froms))
+			foreach ($row_froms AS $row_from){
+			$options_from[$row_from['co_id']] = $row_from['user_id'];
+		}
+		$user_id->setMultiOptions($options_from);
+		
+	
 
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
