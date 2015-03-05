@@ -2,9 +2,11 @@
 
 class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 {
-
     protected $_name = 'ln_badloan';
     function addbadloan($_data){
+    	$session_transfer=new Zend_Session_Namespace();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$user_id = $session_user->user_id;
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
@@ -17,12 +19,21 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
+    			'status'=>$_data['status'],
+    			'create_by'=>$user_id
     			);
     	$this->insert($arr);//insert data
-//     	$where = 'id = 1';
-//     	$this->delete($where);
+    	$this->_name = 'ln_loan_group'; 
+    	$arr_loan_group = array(
+    		'is_badloan' =>1,
+    	);
+    	$where=" group_id = ".$_data['client_code'];
+		$this->update($arr_loan_group, $where);
     }
     function updatebadloan($_data){
+    	$session_transfer=new Zend_Session_Namespace();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$user_id = $session_user->user_id;
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
@@ -35,14 +46,43 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
+    			'status'=>$_data['status'],
+    			'create_by'=>$user_id
     			);
     	$where=" id = ".$_data['id'];
     	$this->update($arr, $where);
     }
+    function updatebadloan_bad($_data){
+    	$session_transfer=new Zend_Session_Namespace();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$user_id = $session_user->user_id;
+    	$arr = array(
+    			'branch'=>$_data['branch'],
+    			'client_code'=>$_data['client_code'],
+    			'client_name'=>$_data['client_name'],
+    			'number_code'=>$_data['number_code'],
+    			'date'=>$_data['Date'],
+    			'loss_date'=>$_data['date_loss'],
+    			'cash_type'=>$_data['cash_type'],
+    			'total_amount'=>$_data['Total_amount'],
+    			'intrest_amount'=>$_data['Interest_amount'],
+    			'tem'=>$_data['Term'],
+    			'note'=>$_data['Note'],
+    			'status'=>0,
+    			'create_by'=>$user_id
+    	);
+    	$where=" id = ".$_data['id'];
+    	$this->update($arr, $where);
+    	 
+    	$this->_name = 'ln_loan_group';
+    	$arr_loan_group = array('is_badloan' =>0,	);
+    	$where=" group_id = ".$_data['client_code'];
+    	$this->update($arr_loan_group, $where);
+    }
     function getbadloanbyid($id){
     	$db = $this->getAdapter();
     	$sql="SELECT id,branch,client_code,client_name,number_code,date,loss_date,cash_type,total_amount,intrest_amount
-    	,tem,note FROM  $this->_name where id=$id ";
+    	,tem,note,status FROM  $this->_name where id=$id AND status = 1";
     	return $db->fetchRow($sql);
     }
     function getAllBadloan($search=null){
@@ -50,7 +90,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$sql = "SELECT id,(SELECT branch_namekh FROM ln_branch WHERE br_id = branch limit 1)as branch,
     	(SELECT client_number FROM `ln_client` WHERE client_id=client_code limit 1)AS client_code,
     	(SELECT name_en FROM `ln_client` WHERE client_id=client_name limit 1) AS client_name,number_code,date,loss_date,total_amount,intrest_amount
-    	,tem,note FROM  $this->_name ";
+    	,tem,note FROM  $this->_name where status = 1";
     	
         return $db->fetchAll($sql);
     }
