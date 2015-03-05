@@ -6,15 +6,22 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmBadLoan($data=null){
-		
-		$branch = new Zend_Dojo_Form_Element_FilteringSelect('branch');
-		$branch->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'required'=>true
-		));
-		$options= array(1=>"សាខា កណ្តាល",2=>"សាខា ទី១");
-		$branch->setMultiOptions($options);
+		$db = new Application_Model_DbTable_DbGlobal();
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch');
+    	$_branch_id->setAttribs(array(
+    			'dojoType'=>'dijit.form.FilteringSelect',
+    			'class'=>'fullside',
+    			'required' =>'true'
+    	));
+    	$rows = $db->getAllBranchName();
+    	$options=array(''=>"------Select------");
+    	if(!empty($rows))
+    		foreach($rows AS $row){
+    		$options[$row['br_id']]=$row['branch_namekh'];
+    	}
+    	$_branch_id->setMultiOptions($options);
+    	$_branch_id->setValue($request->getParam('branch_id'));
 		
 		$db = new Loan_Model_DbTable_DbBadloan();
 		$client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
@@ -118,12 +125,27 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		       
 		$cash_type->setMultiOptions($cash_type_opt);
 		
+		$status = new Zend_Dojo_Form_Element_Textarea('status');
+		$status ->setAttribs(array(
+				'dojoType'=>'dijit.form.SimpleTextarea',
+				'class'=>'fullside',
+				'style'=>'width:98%'
+		));
+		
+		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
+		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
+		$_status->setMultiOptions($_arr);
+		$_status->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'required'=>'true',
+				'missingMessage'=>'Invalid Module!',
+				'class'=>'fullside'));
 		
 		$id = new Zend_Form_Element_Hidden("id");
 // 		print_r($data);exit();
 		if($data!=null){
 				
-			$branch->setValue($data['branch']);
+			$_branch_id->setValue($data['branch']);
 			$client_code->setValue($data['client_code']);
 			$client_name->setValue($data['client_name']);
 			$number_code->setValue($data['number_code']);
@@ -133,11 +155,12 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 			$interest_amount->setValue($data['intrest_amount']);
 			$_term->setValue($data['tem']);
 			$_note->setValue($data['note']);
+			$_status->setValue($data['status']);
 			$id->setValue($data['id']);
 		}
 		
 		
-		$this->addElements(array($cash_type,$id,$branch,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		$this->addElements(array($_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
 		return $this;
 		
 	}	
