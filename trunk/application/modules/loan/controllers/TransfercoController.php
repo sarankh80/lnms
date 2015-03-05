@@ -33,16 +33,16 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button
  			$_data = $this->getRequest()->getPost();
-// 			try {
-		
-// 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
+ 			try {		
+ 				$db = new Loan_Model_DbTable_DbTransferCo();
+ 				
 // 				$_dbmodel->addbadloan($_data);
 // 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
-// 			}catch (Exception $e) {
-// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-// 				$err =$e->getMessage();
-// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-// 			}
+ 			}catch (Exception $e) {
+ 				Application_Form_FrmMessage::message("INSERT_FAIL");
+ 				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
  		}
 		$fm = new Loan_Form_FrmTransfer();
 		$frm = $fm->FrmTransfer();
