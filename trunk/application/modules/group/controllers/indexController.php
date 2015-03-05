@@ -97,7 +97,7 @@ class Group_indexController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
-				
+				//print_r($data);exit();
 				$db = new Group_Model_DbTable_DbClient();
 				try{
 				 if(isset($data['save_new'])){

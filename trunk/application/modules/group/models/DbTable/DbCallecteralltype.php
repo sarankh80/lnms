@@ -29,7 +29,7 @@ class Group_Model_DbTable_DbCallecteralltype extends Zend_Db_Table_Abstract
     			'title_kh'=>$data['title_kh'],
     			'date'=>$data['date'],
     			'status'=>$data['status'],
-    			'display_by'=>$data['display_by'],
+    			'displayby'=>$data['display_by'],
     			);
     	$where=" id = ".$data['id'];
     	$this->update($arr, $where);

@@ -117,6 +117,8 @@ dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
 dojo.ready(function(){
+	//dijit.byId('group_id').set('disabled', true);
+	//dijit.byId('branch_id').set('disabled', true);
 	var district_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->district));?>
 	});
@@ -195,8 +197,15 @@ function filterVillage(){
 }
 url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getgroupcode'));?>';
 function getGroupCode(){
+	
 	group_id=dijit.byId('group_id').get('value');
 	is_group = dijit.byId('is_group').get('value');
+	if(is_group !=""){
+		dijit.byId('group_id').set('readOnly', true);
+	}
+	else{
+		dijit.byId('group_id').set('readOnly', false);
+	}
 	dojo.xhrPost({
 		url:url_submit,	
 		content:{ 

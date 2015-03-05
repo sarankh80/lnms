@@ -28,7 +28,7 @@ class Callecterall_Model_DbTable_DbCallecterall extends Zend_Db_Table_Abstract
     }
     function getcallecterallbyid($id){
     	$db = $this->getAdapter();
-    	$sql="SELECT id,title_en,title_kh,display_by,date,status FROM $this->_name where id=$id ";
+    	$sql="SELECT id,title_en,title_kh,displayby,date,status FROM $this->_name where id=$id ";
     	return $db->fetchRow($sql);
     }
     function geteAllid($search=null){
