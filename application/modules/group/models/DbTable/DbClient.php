@@ -22,9 +22,11 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		else{
 			$_data['photo']="";
 		}
+		
 		try{
 		$_arr=array(
 				'is_group'	  => $_data['is_group'],
+				//'parent_id'	  =>$parent,
 				'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
 				'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
 				'client_number'=> $_data['client_no'],
@@ -40,7 +42,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'house'	      => $_data['house'],
 				'photo_name'  =>$_data['photo'],
 				'job'        =>$_data['job'],
-				'national_id'=>$_data['national_id'],
+				//'national_id'=>$_data['national_id'],
 				'phone'	      => $_data['phone'],
 				'spouse_name' => $_data['spouse'],
 				'remark'	  => $_data['desc'],
@@ -76,8 +78,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$sql = " 
 		SELECT client_id,client_number,name_kh,name_en,sex,phone,house,street,
 			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
-		    ,spouse_name,
-			(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
+		    ,spouse_name,(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name WHERE 1 ";
 		$order=" order by name_kh";
 		$where = '';

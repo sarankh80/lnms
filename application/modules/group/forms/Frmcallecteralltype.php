@@ -54,7 +54,7 @@ Class Group_Form_Frmcallecteralltype extends Zend_Dojo_Form {
 		if($data!=null){
 			$name_en->setValue($data['title_en']);
 			$name_kh->setValue($data['title_kh']);
-			$_display->setValue($data['display_by']);
+			$_display->setValue($data['displayby']);
 			$_status->setValue($data['status']);
 			$date_call->setValue($data['date']);
 			//$key_code->setValue($data['key_code']);
