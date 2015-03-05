@@ -28,7 +28,8 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     	$co_name->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'onchange'=>'getClientInfo(1);'
     	));
     	$db_co = new Loan_Model_DbTable_DbTransferCo();
     	$row_co = $db_co->getcoinfo();
@@ -43,6 +44,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$_date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
+				
 		));
 		$_date->setValue(date('Y-m-d'));
 		
@@ -61,7 +63,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$formc_co->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-			    //'onchange'=>"getClientInfo(1);"
+			    'onchange'=>"getClientInfo(2);"
 				));
 		$row_froms = $db_co->getcoinfo();
 		$options_from =array(''=>"------Select------");
@@ -78,7 +80,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$to_co->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				//'onchange'=>"getClientInfo(1);"
+				'onchange'=>"getClientInfo(3);"
 		));
 		$row_co = $db_co->getcoinfo();
 		$options_co =array(''=>"------Select------");
@@ -94,7 +96,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$to_co_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				//'onchange'=>"getClientInfo(1);"
+				'onchange'=>"getClientInfo(4);"
 		));
 		$row_froms = $db_co->getcoinfo();
 		$options_from =array(''=>"------Select------");
