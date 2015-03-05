@@ -45,8 +45,8 @@
 							<td><?php  echo $frm->getElement('to_co_code');?></td>
 						</tr>
 					    <tr>  
-					        <td><?php echo $tr->translate("USER_ID")?></td>
-							<td><?php  echo $frm->getElement('user_id');?></td>
+					        <td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php  echo $frm->getElement('status');?></td>
 							<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
 							<td></td>
@@ -68,3 +68,30 @@
 	</tr>	
 </table>
 </form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+<!--
+function getClientInfo(type){
+	if(type==1){						
+		id = dijit.byId("co_code").get('value');
+		dijit.byId("formc_co").attr('value',id);
+		dijit.byId("co_code").attr('value',id);
+		
+	}else if(type==2){
+		id = dijit.byId("formc_co").get('value');
+		dijit.byId("formc_co").attr('value',id);
+		dijit.byId("co_code").attr('value',id);
+	}
+	else if(type==3){		
+		to = dijit.byId("to_co").get('value');		
+		dijit.byId("to_co_code").attr('value',to);
+		dijit.byId("to_co").attr('value',to);
+	}else if(type==4){
+		to = dijit.byId("to_co_code").get('value');
+		dijit.byId("to_co_code").attr('value',to);
+		dijit.byId("to_co").attr('value',to);
+	}
+}
+//-->
+</script>
