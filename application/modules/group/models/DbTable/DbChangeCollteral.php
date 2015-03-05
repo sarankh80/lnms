@@ -16,20 +16,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    	$_arr_=array('is_changed'=>2);
 	    	$this->update($_arr_, $where);
 	    	
-	    		$arr_collteral = array(
-	    			'branch_id'=>$data['branch_id'],
-	    			'client_code'=>$data['client_code'],
-	    			'number_collteral'=>$data['number_code'],
-	    			'client_name'=>$data['client_name'],
-	    			'owner'=>$data['owner_name'],
-	    			'callate_type'=>$data['to'],
-	    			'note'=>$data['note'],
-	    			'date_registration'=>$data['date'],
-	    			'status'=>$data['Stutas'],
-	    			'user_id'=>$this->getUserId(),
-	    	);
-	    		$this->insert($arr_collteral);
-	    	
 	    		$this->_name = 'ln_changecollteral';
 	    		$arr = array(
 	    			'branch_id'=>$data['branch_id'],
@@ -47,7 +33,25 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    			'user_id'=>$this->getUserId()
 	    		);
 	    		$id=$this->insert($arr);
-	    		$this->_name='ln_return_collteral';
+	    		
+	    		
+	    		$arr_collteral = array(
+	    				'changecollteral_id'=>$id['id'],
+	    				'branch_id'=>$data['branch_id'],
+	    				'client_code'=>$data['client_code'],
+	    				'number_collteral'=>$data['number_code'],
+	    				'client_name'=>$data['client_name'],
+	    				'owner'=>$data['owner_name'],
+	    				'callate_type'=>$data['to'],
+	    				'note'=>$data['note'],
+	    				'date_registration'=>$data['date'],
+	    				'status'=>$data['Stutas'],
+	    				'user_id'=>$this->getUserId(),
+	    		);
+	    		$this->_name='ln_client_callecteral';
+	    		$this->insert($arr_collteral);//to collecterall
+	    		
+	    		
 	    		$_arr=array(
 	    			'change_id'=>$id['id'],
 	    			'collteral_id'=>$data['collteral_id'],
@@ -56,6 +60,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    			'date'=>date('Y-m-d'),
 	    			'user_id'=>$this->getUserId(),
 	    			);
+	    		$this->_name='ln_return_collteral';
 	    		$this->insert($_arr);
     	$db->commit();
     	}catch (Exception $e){

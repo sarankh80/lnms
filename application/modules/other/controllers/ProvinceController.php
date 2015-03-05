@@ -1,5 +1,6 @@
 <?php
 class Other_ProvinceController extends Zend_Controller_Action {
+	const REDIRECT_URL ='/other';
 	public function init()
 	{
 		/* Initialize action controller here */
@@ -45,14 +46,19 @@ class Other_ProvinceController extends Zend_Controller_Action {
 	}
 	function addAction()
 	{
+		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Other_Model_DbTable_DbProvince();
 				$_dbmodel->addNewProvince($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/other/Province/index");
+				if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message($tr->translate("INSERT_SUCCESS"));
+				}else{
+					Application_Form_FrmMessage::Sucessfull($tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/Province/index");
+				}
 			}catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
+				Application_Form_FrmMessage::message($tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -63,6 +69,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		$this->view->frm_province = $frm_province;
 	}
 	function editAction(){
+		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		$id=$this->getRequest()->getParam("id");
 		$db=new Other_Model_DbTable_DbProvince();
 		$row=$db->getProvinceById($id);
@@ -71,7 +78,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbProvince();
 			$db->updateProvince($data,$id);
-			Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/other/Province/index");
+			Application_Form_FrmMessage::Sucessfull($tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL . "/Province/index");
 		}
 		$frm= new Other_Form_FrmProvince();
 		$update=$frm->FrmProvince($row);

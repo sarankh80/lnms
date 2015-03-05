@@ -127,6 +127,7 @@ public function addSalary($_data){
 			$s_where[] = " basic_salary LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		//echo $sql.$where;
 		return $db->fetchAll($sql.$where);
 	}	
 	function getTypeOption($search=null){

@@ -44,8 +44,8 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		 FROM $this->_name ";
 		$where = ' WHERE 1 ';
 		
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['search_status']>-1){
+			$where.= " AND status = ".$search['search_status'];
 		}
 		if(!empty($search['adv_search'])){
 			$where.= " AND district_name LIKE '%{$search['adv_search']}%'";
