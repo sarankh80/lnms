@@ -100,7 +100,7 @@ class Tellerandexchange_XchangeController extends Zend_Controller_Action
 					$data=$this->getRequest()->getPost();
 // 					print_r($data);exit();
 					try {
-						$db = new Tellerandexchange_Model_DbTable_Dbexchange();
+						//$db = new tellerandexchange_m();
 						$db = $db->addXchangeMoney($data);
 						Application_Form_FrmMessage::Sucessfull('', self::REDIRECT_URL);
 					} catch (Exception $e) {

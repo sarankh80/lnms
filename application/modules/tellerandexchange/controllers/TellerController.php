@@ -27,7 +27,7 @@ class Tellerandexchange_TellerController extends Zend_Controller_Action {
 						'client_number'=>$rs['client_number'],
 						'name_kh'=>$rs['name_kh'],
 						'name_en'=>$rs['name_en'],
-						'sex'=>$this->sex[$rs['sex']],
+						//'sex'=>$this->sex[$rs['sex']],
 						'phone'=>$rs['phone'],
 						'house'=>$rs['house'],
 						'street'=>$rs['street'],

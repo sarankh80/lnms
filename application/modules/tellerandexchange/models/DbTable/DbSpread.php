@@ -3,7 +3,7 @@
 class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'cs_rate';
+    protected $_name = 'ln_exchangerate';
     
     /**
      * Get current rate s
@@ -48,10 +48,10 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
 				$result['BD'] = $r['rate_out'];
 				$result['SPDB'] = $r['spread'];
 			}
-			elseif($r['in_cur_id'] == 1 && $r['out_cur_id'] == 2){
+			elseif($r['in_cur_id'] == 2 && $r['out_cur_id'] == 1){
 				$result['DR'] = $r['rate_in'];
 				$result['RD'] = $r['rate_out'];	
-				$result['SPDR'] = $r['spread'];
+				$result['SPRD'] = $r['spread'];
 			}
 			elseif($r['in_cur_id'] == 3 && $r['out_cur_id'] == 1){
 				$result['BR'] = $r['rate_in'];
@@ -60,6 +60,87 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
 			}
 		}
     	return $result;
+    }
+    function  getAllExchageRate(){
+    	$db = $this->getAdapter();
+    	$sql = "SELECT ex.`id`,ex.`in_cur_id`,ex.`out_cur_id`,ex.`rate_in`,ex.`spread`,ex.`rate_out` FROM `ln_exchangerate` AS ex";
+    	return $db->fetchAll($sql);
+    }
+    function setNewRate($data){
+    	$db = $this->getAdapter();
+    	//$db_loan = new Application_Model_DbTable_DbLoan();
+    	$db->beginTransaction();
+    	$ex = $this->getAllExchageRate();
+    	
+    	try {
+    		$date = date("Y-m-d H:i:s");
+    		if(!empty($ex)){
+    			$_data=array(
+    			
+    					    "rate_in"		=>$data['DB'],
+	    					"spread"		=>$data['SPBD'],
+	    					"rate_out"		=>$data['BD'],
+	    					"create_date"	=>$date
+    			);
+    			$where = "in_cur_id=2 AND out_cur_id=3";
+    			$this->update($_data, $where);
+    			
+    			$_data=array(
+    					    "rate_in"		=>$data['DR'],
+	    					"spread"		=>$data['SPRD'],
+	    					"rate_out"		=>$data['RD'],
+	    					"create_date"	=>$date
+    			);
+    			$where = "in_cur_id= 2 AND out_cur_id = 1";
+    			$this->update($_data, $where);
+    			
+    			$_data=array(
+    					    "rate_in"		=>$data['BR'],
+	    					"spread"		=>$data['SPBR'],
+	    					"rate_out"		=>$data['RB'],
+	    					"create_date"	=>$date
+    			);
+    			$where = "in_cur_id = 3 AND out_cur_id = 1";
+    			$this->update($_data, $where);
+    			
+    		}else{
+	    		
+	    			$_data=array(
+	    					"in_cur_id"		=> 	2,
+	    					"out_cur_id"	=> 3,
+	    					"rate_in"		=>$data['DB'],
+	    					"spread"		=>$data['SPBD'],
+	    					"rate_out"		=>$data['BD'],
+	    					"create_date"	=>$date
+	    			);
+	    			$this->insert($_data);
+	    			
+	    			$_data=array(
+	    					"in_cur_id"		=> 	2,
+	    					"out_cur_id"	=> 1,
+	    			    	"rate_in"=>$data['DR'],
+	    			    	"spread"=>$data['SPRD'],
+	    			    	"rate_out"=>$data['RD'],
+	    			    	"create_date"=>$date
+	    			   );
+	    			$this->insert($_data);
+	    			
+	    			$_data=array(
+	    				"in_cur_id"		=> 	3,
+	    				"out_cur_id"	=> 1,
+	    			    "rate_in"=>$data['BR'],
+	    			    "spread"=>$data['SPBR'],
+	    			    "rate_out"=>$data['RB'],
+	    			    "create_date"=>$date
+	    			  );
+	    			$this->insert($_data);
+    		}
+    		
+    		return  $db->commit();
+    	} catch (Exception $e) {
+    		$db->rollBack();
+    		echo $e->getMessage(); exit;
+    	}
     }
 }
 ?>

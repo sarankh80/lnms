@@ -82,12 +82,22 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
     	return $tmp;
     }
     
-    public function addAction(){
+    public function addAction()
+    {
+    	try{
     	$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
     	
     	if($this->getRequest()->isPost()){
     		$formdata=$this->getRequest()->getPost();
-    		$db_rate->setNewRate($formdata);
+    		//print_r($formdata);exit();
+            $db_rate->setNewRate($formdata);
+    	}
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("Application Error");
+    		echo $e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		
+    		
     	}
     	
     	$this->view->ratelist = $db_rate->getCurrentRate();
