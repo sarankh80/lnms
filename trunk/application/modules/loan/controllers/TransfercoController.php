@@ -31,13 +31,15 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 // 		}
 	}
 	public function addAction(){
-		if($this->getRequest()->isPost()){//check condition return true click submit button
+		if($this->getRequest()->isPost()){//check condition return true click submit button			
  			$_data = $this->getRequest()->getPost();
  			try {		
- 				$db = new Loan_Model_DbTable_DbTransferCo();
+ 				
+ 				$db = new Loan_Model_DbTable_DbTransferCo(); 				
+ 				$db->insertTransfer($_data);
  				
 // 				$_dbmodel->addbadloan($_data);
-// 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+ 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/add");
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");
  				$err =$e->getMessage();
