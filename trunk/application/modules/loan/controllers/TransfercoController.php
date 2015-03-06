@@ -12,17 +12,16 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	{
  		try{
  			$db = new Loan_Model_DbTable_DbTransferCo(); 
- 			$rs_rows= $db->getcoinfo($search=null);//call frome model
+ 			$rs_rows= $db->getAllinfoCo($search=null);//call frome model
 // // 			$glClass = new Application_Model_GlobalClass();
 // // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
-// 			$list = new Application_Form_Frmtable();
-// 			$collumns = array("BRANCH ","CLIENT_CODE","CLIENT_NAME","NUMBER_CODE","DATE","LOSS_DATE"
-// 					,"TOTAL_AMOUNT","INTEREST_AMOUNT","TEM","NOTE");
-// 			$link=array(
-// 					'module'=>'loan','controller'=>'BadLoan','action'=>'edit',
-// 			);
-// 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch'=>$link,'client_code'=>$link
-// 					,'client_name'=>$link,'client_code'=>$link));
+			$list = new Application_Form_Frmtable();
+			$collumns = array("BRANCH_NAME ","NAME_FROM","NAME_TO","CODE_FORM","CODE_TO","DATE","NOTE","STATUS",);
+ 			$link=array(
+					'module'=>'loan','controller'=>'transferco','action'=>'edit',
+ 			);
+ 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch'=>$link,'client_code'=>$link
+ 					,'client_name'=>$link,'client_code'=>$link));
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
  			echo $e->getMessage();
@@ -55,11 +54,15 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 		// action body
 	if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
-			try {
-		
+			try {		
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
-				$_dbmodel->updatebadloan($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+				if(isset($_data['btn_save'])){
+					$_dbmodel->updatebadloan($_data);
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
+				}else if(isset($_data['btn_save_close'])){
+					$_dbmodel->updatebadloan($_data);
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
+				}	
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
