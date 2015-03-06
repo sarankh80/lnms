@@ -10,18 +10,17 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	
 	public function indexAction()
 	{
- 		try{
+	try{
  			$db = new Loan_Model_DbTable_DbTransferCo(); 
  			$rs_rows= $db->getAllinfoCo($search=null);//call frome model
 // // 			$glClass = new Application_Model_GlobalClass();
 // // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME ","NAME_FROM","NAME_TO","CODE_FORM","CODE_TO","DATE","NOTE","STATUS",);
+			$collumns = array("BRANCH_NAME","NAME_FROM","NAME_TO","CODE_FORM","CODE_TO","DATE","NOTE","STATUS",);
  			$link=array(
 					'module'=>'loan','controller'=>'transferco','action'=>'edit',
  			);
- 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch'=>$link,'client_code'=>$link
- 					,'client_name'=>$link,'client_code'=>$link));
+ 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('from'=>$link,'to'=>$link));
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
  			echo $e->getMessage();
@@ -59,10 +58,11 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 				if(isset($_data['btn_save'])){
 					$_dbmodel->updatebadloan($_data);
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
-				}else if(isset($_data['btn_save_close'])){
+				}else if(isset($_data['btn_save_close"'])){
 					$_dbmodel->updatebadloan($_data);
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
-				}	
+				}
+				
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
