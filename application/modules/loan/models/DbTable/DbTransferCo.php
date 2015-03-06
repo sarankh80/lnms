@@ -10,8 +10,15 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     }
     public function insertTransfer($data){
     	$_data_arr = array(
-    		
+    		'branch_id'=> $data['branch_name'],
+    		'code_from'=> $data['co_code'],
+    		'code_to'=> $data['to_co_code'],
+    		'from'=> $data['formc_co'],
+    		'to'=> $data['to_co'],
+    		'status'=> $data['status'],
+    		'date'=> $data['Date'],
     	);
+    	$this->insert($_data_arr);
     }
   
 }
