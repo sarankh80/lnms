@@ -1,9 +1,12 @@
 <?php
 class Other_ZoneController extends Zend_Controller_Action {
+	const REDIRECT_URL='/other';
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
+	protected $tr;
     public function init()
     {    	
      /* Initialize action controller here */
+    	$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -16,7 +19,7 @@ class Other_ZoneController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'search_status' => -1);
 			}
 			$rs_rows= $db->getAllZoneArea($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -33,10 +36,10 @@ class Other_ZoneController extends Zend_Controller_Action {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+			$frm = new Other_Form_FrmZone();
+   			$frm_co=$frm->FrmAddZone();
+   			Application_Model_Decorator::removeAllDecorator($frm_co);
+   			$this->view->frm_zone = $frm_co;
 	}
    function addAction(){
    	if($this->getRequest()->isPost()){
@@ -44,9 +47,13 @@ class Other_ZoneController extends Zend_Controller_Action {
    			$_data = $this->getRequest()->getPost();
    			$db = new Other_Model_DbTable_DbZone();
    			$db->addZone($_data);
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+   			if(!empty($_data['save_new'])){
+   				Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
+   			}else{
+   				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'), self::REDIRECT_URL.'/Zone/index');
+   			}
    		}catch(Exception $e){
-   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+   			Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
    			$err =$e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
@@ -62,9 +69,9 @@ class Other_ZoneController extends Zend_Controller_Action {
 	   		try{
 	   			$_data = $this->getRequest()->getPost();
 	   			$db->addZone($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​កែប្រែ​ជោគ​ជ័យ !",'/other/Zone');
+	   			Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL.'/Zone/index');
 	   		}catch(Exception $e){
-	   			Application_Form_FrmMessage::message("ការ​កែប្រែ​មិន​ជោគ​ជ័យ");
+	   			Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
 	   			$err =$e->getMessage();
 	   			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 	   		}

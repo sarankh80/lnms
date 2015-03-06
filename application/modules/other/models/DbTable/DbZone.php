@@ -39,8 +39,8 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
 				FROM $this->_name ";
 		$where = ' WHERE 1 ';
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['search_status']>-1){
+			$where.= " AND status = ".$search['search_status'];
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();

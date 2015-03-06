@@ -1,7 +1,10 @@
 <?php
 class Other_VillageController extends Zend_Controller_Action {
+	const REDIRECT_URL='/other';
+	protected $tr;
 	public function init()
 	{
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -14,7 +17,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'search_status' => -1);
 			}
 			$rs_rows= $db->getAllVillage($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -24,16 +27,16 @@ class Other_VillageController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'other','controller'=>'Village','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('village_name'=>$link,'commune_name'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('village_name'=>$link,'village_namekh'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
+		$frm = new Other_Form_FrmVillage();
+		$frm = $frm->FrmAddVillage();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$this->view->frm_village= $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
@@ -41,10 +44,14 @@ class Other_VillageController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db->addVillage($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Village/add ');
+				if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
+				}else{
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/Village/index');
+				}
 			}catch(Exception $e){
 				$err = $e->getMessage();
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
@@ -63,9 +70,9 @@ class Other_VillageController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db->addVillage($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Village');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/Village/index');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}

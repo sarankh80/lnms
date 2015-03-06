@@ -65,19 +65,23 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		$_display->setMultiOptions($_display_opt);
 
 		$_db = new Application_Model_DbTable_DbGlobal();		
-		$rows_provice = $_db->getAllProvince();
-		$opt_province = "";
-		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
+		$rows_province = $_db->getAllProvince();
+		$opt_province = array(''=>$this->tr->translate("SELECT_DISTRICT"));
+		if(!empty($rows_province))foreach($rows_province AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
+		
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
-		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'
+		$_province->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside'
 		));
 		
 		$_province->setMultiOptions($opt_province);
 		$_province->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
-				'class'=>'fullside',));
-		
+				'class'=>'fullside',
+				));
+		$_province->setValue($request->getParam('province_name'));
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
 		$_status->setMultiOptions($_arr);

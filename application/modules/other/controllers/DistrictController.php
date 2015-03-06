@@ -1,5 +1,6 @@
 <?php
 class Other_DistrictController extends Zend_Controller_Action {
+	const REDIRECT_URL='/other';
 	public function init()
 	{
 		header('content-type: text/html; charset=utf8');
@@ -37,14 +38,19 @@ class Other_DistrictController extends Zend_Controller_Action {
 		$this->view->frm_district = $frm;
 	}
 	public function addAction(){
+		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district = new Other_Model_DbTable_DbDistrict();
 				$db_district->addDistrict($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/District');
+				if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message($tr->translate('INSERT_SUCCESS'));
+				}else{
+				Application_Form_FrmMessage::Sucessfull($tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL.'/District/index');
+				}
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -55,14 +61,15 @@ class Other_DistrictController extends Zend_Controller_Action {
 		$this->view->frm_district = $frm;
 	}
 	public function editAction(){
+		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		$db_district = new Other_Model_DbTable_DbDistrict();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district->addDistrict($_data);
-				Application_Form_FrmMessage::Sucessfull("ការកែប្រែ​ជោគ​ជ័យ !",'/other/District');
+				Application_Form_FrmMessage::Sucessfull($tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/District/index');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការកែប្រែ​​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($tr->translate('INSERT_FAIL'));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
