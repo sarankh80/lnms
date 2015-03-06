@@ -693,14 +693,14 @@ require(["dojo/ready"], function(ready){
 			    		  lblid1="BR";
 				    	  lblid2="RB";
 				      }
-			    	  dojo.byId(lblid1).innerHTML = dojo.number.format(tmp[i].rate_in);
-			    	  dojo.byId(lblid2).innerHTML = dojo.number.format(tmp[i].rate_out);
+			    	  //dojo.byId(lblid1).innerHTML = dojo.number.format(tmp[i].rate_in);
+			    	  //dojo.byId(lblid2).innerHTML = dojo.number.format(tmp[i].rate_out);
 		    	  }
 		    	  
 		      },
 		      error: function(error){	 
-			      //alert(error);       
-		        alert("Error, please reload page, Try it again.");
+			      alert(error);       
+		        //alert("Error, please reload page, Try it again.");
 		      }
 	    });
 	}
