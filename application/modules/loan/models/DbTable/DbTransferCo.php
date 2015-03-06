@@ -13,7 +13,14 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql);
     }
     public function getAllinfoCo(){
-    	
+    	$db = $this->getAdapter();
+    	$sql = 'SELECT tf.id,(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.br_id = tf.`branch_id`) AS branch_id, 
+				(SELECT c.co_khname FROM ln_co AS c WHERE c.co_id = tf.from LIMIT 1) AS `from`,
+				(SELECT c.co_khname FROM ln_co AS c WHERE c.co_id = tf.to LIMIT 1) AS `to`,
+    			(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_from LIMIT 1) AS code_from,
+				(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_to LIMIT 1) AS code_to,				
+				tf.`date`,tf.note,tf.`status` FROM `ln_tranfser_co` AS tf WHERE STATUS = 1';
+    	return $db->fetchAll($sql);
     }
     public function insertTransfer($data){
     	$db = $this->getAdapter();
@@ -27,6 +34,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    		'to'=> $data['to_co'],
 	    		'status'=> $data['status'],
 	    		'date'=> $data['Date'],
+	    		'note'=> $data['Note'],
 	    	);
 	    	$this->insert($_data_arr);	    	
 	    	$this->_name ="ln_loanmember_funddetail";
