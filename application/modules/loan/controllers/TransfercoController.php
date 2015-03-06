@@ -33,6 +33,7 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button			
  			$_data = $this->getRequest()->getPost();
+ 			//print_r($_data);exit();
  			try {		
  				
  				$db = new Loan_Model_DbTable_DbTransferCo(); 				
