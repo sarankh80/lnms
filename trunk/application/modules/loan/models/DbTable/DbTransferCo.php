@@ -12,17 +12,39 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 				FROM `ln_loan_member` AS m ';
     	return $db->fetchAll($sql);
     }
+    public function getAllinfoCo(){
+    	
+    }
     public function insertTransfer($data){
-    	$_data_arr = array(
-    		'branch_id'=> $data['branch_name'],
-    		'code_from'=> $data['co_code'],
-    		'code_to'=> $data['to_co_code'],
-    		'from'=> $data['formc_co'],
-    		'to'=> $data['to_co'],
-    		'status'=> $data['status'],
-    		'date'=> $data['Date'],
-    	);
-    	$this->insert($_data_arr);
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try {
+	    	$_data_arr = array(
+	    		'branch_id'=> $data['branch_name'],
+	    		'code_from'=> $data['co_code'],
+	    		'code_to'=> $data['to_co_code'],
+	    		'from'=> $data['formc_co'],
+	    		'to'=> $data['to_co'],
+	    		'status'=> $data['status'],
+	    		'date'=> $data['Date'],
+	    	);
+	    	$this->insert($_data_arr);	    	
+	    	$this->_name ="ln_loanmember_funddetail";
+	    	$_arr_fund = array(
+	    			'member_id'=>$data['to_co_code'],
+	    			'collect_by'=>$data['co_code'],
+	    			'is_completed'=> 0,
+	    			'status'=> $data['status'],
+	    	);
+	    	$where = "member_id = ".$data['co_code'];
+	    	$this->update($_arr_fund, $where);
+	    	$db->commit();
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("INSERT_FAIL");
+    		$err =$e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
+    		$db->rollBack();
+    	}
     }
   
 }
