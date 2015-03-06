@@ -10,10 +10,9 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	
 	public function indexAction()
 	{
-		 
-// 		try{
-// 			$db = new Loan_Model_DbTable_DbBadloan();
-// 			$rs_rows= $db->getAllBadloan($search=null);//call frome model
+ 		try{
+ 			$db = new Loan_Model_DbTable_DbTransferCo(); 
+ 			$rs_rows= $db->getcoinfo($search=null);//call frome model
 // // 			$glClass = new Application_Model_GlobalClass();
 // // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 // 			$list = new Application_Form_Frmtable();
@@ -24,19 +23,18 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 // 			);
 // 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch'=>$link,'client_code'=>$link
 // 					,'client_name'=>$link,'client_code'=>$link));
-// 		}catch (Exception $e){
-// 			Application_Form_FrmMessage::message("Application Error");
-// 			echo $e->getMessage();
-// 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 		}
+ 		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+ 			echo $e->getMessage();
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+ 		}
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button			
  			$_data = $this->getRequest()->getPost();
  			//print_r($_data);exit();
  			try {		
- 				
- 				$db = new Loan_Model_DbTable_DbTransferCo(); 				
+ 				$db = new Loan_Model_DbTable_DbTransferCo(); 				 				
  				$db->insertTransfer($_data);
  				
 // 				$_dbmodel->addbadloan($_data);
