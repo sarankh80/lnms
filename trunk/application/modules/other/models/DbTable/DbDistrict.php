@@ -7,8 +7,8 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
-    	 
     }
+    
 	public function addDistrict($_data){
 		$_arr=array(
 				'pro_id'	  => $_data['province_name'],
@@ -47,8 +47,16 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		if($search['search_status']>-1){
 			$where.= " AND status = ".$search['search_status'];
 		}
+		if(!empty($search['province_name'])){
+			$where.=" AND pro_id=".$search['province_name'];
+		}
 		if(!empty($search['adv_search'])){
-			$where.= " AND district_name LIKE '%{$search['adv_search']}%'";
+			$s_where=array();
+			$s_search=$search['adv_search'];
+			$s_where[]=" district_name LIKE '%{$s_search}%'";
+			$s_where[]=" district_namekh LIKE '%{$s_search}%'";
+			//$where.= " AND district_name LIKE '%{$search['adv_search']}%'";
+			$where.=' AND ('.implode('OR',$s_where).')';
 		}
 		return $db->fetchAll($sql.$where);	
 	}	

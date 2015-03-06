@@ -46,18 +46,13 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-// 			$search = $search['adv_search'];
-			$s_where[] = " commune_name LIKE '%{$search['adv_search']}%'";
-// 			$s_where[] = "co_khname LIKE '%{$search}%'";
-// 			$s_where[] = " co_firstname LIKE '%{$search}%'";
-// 			$s_where[] = "co_lastname LIKE '%{$search}%'";
-// 			$s_where[] = " tel LIKE '%{$search}%'";
-// 			$s_where[] = "email LIKE '%{$search}%'";
-// 			$s_where[] = "address LIKE '%{$search}%'";
+			$s_search = $search['adv_search'];
+			$s_where[] = " commune_name LIKE '%{$s_search}%'";
+			$s_where[]=" commune_namekh LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['search_status']>-1){
+			$where.=" AND status=".$search['search_status'];
 		}
 		return $db->fetchAll($sql.$where);	
 	}	

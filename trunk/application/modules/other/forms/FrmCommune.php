@@ -1,11 +1,46 @@
 <?php 
 Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 	protected $tr;
+	protected $tvalidate =null;//text validate
+	protected $filter=null;
+	protected $t_num=null;
+	protected $text=null;
+	protected $tarea=null;
+	
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$this->tvalidate = 'dijit.form.ValidationTextBox';
+		$this->filter = 'dijit.form.FilteringSelect';
+		$this->text = 'dijit.form.TextBox';
+		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
 	public function FrmAddCommune($data=null){
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH_COMMUNE_INFO")
+		));
+		$_title->setValue($request->getParam("adv_search"));
+		
+		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
+		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_opt = array(
+				-1=>$this->tr->translate("ALL"),
+				1=>$this->tr->translate("ACTIVE"),
+				0=>$this->tr->translate("DACTIVE"));
+		$_status_search->setMultiOptions($_status_opt);
+		$_status_search->setValue($request->getParam("search_status"));
+		
+		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
+		$_btn_search->setAttribs(array(
+				'dojoType'=>'dijit.form.Button',
+				'iconclass'=>'dijitIconSearch',
+		
+		));
 		
 		$commune = new Zend_Dojo_Form_Element_TextBox('commune_name');
 		$commune->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
@@ -16,25 +51,30 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
 		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display->setAttribs(array('
+				dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_ENGLISH"));
 		$_display->setMultiOptions($_display_opt);
 		
 		$_db = new Application_Model_DbTable_DbGlobal();
-		$rows_provice = $_db->getAllDistrict();
-		$opt_province = "";
-		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['dis_id']]=$row['district_name'];
-		$district_name = new Zend_Dojo_Form_Element_FilteringSelect('district_name');
-		$district_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'
-		));
+		$rows_district = $_db->getAllDistrict();
+		$opt_district = "";
+		if(!empty($rows_district)) foreach($rows_district AS $row) $opt_district[$row['dis_id']]=$row['district_name'];
 		
-		$district_name->setMultiOptions($opt_province);
+		$district_name = new Zend_Dojo_Form_Element_FilteringSelect('district_name');
+		$district_name->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside'
+		));
+		$district_name->setMultiOptions($opt_district);
 		
 		$_db = new Application_Model_DbTable_DbGlobal();		
 		$rows_provice = $_db->getAllProvince();
-		$opt_province = "";
+		$opt_province = array($this->tr->translate("SELECT_PROVINCE"));
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
 		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
@@ -65,7 +105,7 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 			$_province->setValue($data['pro_id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($commune,$district_name,$communekh,$_province, $_status, $_display));
+		$this->addElements(array($_btn_search,$_status_search,$_title,$commune,$district_name,$communekh,$_province, $_status, $_display));
 		return $this;
 		
 	}

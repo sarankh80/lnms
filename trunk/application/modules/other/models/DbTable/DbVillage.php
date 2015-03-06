@@ -48,22 +48,16 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
 				FROM $this->_name ";
 		$where = ' WHERE 1 ';
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['search_status']>-1){
+			$where.= " AND status = ".$search['search_status'];
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$search = $search['adv_search'];
-			$s_where[] = " village_name LIKE '%{$search}%'";
-// 			$s_where[] = "co_khname LIKE '%{$search}%'";
-// 			$s_where[] = " co_firstname LIKE '%{$search}%'";
-// 			$s_where[] = "co_lastname LIKE '%{$search}%'";
-// 			$s_where[] = " tel LIKE '%{$search}%'";
-// 			$s_where[] = "email LIKE '%{$search}%'";
-// 			$s_where[] = "address LIKE '%{$search}%'";
+			$s_search = $search['adv_search'];
+			$s_where[] = " village_name LIKE '%{$s_search}%'";
+			$s_where[]=" village_namekh LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		
 		return $db->fetchAll($sql.$where);	
 	}	
 }

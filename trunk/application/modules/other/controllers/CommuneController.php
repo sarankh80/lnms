@@ -1,7 +1,10 @@
 <?php
 class Other_CommuneController extends Zend_Controller_Action {
+	protected $tr;
+	const REDIRECT_URL='/other';
 	public function init()
 	{
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -14,7 +17,7 @@ class Other_CommuneController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'search_status' => -1);
 			}
 			$rs_rows= $db->getAllCommune($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -30,10 +33,10 @@ class Other_CommuneController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
+		$frm = new Other_Form_FrmCommune();
+		$frm = $frm->FrmAddCommune();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$this->view->frm_district = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
@@ -41,9 +44,13 @@ class Other_CommuneController extends Zend_Controller_Action {
 			try{
 				$db_district = new Other_Model_DbTable_DbCommune();
 				$db_district->addCommune($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Commune/add');
+				if(!empty($_data['save_new'])){
+					Application_Form_FrmMessage::message($this->tr->translate("INSERT_SUCCESS"));
+				}else{
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/Commune/index');
+				}
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
