@@ -5,11 +5,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	protected $_name = 'ln_tranfser_co';
     public function getcoinfo(){
     	$db = $this->getAdapter();
-    	$sql = 'SELECT m.`member_id`,`group_id`,(SELECT (SELECT c.`co_code` FROM `ln_co` AS c WHERE c.co_id = g.co_id AND STATUS = 1 LIMIT 1) 
-				FROM `ln_loan_group` AS g WHERE g.g_id = m.`group_id` AND STATUS = 1 LIMIT 1) AS co_code ,
-				(SELECT (SELECT c.`co_khname` FROM `ln_co` AS c WHERE c.co_id = g.co_id AND STATUS = 1 LIMIT 1) 
-				FROM `ln_loan_group` AS g WHERE g.g_id = m.`group_id` AND STATUS = 1 LIMIT 1) AS co_khname
-				FROM `ln_loan_member` AS m ';
+    	$sql = 'SELECT `co_id`,`branch_id`,`co_code`,`co_khname` FROM `ln_co` WHERE STATUS = 1';
     	return $db->fetchAll($sql);
     }
     public function getAllinfoCo(){
@@ -39,12 +35,9 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	$this->insert($_data_arr);	    	
 	    	$this->_name ="ln_loanmember_funddetail";
 	    	$_arr_fund = array(
-	    			'member_id'=>$data['to_co_code'],
-	    			'collect_by'=>$data['co_code'],
-	    			'is_completed'=> 0,
-	    			'status'=> $data['status'],
+	    			'collect_by'=>$data['to_co'],
 	    	);
-	    	$where = "member_id = ".$data['co_code'];
+	    	$where = "collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
 	    	$this->update($_arr_fund, $where);
 	    	$db->commit();
     	}catch (Exception $e){
