@@ -18,7 +18,7 @@
 					<legend align="center" ><strong><?php echo $tr->translate("EDIT_ZONE_AREA");?></strong></legend>
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php echo $tr->translate("ZONE_NAME");echo $frm->getElement('id');?></td>
 							<td><?php  echo $frm->getElement('zone_name');?></td>
 						</tr>
 						<tr>

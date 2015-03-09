@@ -10,6 +10,7 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
     	 
     }
 	public function addHoliday($_data){
+		try {
 		$_arr=array(
 				'holiday_name'=> $_data['holiday_name'],
 				'amount_day'  => $_data['amount_day'],
@@ -26,6 +27,9 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
 		}else{
 			return  $this->insert($_arr);
 		}
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
 	}
 	public function getHolidayById($id){
 		$db = $this->getAdapter();
@@ -36,15 +40,20 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
 	}
 	function getAllHoliday($search=null){
 		$db = $this->getAdapter();
-		$sql = "SELECT id,holiday_name,amount_day,start_date,end_date,status,
+		$sql = "SELECT id,holiday_name,amount_day,start_date,end_date,note,status,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) AS user_name
 				FROM $this->_name ";
 		$where = ' WHERE 1 ';
-		if($search['status']>-1){
-			$where.= " AND status = ".$search['status'];
+		if($search['search_status']>-1){
+			$where.= " AND status = ".$search['search_status'];
 		}
 		if(!empty($search['adv_search'])){
-			$where.= " AND holiday_name LIKE '%{$search['adv_search']}%'";
+			$s_where=array();
+			$s_search=$search['adv_search'];
+			$s_where[]= " amount_day LIKE '%{$s_search}%'";
+			$s_where[]= " note LIKE '%{$s_search}%'";
+			$where.=' AND ('.implode(' OR ', $s_where).')';
+			//$where.=' AND ('.implode(' OR ',$s_where).')';
 		}
 		return $db->fetchAll($sql.$where);	
 	}	

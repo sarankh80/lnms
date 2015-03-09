@@ -7,14 +7,14 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
-    	 
     }
 	public function addZone($_data){
+		try {
 		$_arr=array(
 				'zone_name'	  => $_data['zone_name'],
 				'zone_num'	  => $_data['zone_number'],
-				'status'	  => $_data['status'],
 				'modify_date' => date('Y-m-d'),
+				'status'	  => $_data['status'],
 				'user_id'	  => $this->getUserId()
 		);
 		if(!empty($_data['id'])){
@@ -22,6 +22,9 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 			return  $this->update($_arr, $where);
 		}else{
 			return  $this->insert($_arr);
+		}
+		}catch (Exception $e){
+			echo $e->getMessage();
 		}
 	}
 	public function getZoneById($id){
@@ -49,7 +52,6 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 			$s_where[] = "zone_num LIKE '%{$search}%'";
 			$where.=' AND ('.implode(' OR ',$s_where).')';
 		}
-// 		echo $sql.$where;exit();
 		return $db->fetchAll($sql.$where);	
 	}	
 }
