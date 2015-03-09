@@ -1,8 +1,10 @@
 <?php
 class Other_BranchController extends Zend_Controller_Action {
 	const REDIRECT_URL='/other';
+	protected $tr;
 	public function init()
 	{
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -28,7 +30,7 @@ class Other_BranchController extends Zend_Controller_Action {
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_namekh'=>$link,'branch_nameen'=>$link));
 		}catch (Exception $e){
-			Application_Form_FrmMessage::message("Application Error");
+			Application_Form_FrmMessage::message($this->tr->translate("APPLICATION_ERROR"));
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$fm = new Other_Form_Frmbranch();
@@ -40,19 +42,18 @@ class Other_BranchController extends Zend_Controller_Action {
 	
 	function addAction()
 	{
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
 			$_dbmodel = new Other_Model_DbTable_DbBranch();
 			try {
 				$_dbmodel->addbranch($_data);
 				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($tr->translate("INSERT_SUCCESS"));
+					Application_Form_FrmMessage::message($this->tr->translate("INSERT_SUCCESS"));
 				}else{
-					Application_Form_FrmMessage::Sucessfull($tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index");
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . "/branch/index");
 				}
 			}catch (Exception $e) {
-				Application_Form_FrmMessage::message($tr->translate("INSERT_FAIL"));
+				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -63,7 +64,6 @@ class Other_BranchController extends Zend_Controller_Action {
 		$this->view->frm_branch = $frm;
 	}
 	function editAction(){
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		$id=$this->getRequest()->getParam("id");
 		$db=new Other_Model_DbTable_DbBranch();
 		$row=$db->getBranchById($id);
@@ -72,11 +72,10 @@ class Other_BranchController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbBranch();
 			$db->updateBranch($data,$id);
-			Application_Form_FrmMessage::Sucessfull($tr->translate("EDIT_SUCCESS"),"/other/branch/index");
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL."/branch/index");
 		}
 		$db=new Other_Model_DbTable_DbBranch();
 		$row=$db->getBranchById($id);
-		//print_r($row);exit();
 	
 		$frm= new Other_Form_Frmbranch();
 		$update=$frm->FrmBranch($row);
