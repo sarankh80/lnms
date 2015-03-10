@@ -214,7 +214,7 @@ function getLoanPaymentByLoanNumber($data){
     					'crm_id'				=>		$client_pay,
     					'lfd_id'				=>		$data["mfdid_".$i],
     					'client_id'				=>		$data["client_id_".$i],
-    					'date_payment'				=>		$data["date_".$i],
+    					'date_payment'			=>		$data["date_".$i],
     					'capital'				=>		$data["total_priciple_".$i],
     					'remain_capital'		=>		$data["total_priciple_".$i] - $data["payment_".$i],
     					'principal_permonth'	=>		$data["principal_permonth_".$i],
