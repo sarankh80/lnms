@@ -1,8 +1,10 @@
 <?php
 class Other_DistrictController extends Zend_Controller_Action {
 	const REDIRECT_URL='/other';
+	protected $tr;
 	public function init()
 	{
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -38,19 +40,18 @@ class Other_DistrictController extends Zend_Controller_Action {
 		$this->view->frm_district = $frm;
 	}
 	public function addAction(){
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district = new Other_Model_DbTable_DbDistrict();
 				$db_district->addDistrict($_data);
 				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($tr->translate('INSERT_SUCCESS'));
+					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
 				}else{
-				Application_Form_FrmMessage::Sucessfull($tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL.'/District/index');
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL .'/District/index');
 				}
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message($tr->translate("INSERT_FAIL"));
+				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -61,15 +62,14 @@ class Other_DistrictController extends Zend_Controller_Action {
 		$this->view->frm_district = $frm;
 	}
 	public function editAction(){
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		$db_district = new Other_Model_DbTable_DbDistrict();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district->addDistrict($_data);
-				Application_Form_FrmMessage::Sucessfull($tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/District/index');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'),self::REDIRECT_URL . '/District/index');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message($tr->translate('INSERT_FAIL'));
+				Application_Form_FrmMessage::message($this->tr->translate('EDIT_FAIL'));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}

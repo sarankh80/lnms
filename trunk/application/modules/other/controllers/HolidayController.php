@@ -72,9 +72,9 @@ class Other_HolidayController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_major_id = $db->addHoliday($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Holiday');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL.'/Holiday/index');
 			} catch (Exception $e) {
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($this->tr->translate("EDIT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}

@@ -70,9 +70,9 @@ class Other_VillageController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db->addVillage($_data);
-				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/Village/index');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'),self::REDIRECT_URL . '/Village/index');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
+				Application_Form_FrmMessage::message($this->tr->translate('EDIT_FAIL'));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}

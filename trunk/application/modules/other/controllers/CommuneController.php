@@ -69,9 +69,9 @@ class Other_CommuneController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db->addCommune($_data);
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/other/Commune/add');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL.'/Commune/add');
 			}catch(Exception $e){
-				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
+				Application_Form_FrmMessage::message($this->tr->translate("EDIT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
