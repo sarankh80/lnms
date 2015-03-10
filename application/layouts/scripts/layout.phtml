@@ -96,10 +96,13 @@
 					        <div data-dojo-type="dijit/MenuItem" onclick="document.frmlist_mt.submit();" >Export to Excel</div>
 					    </div>
 					</div>
-				<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
-					showLabel="false" type="button" onclick="doPrint();">Print</button>
+					<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+					showLabel="false" type="button" onclick="doPrint();">Print</button>					
+					<!--  <button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php //echo $tr->translate("SEARCH");?></button>					
+					<input  name="rpt_search" type="text" id="rpt_search" style="width:250px; height:30px;border-radius:1px;" >-->
 					<div id="divPrint">
 				<?php }?>
+					
 	                <?php echo $this->layout()->content; 
 	               	if($module=='report' AND $action!='rpt-paymentschedules'){
 	                ?>
