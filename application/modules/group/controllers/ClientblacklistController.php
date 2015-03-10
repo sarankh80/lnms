@@ -1,10 +1,10 @@
 <?php
 
 class Group_ClientblacklistController extends Zend_Controller_Action
-{
+{protected $tr;
 
 public function init()
-    {
+    {$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -78,10 +78,10 @@ public function init()
 			$db = new Group_Model_DbTable_DbClientBlackList();
 			try {
 					$db->updatClientBlackList($data);
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
 					Application_Form_FrmMessage::redirectUrl('/group/Clientblacklist');
 			} catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
+				Application_Form_FrmMessage::message("EDIT_FAIL");
 				$err = $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}

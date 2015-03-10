@@ -98,7 +98,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$collumn = array("br_id","branch_namekh","branch_nameen","branch_address","branch_code","branch_tel",
+  		$collumn = array("br_id","branch_namekh","branch_nameen","br_address","branch_code","branch_tel",
   				"status","fax","other","displayby");
   		$this->exportFileToExcel('ln_branch',$db->getAllBranch(),$collumn);
   	}

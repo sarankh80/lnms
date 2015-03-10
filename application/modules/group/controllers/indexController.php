@@ -1,8 +1,8 @@
 <?php
 class Group_indexController extends Zend_Controller_Action {
-	const REDIRECT_URL = '/group/index';
+	const REDIRECT_URL = '/group/index';protected $tr;
 	public function init()
-	{
+	{$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -136,7 +136,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$data = $this->getRequest()->getPost();
 			    
 				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/index");
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'),"/group/index");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAILE");
 				echo $e->getMessage();

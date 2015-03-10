@@ -1,8 +1,8 @@
 <?php
 class Group_ChangecollteralController extends Zend_Controller_Action {
-	const REDIRECT_URL='/group';
+	const REDIRECT_URL='/group';protected $tr;
 	public function init()
-	{
+	{$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -68,14 +68,14 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			try {
 				$db->updateChangeCollteral($data);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/changecollteral/index');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL. '/changecollteral/index');
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				$this->view->msg = 'EDIT_FAIL';
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
 		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+			Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL);
 		}
 		$row  = $db->getChangeCollteralbyid($id);
 		$fm = new Group_Form_Frmchangecollteral();
