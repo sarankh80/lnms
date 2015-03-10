@@ -112,7 +112,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
-				2=>$this->tr->translate("NAME_ENGLISH"));
+				2=>$this->tr->translate("NAME_EN"));
 		$branch_display->setMultiOptions($_display_opt);
 		
 		$br_address = new Zend_Dojo_Form_Element_TextBox('br_address');

@@ -23,7 +23,7 @@ Class Other_Form_FrmProvince extends Zend_Dojo_Form {
 				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
-				2=>$this->tr->translate("NAME_ENGLISH"));
+				2=>$this->tr->translate("NAME_EN"));
 		$_display->setMultiOptions($_display_opt);
 		
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
