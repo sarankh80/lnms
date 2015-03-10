@@ -1,8 +1,9 @@
 <?php
 class Group_CallteralController extends Zend_Controller_Action {
-	const REDIRECT_URL='/group';
+	const REDIRECT_URL='/group';protected $tr;
 	public function init()
 	{
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -72,9 +73,9 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$db_call = new Group_Model_DbTable_DbCallteral();
 			try {
 				$db = $db_call->updatecallteral($calldata);
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL. '/Callteral/index');
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL. '/Callteral/index');
 			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				$this->view->msg = 'EDIT_FAIL';
 			}
 		}
 		$id = $this->getRequest()->getParam('id');

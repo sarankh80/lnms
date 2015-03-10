@@ -1,7 +1,8 @@
 <?php
 class Group_ClientController extends Zend_Controller_Action {
+	protected $tr;
 	public function init()
-	{
+	{ $this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -65,7 +66,7 @@ class Group_ClientController extends Zend_Controller_Action {
 			try{
 				$data = $this->getRequest()->getPost();
 				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull("ការកែប្រែដោយ​ជោគ​ជ័យ !","/group/Client");
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'),"/group/Client");
 			}catch (Exception $e){
 				echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("Application Error");

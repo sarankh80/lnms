@@ -52,7 +52,7 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     	function getAllBranch(){
     		$db=$this->getAdapter();
     		$sql=" select br_id,branch_namekh,branch_nameen
-    		,branch_address,branch_code,branch_tel,status,fax,other,displayby from ln_branch where status=1";
+    		,br_address,branch_code,branch_tel,status,fax,other,displayby from ln_branch where status=1";
     		
     		return $db->fetchAll($sql);
     	}

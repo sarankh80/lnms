@@ -2,9 +2,9 @@
 
 class Group_CallecteralltypeController extends Zend_Controller_Action
 {
-
+	protected $tr;
 public function init()
-    {
+    {$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -78,11 +78,11 @@ public function init()
 			try {
 				if(isset($data['btn_save'])){
 					$db->updatcallecterall($data);
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
 				}
 				if(isset($data['btn_save_close'])){
 					$db->updatcallecterall($data);
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
 					Application_Form_FrmMessage::redirectUrl('/group/Callecteralltype');
 				}				
 			} catch (Exception $e) {
