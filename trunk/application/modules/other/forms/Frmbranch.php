@@ -41,24 +41,30 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		
 		));
 		
-		$br_id = new Zend_Dojo_Form_Element_NumberTextBox('br_id');
+		$br_id = new Zend_Dojo_Form_Element_TextBox('br_id');
 		$br_id->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
-				'onkeyup'=>'Calcuhundred()'
-				));
-		
-		$branch_namekh = new Zend_Dojo_Form_Element_TextBox('branch_namekh');
-		$branch_namekh->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly',
+				'style'=>'color:red',
+				'onkeyup'=>'Calcuhundred()'
+				));
+		$br_code=Other_Model_DbTable_DbBranch::getBranchCode();
+		$br_id->setValue($br_code);
+		
+		$branch_namekh = new Zend_Dojo_Form_Element_ValidationTextBox('branch_namekh');
+		$branch_namekh->setAttribs(array(
+				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
+				'required'=>true,
 				'onkeyup'=>'Calfifty()'
 				));
 
-		$branch_nameen = new Zend_Dojo_Form_Element_TextBox('branch_nameen');
+		$branch_nameen = new Zend_Dojo_Form_Element_ValidationTextBox('branch_nameen');
 		$branch_nameen->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
+				'required'=>true,
 				'onkeyup'=>'Caltweenty()'
 				));
 		$branch_code = new Zend_Dojo_Form_Element_NumberTextBox('branch_code');
@@ -99,18 +105,20 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$options = array(1=>"ប្រើប្រាស់", 2=>"មិនប្រើប្រាស់");
 		$branch_status->setMultiOptions($options);
 		
-		$branch_display = new Zend_Dojo_Form_Element_TextBox('branch_display');
+		$branch_display = new Zend_Dojo_Form_Element_FilteringSelect('branch_display');
 		$branch_display->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-// 				'readonly'=>true
 				));
+		$_display_opt = array(
+				1=>$this->tr->translate("NAME_KHMER"),
+				2=>$this->tr->translate("NAME_ENGLISH"));
+		$branch_display->setMultiOptions($_display_opt);
 		
 		$br_address = new Zend_Dojo_Form_Element_TextBox('br_address');
 		$br_address->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				//'readonly'=>true
 		));
 	
 		

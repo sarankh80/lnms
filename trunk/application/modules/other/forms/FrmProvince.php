@@ -17,7 +17,10 @@ Class Other_Form_FrmProvince extends Zend_Dojo_Form {
 		));
 		
 		$_display=  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_ENGLISH"));

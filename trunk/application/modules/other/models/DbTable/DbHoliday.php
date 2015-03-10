@@ -51,6 +51,7 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
 			$s_where=array();
 			$s_search=$search['adv_search'];
 			$s_where[]= " amount_day LIKE '%{$s_search}%'";
+			$s_where[]=" holiday_name LIKE '%{$s_search}%'";
 			$s_where[]= " note LIKE '%{$s_search}%'";
 			$where.=' AND ('.implode(' OR ', $s_where).')';
 			//$where.=' AND ('.implode(' OR ',$s_where).')';
