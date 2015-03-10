@@ -81,7 +81,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
-				2=>$this->tr->translate("NAME_ENGLISH"));
+				2=>$this->tr->translate("NAME_EN"));
 		$_display->setMultiOptions($_display_opt);
 		
 		$district_name->setMultiOptions($opt_province);

@@ -57,7 +57,7 @@ Class Other_Form_FrmCommune extends Zend_Dojo_Form {
 				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
-				2=>$this->tr->translate("NAME_ENGLISH"));
+				2=>$this->tr->translate("NAME_EN"));
 		$_display->setMultiOptions($_display_opt);
 		
 		$_db = new Application_Model_DbTable_DbGlobal();
