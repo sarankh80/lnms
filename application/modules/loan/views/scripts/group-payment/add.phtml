@@ -65,8 +65,8 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td></td>
-							<td></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('discount');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('date_input');?></td>
 						</tr>
@@ -97,6 +97,7 @@
 	</tr>		
 </table>
 <input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <?php  echo $frm->getElement('reciever');?>
 </form>
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
@@ -213,7 +214,7 @@ function getLoanById(type){
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
-					+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" /></th>'
+					+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" checked="checked" /></th>'
 					+'<th class="tdheader">កូដអតិថិជន</th>'
 					+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
 					+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
@@ -247,15 +248,15 @@ function getLoanById(type){
 					id = respone[i].id;
 					 tem+= '<tr>';
 					    tem += '<td>&nbsp;'+num+'</td>';
-					    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
+					    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
+					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
-					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;<input type="text" name="date_'+inx+'" id="date_'+inx+'" value="'+respone[i].date_payment+'" /></td>';
+					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;<input type="hidden" name="date_'+inx+'" id="date_'+inx+'" value="'+respone[i].date_payment+'" /></td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;</td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="text" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="text" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="text" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment)+' '+curr+'&nbsp;<input type="text" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
+					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
+					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
+					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
+					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment)+' '+curr+'&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
 						if(respone[i].is_completed==1){
 							status = '<label style="color:blue;">បង់រួច</label>';
 							if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
@@ -269,18 +270,18 @@ function getLoanById(type){
 						tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
 						tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
 					    tem += '</tr>';
-					    if(inx!=1) {
-							var identity = dijit.byId('identity').get('value');
-							dijit.byId('identity').attr('value',identity+','+inx);
-						} else {
-							dijit.byId('identity').attr('value',inx);
-						}
+ 					    if(inx!=1) {
+ 							var identity = dijit.byId('identity').get('value');
+ 							dijit.byId('identity').attr('value',identity+','+inx);
+ 							dijit.byId('record_id').attr('value',identity+','+inx);
+ 						} else {
+ 							dijit.byId('identity').attr('value',inx);
+ 							dijit.byId('record_id').attr('value',inx);
+ 						}
 				}
-				dijit.byId('total_payment').attr('value',total_payment); 
-				dijit.byId('os_amount').attr('value',totalos_amount); 
-				dijit.byId('total_interest').attr('value',total_interest);
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
+				checkAll(i);
 			},
 			error: function(e) {
 				alert(e);
@@ -289,15 +290,106 @@ function getLoanById(type){
 }
 function popupCheckCO(){
 }
-function checkAll(i){	
+function calculatePrice() {
+	 var total = $('#tuitionfee').val();
+	 var ds = $('#discount').val();
+	 if(ds.length!=0){
+	  if(ds.indexOf("%")!==-1){
+	   var pds=ds.split("%");
+	   if(!isNaN(pds[0])){
+	    var discount=(total*parseFloat(pds[0]))/100;
+	    after_discount = total - discount;
+	    return after_discount;
+
+	   }else{
+	    after_discount = total - ds;
+	    return after_discount;
+	   }
+	  }else{
+	   if(!isNaN(ds)&&ds!=0){
+	    discount = parseFloat(ds).toFixed(2);
+	    after_discount = total - discount;
+	    return after_discount;
+	   }else{
+	    batch
+	    after_discount = total;
+	    return after_discount;
+	    }
+	  }
+	 }
+	}
+function calculateTotal(index){
+	total_payment = 0;
+	os_amount = 0;
+	total_interest = 0;
+	priciple_amount = 0;
+	var ids =dijit.byId('identity').get('value');
+	var arrays = ids.split(',');
+	for(var i=0;i<arrays.length;i++) {
+		if(arrays[i] == index) arrays.splice(i,1);
+		if($('#mfdid_'+index).attr('checked')){
+			if(dijit.byId("identity").get('value')!="") {
+				var ids = dijit.byId("identity").value;
+				dijit.byId("identity").attr('value',ids+','+index);
+			} else { 
+				dijit.byId("identity").attr('value',index);}
+		 }else{
+			 var strings = arrays.join(',');
+				dijit.byId('identity').attr('value',strings);
+		}
+    }
+	var ids =dijit.byId('identity').get('value');
+	var arrays = ids.split(',');
+	for(var i=0;i<arrays.length;i++) {
+		if($('#mfdid_'+arrays[i]).attr('checked')){
+          total_payment = total_payment+parseFloat($('#payment_'+arrays[i]).val());
+          os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
+          total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
+          priciple_amount = parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
+		}else{
+			
+		}
+	}
+	dijit.byId('total_payment').attr('value',total_payment);
+	dijit.byId('os_amount').attr('value',os_amount);
+	dijit.byId('total_interest').attr('value',total_interest);
+	dijit.byId('priciple_amount').attr('value',priciple_amount);
+}
+
+function checkAll(index){
+	total_payment = 0;
+	os_amount = 0;
+	total_interest = 0;
+	priciple_amount = 0;
 	if($('#check_all').attr('checked')){
 		$('.checkbox').each(function() { //loop through each checkbox
-            this.checked = true;  //select all checkboxes with class "checkbox1"              
-        });
+            this.checked = true;  
+		});
+		var ids =dijit.byId('record_id').get('value');
+    	var arrays = ids.split(',');
+    	
+    	for(var i=0;i<arrays.length;i++){
+    		if($('#mfdid_'+arrays[i]).attr('checked')){
+    	          total_payment = total_payment+parseFloat($('#payment_'+arrays[i]).val());
+    	          os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
+    	          total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
+    	          priciple_amount = parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
+    		}
+        }
+    	dijit.byId('total_payment').attr('value',total_payment);
+    	dijit.byId('os_amount').attr('value',os_amount);
+    	dijit.byId('total_interest').attr('value',total_interest);
+    	dijit.byId('priciple_amount').attr('value',priciple_amount);
+  
 	}else{
+		dijit.byId('identity').attr('value','');
 		$('.checkbox').each(function() { //loop through each checkbox
-            this.checked = false; //deselect all checkboxes with class "checkbox1"                      
+            this.checked = false; //deselect all checkboxes with class "checkbox1" 
         });
+		dijit.byId('total_payment').attr('value',0);
+		dijit.byId('os_amount').attr('value',0);
+		dijit.byId('total_interest').attr('value',0);
+		dijit.byId('priciple_amount').attr('value',0);
 	}
 }
 
