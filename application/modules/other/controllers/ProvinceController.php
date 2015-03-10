@@ -1,9 +1,11 @@
 <?php
 class Other_ProvinceController extends Zend_Controller_Action {
 	const REDIRECT_URL ='/other';
+	protected $tr;
 	public function init()
 	{
 		/* Initialize action controller here */
+		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -46,19 +48,18 @@ class Other_ProvinceController extends Zend_Controller_Action {
 	}
 	function addAction()
 	{
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Other_Model_DbTable_DbProvince();
 				$_dbmodel->addNewProvince($_data);
 				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($tr->translate("INSERT_SUCCESS"));
+					Application_Form_FrmMessage::message($this->tr->translate("INSERT_SUCCESS"));
 				}else{
-					Application_Form_FrmMessage::Sucessfull($tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/Province/index");
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/Province/index");
 				}
 			}catch (Exception $e) {
-				Application_Form_FrmMessage::message($tr->translate("INSERT_FAIL"));
+				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
@@ -69,7 +70,6 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		$this->view->frm_province = $frm_province;
 	}
 	function editAction(){
-		$tr=Application_Form_FrmLanguages::getCurrentlanguage();
 		$id=$this->getRequest()->getParam("id");
 		$db=new Other_Model_DbTable_DbProvince();
 		$row=$db->getProvinceById($id);
@@ -77,8 +77,14 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		{
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbProvince();
+			try {
 			$db->updateProvince($data,$id);
-			Application_Form_FrmMessage::Sucessfull($tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL . "/Province/index");
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL . "/Province/index");
+			}catch (Exception $e){
+				Application_Form_FrmMessage::message($this->tr->translate("EDIT_FAIL"));
+				$err=$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
 		}
 		$frm= new Other_Form_FrmProvince();
 		$update=$frm->FrmProvince($row);

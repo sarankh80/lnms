@@ -71,8 +71,14 @@ class Other_BranchController extends Zend_Controller_Action {
 		{
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbBranch();
-			$db->updateBranch($data,$id);
-			Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL."/branch/index");
+			try{
+				$db->updateBranch($data,$id);
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL."/branch/index");
+			}catch (Exception $e){
+				Application_Form_FrmMessage::message($this->tr->translate("EDIT_FAIL"));
+				$err=$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
 		}
 		$db=new Other_Model_DbTable_DbBranch();
 		$row=$db->getBranchById($id);
