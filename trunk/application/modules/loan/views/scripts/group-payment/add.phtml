@@ -21,8 +21,6 @@
 				<fieldset>
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table class="center" cellspacing="10">
-						
-						
 						<tr>
 							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
@@ -90,6 +88,10 @@
 					<legend><strong>ប្រវត្តិនៃការបង់ប្រាក់</strong></legend>
 					<?php //echo $this->list;?>
 					<div id='data_table' name='data_table'></div>
+					<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
+				</table>
+				
 				</fieldset>
 		 </td>
 	</tr>		
@@ -97,7 +99,15 @@
 <input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
 <?php  echo $frm->getElement('reciever');?>
 </form>
-<script type="text/javascript">	
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<script type="text/javascript">
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+dojo.require("dojo.data.ItemFileWriteStore"); 
+dojo.require("dijit.form.Textarea");
+    var tran_store  = getDataStorefromJSON('','name',null);
+	var tran_status = {};
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
 		saveTrans(); 
@@ -110,12 +120,6 @@
 	    hideDialog();
 	}
 	
-</script>
-<script type="text/javascript">
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dijit.form.Textarea");
-    var tran_store  = getDataStorefromJSON('','name',null);
-	var tran_status = {};
 </script>
 <script type="text/javascript">
 function submitData(){
@@ -183,11 +187,13 @@ function AddNewCo(){
 // 	});	*/
 
 // });
+temp='';
+r = 0;
+fund_title=0;
 function getLoanById(type){
 	
 	if(type==1){
 		var loan_number = dijit.byId('loan_number').get('value');
-		
 	}else if(type==2){
 		var loan_number = dijit.byId('client_code').get('value');
 	}else if(type==3){
@@ -207,7 +213,7 @@ function getLoanById(type){
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
-					+'<th class="tdheader">ប្រអប់</th>'
+					+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" /></th>'
 					+'<th class="tdheader">កូដអតិថិជន</th>'
 					+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
 					+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
@@ -224,7 +230,6 @@ function getLoanById(type){
 				total_interest=0;
 				for(i=0;i<respone.length;i++){
 					inx = i+1;
-					//alert(respone[i].total_principal);
 					status='<label style="color:red;">នៅឡើយ</lable>';
 					++num;
 					d = new Date(respone[i].date_payment);
@@ -242,7 +247,7 @@ function getLoanById(type){
 					id = respone[i].id;
 					 tem+= '<tr>';
 					    tem += '<td>&nbsp;'+num+'</td>';
-					    tem += '<td>&nbsp;<input type="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" /></td>';
+					    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;<input type="text" name="date_'+inx+'" id="date_'+inx+'" value="'+respone[i].date_payment+'" /></td>';
@@ -266,44 +271,45 @@ function getLoanById(type){
 					    tem += '</tr>';
 					    if(inx!=1) {
 							var identity = dijit.byId('identity').get('value');
-							alert(identity);
 							dijit.byId('identity').attr('value',identity+','+inx);
 						} else {
-								dijit.byId('identity').attr('value',inx);
-							}
+							dijit.byId('identity').attr('value',inx);
+						}
 				}
 				dijit.byId('total_payment').attr('value',total_payment); 
 				dijit.byId('os_amount').attr('value',totalos_amount); 
 				dijit.byId('total_interest').attr('value',total_interest);
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
-				
 			},
 			error: function(e) {
 				alert(e);
-				//alert("Can not get loan by loan number !");
 			}
 		});
+}
+function popupCheckCO(){
+}
+function checkAll(i){	
+	if($('#check_all').attr('checked')){
+		$('.checkbox').each(function() { //loop through each checkbox
+            this.checked = true;  //select all checkboxes with class "checkbox1"              
+        });
+	}else{
+		$('.checkbox').each(function() { //loop through each checkbox
+            this.checked = false; //deselect all checkboxes with class "checkbox1"                      
+        });
+	}
 }
 
 function getdataPaymentToForm(data){//use
 	dijit.byId('group_id').attr('value',data.group_id);
 	dijit.byId('co_id').attr('value',data.co_id);
 	dijit.byId('branch_id').attr('value',data.branch_id);
-	//dijit.byId('priciple_amount').attr('value',data.total_principal); 
-	//dijit.byId('os_amount').attr('value',data.principal_permonth);
 	dijit.byId('total_interest').attr('value',data.total_interest);
-	//dijit.byId('total_payment').attr('value',data.total_payment);
-	//dijit.byId('amount_receive').attr('value',data.total_payment);
 	dijit.byId('loan_number').attr('value',data.loan_number);
 	dijit.byId('client_code').attr('value',data.group_number);
 	dijit.byId('reciever').attr('value',data.collect_by);
-	
-	//dijit.byId('hide_total_payment').attr('value',data.total_payment);
-	 
-	//dijit.byId('collect_date').attr('value',data.date_payment);// dijit.byId('').attr('total_principal');
-	//totalReturn();
-	
+	totalReturn();
 }
 function getDayString(num){
 	var days= ["ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហ","សុក្រ","សៅរ៏","អាទិត្យ"];
