@@ -18,6 +18,11 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 				tf.`date`,tf.note,tf.`status` FROM `ln_tranfser_co` AS tf WHERE STATUS = 1';
     	return $db->fetchAll($sql);
     }
+    public function getAllinfoTransfer($id){
+    	$db = $this->getAdapter();
+    	$sql ="SELECT * FROM `ln_tranfser_co`n WHERE id = $id";
+    	return $db->fetchRow($sql);
+    }
     public function insertTransfer($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
