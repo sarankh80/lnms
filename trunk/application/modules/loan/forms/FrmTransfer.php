@@ -138,19 +138,15 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside'));
 		
 		//$id = new Zend_Form_Element_Hidden("id");
-		if($data!=null){
-				
-// 			$branch->setValue($data['branch']);
-// 			$client_code->setValue($data['client_code']);
-// 			$client_name->setValue($data['client_name']);
-// 			$number_code->setValue($data['number_code']);
-// 			$_date->setValue($data['date']);
-// 			$date_loss->setValue($data['loss_date']);
-// 			$total_amount->setValue($data['total_amount']);
-// 			$interest_amount->setValue($data['intrest_amount']);
-// 			$_term->setValue($data['tem']);
-// 			$_note->setValue($data['note']);
-// 			$id->setValue($data['id']);
+		if($data!=null){				
+			$branch_name->setValue($data['branch_id']);
+			$co_name->setValue($data['code_from']);
+			$formc_co->setValue($data['from']);
+			$to_co->setValue($data['to']);
+			$to_co_code->setValue($data['code_to']);			
+			$_status->setValue($data['status']);
+			$_date->setValue($data['date']);
+			$note->setValue($data['note']);
 		}		
 		
 		$this->addElements(array($co_name,$_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));

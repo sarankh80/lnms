@@ -50,36 +50,16 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	}
 	public function editAction()
 	{
-		// action body
-	if($this->getRequest()->isPost()){//check condition return true click submit button
-			$_data = $this->getRequest()->getPost();
-			try {		
-				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
-				if(isset($_data['btn_save'])){
-					$_dbmodel->updatebadloan($_data);
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan/add");
-				}else if(isset($_data['btn_save_close"'])){
-					$_dbmodel->updatebadloan($_data);
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/BadLoan");
-				}
-				
-			}catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			}
-	      }
+		// action body		
 		$id = $this->getRequest()->getParam('id');
-		// 		if(empty($id)){
-		// 			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-		// 		}
-		$db = new Loan_Model_DbTable_DbBadloan();
-		$row  = $db->getbadloanbyid($id);
-		$fm = new Loan_Form_Frmbadloan();
-		$frm = $fm->FrmBadLoan($row);
+		//print_r($id);exit();
+		$db = new Loan_Model_DbTable_DbTransferCo();
+		$data = $db->getAllinfoTransfer($id);
+		$fm = new Loan_Form_FrmTransfer();
+		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_loan = $frm;
-	
+		$this->view->frm_transfer = $frm;
+
 		 
 	}
 	public function getLoaninfoAction(){
