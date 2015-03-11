@@ -20,7 +20,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     }
     public function getAllinfoTransfer($id){
     	$db = $this->getAdapter();
-    	$sql ="SELECT * FROM `ln_tranfser_co`n WHERE id = $id";
+    	$sql ="SELECT * FROM `ln_tranfser_co` WHERE id = $id";
     	return $db->fetchRow($sql);
     }
     public function insertTransfer($data){
@@ -45,6 +45,36 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	$where = "collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
 	    	$this->update($_arr_fund, $where);
 	    	$db->commit();
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("INSERT_FAIL");
+    		$err =$e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
+    		$db->rollBack();
+    	}
+    }
+    public function updatTransfer($data,$id){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try {
+    		$_data_arr = array(
+    				'branch_id'=> $data['branch_name'],
+    				'code_from'=> $data['co_code'],
+    				'code_to'=> $data['to_co_code'],
+    				'from'=> $data['formc_co'],
+    				'to'=> $data['to_co'],
+    				'status'=> $data['status'],
+    				'date'=> $data['Date'],
+    				'note'=> $data['Note'],
+    		);
+    		$wheres = "id = $id";
+    		$this->update($_data_arr, $wheres);
+    		$this->_name ="ln_loanmember_funddetail";
+    		$_arr_fund = array(
+    				'collect_by'=>$data['to_co'],
+    		);
+    		$where = "collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
+    		$this->update($_arr_fund, $where);
+    		$db->commit();
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		$err =$e->getMessage();

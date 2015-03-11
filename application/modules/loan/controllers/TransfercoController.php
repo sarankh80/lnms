@@ -32,11 +32,15 @@ class Loan_TransfercoController extends Zend_Controller_Action {
  			$_data = $this->getRequest()->getPost();
  			//print_r($_data);exit();
  			try {		
- 				$db = new Loan_Model_DbTable_DbTransferCo(); 				 				
- 				$db->insertTransfer($_data);
- 				
-// 				$_dbmodel->addbadloan($_data);
- 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/add");
+ 				$db = new Loan_Model_DbTable_DbTransferCo(); 
+ 				if(isset($_data['btn_save'])){				 				
+	 				$db->insertTransfer($_data);				
+	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/add");
+ 				}
+ 				elseif (isset($_data['btn_save_close'])){
+ 					$db->insertTransfer($_data);
+ 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/");
+ 				}
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");
  				$err =$e->getMessage();
@@ -52,8 +56,20 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	{
 		// action body		
 		$id = $this->getRequest()->getParam('id');
-		//print_r($id);exit();
 		$db = new Loan_Model_DbTable_DbTransferCo();
+		if($this->getRequest()->isPost()){
+			$post = $this->getRequest()->getPost();
+			//print_r($post);exit(); 			
+			if(isset($post['btn_save'])){
+				$db->updatTransfer($post, $id);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/add");
+			}elseif(isset($post['btn_save_close'])){
+				//print_r($post);exit();
+				$db->updatTransfer($post, $id);
+ 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/");
+ 			}
+		}
+		//print_r($id);exit();		
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransfer();
 		$frm = $fm->FrmTransfer($data);
