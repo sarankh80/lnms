@@ -37,7 +37,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    		'date'=> $data['Date'],
 	    		'note'=> $data['Note'],
 	    	);
-	    	$this->insert($_data_arr);	    	
+	    	$this->insert($_data_arr);		    	    	
 	    	$this->_name ="ln_loanmember_funddetail";
 	    	$_arr_fund = array(
 	    			'collect_by'=>$data['to_co'],
