@@ -16,11 +16,17 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->staff_list = $db->getAllstaff($data);
+  		}else{
   		$collumn = array("co_code","co_khname","co_firstname","sex","email","basic_salary",
   				"start_date","end_date","contract_no","shift","workingtime","position","tel",
   				"basic_salary","national_id","address","degree","branch_name","note");
   		$this->exportFileToExcel('ln_staff',$db->getAllstaff(),$collumn);
-  	}
+  		}
+  	}else $search = array('txtsearch' => '');
   }
   function  rptVillageAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -35,7 +41,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   				"province_kh_name","modify_date",
   				"status","user_name");
   		$this->exportFileToExcel('ln_staff',$rs,$collumn);
-  	}
+  	}else $search = array('txtsearch' => '');
   }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -43,9 +49,15 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		//print_r($data);exit();
+  		if(isset($data['btn_search'])){
+  			$this->view->zone_list = $db->getAllZone($data);
+  		}else{
   		$collumn = array("zone_id","zone_name","zone_num","modify_date","status");
   		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
-  	}
+  		}
+  	}else $search = array('txtsearch' => '');
   }
   function rptHolidayAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -53,10 +65,15 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status",
-  				"modify_date","note");
-  		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
-  	}
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			$this->view->holiday_list = $db->getAllHoliday($data);
+  		}else{
+  		//print_r($search);exit();
+	  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status","modify_date","note");
+	  		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
+  		}
+  	}else $search = array('txtsearch' => '');
   }
   public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();
