@@ -1,4 +1,5 @@
 <?php 
+//error_reporting(0);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <title><?php echo $tr->translate("REPORT HOLIDAY");?>Report Holiday</title>
@@ -15,10 +16,11 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	<tr><td align="right">
 		<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
 			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit">ស្វែង​រក</button>
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
 	</td></tr>
 	<tr>
     	<td align="center">
+    	   <div id="divPrint">
         	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -54,7 +56,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 				        <th><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
 					<?php $amount_day = 0;
-					 foreach($this->holiday_list as $key =>$row){
+					 
+					if(!empty($this->holiday_list)) 
+						foreach($this->holiday_list as $key =>$row){
 					 	$amount_day=$amount_day+$row['amount_day'];
 					 	?>
 					     <tr align="center">
@@ -65,7 +69,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					        <td><?php echo $row['note']?></td>
 					    </tr>
 					    <?php }?>
-					 <?php for($i=$key; $i<=14;$i++){?>
+					 <?php if(!empty($key)) for($i=$key; $i<=14;$i++){?>
 						  <tr align="center">
 						        <td><?php echo $i+1; ?></td>
 						        <td></td>
@@ -91,6 +95,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 				        <th style="width:20%;border-bottom:1px dashed black;">Prepare By</th>
 				   </tr>
 				   </table>
+			</div>
 		</td>
 		</tr>	
 		</table>

@@ -14,6 +14,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
+    	<div id="divPrint">
         	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -38,7 +39,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		              </td>
 		           </tr>   
             </table>
-        <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+        	<table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
 				        <th>N<sup>0</sup></th>
 				        <th><?php echo $tr->translate("VILLAGE_KHMER");?></th>
@@ -63,4 +64,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					    </tr>
 					    <?php }?>
 				   </table>
+			</div>
+			</td>
+		</tr>
+</table>
  </div>

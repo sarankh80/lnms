@@ -10,6 +10,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	font-family: 'Khmer OS Battambang';
 }
 </style>
+<div id="divPrint">
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -34,10 +35,10 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		              </td>
 		           </tr>   
             </table>
-<table width="80%" align="center"  cellspacing="0" style="margin-left: 50px;">
+	<table width="96%" align="center"  cellspacing="0" style="margin-left: 10px;">
 	<tr>
     	<td>
-  <table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
+  	<table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
     
                     <tr bgcolor="#888888" align="center">
                     	<th><?php echo $tr->translate("NO");?></th>
@@ -71,3 +72,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
    		</td>
   	 </tr>
   </table>
+  </td>
+  </tr>
+  </table>
+  </div>

@@ -12,14 +12,16 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	font-family: 'Khmer OS Battambang';
 }
 </style>
+ <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-zone')); ?>" dojoType="dijit.form.Form" method="post">
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr><td align="right">
 		<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
 			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit">ស្វែង​រក</button>
+			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
 	</td></tr>
 	<tr>
     	<td align="center">
+    	  <div id="divPrint">
         	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -46,36 +48,35 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		              </td>
 		           </tr>   
             </table>
-<body>
 	
-	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
-    
-    	<tr bgcolor="#BBBBBB" >
-        	<th><?php echo  $tr->translate("NO");?></th>
-            <th><?php echo  $tr->translate("ZONE_NAME");?></th>
-            <th><?php echo  $tr->translate("ZONE_NUMBER");?></th>
-            <th><?php echo  $tr->translate("DATE");?></th>
-           
-         </tr>
-        <?php foreach($this->zone_list as $key =>$row){?>
-		   <tr align="center">
-		     <td>&nbsp;&nbsp;<?php echo $key+1; ?></td>
-		     <td align="left">&nbsp;&nbsp;<?php echo $row['zone_name']?></td>
-			 <td>&nbsp;&nbsp;<?php echo $row['zone_num']?></td>
-			 <td>&nbsp;&nbsp;<?php echo $row['modify_date']?></td>
-			</tr>
-		<?php }?>
-		 <?php for($i=$key; $i<=14;$i++){?>
-			<tr align="center">
-			 <td><?php echo $i+1; ?></td>
-			 <td></td>
-			 <td></td>
-			 <td></td>
-		    </tr>
-		<?php }?>
-
-    </table>
-    
-</body>
- 
-</html>
+			<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
+		    	<tr bgcolor="#BBBBBB" >
+		        	<th><?php echo  $tr->translate("NO");?></th>
+		            <th><?php echo  $tr->translate("ZONE_NAME");?></th>
+		            <th><?php echo  $tr->translate("ZONE_NUMBER");?></th>
+		            <th><?php echo  $tr->translate("DATE");?></th>
+		           
+		         </tr>
+		        <?php if(!empty($this->zone_list))foreach($this->zone_list as $key =>$row){?>
+				   <tr align="center">
+				     <td>&nbsp;&nbsp;<?php echo $key+1; ?></td>
+				     <td align="left">&nbsp;&nbsp;<?php echo $row['zone_name']?></td>
+					 <td>&nbsp;&nbsp;<?php echo $row['zone_num']?></td>
+					 <td>&nbsp;&nbsp;<?php echo $row['modify_date']?></td>
+					</tr>
+				<?php }?>
+				 <?php if(!empty($key)) for($i=$key; $i<=14;$i++){?>
+					<tr align="center">
+					 <td><?php echo $i+1; ?></td>
+					 <td></td>
+					 <td></td>
+					 <td></td>
+				    </tr>
+				<?php }?>
+		
+		    </table>
+		 </div>
+		</td>
+	</tr>
+</table>
+</form>
