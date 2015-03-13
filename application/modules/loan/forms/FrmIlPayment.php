@@ -292,7 +292,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_collect_date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'OnChange'=>'checkAll()'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
@@ -309,7 +310,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 		
 		$discount = new Zend_Dojo_Form_Element_TextBox("discount");
-		$discount->setAttribs("array('dojoType'=>'dijit.form.TextBox'");
+		$discount->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'));
+		
+		//$
 	
 		$this->addElements(array($discount,$date_input,$reciever,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,

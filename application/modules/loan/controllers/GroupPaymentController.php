@@ -92,7 +92,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	function getLoannumberAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanGroup();
+			$db = new Loan_Model_DbTable_DbGroupPayment();
 			$row = $db->getLoanPaymentByLoanNumber($data);
 			print_r(Zend_Json::encode($row));
 			exit();
