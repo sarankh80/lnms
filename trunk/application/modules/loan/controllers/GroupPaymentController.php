@@ -8,7 +8,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
-			$db = new Group_Model_DbTable_DbClient();
+			$db = new Loan_Model_DbTable_DbGroupPayment();
 			if($this->getRequest()->isPost()){
 				$search=$this->getRequest()->getPost();
 			}
@@ -17,33 +17,34 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 						'adv_search' => '',
 						'status' => -1);
 			}
-			$rs_rows= $db->getAllClients($search);
-			$result = array();
-			foreach ($rs_rows as $key =>$rs){
-				$result[$key]=array(
-						'client_id'=>$rs['client_id'],
-						'client_number'=>$rs['client_number'],
-						'name_kh'=>$rs['name_kh'],
-						'name_en'=>$rs['name_en'],
-						'sex'=>$this->sex[$rs['sex']],
-						'phone'=>$rs['phone'],
-						'house'=>$rs['house'],
-						'street'=>$rs['street'],
-						'village_name'=>$rs['village_name'],
-						'spouse_name'=>$rs['spouse_name'],
-						'user_name'=>$rs['user_name'],
-						'status'=>$rs['status'],
-						);
-			}
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
+			$rs_rows= $db->getAllGroupPPayment($search);
+// 			$result = array();
+// 			foreach ($rs_rows as $key =>$rs){
+// 				$result[$key]=array(
+// 						'client_id'=>$rs['client_id'],
+// 						'client_number'=>$rs['client_number'],
+// 						'name_kh'=>$rs['name_kh'],
+// 						'name_en'=>$rs['name_en'],
+// 						'sex'=>$this->sex[$rs['sex']],
+// 						'phone'=>$rs['phone'],
+// 						'house'=>$rs['house'],
+// 						'street'=>$rs['street'],
+// 						'village_name'=>$rs['village_name'],
+// 						'spouse_name'=>$rs['spouse_name'],
+// 						'user_name'=>$rs['user_name'],
+// 						'status'=>$rs['status'],
+// 						);
+// 			}
+// 			$glClass = new Application_Model_GlobalClass();
+// 			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Client No","Client ID","Client Name(Kh)","Release Amount","Method","Time Collection","Zone","CO Name",
-				"By","status");
+			$collumns = array("Recirpt No","Loan No","Group Client","Total Principle","Total Payment","Recieve Amount","Total Interest","Penalize Amount","Date Pay","Due Date","CO Name",
+				);
 			$link=array(
 					'module'=>'group','controller'=>'Client','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('receipt_no'=>$link,'team_group'=>$link,'date'=>$link));
+// 			$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
