@@ -63,6 +63,13 @@ function filterCommune(){
 }
 </script>
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+</script>
 <table cellspacing="10" width="45%" style="margin: 0 auto;">
 	<tr>
 		<td>

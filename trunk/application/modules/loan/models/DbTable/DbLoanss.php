@@ -158,7 +158,27 @@ class Loan_Model_DbTable_DbLoanss extends Zend_Db_Table_Abstract
     	return $db->fetchRow($sql);
     }
     
-    public function getClientByTypes($type){
+    public function getClientTypes($type){
+    	$this->_name='ln_client';
+    	$sql ="SELECT
+    	 client_number ,
+    	name_en,
+    	client_id 
+    	FROM $this->_name lm WHERE status=1 ";
+    	$db = $this->getAdapter();
+    	$rows = $db->fetchAll($sql);
+    	$options=array(0=>'------Select------');
+    	if(!empty($rows))foreach($rows AS $row){
+    		if($type==1){
+    			$lable = $row['client_number'];
+    		}elseif($type==2){
+    			$lable = $row['name_en'];
+    		}
+    		$options[$row['client_id']]=$lable;
+    	}
+    	return $options;
+    }
+    public function getClientByTypes($type){// for change from loan member to client
     	$this->_name='ln_loan_member';
     	$sql ="SELECT
     	(SELECT c.client_number FROM `ln_client` AS c WHERE lm.client_id=c.client_id LIMIT 1 )AS client_number,

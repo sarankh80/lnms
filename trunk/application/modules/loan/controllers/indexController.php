@@ -51,6 +51,7 @@ class Loan_IndexController extends Zend_Controller_Action {
   {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
+			print_r($_data);
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);

@@ -42,7 +42,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	}
     	$order = " ORDER BY lg.g_id DESC";
     	$db = $this->getAdapter();    
-//     	echo $sql.$where.$order;	
+    	//echo $sql.$where.$order;	
     	return $db->fetchAll($sql.$where.$order);
     	//`stGetAllIndividuleLoan`(IN txt_search VARCHAR(30),IN client_id INT,IN method INT,IN branch INT,IN co INT,IN s_status INT,IN from_d VARCHAR(70),IN to_d VARCHAR(70))
     }
@@ -127,7 +127,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				'loan_type'=>1,
     				'collect_typeterm'=>$data['collect_termtype']
     				);
+    		
     		$g_id = $this->insert($datagroup);//add group loan
+    		
     		unset($datagroup);
     		
     			$datamember = array(
@@ -151,7 +153,11 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					'semi'=>$data['amount_collect_pricipal']
     			);
     			$this->_name='ln_loan_member';
+    			$db->getProfiler()->setEnabled(true);
     			$member_id = $this->insert($datamember);//add member loan
+    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    			$db->getProfiler()->setEnabled(false);
     			unset($datamember);
     			
     			$arr =array(
@@ -422,7 +428,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		return 1;
     	}catch (Exception $e){
     		$db->rollBack();
-//     		echo $e->getMessage();exit();
+    		echo $e->getMessage();exit();
     	}
     }
     function updateLoanById($data){

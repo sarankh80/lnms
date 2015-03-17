@@ -36,7 +36,7 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 			$list = new Application_Form_Frmtable();
 			$collumns = array("ឈ្មោះអតិថិជន","ថ្ងៃ​ប្រតិបត្តិ","វិ.បត្រ","ការប្តូរប្រាក់","ទិញចូល","អត្រាប្តូរប្រាក់","លក់ចេញ","ប្រាក់​ទទួល​បាន​","ប្រាក់​អាប់","TYPE","STATUS");
 			$link=array(
-					'module'=>'tellerandexchange','controller'=>'exchanges','action'=>'edit',
+					'module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name'=>$link,'invoice_code'=>$link,'date'=>$link));
 		  
@@ -76,15 +76,97 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 		
 		if($this->getRequest()->isPost()){
 			$formdata=$this->getRequest()->getPost();	
-			$db_exc=new Application_Model_DbTable_DbExchange();	
+			//print_r($formdata);exit();
+			$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();	
 			try {
 				$id = $db_exc->save($formdata);
+				
 				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
 	}
+// 	public function editAction()
+	
+//  	{
+ 		
+ 		
+ 		
+//  		if($this->getRequest()->isPost()){
+//  			$formdata=$this->getRequest()->getPost();
+//  			//print_r($formdata);exit();
+//  			$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();
+//  			try {
+//  				$id = $db_exc->save($formdata);
+//  				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
+//  			} catch (Exception $e) {
+//  				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+//  			}
+//  		}
+ 		
+//  		$session_user=new Zend_Session_Namespace('auth');
+//  		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+ 			
+//  		$db_keycode = new Application_Model_DbTable_DbKeycode();
+//  		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+ 			
+//  		$cur = new Application_Model_DbTable_DbCurrencies();
+//  		$currency = $cur->getCurrencyList();
+ 			
+//  		$this->view->currency = $this->_helpfilteroption($currency);
+ 			
+//  		$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
+ 		
+//  		$id = $this->getRequest()->getParam('id');
+//  		$db_exc=new Tellerandexchange_Model_DbTable_Dbexchange();
+//  		$rs=$db_exc->getxchangById($id);
+//  		$this->view->rs=$rs;
+//  	print_r($rs);
+//  }
+
+ 
+ public function editAction()
+ {
+ 	$id = $this->getRequest()->getParam('id',0);
+ 	$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();
+ 	if($this->getRequest()->isPost()){
+ 		$formdata=$this->getRequest()->getPost();
+ 		
+ 		try {
+ 			$formdata['id']=$id;
+ 				$id = $db_exc->updateExchange($formdata);
+ 				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
+ 			
+ 			
+ 
+ 		} catch (Exception $e) {
+ 			$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+ 			echo $e->getMessage();exit();
+ 		}
+ 	}
+ 	// action body
+ 	//Get value from url
+ 	
+ 	$session_user=new Zend_Session_Namespace('auth');
+ 	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+ 	
+ 	$db_keycode = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+ 	
+ 	$cur = new Application_Model_DbTable_DbCurrencies();
+ 	$currency = $cur->getCurrencyList();
+ 	
+ 	$this->view->currency = $this->_helpfilteroption($currency);
+ 	
+ 	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
+ 	
+ 	
+ 	$rs=$db_exc->getxchangById($id);
+ 	//print_r($rs);
+ 	$this->view->rs=$rs;
+ }
+ 
 	protected function _helpfilteroption($data){
 		$tmp = array();
 		foreach ($data as $i =>$d){
@@ -112,5 +194,5 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
     	echo $db_rate->getCurrentRateJson();
     	exit();
     }
-
-}
+   
+  }

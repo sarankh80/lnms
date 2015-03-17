@@ -49,7 +49,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(1);'
 		));
-		$group_opt = $dbs ->getClientByTypes(1);//code,individual,option
+		$group_opt = $dbs ->getClientTypes(1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
 		
 		
@@ -59,7 +59,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(2)'
 		));
-		$options = $dbs->getClientByTypes(2);
+		$options = $dbs->getClientTypes(2);
 		$_member->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();
@@ -141,16 +141,17 @@ public function init()
 		
 
 
-		$_rate =  new Zend_Dojo_Form_Element_ValidationTextBox("interest_rate");
+		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
 		$_rate->setAttribs(array(
-				'data-dojo-Type'=>'dijit.form.ValidationTextBox',
+				'data-dojo-Type'=>'dijit.form.NumberTextBox',
 				'data-dojo-props'=>"
 				'required':true,
 				'name':'interest_rate',
 				'value':2.5,
 				'class':'fullside',
-				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់  
-				'"));
+				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់'
+				 
+				"));
 				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(

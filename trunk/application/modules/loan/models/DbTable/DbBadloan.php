@@ -7,6 +7,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$session_transfer=new Zend_Session_Namespace();
     	$session_user=new Zend_Session_Namespace('auth');
     	$user_id = $session_user->user_id;
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
@@ -23,12 +26,20 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'create_by'=>$user_id
     			);
     	$this->insert($arr);//insert data
+    	
     	$this->_name = 'ln_loan_group'; 
     	$arr_loan_group = array(
     		'is_badloan' =>1,
     	);
     	$where=" group_id = ".$_data['client_code'];
 		$this->update($arr_loan_group, $where);
+		$db->commit();
+		}catch (Exception $e){
+			$db->rollBack();
+			echo $e->getMessage();
+			exit();
+			
+		}
     }
     function updatebadloan($_data){
     	$session_transfer=new Zend_Session_Namespace();
