@@ -36,7 +36,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    		
 	    		
 	    		$arr_collteral = array(
-	    				'changecollteral_id'=>$id['id'],
+	    				'changecollteral_id'=>$id,
 	    				'branch_id'=>$data['branch_id'],
 	    				'client_code'=>$data['client_code'],
 	    				'number_collteral'=>$data['number_code'],
@@ -53,7 +53,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    		
 	    		
 	    		$_arr=array(
-	    			'change_id'=>$id['id'],
+	    			'change_id'=>$id,
 	    			'collteral_id'=>$data['collteral_id'],
 	    			'giver_name'=>$data['giver_name'],
 	    			'receiver_name'=>$data['receiver_name'],

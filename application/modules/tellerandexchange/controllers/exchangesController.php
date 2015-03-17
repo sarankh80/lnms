@@ -88,6 +88,7 @@ class Tellerandexchange_ExchangesController extends Zend_Controller_Action
     	$db_g = new Application_Model_DbTable_DbGlobal();
     	$this->view->inv_no = $db_g ->getNewInvoiceExchange();
     	
+    	
     	//         // action body
     	//         //Get value from url
     	//         $ex_id = $this->getRequest()->getParam('ex_id',0);

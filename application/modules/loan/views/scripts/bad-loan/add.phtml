@@ -102,10 +102,11 @@ function getClientInfo(type){
 		},	
 		handleAs:"json",
 		load: function(data) {
+			//alert(data.total_principal);
 			dijit.byId('Total_amount').attr('value',data.total_principal);
-			//dijit.byId('Interest_amount').attr('value',data.total_interest);
-			//dijit.byId('cash_type').attr('value',data.currency_type);
-			//dijit.byId("cash_type").set('readOnly',true);
+			dijit.byId('Interest_amount').attr('value',data.total_interest);
+			dijit.byId('cash_type').attr('value',data.currency_type);
+			dijit.byId("cash_type").set('readOnly',true);
 			dijit.byId("client_name").attr('value',values);
 			dijit.byId("number_code").attr('value',values);
 			dijit.byId("client_code").attr('value',values);

@@ -32,7 +32,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
     			'co_id'=>$data['co_name'],
     			'client_code'=>$data['client_code'],
 				'number_collteral'=>$data['number_collteral'],
-    			'client_name'=>$data['client_name'],
+    		    'client_name'=>$data['client_name'],
     			'with'=>$data['name'],
     			'relativewith'=>$data['names'],
     			'owner'=>$data['owner'],

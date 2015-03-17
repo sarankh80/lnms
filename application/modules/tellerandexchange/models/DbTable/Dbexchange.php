@@ -25,8 +25,16 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 				'recieved_amount'=>$_data['amount_exchanged'.$i],
 				);
 		$this->insert($arr);
+		
 		}
 	}
+ 	
+// 	public function updatxchangById($id,$data){//update capital detail by id
+// 		$this->_name='ln_exchange_detail';
+// 		$where = $this->getAdapter()->quoteInto('id = ?', $id);
+// 		$this->update($data, $where);
+// 	}
+	
 	function updatexchange($_data){
 		$arr = array(
 				'branch_id'=>$_data['branch_id'],
@@ -34,7 +42,6 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 				'receive_amount'=>$_data['onetomany'],
 				'date'=>$_data['date'],
 				'user_id'=>$_data['cusomer'],
-				
 		);
 		$where=" id = ".$_data['id'];
 		$this->update($arr, $where);
@@ -57,17 +64,17 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 	}
 	function getAllExchangeListMulti(){
 		$db = $this->getAdapter();
-		$sql = "SELECT id ,
-		(SELECT name_en FROM `ln_client` WHERE client_id= customer_id LIMIT 1) AS client_name
-		,date,invoice_code
-		,(SELECT from_to FROM `ln_exchange_detail` WHERE exchange_id = id LIMIT 1) AS from_to
-		,(SELECT from_amount FROM `ln_exchange_detail` WHERE exchange_id = id LIMIT 1) AS from_amount
-		,(SELECT exchange_rate FROM `ln_exchange_detail` WHERE exchange_id = id LIMIT 1) AS exchange_rate
-		,(SELECT to_amount FROM `ln_exchange_detail` WHERE exchange_id = id LIMIT 1) AS to_amount
-		,receive_dollar,return_dollar
-		,(SELECT name_en FROM `ln_view` WHERE TYPE=12 AND key_code=is_single LIMIT 1) as exchange_type
-		,status
-		FROM `ln_exchange`";
+		$sql = "SELECT e.id ,
+		(SELECT name_en FROM `ln_client` WHERE client_id= e.customer_id LIMIT 1) AS client_name
+		,e.date,e.invoice_code
+		,(SELECT d.from_to FROM `ln_exchange_detail`d WHERE d.exchange_id = e.id LIMIT 1) AS from_to
+		,(SELECT from_amount FROM `ln_exchange_detail` WHERE exchange_id = e.id LIMIT 1) AS from_amount
+		,(SELECT exchange_rate FROM `ln_exchange_detail` WHERE exchange_id = e.id LIMIT 1) AS exchange_rate
+		,(SELECT to_amount FROM `ln_exchange_detail` WHERE exchange_id = e.id LIMIT 1) AS to_amount
+		,e.receive_dollar,e.return_dollar
+		,(SELECT name_en FROM `ln_view` WHERE TYPE=12 AND key_code=e.is_single LIMIT 1) as exchange_type
+		,e.status
+		FROM `ln_exchange` AS e ";
 		return $db->fetchAll($sql);
 	}
 	function getExchangeDetail($id){
@@ -161,6 +168,7 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 			echo $e->getMessage();
 		}
 	}
+	}
 	function getCurrencyById($fieldname,$id){
 		$db = $this->getAdapter();
 		$sql = "SELECT ". $fieldname ."
@@ -174,5 +182,5 @@ function getexpensebyid($id){
 	$sql=" SELECT id,branch_id,invoice_code,receive_amount,date,user_id FROM $this->_name where id=$id ";
 	return $db->fetchRow($sql);
 }
-}
+	
 ?>
