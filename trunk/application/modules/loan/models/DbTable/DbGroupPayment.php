@@ -199,6 +199,7 @@ function getLoanPaymentByLoanNumber($data){
     			'loan_number'					=>		$data['loan_number'],
     			'date_pay'						=>		$data['collect_date'],
     			'date_input'					=>		$data["date_input"],
+    			'principal_amount'				=>		$data["priciple_amount"],
     			'total_principal_permonth'		=>		$data['os_amount'],
     			'total_payment'					=>		$data['total_payment'],
     			'total_interest'				=>		$data['total_interest'],
@@ -206,18 +207,19 @@ function getLoanPaymentByLoanNumber($data){
     			'penalize_amount'				=>		$data['penalize_amount'],
     			'return_amount'					=>		$data['amount_return'],
     			'service_charge'				=>		$data['service_charge'],
+    			'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		1
     		);
 //     		$db->getProfiler()->setEnabled(true);
-    		
-    		$client_pay = $db->insert("ln_client_receipt_money", $arr_client_pay);
+			$this->_name = "ln_client_receipt_money";
+    		//$client_pay = $db->insert("ln_client_receipt_money", $arr_client_pay);
+    		$client_pay = $this->insert($arr_client_pay);
     		
 //     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
 //     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
 //     		$db->getProfiler()->setEnabled(false);
-    		
     		
     		$identify = explode(',',$data['identity']);
     		foreach($identify as $i){
@@ -233,6 +235,9 @@ function getLoanPaymentByLoanNumber($data){
     					'principal_permonth'	=>		$data["principal_permonth_".$i],
     					'total_interest'		=>		$data["interest_".$i],
     					'total_payment'			=>		$data["payment_".$i],
+    					'currency_id'			=>		$data["curr"],
+    					'pay_before'			=>		$data['pay_after_'.$i],
+    					'pay_after'				=>		$data['pay_before_'.$i],
     					'is_complete'			=>		1,
     					'is_verify'				=>		0,
     					'verify_by'				=>		0,
@@ -289,18 +294,37 @@ function getLoanPaymentByLoanNumber($data){
     public function getAllGroupPPayment(){
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
-	lcrm.`receipt_no`,
-	lcrm.`loan_number`,
-	(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`group_id`) AS team_group ,
-	lcrm.`total_principal_permonth`,
-	lcrm.`total_payment`,
-	lcrm.`recieve_amount`,
-	lcrm.`total_interest`,
-	lcrm.`penalize_amount`,
-	lcrm.`date_pay`,
-	lcrm.`date_input`,
-      (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name
-FROM `ln_client_receipt_money` AS lcrm";
+					lcrm.`receipt_no`,
+					lcrm.`loan_number`,
+					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`group_id`) AS team_group ,
+					lcrm.`total_principal_permonth`,
+					lcrm.`total_payment`,
+					lcrm.`recieve_amount`,
+					lcrm.`total_interest`,
+					lcrm.`penalize_amount`,
+					lcrm.`date_pay`,
+					lcrm.`date_input`,
+				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
+    				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch
+				FROM `ln_client_receipt_money` AS lcrm";
+    	return $db->fetchAll($sql);
+    }
+    public function getGroupPaymentById($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT 
+				  lcrm.*
+				FROM
+				  `ln_client_receipt_money` AS lcrm
+				WHERE lcrm.`id`= $id";
+    	return $db->fetchRow($sql);
+    }
+    public function getGroupPaymentDetail($id){
+    	$db = $this->getAdapter();
+    	$sql = "SELECT 
+				  lcrmd.* 
+				FROM
+				  `ln_client_receipt_money_detail` AS lcrmd 
+				WHERE lcrmd.`crm_id` =(SELECT id FROM `ln_client_receipt_money` WHERE id=$id)";
     	return $db->fetchAll($sql);
     }
 }

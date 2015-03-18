@@ -106,6 +106,7 @@
 </table>
 <input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
 <input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="text" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
@@ -219,6 +220,7 @@ function getLoanById(type){
 				totalos_amount=0;
 				total_interest=0;
 				for(i=0;i<respone.length;i++){
+					dijit.byId('curr').attr('value',respone[i].currency_type);
 					inx = i+1;
 					status='<label style="color:red;">នៅឡើយ</lable>';
 					++num;
@@ -246,7 +248,7 @@ function getLoanById(type){
 					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="text" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
+					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
 					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
