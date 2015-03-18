@@ -15,7 +15,9 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 				(SELECT c.co_khname FROM ln_co AS c WHERE c.co_id = tf.to LIMIT 1) AS `to`,
     			(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_from LIMIT 1) AS code_from,
 				(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_to LIMIT 1) AS code_to,				
-				tf.`date`,tf.note,tf.`status` FROM `ln_tranfser_co` AS tf WHERE STATUS = 1';
+				tf.`date`,tf.note,
+				(SELECT name_en FROM `ln_view` WHERE TYPE =3 AND key_code=tf.`status`) AS status
+    	FROM `ln_tranfser_co` AS tf WHERE tf.`status` = 1';
     	return $db->fetchAll($sql);
     }
     public function getAllinfoTransfer($id){
