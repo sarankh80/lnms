@@ -23,12 +23,13 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 			}
 			else{
 				$search = array(
-						'client_id' => -1,
+						'user_id' => -1,
 						'status' => -1,
 						'from_date' =>date('Y-m-d'),
 						'to_date' => date('Y-m-d'),
 				);
 			}
+			$this->view->list_search=$search;
 			$rs_row= $db->getAllExchangeListMulti($search);
 			
 			$glClass = new Application_Model_GlobalClass();

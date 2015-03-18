@@ -62,7 +62,7 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		FROM `ln_exchange`";
 		return $db->fetchAll($sql);
 	}
-	function getAllExchangeListMulti(){
+	function getAllExchangeListMulti($search){
 		$db = $this->getAdapter();
 		$sql = "SELECT e.id ,
 		(SELECT name_en FROM `ln_client` WHERE client_id= e.customer_id LIMIT 1) AS client_name
@@ -74,8 +74,16 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		,e.receive_dollar,e.return_dollar
 		,(SELECT name_en FROM `ln_view` WHERE TYPE=12 AND key_code=e.is_single LIMIT 1) as exchange_type
 		,e.status
-		FROM `ln_exchange` AS e ";
-		return $db->fetchAll($sql);
+		FROM `ln_exchange` AS e WHERE 1 ";
+		
+		$from_date =(empty($search['from_date']))? '1': "e.date >= '".$search['from_date']." 00:00:00'";
+		$to_date = (empty($search['to_date']))? '1': "e.date <= '".$search['to_date']." 23:59:59'";
+		$where = " AND ".$from_date." AND ".$to_date;
+		if($search['user_id']>0){
+			$where.=" AND user_id = ".$search['user_id'];
+		}
+		echo $sql.$where;
+		return $db->fetchAll($sql.$where);
 	}
 	function getExchangeDetail($id){
 		$db = $this->getAdapter();

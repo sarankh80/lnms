@@ -19,6 +19,13 @@ Class Tellerandexchange_Form_Frmteller extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside'
 				));
+		$rows = $db->getAllBranchName();
+		$options='';
+		if(!empty($rows))foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$bran_->setMultiOptions($options);
+		
 		$account_number=new Zend_Dojo_Form_Element_NumberTextBox('account_number');
 		$account_number->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
