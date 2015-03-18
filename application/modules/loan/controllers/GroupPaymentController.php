@@ -18,33 +18,14 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 						'status' => -1);
 			}
 			$rs_rows= $db->getAllGroupPPayment($search);
-// 			$result = array();
-// 			foreach ($rs_rows as $key =>$rs){
-// 				$result[$key]=array(
-// 						'client_id'=>$rs['client_id'],
-// 						'client_number'=>$rs['client_number'],
-// 						'name_kh'=>$rs['name_kh'],
-// 						'name_en'=>$rs['name_en'],
-// 						'sex'=>$this->sex[$rs['sex']],
-// 						'phone'=>$rs['phone'],
-// 						'house'=>$rs['house'],
-// 						'street'=>$rs['street'],
-// 						'village_name'=>$rs['village_name'],
-// 						'spouse_name'=>$rs['spouse_name'],
-// 						'user_name'=>$rs['user_name'],
-// 						'status'=>$rs['status'],
-// 						);
-// 			}
-// 			$glClass = new Application_Model_GlobalClass();
-// 			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
+
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Recirpt No","Loan No","Group Client","Total Principle","Total Payment","Recieve Amount","Total Interest","Penalize Amount","Date Pay","Due Date","CO Name",
+			$collumns = array("Recirpt No","Loan No","Group Client","Total Principle","Total Payment","Recieve Amount","Total Interest","Penalize Amount","Date Pay","Due Date","CO Name","Branch",
 				);
 			$link=array(
-					'module'=>'group','controller'=>'Client','action'=>'edit',
+					'module'=>'loan','controller'=>'group-payment','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('receipt_no'=>$link,'team_group'=>$link,'date'=>$link));
-// 			$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -60,7 +41,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			//print_r($_data);exit();
 			$db->addGroupPayment($_data);
 			try {
 				
@@ -79,7 +59,36 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 				'module'=>'group','controller'=>'Client','action'=>'edit',
 		);
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+	}
+	function editAction()
+	{
+		$id = $this->getRequest()->getParam("id");
+		$db = new Loan_Model_DbTable_DbGroupPayment();
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			//print_r($_data);exit();
+			$db->addGroupPayment($_data);
+			try {
 	
+			}catch (Exception $e) {
+	
+			}
+		}
+		$rs = $db->getGroupPaymentById($id);
+		$frm = new Loan_Form_FrmIlPayment();
+		$frm_loan=$frm->FrmGroupPayment($rs);
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_ilpayment = $frm_loan;
+	
+		$list = new Application_Form_Frmtable();
+		$collumns = array("ឈ្មោះមន្ត្រីឥណទាន","ថ្ងៃបង់ប្រាក់","ប្រាក់ត្រូវបង់","ប្រាក់ដើមត្រូវបង់","អាត្រាការប្រាក់","ប្រាក់ផាកពិន័យ","ប្រាក់បានបង់សរុប","សមតុល្យ","កំណត់សម្គាល់");
+		$link=array(
+				'module'=>'group','controller'=>'Client','action'=>'edit',
+		);
+		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+	
+		$rs_receipt_detail = $db->getGroupPaymentDetail($id);
+		$this->view->reciept_detail = $rs_receipt_detail;
 	}
 	function getLoanDetailAction(){
 		if($this->getRequest()->isPost()){
@@ -99,5 +108,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
 }
 

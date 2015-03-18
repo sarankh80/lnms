@@ -316,10 +316,31 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$loan_number = $db_loan->getGroupPaymentNumber();
 		$reciept_no->setValue($loan_number);
 		
+		if($data){
+			print_r($data);
+			$_groupid->setValue($data["group_id"]);
+			//$_coid->setValue($data["co_id"]);
+			//$_client_code->setValue($data[""])
+			$reciept_no->setValue($data["receipt_no"]);
+			$_priciple_amount->setValue($data["principal_amount"]);
+			$_penalize_amount->setValue($data["penalize_amount"]);
+			$_amount_receive->setValue($data["recieve_amount"]);
+			$_amount_return->setValue($data["return_amount"]);
+			$_total_payment->setValue($data["total_payment"]);
+			$_service_charge->setValue($data["service_charge"]);
+			$_os_amount->setValue($data["total_principal_permonth"]);
+			$_note->setValue($data["note"]);
+			$_collect_date->setValue($data["date_pay"]);
+			$date_input->setValue($data["date_input"]);
+			$discount->setValue($data["total_discount"]);
+		}
+		
 		$this->addElements(array($reciept_no,$discount,$date_input,$reciever,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
+		
+		
 	
 	}
 }
