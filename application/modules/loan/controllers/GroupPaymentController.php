@@ -67,11 +67,10 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			//print_r($_data);exit();
-			$db->addGroupPayment($_data);
 			try {
-	
+				$db->updateGroupPayment($_data);
 			}catch (Exception $e) {
-	
+				echo $e->getMessage();
 			}
 		}
 		$rs = $db->getGroupPaymentById($id);
@@ -88,7 +87,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 	
 		$rs_receipt_detail = $db->getGroupPaymentDetail($id);
+		print_r($rs_receipt_detail);
 		$this->view->reciept_detail = $rs_receipt_detail;
+		$this->view->group_id = $rs["group_id"];
+		$this->view->client_code = $rs["client_code"];
+		$this->view->loan_number = $rs["loan_number"];
 	}
 	function getLoanDetailAction(){
 		if($this->getRequest()->isPost()){

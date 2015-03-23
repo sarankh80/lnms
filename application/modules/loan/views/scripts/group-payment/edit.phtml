@@ -5,7 +5,10 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$reciept_detail = $this->reciept_detail;
-	print_r($reciept_detail);
+	$group_id = $this->group_id;
+	$client_code = $this->group_id;
+	$loan_number = $this->loan_number;
+	print_r($client_code);
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -15,9 +18,10 @@
 </style>
 
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>" 
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <table cellspacing="10" class='fullside'>
+<?php echo $frm->getElement('id');?>
 	<tr>
 		<td>
 				<fieldset>
@@ -106,7 +110,7 @@
 		 </td>
 	</tr>		
 </table>
-<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
 <input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -175,13 +179,84 @@ dojo.ready(function(){
 	var y = 2012;
 	var m = 2;
 	var daysInMonth = new Date(y,m,1,-1).getDate();
-	getLoanById(3);
+	//getLoanById(3);
+	getPayment();
 });
+function getPayment(){
+	status='<label style="color:red;">នៅឡើយ</lable>';
+	tem='';	is_set=0;
+	tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
+		+'<thead><tr><th class="tdheader">ល.រ</th>'
+		+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" checked="checked" /></th>'
+		+'<th class="tdheader">កូដអតិថិជន</th>'
+		+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
+		+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
+		+'<th class="tdheader">ប្រាក់ដើមគ្រា</th>'
+		+'<th class="tdheader">ប្រាក់ដើមត្រូវបង់</th>'
+		+'<th class="tdheader">ប្រាក់ការ</th>'
+		+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
+		+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
+		+'<th class="tdheader">បញ្ចុះតម្លៃ</th>'
+		+'<th class="tdheader">ស្ថានភាព</th>'
+		+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
+	+'</thead>';
+	num=0;
+	total_payment=0;
+	totalos_amount=0;
+	total_interest=0;
+	<?php if(!empty($reciept_detail)) {
+		foreach($reciept_detail AS $i=>$r){
+			$inx = $i+1;
+	?>
+	d = new Date(<?php echo $r["date_payment"];?>);
+	str_day = getDayString(d.getDay());
+	curr =getCurrencyType(<?php echo $r["currency_id"];?>);
+	tem+= '<tr>';
+    tem += '<td><?php echo $inx;?><input type="hidden" name="curr" id="curr" value="<?php echo $r["currency_id"]?>" /></td>';
+    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["lfd_id"];?>+'" OnChange="calculateTotal('+<?php echo $inx;?>+')" /></td>';
+    tem += '<td>&nbsp;'+<?php echo $r["client_number"];?>+'&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /></td>';
+    tem += '<td>&nbsp;<?php echo $r["client_name"];?>&nbsp;</td>';
+    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
+    
+    tem += '<td style="white-space: nowrap;">&nbsp;<?php echo $r["date_payment"];?><input type="hidden" name ="date_payment_'+<?php echo $inx;?>+'" id ="date_payment_'+<?php echo $inx;?>+'" value ="<?php echo $r["date_payment"];?>" </td>';
+    
+    tem += '<td>&nbsp;'+<?php echo $r["capital"];?>+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+<?php echo $inx;?>+'" id="total_priciple_'+<?php echo $inx;?>+'" value="'+<?php echo $r["capital"];?>+'" /></td>';
+    tem += '<td>&nbsp;'+<?php echo $r["principal_permonth"];?>+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+<?php echo $inx;?>+'" id="principal_permonth_'+<?php echo $inx;?>+'" value="'+<?php echo $r["principal_permonth"];?>+'" /></td>';
+    tem += '<td>&nbsp;'+<?php echo $r["total_interest"];?>+' '+curr+'&nbsp;<input type="hidden" name="interest_'+<?php echo $inx;?>+'" id="interest_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_interest"];?>+'" /></td>';
+    tem += '<td>&nbsp;'+<?php echo $r["total_payment"];?>+' '+curr+'&nbsp;<input type="hidden" name="payment_'+<?php echo $inx;?>+'" id="payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
+    tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="hidden" name="pay_after_'+<?php echo $inx;?>+'" id="pay_after_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
+    tem += '<td>&nbsp;<?php echo $r["pay_before"];?><input type="hidden" name="pay_before_'+<?php echo $inx;?>+'" id="pay_before_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_before"];?>" /></td>';
+    if(<?php echo $r["is_complete"];?> == 1){
+		status = '<label style="color:blue;">បង់រួច</label>';
+		if(<?php echo $r["is_complete"];?>==1){is_appr='<label style="color:blue;">Approved</label>';}
+	}else{
+		if(is_set!=1){
+			getdataPaymentToForm(<?php echo $inx;?>);
+			is_set=1;
+		}
+		is_appr='';
+	}
+	tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
+	tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
+    tem += '</tr>';
+    if(<?php echo $inx;?>!=1) {
+			var identity = dijit.byId('identity').get('value');
+			dijit.byId('identity').attr('value',identity+','+<?php echo $inx;?>);
+			dijit.byId('record_id').attr('value',identity+','+<?php echo $inx;?>);
+		} else {
+			dijit.byId('identity').attr('value',<?php echo $inx;?>);
+			dijit.byId('record_id').attr('value',<?php echo $inx;?>);
+		}
+    <?php }?>
+    tem+='</table>';
+	dojo.byId('data_table').innerHTML = tem;
+	checkAll();
+    <?php }?>
+}
 temp='';
 r = 0;
 fund_title=0;
-function getLoanById(type){
-	
+function getLaonPayment(type){
 	if(type==1){
 		var loan_number = dijit.byId('loan_number').get('value');
 	}else if(type==2){
@@ -189,6 +264,40 @@ function getLoanById(type){
 	}else if(type==3){
 		var loan_number = dijit.byId('group_id').get('value');
 	}
+	var teamGroup = dijit.byId('group_id').get('value');
+	var clientCode = dijit.byId('client_code').get('value');
+	var loanNumber = dijit.byId('loan_number').get('value');
+	var group_id = '<?php echo $group_id?>';
+	var client_code = '<?php echo $client_code?>';
+	var loan_number = '<?php echo $loan_number?>';  
+	if(type==3 && group_id == teamGroup){
+		getPayment();
+		dijit.byId('client_code').attr('value',teamGroup);
+		dijit.byId('loan_number').attr('value',loan_number);
+	}else if(type==2 && client_code == clientCode){
+		getPayment();
+		dijit.byId('group_id').attr('value',clientCode);
+		dijit.byId('loan_number').attr('value',loan_number);
+	}else if(type==1 && loanNumber==loan_number){
+		getPayment();
+		dijit.byId('group_id').attr('value',group_id);
+		dijit.byId('client_code').attr('value',client_code);
+	}else{
+		getLoanById(type);
+	}
+}
+function getLoanById(type){
+	if(type==1){
+		var loan_number = dijit.byId('loan_number').get('value');
+	}else if(type==2){
+		var loan_number = dijit.byId('client_code').get('value');
+	}else if(type==3){
+		var loan_number = dijit.byId('group_id').get('value');
+	}
+	var teamGroup = dijit.byId('group_id').get('value');
+	var clientCode = dijit.byId('client_code').get('value');
+	var loanNumber = dijit.byId('loan_number').get('value');
+	alert(clientCode);
 	
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'get-loannumber')); ?>';
 		dojo.xhrPost({
@@ -220,30 +329,8 @@ function getLoanById(type){
 				total_payment=0;
 				totalos_amount=0;
 				total_interest=0;
-				<?php if(!empty($reciept_detail)) {
-					foreach($reciept_detail AS $i=>$r){
-						$inx = $i+1;
-				?>
-				d = new Date(<?php echo $r["date_payment"];?>);
-				str_day = getDayString(d.getDay());
-				curr =getCurrencyType(<?php echo $r["currency_id"];?>);
-				tem+= '<tr>';
-			    tem += '<td><?php echo $inx;?></td>';
-			    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["id"];?>+'" OnChange="calculateTotal('+<?php echo $inx;?>+')" /></td>';
-			    tem += '<td>&nbsp;'+<?php echo $r["client_id"];?>+'&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /></td>';
-			    tem += '<td>&nbsp;'+<?php echo $r["client_id"];?>+'&nbsp;</td>';
-			    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-			    
-			    tem += '<td style="white-space: nowrap;">&nbsp;<?php echo $r["date_payment"];?><input type="text" name ="date_payment_'+<?php echo $inx;?>+'" id ="date_payment_'+<?php echo $inx;?>+'" value ="<?php echo $r["date_payment"];?>" </td>';
-			    
-			    tem += '<td>&nbsp;'+<?php echo $r["capital"];?>+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+<?php echo $inx;?>+'" id="total_priciple_'+<?php echo $inx;?>+'" value="'+<?php echo $r["capital"];?>+'" /></td>';
-			    tem += '<td>&nbsp;'+<?php echo $r["principal_permonth"];?>+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+<?php echo $inx;?>+'" id="principal_permonth_'+<?php echo $inx;?>+'" value="'+<?php echo $r["principal_permonth"];?>+'" /></td>';
-			    tem += '<td>&nbsp;'+<?php echo $r["total_interest"];?>+' '+curr+'&nbsp;<input type="hidden" name="interest_'+<?php echo $inx;?>+'" id="interest_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_interest"];?>+'" /></td>';
-			    tem += '<td>&nbsp;'+<?php echo $r["total_payment"];?>+' '+curr+'&nbsp;<input type="hidden" name="payment_'+<?php echo $inx;?>+'" id="payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
-			    tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="text" name="pay_after_'+<?php echo $inx;?>+'" id="pay_after_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
-			    tem += '<td>&nbsp;<?php echo $r["pay_before"];?><input type="hidden" name="pay_before_'+<?php echo $inx;?>+'" id="pay_before_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_before"];?>" /></td>';
-			    tem += '</tr>';
-				<?php }}?>
+				
+			    if(respone!=""){
 				for(i=0;i<respone.length;i++){
 					inx = i+1;
 					status='<label style="color:red;">នៅឡើយ</lable>';
@@ -265,12 +352,11 @@ function getLoanById(type){
 					date_pay = respone[i].date_payment;
 					id = respone[i].id;
 					total = total_payment + total_interest;
-					//alert(total);
 					
 					 tem+= '<tr>';
 					    tem += '<td>&nbsp;'+num+'</td>';
 					    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
+					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
 					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="text" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
@@ -293,6 +379,7 @@ function getLoanById(type){
 						tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
 						tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
 					    tem += '</tr>';
+					
  					    if(inx!=1) {
  							var identity = dijit.byId('identity').get('value');
  							dijit.byId('identity').attr('value',identity+','+inx);
@@ -302,15 +389,31 @@ function getLoanById(type){
  							dijit.byId('record_id').attr('value',inx);
  						}
 				}
+			}else{
+				//alert(type);
+					if(type==1){
+						dijit.byId('group_id').attr('value','');
+						dijit.byId('client_code').attr('value','');
+					}else if(type==2){
+						dijit.byId('loan_number').attr('value','');
+						dijit.byId('group_id').attr('value',clientCode);
+					}else{
+						dijit.byId('loan_number').attr('value','');
+						dijit.byId('client_code').attr('value',teamGroup);
+					}
+					
+				}
+				
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
-				//checkAll();
+				checkAll();
 				//calculateDatePay();
 			},
 			error: function(e) {
 				alert(e);
 			}
 		});
+	
 }
 function popupCheckCO(){
 }
