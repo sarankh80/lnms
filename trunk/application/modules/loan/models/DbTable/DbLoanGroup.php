@@ -59,7 +59,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     public function getGroupClient(){
     	$db = $this->getAdapter();
     	//$this->_name = "ln_client";
-    	$sql ="SELECT lc.`client_id`,lc.`name_kh`,lc.`name_en` FROM `ln_client` AS lc WHERE lc.`is_group`=1";
+    	$sql ="SELECT lc.`client_id`,lc.`name_kh`,lc.`name_en`,lc.`client_number` FROM `ln_client` AS lc WHERE lc.`is_group`=1";
     	return $db->fetchAll($sql);
     }
     public function getGroupLoadDetail($type){
