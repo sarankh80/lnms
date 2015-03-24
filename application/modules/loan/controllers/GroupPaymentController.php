@@ -52,6 +52,16 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmGroupPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
+		$db_keycode = new Application_Model_DbTable_DbKeycode();
+		$a = $db_keycode->getKeyCodeMiniInv();
+		print_r($a);
+		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		$this->view->inv_no = $db_g ->getNewInvoiceExchange();
+		
+		$session_user=new Zend_Session_Namespace('auth');
+		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	
 		$list = new Application_Form_Frmtable();
 		$collumns = array("ឈ្មោះមន្ត្រីឥណទាន","ថ្ងៃបង់ប្រាក់","ប្រាក់ត្រូវបង់","ប្រាក់ដើមត្រូវបង់","អាត្រាការប្រាក់","ប្រាក់ផាកពិន័យ","ប្រាក់បានបង់សរុប","សមតុល្យ","កំណត់សម្គាល់");

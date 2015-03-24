@@ -4,6 +4,7 @@
 	$frm = $this->frm_ilpayment;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -109,23 +110,66 @@
 <input type="text" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
-<div class="dijitHidden" id="rpt_print">
+<div class="dijitHidden">
 	
-	<div data-dojo-type="dijit.Dialog"  id="frm_client" style="width:800px">
-	<style>
-		td.border {border-bottom: 1px dashed cadetblue;}
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'បោះពុម្ភ វិក័យបត្រ', onCancel:hideDialog" id="frm_client" style="width:800px">
+	<div id="rpt_print" class="print">
+	<style type="text/css">
+		td.border {
+			border-bottom: 1px dashed cadetblue;
+		}
+		div #rpt_print{font-size:12px !important; margin:0 auto;}
+		 
+		 .fontsize{ font-size:10px !important; margin:0 auto;}
 	</style>
-		<table cellspacing="10" class='fullside'>
-			<tr>
+		<table cellspacing="10" class='fullside fontsize'>
+				   <tr>
+					   	<td align="center" colspan="3">	
+					   <table  width="100%" cellspacing="0" cellpadding="0">
+					   		<tr style="line-height:10px;">
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
+						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['group_payment_title'];?></strong></td>
+							</tr>
+					   	</table>
+			            </td>	   	        
+				   </tr> 
+				   <tr>
+					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
+					</tr> 
+				   <tr>
+					    <td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>កាលបរិច្ឆេទ :</td>
+						<td align="right" style="font-size: 8pt;" >
+							 <?php echo date('d-m-Y H:i:s');?><br/>
+						</td>
+				   </tr>
+				  
+			<tr class="fontsize">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>ឈ្មោះបុគ្គលិក :</td>
+					<td class="border">
+						<strong class="fonttel" style="font-size:10px;"><label id="lblinvioice"><?php print($this->user_name);?></label></strong>
+					</td>
+					
+			</tr>
+			<tr class="fontsize">
 					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
 					<td>វិក័យបត្រ :</td>
-					<td class="border"><lable style="color:blue" id="lbl_reciept_no"></lable></td>
+					<td class="border">
+								<strong class="fonttel" style="font-size:10px;"><label style="color:blue" id="lbl_reciept_no"></label></strong>
+					</td>
 					
 			</tr>
-			<tr>
+			<tr class="fontsize">
 					<td>ឈ្មោះប្រធានក្រុម :</td>
 					<td class="border"><lable id="lbl_group_member"></lable></td>
 					<td>លេខកូដអតិថិជន :</td>
@@ -134,8 +178,8 @@
 					<td class="border"><lable id="lbl_laon_nomber"></lable></td>
 					
 			</tr>
-			<tr>
-					<td>សាខា :</td>
+			<tr class="fontsize">
+					<td class="fontsize">សាខា :</td>
 					<td class="border"><lable id="lbl_branch_id"></lable></td>
 					<td>ឈ្មោះ CO :</td>
 					<td class="border"><lable id="lbl_co_id"></lable></td>
@@ -143,7 +187,7 @@
 					<td class="border"><lable id="lbl_collect_date"></lable></td>
 					
 			</tr>
-			<tr>
+			<tr class="fontsize">
 					<td>ប្រាក់ដើមនៅសល់ :</td>
 					<td class="border"><lable id="lbl_priciple_amount"></lable></td>
 					<td>ប្រាក់ដើមត្រូវសង :</td>
@@ -151,7 +195,7 @@
 					<td>អាត្រាការប្រាក់ :</td>
 					<td class="border"><lable id="lbl_total_interest"></lable></td>
 			</tr>
-			<tr>
+			<tr class="fontsize">
 					<td>ប្រាក់ផាកពិន័យ :</td>
 					<td class="border"><lable style="color:red" id="lbl_penalize_amount"></lable></td>
 					<td>ប្រាក់ត្រូវបង់សរុប :</td>
@@ -159,7 +203,7 @@
 					<td>កំណត់សម្គាល់ :</td>
 					<td class="border"><lable id="lbl_note"></lable></td>
 			</tr>
-			<tr>
+			<tr class="fontsize">
 					<td>បញ្ចុះតម្លៃ :</td>
 					<td class="border"><lable style="color:red" id="lbl_discount"></lable></td>
 					<td>បង់ថ្លៃសេវា :</td>
@@ -167,7 +211,7 @@
 					<td>ថ្ងៃទទួលប្រាក់ :</td>
 					<td class="border"><lable id="lbl_date_input"></lable></td>
 			</tr>
-			<tr>
+			<tr class="fontsize">
 					<td></td>
 					<td></td>
 					<td>ប្រាក់ទទួលបាន :</td>
@@ -175,13 +219,23 @@
 					<td>ប្រាក់អាប់ :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_return"></lable></td>
 			</tr>
-			
+			<tr class="fontsize" style="margin-top:20px;line-height: 60px">
+					<td></td>
+					<td></td>
+					<td colspan="2" align="center">ហត្ថលេខាអ្នកទទួល </td>
+					<td colspan="2" align="center">ហត្ថលេខាអ្នកបង់ </td>
+			</tr>
+			<tr class="fontsize" style="margin-top:20px;line-height: 20px">
+					<td></td>
+					<td></td>
+					<td colspan="2" align="center">.............................. </td>
+					<td colspan="2" align="center">.............................. </td>
+			</tr>
 		</table>
-	</div>
-	
-				   <input type="button" value="បោះពុម្ព" label="បោះពុម្ព" id="print" dojoType="dijit.form.Button" 
+		</div>
+		<input type="button" value="បោះពុម្ព" label="បោះពុម្ព" id="print" dojoType="dijit.form.Button" 
 				   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="print();"/>
-	
+	</div>
 </div>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 
@@ -218,7 +272,7 @@ dojo.require("dijit.form.Textarea");
     var tran_store  = getDataStorefromJSON('','name',null);
 	var tran_status = {};
 	function print(){
-		window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
