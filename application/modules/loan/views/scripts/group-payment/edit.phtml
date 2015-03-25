@@ -8,7 +8,7 @@
 	$group_id = $this->group_id;
 	$client_code = $this->group_id;
 	$loan_number = $this->loan_number;
-	print_r($client_code);
+	$base_url = Application_Form_FrmMessage::getUrl("/");
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -93,7 +93,7 @@
 			   <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitData();"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
-			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="addDatatogrid();"/>
+			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
 		</tr>
 		<tr>
@@ -242,7 +242,8 @@
 	</div>
 </div>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
-
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 function showReciept(){
 	document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
@@ -266,7 +267,6 @@ function showReciept(){
 	dijit.byId('frm_client').show();
 }
 
-
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.require("dojo.data.ItemFileWriteStore"); 
@@ -281,30 +281,13 @@ dojo.require("dijit.form.Textarea");
 	}
 	function hideDialog() {		
 		dijit.byId("frm_client").hide();
-		saveTrans(); 
 	}
-</script>
-<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
-<script src="<?php echo $baseurl;?>/js/help.js"></script>
-<script type="text/javascript">
-dojo.require("dojo.NodeList-manipulate");
-dojo.require("dojo.html");
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dijit.form.Textarea");
-    var tran_store  = getDataStorefromJSON('','name',null);
-	var tran_status = {};
-	function hideDialog() {		
-		dijit.byId("recript_dialog").hide();
-		saveTrans(); 
-	}
-	// Force them to provide an answer
 	function doPrint() {
-		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
 	}
-	
 </script>
 <script type="text/javascript">
 function submitData(){
