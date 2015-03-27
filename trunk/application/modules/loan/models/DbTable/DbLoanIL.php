@@ -9,6 +9,27 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
+    
+    public function getClient($type){
+    	$this->_name='ln_client';
+    	$sql ="SELECT
+    	client_number ,
+    	name_en,
+    	client_id
+    	FROM $this->_name lm WHERE status=1 ";
+    	$db = $this->getAdapter();
+    	$rows = $db->fetchAll($sql);
+    	$options=array(0=>'------Select------');
+    	if(!empty($rows))foreach($rows AS $row){
+    		if($type==1){
+    			$lable = $row['client_number'];
+    		}elseif($type==2){
+    			$lable = $row['name_en'];
+    		}
+    		$options[$row['client_id']]=$lable;
+    	}
+    	return $options;
+    }
     public function getAllIndividuleLoan($search){
     	$from_date =(empty($search['from_date']))? '1': "lg.date_release >= '".$search['from_date']." 00:00:00'";
     	$to_date = (empty($search['to_date']))? '1': "lg.date_release <= '".$search['to_date']." 23:59:59'";

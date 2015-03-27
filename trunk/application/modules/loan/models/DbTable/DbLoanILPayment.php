@@ -49,44 +49,224 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 // 			WHERE lg.g_id = lm.group_id AND lg.g_id = $id LIMIT 1 ";
 //     	return $this->getAdapter()->fetchRow($sql);
     }
-    public function addILPayment($data){
+public function addILPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$user_id = $session_user->user_id;
+    	$reciept_no = $data['reciept_no'];
+    	$sql="SELECT id  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
+    	$acc_no = $db->fetchOne($sql);
+    	if($acc_no){
+    		$reciept_no=$this->getGroupPaymentNumber();
+    	}else{
+    		$reciept_no = $data['reciept_no'];
+    	}
     	try{
-    		//beforinsert pls update 
-    		$rows = $this->getAllPaymentListBySender($data['client_id']);
-    		$arr = array(
-    				//'lfd_id'=>$data[''],
-    				'receipt_no'=>111,
-    				'branch_id'=>$data['branch_id'],
-    				'client_id'=>$data['client_id'],
-    				'co_id'=>$data['co_id'],
-    				'receiver_id'=>$this->getUserId(),
-    				'date_pay'=>$data['collect_date'],
-    				'date_input'=>date("Y-m-d"),
-    				'capital'=>$data['priciple_amount'],
-    				'remain_capital'=>$data['priciple_amount']-$data['os_amount'],
-    				'principal_permonth'=>$data['priciple_amount'],
-    				'total_interest'=>$data['total_interest'],
-    				'penalize_amount'=>$data['penalize_amount'],
-    				'total_fund'=>$data['total_payment'],
-    				'service_charge'=>$data['service_charge'],
-    				'recieve_amount'=>$data['amount_receive'],
-    				'reuturn_amount'=>$data['amount_return'],
-    				'note'=>$data['note'],
-    				'user_id'=>$this->getUserId(),
-    				//'is_complete'=>1,
-    				//'is_verify'=>0,
-    				//'verify_by'=>0,
-    				//'is_closingentry'=>0,
-    				//'note'=>$data['total_interest'],
-    			);
-    		$this->insert($arr);//add group loan
+    		$arr_client_pay = array(
+    			'co_id'							=>		$data['co_id'],
+    			//'group_id'						=>		$data["group_id"],
+    			'receiver_id'					=>		$data['reciever'],
+    			'receipt_no'					=>		$reciept_no,
+    			'branch_id'						=>		$data['branch_id'],
+    			'loan_number'					=>		$data['loan_number'],
+    			'date_pay'						=>		$data['collect_date'],
+    			'date_input'					=>		$data["date_input"],
+    			'principal_amount'				=>		$data["priciple_amount"],
+    			'total_principal_permonth'		=>		$data['os_amount'],
+    			'total_payment'					=>		$data['total_payment'],
+    			'total_interest'				=>		$data['total_interest'],
+    			'recieve_amount'				=>		$data['amount_receive'],
+    			'penalize_amount'				=>		$data['penalize_amount'],
+    			'return_amount'					=>		$data['amount_return'],
+    			'service_charge'				=>		$data['service_charge'],
+    			'total_discount'				=>		$data["discount"],
+    			'note'							=>		$data['note'],
+    			'user_id'						=>		$user_id,
+    			'is_group'						=>		0,
+    			
+    		);
+    		$db->getProfiler()->setEnabled(true);
+			$this->_name = "ln_client_receipt_money";
+    		//$client_pay = $db->insert("ln_client_receipt_money", $arr_client_pay);
+    		$client_pay = $this->insert($arr_client_pay);
+    		
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    		$db->getProfiler()->setEnabled(false);
+    		
+    		$date_collect = $data["collect_date"];
+    		$identify = explode(',',$data['identity']);
+    		foreach($identify as $i){
+//     			print_r($data["mfdid_".$i]);
+				$date_pay = $data["date_payment_".$i];
+				
+				$date = $date_collect-$date_pay;
+				if($date>0){
+					$status = 2;
+				}else if($data==0){
+					$status=1;
+				}else {
+					$status=3;
+				}
+    			if(@$data["mfdid_".$i]){
+    				$arr_money_detail = array(
+    					'crm_id'				=>		$client_pay,
+    					'lfd_id'				=>		$data["mfdid_".$i],
+    					'client_id'				=>		$data["client_id_".$i],
+    					'date_payment'			=>		$data["date_payment_".$i],
+    					'capital'				=>		$data["total_priciple_".$i],
+    					'remain_capital'		=>		$data["total_priciple_".$i] - $data["principal_permonth_".$i],
+    					'principal_permonth'	=>		$data["principal_permonth_".$i],
+    					'total_interest'		=>		$data["interest_".$i],
+    					'total_payment'			=>		$data["payment_".$i],
+    					'currency_id'			=>		$data["curr"],
+    					'pay_before'			=>		$data['pay_before_'.$i],
+    					'pay_after'				=>		$data['pay_after_'.$i],
+    					'is_complete'			=>		1,
+    					'is_verify'				=>		0,
+    					'verify_by'				=>		0,
+    					'is_closingentry'		=>		0,
+    					'status'				=>		$status
+    				);
+    				$db->getProfiler()->setEnabled(true);
+    				 
+    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+    				 
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    				$db->getProfiler()->setEnabled(false);
+    				
+    				
+    				$arr_update_fun_detail = array(
+    					'is_completed'		=> 	1,
+    					'payment_option'	=>	$status
+    				);
+    				$this->_name="ln_loanmember_funddetail";
+    				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+    				$db->getProfiler()->setEnabled(true);
+    				$this->update($arr_update_fun_detail, $where);
+    				
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    				$db->getProfiler()->setEnabled(false);
+    			}
+    		}
+     		exit();
     		$db->commit();
-    		return 1;
     	}catch (Exception $e){
-    		echo $e->getMessage();exit();
     		$db->rollBack();
+    		echo $e->getMessage();exit();
+    	}
+    }
+    function updateGroupPayment($data){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	$session_user=new Zend_Session_Namespace('auth');
+    	$user_id = $session_user->user_id;
+    	$query = new Application_Model_DbTable_DbGlobal();
+    	$id= $data["id"];
+    	try{
+    		$arr_client_pay = array(
+    				'co_id'							=>		$data['co_id'],
+    				'group_id'						=>		$data["group_id"],
+    				'receiver_id'					=>		$data['reciever'],
+    				'receipt_no'					=>		$data["reciept_no"],
+    				'branch_id'						=>		$data['branch_id'],
+    				'loan_number'					=>		$data['loan_number'],
+    				'date_pay'						=>		$data['collect_date'],
+    				'date_input'					=>		$data["date_input"],
+    				'principal_amount'				=>		$data["priciple_amount"],
+    				'total_principal_permonth'		=>		$data['os_amount'],
+    				'total_payment'					=>		$data['total_payment'],
+    				'total_interest'				=>		$data['total_interest'],
+    				'recieve_amount'				=>		$data['amount_receive'],
+    				'penalize_amount'				=>		$data['penalize_amount'],
+    				'return_amount'					=>		$data['amount_return'],
+    				'service_charge'				=>		$data['service_charge'],
+    				'total_discount'				=>		$data["discount"],
+    				'note'							=>		$data['note'],
+    				'user_id'						=>		$user_id,
+    				'is_group'						=>		1,
+    		);
+    		$this->_name = "ln_client_receipt_money";
+    		$where = $db->quoteInto("id=?", $data["id"]);
+    		
+    		$db->getProfiler()->setEnabled(true);
+    			$client_pay = $this->update($arr_client_pay, $where);
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    		$db->getProfiler()->setEnabled(false);
+    		
+    			$loan_fun = $this->getGroupPaymentDetail($id);
+    			foreach ($loan_fun as $row){
+	    			$array = array(
+	    				'is_completed'  =>0,
+	    			);
+	    			$this->_name= "ln_loanmember_funddetail";
+	    			$where = $db->quoteInto("id=?", $row["lfd_id"]);
+	    			$db->getProfiler()->setEnabled(true);
+	    			$this->update($array, $where);
+	    			
+	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+	    			$db->getProfiler()->setEnabled(false);
+    			}
+    		$sql_delete = "DELETE FROM ln_client_receipt_money_detail WHERE crm_id =$id";
+    		
+    		$db->getProfiler()->setEnabled(true);
+    			$db->query($sql_delete);
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    		$db->getProfiler()->setEnabled(false);
+    	
+    		$identify = explode(',',$data['identity']);
+    		foreach($identify as $i){
+    			//     			print_r($data["mfdid_".$i]);
+    			if(@$data["mfdid_".$i]){
+    				$arr_money_detail = array(
+    						'crm_id'				=>		$client_pay,
+    						'lfd_id'				=>		$data["mfdid_".$i],
+    						'client_id'				=>		$data["client_id_".$i],
+    						'date_payment'			=>		$data["date_payment_".$i],
+    						'capital'				=>		$data["total_priciple_".$i],
+    						'remain_capital'		=>		$data["total_priciple_".$i] - $data["principal_permonth_".$i],
+    						'principal_permonth'	=>		$data["principal_permonth_".$i],
+    						'total_interest'		=>		$data["interest_".$i],
+    						'total_payment'			=>		$data["payment_".$i],
+    						'currency_id'			=>		$data["curr"],
+    						'pay_before'			=>		$data['pay_before_'.$i],
+    						'pay_after'				=>		$data['pay_after_'.$i],
+    						'is_complete'			=>		1,
+    						'is_verify'				=>		0,
+    						'verify_by'				=>		0,
+    						'is_closingentry'		=>		0
+    				);
+    				
+    				$db->getProfiler()->setEnabled(true);
+    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    				$db->getProfiler()->setEnabled(false);
+    					
+    				$arr_update_fun_detail = array(
+    						'is_completed'		=> 	1,
+    				);
+    				$this->_name="ln_loanmember_funddetail";
+    				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+    				
+    				$db->getProfiler()->setEnabled(true);
+    					$this->update($arr_update_fun_detail, $where);
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+    				$db->getProfiler()->setEnabled(false);
+    	
+    			}
+    		}
+    		$db->commit();
+    	}catch (Exception $e){
+    		$db->rollBack();
+    		echo $e->getMessage();//exit();
     	}
     }
    function getAllPaymentListBySender($client_id){
@@ -94,23 +274,85 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
    		$sql = " CALL `stgetAllPaymentById`($client_id)";
    		return $db->fetchAll($sql);
    }
-    function getLoanPaymentByLoanNumber($data){
+
+   function getLoanPaymentByLoanNumber($data){
     	$db = $this->getAdapter();
     	$loan_number= $data['loan_number'];
-    	if($data['type']!=2){
-    		$where =($data['type']==1)?'loan_number = '.$loan_number:'client_id='.$loan_number;
-    	    $sql=" SELECT *,
-					(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
-    	     FROM `ln_loanmember_funddetail` WHERE member_id =
-		    		(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
-		    		AND status = 1 ";
-    	}elseif($data['type']==2){
-    		$sql="SELECT * FROM `ln_loanmember_funddetail` WHERE status = 1 AND member_id = 
-    		       ( SELECT member_id FROM `ln_loan_member` WHERE client_id =
-    		       (SELECT client_id FROM `ln_client` WHERE client_number = ".$loan_number." LIMIT 1) LIMIT 1) ";
-    	}
+    	if($data['type']!=1){
+    		$where =($data['type']==2 AND $data["type"]==3)?'client_id = '.$loan_number:'client_id='.$loan_number;
+    		$sql ="SELECT 
+					  lc.`client_id`,
+					  lc.`client_number`,
+					  lc.`name_kh`,
+					  lm.`loan_number`,
+					  lm.`currency_type`,
+					  lm.`pay_before`,
+					  lm.`pay_after`,
+					  lm.`branch_id`,
+					  lg.`co_id`,
+					  lg.`payment_method`,   
+					  lf.*
+					FROM
+					  `ln_client` AS lc,
+					  `ln_loan_member` AS lm ,
+					  `ln_loan_group` AS lg,
+					  `ln_loanmember_funddetail` AS lf
+					WHERE lc.`parent_id`=(SELECT client_id FROM `ln_client` WHERE $where LIMIT 1)
+					  AND lg.`g_id`=lm.`group_id`
+					  AND lf.`member_id`=lm.`member_id`
+					  AND lm.`client_id`=lc.`client_id`
+					  AND lg.`group_id`=lc.`parent_id`
+					  AND lg.`loan_type`=1
+    					AND lf.`is_completed`=0
+    				";
+    	}elseif($data['type']==1){
+    		$where = 'lm.`loan_number`='.$loan_number;
+    		$sql ="SELECT 
+					  lc.`client_id`,
+					  lc.`client_number`,
+					  lc.`name_kh`,
+					  lm.`loan_number`,
+					  lm.`currency_type`,
+					  lm.`pay_before`,
+					  lm.`pay_after`,
+					  lm.`branch_id`,
+					  lg.`co_id`,
+					  lg.`payment_method`,   
+					  lf.*
+					FROM
+					  `ln_client` AS lc,
+					  `ln_loan_member` AS lm ,
+					  `ln_loan_group` AS lg,
+					  `ln_loanmember_funddetail` AS lf
+					WHERE lc.`parent_id`=(SELECT client_id FROM `ln_client` LIMIT 1)
+					  AND lg.`g_id`=lm.`group_id`
+					  AND lf.`member_id`=lm.`member_id`
+					  AND lm.`client_id`=lc.`client_id`
+					  AND lg.`group_id`=lc.`parent_id`
+					  AND lg.`loan_type`=1
+					  AND $where
+    				AND lf.`is_completed`=0";
+    				
+ 	}
     	return $db->fetchAll($sql);
-    }
+   }
+//     function getLoanPaymentByLoanNumber($data){
+//     	$db = $this->getAdapter();
+//     	$loan_number= $data['loan_number'];
+//     	if($data['type']!=2){
+//     		$where =($data['type']==1)?'loan_number = '.$loan_number:'client_id='.$loan_number;
+//     	    $sql=" SELECT *,
+// 					(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
+//     	     FROM `ln_loanmember_funddetail` WHERE member_id =
+// 		    		(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
+// 		    		AND status = 1 ";
+//     	}elseif($data['type']==2){
+//     		$sql="SELECT * FROM `ln_loanmember_funddetail` WHERE status = 1 AND member_id = 
+//     		       ( SELECT member_id FROM `ln_loan_member` WHERE client_id =
+//     		       (SELECT client_id FROM `ln_client` WHERE client_number = ".$loan_number." LIMIT 1) LIMIT 1) ";
+//     	}
+//     	return $db->fetchAll($sql);
+//     }
   
 }
 
