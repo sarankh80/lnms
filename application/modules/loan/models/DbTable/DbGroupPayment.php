@@ -139,6 +139,7 @@ function getLoanPaymentByLoanNumber($data){
 					  AND lf.`member_id`=lm.`member_id`
 					  AND lm.`client_id`=lc.`client_id`
 					  AND lg.`group_id`=lc.`parent_id`
+					  AND lg.`loan_type`=2
     					AND lf.`is_completed`=0
   						GROUP BY lc.`client_id`
     				";
@@ -169,6 +170,7 @@ function getLoanPaymentByLoanNumber($data){
 					  AND lf.`member_id`=lm.`member_id`
 					  AND lm.`client_id`=lc.`client_id`
 					  AND lg.`group_id`=lc.`parent_id`
+					  AND lg.`loan_type`=2
 					  AND $where
     				AND lf.`is_completed`=0
   					GROUP BY lc.`client_id`";

@@ -12,26 +12,36 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
- 				'onchange'=>'popupCheckClient();'
+ 				'onchange'=>'getLaonPayment(3);'
 				));
 		$rows = $db ->getClientByType();
-		$options="";
+		$options=array(''=>'-----Select------');
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
 		}
 		$_groupid->setMultiOptions($options);
 		
+		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
+		$_client_code->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getLaonPayment(2);'
+		));
+		
+		$option_client_number = array(''=>'-----Select------');
+		if(!empty($rows))foreach($rows AS $row){
+			$option_client_number[$row['client_id']]=$row['client_number'];
+		}
+		$_client_code->setMultiOptions($option_client_number);
+		
 		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
 		$_loan_number->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
+				'onKeyUp'=>'getLaonPayment(1);'
 		));
 		
-		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
-		$_client_code->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
-		));
+		
 		
 		$_amount_receive = new Zend_Dojo_Form_Element_NumberTextBox('amount_receive');
 		$_amount_receive->setAttribs(array(
@@ -140,12 +150,47 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_collect_date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'Onchange'	=>	'calculateTotal();'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
-	
-		$this->addElements(array($_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		
+		$date_input = new Zend_Dojo_Form_Element_DateTextBox('date_input');
+		$date_input->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$date_input->setValue($c_date);
+		
+		$reciever = new Zend_Form_Element_Hidden("reciever");
+		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
+		
+		$discount = new Zend_Dojo_Form_Element_TextBox("discount");
+		$discount->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'));
+		
+		$reciept_no = new Zend_Dojo_Form_Element_TextBox("reciept_no");
+		$reciept_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readonly'=>true,
+				'style'=>'color:red; font-weight: bold;'));
+		$db_loan = new Loan_Model_DbTable_DbGroupPayment();
+		$loan_number = $db_loan->getGroupPaymentNumber();
+		$reciept_no->setValue($loan_number);
+		$id = new Zend_Form_Element_Hidden("id");
+		$id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$option_pay = new Zend_Dojo_Form_Element_FilteringSelect('option_pay');
+		$option_pay->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'OnChange'=>'payOption();'
+		));
+		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
+		$option_pay->setMultiOptions($option_status);
+		$this->addElements(array($option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
@@ -301,7 +346,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'=>'checkAll()'
+				'OnChange'=>'calculateTotal()'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);

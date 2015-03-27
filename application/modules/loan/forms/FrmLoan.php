@@ -41,7 +41,7 @@ public function init()
 		$group_opt = $db ->getGroupCodeById(1,1,1);
 		$_group_code->setMultiOptions($group_opt);
 		
-		$dbs = new Loan_Model_DbTable_DbLoanss();
+		$dbs = new Loan_Model_DbTable_DbLoanIL();
 		
 		$_customer_code = new Zend_Dojo_Form_Element_FilteringSelect('customer_code');
 		$_customer_code->setAttribs(array(
@@ -49,7 +49,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(1);'
 		));
-		$group_opt = $dbs ->getClientTypes(1);//code,individual,option
+		$group_opt = $dbs ->getClient(1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
 		
 		
@@ -59,7 +59,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(2)'
 		));
-		$options = $dbs->getClientTypes(2);
+		$options = $dbs->getClient(2);
 		$_member->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();
