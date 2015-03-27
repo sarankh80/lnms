@@ -1,5 +1,5 @@
 <?php
-class Loan_TransfercoClientController extends Zend_Controller_Action {
+class Loan_TransfercoLoandController extends Zend_Controller_Action {
 	
 	public function init()
 	{
@@ -12,15 +12,15 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
 	{
 	try{
  			$db = new Loan_Model_DbTable_DbTransferCoClient(); 
- 			$rs_rows= $db->getAllinfoCo($search=null);//call frome model
+ 			$rs_rows= $db->getAllinfoCoLoan($search=null);//call frome model
 // // 			$glClass = new Application_Model_GlobalClass();
 // // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","NAME_CLIENT","NAME_CO","CODE_CO","CODE_CLIENT","DATE","NOTE","STATUS",);
+			$collumns = array("BRANCH_NAME","LOAN_NUMBER","NAME_CO","CODE_CO","DATE","NOTE","STATUS",);
  			$link=array(
-					'module'=>'loan','controller'=>'transferco-client','action'=>'edit',
+					'module'=>'loan','controller'=>'transferco-loand','action'=>'edit',
  			);
- 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_co'=>$link,'client_name'=>$link));
+ 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('loan_number'=>$link,));
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
  			echo $e->getMessage();
@@ -34,12 +34,12 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
  			try {		
  				$db = new Loan_Model_DbTable_DbTransferCoClient(); 
  				if(isset($_data['btn_save'])){				 				
-	 				$db->insertTransfer($_data);				
-	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-client/add");
+	 				$db->insertTransferloan($_data);				
+	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-loand/add");
  				}
  				elseif (isset($_data['btn_save_close'])){
- 					$db->insertTransfer($_data);
- 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-client/");
+ 					$db->insertTransferloan($_data);
+ 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-loand/");
  				}
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -61,8 +61,8 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
 			$post = $this->getRequest()->getPost();
 			//print_r($post);exit(); 			
 			if(isset($post['btn_save'])){
-				$db->updatTransfer($post, $id);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-client/");
+				$db->updatTransferloan($post, $id);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco-loand/");
 			}
 		}
 		//print_r($id);exit();		

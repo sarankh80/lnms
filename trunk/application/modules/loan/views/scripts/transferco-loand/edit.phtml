@@ -12,7 +12,7 @@
 	}
 </style>
 
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco-client','action'=>'edit')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco-loand','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
   if(this.validate()) {
@@ -44,10 +44,10 @@
 							<td><?php  echo $frm->getElement('Date');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_NUMBER")?></td>
+							<td><?php  echo $frm->getElement('loan_number');?></td>
 							<td><?php echo $tr->translate("NAME_CLIENT")?></td>
-							<td><?php  echo $frm->getElement('name_client');?></td>
-							<td><?php echo $tr->translate("CODE_CLIENT")?></td>
-							<td><?php  echo $frm->getElement('code_client');?></td>
+							<td><?php  echo $frm->getElement('loan_client');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CODE_CO")?></td>
@@ -70,7 +70,7 @@
 		<tr>
 		<td align="center">
 			<input type="submit" value="កែប្រែ" name="btn_save" label="កែប្រែ" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<?php $url_close = $this->url(array('module'=>'loan','controller'=>'transferco-client','action'=>'index'),null,true); ?>
+			<?php $url_close = $this->url(array('module'=>'loan','controller'=>'transferco-loand','action'=>'index'),null,true); ?>
 			<a href="<?php echo $url_close ?>">
 				<input type="button" value="ចាកចេញ" name="btn_close" label="ចាកចេញ" id="submitButton_Close" dojoType="dijit.form.Button"  iconClass=" dijitIconCancel"/>							
 			</a>
@@ -94,13 +94,13 @@ dojo.require("dijit.form.NumberTextBox");
 			dijit.byId("co_code").attr('value',id);
 		}
 		else if(type==3){		
-			to = dijit.byId("name_client").get('value');		
-			dijit.byId("code_client").attr('value',to);
-			dijit.byId("name_client").attr('value',to);
-		}else if(type==4){
-			to = dijit.byId("code_client").get('value');
-			dijit.byId("code_client").attr('value',to);
-			dijit.byId("name_client").attr('value',to);
+			to = dijit.byId("loan_client").get('value');		
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
+		}else if(type==5){
+			to = dijit.byId("loan_number").get('value');
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
 		}
 	}
 //-->
