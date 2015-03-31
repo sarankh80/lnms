@@ -12,9 +12,8 @@ class Report_ParamaterController extends Zend_Controller_Action {
   
   function  rptStaffAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
-  	$this->view->staff_list = $db->getAllstaff();
   	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	//$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
   		if(isset($data['btn_search'])){
@@ -26,21 +25,31 @@ class Report_ParamaterController extends Zend_Controller_Action {
   				"basic_salary","national_id","address","degree","branch_name","note");
   		$this->exportFileToExcel('ln_staff',$db->getAllstaff(),$collumn);
   		}
-  	}else $search = array('txtsearch' => '');
+  	}else{
+  		$search = array('txtsearch' => '');
+  		$this->view->staff_list = $db->getAllstaff($data);
+  	}
+  	
   }
   function  rptVillageAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
-  	$rs =  $db->getAllVillage();
-  	$this->view->village_list = $rs;
+  	$this->view->village_list = $db->getAllVillage();
   	//print_r($db->getAllstaff());
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		//
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->village_list = $db->getAllVillage($data);
+  		}else{
   		$collumn = array("vill_id","village_name","village_namekh","com_id","commune_name","commune_namekh",
   				"district_id","district_name","district_namekh","province_id","province_en_name",
   				"province_kh_name","modify_date",
   				"status","user_name");
-  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+  		$this->exportFileToExcel('ln_staff',$db->getAllVillage(),$collumn);
+  		} 		
   	}else $search = array('txtsearch' => '');
   }
   function rptZoneAction(){

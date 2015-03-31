@@ -16,17 +16,28 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
 //     	branch_id from ln_loanmember_funddetail";
     	return $db->fetchAll($sql);
     }
-    public function getAllClientPaymentListRpt(){
-    	$sql="SELECT m.member_id,
-    	(SELECT c.name_en FROM `ln_client` AS c  WHERE c.client_id=m.client_id LIMIT 1) AS client_name
+    public function getAllClientPaymentListRpt($search = null ){
+    	$db = $this->getAdapter();
+    	$sql="SELECT m.member_id,c.name_en 
     	,m.total_capital,m.admin_fee,m.interest_rate,
     	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = m.payment_method) AS payment_nameen,
     	(SELECT time_collect FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) AS time_collect,
     	(SELECT `zone_name` FROM `ln_zone` WHERE zone_id = ( SELECT zone_id FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) LIMIT 1 ) AS zone_name,
     	(SELECT co_khname FROM `ln_co` WHERE co_id = ( SELECT co_id FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1) LIMIT 1 ) AS co_khname,
-    	m.status FROM `ln_loan_member` AS m ORDER BY member_id ";
-    	$db = $this->getAdapter();
-    	return $db->fetchAll($sql); 
+    	m.status FROM `ln_loan_member` AS m,`ln_client` AS c WHERE c.client_id = m.client_id ";
+    	$Other =" ORDER BY member_id DESC ";
+    	$where = '';
+    	//echo $search['adv_search'];
+    	if(!empty($search['adv_search'])){
+    		$s_where = array();
+    		$s_search = $search['adv_search'];
+    		$s_where[] = " c.name_en LIKE '%{$s_search}%'";
+    		$s_where[]=" total_capital LIKE '%{$s_search}%'";
+    		$where .=' AND '.implode(' OR ',$s_where).'';
+    		
+    	}
+    	//echo ($sql.$where.$Other)."<br /><br />";
+    	return $db->fetchAll($sql.$where.$Other); 
     }
 	
 }

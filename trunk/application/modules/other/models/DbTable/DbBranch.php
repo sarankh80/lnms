@@ -38,8 +38,9 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT br_id,branch_namekh,branch_nameen,br_address,branch_code,branch_tel,fax,displayby,other,status FROM 
-    	$this->_name ";
+    	$sql = "SELECT br_id,branch_namekh,branch_nameen,br_address,branch_code,branch_tel,fax,
+				(SELECT `first_name` FROM `rms_users` WHERE id = displayby LIMIT 1) AS displayby,
+				other,status FROM $this->_name ";
     	$where = ' WHERE branch_namekh!="" AND branch_nameen !="" ';
     	
     	if($search['status_search']>-1){
@@ -82,7 +83,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	for($i = $acc_no;$i<3;$i++){
     		$pre.='0';
     	}
-    	return "B".$pre.$new_acc_no;
+    	return "C-".$pre.$new_acc_no;
     }
 }  
 	  

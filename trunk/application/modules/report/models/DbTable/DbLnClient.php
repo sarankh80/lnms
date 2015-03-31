@@ -4,7 +4,7 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
       
        protected  $db_name='ln_client';
 
-    public function getAllLnClient(){
+    public function getAllLnClient($search = null){
     	 $db = $this->getAdapter();
           $sql="SELECT client_number,name_kh,name_en,(SELECT name_kh FROM ln_view WHERE TYPE = 11 AND key_code=sex ) AS sex,status,
           (SELECT branch_namekh FROM ln_branch WHERE br_id =branch_id limit 1) AS branch_name
@@ -12,8 +12,17 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
           ,(SELECT district_name FROM ln_district WHERE dis_id=dis_id limit 1)As dis_id
           ,(SELECT commune_name FROM ln_commune WHERE com_id=com_id limit 1) As com_id
           ,(SELECT village_name FROM ln_village WHERE vill_id=village_id limit 1) As village_id 
-          ,spouse_name,phone FROM ln_client ORDER BY client_id";
-          return $db->fetchAll($sql);
+          ,spouse_name,phone FROM ln_client WHERE 1 ";
+          $Other = "ORDER BY client_id DESC";
+          $where ='';
+          if(!empty($search['txtsearch'])){
+          	$s_where = array();
+          	$s_search = $search['txtsearch'];
+          	$s_where[] = " client_number LIKE '%{$s_search}%'";
+          	$s_where[]=" name_kh LIKE '%{$s_search}%'";
+          	$where .=' AND '.implode(' OR ',$s_where).'';
+          }
+          return $db->fetchAll($sql.$where.$Other);
     } 
     public function getAllGroup(){
     	$db = $this->getAdapter();
