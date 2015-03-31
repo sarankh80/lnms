@@ -107,7 +107,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		
 		
 		$rows_provice = $_db->getAllProvince();
-		$opt_province = "";
+		$opt_province = array($this->tr->translate("SELECT_PROVINCE"));
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
 		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',

@@ -9,7 +9,7 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
-	public function addCommune($_data){
+	public function addCommune($_data,$id=null){
 		$_arr=array(
 				'district_id' => $_data['district_name'],
 				'commune_namekh'=> $_data['commune_namekh'],
@@ -19,8 +19,8 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 				'modify_date' => Zend_Date::now(),
 				'user_id'	  => $this->getUserId()
 		);
-		if(!empty($_data['id'])){
-			$where = 'com_id = '.$_data['id'];
+		if(!empty($id)){
+			$where = 'com_id = '.$id;
 			return  $this->update($_arr, $where);
 		}else{
 			return  $this->insert($_arr);

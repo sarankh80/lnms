@@ -42,11 +42,12 @@ class Other_CommuneController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
-				$db_district = new Other_Model_DbTable_DbCommune();
-				$db_district->addCommune($_data);
+				$db_district = new Other_Model_DbTable_DbCommune();				
 				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($this->tr->translate("INSERT_SUCCESS"));
+					$db_district->addCommune($_data);
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/Commune/add');
 				}else{
+					$db_district->addCommune($_data);
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/Commune/index');
 				}
 			}catch(Exception $e){
@@ -64,19 +65,20 @@ class Other_CommuneController extends Zend_Controller_Action {
 	
 	}
 	public function editAction(){
+		$id = $this->getRequest()->getParam('id');
 		$db = new Other_Model_DbTable_DbCommune();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			try{
-				$db->addCommune($_data);
-				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL.'/Commune/add');
+			//print_r($_data);exit();
+			try{				
+				$db->addCommune($_data,$id);
+				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"),self::REDIRECT_URL.'/Commune/');
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message($this->tr->translate("EDIT_FAIL"));
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
-		}
-		$id = $this->getRequest()->getParam('id');
+		}		
 		$row = $db->getCommuneById($id);
 		$this->view->row=$row;
 		$fm = new Other_Form_FrmCommune();

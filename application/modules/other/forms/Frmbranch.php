@@ -69,21 +69,25 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				));
 		$branch_code = new Zend_Dojo_Form_Element_NumberTextBox('branch_code');
 		$branch_code->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'Calfive()'
-		));
+				'readOnly'=>'readOnly',
+				'style'=>'color:red',
+				'onkeyup'=>'Calcuhundred()'
+				));
+		$db_code=Other_Model_DbTable_DbBranch::getBranchCode();
+		$branch_code->setValue($db_code);
 		
 		$branch_tel = new Zend_Dojo_Form_Element_NumberTextBox('branch_tel');
 		$branch_tel->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'onkeyup'=>'Calfive()'
 				));
 		
 		$_fax = new Zend_Dojo_Form_Element_TextBox('fax ');
 		$_fax->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'onkeyup'=>'Calone()'
 				));

@@ -57,10 +57,16 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	
-  	if($this->getRequest()->isPost()){
+  	if($this->getRequest()->isPost()){  		
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->client_list = $db->getAllLnClient($data);
+  		}else{
   		$collumn = array("client_number","name_kh","name_en","sex","branch_name","pro_id","dis_id","com_id",
   				"village_id");
   		$this->exportFileToExcel($table,$rs,$collumn);
+  		}
   	}
   	
   }

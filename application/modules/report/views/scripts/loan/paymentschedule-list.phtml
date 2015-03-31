@@ -1,12 +1,16 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("Client List"));
-$frm = $this->frm_search;
+
 ?>
-<form id="list" name="list" action="<?php echo $this->url(array('module'=>'group','controller'=>'Client','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'paymentschedule-list')); ?>" dojoType="dijit.form.Form" method="post">
+  	<?php $frm = $this->frm_search;?>
    <?php echo $frm->getElement("btn_search");?>
    <?php echo $frm->getElement("adv_search");?>
    <?php echo $frm->getElement('status');?>
+   <div id="divPrint">
    <?php echo $this->list;?>
-   
+   </div>
 </form>
+
