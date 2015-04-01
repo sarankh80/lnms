@@ -99,6 +99,9 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	
 		$rs_receipt_detail = $db->getGroupPaymentDetail($id);
 		print_r($rs_receipt_detail);
+		
+		
+		
 		$this->view->reciept_detail = $rs_receipt_detail;
 		$this->view->group_id = $rs["group_id"];
 		$this->view->client_code = $rs["client_code"];

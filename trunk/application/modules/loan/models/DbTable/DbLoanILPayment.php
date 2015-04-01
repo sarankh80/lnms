@@ -9,32 +9,52 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
-    public function getAllIndividuleLoan($search){
+    public function getAllIndividuleLoan(){
 //     	$from_date =(empty($search['from_date']))? '1': "lg.date_release >= '".$search['from_date']." 00:00:00'";
 //     	$to_date = (empty($search['to_date']))? '1': "lg.date_release <= '".$search['to_date']." 23:59:59'";
 //     	$where = " AND ".$from_date." AND ".$to_date;
     	
-//     	$db = $this->getAdapter();
-//     	$sql=" SELECT lg.g_id,lm.loan_number,
-//     	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-//   		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-//   		lm.total_capital,lm.interest_rate,
-//   	   (SELECT payment_nameen FROM `ln_payment_method` WHERE id = lm.payment_method LIMIT 1) AS payment_method,
-//   	   (SELECT payment_nameen FROM `ln_payment_method` WHERE id = lm.payment_method LIMIT 1) AS payment_method,
-//        (SELECT zone_name FROM `ln_zone` WHERE zone_id=lg.zone_id LIMIT 1) AS zone_name,
-//        (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
-//        (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
-//         lg.status  FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
-// 				WHERE lg.g_id = lm.group_id ";
+    	$db = $this->getAdapter();
+    	$sql="SELECT 
+				  crm.`id`,
+				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_name,
+				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`= crm.`branch_id`) AS branch,
+    			  crm.`receipt_no`,
+				  crm.`loan_number`,
+				  
+    			  crm.`principal_amount`,
+				  crm.`total_principal_permonth`,
+				  crm.`total_payment`,
+				  crm.`date_input`,
+    			 (SELECT c.`co_khname` FROM `ln_co` AS c WHERE c.`co_id`=crm.`co_id`) AS co,
+				  crm.`status`
+				FROM
+				  `ln_client_receipt_money` AS crm WHERE crm.`is_group`=0 ";
 //     	if($search['status']>1){
 //     		$where.= "lm.status = ".$search['status'];
-    		
 //     	}
-//     	$db = $this->getAdapter();
     	
-//     	return $db->fetchAll($sql.$where);
+    	return $db->fetchAll($sql);
     }
 //     (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
+	function getIlPaymentByID($id){
+		$db = $this->getAdapter();
+		$sql="SELECT * FROM `ln_client_receipt_money` WHERE id = $id";
+		return $db->fetchRow($sql);
+	}
+	public function getIlDetail($id){
+		$db = $this->getAdapter();
+		$sql="SELECT 
+				  (SELECT id FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS crmd_id,
+				  (SELECT `lfd_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS id,
+				  (SELECT capital FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS total_principal,
+				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS `currency_type`,
+				  crmd.* 
+				FROM
+				  `ln_client_receipt_money_detail` AS crmd 
+				WHERE crmd.`crm_id` = $id ";
+		return $db->fetchAll($sql);
+	}
     function getTranLoanByIdWithBranch($id){
 //     	$sql = "SELECT lg.g_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lm.payment_method,
 //     		lm.interest_rate,lm.amount_collect_principal,
@@ -49,6 +69,20 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 // 			WHERE lg.g_id = lm.group_id AND lg.g_id = $id LIMIT 1 ";
 //     	return $this->getAdapter()->fetchRow($sql);
     }
+    public function getIlPaymentNumber(){
+    	$this->_name='ln_client_receipt_money';
+    	$db = $this->getAdapter();
+    	$sql=" SELECT id  FROM $this->_name ORDER BY id DESC LIMIT 1 ";
+    	$acc_no = $db->fetchOne($sql);
+    	$new_acc_no= (int)$acc_no+1;
+    	$acc_no= strlen((int)$acc_no+1);
+    	$pre = "";
+    	$pre_fix="PM-";
+    	for($i = $acc_no;$i<5;$i++){
+    		$pre.='0';
+    	}
+    	return $pre_fix.$pre.$new_acc_no;
+    }
 public function addILPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
@@ -58,14 +92,14 @@ public function addILPayment($data){
     	$sql="SELECT id  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
     	$acc_no = $db->fetchOne($sql);
     	if($acc_no){
-    		$reciept_no=$this->getGroupPaymentNumber();
+    		$reciept_no=$this->getIlPaymentNumber();
     	}else{
     		$reciept_no = $data['reciept_no'];
     	}
     	try{
     		$arr_client_pay = array(
     			'co_id'							=>		$data['co_id'],
-    			//'group_id'						=>		$data["group_id"],
+    			'group_id'						=>		$data["client_id"],
     			'receiver_id'					=>		$data['reciever'],
     			'receipt_no'					=>		$reciept_no,
     			'branch_id'						=>		$data['branch_id'],
@@ -101,14 +135,19 @@ public function addILPayment($data){
 //     			print_r($data["mfdid_".$i]);
 				$date_pay = $data["date_payment_".$i];
 				
-				$date = $date_collect-$date_pay;
+				$date = strtotime($date_collect)-strtotime($date_pay);
+				print_r($date_pay."-".$date_collect."=".$date);
+				
 				if($date>0){
-					$status = 2;
-				}else if($data==0){
+					$status = 3;
+					print_r($status);
+				}else if($date==0){
 					$status=1;
+					print_r($status);
 				}else {
-					$status=3;
+					$status=2;
 				}
+				
     			if(@$data["mfdid_".$i]){
     				$arr_money_detail = array(
     					'crm_id'				=>		$client_pay,
@@ -127,7 +166,7 @@ public function addILPayment($data){
     					'is_verify'				=>		0,
     					'verify_by'				=>		0,
     					'is_closingentry'		=>		0,
-    					'status'				=>		$status
+    					'status'				=>		$data["option_pay"]
     				);
     				$db->getProfiler()->setEnabled(true);
     				 
@@ -137,10 +176,9 @@ public function addILPayment($data){
     				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
     				$db->getProfiler()->setEnabled(false);
     				
-    				
     				$arr_update_fun_detail = array(
     					'is_completed'		=> 	1,
-    					'payment_option'	=>	$status
+    					'payment_option'	=>	$data["option_pay"]
     				);
     				$this->_name="ln_loanmember_funddetail";
     				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
@@ -152,7 +190,7 @@ public function addILPayment($data){
     				$db->getProfiler()->setEnabled(false);
     			}
     		}
-     		exit();
+     		//exit();
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
