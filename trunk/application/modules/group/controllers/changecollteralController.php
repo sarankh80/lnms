@@ -43,7 +43,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbChangeCollteral();
 			try {
-// 				print_r($data);exit();
+ 				//print_r($data);exit();
 				 $db->addChangeCollteral($data);
 				if(!empty($data['save_new'])){
 					//Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');

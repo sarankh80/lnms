@@ -12,14 +12,14 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try {
 	    	$this->_name='ln_client_callecteral';
-	    	$where=" id=".$data['collteral_id'];
+	    	$where = " id = ".$data['collteral_id'];
 	    	$_arr_=array('is_changed'=>2);
 	    	$this->update($_arr_, $where);
 	    	
 	    		$this->_name = 'ln_changecollteral';
 	    		$arr = array(
 	    			'branch_id'=>$data['branch_id'],
-	    			'collteral_id'=>$data['collteral_id'],
+	    			//'collteral_id'=>$data['collteral_id'],
 					'owner_code_id'=>$data['client_code'],
 	    			'owner_id'=>$data['client_name'],
 	    			'from_id'=>$data['from'],
@@ -73,7 +73,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		try {
 			$this->_name='ln_client_callecteral';
-			$where=" id=".$data['collteral_id'];
+			$where=" id = ".$data['collteral_id'];
 			
 			$arr_collteral = array(
 					'branch_id'=>$data['branch_id'],
