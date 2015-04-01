@@ -397,7 +397,7 @@ function getLoanPaymentByLoanNumber($data){
     	$new_acc_no= (int)$acc_no+1;
     	$acc_no= strlen((int)$acc_no+1);
     	$pre = "";
-    	$pre_fix="GPM-";
+    	$pre_fix="PM-";
     	for($i = $acc_no;$i<5;$i++){
     		$pre.='0';
     	}

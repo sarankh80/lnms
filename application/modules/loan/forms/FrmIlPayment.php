@@ -173,8 +173,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$reciept_no = new Zend_Dojo_Form_Element_TextBox("reciept_no");
 		$reciept_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readonly'=>true,
 				'style'=>'color:red; font-weight: bold;'));
-		$db_loan = new Loan_Model_DbTable_DbGroupPayment();
-		$loan_number = $db_loan->getGroupPaymentNumber();
+		$db_loan = new Loan_Model_DbTable_DbLoanILPayment();
+		$loan_number = $db_loan->getIlPaymentNumber();
 		$reciept_no->setValue($loan_number);
 		$id = new Zend_Form_Element_Hidden("id");
 		$id->setAttribs(array(
@@ -193,6 +193,29 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$this->addElements(array($option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
+		if($data!=""){
+			$_groupid->setValue($data["group_id"]);
+			$_loan_number->setValue($data["loan_number"]);
+			$_branch_id->setValue($data["branch_id"]);
+			$_client_code->setValue($data["group_id"]);
+			$reciept_no->setValue($data["receipt_no"]);
+			$_coid->setValue($data["co_id"]);
+			$option_pay->setValue($data["status"]);
+			$_amount_receive->setValue($data["recieve_amount"]);
+			$_amount_return->setValue($data["return_amount"]);
+			$_penalize_amount->setValue($data["penalize_amount"]);
+			$_total_payment->setValue($data["total_payment"]);
+			$_priciple_amount->setValue($data["principal_amount"]);
+			$_os_amount->setValue($data["total_principal_permonth"]);
+			$discount->setValue($data["total_discount"]);
+			$_rate->setValue($data["total_interest"]);
+			$_note->setValue($data["note"]);
+			$date_input->setValue($data["date_input"]);
+			$_collect_date->setValue($data["date_pay"]);
+			$_service_charge->setValue($data["service_charge"]);
+			$reciever->setValue($data["receiver_id"]);
+		}
+		
 		return $this;
 		
 	}
@@ -368,6 +391,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$reciept_no = new Zend_Dojo_Form_Element_TextBox("reciept_no");
 		$reciept_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readonly'=>true,
 				'style'=>'color:red; font-weight: bold;'));
+		
 		$db_loan = new Loan_Model_DbTable_DbGroupPayment();
 		$loan_number = $db_loan->getGroupPaymentNumber();
 		$reciept_no->setValue($loan_number);

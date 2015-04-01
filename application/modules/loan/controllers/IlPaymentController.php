@@ -10,42 +10,24 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
-			$db = new Group_Model_DbTable_DbClient();
-			if($this->getRequest()->isPost()){
-				$search=$this->getRequest()->getPost();
-			}
-			else{
-				$search = array(
-						'adv_search' => '',
-						'status' => -1);
-			}
-			$rs_rows= $db->getAllClients($search);
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
+// 			if($this->getRequest()->isPost()){
+// 				$search=$this->getRequest()->getPost();
+// 			}
+// 			else{
+// 				$search = array(
+// 						'adv_search' => '',
+// 						'status' => -1);
+// 			}
+			$rs_rows= $db->getAllIndividuleLoan();
 			$result = array();
-			foreach ($rs_rows as $key =>$rs){
-				$result[$key]=array(
-						'client_id'=>$rs['client_id'],
-						'client_number'=>$rs['client_number'],
-						'name_kh'=>$rs['name_kh'],
-						'name_en'=>$rs['name_en'],
-						'sex'=>$this->sex[$rs['sex']],
-						'phone'=>$rs['phone'],
-						'house'=>$rs['house'],
-						'street'=>$rs['street'],
-						'village_name'=>$rs['village_name'],
-						'spouse_name'=>$rs['spouse_name'],
-						'user_name'=>$rs['user_name'],
-						'status'=>$rs['status'],
-						);
-			}
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Term","Loan N.","Date Due","OS","Principal","Interest Rate","Paid Principal","Paid Interest Rate","CO",
-				"By","status");
+			$collumns = array("Branch","Client Name","Reciept No","Loan Number","Principal","Paid Principal","Total Pay","Due Date",
+				"CO","status");
 			$link=array(
-					'module'=>'group','controller'=>'Client','action'=>'edit',
+					'module'=>'loan','controller'=>'il-payment','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -64,12 +46,12 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 				
 				$db = new Loan_Model_DbTable_DbLoanILPayment();
 				$db->addILPayment($_data);
-// 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
 			}catch (Exception $e) {
-				echo $e->getMessage();exit();
-// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-// 				$err =$e->getMessage();
-// 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+				echo $e->getMessage();
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
 		
@@ -86,6 +68,44 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		
 	}	
+	
+	function editAction()
+	{
+		$id = $this->getRequest()->getParam("id");
+		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try {
+				$db->addILPayment($_data);
+				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+			}catch (Exception $e) {
+				echo $e->getMessage();
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
+		}
+		$payment_il = $db->getIlPaymentByID($id);
+		
+		$getIlDetail = $db->getIlDetail($id);
+		
+		$condiction = array(
+				'type'	=>	3,
+				'loan_number' =>$payment_il["group_id"]
+		);
+		$db_il = new Loan_Model_DbTable_DbLoanILPayment();
+			$row = $db_il->getLoanPaymentByLoanNumber($condiction);
+			
+		$new_array = array_merge($getIlDetail,$row);
+			//print_r($new_array);
+		$frm = new Loan_Form_FrmIlPayment();
+		$frm_loan=$frm->FrmAddIlPayment($payment_il);
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		//$aaray = array_m
+		$this->view->frm_ilpayment = $frm_loan;
+		$this->view->ilPayent = $new_array;
+	
+	}
 	function getLoannumberAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
