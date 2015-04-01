@@ -7,7 +7,7 @@ class Group_indexController extends Zend_Controller_Action {
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $sex=array(1=>'M',2=>'F');
+	private $_sex = array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 			$db = new Group_Model_DbTable_DbClient();
@@ -40,7 +40,7 @@ class Group_indexController extends Zend_Controller_Action {
 						'client_number'=>$rs['client_number'],
 						'name_kh'=>$rs['name_kh'],
 						'name_en'=>$rs['name_en'],
-						'sex'=>$this->sex[$rs['sex']],
+						'sex'=>@$this->_sex[$rs['sex']],
 						'phone'=>$rs['phone'],
 						'house'=>$rs['house'],
 						'street'=>$rs['street'],

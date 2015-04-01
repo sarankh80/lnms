@@ -42,7 +42,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'house'	      => $_data['house'],
 				'photo_name'  =>$_data['photo'],
 				'job'        =>$_data['job'],
-				//'national_id'=>$_data['national_id'],
+				'id_number'=>$_data['national_id'],
 				'phone'	      => $_data['phone'],
 				'spouse_name' => $_data['spouse'],
 				'remark'	  => $_data['desc'],
@@ -73,14 +73,14 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     	$row=$db->fetchRow($sql);
     	return $row;
     }
-	function getAllClients($search=null){
+	function getAllClients($search = null){
 		$db = $this->getAdapter();
 		$sql = " 
 		SELECT client_id,client_number,name_kh,name_en,sex,phone,house,street,
 			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
 		    ,spouse_name,(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name WHERE 1 ";
-		$order=" order by name_kh";
+		$order=" order by client_id ASC";
 		$where = '';
 		
 		if(!empty($search['adv_search'])){
@@ -98,18 +98,19 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		if($search['status']>-1){
 			$where.= " AND status = ".$search['status'];
 		}
-		if(!empty($search['province_id'])){
+		if($search['province_id']>-1){
 			$where.=" AND pro_id= ".$search['province_id'];
 		}
-		if(!empty($search['district_id'])){
+		if($search['district_id']>-1){
 			$where.=" AND dis_id= ".$search['district_id'];
 		}
-		if(!empty($search['comm_id'])){
+		if($search['comm_id']>-1){
 			$where.=" AND com_id= ".$search['comm_id'];
 		}
-		if(!empty($search['village'])){
+		if($search['village']>-1){
 			$where.=" AND village_id= ".$search['village'];
 		}
+		echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
 	public function getGroupCode($data){

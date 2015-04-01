@@ -241,7 +241,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_id->setValue($data['client_id']);
 			$_group_code->setValue($data['group_code']);
 			$job->setValue($data['job']);
-			$national_id->setValue($data['national_id']);
+			$national_id->setValue($data['id_number']);
 		}
 		$this->addElements(array($_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,

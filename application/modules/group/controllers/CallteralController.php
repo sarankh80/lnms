@@ -12,7 +12,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			try{
 				$db = new Group_Model_DbTable_DbCallteral();
 			    		if($this->getRequest()->isPost()){
-			    			$search=$this->getRequest()->getPost();
+			    		$search=$this->getRequest()->getPost();
 			    		}
 			    		else{
 			    			$search = array(

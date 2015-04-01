@@ -44,7 +44,7 @@ public function init()
     	try{
     		$db = new Callecterall_Model_DbTable_DbCallecterall();
     		if($this->getRequest()->isPost()){
-    			$search=$this->getRequest()->getPost();
+    			$search = $this->getRequest()->getPost();
     		}
     		else{
     			$search = array(

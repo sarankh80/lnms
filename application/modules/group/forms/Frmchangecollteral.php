@@ -241,7 +241,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 			$stutas->setValue($data['status']);
 			$_note->setValue('change collteral');
 			$id->setValue($data['id']);
-			$collteral_id->setValue($data['collteral_id']);
+			//$collteral_id->setValue($data['collteral_id']);
 			$changecollteral_id->setValue($data['id']);
 		}
 		$this->addElements(array($changecollteral_id,$collteral_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
