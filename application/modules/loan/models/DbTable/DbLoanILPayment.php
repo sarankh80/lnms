@@ -49,6 +49,8 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 				  (SELECT `lfd_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS id,
 				  (SELECT capital FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS total_principal,
 				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS `currency_type`,
+				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
+				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
 				  crmd.* 
 				FROM
 				  `ln_client_receipt_money_detail` AS crmd 
