@@ -20,14 +20,14 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			    		}//print_r($search);exit();
 			$rs_rows= $db->getAllReturnCollteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rowss = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("GIVER_NAME","RECEIVER_NAME","DATE","NOTE","STATUS","USER_ID");
 			$link=array(
 					'module'=>'group','controller'=>'Returncollteral','action'=>'edit',
 			);
 // 			print_r($rs_rows);exit();
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('giver_name'=>$link,'receiver_name'=>$link,'date'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rowss,array('giver_name'=>$link,'receiver_name'=>$link,'date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();

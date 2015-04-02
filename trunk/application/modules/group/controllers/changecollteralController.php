@@ -46,9 +46,9 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
  				//print_r($data);exit();
 				 $db->addChangeCollteral($data);
 				if(!empty($data['save_new'])){
-					//Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}else{
-					//Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
 				}
 			} catch (Exception $e) { 
 				echo $e->getMessage();exit();
@@ -67,6 +67,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 	if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
 			try {
+				//print_r($data);exit();
 				$db->updateChangeCollteral($data);
 				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL. '/changecollteral/index');
 			} catch (Exception $e) {

@@ -51,16 +51,16 @@ public function init()
     					'adv_search' => '',
     					'status_search' => -1);
     		}
-    		$rs_rows= $db->getAllBlackList($search);//call frome model
+    		$rs_row= $db->getAllBlackList($search);//call frome model
     		//print_r($rs_rows);exit();
     					$glClass = new Application_Model_GlobalClass();
-    					$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+    					$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
     		$collumns = array("name_kh","name_en","sex","client_number","branch_id","is_blacklist","reasonblack_list","date_blacklist","status_blacklist","status");
     		$link=array(
     				'module'=>'group','controller'=>'Clientblacklist','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('client_number'=>$link,'is_blacklist'=>$link,'reasonblack_list'=>$link));
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_kh'=>$link,'name_en'=>$link,));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
     		echo $e->getMessage();
