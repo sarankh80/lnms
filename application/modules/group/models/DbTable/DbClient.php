@@ -110,7 +110,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		if($search['village']>-1){
 			$where.=" AND village_id= ".$search['village'];
 		}
-		echo $sql.$where.$order;
+		//echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
 	public function getGroupCode($data){

@@ -22,13 +22,13 @@ class Other_BranchController extends Zend_Controller_Action {
   		 }
            $rs_rows= $db->getAllBranch($search);
            $glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$rs_rowshow = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_KH","BRANCH_EN","ADDRESS","CODE","TEL","FAX","DISPLAY","OTHER","STATUS");
 			$link=array(
 					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_namekh'=>$link,'branch_nameen'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rowshow,array('branch_namekh'=>$link,'branch_nameen'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message($this->tr->translate("APPLICATION_ERROR"));
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

@@ -99,7 +99,8 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$branch->setValue($data['branch_id']);
-			//$client_code->setValue($data['client_id']);
+			$client_code->setValue($data['client_id']);
+			$client_name->setValue($data['client_id']);
 			$problem->setValue($data['reasonblack_list']);
 			$date->setValue($data['date_blacklist']);
 			$status->setValue($data['status_blacklist']);

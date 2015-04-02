@@ -27,8 +27,13 @@ class Group_Model_DbTable_DbClientBlackList extends Zend_Db_Table_Abstract
     }
     function getAllBlackList($search=null){
     	$db=$this->getAdapter();
-    	$sql = "SELECT client_id,name_kh,name_en,sex,client_number,branch_id,is_blacklist,reasonblack_list,date_blacklist,
-    	status_blacklist,status FROM $this->_name where status_blacklist=1  ";
+    	$sql = "SELECT client_id,name_kh,name_en,
+				(SELECT name_en FROM ln_view WHERE `type` = 11 AND key_code = sex)AS sex,client_number,
+				(SELECT `branch_namekh` FROM `ln_branch` WHERE `br_id` = branch_id )branch_id,
+				(SELECT name_en FROM ln_view WHERE `type` = 22 AND key_code = is_blacklist)AS is_blacklist,
+    			reasonblack_list,date_blacklist,
+    			(SELECT name_en FROM ln_view WHERE `type` = 22 AND key_code = status_blacklist)AS status_blacklist,
+    			status FROM ln_client WHERE status_blacklist=1 AND is_blacklist= 1";
     	$where = '';
     	if(!empty($search['adv_search'])){
     		$s_where = array();

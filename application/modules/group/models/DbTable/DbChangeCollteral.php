@@ -19,7 +19,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    		$this->_name = 'ln_changecollteral';
 	    		$arr = array(
 	    			'branch_id'=>$data['branch_id'],
-	    			//'collteral_id'=>$data['collteral_id'],
+	    			'collteral_id'=>$data['collteral_id'],
 					'owner_code_id'=>$data['client_code'],
 	    			'owner_id'=>$data['client_name'],
 	    			'from_id'=>$data['from'],
@@ -72,9 +72,9 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$db=$this->getAdapter();
 		$db->beginTransaction();
 		try {
-			$this->_name='ln_client_callecteral';
-			$where=" id = ".$data['collteral_id'];
 			
+// 			$db->getProfiler()->setEnabled(true);
+			$this->_name='ln_client_callecteral';
 			$arr_collteral = array(
 					'branch_id'=>$data['branch_id'],
 					'changecollteral_id'=>$data['changecollteral_id'],
@@ -88,12 +88,16 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 					'status'=>$data['Stutas'],
 					'user_id'=>$this->getUserId(),
 			);
+			$where="id = ".$data['collteral_id'];
 			$this->update($arr_collteral,$where);
 			$this->_name = 'ln_changecollteral';
-			
+// 			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+// 			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+// 			$db->getProfiler()->setEnabled(false);			
+// 			$db->getProfiler()->setEnabled(true);
 		$arr = array(
     			'branch_id'=>$data['branch_id'],
-				'collteral_id'=>$data['collteral_id'],
+				//'collteral_id'=>$data['collteral_id'],
 				'owner_code_id'=>$data['client_code'],
     			'owner_id'=>$data['client_name'],
     			'from_id'=>$data['from'],
@@ -102,14 +106,18 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
     			'number_code'=>$data['number_code'],
     			'owner'=>$data['owner_name'],
     			'date'=>$data['date'],
-    			'note'=>$data['note'],
+    			'note'=>$data['_note'],
     			'status'=>$data['Stutas'],
     			'user_id'=>$this->getUserId()
 				);
 		$where=" id = ".$data['id'];
 		$this->update($arr, $where);
 		
+// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+// 		$db->getProfiler()->setEnabled(false);
 		
+// 		$db->getProfiler()->setEnabled(true);
 		$_arr=array(
 				'collteral_id'=>$data['collteral_id'],
 				'giver_name'=>$data['giver_name'],
@@ -120,9 +128,15 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$this->_name="ln_return_collteral";
 		$where="change_id= ".$data['id'];
 		$this->update($_arr, $where);
+		
+// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+// 		$db->getProfiler()->setEnabled(false);
+		//exit();
 		$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
+			echo $e->getMessage();
 		}
 	}
 	function getChangeCollteralbyid($id){
