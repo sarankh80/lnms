@@ -110,7 +110,7 @@
 		 </td>
 	</tr>		
 </table>
-<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
 <input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -128,17 +128,17 @@
 	</style>
 		<table cellspacing="10" class='fullside fontsize'>
 				   <tr>
-					   	<td align="center" colspan="3">	
+					   	<td align="center" colspan="6">	
 					   <table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
-					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="60px;"/></td>
 						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['group_payment_title'];?></strong></td>
 							</tr>
 					   	</table>
 			            </td>	   	        
 				   </tr> 
 				   <tr>
-					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
+					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; font-size:14px; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
 					</tr> 
 				   <tr>
 					    <td></td>
@@ -178,7 +178,7 @@
 					<td class="border"><lable id="lbl_group_member"></lable></td>
 					<td>លេខកូដអតិថិជន :</td>
 					<td class="border"><lable id="lbl_group_code"></lable></td>
-					<td>ស្គែន/បញ្ចូលលេខកូដកម្ចី :</td>
+					<td>លេខកូដកម្ចី :</td>
 					<td class="border"><lable id="lbl_laon_nomber"></lable></td>
 					
 			</tr>
@@ -379,9 +379,9 @@ function getPayment(){
     tem += '<td>&nbsp;'+<?php echo $r["total_payment"];?>+' '+curr+'&nbsp;<input type="hidden" name="payment_'+<?php echo $inx;?>+'" id="payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
     tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="hidden" name="pay_after_'+<?php echo $inx;?>+'" id="pay_after_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
     tem += '<td>&nbsp;<?php echo $r["pay_before"];?><input type="hidden" name="pay_before_'+<?php echo $inx;?>+'" id="pay_before_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_before"];?>" /></td>';
-    if(<?php echo $r["is_complete"];?> == 1){
+    if(<?php echo $r["is_completed"];?> == 1){
 		status = '<label style="color:blue;">បង់រួច</label>';
-		if(<?php echo $r["is_complete"];?>==1){is_appr='<label style="color:blue;">Approved</label>';}
+		if(<?php echo $r["is_completed"];?>==1){is_appr='<label style="color:blue;">Approved</label>';}
 	}else{
 		if(is_set!=1){
 			getdataPaymentToForm(<?php echo $inx;?>);

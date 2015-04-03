@@ -42,11 +42,16 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
   {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
+			$identify = $_data["identity"];
 			try {
-				
-				$db = new Loan_Model_DbTable_DbLoanILPayment();
-				$db->addILPayment($_data);
-				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+				if($identify==""){
+					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/il-payment/");
+					//exit();
+				}else {
+					$db = new Loan_Model_DbTable_DbLoanILPayment();
+					$db->addILPayment($_data);
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
+				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -67,6 +72,11 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		);
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		
+		$db_keycode = new Application_Model_DbTable_DbKeycode();
+		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$session_user=new Zend_Session_Namespace('auth');
+		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	}	
 	
 	function editAction()
@@ -75,9 +85,15 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
+			$identify = $_data["identity"];
 			try {
-				$db->addILPayment($_data);
-				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/global/index/subject-list");
+				if($identify==""){
+					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/il-payment/");
+					//exit();
+				}else {
+					$db->updateIlPayment($_data);
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
+				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -89,21 +105,31 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		
 		$getIlDetail = $db->getIlDetail($id);
 		
-		$condiction = array(
-				'type'	=>	3,
-				'loan_number' =>$payment_il["group_id"]
-		);
-		$db_il = new Loan_Model_DbTable_DbLoanILPayment();
-			$row = $db_il->getLoanPaymentByLoanNumber($condiction);
+// 		merge array;
+// 		$condiction = array(
+// 				'type'	=>	3,
+// 				'loan_number' =>$payment_il["group_id"]
+// 		);
+// 		$db_il = new Loan_Model_DbTable_DbLoanILPayment();
+// 			$row = $db_il->getLoanPaymentByLoanNumber($condiction);
 			
-		$new_array = array_merge($getIlDetail,$row);
+// 		$new_array = array_merge($getIlDetail,$row);
 			//print_r($new_array);
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmAddIlPayment($payment_il);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		//$aaray = array_m
 		$this->view->frm_ilpayment = $frm_loan;
-		$this->view->ilPayent = $new_array;
+		$this->view->ilPayent = $getIlDetail;
+		$this->view->client_id=$payment_il["group_id"];
+		$this->view->client_code=$payment_il["group_id"];
+		$this->view->loan_number=$payment_il["loan_number"];
+		
+		$db_keycode = new Application_Model_DbTable_DbKeycode();
+		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$session_user=new Zend_Session_Namespace('auth');
+		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	
 	}
 	function getLoannumberAction(){

@@ -41,11 +41,18 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			$db->addGroupPayment($_data);
+			$identify = $_data["identity"];
 			try {
-				
+				if($identify=""){
+					Application_Form_FrmMessage::Sucessfull("Client is no loan to pay", "/loan/GroupPayment");
+				}else{
+					$db->addGroupPayment($_data);
+				}
 			}catch (Exception $e) {
-				
+				echo $e->getMessage();
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
 		$frm = new Loan_Form_FrmIlPayment();
@@ -71,9 +78,14 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			//print_r($_data);exit();
+			$identity = $_data["identity"];
 			try {
-				$db->updateGroupPayment($_data);
+				if($identity==""){
+					Application_Form_FrmMessage::Sucessfull("Group Client no loan to pay!", "/loan/GroupPayment");
+				}else{
+					$db->updateGroupPayment($_data);
+					Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
+				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
 			}
@@ -98,10 +110,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 	
 		$rs_receipt_detail = $db->getGroupPaymentDetail($id);
-		print_r($rs_receipt_detail);
-		
-		
-		
 		$this->view->reciept_detail = $rs_receipt_detail;
 		$this->view->group_id = $rs["group_id"];
 		$this->view->client_code = $rs["client_code"];

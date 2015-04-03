@@ -45,9 +45,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	public function getIlDetail($id){
 		$db = $this->getAdapter();
 		$sql="SELECT 
-				  (SELECT id FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS crmd_id,
-				  (SELECT `lfd_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS id,
-				  (SELECT capital FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS total_principal,
+				  
 				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id) AS `currency_type`,
 				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
 				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
@@ -199,35 +197,38 @@ public function addILPayment($data){
     		echo $e->getMessage();exit();
     	}
     }
-    function updateGroupPayment($data){
+    function updateIlPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	$session_user=new Zend_Session_Namespace('auth');
     	$user_id = $session_user->user_id;
     	$query = new Application_Model_DbTable_DbGlobal();
     	$id= $data["id"];
+    	$identify_detail = $data["identity"];
     	try{
+    		
     		$arr_client_pay = array(
-    				'co_id'							=>		$data['co_id'],
-    				'group_id'						=>		$data["group_id"],
-    				'receiver_id'					=>		$data['reciever'],
-    				'receipt_no'					=>		$data["reciept_no"],
-    				'branch_id'						=>		$data['branch_id'],
-    				'loan_number'					=>		$data['loan_number'],
-    				'date_pay'						=>		$data['collect_date'],
-    				'date_input'					=>		$data["date_input"],
-    				'principal_amount'				=>		$data["priciple_amount"],
-    				'total_principal_permonth'		=>		$data['os_amount'],
-    				'total_payment'					=>		$data['total_payment'],
-    				'total_interest'				=>		$data['total_interest'],
-    				'recieve_amount'				=>		$data['amount_receive'],
-    				'penalize_amount'				=>		$data['penalize_amount'],
-    				'return_amount'					=>		$data['amount_return'],
-    				'service_charge'				=>		$data['service_charge'],
-    				'total_discount'				=>		$data["discount"],
-    				'note'							=>		$data['note'],
-    				'user_id'						=>		$user_id,
-    				'is_group'						=>		1,
+    			'co_id'							=>		$data['co_id'],
+    			'group_id'						=>		$data["client_id"],
+    			'receiver_id'					=>		$data['reciever'],
+    			//'receipt_no'					=>		$reciept_no,
+    			'branch_id'						=>		$data['branch_id'],
+    			'loan_number'					=>		$data['loan_number'],
+    			'date_pay'						=>		$data['collect_date'],
+    			'date_input'					=>		$data["date_input"],
+    			'principal_amount'				=>		$data["priciple_amount"],
+    			'total_principal_permonth'		=>		$data['os_amount'],
+    			'total_payment'					=>		$data['total_payment'],
+    			'total_interest'				=>		$data['total_interest'],
+    			'recieve_amount'				=>		$data['amount_receive'],
+    			'penalize_amount'				=>		$data['penalize_amount'],
+    			'return_amount'					=>		$data['amount_return'],
+    			'service_charge'				=>		$data['service_charge'],
+    			'total_discount'				=>		$data["discount"],
+    			'note'							=>		$data['note'],
+    			'user_id'						=>		$user_id,
+    			'is_group'						=>		0,
+    			
     		);
     		$this->_name = "ln_client_receipt_money";
     		$where = $db->quoteInto("id=?", $data["id"]);
@@ -238,7 +239,7 @@ public function addILPayment($data){
     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
     		$db->getProfiler()->setEnabled(false);
     		
-    			$loan_fun = $this->getGroupPaymentDetail($id);
+    			$loan_fun = $this->getIlDetail($id);
     			foreach ($loan_fun as $row){
 	    			$array = array(
 	    				'is_completed'  =>0,
@@ -265,22 +266,23 @@ public function addILPayment($data){
     			//     			print_r($data["mfdid_".$i]);
     			if(@$data["mfdid_".$i]){
     				$arr_money_detail = array(
-    						'crm_id'				=>		$client_pay,
-    						'lfd_id'				=>		$data["mfdid_".$i],
-    						'client_id'				=>		$data["client_id_".$i],
-    						'date_payment'			=>		$data["date_payment_".$i],
-    						'capital'				=>		$data["total_priciple_".$i],
-    						'remain_capital'		=>		$data["total_priciple_".$i] - $data["principal_permonth_".$i],
-    						'principal_permonth'	=>		$data["principal_permonth_".$i],
-    						'total_interest'		=>		$data["interest_".$i],
-    						'total_payment'			=>		$data["payment_".$i],
-    						'currency_id'			=>		$data["curr"],
-    						'pay_before'			=>		$data['pay_before_'.$i],
-    						'pay_after'				=>		$data['pay_after_'.$i],
-    						'is_complete'			=>		1,
-    						'is_verify'				=>		0,
-    						'verify_by'				=>		0,
-    						'is_closingentry'		=>		0
+    					'crm_id'				=>		$client_pay,
+    					'lfd_id'				=>		$data["mfdid_".$i],
+    					'client_id'				=>		$data["client_id_".$i],
+    					'date_payment'			=>		$data["date_payment_".$i],
+    					'capital'				=>		$data["total_priciple_".$i],
+    					'remain_capital'		=>		$data["total_priciple_".$i] - $data["principal_permonth_".$i],
+    					'principal_permonth'	=>		$data["principal_permonth_".$i],
+    					'total_interest'		=>		$data["interest_".$i],
+    					'total_payment'			=>		$data["payment_".$i],
+    					'currency_id'			=>		$data["curr"],
+    					'pay_before'			=>		$data['pay_before_'.$i],
+    					'pay_after'				=>		$data['pay_after_'.$i],
+    					'is_completed'			=>		1,
+    					'is_verify'				=>		0,
+    					'verify_by'				=>		0,
+    					'is_closingentry'		=>		0,
+    					'status'				=>		$data["option_pay"]
     				);
     				
     				$db->getProfiler()->setEnabled(true);
@@ -303,6 +305,7 @@ public function addILPayment($data){
     	
     			}
     		}
+    		exit();
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
@@ -319,7 +322,7 @@ public function addILPayment($data){
     	$db = $this->getAdapter();
     	$loan_number= $data['loan_number'];
     	if($data['type']!=1){
-    		$where =($data['type']==2 AND $data["type"]==3)?'client_id = '.$loan_number:'client_id='.$loan_number;
+    		$where =($data['type']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
     		$sql ="SELECT 
 					  lc.`client_id`,
 					  lc.`client_number`,
@@ -337,13 +340,12 @@ public function addILPayment($data){
 					  `ln_loan_member` AS lm ,
 					  `ln_loan_group` AS lg,
 					  `ln_loanmember_funddetail` AS lf
-					WHERE lc.`parent_id`=(SELECT client_id FROM `ln_client` WHERE $where LIMIT 1)
-					  AND lg.`g_id`=lm.`group_id`
+					WHERE lg.`g_id`=lm.`group_id`
 					  AND lf.`member_id`=lm.`member_id`
 					  AND lm.`client_id`=lc.`client_id`
-					  AND lg.`group_id`=lc.`parent_id`
 					  AND lg.`loan_type`=1
-    					AND lf.`is_completed`=0
+    				  AND lf.`is_completed`=0
+    				  AND $where
     				";
     	}elseif($data['type']==1){
     		$where = 'lm.`loan_number`='.$loan_number;
@@ -364,11 +366,9 @@ public function addILPayment($data){
 					  `ln_loan_member` AS lm ,
 					  `ln_loan_group` AS lg,
 					  `ln_loanmember_funddetail` AS lf
-					WHERE lc.`parent_id`=(SELECT client_id FROM `ln_client` LIMIT 1)
-					  AND lg.`g_id`=lm.`group_id`
+					WHERE lg.`g_id`=lm.`group_id`
 					  AND lf.`member_id`=lm.`member_id`
 					  AND lm.`client_id`=lc.`client_id`
-					  AND lg.`group_id`=lc.`parent_id`
 					  AND lg.`loan_type`=1
 					  AND $where
     				AND lf.`is_completed`=0";

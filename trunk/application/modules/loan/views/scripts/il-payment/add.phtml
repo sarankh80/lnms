@@ -112,7 +112,7 @@
 </form>
 <div class="dijitHidden">
 	
-	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'បោះពុម្ភ វិក័យបត្រ', onCancel:hideDialog" id="frm_client" style="width:800px">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'បោះពុម្ភ វិក័យបត្រ', onCancel:hideDialog" id="frm_client" style="width:1000px">
 	<div id="rpt_print" class="print">
 	<style type="text/css">
 		td.border {
@@ -121,20 +121,21 @@
 		div #rpt_print{font-size:12px !important; margin:0 auto;}
 		 
 		 .fontsize{ font-size:10px !important; margin:0 auto;}
+		 td{width:100px;}
 	</style>
 		<table cellspacing="10" class='fullside fontsize'>
 				   <tr>
-					   	<td align="center" colspan="3">	
+					   	<td align="center" colspan="6">	
 					   <table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
-					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['group_payment_title'];?></strong></td>
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="60px;"/></td>
+						   		<td align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['il_payment_title'];?></strong></td>
 							</tr>
 					   	</table>
 			            </td>	   	        
 				   </tr> 
 				   <tr>
-					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
+					   	<td align="center" colspan="6" style="font-family:'KH Koulen';font-size:13px; border-bottom:1px solid #000"><?php echo $this->keycode['il_payment'];?></td>	   	        
 					</tr> 
 				   <tr>
 					    <td></td>
@@ -142,7 +143,7 @@
 						<td></td>
 						<td></td>
 						<td>កាលបរិច្ឆេទ :</td>
-						<td align="right" style="font-size: 8pt;" >
+						<td align="left" style="font-size: 8pt;" >
 							 <?php echo date('d-m-Y H:i:s');?><br/>
 						</td>
 				   </tr>
@@ -154,7 +155,7 @@
 					<td></td>
 					<td>ឈ្មោះបុគ្គលិក :</td>
 					<td class="border">
-						<strong class="fonttel" style="font-size:10px;"><label id="lblinvioice"><?php print($this->user_name);?></label></strong>
+						<strong class="fonttel" style="font-size:12px;"><label id="lblinvioice"><?php print($this->user_name);?></label></strong>
 					</td>
 					
 			</tr>
@@ -163,18 +164,18 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td>វិក័យបត្រ :</td>
+					<td>លេខវិក័យបត្រ :</td>
 					<td class="border">
-								<strong class="fonttel" style="font-size:10px;"><label style="color:blue" id="lbl_reciept_no"></label></strong>
+								<strong class="fonttel" style="font-size:12px;"><label style="color:blue" id="lbl_reciept_no"></label></strong>
 					</td>
 					
 			</tr>
 			<tr class="fontsize">
-					<td>ឈ្មោះប្រធានក្រុម :</td>
+					<td>ឈ្មោះអតិថិជន :</td>
 					<td class="border"><lable id="lbl_group_member"></lable></td>
 					<td>លេខកូដអតិថិជន :</td>
 					<td class="border"><lable id="lbl_group_code"></lable></td>
-					<td>ស្គែន/បញ្ចូលលេខកូដកម្ចី :</td>
+					<td>លេខកូដកម្ចី :</td>
 					<td class="border"><lable id="lbl_laon_nomber"></lable></td>
 					
 			</tr>
@@ -222,8 +223,8 @@
 			<tr class="fontsize" style="margin-top:20px;line-height: 60px">
 					<td></td>
 					<td></td>
-					<td colspan="2" align="center">ហត្ថលេខាអ្នកទទួល </td>
-					<td colspan="2" align="center">ហត្ថលេខាអ្នកបង់ </td>
+					<td colspan="2" align="center">ហត្ថលេខា អ្នកទទួល </td>
+					<td colspan="2" align="center">ហត្ថលេខាអ្នក បង់ប្រាក់ </td>
 			</tr>
 			<tr class="fontsize" style="margin-top:20px;line-height: 20px">
 					<td></td>
@@ -243,8 +244,16 @@
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 function showReciept(){
+	var client_name = dijit.byId('client_id').attr('displayedValue');
+	var arrays = client_name.split(',');
+	
+	for(var i=0;i<1;i++){
+		alert(arrays[0]);
+		document.getElementById('lbl_group_member').innerHTML = arrays[0];
+	}
+	
 	document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-	document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
+	//document.getElementById('lbl_group_member').innerHTML = dijit.byId('client_id').attr('displayedValue');
 	document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
 	document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
 	document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
