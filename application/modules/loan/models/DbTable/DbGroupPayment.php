@@ -240,7 +240,7 @@ function getLoanPaymentByLoanNumber($data){
     					'currency_id'			=>		$data["curr"],
     					'pay_before'			=>		$data['pay_before_'.$i],
     					'pay_after'				=>		$data['pay_after_'.$i],
-    					'is_complete'			=>		1,
+    					'is_completed'			=>		1,
     					'is_verify'				=>		0,
     					'verify_by'				=>		0,
     					'is_closingentry'		=>		0
@@ -285,7 +285,7 @@ function getLoanPaymentByLoanNumber($data){
     				'co_id'							=>		$data['co_id'],
     				'group_id'						=>		$data["group_id"],
     				'receiver_id'					=>		$data['reciever'],
-    				'receipt_no'					=>		$data["reciept_no"],
+    				//'receipt_no'					=>		$data["reciept_no"],
     				'branch_id'						=>		$data['branch_id'],
     				'loan_number'					=>		$data['loan_number'],
     				'date_pay'						=>		$data['collect_date'],
@@ -351,7 +351,7 @@ function getLoanPaymentByLoanNumber($data){
     						'currency_id'			=>		$data["curr"],
     						'pay_before'			=>		$data['pay_before_'.$i],
     						'pay_after'				=>		$data['pay_after_'.$i],
-    						'is_complete'			=>		1,
+    						'is_completed'			=>		1,
     						'is_verify'				=>		0,
     						'verify_by'				=>		0,
     						'is_closingentry'		=>		0
@@ -441,6 +441,13 @@ function getLoanPaymentByLoanNumber($data){
 				  `ln_client_receipt_money_detail` AS lcrmd 
 				WHERE lcrmd.`crm_id` = (SELECT id FROM `ln_client_receipt_money` WHERE id=$id)";
     	return $db->fetchAll($sql);
+    }
+    public function getClientByBranch($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT c.`client_id`,c.`client_number`,c.`name_en` FROM `ln_client` AS c WHERE c.`is_group`=1 AND c.`branch_id`=$id";
+    	return $db->fetchAll($sql);
+    	
+    	
     }
 }
 
