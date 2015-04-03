@@ -1,5 +1,5 @@
 <?php
-class accounting_AssetController extends Zend_Controller_Action {
+class accounting_DeposalController extends Zend_Controller_Action {
 	const REDIRECT_URL = '/accounting/asset';
 	public function init()
 	{
@@ -39,7 +39,7 @@ class accounting_AssetController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME ","FIXED_ASSETNAME ","FIXED_ASSET_TYPE","ASSET_COST","PAY_TYPE","USEFULL_LIFE","SALVAGEVALUE","AUTO_POST","PAYMANT_AMOUNT","PAYMANT_MATHOD","STATUS","NOTE");
+			$collumns = array("BRANCH_NAME ","FIXED_ASSETNAME ","FIXED_ASSET_TYPE","ASSET_COST","PAY_TYPE","USEFULL_LIFE","SALVAGEVALUE","PAYMANT_MATHOD","STATUS","NOTE");
 			$link=array(
 					'module'=>'accounting','controller'=>'asset','action'=>'index',
 			);
