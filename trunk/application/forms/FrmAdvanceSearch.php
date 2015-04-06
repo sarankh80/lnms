@@ -23,7 +23,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH_FACULTY_NAME")
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		
@@ -56,6 +56,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
 				'iconclass'=>'dijitIconSearch',
+				'label'=>'Search'
 				
 				));
 		

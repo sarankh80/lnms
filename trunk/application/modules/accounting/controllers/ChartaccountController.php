@@ -42,7 +42,7 @@ public function indexAction()
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("account_type","parent","category","account_code","account_name_en","account_name_kh","status");
+			$collumns = array("ACCOUNT_TYPE","PARENT","CATEGORY","ACCOUNT_CODE","ACCOUNT_NAME_EN","ACCOUNT_NAME_KH","STATUS");
 			$link=array(
 					'module'=>'accounting','controller'=>'chartaccount','action'=>'edit',
 			);

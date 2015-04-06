@@ -16,7 +16,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	client_number ,
     	name_en,
     	client_id
-    	FROM $this->_name lm WHERE status=1 ";
+    	FROM $this->_name lm WHERE status=1 AND name_en !='' AND is_group=0  "; ///just and is_group =0;
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
     	$options=array(0=>'------Select------');
@@ -174,11 +174,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					'semi'=>$data['amount_collect_pricipal']
     			);
     			$this->_name='ln_loan_member';
-    			$db->getProfiler()->setEnabled(true);
     			$member_id = $this->insert($datamember);//add member loan
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    			$db->getProfiler()->setEnabled(false);
     			unset($datamember);
     			
     			$arr =array(
@@ -380,6 +376,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     							'branch_id'=>1,
     							'status'=>1,
     							'amount_day'=>$old_amount_day,
+    							'collect_by'=>$data['co_id']
     					);
     					$this->insert($datapayment);
     					$amount_collect=0;
@@ -441,6 +438,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						'branch_id'=>1,
     						'status'=>1,
     						'amount_day'=>$amount_day,
+    						'collect_by'=>$data['co_id']
     				);
     				$this->insert($datapayment);
     				
@@ -710,6 +708,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						'branch_id'=>1,
     						'status'=>1,
     						'amount_day'=>$old_amount_day,
+    						'collect_by'=>$data['co_id']
     				);
     				$this->insert($datapayment);
     				$amount_collect=0;
@@ -771,6 +770,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					'branch_id'=>1,
     					'status'=>1,
     					'amount_day'=>$amount_day,
+    					'collect_by'=>$data['co_id']
     			);
     			$this->insert($datapayment);
     	
