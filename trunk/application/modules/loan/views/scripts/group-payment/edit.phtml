@@ -329,10 +329,6 @@ function AddNewCo(){
 	});
 }
 dojo.ready(function(){	
-	var y = 2012;
-	var m = 2;
-	var daysInMonth = new Date(y,m,1,-1).getDate();
-	//getLoanById(3);
 	getPayment();
 });
 function getPayment(){
@@ -450,7 +446,6 @@ function getLoanById(type){
 	var teamGroup = dijit.byId('group_id').get('value');
 	var clientCode = dijit.byId('client_code').get('value');
 	var loanNumber = dijit.byId('loan_number').get('value');
-	alert(clientCode);
 	
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'get-loannumber')); ?>';
 		dojo.xhrPost({
@@ -640,7 +635,7 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ps)&&ps!=0){
 					 		  penalize_amount = parseFloat(ps).toFixed(2);
-						 	    after_penalize_amount = after_penalize_amount + penalize_amount;
+						 	    after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
 						 	   totalAmount = totalAmount + (totalPay + penalize_amount);
 					 	   }else{
 						 	    batch
@@ -670,8 +665,8 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ds)&&ds!=0){
 						 	    discount = parseFloat(ds).toFixed(2);
-						 	    after_discount = after_discount + discount;
-						 	   totalAmount = totalAmount + (totalPay - discount);
+						 	    after_discount = after_discount + (discount/30)*(Math.abs(total_date)));
+						 	   totalAmount = totalAmount + (totalPay - ((discount/30)*(Math.abs(total_date))));
 					 	   }else{
 						 	    batch
 						 	    after_discount = after_discount+ds;
