@@ -609,14 +609,14 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	if($holiday_status==3){
   		return $next_payment;//if normal day
-  	}else{
+  	}else{//check for sat and sunday
 //   		$this->getSystemSetting('work_saturday');
-  		
+  		while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
+  			$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
+  		}
+  		return $next_payment;
   	}
-  	while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
-  		$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
-  	}
-  	return $next_payment;
+  	
   }
   public function getNextDateById($pay_term,$amount_next_day){
   	if($pay_term==3){

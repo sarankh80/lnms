@@ -30,6 +30,7 @@ public function init()
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
+				
 		));
 		
 		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
@@ -49,7 +50,8 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(1);'
 		));
-		$group_opt = $dbs ->getClient(1);//code,individual,option
+// 		$group_opt = $dbs ->getClient(1);//code,individual,option
+		$group_opt = $db->getGroupCodeById(1,0,1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
 		
 		
@@ -59,7 +61,10 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getClientInfo(2)'
 		));
-		$options = $dbs->getClient(2);
+// 		$options = $dbs->getClient(2);
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$options = $db->getGroupCodeById(2,0,1);
 		$_member->setMultiOptions($options);
 		
 		$db = new Application_Model_DbTable_DbGlobal();
