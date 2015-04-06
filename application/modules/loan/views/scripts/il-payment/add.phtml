@@ -248,7 +248,6 @@ function showReciept(){
 	var arrays = client_name.split(',');
 	
 	for(var i=0;i<1;i++){
-		alert(arrays[0]);
 		document.getElementById('lbl_group_member').innerHTML = arrays[0];
 	}
 	
@@ -333,7 +332,7 @@ function AddNewCo(){
 		},
 		error: function(err) {
 			alert(err);
-		alert("Your message could not be sent, please try again!.");
+		//alert("Your message could not be sent, please try again!.");
 				        
 		}
 	});
@@ -546,7 +545,7 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ps)&&ps!=0){
 					 		  penalize_amount = parseFloat(ps);
-					 		 after_penalize_amount = after_penalize_amount + parseFloat(penalize_amount);
+					 		 after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
 						 	   totalAmount = totalAmount + (parseFloat(totalPay) + parseFloat(penalize_amount));
 						 	   alert(penalize_amount);
 					 	   }else{
@@ -590,10 +589,10 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ds)&&ds!=0){
 						 	    discount = parseFloat(ds).toFixed(2);
-						 	   
+						 	   alert(total_date);
 						 	   if(payOption==1 || payOption==2){
-							 	  totalAmount = totalAmount + (parseFloat(totalPay) - parseFloat(discount));
-							 	 after_discount = parseFloat(after_discount) + parseFloat(discount);
+							 	  totalAmount = totalAmount + (parseFloat(totalPay) - ((discount/30)*(Math.abs(total_date))));
+							 	 after_discount = parseFloat(after_discount) + ((discount/30)*(Math.abs(total_date)));
 							 	total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
 							 	}else{
 							 		totalAmount = totalAmount + parseFloat(principlePerMonth);
@@ -618,7 +617,7 @@ function calculateTotal(index){
 		}
 	}
 	dijit.byId('penalize_amount').attr('value',after_penalize_amount.toFixed(2));
-    dijit.byId('discount').attr('value',after_discount);
+    dijit.byId('discount').attr('value',after_discount.toFixed(2));
 	dijit.byId('total_payment').attr('value',totalAmount);
 	dijit.byId('os_amount').attr('value',os_amount);
 	dijit.byId('total_interest').attr('value',total_interest);

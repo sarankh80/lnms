@@ -299,8 +299,6 @@ function submitData(){
 			form: dojo.byId("frm_add_tran"),		    
 			load: function(data) {	
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-				//alert(data);
-				
 			},
 			error: function(e) {
 				alert("Your message could not be sent, please try again!.");
@@ -324,16 +322,13 @@ function AddNewCo(){
 		},
 		error: function(err) {
 			alert(err);
-		alert("Your message could not be sent, please try again!.");
+		//alert("Your message could not be sent, please try again!.");
 				        
 		}
 	});
 }
 dojo.ready(function(){	
-	var y = 2012;
-	var m = 2;
-	var daysInMonth = new Date(y,m,1,-1).getDate();
-	//document.
+	
 });
 temp='';
 r = 0;
@@ -449,105 +444,6 @@ function getLaonPayment(type){
 function popupCheckCO(){
 }
 
-// function calculateDatePay() {
-// 	var date_collect = dijit.byId('collect_date').get('value');
-// 	var oneDay = 24*60*60*1000;
-// 	var after_penalize_amount = 0;
-// 	var after_discount = 0;
-// 	var totalAmount = 0;
-// 	if($('#check_all').attr('checked')){
-// 		$('.checkbox').each(function() { //loop through each checkbox
-//             this.checked = true;  
-// 		});
-// 		var ids =dijit.byId('record_id').get('value');
-//     	var arrays = ids.split(',');
-    	
-//     	for(var i=0;i<arrays.length;i++){
-//         	var totalPay = $('#payment_'+arrays[i]).val();
-//     		if($('#mfdid_'+arrays[i]).attr('checked')){
-//         		pay_date = new Date($('#date_payment_'+arrays[i]).val());
-//         		month = pay_date.getMonth()+1;
-//         		var datePay = month+'/'+pay_date.getDate()+'/'+pay_date.getFullYear();
-// 				total_date = Math.round((date_collect - pay_date)/(oneDay));
-// 				alert(total_date);
-// 				if(total_date>0){
-// 					var ps = $('#pay_after_'+arrays[i]).val();
-					
-// 					if(ps.length!=0){
-// 					 	if(ps.indexOf("%")!==-1){
-// 					 	   var pps=ps.split("%");
-// 					 	   if(!isNaN(pps[0])){
-// 					 		  var rate_day = parseFloat(pps[0])/30;
-// 						 	    var penalize_amount=(totalPay*(rate_day*total_date))/100;
-// 						 	    after_penalize_amount = after_penalize_amount + parseFloat(penalize_amount);
-// 						 	   totalAmount = totalAmount + (parseFloat(totalPay) + parseFloat(penalize_amount));
-// 						 	    alert("After"+after_penalize_amount.toFixed(2));
-
-// 					 	   }else{
-// 						 	    after_penalize_amount = after_penalize_amount + ps;
-// 						 	   totalAmount = totalAmount + ps;
-// 						 	   //alert("a");
-// 					 	   }
-// 					 	  }else{
-// 						 	   if(!isNaN(ps)&&ps!=0){
-// 						 		  penalize_amount = parseFloat(ps).toFixed(2);
-// 							 	    after_penalize_amount = after_penalize_amount + penalize_amount;
-// 							 	   totalAmount = totalAmount + (totalPay + penalize_amount);
-// 						 	   }else{
-// 							 	    batch
-// 							 	    after_penalize_amount = after_penalize_amount + ps;
-// 							 	   totalAmount = totalAmount + totalPay;
-// 						 	   }
-// 					 	  }
-// 					}
-					
-// 				}else{
-// 					var ds = $('#pay_before_'+arrays[i]).val();
-
-// 					if(ds.length!=0){
-// 					 	if(ds.indexOf("%")!==-1){
-// 					 	   var pds=ds.split("%");
-// 					 	   if(!isNaN(pds[0])){
-// 					 		  var rate_day = parseFloat(pds[0])/30;
-// 						 	   var discount=(totalPay*(rate_day*(Math.abs(total_date))))/100;
-// 						 	  after_discount = after_discount + parseFloat(discount);
-// 						 	  alert("dicount"+after_discount);
-// 						 	 totalAmount = totalAmount + (parseFloat(totalPay) - parseFloat(discount));
-
-// 					 	   }else{
-// 						 	    after_discount = after_discount + ds;
-// 						 	   totalAmount = totalAmount + (totalPay - ds);
-// 					 	   }
-// 					 	  }else{
-// 						 	   if(!isNaN(ds)&&ds!=0){
-// 							 	    discount = parseFloat(ds).toFixed(2);
-// 							 	    after_discount = after_discount + discount;
-// 							 	   totalAmount = totalAmount + (totalPay - discount);
-// 						 	   }else{
-// 							 	    batch
-// 							 	    after_discount = after_discount+ds;
-// 							 	   totalAmount = totalAmount + totalPay;
-// 						 	   }
-// 					 	  }
-// 					}
-// 				}
-//     	    }
-//         }
-//         dijit.byId('penalize_amount').attr('value',after_penalize_amount.toFixed(2));total_payment
-//         dijit.byId('discount').attr('value',after_discount.toFixed(2));
-//         dijit.byId('total_payment').attr('value',totalAmount.toFixed(2));
-        
-//   		//alert(after_penalize_amount);
-// 	}else{
-// 		dijit.byId('identity').attr('value','');
-// 		$('.checkbox').each(function() { //loop through each checkbox
-//             this.checked = false; //deselect all checkboxes with class "checkbox1" 
-//         });
-// 		dijit.byId('total_payment').attr('value',0);
-// 		dijit.byId('penalize_amount').attr('value',0);
-//         dijit.byId('discount').attr('value',0);
-// 	}
-// }
 function calculateTotal(index){
 	total_payment = 0;
 	os_amount = 0;
@@ -617,7 +513,7 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ps)&&ps!=0){
 					 		  penalize_amount = parseFloat(ps).toFixed(2);
-						 	    after_penalize_amount = after_penalize_amount + penalize_amount;
+						 	    after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
 						 	   totalAmount = totalAmount + (totalPay + penalize_amount);
 					 	   }else{
 						 	    batch
@@ -629,7 +525,6 @@ function calculateTotal(index){
 				
 			}else{
 				var ds = $('#pay_before_'+arrays[i]).val();
-
 				if(ds.length!=0){
 				 	if(ds.indexOf("%")!==-1){
 				 	   var pds=ds.split("%");
@@ -637,7 +532,6 @@ function calculateTotal(index){
 				 		  var rate_day = parseFloat(pds[0])/30;
 					 	   var discount=(totalPay*(rate_day*(Math.abs(total_date))))/100;
 					 	  after_discount = after_discount + parseFloat(discount);
-					 	 // alert("dicount"+after_discount);
 					 	 totalAmount = totalAmount + (parseFloat(totalPay) - parseFloat(discount));
 
 				 	   }else{
@@ -647,8 +541,8 @@ function calculateTotal(index){
 				 	  }else{
 					 	   if(!isNaN(ds)&&ds!=0){
 						 	    discount = parseFloat(ds).toFixed(2);
-						 	    after_discount = after_discount + discount;
-						 	   totalAmount = totalAmount + (totalPay - discount);
+						 	    after_discount = after_discount + ((discount/30)*(Math.abs(total_date)));
+						 	   totalAmount = totalAmount + (totalPay - ((discount/30)*(Math.abs(total_date))));
 					 	   }else{
 						 	    batch
 						 	    after_discount = after_discount+ds;
