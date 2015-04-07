@@ -99,6 +99,10 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
 		
+		$this->view->row = $rs;
+		$this->view->client = $db->getAllClient();
+		$this->view->clientCode = $db->getAllClientCode();
+		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		

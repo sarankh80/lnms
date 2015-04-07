@@ -40,6 +40,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
   }
   function addAction()
   {
+  	$db = new Loan_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			$identify = $_data["identity"];
@@ -48,7 +49,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/il-payment/");
 					//exit();
 				}else {
-					$db = new Loan_Model_DbTable_DbLoanILPayment();
+					
 					$db->addILPayment($_data);
 					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
 				}
@@ -74,6 +75,9 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$this->view->client = $db->getAllClient();
+		$this->view->clientCode = $db->getAllClientCode();
 		
 		$session_user=new Zend_Session_Namespace('auth');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
@@ -123,7 +127,11 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->ilPayent = $getIlDetail;
 		$this->view->client_id=$payment_il["group_id"];
 		$this->view->client_code=$payment_il["group_id"];
+		$this->view->branch_id=$payment_il["branch_id"];
 		$this->view->loan_number=$payment_il["loan_number"];
+		
+		$this->view->client = $db->getAllClient();
+		$this->view->clientCode = $db->getAllClientCode();
 		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();

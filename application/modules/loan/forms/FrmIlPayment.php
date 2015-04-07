@@ -68,11 +68,12 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'OnChange'	=>	'filterClient'
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array(''=>'--------Select----------');
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -247,17 +248,17 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'OnKeyup'=>'getLaonPayment(1);'
 		));
 		
-		$client_code = new Zend_Dojo_Form_Element_FilteringSelect("client_code");
-		$client_code->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'getLaonPayment(2);'
-		));
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($row))foreach($row AS $rows){
-			$options[$rows['client_id']]=$rows['client_number'];
-		}
-		$client_code->setMultiOptions($options);
+// 		$client_code = new Zend_Dojo_Form_Element_FilteringSelect("client_code");
+// 		$client_code->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'onchange'=>'getLaonPayment(2);'
+// 		));
+// 		$options=array(''=>"------Select------",-1=>"Add New");
+// 		if(!empty($row))foreach($row AS $rows){
+// 			$options[$rows['client_id']]=$rows['client_number'];
+// 		}
+// 		$client_code->setMultiOptions($options);
 		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_codes');
 		$_client_code->setAttribs(array(
@@ -408,9 +409,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			//print_r($data);
 			
 			$id->setValue($data["id"]);
-			$_groupid->setValue($data["group_id"]);
+// 			$_groupid->setValue($data["group_id"]);
 			$_coid->setValue($data["co_id"]);
-			$client_code->setValue($data["group_id"]);
+// 			$client_code->setValue($data["group_id"]);
 			$reciept_no->setValue($data["receipt_no"]);
 			$_loan_number->setValue($data["loan_number"]);
 			$_priciple_amount->setValue($data["principal_amount"]);
@@ -426,7 +427,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$discount->setValue($data["total_discount"]);
 		}
 		
-		$this->addElements(array($id,$client_code,$reciept_no,$discount,$date_input,$reciever,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($id,$reciept_no,$discount,$date_input,$reciever,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
