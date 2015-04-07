@@ -2,6 +2,7 @@
 	$this->headTitle('Add IL Payment'); 
 	echo $this->headTitle();
 	$frm = $this->frm_ilpayment;
+	$client = $this->client;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
@@ -22,61 +23,61 @@
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table class="center" cellspacing="10">
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
+							<td><?php echo $frm->getElement('loan_number');?></td>
 							<td><?php echo $tr->translate("វិក័យបត្រ")?></td>
 							<td><?php echo $frm->getElement('reciept_no');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
-							<td><?php echo $frm->getElement('group_id');?></td>
+							<td><?php //echo $frm->getElement('group_id');?>
+								<input id="group_id">
+							</td>
 							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
-							<td><?php  echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
-							<td><?php echo $frm->getElement('loan_number');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php  //echo $frm->getElement('client_code');?> <input id="client_code"></td>
 							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('collect_date');?></td>
+							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមនៅសល់")?></td>
 							<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមត្រូវសង")?></td>
 							<td><?php echo $frm->getElement('os_amount');?></td>
-							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
-							<td><?php echo $frm->getElement('total_interest');?></td>
 						</tr>
 						<tr>
-							
-							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
-							<td><?php echo $frm->getElement('penalize_amount');?></td>
+							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
+							<td><?php echo $frm->getElement('total_interest');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
 							<td><?php echo $frm->getElement('total_payment');?></td>
-							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
-							<td><?php echo $frm->getElement('note');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('penalize_amount');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
 							<td><?php echo $frm->getElement('service_charge');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('date_input');?></td>
+							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
+							<td><?php echo $frm->getElement('note');?></td>
+							
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("បញ្ចុះតម្លៃ")?></td>
+							<td><?php  echo $frm->getElement('discount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 						</tr>
 						<tr>
-							<td></td>
-							<td></td>
-							<td><?php echo $tr->translate("បញ្ចុះតម្លៃ")?></td>
-							<td><?php  echo $frm->getElement('discount');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('date_input');?></td>
+							
+							
+							
 						</tr>
 					</table>
 				</fieldset>
@@ -269,6 +270,9 @@ dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.require("dojo.data.ItemFileWriteStore"); 
 dojo.require("dijit.form.Textarea");
+dojo.require("dojo.store.Memory");
+dojo.require("dojo.data.ObjectStore");
+
     var tran_store  = getDataStorefromJSON('','name',null);
 	var tran_status = {};
 	function print(){
@@ -328,8 +332,52 @@ function AddNewCo(){
 	});
 }
 dojo.ready(function(){	
-	
+	var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->client));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "group_id",
+	id: "group_id",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getLaonPayment(3);
+}
+	}, "group_id");
+
+	var clientCode_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->clientCode));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: clientCode_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "client_code",
+	id: "client_code",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getLaonPayment(2);
+	}
+	}, "client_code");
 });
+function filterClient(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('group_id').query.branch_id = branch_id;
+	dijit.byId('client_code').query.branch_id = branch_id;
+	//alert(dijit.byId('branch_id').get('value'));
+	dijit.byId('group_id').reset();
+	dijit.byId('client_code').reset();
+}
 temp='';
 r = 0;
 fund_title=0;
@@ -680,7 +728,6 @@ function checkAll(index){
 function getdataPaymentToForm(data){//use
 	dijit.byId('group_id').attr('value',data.group_id);
 	dijit.byId('co_id').attr('value',data.co_id);
-	dijit.byId('branch_id').attr('value',data.branch_id);
 	dijit.byId('total_interest').attr('value',data.total_interest);
 	dijit.byId('loan_number').attr('value',data.loan_number);
 	dijit.byId('client_code').attr('value',data.group_id);
@@ -701,4 +748,6 @@ function totalReturn(){
 	amonut_return = receive_amount-total_payment;
 	dijit.byId('amount_return').attr('value',amonut_return);
 }
+
+
 </script>
