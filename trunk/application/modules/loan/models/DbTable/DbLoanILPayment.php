@@ -394,5 +394,16 @@ public function addILPayment($data){
 //     	return $db->fetchAll($sql);
 //     }
   
+   function getAllClient(){
+   	$db = $this->getAdapter();
+   	$sql = "SELECT c.`client_id` AS id ,c.`name_en` AS name ,c.`branch_id` FROM `ln_client` AS c WHERE c.`name_en`!='' " ;
+   	return $db->fetchAll($sql);
+   }
+   
+   function getAllClientCode(){
+   	$db = $this->getAdapter();
+   	$sql = "SELECT c.`client_id` AS id ,c.`client_number` AS name ,c.`branch_id` FROM `ln_client` AS c WHERE c.`name_en`!='' " ;
+   	return $db->fetchAll($sql);
+   }
 }
 
