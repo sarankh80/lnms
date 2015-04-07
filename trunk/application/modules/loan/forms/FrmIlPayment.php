@@ -225,20 +225,20 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 
 	public function FrmGroupPayment($data=null){
 	
-		$dbs = new Loan_Model_DbTable_DbLoanGroup();
+		$dbs = new Loan_Model_DbTable_DbGroupPayment();
 		$db = new Application_Model_DbTable_DbGlobal();
-		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
-		$_groupid->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'getLaonPayment(3);'
-		));
-		$row = $dbs->getGroupClient();
-		$options=array(''=>"------Select------",-1=>"Add New");
-		if(!empty($row))foreach($row AS $rows){
-			$options[$rows['client_id']]=$rows['name_en'];
-		}
-		$_groupid->setMultiOptions($options);
+// 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
+// 		$_groupid->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'onchange'=>'getLaonPayment(3);'
+// 		));
+// 		$row = $dbs->getAllClient();
+// 		$options=array(''=>"------Select------",-1=>"Add New");
+// 		if(!empty($row))foreach($row AS $rows){
+// 			$options[$rows['client_id']]=$rows['name_en'];
+// 		}
+// 		$_groupid->setMultiOptions($options);
 	
 		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
 		$_loan_number->setAttribs(array(
@@ -291,7 +291,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'OnChange'	=> 'filterClient();'
 		));
 	
 		$rows = $db->getAllBranchName();

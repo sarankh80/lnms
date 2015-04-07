@@ -61,6 +61,9 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$this->view->frm_ilpayment = $frm_loan;
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$this->view->client = $db->getAllClient();
+		$this->view->clientCode = $db->getAllClientCode();
 				
 		$session_user=new Zend_Session_Namespace('auth');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
@@ -129,6 +132,16 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Loan_Model_DbTable_DbGroupPayment();
 			$row = $db->getLoanPaymentByLoanNumber($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	function getClientByBranchAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$branch = $data["branch_id"];
+			$db = new Loan_Model_DbTable_DbGroupPayment();
+			$row = $db->getClientByBranch($branch);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}
