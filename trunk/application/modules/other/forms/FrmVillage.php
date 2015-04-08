@@ -110,16 +110,15 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		$opt_province = array($this->tr->translate("SELECT_PROVINCE"));
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
-		$_province->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'filterDistrict();'
-		));
 		
 		$_province->setMultiOptions($opt_province);
 		$_province->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
-				'class'=>'fullside',));
+				'class'=>'fullside',
+				'onchange'=>'filterDistrict();'
+				));
+		$_province->setValue($request->getParam("province_name"));
 		
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");

@@ -37,6 +37,14 @@ function filterDistrict(){
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'Commune','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
  <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+               if(dijit.byId('province_name').get('value')==0){
+				 alert('Please Select Province !');
+                 return false;
+                }
+             if(dijit.byId('district_name').get('value')==''){
+                 alert('Please Select District !');
+                 return false;
+              }
 				return true;
 			} else {
 				return false;
@@ -76,8 +84,7 @@ function filterDistrict(){
 						<tr>
 							<td colspan="2" align="center">
 							  <input type="hidden" name="exchangefrom" value="2" />
-											<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
-											<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"/>
+											<input type="reset" value="សំអាត" label="សំអាត" dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 											<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" />
 											<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 

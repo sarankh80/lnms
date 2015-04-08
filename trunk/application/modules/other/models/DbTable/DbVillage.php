@@ -41,24 +41,38 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 	}
 	function getAllVillage($search=null){
 		$db = $this->getAdapter();
-		$sql = "SELECT
-					vill_id,village_namekh,village_name,displayby,
-					(SELECT commune_name FROM ln_commune WHERE commune_id=com_id limit 1) As commune_name
-					,modify_date,status,
-				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
-				FROM $this->_name ";
-		$where = ' WHERE 1 ';
+		$sql ="
+		 SELECT
+				v.vill_id,v.village_namekh,v.village_name,v.displayby,
+				(SELECT commune_name FROM ln_commune WHERE v.commune_id=com_id LIMIT 1) AS commune_name,
+				d.district_name,p.province_en_name
+				,v.modify_date,v.status,
+				(SELECT first_name FROM rms_users WHERE id=v.user_id LIMIT 1) AS user_name
+				FROM $this->_name AS v,`ln_commune` AS c, `ln_district` AS d , `ln_province` AS p
+				WHERE v.commune_id = c.com_id AND c.district_id = d.dis_id AND d.pro_id = p.province_id ";
+		$where = '';
+        if($search['province_name']>0){
+        	$where.= " AND p.province_id = ".$search['province_name'];
+        }
+        if(!empty($search['district_name'])){
+        	$where.= " AND d.dis_id = ".$search['district_name'];
+        }
+        if($search['commune_name']>0){
+        	$where.= " AND c.com_id = ".$search['commune_name'];
+        }
+        
 		if($search['search_status']>-1){
-			$where.= " AND status = ".$search['search_status'];
+			$where.= " AND v.status = ".$search['search_status'];
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = $search['adv_search'];
-			$s_where[] = " village_name LIKE '%{$s_search}%'";
-			$s_where[]=" village_namekh LIKE '%{$s_search}%'";
+			$s_where[] = " v.village_name LIKE '%{$s_search}%'";
+			$s_where[]=" v.village_namekh LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-		return $db->fetchAll($sql.$where);	
+		$order= ' ORDER BY v.vill_id DESC ';
+		return $db->fetchAll($sql.$where.$order);	
 	}	
 }
 

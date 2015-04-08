@@ -59,8 +59,9 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     		$s_where[]=" b.displayby LIKE '%{$s_search}%'";
     		$where.=' AND ('.implode(' OR ',$s_where).')';
     	}
+    	$order=' ORDER BY b.br_id DESC';
    //echo $sql.$where;
-   return $db->fetchAll($sql.$where);
+   return $db->fetchAll($sql.$where.$order);
     }
     
  function getBranchById($id){

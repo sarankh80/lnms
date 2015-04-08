@@ -1,3 +1,4 @@
+
 /*
 Template Name: Metro Lab Dashboard build with Bootstrap v2.3.1
 Template Version: 1.0
@@ -4167,3 +4168,4 @@ ul.amounts li {
 #editable-sample tr td input.small {
     width: 160px !important;
 }
+fieldset{ font-size: 6px !important; font-family: Verdana,Arial,serif !important; }

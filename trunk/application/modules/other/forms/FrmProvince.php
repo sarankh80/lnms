@@ -39,6 +39,7 @@ Class Other_Form_FrmProvince extends Zend_Dojo_Form {
 			$_kh_province->setValue($data['province_kh_name']);
 			$_kh_province->setValue($data['province_kh_name']);
 			$_display->setValue($data['displayby']);
+			$_status->setValue($data['status']);
 		}
 		$this->addElements(array($_en_province,$_kh_province, $_display,$_status));
 		return $this;

@@ -83,12 +83,14 @@ dojo.require("dijit.form.Textarea");
 						</tr>
 						<tr>
 						   
-							<td><?php echo $tr->translate("PHOTO")?></td>
+							<td valign="top"><?php echo $tr->translate("PHOTO")?></td>
 							<td><?php echo $frm->getElement('photo');?><br/>
 							 <img height="100px" width="100px" src="<?php echo $this->baseUrl().'/images/'.$this->photo;?>" /> 
 							</td>
-							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
-							<td><?php echo $frm->getElement('spouse');?></td>
+							<td valign="top"><?php echo $tr->translate("SPOUSE_NAME")?></td>
+							<td valign="top"><?php echo $frm->getElement('spouse');?></td>
+							<td valign="top"><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
 						</tr>
 						<tr>
 							<td colspan="6" align="center">

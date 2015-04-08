@@ -35,7 +35,6 @@ class Other_ZoneController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		
 			$frm = new Other_Form_FrmZone();
    			$frm_co=$frm->FrmAddZone();
    			Application_Model_Decorator::removeAllDecorator($frm_co);
