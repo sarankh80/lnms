@@ -66,7 +66,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 
 		$_db = new Application_Model_DbTable_DbGlobal();		
 		$rows_province = $_db->getAllProvince();
-		$opt_province = array(''=>$this->tr->translate("SELECT_DISTRICT"));
+		$opt_province = array(''=>$this->tr->translate("SELECT_PROVINCE"));
 		if(!empty($rows_province))foreach($rows_province AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');

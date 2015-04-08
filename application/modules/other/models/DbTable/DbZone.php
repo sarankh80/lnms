@@ -52,7 +52,8 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 			$s_where[] = "zone_num LIKE '%{$search}%'";
 			$where.=' AND ('.implode(' OR ',$s_where).')';
 		}
-		return $db->fetchAll($sql.$where);	
+		$order = " ORDER BY zone_id DESC";
+		return $db->fetchAll($sql.$where.$order);	
 	}	
 }
 

@@ -38,7 +38,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options='';//array(''=>"------Select------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
 		$_branch_id->setMultiOptions($options);
 	
@@ -60,7 +60,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_namekh->setAttribs(array(
 						'dojoType'=>'dijit.form.ValidationTextBox',
 						'class'=>'fullside',
-						//'required' =>'true'
+						'required' =>'true'
 		));
 		
 		$id_client = $db->getNewClientId();
@@ -77,7 +77,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_nameen->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-			//	'required' =>'true'
+				'required' =>'true'
 		));
 		
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('sex');
@@ -104,7 +104,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				
 		));
 		$rows =  $db->getAllProvince();
-		$options=array(''=>"------Select Province------",-1=>"Add New");
+		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['province_id']]=$row['province_en_name'];
 		$_province->setMultiOptions($options);
 // 		$_province->setValue($request->getParam('province'));
@@ -198,6 +198,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				));
+		
+		$spouse_nationid=new Zend_Dojo_Form_Element_TextBox('spouse_nationid');
+		$spouse_nationid->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		
 		$chackcall = new Zend_Dojo_Form_Element_CheckBox('chackcall');
 		$chackcall->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
@@ -242,8 +250,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_group_code->setValue($data['group_code']);
 			$job->setValue($data['job']);
 			$national_id->setValue($data['id_number']);
+			$spouse_nationid->setValue($data['spouse_nationid']);
 		}
-		$this->addElements(array($_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

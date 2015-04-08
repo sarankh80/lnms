@@ -26,34 +26,17 @@ class Group_indexController extends Zend_Controller_Action {
 				$search = array(
 						'adv_search' => '',
 						'status' => -1,
-						'province_id'=>-1,
-						'district_id'=>-1,
-						'comm_id'=>-1,
-						'village'=>-1,);
+						'province_id'=>0,
+						'district_id'=>'',
+						'comm_id'=>'',
+						'village'=>'',);
 			}
 			
 			$rs_rows= $db->getAllClients($search);
-			$result = array();
-			foreach ($rs_rows as $key =>$rs){
-				$result[$key]=array(
-						'client_id'=>$rs['client_id'],
-						'client_number'=>$rs['client_number'],
-						'name_kh'=>$rs['name_kh'],
-						'name_en'=>$rs['name_en'],
-						'sex'=>@$this->_sex[$rs['sex']],
-						'phone'=>$rs['phone'],
-						'house'=>$rs['house'],
-						'street'=>$rs['street'],
-						'village_name'=>$rs['village_name'],
-						'spouse_name'=>$rs['spouse_name'],
-						'user_name'=>$rs['user_name'],
-						'status'=>$rs['status'],
-				);
-			}
 			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Client N.","Name Khmer","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
+			$collumns = array("CUSTOMER_CODE","CLIENTNAME_KH","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
 					"By","status");
 			$link=array(
 					'module'=>'group','controller'=>'index','action'=>'edit',
@@ -80,20 +63,7 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->village_name = $db->getVillage();
 		
 		$this->view->result=$search;	
-		
-		
-		
 	}
-// 	function provinceidAction(){
-	
-// 		if($this->getRequest()->isPost()){
-// 			$db = new Group_Model_DbTable_DbClient();
-// 			$data = $this->getRequest()->getPost();
-// 			$row = $db->getClientById($data);
-// 			print_r($row);exit();
-// 			$this->view->row=$row;
-// 		}
-// 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
@@ -109,10 +79,6 @@ class Group_indexController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					Application_Form_FrmMessage::redirectUrl("/group/index");
 				}
-				else if (isset($data['close'])){
-					Application_Form_FrmMessage::redirectUrl("/group/index");
-				}
-				
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				echo $e->getMessage();
@@ -146,6 +112,7 @@ class Group_indexController extends Zend_Controller_Action {
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
 	    $this->view->row=$row;
+	    echo $row['photo_name'];
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
 			$this->_redirect("/group/Client");

@@ -18,7 +18,9 @@ class Other_HolidayController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'search_status' => -1);
+						'search_status' => -1,
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'));
 			}
 			$rs_rows= $db->getAllHoliday($search);
 			$glClass = new Application_Model_GlobalClass();
@@ -31,7 +33,6 @@ class Other_HolidayController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('holiday_name'=>$link,'start_date'=>$link,'amount_day'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 	

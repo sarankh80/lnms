@@ -58,6 +58,7 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 			//$where.= " AND district_name LIKE '%{$search['adv_search']}%'";
 			$where.=' AND ('.implode('OR',$s_where).')';
 		}
+		$where.=" ORDER BY dis_id DESC ";
 		return $db->fetchAll($sql.$where);	
 	}	
 }

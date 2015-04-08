@@ -50,13 +50,22 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 		$_startdate->setAttribs(array('dojoType'=>$this->date,'required'=>'true',
 				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
-		$date = date("Y-m-d");
-		$_startdate->setValue($date);
+		$_date = $request->getParam("start_date");
+
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$_startdate->setValue($_date);
+		
 		
 		$_enddate = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_enddate->setAttribs(array('dojoType'=>$this->date,'required'=>'true','class'=>'fullside',
 				));
-		$_date = date("Y-m-d");
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
 		$_enddate->setValue($_date);
 		
 		$_amount_day = new Zend_Dojo_Form_Element_NumberTextBox('amount_day');
@@ -76,6 +85,29 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
+		
+// 		$_state_date = new Zend_Dojo_Form_Element_DateTextBox('from_date');
+// 		$_state_date->setAttribs(array(
+// 				'dojoType'=>'dijit.form.DateTextBox',
+// 		));
+// 		$s_date = $request->getParam('from_date');
+// 		if(empty($s_date)){
+// 			$s_date = date('Y-m-01');
+// 		}
+// 		$_state_date->setValue($s_date);
+		
+// 		$s_date = date('Y-m-d');
+// 		$_todate = new Zend_Dojo_Form_Element_DateTextBox('to_date');
+// 		$_todate->setAttribs(array(
+// 				'dojoType'=>'dijit.form.DateTextBox',
+// 				'readonly'=>true
+// 		));
+		
+// 		$s_date = $request->getParam('to_date');
+// 		if(empty($s_date)){
+// 			$s_date = date('Y-m-m');
+// 		}
+// 		$_todate->setValue($s_date);
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if(!empty($_data)){

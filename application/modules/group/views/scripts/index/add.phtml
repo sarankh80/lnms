@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('Add Client '));
+	echo $this->headTitle($tr->translate('Add Client'));
 ?>	
 <?php  $frm = $this->frm_client;?>
 <script type="text/javascript">
@@ -11,6 +11,7 @@ dojo.require("dijit.form.Textarea");
 			if(this.validate()) {
 				if(dijit.byId('province').get('value')==''){
 					alert('Province required');
+					dijit.byId('province').focus();
 					return false;
 			    }
 				return true;
@@ -29,20 +30,20 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("IS_GROUP")?></td>
 							<td><?php echo $frm->getElement('is_group');?></td>		
-							<td><?php echo $tr->translate("GROUP_CODE ")?></td>
+							<td><?php echo $tr->translate("GROUP_CODE")?></td>
 							<td><?php echo $frm->getElement('group_code');?></td>				</tr>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("GROUP_NAME")?></td>
 							<td><?php echo $frm->getElement('group_id');?></td>
-							<td><?php echo $tr->translate("CLIENT_NO ")?></td>
+							<td><?php echo $tr->translate("CLIENT_NO")?></td>
 							<td><?php echo $frm->getElement('client_no');?></td>
-							<td><?php echo $tr->translate("NANE_KHMER")?></td>
+							<td><?php echo $tr->translate("NAME_KHMER")?></td>
 							<td><?php  echo $frm->getElement('name_kh');?></td>
 						</tr>
 						<tr>
 							
-							<td><?php echo $tr->translate("NAME_ENGLISH")?></td>
+							<td><?php echo $tr->translate("NAME_ENG")?></td>
 							<td><?php  echo $frm->getElement('name_en');?></td>
 							<td><?php echo $tr->translate("SEX")?></td>
 							<td><?php  echo $frm->getElement('sex');?></td>
@@ -53,7 +54,7 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $tr->translate("PROVINCE")?></td>
 							<td><?php echo $frm->getElement('province');?></td>
 							<td><?php echo $tr->translate("DISTRICT")?></td>
-							<td><input id="district" ><?php //echo $frm->getElement('district');?></td>
+							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
 							<td><?php echo $tr->translate("COMMUNE")?></td>
 							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
 						</tr>
@@ -70,7 +71,7 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('job');?></td>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
 							<td><?php  echo $frm->getElement('national_id');?></td>
-							<td><?php echo $tr->translate("COLLATERAL")?></td>
+							<td><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
 							<td><?php  echo $frm->getElement('chackcall');?></td>
 						</tr>
 						<tr>
@@ -87,18 +88,18 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('photo');?></td>
 							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
 							<td><?php echo $frm->getElement('spouse');?></td>
+							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td><?php echo $frm->getElement('spouse_nationid');?></td>
 						</tr>
 						<tr>
 							<td colspan="6" align="center">
-							<input type="submit" value="SAVE_NEW" label="<?php echo $tr->translate('SAVE_NEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
+							<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" 
+								 iconClass="dijitIconClear" /> 
+							<input type="submit" value="SAVE_NEW" label="<?php echo $tr->translate('SAVENEW');?>" id="save_new" dojoType="dijit.form.Button" name="save_new"
 								 iconClass="dijitEditorIcon dijitEditorIconSave"/> 
 							 
-						    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/> 
-							
-							<input type="submit" value="CLOSE" label="<?php echo $tr->translate('CLOSE');?>" id="close" dojoType="dijit.form.Button" name="close"
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('add_client').submit();"/>
-						    
+						    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+								 iconClass="dijitEditorIcon dijitEditorIconSave" /> 
 							</td>
 						</tr>
 					</table>	
@@ -129,10 +130,11 @@ dojo.ready(function(){
 	query: {
 		pro_id: "-1"
 	},            
-	required: false,		           
+	required: true,		           
 	name: "district",
 	id: "district",
 	searchAttr: "name",
+	requred:true,
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
 		onChange: function() {
@@ -150,7 +152,7 @@ dojo.ready(function(){
 	query: {
 		district_id: "-1"
 	},            
-	required: false,		           
+	required: true,		           
 	name: "commune",
 	id: "commune",
 	searchAttr: "name",
@@ -171,7 +173,7 @@ dojo.ready(function(){
 	query: {
 		commune_id:"-1"
 	},            
-	required: false,		           
+	required: true,		           
 	name: "village",
 	id: "village",
 	searchAttr: "name",

@@ -55,7 +55,6 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
-		
 		$_id = new Zend_Form_Element_Hidden('id');
 		
 		if(!empty($_data)){

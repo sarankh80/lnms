@@ -46,7 +46,7 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     	(SELECT CONCAT(last_name,' ',first_name) FROM rms_users WHERE id=user_id )AS user_name
     	FROM $this->_name
     	WHERE 1 ";
-    	$order=" order by province_en_name";
+    	$order=" order by province_id DESC";
     	$where = '';
     	if(!empty($search['title'])){
     		$s_where=array();

@@ -40,10 +40,14 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
 	}
 	function getAllHoliday($search=null){
 		$db = $this->getAdapter();
+		
+		$from_date =(empty($search['start_date']))? '1': "start_date >= '".$search['start_date']." 00:00:00'";
+		$to_date = (empty($search['end_date']))? '1': "end_date <= '".$search['end_date']." 23:59:59'";
+		$where = " WHERE ".$from_date." AND ".$to_date;
+		
 		$sql = "SELECT id,holiday_name,amount_day,start_date,end_date,note,status,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) AS user_name
 				FROM $this->_name ";
-		$where = ' WHERE 1 ';
 		if($search['search_status']>-1){
 			$where.= " AND status = ".$search['search_status'];
 		}
@@ -56,6 +60,7 @@ class Other_Model_DbTable_DbHoliday extends Zend_Db_Table_Abstract
 			$where.=' AND ('.implode(' OR ', $s_where).')';
 			//$where.=' AND ('.implode(' OR ',$s_where).')';
 		}
+		$order = " ORDER BY to_date";
 		return $db->fetchAll($sql.$where);	
 	}	
 }

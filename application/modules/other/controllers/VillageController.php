@@ -17,13 +17,16 @@ class Other_VillageController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'search_status' => -1);
+						'search_status' => -1,
+						'province_name'=>0,
+						'district_name'=>'',
+						'commune_name'=>'');
 			}
 			$rs_rows= $db->getAllVillage($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true,null,1);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","DISPLAY_BY","COMMNUE_NAME","DATE","STATUS","BY");
+			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","DISPLAY_BY","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'Village','action'=>'edit',
 			);
@@ -37,6 +40,11 @@ class Other_VillageController extends Zend_Controller_Action {
 		$frm = $frm->FrmAddVillage();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_village= $frm;
+		
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
+		$this->view->result = $search;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){

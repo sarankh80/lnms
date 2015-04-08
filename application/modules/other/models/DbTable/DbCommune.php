@@ -54,7 +54,8 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 		if($search['search_status']>-1){
 			$where.=" AND status=".$search['search_status'];
 		}
-		return $db->fetchAll($sql.$where);	
+		$order = " ORDER BY com_id DESC ";
+		return $db->fetchAll($sql.$where.$order);	
 	}	
 }
 
