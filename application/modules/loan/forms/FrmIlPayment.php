@@ -47,13 +47,16 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_amount_receive->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'totalReturn();'
+				'onkeyup'=>'totalReturn();',
+				'style'=>'color:red;',
+				'required'=>true
 		));
 		
 		$_amount_return = new Zend_Dojo_Form_Element_NumberTextBox('amount_return');
 		$_amount_return->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'style'=>'color:red;',
 		));
 		
 		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
@@ -114,7 +117,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_rate->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'style'=>'color:red;',
 		));
 // 		$value_interest = 2.5;
 // 		$_rate->setValue($value_interest);
@@ -132,7 +136,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'style'=>'color:red;'
+				'style'=>'color:red;',
+				'required'=>true
 		));
 		
 		$_hide_total_payment = new Zend_Form_Element_Hidden('hide_total_payment');
@@ -144,7 +149,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				//'required' =>'true'
 		));
 		
 		$_collect_date = new Zend_Dojo_Form_Element_DateTextBox('collect_date');
@@ -353,7 +358,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'style'=>'color:red;'
+				'style'=>'color:red;',
+				'required'=>true
 		));
 	
 		$_hide_total_payment = new Zend_Form_Element_Text('hide_total_payment');

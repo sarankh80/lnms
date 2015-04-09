@@ -96,7 +96,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 					//exit();
 				}else {
 					$db->updateIlPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
+					//Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();

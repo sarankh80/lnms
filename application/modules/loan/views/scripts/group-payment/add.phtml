@@ -108,7 +108,7 @@
 
 <input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
 <input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
-<input type="text" dojoType="dijit.form.TextBox" name="curr" id="curr">
+<input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
 <div class="dijitHidden">
@@ -244,25 +244,30 @@
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 function showReciept(){
-	document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-	document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
-	document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
-	document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
-	document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
-	document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
-	document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
-	document.getElementById('lbl_priciple_amount').innerHTML = dijit.byId('priciple_amount').attr('displayedValue');
-	document.getElementById('lbl_os_amount').innerHTML = dijit.byId('os_amount').attr('displayedValue');
-	document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue');
- 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
- 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
- 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
- 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
- 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
- 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
- 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
- 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
-	dijit.byId('frm_client').show();
+	var client_id = dijit.byId('group_id').get('value');
+	if(client_id==""){
+		alert("No Result To Show! Please Choose Client and Try again");
+	}else{
+		document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
+		document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
+		document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
+		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
+		document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
+		document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
+		document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
+		document.getElementById('lbl_priciple_amount').innerHTML = dijit.byId('priciple_amount').attr('displayedValue');
+		document.getElementById('lbl_os_amount').innerHTML = dijit.byId('os_amount').attr('displayedValue');
+		document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue');
+	 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
+	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
+	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
+	 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
+	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
+	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
+	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
+	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
+		dijit.byId('frm_client').show();
+	}
 }
 
 
@@ -305,7 +310,7 @@ function submitData(){
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
 			},
 			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+				//alert("Your message could not be sent, please try again!.");
 			}
 		});
 }
@@ -325,7 +330,7 @@ function AddNewCo(){
 			dijit.byId('frm_co').hide();
 		},
 		error: function(err) {
-			alert(err);
+			//alert(err);
 		//alert("Your message could not be sent, please try again!.");
 				        
 		}
@@ -485,7 +490,7 @@ function getLaonPayment(type){
 				//calculateDatePay();
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 }
@@ -564,7 +569,7 @@ function calculateTotal(index){
 						 	    after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
 						 	   totalAmount = totalAmount + (totalPay + penalize_amount);
 					 	   }else{
-						 	    batch
+						 	   // batch
 						 	    after_penalize_amount = after_penalize_amount + ps;
 						 	   totalAmount = totalAmount + totalPay;
 					 	   }
@@ -592,7 +597,7 @@ function calculateTotal(index){
 						 	    after_discount = after_discount + ((discount/30)*(Math.abs(total_date)));
 						 	   totalAmount = totalAmount + (totalPay - ((discount/30)*(Math.abs(total_date))));
 					 	   }else{
-						 	    batch
+						 	   // batch
 						 	    after_discount = after_discount+ds;
 						 	   totalAmount = totalAmount + totalPay;
 					 	   }
@@ -662,7 +667,7 @@ function checkAll(index){
   							 	    after_penalize_amount = after_penalize_amount + penalize_amount;
   							 	   totalAmount = totalAmount + (totalPay + penalize_amount);
   						 	   }else{
-  							 	    batch
+  							 	   // batch
   							 	    after_penalize_amount = after_penalize_amount + ps;
   							 	   totalAmount = totalAmount + totalPay;
   						 	   }
@@ -692,7 +697,7 @@ function checkAll(index){
   							 	    after_discount = after_discount + discount;
   							 	   totalAmount = totalAmount + (totalPay - discount);
   						 	   }else{
-  							 	    batch
+  							 	   // batch
   							 	    after_discount = after_discount+ds;
   							 	   totalAmount = totalAmount + totalPay;
   						 	   }
