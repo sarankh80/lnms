@@ -302,7 +302,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		));
 	
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array(''=>'------Select------');
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -415,6 +415,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			//print_r($data);
 			
 			$id->setValue($data["id"]);
+			$_branch_id->setValue($data["branch_id"]);
 // 			$_groupid->setValue($data["group_id"]);
 			$_coid->setValue($data["co_id"]);
 // 			$client_code->setValue($data["group_id"]);
