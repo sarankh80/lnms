@@ -92,7 +92,7 @@
 		<tr>
 			<td align="center">
 			   <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitData();"/>
+			   iconClass="dijitEditorIcon dijitEditorIconSave"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
@@ -133,7 +133,7 @@
 					   <table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
 					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="60px;"/></td>
-						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['group_payment_title'];?></strong></td>
+						   		<td colspan="2" align="right"><strong style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><?php echo $this->keycode['group_payment_title'];?></strong></td>
 							</tr>
 					   	</table>
 			            </td>	   	        
@@ -239,7 +239,7 @@
 		</table>
 		</div>
 		<input type="button" value="បោះពុម្ព" label="បោះពុម្ព" id="print" dojoType="dijit.form.Button" 
-				   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="print();"/>
+				   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="submitData(); print();"/>
 	</div>
 </div>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
@@ -266,6 +266,7 @@ function showReciept(){
  	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
  	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
 	dijit.byId('frm_client').show();
+	submitData();
 }
 
 dojo.require("dojo.NodeList-manipulate");
@@ -294,15 +295,14 @@ dojo.require("dojo.data.ObjectStore");
 </script>
 <script type="text/javascript">
 function submitData(){
-	var json_data_t = itemToJSON(dijit.byId('tran_list'));
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloan')); ?>';
+	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
+	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'edit')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
+			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {	
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
 				//alert(data);
-				
 			},
 			error: function(e) {
 				alert("Your message could not be sent, please try again!.");
@@ -590,19 +590,31 @@ function getLoanById(type){
  						}
 				}
 			}else{
-				//alert(type);
-					if(type==1){
-						dijit.byId('group_id').attr('value','');
-						dijit.byId('client_code').attr('value','');
-					}else if(type==2){
-						dijit.byId('loan_number').attr('value','');
-						dijit.byId('group_id').attr('value',clientCode);
-					}else{
-						dijit.byId('loan_number').attr('value','');
-						dijit.byId('client_code').attr('value',teamGroup);
-					}
-					
+				var clientId = dijit.byId('group_id').get('value');
+				var clientCode = dijit.byId('client_code').get('value');
+				var loanNumber = dijit.byId('loan_number').get('value');
+				if(type==1){
+					dijit.byId('group_id').attr('value','');
+					dijit.byId('client_code').attr('value','');
+				}else if(type==2){
+					dijit.byId('loan_number').attr('value','');
+					dijit.byId('group_id').attr('value',clientCode);
+				}else{
+					dijit.byId('loan_number').attr('value','');
+					dijit.byId('client_code').attr('value',clientId);
 				}
+				//alert("No Result!");
+				dijit.byId('identity').attr('value',"");
+				dijit.byId('priciple_amount').attr('value',0);
+				dijit.byId('os_amount').attr('value',0);
+				dijit.byId('total_payment').attr('value',0);
+				dijit.byId('amount_receive').attr('value',0);
+				dijit.byId('discount').attr('value',0);
+				dijit.byId('service_charge').attr('value',0);
+				dijit.byId('penalize_amount').attr('value',0);
+				dijit.byId('total_interest').attr('value',"");
+				dijit.byId('amount_return').attr('value',"");
+			}
 				
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;

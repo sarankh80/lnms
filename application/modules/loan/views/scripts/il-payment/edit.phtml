@@ -94,7 +94,7 @@
 		<tr>
 			<td align="center">
 			   <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitData();"/>
+			   iconClass="dijitEditorIcon dijitEditorIconSave"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
@@ -282,6 +282,7 @@ function showReciept(){
 	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
 	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
 		dijit.byId('frm_client').show();
+		submitData();
 	}
 }
 
@@ -365,8 +366,8 @@ function filterClient(){
 </script>
 <script type="text/javascript">
 function submitData(){
-	var json_data_t = itemToJSON(dijit.byId('tran_list'));
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloan')); ?>';
+	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
+	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'IlPayment','action'=>'edit')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("frm_add_tran"),		    

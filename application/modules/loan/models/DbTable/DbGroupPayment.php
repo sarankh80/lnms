@@ -418,7 +418,7 @@ function getLoanPaymentByLoanNumber($data){
 					lcrm.`date_input`,
 				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch
-				FROM `ln_client_receipt_money` AS lcrm";
+				FROM `ln_client_receipt_money` AS lcrm WHERE lcrm.is_group=1";
     	return $db->fetchAll($sql);
     }
     public function getGroupPaymentById($id){
