@@ -8,6 +8,18 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 	public function FrmTransfer($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array(
+				'dojoType'=>$this->tvalidate,
+				'onkeyup'=>'this.submit()',
+				'placeholder'=>$this->tr->translate("SEARCH")
+		));
+		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
+		$_btn_search->setAttribs(array(
+				'dojoType'=>'dijit.form.Button',
+				'iconclass'=>'dijitIconSearch'
+		));
+		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$branch_name = new Zend_Dojo_Form_Element_FilteringSelect('branch_name');
     	$branch_name->setAttribs(array(
@@ -149,7 +161,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 			$note->setValue($data['note']);
 		}		
 		
-		$this->addElements(array($co_name,$_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));
+		$this->addElements(array($_title,$_btn_search,$co_name,$_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));
 		return $this;
 		
 	}	

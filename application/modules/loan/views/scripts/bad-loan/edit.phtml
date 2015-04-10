@@ -24,6 +24,7 @@ $frm = $this->frm_loan;
 					<table cellspacing="10"  width="100%">
 					
 					   <tr>
+					   		<?php echo $frm->getElement('idclient');?>
 					         <?php echo $frm->getElement('id');?>
 							<td><?php echo $tr->translate("BRANCH")?></td>
 							<td><?php echo $frm->getElement('branch');?></td>
@@ -76,7 +77,7 @@ $frm = $this->frm_loan;
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");
 
-function getClientInfo(type){
+/*function getClientInfo(type){
 	if(type==1){
 		id = dijit.byId("client_name").get('value');
 	}else if(type==2){
@@ -88,5 +89,67 @@ function getClientInfo(type){
 	dijit.byId("client_code").attr('value',id);
 	dijit.byId("client_name").attr('value',id);
 	dijit.byId("number_code").attr('value',id);	
-} 
+	} */
+</script>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+
+var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'Badloan','action'=>'get-loaninfo')); ?>';
+function getClientInfo(type){
+    
+	if(type==1){
+		values = dijit.byId("client_name").get('value');
+	}else if(type==2){
+		values = dijit.byId("client_code").get('value');
+	}else{
+		values = dijit.byId("client_code").get('value');
+	} 
+	dijit.byId('Total_amount').attr('value',0);
+	//dijit.byId('Interest_amount').attr('value',0);
+	//dijit.byId("cash_type").set('readOnly',false);
+	//values=dijit.byId("client_code").get('value');
+	dojo.xhrPost({
+	    url: url_submiinfo,	
+	    content : { 
+		    'loan_id':values,
+		  //  'type':type,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			//alert(data.total_principal);
+			dijit.byId('Total_amount').attr('value',data.total_principal);
+			dijit.byId('Interest_amount').attr('value',data.total_interest);
+			dijit.byId('cash_type').attr('value',data.currency_type);
+			dijit.byId("cash_type").set('readOnly',true);
+			dijit.byId("client_name").attr('value',values);
+			//dijit.byId("number_code").attr('value',values);
+			dijit.byId("client_code").attr('value',values);
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+	
+}
+
+/*function getClientInfo(type){
+	//alert(9);
+	if(type==1){
+	     id = dijit.byId("client_name").get('value');
+	}else if(type==2){
+		id = dijit.byId("number_code").get('value');
+	}else{
+		id = dijit.byId("client_code").get('value');
+	}
+	
+	dijit.byId("client_code").attr('value',id);
+	dijit.byId("client_name").attr('value',id);
+	dijit.byId("number_code").attr('value',id);
+    } 
+
+    */
+
 </script>

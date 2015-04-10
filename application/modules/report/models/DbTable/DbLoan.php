@@ -81,20 +81,29 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       public function getALLLoandateline(){
       	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
-      	$sql="select g.level,(select first_name from rms_users where id=g.group_id) as first_name,(select last_name from rms_users where id=g.co_id)as last_name
-		,g.zone_id,g.date_release,g.date_line,g.create_date,g.total_duration,g.first_payment,g.time_collect
+//       	$sql="select g.level,(select first_name from rms_users where id=g.group_id) as first_name,(select last_name from rms_users where id=g.co_id)as last_name
+// 		,g.zone_id,g.date_release,g.date_line,g.create_date,g.total_duration,g.first_payment,g.time_collect
+// 		,g.collect_typeterm,g.pay_term,g.payment_method,g.holiday,g.is_renew,g.branch_id,g.loan_type,g.status,g.is_verify,g.is_badloan,g.teller_id
+// 		,m.chart_id,m.member_id,m.loan_number,m.currency_type,m.total_capital,m.admin_fee,m.interest_rate,m.loan_cycle,m.loan_purpose,m.pay_before
+// 		,m.pay_after,m.graice_period,m.amount_collect_principal,m.show_barcode,m.is_completed,m.semi from ln_loan_group as g,ln_loan_member as m where m.group_id = g.g_id";
+      	$sql="SELECT g.level,(SELECT first_name FROM rms_users WHERE id=g.group_id) AS first_name,(SELECT last_name FROM rms_users WHERE id=g.co_id)AS last_name
+		,g.zone_id,g.date_release,g.`date_release` AS date_line,g.create_date,g.total_duration,g.first_payment,g.time_collect
 		,g.collect_typeterm,g.pay_term,g.payment_method,g.holiday,g.is_renew,g.branch_id,g.loan_type,g.status,g.is_verify,g.is_badloan,g.teller_id
 		,m.chart_id,m.member_id,m.loan_number,m.currency_type,m.total_capital,m.admin_fee,m.interest_rate,m.loan_cycle,m.loan_purpose,m.pay_before
-		,m.pay_after,m.graice_period,m.amount_collect_principal,m.show_barcode,m.is_completed,m.semi from ln_loan_group as g,ln_loan_member as m where m.group_id = g.g_id";
+		,m.pay_after,m.graice_period,m.amount_collect_principal,m.show_barcode,m.is_completed FROM ln_loan_group AS g,ln_loan_member AS m WHERE m.group_id = g.g_id";
       	return $db->fetchAll($sql);
       }
       public function getALLLoanTotalcollect(){
 //       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
-      	$sql="SELECT id,lfd_id,receipt_no,branch_id,loan_number,client_id,co_id,receiver_id
+//       	$sql="SELECT id,lfd_id,receipt_no,branch_id,loan_number,client_id,co_id,receiver_id
+//       	,date_pay,date_input,capital,remain_capital,principal_permonth,total_interest
+// 		,service_charge,recieve_amount,return_amount,note,user_id,is_complete,is_verify
+//       	,verify_by,is_closingentry FROM `ln_client_receipt_money`";
+		$sql='SELECT id,lfd_id,receipt_no,branch_id,loan_number,client_id,co_id,receiver_id
       	,date_pay,date_input,capital,remain_capital,principal_permonth,total_interest
-		,service_charge,recieve_amount,return_amount,note,user_id,is_complete,is_verify
-      	,verify_by,is_closingentry FROM `ln_client_receipt_money`";
+		,service_charge,recieve_amount,note,user_id,is_complete,is_verify
+      	,verify_by,is_closingentry FROM `ln_client_receipt_money`';
       	return $db->fetchAll($sql);
       }
       public function getALLLoanCollectionco(){

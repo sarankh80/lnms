@@ -13,11 +13,26 @@ $frm = $this->frm_loan;
 </style>
 <form id="add_province" action="<?php echo $this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				return true;
-			} else {
-				return false;
-			}
+	if(this.validate()) {
+    	if(dijit.byId('branch').get('value')==''){
+     		alert('សូមមេតាជ្រើសរើសប្រភេទសាខា');
+     		dijit.byId('branch').focus();
+     		return false;
+   		}
+		if(dijit.byId('client_codeadd').get('value')==''){
+     		alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
+     		dijit.byId('client_codeadd').focus();
+     		return false;
+   		}
+		if(dijit.byId('client_nameadd').get('value')==''){
+     		alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
+     		dijit.byId('client_nameadd').focus();
+     		return false;
+   		}
+    	return true;
+   		}else {
+    	return false;
+   	}
 	</script>
 <table cellspacing="10" class='fullside' >
 	<tr>
@@ -30,33 +45,33 @@ $frm = $this->frm_loan;
 							<td><?php echo $tr->translate("BRANCH")?></td>
 							<td><?php echo $frm->getElement('branch');?></td>
 							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
-							<td><?php echo $frm->getElement('client_code');?></td>
+							<td><?php echo $frm->getElement('client_codeadd');?></td>
 							<td><?php echo $tr->translate("CLIEN_NAME")?></td>
-							<td><?php echo $frm->getElement('client_name')?></td>
+							<td><?php echo $frm->getElement('client_nameadd')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("NUMBER_CODE")?></td>
-							<td><?php echo $frm->getElement('number_code');?></td>
 							<td><?php echo $tr->translate("LOSS_DATE")?></td>
 							<td><?php echo $frm->getElement('date_loss')?></td>
 							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>							
-						</tr>
-						<tr>
+							<td><?php echo $frm->getElement('Date');?></td>
 							<td><?php echo $tr->translate("CASH")?></td>
-							<td><?php  echo $frm->getElement('cash_type');?></td>
+							<td><?php  echo $frm->getElement('cash_type');?></td>							
+						</tr>
+						<tr>							
 							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Total_amount');?></td>
 							<td><?php echo $tr->translate("INTERREST_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Interest_amount');?></td>
+							<td><?php echo $tr->translate("TEM")?></td>
+							<td><?php  echo $frm->getElement('Term');?></td>
 							
 						</tr>
-						    <td><?php echo $tr->translate("TEM")?></td>
-							<td><?php  echo $frm->getElement('Term');?></td>
+						<tr>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status');?></td>
 						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
+						</tr>
 						<tr>
 							<td align="center" colspan="6">
 								<input type="submit" name="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="រក្សាទុក  + បន្ថែមថ្មី​​" id="submitButton" dojoType="dijit.form.Button"
@@ -84,11 +99,11 @@ var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>
 function getClientInfo(type){
     
 	if(type==1){
-		values = dijit.byId("client_name").get('value');
+		values = dijit.byId("client_nameadd").get('value');
 	}else if(type==2){
-		values = dijit.byId("number_code").get('value');
+		values = dijit.byId("client_codeadd").get('value');
 	}else{
-		values = dijit.byId("client_code").get('value');
+		values = dijit.byId("client_codeadd").get('value');
 	} 
 	dijit.byId('Total_amount').attr('value',0);
 	//dijit.byId('Interest_amount').attr('value',0);
@@ -107,9 +122,9 @@ function getClientInfo(type){
 			dijit.byId('Interest_amount').attr('value',data.total_interest);
 			dijit.byId('cash_type').attr('value',data.currency_type);
 			dijit.byId("cash_type").set('readOnly',true);
-			dijit.byId("client_name").attr('value',values);
-			dijit.byId("number_code").attr('value',values);
-			dijit.byId("client_code").attr('value',values);
+			dijit.byId("client_nameadd").attr('value',values);
+			//dijit.byId("number_code").attr('value',values);
+			dijit.byId("client_codeadd").attr('value',values);
 		},
 		error: function(err) {
 			alert(err);

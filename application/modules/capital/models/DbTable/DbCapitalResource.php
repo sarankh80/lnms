@@ -108,6 +108,11 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
 			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
     }
+
+    function getAllCapitalDetail1($search=NULL){
+    	$db = $this->getAdapter();
+    	$sql="SELECT brc.id,br.`branch_namekh`,brc.`date`,brc.note,brc.amount_dollar,brc.amount_riel,brc.amount_bath,brc.`status`
+    	FROM ln_branch_capital AS brc,`ln_branch` AS br WHERE brc.`branch_id`=br.`br_id`";
 //     function getAllCapitalDetail($search=NULL){
 //     	$db = $this->getAdapter();
 //     	$sql="SELECT brc.id,br.`branch_namekh`,brc.`date`,brc.note,brc.amount_dollar,brc.amount_riel,brc.amount_bath,brc.`status`
@@ -127,8 +132,8 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
 //     		$where.= " AND brc.`status` = ".$search['status'];
 //     	}
 //     	return $db->fetchAll($sql.$where.$order);
-//     }
-    public function getpartnerById($id){
+    }
+    public  function getpartnerById($id){
     	$db = $this->getAdapter();
     	$sql = "SELECT * FROM ln_branch_capital WHERE id = ".$db->quote($id);
     	$sql.=" LIMIT 1 ";

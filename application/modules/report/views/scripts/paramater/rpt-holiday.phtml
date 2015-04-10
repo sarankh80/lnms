@@ -3,21 +3,26 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <title><?php echo $tr->translate("REPORT HOLIDAY");?>Report Holiday</title>
+ <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-holiday')); ?>" dojoType="dijit.form.Form" method="post">
+<table style="float: right;">
+	<tr>
+		<td align="right">
+			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
+		</td>
+	</tr>
+</table>
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 
 }
 </style>	
- <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-holiday')); ?>" dojoType="dijit.form.Form" method="post">
+
 <table style="font-family: 'Khmer OS Content'; width:100%;">	
-	<tr><td align="right">
-		<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
-	</td></tr>
 	<tr>
     	<td align="center">
     	   <div id="divPrint">
@@ -33,8 +38,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td width="45%">
+                			<tr >
+                				<td class='style' width="45%" style="font-size: 10px;">
                 					<?php echo $this->data['brand_adress'];?>
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
@@ -48,7 +53,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		           </tr>   
             </table>
         <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
-				    <tr bgcolor="#BBBBBB">
+				    <tr bgcolor="#BBBBBB" style="background: #BBBBBB !important;">
 				        <th><?php echo $tr->translate("NO");?></th>
 				        <th><?php echo $tr->translate("HOLIDAY_NAME");?></th>
 				        <th><?php echo $tr->translate("DATE");?></th>
@@ -98,6 +103,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			</div>
 		</td>
 		</tr>	
-		</table>
-		</form>  		  
+		</table>	 		  
  </div>
+ </form> 

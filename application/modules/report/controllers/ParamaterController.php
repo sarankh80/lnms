@@ -13,21 +13,23 @@ class Report_ParamaterController extends Zend_Controller_Action {
   function  rptStaffAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
   	$key = new Application_Model_DbTable_DbKeycode();
-  	//$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
+  		//print_r($db->getAllstaff($data));
   		if(isset($data['btn_search'])){
   			//print_r($data);exit();
   			$this->view->staff_list = $db->getAllstaff($data);
+  			
   		}else{
-  		$collumn = array("co_code","co_khname","co_firstname","sex","email","basic_salary",
+  		$collumn = array("CO_CODE","CO_KHNAME","CO_FIRSTNAME","SEX","EMAIL","BASIC_SALARY",
   				"start_date","end_date","contract_no","shift","workingtime","position","tel",
   				"basic_salary","national_id","address","degree","branch_name","note");
   		$this->exportFileToExcel('ln_staff',$db->getAllstaff(),$collumn);
   		}
   	}else{
   		$search = array('txtsearch' => '');
-  		$this->view->staff_list = $db->getAllstaff($data);
+  		$this->view->staff_list = $db->getAllstaff();
   	}
   	
   }
@@ -63,7 +65,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   		if(isset($data['btn_search'])){
   			$this->view->zone_list = $db->getAllZone($data);
   		}else{
-  		$collumn = array("zone_id","zone_name","zone_num","modify_date","status");
+  		$collumn = array("ZONE_ID","ZONE_NUM","MODIFY_DATE","STATUS");
   		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
   		}
   	}else $search = array('txtsearch' => '');
@@ -79,7 +81,7 @@ class Report_ParamaterController extends Zend_Controller_Action {
   			$this->view->holiday_list = $db->getAllHoliday($data);
   		}else{
   		//print_r($search);exit();
-	  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status","modify_date","note");
+	  		$collumn = array("ID","HOLIDAY_NAME","AMOUNT_DAY","START_DATE","END_DATE","STATUS","MODIFY_DATE","NOTE");
 	  		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
   		}
   	}else $search = array('txtsearch' => '');

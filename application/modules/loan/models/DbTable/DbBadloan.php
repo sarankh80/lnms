@@ -12,9 +12,9 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	try{
     	$arr = array(
     			'branch'=>$_data['branch'],
-    			'client_code'=>$_data['client_code'],
-    			'client_name'=>$_data['client_name'],
-    			'number_code'=>$_data['number_code'],
+    			'client_code'=>$_data['client_codeadd'],
+    			'client_name'=>$_data['client_nameadd'],
+//     			'number_code'=>$_data['number_code'],
     			'date'=>$_data['Date'],
     			'loss_date'=>$_data['date_loss'],
     			'cash_type'=>$_data['cash_type'],
@@ -31,7 +31,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$arr_loan_group = array(
     		'is_badloan' =>1,
     	);
-    	$where=" group_id = ".$_data['client_code'];
+    	$where=" group_id = ".$_data['client_codeadd'];
 		$this->update($arr_loan_group, $where);
 		$db->commit();
 		}catch (Exception $e){
@@ -71,7 +71,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
     			'client_name'=>$_data['client_name'],
-    			'number_code'=>$_data['number_code'],
+//     			'number_code'=>$_data['number_code'],
     			'date'=>$_data['Date'],
     			'loss_date'=>$_data['date_loss'],
     			'cash_type'=>$_data['cash_type'],
@@ -79,14 +79,19 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
-    			'status'=>0,
+    			'status'=>$_data['status'],
     			'create_by'=>$user_id
     	);
     	$where=" id = ".$_data['id'];
     	$this->update($arr, $where);
     	 
+    	$this->_name = 'ln_loan_group';    	
+    	$arr_loan_groups = array('is_badloan' =>0,);
+    	$wheres=" group_id = ".$_data['idclient'];
+    	$this->update($arr_loan_groups, $wheres);
+    	
     	$this->_name = 'ln_loan_group';
-    	$arr_loan_group = array('is_badloan' =>0,	);
+    	$arr_loan_group = array('is_badloan' =>1,);
     	$where=" group_id = ".$_data['client_code'];
     	$this->update($arr_loan_group, $where);
     }
@@ -98,20 +103,40 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     function getAllBadloan($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT id,(SELECT branch_namekh FROM ln_branch WHERE br_id = branch limit 1)as branch,
-    	(SELECT client_number FROM `ln_client` WHERE client_id=client_code limit 1)AS client_code,
-    	(SELECT name_en FROM `ln_client` WHERE client_id=client_name limit 1) AS client_name,number_code,date,loss_date,total_amount,intrest_amount
-    	,tem,note FROM  $this->_name where status = 1";
-    	
-        return $db->fetchAll($sql);
+    	$sql = "SELECT l.id,b.branch_namekh,c.client_number,c.name_en,l.date,l.loss_date, 
+				CONCAT (total_amount,' ',(SELECT name_kh FROM ln_view WHERE TYPE = 15 AND key_code = l.`cash_type`))AS total_amount ,
+				CONCAT (intrest_amount,' ',(SELECT name_kh FROM ln_view WHERE TYPE = 15 AND key_code = l.`cash_type`))AS intrest_amount ,
+				l.tem,l.note,l.status FROM `ln_badloan` AS l,ln_branch AS b ,ln_client AS c
+				WHERE c.client_id = l.client_code AND b.br_id = l.branch  ";    	
+    	$where='';
+    	$order = ' ORDER BY id DESC ';
+    	if($search['status']>-1){
+    		$where.=" AND l.status =".$search['status'];
+    	}
+    	if(!empty($search['branch'])){
+    		$where.=" AND branch = ".$search['branch'];
+    	}
+    	if(!empty($search['client_name'])){
+    		$where.=" AND client_name = ".$search['client_name'];
+    	}
+    	if(!empty($search['client_code'])){
+    		$where.=" AND client_code = ".$search['client_code'];
+    	}
+    	if(!empty($search['adv_search'])){
+    		$s_where=array();
+    		$s_search=$search['adv_search'];
+    		$s_where[]=" b.branch_namekh LIKE '%{$s_search}%'";
+    		$s_where[]=" c.client_number = '{$s_search}' ";
+    		$where .=' AND '.implode(' OR ',$s_where.$order).' ';
+    	}
+    	//echo $sql.$where;
+    	return $db->fetchAll($sql.$where);
     }
     public function getClientByTypes($type){
     	$this->_name='ln_loan_member';
-    	$sql ="SELECT
-    	(SELECT c.client_number FROM `ln_client` AS c WHERE lm.client_id=c.client_id LIMIT 1 )AS client_number,
-    	(SELECT c.name_en FROM `ln_client` AS c WHERE lm.client_id=c.client_id LIMIT 1 )AS name_en,
-    	lm.client_id ,lm.loan_number
-    	FROM `ln_loan_member` AS lm WHERE is_completed = 0 AND status=1 ";
+    	$sql ="SELECT c.client_number,c.name_en,lm.client_id ,lm.loan_number
+				FROM `ln_loan_member` AS lm,ln_client AS c WHERE lm.client_id=c.client_id  
+				AND lm.is_completed = 0 AND lm.status=1 AND c.client_number !=''";
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
     	$options=array(0=>'------Select------');
@@ -123,6 +148,24 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$options[$row['client_id']]=$lable;
     	}
 		return $options;
+    }
+    public function getClientByTypesADD($type){
+    	$this->_name='ln_loan_member';
+    	$sql ="SELECT c.client_number,c.name_en,lm.client_id ,lm.loan_number,g.`is_badloan`
+				FROM `ln_loan_member` AS lm,ln_client AS c,`ln_loan_group` AS g
+				WHERE lm.client_id = c.client_id  AND lm.is_completed = 0 AND lm.status=1 AND c.client_number !='' 
+				AND g.`group_id` = lm.client_id  AND g.`is_badloan` = 0 ";
+    	$db = $this->getAdapter();
+    	$rows = $db->fetchAll($sql);
+    	$options=array(0=>'------Select------');
+    	if(!empty($rows))foreach($rows AS $row){
+    		if($type==1){
+    			$lable = $row['client_number'];
+    		}elseif($type==2){ $lable = $row['name_en'];}
+    		else{$lable = $row['loan_number'];}
+    		$options[$row['client_id']]=$lable;
+    	}
+    	return $options;
     }
     public function getClientByTypess($type=null,$client_id=null ,$row=null){
     	$this->_name='ln_loan_member';

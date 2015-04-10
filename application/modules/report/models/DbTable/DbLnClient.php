@@ -32,9 +32,13 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
     }
     public function getAllCalleteral(){
     	$db = $this->getAdapter();
-    	$sql="SELECT branch_id,code_call,(SELECT co_khname FROM ln_co WHERE co_id=co_id limit 1) As co_id,getter_name,giver_name,date_delivery,client_code
-    	,contracts_borrow,mortgage_Contract,name_borrower,'with',relativewith,owner,withs,relativewiths,
-    	callate_type,note,date_registration,status FROM ln_client_callecteral ORDER BY branch_id";
+//     	$sql="SELECT branch_id,code_call,(SELECT co_khname FROM ln_co WHERE co_id=co_id limit 1) As co_id,getter_name,giver_name,date_delivery,client_code
+//     	,contracts_borrow,mortgage_Contract,name_borrower,'with',relativewith,owner,withs,relativewiths,
+//     	callate_type,note,date_registration,status FROM ln_client_callecteral ORDER BY branch_id";
+		$sql ="SELECT branch_id,code_call,(SELECT co_khname FROM ln_co WHERE co_id=co_id LIMIT 1) AS co_id,
+getter_name,giver_name,date_delivery,client_code
+    	,mortgage_Contract,'with',relativewith,OWNER,withs,relativewiths,
+    	callate_type,note,date_registration,STATUS FROM ln_client_callecteral ORDER BY branch_id";
     	return $db->fetchAll($sql);
     }
 //     public function getAllCalleteral_value(){

@@ -130,14 +130,6 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanCollectioncoAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
 //   
-
-  	
-  	
-  	
-  	
-  	
-  	
-  	
   	$rs=$db->getALLLoanCollectionco();
   	$this->view->LoanCollectionco_list =$rs;
   	$key = new Application_Model_DbTable_DbKeycode();
