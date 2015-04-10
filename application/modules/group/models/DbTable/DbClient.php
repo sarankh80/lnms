@@ -46,6 +46,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'id_number'=>$_data['national_id'],
 				'phone'	      => $_data['phone'],
 				'spouse_name' => $_data['spouse'],
+				'create_date' => date("Y-m-d"), 
 				'remark'	  => $_data['desc'],
 				'status'      => $_data['status'],
 				'user_id'	  => $this->getUserId()
@@ -75,16 +76,22 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     	return $row;
     }
 	function getAllClients($search = null){
+		
 		$db = $this->getAdapter();
+		$from_date =(empty($search['start_date']))? '1': "create_date >= '".$search['start_date']." 00:00:00'";
+		$to_date = (empty($search['end_date']))? '1': "create_date <= '".$search['end_date']." 23:59:59'";
+		$where = " WHERE ".$from_date." AND ".$to_date;
+		
 		$sql = " 
 		SELECT client_id,client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
 			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
-		    ,spouse_name,(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
-			status FROM $this->_name WHERE 1 ";
-		$order=" ORDER BY client_id DESC";
-		$where = '';
+		    ,spouse_name,
+		    create_date,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
+			status FROM $this->_name ";
+		
 		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
@@ -96,6 +103,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$s_where[] = " house LIKE '%{$s_search}%'";
 			$s_where[] = " street LIKE '%{$s_search}%'";
 			$s_where[] = " spouse_name LIKE '%{$s_search}%'";
+// 			$s_where[] = " spouse_nationid LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status']>-1){
@@ -114,6 +122,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$where.=" AND village_id= ".$search['village'];
 		}
 		
+		$order=" ORDER BY client_id DESC";
 // 		echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}

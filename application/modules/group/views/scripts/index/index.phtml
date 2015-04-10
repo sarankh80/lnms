@@ -13,9 +13,19 @@ $frms=$this->frm_client;
       <td><input id="district" ></td>
       <td><input id="commune" ></td>
       <td><input id="village" ></td>
+   </tr>
+   <tr>
+      <td><?php echo $frm->getElement('start_date');?></td>
+      <td><?php echo $frm->getElement('end_date');?></td>
       <td><?php echo $frm->getElement("btn_search");?></td>
-      
-		<?php echo $this->list;?>
+   	  <td></td>
+   	  <td></td>
+   	  <td></td>
+   </tr>
+   <tr>
+   	<td colspan="6">
+   		<?php echo $this->list;?>
+   	</td>
    </tr>
 </table>   
 </form>
