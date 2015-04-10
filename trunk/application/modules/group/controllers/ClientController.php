@@ -24,7 +24,7 @@ class Group_ClientController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Client N.","Name Khmer","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
+			$collumns = array("Client N.","NAME_EN","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
 				"By","status");
 			$link=array(
 					'module'=>'group','controller'=>'Client','action'=>'edit',

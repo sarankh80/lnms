@@ -1,7 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_callteral;
-echo $this->headTitle($tr->translate("ADD_CLIENT_COLLTERAL"));
+echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
 ?>
 <style>	
 .fullside {
@@ -13,7 +13,30 @@ echo $this->headTitle($tr->translate("ADD_CLIENT_COLLTERAL"));
 dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				//return false;
+				 if(dijit.byId('branch_id').get('value')==''){
+				     alert('Please Select Branch Name!');
+                         dijit.byId('branch_id').focus();
+                         return false;
+                 }
+
+				if(dijit.byId('co_name').get('value')==''){
+				         alert('Please Select Staff Name!');
+                         dijit.byId('co_name').focus();
+                         return false;
+                 }
+                 if(dijit.byId('client_name').get('value')==''){
+				         alert('Please Select Client Name!');
+                         dijit.byId('client_name').focus();
+                         return false;
+                 }
+                  if(dijit.byId('collteral_type').get('value')==''){
+				         alert('Please Select Collateral Name!');
+                         dijit.byId('collteral_type').focus();
+                         return false;
+                 }
+
+
+
 				return true;
 			}else {
 				return false;
@@ -23,10 +46,10 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong><?php echo $tr->translate("WITHDRAWAL_COLLERAL_LETTER");?></strong></legend>
+					<legend><strong><?php echo $tr->translate("CLIENT_COLLTERAL");?></strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-							<td width="16%"><?php echo $tr->translate("BRANCH ")?></td>
+							<td width="16%"><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
 							<td><?php echo $frm->getElement('cod_cal');?></td>
@@ -34,9 +57,9 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 							<td><?php echo $frm->getElement('co_name');?></td>
 						</tr>
 						<tr>
-							<td width="16%"><?php echo $tr->translate("CLIENT_CODE ")?></td>
+							<td width="16%"><?php echo $tr->translate("CLIENT_NO")?></td>
 							<td><?php echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("CLIENT_NAME")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 						    <td><?php echo $frm->getElement('client_name')?></td>
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('name')?></td>
@@ -52,22 +75,22 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 						<tr>
 								<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 								<td><?php echo $frm->getElement('and_names')?></td>
-								<td><?php echo $tr->translate("OWNER")?></td>
+								<td><?php echo $tr->translate("OWNER_TYPE")?></td>
 								<td><?php echo $frm->getElement('personal')?></td>
-								<td><?php echo $tr->translate('COLLTERAL_TYPE')?></td>
+								<td><?php echo $tr->translate('COLETERAL_TYPE')?></td>
 								<td><?php echo $frm->getElement("collteral_type")?></td>
 							</tr>
 						
 							<tr>
 								<td><?php echo $tr->translate("NUMBER_COLLTERAL")?></td>
 								<td><?php echo $frm->getElement('number_collteral');?></td>
-								<td><?php echo $tr->translate("NOTE ")?></td>
+								<td><?php echo $tr->translate("NOTE")?></td>
 								<td><?php echo $frm->getElement('note')?></td>
-								<td><?php echo $tr->translate("DATE ")?></td>
+								<td><?php echo $tr->translate("DATE")?></td>
 								<td><?php echo $frm->getElement('date_estate')?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("STATUS ")?></td>
+								<td><?php echo $tr->translate("STATUS")?></td>
 								<td><?php echo $frm->getElement('Stutas')?></td>
 							</tr>
 						
@@ -78,11 +101,10 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	<tr>
 		<td align="center">
 			<input type="hidden" name="exchangefrom" value="2" />
-									<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
-									<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"/>
-									<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+									<input iconClass="dijitIconClear" type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
+									<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 										iconClass="dijitEditorIcon dijitEditorIconSave" />
-									<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+									<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 										iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>	

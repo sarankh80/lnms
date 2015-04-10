@@ -1,7 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_callteral;
-echo $this->headTitle($tr->translate("UPDATE_CLIENT_COLLTERAL"));
+echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
 ?>
 <style>	
 .fullside {
@@ -23,10 +23,10 @@ echo $this->headTitle($tr->translate("UPDATE_CLIENT_COLLTERAL"));
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong><?php echo $tr->translate("WITHDRAWAL_COLLERAL_LETTER");?></strong></legend>
+					<legend><strong><?php echo $tr->translate("CLIENT_COLLTERAL");?></strong></legend>
 					<table cellspacing="10"  width="100%">
 						<tr>
-							<td width="16%"><?php echo $tr->translate("BRANCH ");?><?php echo $frm->getElement('id');?></td>
+							<td width="16%"><?php echo $tr->translate("BRANCH_NAME");?><?php echo $frm->getElement('id');?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
 							<td><?php echo $frm->getElement('cod_cal');?></td>
@@ -34,9 +34,9 @@ echo $this->headTitle($tr->translate("UPDATE_CLIENT_COLLTERAL"));
 							<td><?php echo $frm->getElement('co_name');?></td>
 						</tr>
 						<tr>
-							<td width="16%"><?php echo $tr->translate("CLIENT_CODE ")?></td>
+							<td width="16%"><?php echo $tr->translate("CLIENT_NO")?></td>
 							<td><?php echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("CLIENT_NAME")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 						    <td><?php echo $frm->getElement('client_name')?></td>
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('name')?></td>
@@ -49,25 +49,24 @@ echo $this->headTitle($tr->translate("UPDATE_CLIENT_COLLTERAL"));
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('and_name')?></td>
 						</tr>
-							<tr>
+						<tr>
 								<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 								<td><?php echo $frm->getElement('and_names')?></td>
-								<td><?php echo $tr->translate("OWNER")?></td>
+								<td><?php echo $tr->translate("OWNER_TYPE")?></td>
 								<td><?php echo $frm->getElement('personal')?></td>
-								<td><?php echo $tr->translate('COLLTERAL_TYPE')?></td>
+								<td><?php echo $tr->translate('COLETERAL_TYPE')?></td>
 								<td><?php echo $frm->getElement("collteral_type")?></td>
-							</tr>
-						
-							<tr>
+						</tr>
+						<tr>
 								<td><?php echo $tr->translate("NUMBER_COLLTERAL")?></td>
 								<td><?php echo $frm->getElement('number_collteral');?></td>
-								<td><?php echo $tr->translate("NOTE ")?></td>
+								<td><?php echo $tr->translate("NOTE")?></td>
 								<td><?php echo $frm->getElement('note')?></td>
-								<td><?php echo $tr->translate("DATE ")?></td>
+								<td><?php echo $tr->translate("DATE")?></td>
 								<td><?php echo $frm->getElement('date_estate')?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("STATUS ")?></td>
+								<td><?php echo $tr->translate("STATUS")?></td>
 								<td><?php echo $frm->getElement('Stutas')?></td>
 							</tr>
 					</table>
