@@ -4,7 +4,8 @@ class Group_CallecteralltypeController extends Zend_Controller_Action
 {
 	protected $tr;
 public function init()
-    {$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
+    {
+    	$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
@@ -16,7 +17,6 @@ public function init()
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbCallecteralltype();
 			try {
-				//print_r($data);exit();
 				if(isset($data['btn_save'])){
 					$db->addcallecterall($data);
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
@@ -29,7 +29,6 @@ public function init()
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
-				
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
@@ -37,7 +36,6 @@ public function init()
 	   $frm = $fm->Frmcallecterall(); 
 	   Application_Model_Decorator::removeAllDecorator($frm);
 	   $this->view->Form_Frmcallecterall = $frm;
-	   
     }
     public function indexAction()
     {
@@ -62,7 +60,6 @@ public function init()
     		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('title_en'=>$link,'title_kh'=>$link));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
-    		echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     	$frm = new Callecterall_Form_Frmcallecterall();
@@ -76,19 +73,12 @@ public function init()
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbCallecteralltype();
 			try {
-				if(isset($data['btn_save'])){
-					$db->updatcallecterall($data);
-					Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
-				}
-				if(isset($data['btn_save_close'])){
-					$db->updatcallecterall($data);
-					Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
-					Application_Form_FrmMessage::redirectUrl('/group/Callecteralltype');
-				}				
+				$db->updatcallecterall($data);
+				Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
+				Application_Form_FrmMessage::redirectUrl('/group/Callecteralltype');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
-				
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		

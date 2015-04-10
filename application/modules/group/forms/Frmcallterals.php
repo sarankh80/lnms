@@ -59,7 +59,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
     			'required' =>'true'
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"------Select------");
+    	$options=array(''=>"------Select Branch------");
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
@@ -71,7 +71,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$db = new Application_Model_DbTable_DbGlobal();
 		$co_name = new Zend_Dojo_Form_Element_FilteringSelect('co_name');
 		$rows = $db ->getAllCOName();
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>"------Select Staff------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$co_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',

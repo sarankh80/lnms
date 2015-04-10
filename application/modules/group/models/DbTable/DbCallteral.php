@@ -87,6 +87,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$s_where[]="note LIKE'%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
+		$order = "ORDER BY id DESC ";
 		return $db->fetchAll($sql.$where);
 	}
 	public static function getCallteralCode(){
