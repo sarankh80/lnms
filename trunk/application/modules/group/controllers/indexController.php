@@ -20,6 +20,8 @@ class Group_indexController extends Zend_Controller_Action {
 						'district_id'=>$formdata['district'],
 						'village'=>$formdata['village'],
 						'status'=>$formdata['status'],
+						'start_date'=> $formdata['start_date'],
+						'end_date'=>$formdata['end_date']
 						);
 			}
 			else{
@@ -29,15 +31,17 @@ class Group_indexController extends Zend_Controller_Action {
 						'province_id'=>0,
 						'district_id'=>'',
 						'comm_id'=>'',
-						'village'=>'',);
+						'village'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'));
 			}
 			
 			$rs_rows= $db->getAllClients($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("CUSTOMER_CODE","CLIENTNAME_KH","Name Eng","Sex","Phone","House","Street","Village","Spouse Name",
-					"By","status");
+			$collumns = array("CUSTOMER_CODE","CLIENTNAME_KH","CLIENTNAME_EN","SEX","PHONE","HOUSE","STREET","VILLAGE","SPOUSE_NAME",
+					"DATE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'index','action'=>'edit',
 			);
@@ -126,6 +130,11 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->district = $db->getAllDistricts();
 		$this->view->commune_name = $db->getCommune();
 		$this->view->village_name = $db->getVillage();
+	}
+	function viewAction(){
+		$id = $this->getRequest()->getParam("id");
+		$db_client = new Group_Model_DbTable_DbClient();
+		$this->view->client_list = $db_client->getViewClientByGroupId($id);
 	}
 	public function addNewclientAction(){//ajax
 		if($this->getRequest()->isPost()){

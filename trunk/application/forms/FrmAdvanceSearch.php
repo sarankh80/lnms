@@ -96,23 +96,47 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$type->setMultiOptions($opt_type);
 		$type->setValue($request->getParam("type"));
 		
-		$from_date=new Zend_Dojo_Form_Element_DateTextBox('from_date');
-		$from_date->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-				'required'=>true,
-				'class'=>'fullside'
-		));
-		$from_date->setValue(date('Y-m-d'));
-// 		$from_date->setValue($request->getParam("from_date"));
+// 		$from_date=new Zend_Dojo_Form_Element_DateTextBox('from_date');
+// 		$from_date->setAttribs(array(
+// 				'dojoType'=>'dijit.form.DateTextBox',
+// 				'required'=>true,
+// 				'class'=>'fullside'
+// 		));
+// 		$from_date->setValue(date('Y-m-d'));
+// // 		$from_date->setValue($request->getParam("from_date"));
 		 
-		$to_date=new Zend_Dojo_Form_Element_DateTextBox('to_date');
-		$to_date->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-				'required'=>true,
-				'class'=>'fullside'
+// 		$to_date=new Zend_Dojo_Form_Element_DateTextBox('to_date');
+// 		$to_date->setAttribs(array(
+// 				'dojoType'=>'dijit.form.DateTextBox',
+// 				'required'=>true,
+// 				'class'=>'fullside'
+// 		));
+// 		$to_date->setValue(date('Y-m-d'));
+// // 		$to_date->setValue($request->getParam("to_date"));
+
+		
+		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$from_date->setValue($_date);
+		
+		
+		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
 		));
-		$to_date->setValue(date('Y-m-d'));
-// 		$to_date->setValue($request->getParam("to_date"));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$to_date->setValue($_date);
+		
 		
 		$position_=new Zend_Dojo_Form_Element_FilteringSelect('position');
 		$position_->setAttribs(array(
