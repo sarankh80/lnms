@@ -12,6 +12,8 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
           	$s_where[] = " holiday_name LIKE '%{$s_search}%'";
           	$s_where[]=" start_date LIKE '%{$s_search}%'";
           	$s_where[]=" end_date LIKE '%{$s_search}%'";
+          	$s_where[]=" amount_day LIKE '%{$s_search}%'";
+          	$s_where[]=" note LIKE '%{$s_search}%'";
           	$where .=' AND '.implode(' OR ',$s_where).'';
           }      
           return $db->fetchAll($sql.$where.$Other);
@@ -43,13 +45,16 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     	if(!empty($search['txtsearch'])){
     		$s_where = array();
     		$s_search = $search['txtsearch'];
-    		$s_where[] = " co_code LIKE '%{$s_search}%'";
+    		$s_where[] =" co_code LIKE '%{$s_search}%'";
     		$s_where[]=" co_khname LIKE '%{$s_search}%'";
     		$s_where[]=" co_firstname LIKE '%{$s_search}%'";
-    		$s_where[]=" start_date LIKE '%{$s_search}%'";
-    		$s_where[]=" end_date LIKE '%{$s_search}%'";
-    		$where .=' AND '.implode(' OR ',$s_where).'';
+    		$s_where[]=" email LIKE '%{$s_search}%'";
+    		$s_where[]=" tel LIKE '%{$s_search}%'";
+    		$s_where[]=" address LIKE '%{$s_search}%'";
+    		$s_where[]=" national_id LIKE '%{$s_search}%'";
+    		$where .=' AND '.implode(' OR ',$s_where). '';
     	}
+    	//echo  $sql.$where.$Other;
     	return $db->fetchAll($sql.$where.$Other);
     }
     public function getAllVillage($search= null){
@@ -82,17 +87,19 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 				  AND lv.`user_id`=us.`id` ";
     	$Other =" ORDER BY vill_id DESC ";
     	$where = '';
-    	$wherec = '';
     	//echo $search['txtsearch'];
     	if(!empty($search['txtsearch'])){
     		$s_where = array();
     		$s_search = $search['txtsearch'];
-    		$s_where[] = " village_name LIKE '%{$s_search}%'";
-    		$s_where[] = " village_namekh LIKE '%{$s_search}%'";
+    		$s_where[] = " lv.village_name LIKE '%{$s_search}%'";
+    		$s_where[] = " lv.village_namekh LIKE '%{$s_search}%'";
+    		$s_where[] = " lc.commune_name LIKE '%{$s_search}%' AND lv.`commune_id` = lc.`com_id`";
+    		$s_where[] = " lc.commune_namekh LIKE '%{$s_search}%' AND lv.`commune_id` = lc.`com_id`";
+    		$s_where[] = " lp.province_kh_name LIKE '%{$s_search}%' AND ld.`pro_id` = lp.`province_id` ";
     		$where .=' AND '.implode(' OR ',$s_where);
     	}
-    	//echo ($sql.$where.$wherec.$Other);
-    	return $db->fetchAll($sql.$where.$wherec.$Other);
+    	echo ($sql.$where.$Other);
+    	return $db->fetchAll($sql.$where.$Other);
     }
     	function getAllBranch(){
     		$db=$this->getAdapter();

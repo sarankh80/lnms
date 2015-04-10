@@ -71,7 +71,7 @@ $client = $this->client;
                     <td><?php echo $tr->translate("IS_APPROVED");?></td>
                     <td><?php echo $tr->translate("BRANCH_ID");?></td>
                 </tr>
-               <?php foreach ($this->loanlate_list as $index => $rs){ ?>
+               <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
                 <tr>
                		<td><?php echo $rs["id"];?></td>
                		<td><?php echo $rs["name_kh"];?></td>

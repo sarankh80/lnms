@@ -1,5 +1,5 @@
 <?php
-class Accounting_Model_DbTable_DbAsset extends Zend_Db_Table_Abstract
+class Accounting_Model_DbTable_DbDeposal extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_fixed_asset';
 	function addasset($data){

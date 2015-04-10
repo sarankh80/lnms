@@ -12,9 +12,18 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	{
 	try{
  			$db = new Loan_Model_DbTable_DbTransferCo(); 
- 			$rs_rows= $db->getAllinfoCo($search=null);//call frome model
-// // 			$glClass = new Application_Model_GlobalClass();
-// // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+ 			if($this->getRequest()->isPost()){
+ 				$search=$this->getRequest()->getPost();
+ 				//print_r($search);exit();
+ 			}
+ 			else{
+ 				$search = array(
+ 						'adv_search' => '',
+ 						'status' => -1);
+ 			}
+ 			$rs_row= $db->getAllinfoCo($search);//call frome model
+			$glClass = new Application_Model_GlobalClass();
+			$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","NAME_FROM","NAME_TO","CODE_FORM","CODE_TO","DATE","NOTE","STATUS",);
  			$link=array(
@@ -26,6 +35,10 @@ class Loan_TransfercoController extends Zend_Controller_Action {
  			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
  		}
+ 		$fm = new Loan_Form_FrmTransfer();
+ 		$frm = $fm->FrmTransfer();
+ 		Application_Model_Decorator::removeAllDecorator($frm);
+ 		$this->view->frm_transfer = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button			

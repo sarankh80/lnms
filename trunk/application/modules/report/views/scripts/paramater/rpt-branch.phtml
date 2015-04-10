@@ -3,6 +3,13 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 
 ?>
 <title><?php $tr->translate("Report branch")?></title>
+<table style="float: right;">
+	<tr><td align="right">
+	<input type="text" name="txtsearch" id="txtsearch" placeholder=" "  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
+	</td></tr>
+</table>
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
@@ -25,10 +32,10 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 </tr> 
                 <tr>
                 	<td colspan="3">
-                		<table width="100%">
+                		<table width="100%" style="font-size: 9px;">
                 			<tr class='style'>
-                				<td width="45%">
-                					<?php echo $this->data['brand_adress'];?>
+                				<td width="45%" style="font-size: 9px;">
+                					<span style="font-size: 9px;"><?php echo $this->data['brand_adress'];?></span>
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
                 				<td></td>

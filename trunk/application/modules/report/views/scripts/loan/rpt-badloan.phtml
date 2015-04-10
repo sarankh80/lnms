@@ -7,6 +7,15 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <meta charset="utf-8">
 <title><?php echo $tr->translate("UNITILED DOCUMENT");?></title>
 </head>
+<table style="font-family: 'Khmer OS Content'; width:60%; float: right;" >
+	<tr>
+		<td align="right">
+			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
+		</td>
+	</tr>
+</table>
 <div id="divPrint">
 <body>
 	<h2 align="center">Rtp-badloan</h2>

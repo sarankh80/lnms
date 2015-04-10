@@ -5,9 +5,7 @@ class Accounting_Model_DbTable_DbAsset extends Zend_Db_Table_Abstract
 	function addasset($data){
 		$db = $this->getAdapter();
 		$db->beginTransaction();
-		try{
-			
-			
+		try{	
 		$arr = array(
 				'branch_id'=>$data['branch'],
 				'fixed_assetname'=>$data['asset_name'],

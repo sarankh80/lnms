@@ -4,7 +4,15 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <title><?php echo $tr->translate("Report Staff");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
-
+<table style="float: right;">
+	<tr>
+		<td align="right">
+			<input type="text" name="txtsearch" id="txtsearch" placeholder=""  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
+		</td>
+	</tr>
+</table>
 <div style=" width="100%"  margin:0 auto;">
 <style>
 .style{
@@ -13,13 +21,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 }
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
-	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
-		</td>
-	</tr>
 	<tr>
     	<td align="center">
     	 <div id="divPrint">
@@ -55,20 +56,20 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		            <th>&nbsp;<?php echo $tr->translate("PHONE");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("NATIONAL_ID");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("ADDRESS");?></th>
-		            <th>&nbsp;<?php echo $tr->translate("DEGREE");?></th>
+		           <!-- <th>&nbsp;<?php //echo $tr->translate("DEGREE");?></th>-->
 		            <th>&nbsp;<?php echo $tr->translate("EMAIL");?></th>
-		            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("BASIC_SALARY");?></th>
+		            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("SALARY");?></th>
 		            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("START_DATE");?></th>
 		            <th style="white-space:nowrap;">&nbsp;<?php echo $tr->translate("END_DATE");?></th>
-		            <th style="white-space:pre;">&nbsp;<?php echo $tr->translate("NUMBER_OF_CONTROCT");?></th>
+		            <!--<th style="white-space:pre;">&nbsp;<?php //echo $tr->translate("NUMBER_OF_CONTROCT");?></th> 
 		            <th>&nbsp;Shift</th>
-		            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("WORKING_HOUR");?></th>
-		            <th>&nbsp;Position</th>
+		            <th style="white-space: pre;">&nbsp;<?php // echo $tr->translate("WORKING_HOUR");?></th>-->
+		            <th tyle="white-space: pre;">&nbsp;<?php echo $tr->translate("POSITION");?></th>
 		            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?></th>
 		           <th>&nbsp;<?php echo $tr->translate("NOTE");?></th>
 		         </tr>
 		       <?php if(!empty($this->staff_list))foreach($this->staff_list as $key =>$row){?>
-				   <tr style="font-size: 11px;">
+				   <tr style="font-size: 11px;" align="center">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['co_code']?></td>
 					 <td>&nbsp;<?php echo $row['co_khname']?></td>
@@ -77,14 +78,14 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					 <td>&nbsp;<?php echo $row['tel']?></td>
 					 <td>&nbsp;<?php echo $row['national_id']?></td>
 					 <td style="white-space: pre;">&nbsp;<?php echo $row['address']?></td>
-					 <td>&nbsp;<?php echo $row['degree']?></td>
+				<!-- 	 <td>&nbsp;<?php echo $row['degree']?></td>-->
 					 <td>&nbsp;<?php echo $row['email']?></td>
 					 <td>&nbsp;<?php echo $row['basic_salary']?></td>
 					 <td>&nbsp;<?php echo $row['start_date']?></td>
 					 <td>&nbsp;<?php echo $row['end_date']?></td>
-					 <td>&nbsp;<?php echo $row['contract_no']?></td>
-					 <td>&nbsp;<?php echo $row['shift']?></td>
-					 <td>&nbsp;<?php echo $row['workingtime']?></td>
+				<!--   <td>&nbsp;<?php //echo $row['contract_no']?></td>
+					 <td>&nbsp;<?php //echo $row['shift']?></td>
+					 <td>&nbsp;<?php //echo $row['workingtime']?></td>-->	
 					 <td>&nbsp;<?php echo $row['position']?></td>
 					 <td>&nbsp;<?php echo $row['branch_name']?></td>
 					 <td>&nbsp;<?php echo $row['note']?></td>
@@ -92,7 +93,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 				<?php }?>
 				 <?php if(!empty($key)) for($i=$key; $i<=14;$i++){?>
 					<tr align="center">
-					 <td><?php echo $i+1; ?></td>
+					 <td><?php echo $i+2; ?></td>
 				     <td></td>
 					 <td></td>
 					 <td></td>
@@ -106,17 +107,16 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					 <td></td>
 					 <td></td>
 					 <td></td>
-					 <td></td>
-					 <td></td>
-					 <td></td>
-					 <td></td>
+<!-- 					 <td></td> -->
+<!-- 					 <td></td> -->
+<!-- 					 <td></td> -->
+<!-- 					 <td></td> -->
 					 <td></td>
 					 </tr>
 				 <?php }?>
 						
 		
 		    </table>
-		 <div id="divPrint">
     	</td>
     </tr>
 </table>

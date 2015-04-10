@@ -12,22 +12,35 @@ class Loan_BadloanController extends Zend_Controller_Action {
 	{
 		try{
 			$db = new Loan_Model_DbTable_DbBadloan();
-			$rs_rows= $db->getAllBadloan($search=null);//call frome model
-// 			$glClass = new Application_Model_GlobalClass();
-// 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			if($this->getRequest()->isPost()){
+				$search=$this->getRequest()->getPost();
+				//print_r($search);exit();
+			}
+			else{
+				$search = array(
+						'adv_search' => '',
+						'status' => -1);
+			}
+			$rs_rows= $db->getAllBadloan($search);//call frome model
+			$glClass = new Application_Model_GlobalClass();
+			$rs_row = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH ","CLIENT_CODE","CLIENT_NAME","NUMBER_CODE","DATE","LOSS_DATE"
-					,"TOTAL_AMOUNT","INTEREST_AMOUNT","TEM","NOTE");
+			$collumns = array("BRANCH ","CLIENT_CODE","CLIENT_NAME","DATE","LOSS_DATE"
+					,"TOTAL_AMOUNT","INTEREST_AMOUNT","TEM","NOTE","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'BadLoan','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch'=>$link,'client_code'=>$link
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('client_number'=>$link,'branch_namekh'=>$link
 					,'client_name'=>$link,'client_code'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+		$fm = new Loan_Form_Frmbadloan();
+		$frm = $fm->FrmBadLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_loan = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button
@@ -59,7 +72,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 	if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
 			try {
-		
+				//print_r($_data);exit();
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
 				if(isset($_data['save'])){
 					if($this->getRequest()->getParam('id')==$_data['client_name']){

@@ -3,21 +3,24 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 
 ?>
 <title><?php echo $tr->translate("RPT_VILLAGE");?></title>
-<div style=" width:21cm; margin:0 auto;">
+<table style="float: right;">
+	<tr><td align="right">
+	<input type="text" name="txtsearch" id="txtsearch" placeholder=""  dojoType="dijit.form.TextBox"
+			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
+			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
+	</td></tr>
+</table>
+<div style=" width:80%; margin:0 auto;">
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 
 }
 </style>
 
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
-	<tr><td align="right">
-	<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
-	</td></tr>
+
 	<tr>
     	<td align="center">
     	<div id="divPrint">
@@ -31,8 +34,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td width="45%">
+                			<tr >
+                				<td width="45%" class='style' style="font-size: 10px;">
                 					<?php echo $this->data['brand_adress'];?>
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
@@ -47,7 +50,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             </table>
         	<table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th>N<sup>0</sup></th>
+				        <th>N<sup><u>o</u></sup></th>
 				        <th><?php echo $tr->translate("VILLAGE_KHMER");?></th>
 				        <th><?php echo $tr->translate("VILLAGE_NAME");?></th>
 				        <th><?php echo $tr->translate("COMMMUNE_NAME");?></th>

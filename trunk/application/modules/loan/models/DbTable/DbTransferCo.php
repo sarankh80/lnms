@@ -8,17 +8,31 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     	$sql = 'SELECT `co_id`,`branch_id`,`co_code`,`co_khname` FROM `ln_co` WHERE STATUS = 1';
     	return $db->fetchAll($sql);
     }
-    public function getAllinfoCo(){
+    public function getAllinfoCo($search = null){
     	$db = $this->getAdapter();
-    	$sql = 'SELECT tf.id,(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.br_id = tf.`branch_id`) AS branch_id, 
+    	$sql = 'SELECT tf.id,b.branch_namekh, 
 				(SELECT c.co_khname FROM ln_co AS c WHERE c.co_id = tf.from LIMIT 1) AS `from`,
 				(SELECT c.co_khname FROM ln_co AS c WHERE c.co_id = tf.to LIMIT 1) AS `to`,
     			(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_from LIMIT 1) AS code_from,
-				(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_to LIMIT 1) AS code_to,				
-				tf.`date`,tf.note,
-				(SELECT name_en FROM `ln_view` WHERE TYPE =3 AND key_code=tf.`status`) AS status
-    	FROM `ln_tranfser_co` AS tf WHERE tf.`status` = 1';
-    	return $db->fetchAll($sql);
+				(SELECT c.`co_code` FROM ln_co AS c WHERE c.co_id = tf.code_to LIMIT 1) AS code_to,			
+				tf.`date`,tf.note,tf.`status` FROM `ln_tranfser_co` AS tf,`ln_branch` AS b  
+    			WHERE  b.br_id = tf.branch_id AND tf.status = 1 AND tf.type= 1';
+    	$where='';
+    	$order = ' ORDER BY tf.id DESC ';
+    	if($search['status']>-1){
+    		$where.=" AND tf.status =".$search['status'];
+    	}
+    	if(!empty($search['branch'])){
+    		$where.=" AND tf.branch_id = ".$search['branch_name'];
+    	}
+    	if(!empty($search['adv_search'])){
+    		$s_where=array();
+    		$s_search=$search['adv_search'];
+    		$s_where[]=" b.branch_namekh LIKE '%{$s_search}%'";
+    		$where .=' AND '.implode(' OR ',$s_where).' ';
+    	}
+    	//echo $sql.$where;
+    	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoTransfer($id){
     	$db = $this->getAdapter();
@@ -38,6 +52,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    		'status'=> $data['status'],
 	    		'date'=> $data['Date'],
 	    		'note'=> $data['Note'],
+	    		'type'=> 1,
 	    	);
 	    	$this->insert($_data_arr);		    	    	
 	    	$this->_name ="ln_loanmember_funddetail";
@@ -67,6 +82,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     				'status'=> $data['status'],
     				'date'=> $data['Date'],
     				'note'=> $data['Note'],
+    				'type'=> 1,
     		);
     		$wheres = "id = $id";
     		$this->update($_data_arr, $wheres);
