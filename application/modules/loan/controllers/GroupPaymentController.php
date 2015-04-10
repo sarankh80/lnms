@@ -9,13 +9,25 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Loan_Model_DbTable_DbGroupPayment();
-			if($this->getRequest()->isPost()){
-				$search=$this->getRequest()->getPost();
+		if($this->getRequest()->isPost()){
+				$formdata=$this->getRequest()->getPost();
+				//print_r($formdata);
+				$search = array(
+						'advance_search' => $formdata['advance_search'],
+						'client_name'=>$formdata['client_name'],
+						'date_pay'=>$formdata['date_pay'],
+						'due_date'=>$formdata['due_date'],
+						'status'=>$formdata['status'],
+						);
+				//print_r($search);
 			}
 			else{
 				$search = array(
 						'adv_search' => '',
-						'status' => -1);
+						'client_name' => -1,
+						'date_pay'=>0,
+						'due_date'=>'',
+						'status'=>"",);
 			}
 			$rs_rows= $db->getAllGroupPPayment($search);
 
@@ -31,10 +43,10 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$frm = new Loan_Form_FrmSearchGroupPayment();
+		$fm = $frm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($fm);
+		$this->view->frm_search = $fm;
 	}
 	function addAction()
 	{

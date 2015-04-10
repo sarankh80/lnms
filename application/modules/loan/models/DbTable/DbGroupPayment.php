@@ -403,7 +403,8 @@ function getLoanPaymentByLoanNumber($data){
     	}
     	return $pre_fix.$pre.$new_acc_no;
     }
-    public function getAllGroupPPayment(){
+    public function getAllGroupPPayment($search){
+    	
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
 					lcrm.`receipt_no`,
@@ -419,7 +420,35 @@ function getLoanPaymentByLoanNumber($data){
 				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch
 				FROM `ln_client_receipt_money` AS lcrm WHERE lcrm.is_group=1";
-    	return $db->fetchAll($sql);
+    	$where ='';
+    	if(!empty($search['advance_search'])){
+    		//print_r($search);
+    		$s_where = array();
+    		$s_search = $search['advance_search'];
+    		$s_where[] = "lcrm.`loan_number` LIKE '%{$s_search}%'";
+    		$s_where[] = " lcrm.`receipt_no` LIKE '%{$s_search}%'";
+    		
+    		$where .=' AND '.implode(' OR ',$s_where).'';
+    	}
+    	if($search['status']!=""){
+    		$where.= " AND status = ".$search['status'];
+    	}
+    	
+    	if(!empty($search['date_pay'])){
+    		$where.=" AND lcrm.`date_pay`= ".$search['date_pay'];
+    	}
+    	if(!empty($search['due_date'])){
+    		$where.=" AND lcrm.`date_input`= ".$search['due_date'];
+    	}
+    	if($search['client_name']>0){
+    		$client.=" AND lcrm.`group_id`= ".$search['client_name'];
+    	}
+    	
+    	//$where='';
+    	$order = " ORDER BY receipt_no DESC";
+    	echo $sql.$where.$order;
+    	return $db->fetchAll($sql.$where.$order);
+    	
     }
     public function getGroupPaymentById($id){
     	$db = $this->getAdapter();
