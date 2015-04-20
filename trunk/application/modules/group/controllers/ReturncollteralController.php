@@ -22,15 +22,13 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rowss = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("GIVER_NAME","RECEIVER_NAME","DATE","NOTE","STATUS","USER_ID");
+			$collumns = array("GIVER_NAME","RECEIVER_NAME","COLETERAL_TYPE","NUMBER_COLLTERAL","DATE","NOTE","STATUS","BY_USER");
 			$link=array(
 					'module'=>'group','controller'=>'Returncollteral','action'=>'edit',
 			);
-// 			print_r($rs_rows);exit();
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rowss,array('giver_name'=>$link,'receiver_name'=>$link,'date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$fm = new Group_Form_Frmreturncollteral();
@@ -43,7 +41,6 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbReturnCollteral();
 			try {
-// 				print_r($data);exit();
 				 $db->addReturnCollteral($data);
 				if(!empty($data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
@@ -51,8 +48,8 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/Returncollteral/index');
 				}
 			} catch (Exception $e) { 
-				echo $e->getMessage();exit();
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::message("Application Error");
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
 		$fm = new Group_Form_Frmreturncollteral();
@@ -68,9 +65,10 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			try {
 				$db->updateReturnCollteral($data);
-				Application_Form_FrmMessage::Sucessfull($this->tr->translate("EDIT_SUCCESS"), self::REDIRECT_URL. '/Returncollteral/index');
+				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS", self::REDIRECT_URL. '/Returncollteral/index');
 			} catch (Exception $e) {
-				$this->view->msg = 'INSERT_FAIL';
+				Application_Form_FrmMessage::message("Application Error");
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
 		$id = $this->getRequest()->getParam('id');

@@ -1,9 +1,8 @@
 <?php
 class Group_indexController extends Zend_Controller_Action {
-	const REDIRECT_URL = '/group/index';protected $tr;
+	const REDIRECT_URL = '/group/index';
 	public function init()
-	{$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
-		/* Initialize action controller here */
+	{
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -48,7 +47,6 @@ class Group_indexController extends Zend_Controller_Action {
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 	
@@ -71,21 +69,28 @@ class Group_indexController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
-				//print_r($data);exit();
 				$db = new Group_Model_DbTable_DbClient();
 				try{
 				 if(isset($data['save_new'])){
 					$db->addClient($data);
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+					if($data['chackcall']==1){
+						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
+						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add");
+					}
 				}
 				else if (isset($data['save_close'])){
 					$db->addClient($data);
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+					if($data['chackcall']==1){
+						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
+						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add");
+					}
 					Application_Form_FrmMessage::redirectUrl("/group/index");
 				}
+				
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
-				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
@@ -106,7 +111,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$data = $this->getRequest()->getPost();
 			    
 				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'),"/group/index");
+				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAILE");
 				echo $e->getMessage();

@@ -194,16 +194,16 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$to->setMultiOptions($opt);
 		$to->setValue($request->getParam('to'));
 		
-		$receiver_name=new Zend_Dojo_Form_Element_TextBox('receiver_name');
+		$receiver_name=new Zend_Dojo_Form_Element_ValidationTextBox('receiver_name');
 		$receiver_name->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required'=>true
 				));
 		
-		$giver_name=new Zend_Dojo_Form_Element_TextBox('giver_name');
+		$giver_name=new Zend_Dojo_Form_Element_ValidationTextBox('giver_name');
 		$giver_name->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));

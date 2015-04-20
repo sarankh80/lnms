@@ -17,12 +17,12 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			    			$search = array(
 			    					'adv_search' => '',
 			    					'status_search' => -1);
-			    		}//print_r($search);exit();
+			    		}
 			$rs_rows= $db->getAllChangeCollteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH","OWNER_CODE","OWNER_NAME","FROM","TO","COLLTERAL_TYPE","NUMBER_CODE","OWNER","DATE","NOTE","STATUS","USER_ID");
+			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","OWNER_NAME","FROM_COLL","TO_COLL","COLLTERAL_TYPE","NUMBER_COLLTERAL","OWNER_NAME","DATE","NOTE","STATUS","BY");
 			$link=array(
 					'module'=>'group','controller'=>'changecollteral','action'=>'edit',
 			);
@@ -43,7 +43,6 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbChangeCollteral();
 			try {
- 				//print_r($data);exit();
 				 $db->addChangeCollteral($data);
 				if(!empty($data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
@@ -51,7 +50,6 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
 				}
 			} catch (Exception $e) { 
-				echo $e->getMessage();exit();
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
@@ -67,11 +65,11 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 	if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
 			try {
-				//print_r($data);exit();
 				$db->updateChangeCollteral($data);
 				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL. '/changecollteral/index');
 			} catch (Exception $e) {
-				$this->view->msg = 'EDIT_FAIL';
+				Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
 		$id = $this->getRequest()->getParam('id');

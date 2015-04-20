@@ -20,7 +20,7 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH_FACULTY_NAME")
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
@@ -77,10 +77,12 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		$options = $db->getGroupCodeById(2,0,1);
 		$client_name->setMultiOptions($options);
 		
-		$problem=new Zend_Dojo_Form_Element_TextBox('problem');
+		$problem=new Zend_Dojo_Form_Element_ValidationTextBox('problem');
 		$problem->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
+				'required'=>true
+				
 				));
 		$date = new Zend_Dojo_Form_Element_DateTextBox('date');
 		$date->setAttribs(array(
@@ -95,6 +97,43 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$status->setMultiOptions($opt);
+		
+		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$from_date->setValue($_date);
+		
+		
+		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$to_date->setValue($_date);
+		
+		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
+		$_branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$rows = $db->getAllBranchName();
+		$options=array(''=>"------Select Branch Name------");
+		if(!empty($rows))
+			foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$_branch_id->setMultiOptions($options);
+		$_branch_id->setValue($request->getParam('branch_id'));
 	
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
@@ -106,7 +145,7 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 			$status->setValue($data['status_blacklist']);
 			$_id->setValue($data['client_id']);
 		}
-		$this->addElements(array($_id,$_title,$_status,$_btn_search,$branch,$client_code,$client_name,$problem,$date,$status));
+		$this->addElements(array($_branch_id,$from_date,$to_date,$_id,$_title,$_status,$_btn_search,$branch,$client_code,$client_name,$problem,$date,$status));
 				
 		return $this;
 		

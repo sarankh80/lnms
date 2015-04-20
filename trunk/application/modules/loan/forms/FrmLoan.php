@@ -59,7 +59,7 @@ public function init()
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo(2)'
+				'onchange'=>'getClientInfo(2);'
 		));
 // 		$options = $dbs->getClient(2);
 		
@@ -126,14 +126,15 @@ public function init()
  				'readonly'=>true,
  				'required'=>true
  		));
- 		$_time_collect_pri->setValue(2);
+ 		$_time_collect_pri->setValue(0);
  		
  		$dbs = new Loan_Model_DbTable_DbLoanss();
 		$_amount = new Zend_Dojo_Form_Element_NumberTextBox('total_amount');
 		$_amount->setAttribs(array(
 						'dojoType'=>'dijit.form.NumberTextBox',
 						'class'=>'fullside',
-						'required' =>'true'
+						'required' =>'true',
+				        'onkeyup'=>'calCulateAdminFee();'
 		));
 		
 		$_level = new Zend_Dojo_Form_Element_NumberTextBox('level');
@@ -212,7 +213,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'changeGraicePeroid();'
 		));
-		$term_opt = $db->getVewOptoinTypeByType(1,1,3);
+		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
 		$_collect_term->setMultiOptions($term_opt);
 	
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
@@ -221,8 +222,7 @@ public function init()
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-// 		$options= array(1=>"Day",2=>"Week",3=>"Month");
-// 		$_payterm->setMultiOptions($options);
+		
 		$_payterm->setMultiOptions($term_opt);
 		
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
@@ -274,7 +274,8 @@ public function init()
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onchange'=>'filterClient();'
 		));
 		
 		$rows = $db->getAllBranchName();

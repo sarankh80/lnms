@@ -1,6 +1,7 @@
 <?php
 class Group_CallteralController extends Zend_Controller_Action {
-	const REDIRECT_URL='/group';protected $tr;
+	const REDIRECT_URL='/group';
+	protected $tr;
 	public function init()
 	{
 		$this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
@@ -11,14 +12,16 @@ class Group_CallteralController extends Zend_Controller_Action {
 	public function indexAction(){
 			try{
 				$db = new Group_Model_DbTable_DbCallteral();
-			    		if($this->getRequest()->isPost()){
+			    	if($this->getRequest()->isPost()){
 			    		$search=$this->getRequest()->getPost();
-			    		}
-			    		else{
+			    	}
+			    	else{
 			    			$search = array(
 			    					'adv_search' => '',
-			    					'status_search' => -1);
-			    		}
+			    					'status_search' => -1,
+			    					'start_date'=> date('Y-m-01'),
+									'end_date'=>date('Y-m-d'));
+			    	}
 			$rs_rows= $db->geteAllcallteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
@@ -49,8 +52,8 @@ class Group_CallteralController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/Callteral/index');
 				}
 			} catch (Exception $e) { 
-				echo $e->getMessage();exit();
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+				Application_Form_FrmMessage::message("Application Error");
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
 		$fm = new Group_Form_Frmcallterals();
@@ -66,26 +69,25 @@ class Group_CallteralController extends Zend_Controller_Action {
 	}
 	public function editAction()
 	{
-	if($this->getRequest()->isPost()){
-			$calldata=$this->getRequest()->getPost();
-			$db_call = new Group_Model_DbTable_DbCallteral();
-			try {
-				$db = $db_call->updatecallteral($calldata);
-				Application_Form_FrmMessage::Sucessfull($this->tr->translate('EDIT_SUCCESS'), self::REDIRECT_URL. '/Callteral/index');
-			} catch (Exception $e) {
-				$this->view->msg = 'EDIT_FAIL';
-			}
+		if($this->getRequest()->isPost()){
+				$calldata=$this->getRequest()->getPost();
+				$db_call = new Group_Model_DbTable_DbCallteral();
+				try{
+					$db = $db_call->updatecallteral($calldata);
+					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL. '/Callteral/index');
+				} catch (Exception $e) {
+					$this->view->msg = 'EDIT_FAIL';
+				}
 		}
 		$id = $this->getRequest()->getParam('id');
-// 		if(empty($id)){
-// 			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-// 		}
+		if(empty($id)){
+			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+		}
 		$db = new Group_Model_DbTable_DbCallteral();
 		$row  = $db->getecallteralbyid($id);
 		$fm = new Group_Form_Frmcallterals();
 		$frm = $fm->FrmCallTeral($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
-	
     }
 }

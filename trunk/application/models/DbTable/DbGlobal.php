@@ -153,7 +153,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$sql = " call stGetAllCOName();";
    	$db = $this->getAdapter();
    	$rows =  $db->fetchAll($sql);
-   	$options = array(''=>'----------Select----------');
+   	$options = array(''=>'----Select Credit Officer----');
    	if($option!=null){
    		if(!empty($rows))foreach($rows as $rs){
    				$options[$rs['co_id']]=$rs['co_firstname'];}
@@ -410,7 +410,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$rows = $this->getAdapter()->fetchAll($sql);
   	if($option!=null){
   		$options="";
-//   		print_r($rows);exit();
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['id']]=($row['displayby']==1)?$row['payment_namekh']:$row['payment_nameen'];
   		}
@@ -535,59 +534,58 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $str.'</tr>';
   }
-  public function getContent($rows, $type){
-  	$str='';
-  	//print_r($rows); exit;
-  	if($rows){
-  		$i=0;
-  		foreach($rows as $read){
-  			$i++;
-  			$str.='<tr><td class="no">'.$i.'</td>';
-  			$temp='';
-  			$c=0;
-  			foreach($read as $key=>$value){
-  				if($key!='id'){
-  					if ($type == 'payment'){
-  						if ($key == 'amount' || $key == 'amount_kh'){
-  							$str.='<td align="right">'.number_format($value,2).'</td>';
-  						}
-  						elseif ($key == "rate"){
-  							$str.='<td align="right">'.number_format($value).'</td>';
-  						}
-  						elseif ($key == "create_date"){
-  							$str.='<td align="center">'. date( "d, M Y", strtotime($value)) .'</td>';
-  						}
-  						elseif ($key == "years"){
-  							$str.='<td align="center">'. $value .'</td>';
-  						}
-  						else{
-  							$str.='<td>'.$value.'</td>';
-  						}
-  					}
-  					elseif(!($key=='title_english' || $key=='title_khmer')){
-  						$str.='<td>'.$this->checkValue($value).'</td>';
-  					}
-  					else{
-  						$c++;
-  						if($c==1)$temp=$value;
-  						elseif($c==2){
-  							$str.='<td>'.$temp.'<br/>'.$value.'<br/></td>'; $temp='';$c=0;
-  						}
-  					}
-  				}
-  			}
-  			$str.'</tr>';
+//   public function getContent($rows, $type){
+//   	$str='';
+//   	if($rows){
+//   		$i=0;
+//   		foreach($rows as $read){
+//   			$i++;
+//   			$str.='<tr><td class="no">'.$i.'</td>';
+//   			$temp='';
+//   			$c=0;
+//   			foreach($read as $key=>$value){
+//   				if($key!='id'){
+//   					if ($type == 'payment'){
+//   						if ($key == 'amount' || $key == 'amount_kh'){
+//   							$str.='<td align="right">'.number_format($value,2).'</td>';
+//   						}
+//   						elseif ($key == "rate"){
+//   							$str.='<td align="right">'.number_format($value).'</td>';
+//   						}
+//   						elseif ($key == "create_date"){
+//   							$str.='<td align="center">'. date( "d, M Y", strtotime($value)) .'</td>';
+//   						}
+//   						elseif ($key == "years"){
+//   							$str.='<td align="center">'. $value .'</td>';
+//   						}
+//   						else{
+//   							$str.='<td>'.$value.'</td>';
+//   						}
+//   					}
+//   					elseif(!($key=='title_english' || $key=='title_khmer')){
+//   						$str.='<td>'.$this->checkValue($value).'</td>';
+//   					}
+//   					else{
+//   						$c++;
+//   						if($c==1)$temp=$value;
+//   						elseif($c==2){
+//   							$str.='<td>'.$temp.'<br/>'.$value.'<br/></td>'; $temp='';$c=0;
+//   						}
+//   					}
+//   				}
+//   			}
+//   			$str.'</tr>';
   
-  		}
-  	}
-  	return $str;
-  }
-  public function checkValue($value)
-  {
-  	if($value=='' || $value==0) return '-';
-  	return $value;
+//   		}
+//   	}
+//   	return $str;
+//   }
+//   public function checkValue($value)
+//   {
+//   	if($value=='' || $value==0) return '-';
+//   	return $value;
   
-  }
+//   }
   public function getSubDaysByPaymentTerm($pay_term,$amount_collect = null){
   	if($pay_term==3){
   		$amount_days =30;
@@ -632,6 +630,9 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db = $this->getAdapter();
   	$sql="SELECT start_date FROM `ln_holiday` WHERE start_date='".$date_next."'";
   	$rs =  $db->fetchRow($sql);
+  	
+  	$db = new Setting_Model_DbTable_DbLabel();
+  	$array = $db->getAllSystemSetting();
   	if($rs){
   		$d = new DateTime($rs['start_date']);
   		if($holiday_option==1){
@@ -643,10 +644,59 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		}
   		$d->modify($str_option); //here check for holiday option //can next day,next week,next month
   		$date_next =  $d->format( 'Y-m-d' );
-  		return $date_next;
+//   		return $date_next;
+  		
+  		$d = new DateTime($date_next);
+  		$day_work = date("D",strtotime($date_next));
+  		
+  		if($day_work=='Sat' OR $day_work=='Sun' ){
+  			if(($day_work=='Sat' AND $array['work_saturday']==1) OR ($day_work=='Sun' AND $array['work_sunday']==1)){//sat working
+  				return $date_next;
+  			}else if($day_work=='Sat' AND $array['work_saturday']==0){//sat not working
+  				if($holiday_option==1){//after 
+  					$str_next = '+2 day';
+  				}else{//before
+  					$str_next = '-1 day';//thu
+  				}
+  				
+  				$d->modify($str_next); //here check for holiday option //can next day,next week,next month
+  				$date_next =  $d->format( 'Y-m-d' );
+  				return $date_next;
+  			}else{//sun not working continue to monday // but not check if mon day not working
+  				if($holiday_option==1){//after
+  					$str_next = '+1 day';
+  				}else{//before
+  					$str_next = '-1 day';//thu
+  				}
+  				$d->modify($str_next); //here check for holiday option //can next day,next week,next month
+  				$date_next =  $d->format( 'Y-m-d' );
+  				return $date_next;
+  			}
+  		}else{
+  			return $date_next;
+  		}
+  		
   	}
   	else{
-  		return($date_next);
+  		$d = new DateTime($date_next);
+  		$day_work = date("D",strtotime($date_next));
+  	    if($day_work=='Sat' OR $day_work=='Sun' ){
+  	    	if(($day_work=='Sat' AND $array['work_saturday']==1) OR ($day_work=='Sun' AND $array['work_sunday']==1)){//sat working
+  	    		return $date_next;
+  	    	}else if($day_work=='Sat' AND $array['work_saturday']==0){//sat not working
+  	    		$str_next = '+2 day';
+  	    		$d->modify($str_next); //here check for holiday option //can next day,next week,next month
+  	    		$date_next =  $d->format( 'Y-m-d' );
+  	    		return $date_next;
+  	    	}else{//sun not working continue to monday // but not check if mon day not working
+  	    		$str_next = '+1 day';
+  	    		$d->modify($str_next); //here check for holiday option //can next day,next week,next month
+  	    		$date_next =  $d->format( 'Y-m-d' );
+  	    		return $date_next;
+  	    	}
+  	    }else{
+  	    	return $date_next;
+  	    }
   	}
   }
   public function CountDayByDate($start,$end){
@@ -728,11 +778,34 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$sql = "CALL `stgetLoanFundExist`($loan_id) ";
   	$db = $this->getAdapter();
   	$result = $db->fetchRow($sql);
-  	print_r($result);
   	if(!empty($result)){
   		return true;}
   	else{ 
   		return false;}
   }
+  function getAllClient(){
+  	$db = $this->getAdapter();
+  	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+	CONCAT(c.`name_en` ,',',(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) ,',',
+	(SELECT commune_name FROM `ln_commune` WHERE c.com_id = com_id  LIMIT 1) ,',',
+	(SELECT district_name FROM `ln_district` AS ds WHERE c.dis_id = ds.dis_id  LIMIT 1) ,',',
+	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) ) AS name		
+  	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
+  	return $db->fetchAll($sql);
+  }
+  function getAllClientNumber(){
+  	$db = $this->getAdapter();
+  	$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
+  	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1 " ;
+  	return $db->fetchAll($sql);
+  }
+  function getClientIdBYMemberId($member_id){
+  	$db = $this->getAdapter();
+//   	$sql = "SELECT client_id FROM `ln_loan_member` WHERE member_id = $member_id AND status = 1 LIMIT 1 ";
+$sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_group` AS g
+          WHERE m.status=1 AND g.status=1 AND m.group_id = g.g_id AND m.member_id = $member_id GROUP BY m.member_id ";
+  	return $db->fetchRow($sql);
+  }
+   
 }
 ?>

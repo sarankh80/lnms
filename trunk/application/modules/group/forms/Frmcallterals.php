@@ -210,6 +210,29 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
 		$cod_cal->setValue($code);
 		
+		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$from_date->setValue($_date);
+		
+		
+		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$to_date->setValue($_date);
+		
+		
 		$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){
 		
@@ -232,7 +255,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 			
 		}
 
-		$this->addElements(array($_client_code,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,$customer_code,$number_collteral,$_code,$belong_borrower,
+		$this->addElements(array($from_date,$to_date,$_client_code,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,$customer_code,$number_collteral,$_code,$belong_borrower,
 				$clint_name,$_name,$_name_,$owner,$_And_name,$_And_name_,$_personal,$collteral_type,$note,
 				$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;

@@ -73,7 +73,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$db->beginTransaction();
 		try {
 			
-// 			$db->getProfiler()->setEnabled(true);
 			$this->_name='ln_client_callecteral';
 			$arr_collteral = array(
 					'branch_id'=>$data['branch_id'],
@@ -91,10 +90,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			$where="id = ".$data['collteral_id'];
 			$this->update($arr_collteral,$where);
 			$this->_name = 'ln_changecollteral';
-// 			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 			$db->getProfiler()->setEnabled(false);			
-// 			$db->getProfiler()->setEnabled(true);
 		$arr = array(
     			'branch_id'=>$data['branch_id'],
 				//'collteral_id'=>$data['collteral_id'],
@@ -129,10 +124,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		$where="change_id= ".$data['id'];
 		$this->update($_arr, $where);
 		
-// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 		$db->getProfiler()->setEnabled(false);
-		//exit();
 		$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
@@ -161,7 +152,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			(SELECT name_en FROM ln_client WHERE client_id=owner_id) AS owner_id,
 			(SELECT title_en FROM ln_callecteral_type WHERE id=from_id) AS fromd_id,
 			(SELECT title_en FROM ln_callecteral_type WHERE id=to_id) AS to_id,
-			(SELECT name_kh FROM ln_view WHERE TYPE=21 AND key_code=collteral_type) AS collteral_type,
+			(SELECT title_kh FROM `ln_callecteral_type` WHERE id  = collteral_type) AS collteral_type,
 			number_code,owner,date,note,status,
 			(SELECT user_name FROM rms_users WHERE id=user_id) AS user_id FROM $this->_name WHERE 1";
 			$where='';
@@ -217,10 +208,10 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	}
 	function getOwnerInfo($id){//ajax
 		$db = $this->getAdapter();
-		$sql = "SELECT id,(SELECT name_en FROM ln_client WHERE client_id=client_name) AS client_name,owner,
+		$sql = "SELECT id,(SELECT name_en FROM ln_client WHERE client_id=client_code) AS client_name,owner,
 			(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,
 			callate_type,(SELECT id FROM `ln_changecollteral` WHERE id=$id) AS changecollteral_id,
-			number_collteral FROM `ln_client_callecteral` WHERE id=$id AND status=1  LIMIT 1";
+			number_collteral FROM `ln_client_callecteral` WHERE client_code=$id AND status=1  LIMIT 1";
 		return $db->fetchRow($sql);
 	}
 }

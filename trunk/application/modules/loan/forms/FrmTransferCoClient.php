@@ -39,13 +39,16 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'onchange'=>"getClientInfo(1);"
 		));
-		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"------Select------");
-		if (!empty($row_froms))
-			foreach ($row_froms AS $row_from){
-			$options_from[$row_from['co_id']] = $row_from['co_code'];
+	
+		$row_co = $db->getAllCOName();
+		$options_co =array(''=>"------Select------");
+		if (!empty($row_co))
+			foreach ($row_co AS $row_cos){
+			$options_co[$row_cos['co_id']] = $row_cos['co_code'];
 		}
-		$co_code->setMultiOptions($options_from);
+		$co_code->setMultiOptions($options_co);
+		
+		
 		
 		$formc_co = new Zend_Dojo_Form_Element_FilteringSelect('name_co');
 		$formc_co->setAttribs(array(
@@ -53,13 +56,8 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 				'class'=>'fullside',
 			    'onchange'=>"getClientInfo(2);"
 				));
-		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"------Select------");
-		if (!empty($row_froms))
-			foreach ($row_froms AS $row_from){
-			$options_from[$row_from['co_id']] = $row_from['co_name'];
-		}
-		$formc_co->setMultiOptions($options_from);
+		$options = $db->getAllCOName(1);
+		$formc_co->setMultiOptions($options);
 		
 		$name_client = new Zend_Dojo_Form_Element_FilteringSelect('name_client');
 		$name_client->setAttribs(array(
@@ -121,6 +119,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$note ->setAttribs(array(
 				'dojoType'=>'dijit.form.SimpleTextarea',
 				'class'=>'fullside',
+				'required' =>true,
 				'style'=>'width:98%'
 		));
 		

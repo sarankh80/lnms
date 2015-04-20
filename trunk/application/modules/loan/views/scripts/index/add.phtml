@@ -4,6 +4,7 @@
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -55,26 +56,26 @@
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("LOAN_CODE")?></td>
+							<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("AMIN_FEE")?></td>
-							<td><?php echo $frm->getElement('loan_fee');?></td>
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><?php echo $frm->getElement('customer_code');?></td>
+							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><?php echo $frm->getElement('member');?></td>
-						</tr>
-						<tr>
+							<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
 							<td><?php echo $tr->translate("CO_NAME")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("ZONE_NAME")?></td>
 							<td><?php  echo $frm->getElement('zone');?></td>
 							<td></td>
 							<td></td>
+							<td><?php //echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php //echo $frm->getElement('loan_fee');?></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
@@ -92,16 +93,16 @@
 							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 							<td><?php echo $frm->getElement('date_line');?></td>
-							<td><?php //echo $tr->translate("អាត្រាការប្រាក់")?></td>
-							<td><?php //echo $frm->getElement('interest_rate');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("CURRENCY")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
 							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
+							<td><?php echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
@@ -208,15 +209,66 @@
 	
 </script>
 <script type="text/javascript">
+dojo.require("dojo.data.ObjectStore");
+
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
 		changeCollectType();
 	  });
+	 var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
 	});
-	//var baseurl = '<?php //echo $baseurl;?>';
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "member",
+	id: "member",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getClientInfo(2);
+}
+	}, "member");
+
+	 var client_number = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_number}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "customer_code",
+	id: "customer_code",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getClientInfo(1);
+}
+	}, "customer_code");
+	 
+	});
 </script>
 <script type="text/javascript">
+function filterClient(){
+		branch_id = dijit.byId('branch_id').get('value');
+		dijit.byId('member').query.branch_id = branch_id;
+		dijit.byId('customer_code').query.branch_id = branch_id;
+		dijit.byId('customer_code').reset();
+}
+function calCulateAdminFee(){
+	p_income="<?php echo $this->setting['adminfee']?>";
+	t_admin=dijit.byId('total_amount').get('value');
+	adminfee=(p_income*(t_admin/100));
+	dijit.byId('loan_fee').attr('value',adminfee);
+}
 function CompareGraicePariod(){
 	graice_pariod = dijit.byId('graice_pariod').get('value');
 	period = dijit.byId('period').get('value');
@@ -238,6 +290,7 @@ function chechPaymentMethod(){
 		dijit.byId('amount_collect_pricipal').focus();
 		dijit.byId("amount_collect").set('readOnly',true);
 		dijit.byId("collect_termtype").set('readOnly',true);
+		dijit.byId('amount_collect_pricipal').attr('value',2);
 	}else if(method_id==4){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?>";
@@ -312,8 +365,24 @@ function getClientInfo(type){
 		customer_code= dijit.byId('member').get('value');
 		dijit.byId('customer_code').attr('value',customer_code);
 	}
+	getLoanLevel(customer_code);
 }
-
+var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
+function getLoanLevel(client_id){
+		dojo.xhrPost({
+	    url: getloan_level,	
+	    content : { 
+	    	'client_id': client_id,
+	    	'type':1
+		},	    
+		handleAs:"json", 
+		load: function(data) {	
+			dijit.byId('level').attr('value',data);
+		},
+		error: function(err) {
+		}
+	});
+}
 
 var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
 function addNewClient(){
