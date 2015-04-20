@@ -36,7 +36,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
 		$_group_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
+// 				'class'=>'fullside',
 				'onchange'=>'getmemberIdGroup();'
 		));
 		$group_opt = $db ->getGroupCodeById(1,1,1);
@@ -83,7 +83,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 		));
-		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue($request->getParam("currency_type"));
 		
@@ -94,8 +94,13 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'onchange'=>'chechPaymentMethod()'
 		));
 		$options = $db->getAllPaymentMethod(null,1);
+		$options[-1]="--Select Repayment Method--";
 		$_repayment_method->setMultiOptions($options);
-		$_repayment_method->setValue($request->getParam("repayment_method"));
+		$opt_method = $request->getParam("repayment_method");
+		if(empty($opt_method)){
+			$opt_method=-1;
+		}
+		$_repayment_method->setValue($opt_method);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
@@ -106,24 +111,34 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_zone->setMultiOptions($options);
 		$_zone->setValue($request->getParam("zone"));
 		
-		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('from_date');
-		$_releasedate->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-		));
-		$s_date = date('Y-m-d');
-		$_releasedate->setValue($s_date);
+		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$_releasedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+// 				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$_releasedate->setValue($_date);
 		
 		
-		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('to_date');
-		$_dateline->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
+		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+// 				'class'=>'fullside',
 		));
-		$_dateline->setValue($s_date);
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$_dateline->setValue($_date);
+		
 		
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
+// 				'class'=>'fullside',
 				'required' =>'true'
 		));
 		$options= array(1=>"Day",2=>"Week",3=>"Month");
@@ -136,12 +151,25 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array(-1=>'---Select Branch---');
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
 		$_branch_id->setValue($request->getParam("branch_id"));
+		
+		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
+		$_pay_every->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+				'required' =>'true',
+				'onchange'=>'changeCollectType();'
+		));
+		
+		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
+		$_pay_every->setMultiOptions($term_opt);
+// 		$_pay_every->setValue(3);
+		$_pay_every->setValue($request->getParam('pay_every'));
 		
 		if($data!=null){
 			print_r($data);
@@ -152,7 +180,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			$_releasedate->setValue($data['date_release']);
 			$_currency_type->setValue($data['payment_method']);
 		}
-		$this->addElements(array($_groupid,$_title,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_releasedate
+		$this->addElements(array($_pay_every,$_groupid,$_title,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_releasedate
 				,$_payterm,$_dateline,$_group_code,$_customer_code,$_status,$_btn_search,$_repayment_method));
 		return $this;
 		

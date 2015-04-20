@@ -55,14 +55,20 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	}
 	function geteAllcallteral($search=null){
 		$db = $this->getAdapter();
+		
+		$from_date =(empty($search['start_date']))? '1': "date_registration >= '".$search['start_date']." 00:00:00'";
+		$to_date = (empty($search['end_date']))? '1': "date_registration <= '".$search['end_date']." 23:59:59'";
+		$where = " WHERE ".$from_date." AND ".$to_date;
+		
+		
 		$sql=" SELECT id,
 		(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1) as branch_name
-		,code_call,(SELECT ln_co.co_khname FROM ln_co WHERE ln_co.co_id=ln_client_callecteral.co_id limit 1) AS co_id,
-		(SELECT client_number FROM ln_client WHERE client_id=client_code) AS client_code
-		,(SELECT name_en FROM ln_client WHERE client_id=client_code) AS client_name,owner,
-		(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type,
-		number_collteral,date_registration,note,status FROM $this->_name WHERE 1";
-		$where='';
+		,(SELECT client_number FROM ln_client WHERE client_id=client_code) AS client_code
+		,(SELECT name_en FROM ln_client WHERE client_id=client_code) AS client_name
+		,code_call,(SELECT ln_co.co_khname FROM ln_co WHERE ln_co.co_id=ln_client_callecteral.co_id limit 1) AS co_id
+		,owner
+		,(SELECT title_kh FROM ln_callecteral_type WHERE id=callate_type) AS collteral_type
+		,number_collteral,date_registration,note,status FROM $this->_name ";
 		if($search['status_search']>-1){
 			$where.=" AND status=".$search['status_search'];
 		}
@@ -88,7 +94,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		$order = "ORDER BY id DESC ";
-		return $db->fetchAll($sql.$where);
+		return $db->fetchAll($sql.$where.$order);
 	}
 	public static function getCallteralCode(){
 		$db = new Application_Model_DbTable_DbGlobal();

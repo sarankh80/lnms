@@ -3,6 +3,10 @@
 class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'ln_tranfser_co';
+	public function getUserId(){
+		$session_user=new Zend_Session_Namespace('auth');
+		return $session_user->user_id;
+	}
     public function getcoinfo(){
     	$db = $this->getAdapter();
     	$sql = 'SELECT m.member_id,m.client_id,m.loan_number,m.group_id,
@@ -14,7 +18,7 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
 		WHERE g. `g_id` = m.`group_id` LIMIT 1) AS co_name ,
 		(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_name ,
 		(SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_code 
-		FROM `ln_loan_member` AS m WHERE STATUS = 1';
+		FROM `ln_loan_member` AS m WHERE status = 1';
     	return $db->fetchAll($sql);
     }
     public function getAllinfoCo(){
@@ -74,28 +78,30 @@ tf.date,tf.note,tf.status FROM ln_tranfser_co AS tf WHERE STATUS = 1 AND tf.type
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try {
+    		$dbg = new Application_Model_DbTable_DbGlobal();
+    		$row = $dbg->getClientIdBYMemberId($data['loan_client']);
     		$_data_arr = array(
+    				'client_id'=>$row['client_id'],
     				'branch_id'=> $data['branch_name'],
     				'loan_id'=> $data['loan_number'],
     				'code_to'=> $data['name_co'],
+    				'from'=>$row['co_id'],
     				'to'=> $data['name_co'],
     				'status'=> $data['status'],
     				'date'=> $data['Date'],
     				'note'=> $data['Note'],
     				'type'=> 3,
+    				'user_id'=>$this->getUserId()
     		);
     		$this->insert($_data_arr);
     		$this->_name ="ln_loanmember_funddetail";
     		$_arr_fund = array(
     				'collect_by'=>$data['name_co'],
     		);
-    		$where = "member_id = ".$data['loan_number']." AND is_completed = 0 AND status = 1 ";
+    		$where = " member_id = ".$data['loan_number']." AND is_completed = 0 AND status = 1 ";
     		$this->update($_arr_fund, $where);
     		$db->commit();
     	}catch (Exception $e){
-    		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		$err =$e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
     		$db->rollBack();
     	}
     }

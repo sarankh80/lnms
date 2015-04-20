@@ -49,23 +49,22 @@ public function init()
     		else{
     			$search = array(
     					'adv_search' => '',
-    					'status_search' => -1);
+    					'status_search' => -1,
+    					'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'));
     		}
     		$rs_row= $db->getAllBlackList($search);//call frome model
-    		//print_r($rs_rows);exit();
     					$glClass = new Application_Model_GlobalClass();
     					$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("name_kh","name_en","sex","client_number","branch_id","is_blacklist","reasonblack_list","date_blacklist","status_blacklist","status");
+    		$collumns = array("BRANCH_NAME","COMMUNE_NAME_KH","COMUNE_NAME_EN","CUSTOMER_CODE","SEX","REASON","IN_BLACKLIST","DATE","STATUS");
     		$link=array(
     				'module'=>'group','controller'=>'Clientblacklist','action'=>'edit',
     		);
-    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_kh'=>$link,'name_en'=>$link,));
+    		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('name_kh'=>$link,'name_en'=>$link,'client_number'=>$link));
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
-    		echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    	
     	}
     	$frm = new Group_Form_FrmClientBlackList();
     	$frm = $frm->FrmClientBlackList();

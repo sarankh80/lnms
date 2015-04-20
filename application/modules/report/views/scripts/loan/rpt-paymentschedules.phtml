@@ -94,7 +94,7 @@ margin: -4px 4px 0 4px;
 				                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
 				                </tr>
 				                <tr class='style'>
-				                	<td rowspan="2" colspan="2"> <p><b>អាសយដ្ឋាន</b>:ភូមិ  <?php echo $row['village_name'];?> ,ឃុំ <?php echo $row['commune_name'];?> <br />ស្រុក<?php echo $row['district_name'];?> ,ខេត្ត  <?php echo $row['province_en_name'];?></td>
+				                	<td rowspan="2" colspan="2"> <p><b>អាសយដ្ឋាន</b>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <br /><?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?></td>
 				                    <td>រយៈពេលខ្ចី  : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']);?> </td>
 				                    <td></td>
 				                </tr>
@@ -166,18 +166,17 @@ margin: -4px 4px 0 4px;
 	               <?php }?>
 	            </table>
 	            <table width="100%" cellpadding="3">
-	            	<tr class="font_bold" style="height:40px;">
-	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td>
-	            		<td></td> 
+	            	<tr class="font_bold" style="height:25px;">
+	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះគណនេយ្យ</td>
+	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td> 
 	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center">
-	            			<p style="margin-top: 20px;margin-bottom:-25px;">--------------------------------------</p>
-	            			<p><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></p></td>
-	            		<td></td>
-	            		<td align="center"><p style="margin-top: 20px;margin-bottom:-25px;">--------------------------------------</p>
-	            			<p><?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></p></td>
+	            		<td align="center" height="80px" valign="bottom"><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center"  valign="bottom">
+	            			<?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center" height="75px" valign="bottom">
+	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>
 	    	</td>

@@ -14,26 +14,32 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 			}
 			else{
 				$search = array(
-						'client_id' => -1,
+						'txt_search'=>'',
+						'customer_code'=> -1,
+						'repayment_method' => -1,
+						'branch_id' => -1,
+						'co_id' => -1,
 						'status' => -1,
-						'from_date' =>date('Y-m-d'),
-						'to_date' => date('Y-m-d'),
+						'currency_type'=>-1,
+						'pay_every'=>-1,
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'),
 				);
 			}
 			$rs_rows= $db->getAllGroupLoan($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Loan Number","Client Name","Client NameKh","Release Amount","Interest Rate","Method","Zone","CO",
-					"Branch","status");
+			$collumns = array("LOAN_NO","CUSTOMER_NAME","COMUNE_NAME_EN","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
+				"BRANCH_NAME","STATUS");
 			$link=array(
-					'module'=>'loan','controller'=>'GroupDisburse','action'=>'edit',
+					'module'=>'loan','controller'=>'GroupDisburse','action'=>'view',
 			);
-			$link_info=array('module'=>'group','controller'=>'client','action'=>'view-clientinfo',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'client_name_kh'=>$link_info,'client_name_en'=>$link_info));
+			$link_info=array('module'=>'loan','controller'=>'GroupDisburse','action'=>'edit',);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+		
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$frm = new Loan_Form_FrmSearchLoan();
@@ -77,6 +83,27 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$this->view->member_option = $db_option->getAllClientGroupOption();
 		$this->view->code_option = $db_option->getAllClientCodeOption();
 		
+		$db = new Setting_Model_DbTable_DbLabel();
+		$this->view->setting=$db->getAllSystemSetting();
+		
+	}
+	function viewAction(){
+		$id = $this->getRequest()->getParam('id');
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		if(empty($id)){
+			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+		}
+		$db = new Loan_Model_DbTable_DbLoanIL();
+		$row = $db->getLoanviewById($id);
+		$this->view->tran_rs = $row;
+		
+		$db = new Loan_Model_DbTable_DbLoanGroup();
+		$rows = $db->getAllMemberLoanById($id);
+		$this->view->list_members = $rows;
+		if(empty($rows)){
+			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/GroupDisburse/index");
+		}
+	
 	}
 	function editAction()
 	{
@@ -84,29 +111,38 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$db = new Loan_Model_DbTable_DbLoanGroup();
-				$db->upDateLoanDisburse($_data);
-				if(!empty($_data['saveclose'])){
-					// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/GroupDisburse/index");
+				$effect =  $db->upDateLoanDisburse($_data);
+				if($effect==true){
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/GroupDisburse/index");
 				}else{
-					//Application_Form_FrmMessage::message("INSERT_SUCCESS");
+					Application_Form_FrmMessage::Sucessfull("EDIT_FAIL","/loan/GroupDisburse/index");
 				}
-	
-	
+				
 			}catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
-				echo $err;exit();
-				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+				Application_Form_FrmMessage::Sucessfull("EDIT_FAIL","/loan/GroupDisburse/index");
+				
 			}
 		}
 		$id = $this->getRequest()->getParam('id');
 		$db = new Loan_Model_DbTable_DbLoanIL();
-		$row = $db->getTranLoanByIdWithBranch($id);
+		$row = $db->getTranLoanByIdWithBranch($id,2);
+		
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		$rs = $db_g->getLoanFundExist($id);
+		if($rs==true){
+			Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/GroupDisburse/index");
+		}
+		
+		
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);
 		$db = new Loan_Model_DbTable_DbLoanGroup();
-		$this->view->list_members = $db->getAllMemberLoanById($id);
-	
+		$rows = $db->getAllMemberLoanById($id);
+		$this->view->list_members = $rows;
+		if(empty($rows)){
+			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/GroupDisburse/index");
+		}
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
 		$frmpopup = new Application_Form_FrmPopupGlobal();
