@@ -99,7 +99,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Group Client no loan to pay!", "/loan/GroupPayment");
 				}else{
 					$db->updateGroupPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
+					//Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();

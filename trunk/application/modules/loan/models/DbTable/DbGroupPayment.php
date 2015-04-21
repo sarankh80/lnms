@@ -113,7 +113,7 @@ function getLoanPaymentByLoanNumber($data){
     	$db = $this->getAdapter();
     	$loan_number= $data['loan_number'];
     	if($data['type']!=1){
-    		$where =($data['type']==2 AND $data["type"]==3)?'client_id = '.$loan_number:'client_id='.$loan_number;
+    		$where =($data['type']==2)?'client_id = '.$loan_number:'client_id='.$loan_number;
     		$sql ="SELECT 
     				  (SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
     				  (SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
@@ -266,6 +266,30 @@ function getLoanPaymentByLoanNumber($data){
 //     				$db->getProfiler()->setEnabled(false);
     			}
     		}
+    		$loan_number = $data['loan_number'];
+    		$sql_payment ="SELECT
+					    		l.*
+					    	FROM
+					    		`ln_loanmember_funddetail` AS l,
+					    		`ln_loan_member` AS m
+					    	WHERE l.`member_id` = m.`member_id`
+					    		AND m.`loan_number` = '$loan_number'
+					    		AND l.`is_completed` = 0 ";
+    		$rs_payment = $db->fetchRow($sql_payment);
+    		//echo $sql_payment;
+    		
+    		$group_id = $data["group_id"];
+    		if(empty($rs_payment)){
+    			$sql ="UPDATE
+				    		`ln_loan_group` AS l
+				    	SET l.`status` = 2
+				    	WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1)
+				    		AND l.`group_id`= $group_id AND l.`loan_type`=1";
+    		$db->query($sql);
+    		 
+    		$sql_loan_memeber ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
+    		$db->query($sql_loan_memeber);
+    		}
      		//exit();
     		$db->commit();
     	}catch (Exception $e){
@@ -335,11 +359,11 @@ function getLoanPaymentByLoanNumber($data){
     		$db->getProfiler()->setEnabled(false);
     	
     		$identify = explode(',',$data['identity']);
+    		print_r($identify);
     		foreach($identify as $i){
-    			//     			print_r($data["mfdid_".$i]);
-    			if(@$data["mfdid_".$i]){
+    			if(!empty($identify)){
     				$arr_money_detail = array(
-    						'crm_id'				=>		$client_pay,
+    						'crm_id'				=>		$id,
     						'lfd_id'				=>		$data["mfdid_".$i],
     						'client_id'				=>		$data["client_id_".$i],
     						'date_payment'			=>		$data["date_payment_".$i],
@@ -358,7 +382,9 @@ function getLoanPaymentByLoanNumber($data){
     				);
     				
     				$db->getProfiler()->setEnabled(true);
-    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+    				$this->_name="ln_client_receipt_money_detail";
+    				$this->insert($arr_money_detail);
+    					//$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
     				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
     				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
     				$db->getProfiler()->setEnabled(false);
@@ -377,6 +403,31 @@ function getLoanPaymentByLoanNumber($data){
     	
     			}
     		}
+    		
+    		$sql_payment ="SELECT
+					    		l.*
+					    	FROM
+					    		`ln_loanmember_funddetail` AS l,
+					    		`ln_loan_member` AS m
+					    	WHERE l.`member_id` = m.`member_id`
+					    		AND m.`loan_number` = '$loan_number'
+					    		AND l.`is_completed` = 0 ";
+    		$rs_payment = $db->fetchRow($sql_payment);
+    		//echo $sql_payment;
+    		
+    		$group_id = $data["client_id"];
+    		if(empty($rs_payment)){
+    		$sql ="UPDATE
+			    		`ln_loan_group` AS l
+			    	SET l.`status` = 2
+			    	WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1)
+			    		AND l.`group_id`= $group_id AND l.`loan_type`=1";
+    		$db->query($sql);
+    		 
+    		$sql_loan_memeber ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
+    		$db->query($sql_loan_memeber);
+    		}
+    		//exit();
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
@@ -405,6 +456,9 @@ function getLoanPaymentByLoanNumber($data){
     }
     public function getAllGroupPPayment($search){
     	
+    	$date_pay = $search['date_pay'];
+    	$date_input = $search['due_date'];
+    	
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
 					lcrm.`receipt_no`,
@@ -428,25 +482,25 @@ function getLoanPaymentByLoanNumber($data){
     		$s_where[] = "lcrm.`loan_number` LIKE '%{$s_search}%'";
     		$s_where[] = " lcrm.`receipt_no` LIKE '%{$s_search}%'";
     		
-    		$where .=' AND '.implode(' OR ',$s_where).'';
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
     	if($search['status']!=""){
     		$where.= " AND status = ".$search['status'];
     	}
     	
     	if(!empty($search['date_pay'])){
-    		$where.=" AND lcrm.`date_pay`= ".$search['date_pay'];
+    		$where.=" AND lcrm.`date_pay`= '$date_pay'";
     	}
     	if(!empty($search['due_date'])){
-    		$where.=" AND lcrm.`date_input`= ".$search['due_date'];
+    		$where.=" AND lcrm.`date_input`= '$date_input'";
     	}
     	if($search['client_name']>0){
-    		$client.=" AND lcrm.`group_id`= ".$search['client_name'];
+    		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
     	}
     	
     	//$where='';
     	$order = " ORDER BY receipt_no DESC";
-    	echo $sql.$where.$order;
+    	//echo $sql.$where.$order;
     	return $db->fetchAll($sql.$where.$order);
     	
     }

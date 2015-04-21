@@ -12,9 +12,9 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$advnceSearch = new Zend_Dojo_Form_Element_TextBox("advance_search");
 		$advnceSearch->setAttribs(array('class'=>'fullside'
 				,'dojoType'=>'dijit.form.TextBox'
-				,'placeholder'=>$this->tr->translate("Reciept No,Loan Numbr")));
+				,'placeholder'=>$this->tr->translate("Reciept No or Loan Number")));
 		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
-		$opt_client = array(''=>'ជ្រើសរើស');
+		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
 		$rows = $db->getAllClient();
 		if(!empty($rows))foreach($rows AS $row){
 			$opt_client[$row['id']]=$row['name'];
@@ -33,7 +33,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		
 		$status = new Zend_Dojo_Form_Element_FilteringSelect("status");
 		$status->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect','placeholder'=>$this->tr->translate("ស្ថានការ")));
-		$opt_status = array(''=>'ជ្រើសរើស','1'=>'ដំណើការ','2'=>'មិនដំណើការ');
+		$opt_status = array(''=>'ជ្រើសរើស ស្ថានការ','1'=>'ដំណើការ','2'=>'មិនដំណើការ');
 		$status->setMultiOptions($opt_status);
 		
 		$submit = new Zend_Dojo_Form_Element_SubmitButton("btn_submit");

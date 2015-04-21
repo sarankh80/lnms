@@ -11,19 +11,29 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Loan_Model_DbTable_DbLoanILPayment();
-// 			if($this->getRequest()->isPost()){
-// 				$search=$this->getRequest()->getPost();
-// 			}
-// 			else{
-// 				$search = array(
-// 						'adv_search' => '',
-// 						'status' => -1);
-// 			}
-			$rs_rows= $db->getAllIndividuleLoan();
+		if($this->getRequest()->isPost()){
+				$formdata=$this->getRequest()->getPost();
+				$search = array(
+						'advance_search' => $formdata['advance_search'],
+						'client_name'=>$formdata['client_name'],
+						'date_pay'=>$formdata['date_pay'],
+						'due_date'=>$formdata['due_date'],
+						'status'=>$formdata['status'],
+						);
+			}
+			else{
+				$search = array(
+						'adv_search' => '',
+						'client_name' => -1,
+						'date_pay'=>0,
+						'due_date'=>'',
+						'status'=>"",);
+			}
+			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Branch","Client Name","Reciept No","Loan Number","Principal","Paid Principal","Total Pay","Due Date",
-				"CO","status");
+			$collumns = array("Recirpt No","Loan No","Group Client","Total Principle","Total Payment","Recieve Amount","Total Interest","Penalize Amount","Date Pay","Due Date","CO Name","Branch",
+				);
 			$link=array(
 					'module'=>'loan','controller'=>'il-payment','action'=>'edit',
 			);
@@ -33,10 +43,10 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
-		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
+		$frm = new Loan_Form_FrmSearchGroupPayment();
+		$fm = $frm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($fm);
+		$this->view->frm_search = $fm;
   }
   function addAction()
   {
@@ -51,7 +61,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 				}else {
 					
 					$db->addILPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/il-payment/");
+					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/il-payment/");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
