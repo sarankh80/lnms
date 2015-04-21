@@ -1,0 +1,138 @@
+<?php
+	$this->headTitle('View Loan Group Disburse'); 
+	echo $this->headTitle();
+	$rs = $this->tran_rs;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<style>	
+	.dojoxGridSortNode{
+		text-align: center;	
+		height: 30px;		
+	}
+.fullside {
+	width: 100%;
+	height: 30px;
+}
+.border-cover{
+	border:1px solid #ccc; padding: 0px 4px; background: #E5F2F5
+}
+table tr{ height: 25px;}
+</style>
+<p style="float:right;">
+<input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"GroupDisburse",'action'=>'index'),null,true); ?>';"/>
+<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"GroupDisburse",'action'=>'edit','id'=>$rs['g_id']),null,true); ?>';"/>
+</p>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("INFO_INDILOAN")?></strong></legend>
+					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
+						<tr>
+							<td width="17%" ><?php echo $tr->translate("BRANCH_NAME");?></td>
+							<td class="border-cover" width="17%"><?php echo $rs['branch_name']; ?></td>
+							<td><?php echo $tr->translate("GROUP_CODE");?></td>
+							<td class="border-cover"><?php echo $rs['group_code'];?></td>
+							<td width="17%"><?php echo $tr->translate("LOAN_LEVEL")?></td>
+							<td class="border-cover"><?php echo $rs['level']?></td>
+						</tr>
+						<tr>
+							
+							<td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+							<td class="border-cover"><?php echo $rs['client_name_en'];?></td>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td class="border-cover"><?php echo $rs['co_firstname'];?></td>
+						</tr>
+						<tr>
+							
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td class="border-cover"><?php echo $rs['zone_name'];?></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+							<td class="border-cover"><?php echo $rs['pay_term'];?></td>
+							<td><?php echo $tr->translate("TERM_BORROW")?></td>
+							<td class="border-cover"><?php echo $rs['total_duration']." ".$rs['pay_term'];?></td>
+							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
+							<td class="border-cover"><?php echo $rs['date_release'];?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+							<td class="border-cover"><?php echo $rs['first_payment'];?></td>
+							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
+							<td class="border-cover"><?php echo $rs['date_line'];?></td>
+							<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left" class="border-cover"><?php echo $rs['currency_type'];?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td class="border-cover"><?php echo $rs['interest_rate'];?></td>
+							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
+							<td class="border-cover"><?php echo $rs['payment_nameen'];?></td>
+							<td><label style="font-size:12px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ></td>
+							<td class="border-cover"><?php echo $rs['graice_period']." ".$rs['pay_term'];?></td>
+							
+						</tr>
+						<tr>
+							<td><label id="lbl_payment"><?php echo ($rs['payment_method']==4)? $tr->translate("AMOUNT_GRAICE_PARIOD"): $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
+							<td class="border-cover"><?php  echo $rs['semi'];?></td>
+							<td colspan="4"></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TIME_COLLECION")?></td>
+							<td class="border-cover"><?php echo $rs['time_collect'];?></td>
+							<td><?php echo $tr->translate("TERM_FUND")?></td>
+							<td class="border-cover"><?php echo $rs['collect_typeterm'];?></td>
+							<td><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
+							<td class="border-cover"><?php echo $rs['amount_collect_principal']." ".$rs['collect_typeterm'];?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
+							<td class="border-cover"><?php  echo $rs['holiday'];?></td>
+							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
+							<td class="border-cover"><?php echo $rs['pay_after'];?></td>
+							<td><?php echo $tr->translate("FUND_BEFORDATE")?></td>
+							<td class="border-cover"><?php echo $rs['pay_before'];?></td>
+							
+						</tr>
+						
+					</table>
+				</fieldset>
+		</td>
+		<tr>
+		<td align="center">
+				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;" border="1">
+							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center">
+								<th><?php echo $tr->translate("LOAN_NO")?></th>
+								<th><?php echo $tr->translate("CUSTOMER_CODE")?></th>
+								<th><?php echo $tr->translate("CUSTOMER_NAME")?></th>
+								<th><?php echo $tr->translate("LOAN_AMOUNT")?></th>
+								<th><?php echo $tr->translate("AMIN_FEE")?></th>
+								<th><?php echo $tr->translate("NOTE")?></th>
+							</tr>
+							<?php foreach ($this->list_members as $row){?>
+							<tr>
+								<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
+								<td>&nbsp;<?php echo $row['client_name_en'];?>&nbsp;</td>
+								<td><strong>&nbsp;<?php echo $row['admin_fee']." ".$rs['currency_type'];?>&nbsp;</strong></td>
+								<td><strong>&nbsp;<?php echo $row['total_capital']." ".$rs['currency_type'];?>&nbsp;</strong></td>
+								<td>&nbsp;<?php echo $row['loan_purpose'];?>&nbsp;</td>
+							</tr>
+							<?php } ?>
+				</table>		
+		</td>
+	</tr>		
+</table>

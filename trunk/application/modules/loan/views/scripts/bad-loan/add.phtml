@@ -1,7 +1,6 @@
 <?php
-$this->headTitle('BadLoan');
-echo $this->headTitle();
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate('BAD_LOAN'));
 $frm = $this->frm_loan;
 ?>
 
@@ -15,16 +14,16 @@ $frm = $this->frm_loan;
 	 <script type="dojo/method" event="onSubmit">			
 	if(this.validate()) {
     	if(dijit.byId('branch').get('value')==''){
-     		alert('សូមមេតាជ្រើសរើសប្រភេទសាខា');
+     		alert('Please Select Branch');
      		dijit.byId('branch').focus();
      		return false;
    		}
-		if(dijit.byId('client_codeadd').get('value')==''){
-     		alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
+		if(dijit.byId('client_nameadd').get('value')==''){
+     		alert('Please Select Client Name');
      		dijit.byId('client_codeadd').focus();
      		return false;
    		}
-		if(dijit.byId('client_nameadd').get('value')==''){
+		if(dijit.byId('client_codeadd').get('value')==0){
      		alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
      		dijit.byId('client_nameadd').focus();
      		return false;
@@ -38,15 +37,14 @@ $frm = $this->frm_loan;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>BAD LOAN</strong></legend>
+					<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
 					<table cellspacing="10"  width="100%">
-					
 					   <tr>
-							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch');?></td>
-							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><?php echo $frm->getElement('client_codeadd');?></td>
-							<td><?php echo $tr->translate("CLIEN_NAME")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><?php echo $frm->getElement('client_nameadd')?></td>
 						</tr>
 						<tr>
@@ -54,15 +52,15 @@ $frm = $this->frm_loan;
 							<td><?php echo $frm->getElement('date_loss')?></td>
 							<td><?php echo $tr->translate("DATE")?></td>
 							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("CASH")?></td>
+							<td><?php echo $tr->translate("CURRENCY")?></td>
 							<td><?php  echo $frm->getElement('cash_type');?></td>							
 						</tr>
 						<tr>							
-							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+							<td><?php echo $tr->translate("TOTAL_PRINCEPLE")?></td>
 							<td><?php echo $frm->getElement('Total_amount');?></td>
 							<td><?php echo $tr->translate("INTERREST_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Interest_amount');?></td>
-							<td><?php echo $tr->translate("TEM")?></td>
+							<td><?php echo $tr->translate("TERM")?></td>
 							<td><?php  echo $frm->getElement('Term');?></td>
 							
 						</tr>
@@ -74,9 +72,9 @@ $frm = $this->frm_loan;
 						</tr>
 						<tr>
 							<td align="center" colspan="6">
-								<input type="submit" name="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="រក្សាទុក  + បន្ថែមថ្មី​​" id="submitButton" dojoType="dijit.form.Button"
+								<input type="submit" name="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="<?php echo $tr->translate('SAVENEW')?>" id="submitButton" dojoType="dijit.form.Button"
 				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
-				 				<input type="submit" name="save_close"​​ value="រក្សាទុក​  + ចាកចេញ" label="រក្សាទុក​  + ចាកចេញ" id="submitBtn" dojoType="dijit.form.Button"
+				 				<input type="submit" name="save_close"​​ value="រក្សាទុក​  + ចាកចេញ" label="<?php echo $tr->translate('SAVECLOSE')?>" id="submitBtn" dojoType="dijit.form.Button"
 				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
 				 					
 				 					
@@ -93,7 +91,6 @@ $frm = $this->frm_loan;
 		
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
-dojo.require("dijit.form.NumberTextBox");
 
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'Badloan','action'=>'get-loaninfo')); ?>';
 function getClientInfo(type){
@@ -117,13 +114,12 @@ function getClientInfo(type){
 		},	
 		handleAs:"json",
 		load: function(data) {
-			//alert(data.total_principal);
 			dijit.byId('Total_amount').attr('value',data.total_principal);
 			dijit.byId('Interest_amount').attr('value',data.total_interest);
+			dijit.byId('date_loss').attr('value',data.date_payment);
 			dijit.byId('cash_type').attr('value',data.currency_type);
 			dijit.byId("cash_type").set('readOnly',true);
 			dijit.byId("client_nameadd").attr('value',values);
-			//dijit.byId("number_code").attr('value',values);
 			dijit.byId("client_codeadd").attr('value',values);
 		},
 		error: function(err) {
@@ -134,22 +130,4 @@ function getClientInfo(type){
 	});
 	
 }
-
-/*function getClientInfo(type){
-	//alert(9);
-	if(type==1){
-	     id = dijit.byId("client_name").get('value');
-	}else if(type==2){
-		id = dijit.byId("number_code").get('value');
-	}else{
-		id = dijit.byId("client_code").get('value');
-	}
-	
-	dijit.byId("client_code").attr('value',id);
-	dijit.byId("client_name").attr('value',id);
-	dijit.byId("number_code").attr('value',id);
-    } 
-
-    */
-
 </script>

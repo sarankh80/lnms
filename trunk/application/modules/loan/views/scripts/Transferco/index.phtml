@@ -1,21 +1,25 @@
 
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("IL Payment"));
+echo $this->headTitle($tr->translate("TRANSFER_CO_CO"));
 $frm = $this->frm_transfer;
 
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'Transferco','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-   	<table>	
-		<tr>
-			<td><?php echo $frm->getElement('adv_search');?></td>
-			<td><?php echo $frm->getElement('branch_name');?></td>
-			<td><?php echo $frm->getElement('co_code');?></td>
-			<td><?php echo $frm->getElement('formc_co');?></td>
-			<td><?php echo $frm->getElement('status');?></td>
-			<td><?php echo $frm->getElement('btn_search');?></td>
-			
-		</tr>
-	</table>
+   	<table>
+  	<tr>
+  	    <td><?php  echo $frm->getElement('note');?></td>
+  		<td><?php  echo $frm->getElement('branch_name');?></td>
+  		<td><?php  echo $frm->getElement('co_code');?></td>	
+  		<td><?php  echo $frm->getElement('name_co');?></td>
+  	</tr>
+  	<tr>
+  	    
+  	    <td><?php echo $frm->getElement('status');?></td>
+  		<td><?php echo $frm->getElement('start_date');?></td>
+  		<td><?php echo $frm->getElement('end_date');?></td>
+  		<td><?php echo $frm->getElement('btn_search');?></td>
+  	</tr>
+  </table>
    <?php echo $this->list; ?>
 </form>

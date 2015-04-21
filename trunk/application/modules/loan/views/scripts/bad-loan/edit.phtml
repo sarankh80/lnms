@@ -1,63 +1,70 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate('BAD_LOAN'));
 $frm = $this->frm_loan;
 ?>
-<style>	
-.fullside {
-	width: 100%;
-	height: 30px;
-}
-</style>
 <form id="add_province" action="<?php echo $this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				return true;
-			} else {
-				return false;
-			}
+    	if(dijit.byId('branch').get('value')==''){
+     		alert('Please Select Branch');
+     		dijit.byId('branch').focus();
+     		return false;
+   		}
+		if(dijit.byId('client_nameadd').get('value')==''){
+     		alert('Please Select Client Name');
+     		dijit.byId('client_codeadd').focus();
+     		return false;
+   		}
+		if(dijit.byId('client_codeadd').get('value')==0){
+     		alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
+     		dijit.byId('client_nameadd').focus();
+     		return false;
+   		}
+    	return true;
+   		}else {
+    	return false;
+   	}
 	</script>
 <table cellspacing="10" class='fullside' >
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>BAD LOAN</strong></legend>
+					<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
 					<table cellspacing="10"  width="100%">
-					
 					   <tr>
 					   		<?php echo $frm->getElement('idclient');?>
 					         <?php echo $frm->getElement('id');?>
-							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch');?></td>
-							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><?php echo $frm->getElement('client_code');?></td>
-							<td><?php echo $tr->translate("CLIEN_NAME")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><?php echo $frm->getElement('client_name')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("NUMBER_CODE")?></td>
-							<td><?php echo $frm->getElement('number_code');?></td>
 							<td><?php echo $tr->translate("DATE")?></td>
 							<td><?php echo $frm->getElement('Date');?></td>
 							<td><?php echo $tr->translate("LOSS_DATE")?></td>
 							<td><?php echo $frm->getElement('date_loss')?></td>
+							<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td><?php  echo $frm->getElement('cash_type');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("CASH")?></td>
-							<td><?php  echo $frm->getElement('cash_type');?></td>
 							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Total_amount');?></td>
 							<td><?php echo $tr->translate("INTERREST_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('Interest_amount');?></td>
-							
-						</tr>
-						    <td><?php echo $tr->translate("TEM")?></td>
+							<td><?php echo $tr->translate("TERM")?></td>
 							<td><?php  echo $frm->getElement('Term');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status');?></td>
 						    <td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('Note');?></td>
-						<tr>
-						
+							<td></td>
+							<td></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -65,9 +72,7 @@ $frm = $this->frm_loan;
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" name="save" value="កែប្រែ  + បន្ថែមថ្មី​​ " label="កែប្រែ  + បន្ថែមថ្មី​​" id="submitButton" dojoType="dijit.form.Button"
-			iconClass="dijitIconEdit"/>
-			<input type="submit" name="save_close"​​ value="កែប្រែ  + ចាកចេញ" label="កែប្រែ  + ចាកចេញ" id="submitBtn" dojoType="dijit.form.Button"
+			<input type="submit" name="save_close"​​ value="កែប្រែ  + ចាកចេញ" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitBtn" dojoType="dijit.form.Button"
 			iconClass="dijitIconEdit"/>
 		</td>
 	</tr>	
@@ -123,7 +128,7 @@ function getClientInfo(type){
 			dijit.byId('cash_type').attr('value',data.currency_type);
 			dijit.byId("cash_type").set('readOnly',true);
 			dijit.byId("client_name").attr('value',values);
-			//dijit.byId("number_code").attr('value',values);
+			dijit.byId('date_loss').attr('value',data.date_payment);
 			dijit.byId("client_code").attr('value',values);
 		},
 		error: function(err) {

@@ -103,34 +103,44 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     function getAllBadloan($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT l.id,b.branch_namekh,c.client_number,c.name_en,l.date,l.loss_date, 
-				CONCAT (total_amount,' ',(SELECT name_kh FROM ln_view WHERE TYPE = 15 AND key_code = l.`cash_type`))AS total_amount ,
-				CONCAT (intrest_amount,' ',(SELECT name_kh FROM ln_view WHERE TYPE = 15 AND key_code = l.`cash_type`))AS intrest_amount ,
-				l.tem,l.note,l.status FROM `ln_badloan` AS l,ln_branch AS b ,ln_client AS c
-				WHERE c.client_id = l.client_code AND b.br_id = l.branch  ";    	
+    	
+    	$sql = "SELECT l.id,b.branch_namekh,
+    	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
+    	(SELECT name_en FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
+  		l.loss_date, 
+		CONCAT (total_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS total_amount ,
+		CONCAT (intrest_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS intrest_amount ,
+			l.tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
+		WHERE b.br_id = l.branch  ";    	
     	$where='';
-    	$order = ' ORDER BY id DESC ';
-    	if($search['status']>-1){
+    	if(($search['status']>0)){
     		$where.=" AND l.status =".$search['status'];
     	}
     	if(!empty($search['branch'])){
-    		$where.=" AND branch = ".$search['branch'];
+    		$where.=" AND b.br_id = ".$search['branch'];
     	}
     	if(!empty($search['client_name'])){
-    		$where.=" AND client_name = ".$search['client_name'];
+    		$where.=" AND l.client_code = ".$search['client_name'];
     	}
-    	if(!empty($search['client_code'])){
-    		$where.=" AND client_code = ".$search['client_code'];
+    	if(!empty($search['Term'])){
+    		$where.=" AND l.tem = ".$search['Term'];
     	}
+    	if(!empty($search['cash_type'])){
+    		$where.=" AND l.`cash_type` = ".$search['cash_type'];
+    	}
+    	
     	if(!empty($search['adv_search'])){
     		$s_where=array();
     		$s_search=$search['adv_search'];
-    		$s_where[]=" b.branch_namekh LIKE '%{$s_search}%'";
-    		$s_where[]=" c.client_number = '{$s_search}' ";
-    		$where .=' AND '.implode(' OR ',$s_where.$order).' ';
+    		$s_where[]=" l.note LIKE '%{$s_search}%'";
+    		$s_where[]=" total_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" intrest_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" l.tem = '{$s_search}' ";
+    		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}
-    	//echo $sql.$where;
-    	return $db->fetchAll($sql.$where);
+    	$order = ' ORDER BY l.id DESC ';
+//     	echo $sql.$where;
+    	return $db->fetchAll($sql.$where.$order);
     }
     public function getClientByTypes($type){
     	$this->_name='ln_loan_member';
@@ -143,7 +153,8 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	if(!empty($rows))foreach($rows AS $row){
     		 if($type==1){
     			$lable = $row['client_number'];
-    		}elseif($type==2){ $lable = $row['name_en'];}
+    		}elseif($type==2){ 
+    			$lable = $row['name_en'];}
     		else{$lable = $row['loan_number'];}
     		$options[$row['client_id']]=$lable;
     	}
@@ -188,9 +199,10 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     public function getLoanInfo($id){
     	$db=$this->getAdapter();
-    	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal,
-    	                (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_interest
-       ,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND STATUS=1 AND l.is_completed=0
+    	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal,
+    	              (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS total_interest ,
+    	              (SELECT lf.date_payment FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS date_payment
+       ,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND status=1 AND l.is_completed=0
        ";
     	return $db->fetchRow($sql);
     }

@@ -1,6 +1,6 @@
 <?php
-	$this->headTitle('Add Transfer'); 
-	echo $this->headTitle();
+	 $tr = Application_Form_FrmLanguages::getCurrentlanguage();	
+    echo $this->headTitle($tr->translate('TRANSFER_CO_CO')); 
 	$frm = $this->frm_transfer;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
@@ -11,19 +11,23 @@
 		height: 30px;		
 	}
 </style>
-
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'Transferco','action'=>'edit')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'Transferco','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
   if(this.validate()) {
     if(dijit.byId('branch_name').get('value')==''){
-     alert('សូមមេតាជ្រើសរើសប្រភេទសាខា');
-     dijit.byId('callecterall_type').focus();
+     alert('Please Select Branch');
+     dijit.byId('branch_name').focus();
      return false;
    	}
-	if(dijit.byId('co_code').get('value')==''){
-     alert('សូមមេតាជ្រើសរើសប្រភេទកូដ CO');
-     dijit.byId('callecterall_type').focus();
+    if(dijit.byId('formc_co').get('value')==''){
+     alert('Please Select From CO');
+     dijit.byId('formc_co').focus();
+     return false;
+   	}
+	if(dijit.byId('to_co_code').get('value')==''){
+     alert('Please Select To CO ');
+     dijit.byId('to_co_code').focus();
      return false;
    	}
     return true;
@@ -35,7 +39,7 @@
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>TRANSFER_CO</strong></legend>
+					<legend><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
 					<table cellspacing="10">
 						<tr>	
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
@@ -44,7 +48,7 @@
 							<td><?php  echo $frm->getElement('Date');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("CODE_CO")?></td>
+							<td><?php echo $tr->translate("FROM_CO")?></td>
 							<td><?php  echo $frm->getElement('co_code');?></td>
 							<td><?php echo $tr->translate("FROM_CO")?></td>
 							<td><?php  echo $frm->getElement('formc_co');?></td>
@@ -52,7 +56,7 @@
 						<tr>
 							<td><?php echo $tr->translate("TO_CO")?></td>
 							<td><?php  echo $frm->getElement('to_co');?></td>
-							<td><?php echo $tr->translate("CO_ID")?></td>
+							<td><?php echo $tr->translate("TO_CO")?></td>
 							<td><?php  echo $frm->getElement('to_co_code');?></td>
 						</tr>
 					    <tr>  
@@ -69,20 +73,13 @@
 		</tr>
 		<tr>
 		<td align="center">
-			<input type="submit" value="រក្សាទុក" name="btn_save" label="កែប្រែ  + ថ្មី" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" label="កែប្រែ ​​ + ចាកចេញ" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<?php $url_close = $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'index'),null,true); ?>
-			<a href="<?php echo $url_close ?>">
-				<input type="button" value="ចាកចេញ" name="btn_close" label="ចាកចេញ" id="submitButton_Close" dojoType="dijit.form.Button"  iconClass=" dijitIconCancel"/>							
-			</a>
+			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
-dojo.require("dijit.form.NumberTextBox");
-<!--
 	function getClientInfo(type){
 		if(type==1){						
 			id = dijit.byId("co_code").get('value');
@@ -104,5 +101,4 @@ dojo.require("dijit.form.NumberTextBox");
 			dijit.byId("to_co").attr('value',to);
 		}
 	}
-//-->
 </script>
