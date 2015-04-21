@@ -10,40 +10,41 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	
 	public function indexAction()
 	{
-	try{
- 			$db = new Loan_Model_DbTable_DbTransferCo(); 
- 			if($this->getRequest()->isPost()){
- 				$search=$this->getRequest()->getPost();
- 				//print_r($search);exit();
- 			}
- 			else{
- 				$search = array(
- 						'adv_search' => '',
- 						'status' => -1);
- 			}
- 			$rs_row= $db->getAllinfoCo($search);//call frome model
-			$glClass = new Application_Model_GlobalClass();
-			$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
+		try{
+			if($this->getRequest()->isPost()){
+				$search = $this->getRequest()->getPost();
+			}else{
+				$search = array(
+						'branch_name'=>'',
+						'co_code'=>'',
+						'name_co'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'),
+						'txt_search'=>'',
+						'status' => '',
+						'note'=>''
+				);
+			}
+			$db = new Loan_Model_DbTable_DbTransferCoClient();
+			$rs_rows= $db->getAllTransferCO($search);//call frome model
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","NAME_FROM","NAME_TO","CODE_FORM","CODE_TO","DATE","NOTE","STATUS",);
- 			$link=array(
-					'module'=>'loan','controller'=>'transferco','action'=>'edit',
- 			);
- 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('from'=>$link,'to'=>$link));
- 		}catch (Exception $e){
+			$collumns = array("BRANCH_NAME","FROM_CO","TO_CO","DATE","NOTE","STATUS",);
+			$link=array(
+					'module'=>'loan','controller'=>'Transferco','action'=>'edit',
+			);
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('loan_number'=>$link,'branch_name'=>$link,'client_name'=>$link,'from_coname'=>$link,'to_coname'=>$link));
+		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
- 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
- 		}
- 		$fm = new Loan_Form_FrmTransfer();
- 		$frm = $fm->FrmTransfer();
- 		Application_Model_Decorator::removeAllDecorator($frm);
- 		$this->view->frm_transfer = $frm;
+		}
+			$fm = new Loan_Form_FrmTransferCoClient();
+			$frm = $fm->FrmTransfer();
+			Application_Model_Decorator::removeAllDecorator($frm);
+			$this->view->frm_transfer = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button			
  			$_data = $this->getRequest()->getPost();
- 			//print_r($_data);exit();
  			try {		
  				$db = new Loan_Model_DbTable_DbTransferCo(); 
  				if(isset($_data['btn_save'])){				 				
@@ -67,29 +68,25 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 	}
 	public function editAction()
 	{
-		// action body		
 		$id = $this->getRequest()->getParam('id');
 		$db = new Loan_Model_DbTable_DbTransferCo();
 		if($this->getRequest()->isPost()){
 			$post = $this->getRequest()->getPost();
-			//print_r($post);exit(); 			
+			$db->updatTransfer($post, $id);
 			if(isset($post['btn_save'])){
-				$db->updatTransfer($post, $id);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/add");
 			}elseif(isset($post['btn_save_close'])){
-				//print_r($post);exit();
-				$db->updatTransfer($post, $id);
  				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/Transferco/");
  			}
 		}
-		//print_r($id);exit();		
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransfer();
+		if(empty($data)){
+			Application_Form_FrmMessage::Sucessfull("NO_DATA","/loan/Transferco/");
+		}
 		$frm = $fm->FrmTransfer($data);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_transfer = $frm;
-
-		 
 	}
 	public function getLoaninfoAction(){
 		if($this->getRequest()->isPost()){

@@ -11,21 +11,37 @@ class Loan_TransfercoLoandController extends Zend_Controller_Action {
 	public function indexAction()
 	{
 	try{
- 			$db = new Loan_Model_DbTable_DbTransferCoClient(); 
- 			$rs_rows= $db->getAllinfoCoLoan($search=null);//call frome model
-// // 			$glClass = new Application_Model_GlobalClass();
-// // 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+ 			if($this->getRequest()->isPost()){
+ 				$search = $this->getRequest()->getPost();
+ 			}else{
+ 				$search = array(
+ 						'branch_name'=>'',
+ 						'loan_number'=>'',
+ 						'loan_client'=>'',
+ 						'name_co'=>'',
+ 						'start_date'=> date('Y-m-01'),
+ 						'end_date'=>date('Y-m-d'),
+ 						'txt_search'=>'',
+ 						'status' => '',
+ 						'note'=>''
+ 						);
+ 			}
+ 			$db = new Loan_Model_DbTable_DbTransferCoClient();
+ 			$rs_rows= $db->getAllinfoCoLoan($search);//call frome model
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NUMBER","NAME_CO","CODE_CO","DATE","NOTE","STATUS",);
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","FROM_CO","TO_CO","DATE","NOTE","STATUS",);
  			$link=array(
 					'module'=>'loan','controller'=>'transferco-loand','action'=>'edit',
  			);
- 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('loan_number'=>$link,));
+ 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('loan_number'=>$link,'branch_name'=>$link,'client_name'=>$link,'from_coname'=>$link,'to_coname'=>$link));
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
- 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
  		}
+ 		$fm = new Loan_Form_FrmTransferCoClient();
+ 		$frm = $fm->FrmTransfer();
+ 		Application_Model_Decorator::removeAllDecorator($frm);
+ 		$this->view->frm_transfer = $frm;
 	}
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button			

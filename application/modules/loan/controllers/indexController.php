@@ -11,9 +11,9 @@ class Loan_IndexController extends Zend_Controller_Action {
 	public function indexAction(){
 		try{
 			$db = new Loan_Model_DbTable_DbLoanIL();
-			if($this->getRequest()->isPost()){
-				$search=$this->getRequest()->getPost();
-			}
+		    if($this->getRequest()->isPost()){
+ 				$search = $this->getRequest()->getPost();
+ 			}
 			else{
 				$search = array(
 						'txt_search'=>'',

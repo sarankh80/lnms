@@ -45,7 +45,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     	));
     	$db_co = new Loan_Model_DbTable_DbTransferCo();
     	$row_co = $db_co->getcoinfo();
-    	$options_co =array(''=>"------Select------");
+    	$options_co =array(''=>"---Select From CO Code---");
     	if (!empty($row_co))
     		foreach ($row_co AS $row_cos){
     		$options_co[$row_cos['co_id']] = $row_cos['co_code'];
@@ -78,7 +78,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 			    'onchange'=>"getClientInfo(2);"
 				));
 		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"------Select------");
+		$options_from =array(''=>"---Select From CO Name---");
 		if (!empty($row_froms))
 			foreach ($row_froms AS $row_from){
 			$options_from[$row_from['co_id']] = $row_from['co_khname'];
@@ -95,7 +95,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'onchange'=>"getClientInfo(3);"
 		));
 		$row_co = $db_co->getcoinfo();
-		$options_co =array(''=>"------Select------");
+		$options_co =array(''=>"---Select To CO Name---");
 		if (!empty($row_co))
 			foreach ($row_co AS $row_cos){
 			$options_co[$row_cos['co_id']] = $row_cos['co_khname'];
@@ -111,7 +111,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'onchange'=>"getClientInfo(4);"
 		));
 		$row_froms = $db_co->getcoinfo();
-		$options_from =array(''=>"------Select------");
+		$options_from =array(''=>"---Select To CO Code---");
 		if (!empty($row_froms))
 			foreach ($row_froms AS $row_from){
 			$options_from[$row_from['co_id']] = $row_from['co_code'];
@@ -122,7 +122,8 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$note ->setAttribs(array(
 				'dojoType'=>'dijit.form.SimpleTextarea',
 				'class'=>'fullside',
-				'style'=>'width:98%'
+				'style'=>'width:98%',
+				'required'=>true
 		));
 		$user_id = new Zend_Dojo_Form_Element_FilteringSelect('user_id');
 		$user_id->setAttribs(array(
@@ -159,6 +160,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$_date->setValue($data['date']);
 			$note->setValue($data['note']);
+			
 		}		
 		
 		$this->addElements(array($_title,$_btn_search,$co_name,$_status,$branch_name,$_date,$co_code,$formc_co,$to_co,$to_co_code,$note,$user_id));

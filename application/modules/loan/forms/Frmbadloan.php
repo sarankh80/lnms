@@ -11,8 +11,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array(
-				'dojoType'=>$this->tvalidate,
-				'onkeyup'=>'this.submit()',
+				'dojoType'=>'dijit.form.TextBox',
 				'placeholder'=>$this->tr->translate("SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
@@ -24,13 +23,13 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
     			'required' =>'true'
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"------Select------");
+    	$options=array(''=>"---Select Branch Name---");
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
     	}
     	$_branch_id->setMultiOptions($options);
-    	$_branch_id->setValue($request->getParam('branch_id'));
+    	$_branch_id->setValue($request->getParam('branch'));
 		
 		$db = new Loan_Model_DbTable_DbBadloan();
 		$client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
@@ -40,7 +39,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'onchange'=>'getClientInfo();'
 		));
 		$opt= $db->getClientByTypes(1);
+		$opt[0]='---Select Client Code---';
 		$client_code->setMultiOptions($opt);
+		$client_code->setValue($request->getParam('client_code'));
 		
 		$client_codeadd = new Zend_Dojo_Form_Element_FilteringSelect('client_codeadd');
 		$client_codeadd->setAttribs(array(
@@ -58,7 +59,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 			    'onchange'=>"getClientInfo(1);"
 				));
 		$options = $db->getClientByTypes(2);
+		$options[0]='---Select Client Name---';
 		$client_name->setMultiOptions($options);
+		$client_name->setValue($request->getParam('client_name'));
 		
 		$client_nameadd = new Zend_Dojo_Form_Element_FilteringSelect('client_nameadd');
 		$client_nameadd->setAttribs(array(
@@ -111,6 +114,13 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				
 		));
 	
+		$_note = new Zend_Dojo_Form_Element_Textarea('Note');
+		$_note ->setAttribs(array(
+				'dojoType'=>'dijit.form.SimpleTextarea',
+				'class'=>'fullside',
+				'style'=>'width:98%',
+				'required' =>'true'
+		));
 		
 		$_term = new Zend_Dojo_Form_Element_FilteringSelect('Term');
 		$_term->setAttribs(array(
@@ -118,33 +128,65 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-		$_note = new Zend_Dojo_Form_Element_Textarea('Note');
-		$_note ->setAttribs(array(
-				'dojoType'=>'dijit.form.SimpleTextarea',
-				'class'=>'fullside',
-				'style'=>'width:98%'
-		));
-		
-		$cash_type_opt = array(
-				15=>$this->tr->translate("15"),
-				30=>$this->tr->translate("30"),
-				45=>$this->tr->translate("45"));
+		$type_opt = array(
+				''=>$this->tr->translate("---Select Long Term---"),
+				15=>$this->tr->translate("15 Days"),
+				30=>$this->tr->translate("30 Days"),
+				45=>$this->tr->translate("45 Days"),
+				60=>$this->tr->translate("60 Days"),
+				75=>$this->tr->translate("75 Days"),
+				90=>$this->tr->translate("writeoff(90 Days)")
+				);
 		 
-		$_term->setMultiOptions($cash_type_opt);
+		$_term->setMultiOptions($type_opt);
+		$_term->setValue($request->getParam('Term'));
 		
+		$star_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$star_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox'));
+		$date = $request->getParam("start_date");
+		
+		if(empty($date)){
+			$date = date('Y-m-01');
+		}
+		$star_date->setValue($date);
+		
+		$_enddate = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$_enddate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+		));
+		$date = $request->getParam("end_date");
+		
+		if(empty($date)){
+			$date = date("Y-m-d");
+		}
+		$_enddate->setValue($date);
+		
+		
+// 		$cash_type = new Zend_Dojo_Form_Element_FilteringSelect('cash_type');
+// 		$cash_type ->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'required'=>true
+// 		));
+// 		$cash_type_opt = array(
+// 				1=>$this->tr->translate("DOLLA"),
+// 				2=>$this->tr->translate("RIEAL"),
+// 		        3=>$this->tr->translate("BATH"));
+		       
+// 		$cash_type->setMultiOptions($cash_type_opt);
 		
 		$cash_type = new Zend_Dojo_Form_Element_FilteringSelect('cash_type');
-		$cash_type ->setAttribs(array(
+		$cash_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$cash_type_opt = array(
-				1=>$this->tr->translate("DOLLA"),
-				2=>$this->tr->translate("RIEAL"),
-		        3=>$this->tr->translate("BATH"));
-		       
-		$cash_type->setMultiOptions($cash_type_opt);
+		$opt = array(''=>"Select Currency Type",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		if($request->getActionName()!='index'){
+			unset($opt['']);
+		}
+		$cash_type->setMultiOptions($opt);
+		$cash_type->setValue($request->getParam('cash_type'));
+		
 		
 		$status = new Zend_Dojo_Form_Element_Textarea('status');
 		$status ->setAttribs(array(
@@ -152,8 +194,12 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'style'=>'width:98%'
 		));
+		 
 		
-		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
+		$_arr = array(''=>$this->tr->translate("ALL"),1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
+		if($request->getActionName()!='index'){
+			unset($_arr['']);
+		}
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
 		$_status->setMultiOptions($_arr);
 		$_status->setAttribs(array(
@@ -161,6 +207,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
 				'class'=>'fullside'));
+		$_status->setValue($request->getParam('status'));
 		
 		$id = new Zend_Form_Element_Hidden("id");
 		$id_cient = new Zend_Form_Element_Hidden("idclient");
@@ -187,7 +234,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 			$id_cient->setValue($data['client_code']);
 		}
 		
-		$this->addElements(array($id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		$this->addElements(array($_enddate,$star_date,$id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
 		return $this;
 		
 	}	

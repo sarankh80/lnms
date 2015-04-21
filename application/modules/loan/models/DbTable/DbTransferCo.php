@@ -8,6 +8,10 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     	$sql = 'SELECT `co_id`,`branch_id`,`co_code`,`co_khname` FROM `ln_co` WHERE STATUS = 1';
     	return $db->fetchAll($sql);
     }
+    public function getUserId(){
+    	$session_user=new Zend_Session_Namespace('auth');
+    	return $session_user->user_id;
+    }
     public function getAllinfoCo($search = null){
     	$db = $this->getAdapter();
     	$sql = 'SELECT tf.id,b.branch_namekh, 
@@ -45,14 +49,13 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     	try {
 	    	$_data_arr = array(
 	    		'branch_id'=> $data['branch_name'],
-	    		'code_from'=> $data['co_code'],
-	    		'code_to'=> $data['to_co_code'],
 	    		'from'=> $data['formc_co'],
 	    		'to'=> $data['to_co'],
 	    		'status'=> $data['status'],
 	    		'date'=> $data['Date'],
 	    		'note'=> $data['Note'],
 	    		'type'=> 1,
+	    		'user_id'=>$this->getUserId()
 	    	);
 	    	$this->insert($_data_arr);		    	    	
 	    	$this->_name ="ln_loanmember_funddetail";
@@ -74,23 +77,22 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try {
     		$_data_arr = array(
-    				'branch_id'=> $data['branch_name'],
-    				'code_from'=> $data['co_code'],
-    				'code_to'=> $data['to_co_code'],
-    				'from'=> $data['formc_co'],
-    				'to'=> $data['to_co'],
-    				'status'=> $data['status'],
-    				'date'=> $data['Date'],
-    				'note'=> $data['Note'],
-    				'type'=> 1,
-    		);
+	    		'branch_id'=> $data['branch_name'],
+	    		'from'=> $data['formc_co'],
+	    		'to'=> $data['to_co'],
+	    		'status'=> $data['status'],
+	    		'date'=> $data['Date'],
+	    		'note'=> $data['Note'],
+	    		'type'=> 1,
+    			'user_id'=>$this->getUserId()
+	    	);
     		$wheres = "id = $id";
     		$this->update($_data_arr, $wheres);
     		$this->_name ="ln_loanmember_funddetail";
     		$_arr_fund = array(
     				'collect_by'=>$data['to_co'],
     		);
-    		$where = "collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
+    		$where = " collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
     		$this->update($_arr_fund, $where);
     		$db->commit();
     	}catch (Exception $e){

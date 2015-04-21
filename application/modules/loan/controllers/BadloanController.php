@@ -14,24 +14,30 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$db = new Loan_Model_DbTable_DbBadloan();
 			if($this->getRequest()->isPost()){
 				$search=$this->getRequest()->getPost();
-				//print_r($search);exit();
 			}
 			else{
 				$search = array(
-						'adv_search' => '',
-						'status' => -1);
+					    'adv_search'=>'',
+						'branch' => '',
+						'client_name' =>'',
+						'client_code'=>'',
+						'Term'=>'',
+						'status' =>'',
+						'cash_type'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'));
 			}
 			$rs_rows= $db->getAllBadloan($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
 			$rs_row = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH ","CLIENT_CODE","CLIENT_NAME","DATE","LOSS_DATE"
-					,"TOTAL_AMOUNT","INTEREST_AMOUNT","TEM","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","CUSTOMER_NAME","LOSS_DATE"
+					,"TOTAL_PRINCEPLE","INTERREST_AMOUNT","TERM","NOTE","DATE","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'BadLoan','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('client_number'=>$link,'branch_namekh'=>$link
-					,'client_name'=>$link,'client_code'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('branch_namekh'=>$link,'client_name_en'=>$link,
+					'total_amount'=>$link,'intrest_amount'=>$link,'loss_date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -45,7 +51,6 @@ class Loan_BadloanController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
-			//print_r($_data);exit();
 			try {		
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
 				if(isset($_data['save'])){
