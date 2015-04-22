@@ -1,19 +1,20 @@
-<?php 
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-
-?>
-<title><?php $tr->translate("Report branch")?></title>
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("BRANCH_LIST"));
+?>	
+<?php $frm =  $this->frm_branch;?>
 <table style="float: right;">
-	<tr><td align="right">
-	<input type="text" name="txtsearch" id="txtsearch" placeholder=" "  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
-	</td></tr>
+	
+	<tr>	
+	 	<td><?php echo $frm->getElement('adv_search') ?></td>
+	 	<td><?php echo $frm->getElement('status_search');?></td>
+	 	<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
+	 </tr>
 </table>
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 14px;
 	font-family: 'Khmer OS Battambang';
 
 }

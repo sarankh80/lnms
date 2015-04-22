@@ -38,6 +38,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
 				'iconclass'=>'dijitIconSearch',
+				'value'=>' Search ',
 		
 		));
 		

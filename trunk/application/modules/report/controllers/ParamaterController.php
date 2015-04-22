@@ -40,32 +40,40 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$data = $this->getRequest()->getPost();
+  		$search = $this->getRequest()->getPost();
   		//
-  		if(isset($data['btn_search'])){
-  			//print_r($data);exit();
-  			$this->view->village_list = $db->getAllVillage($data);
+  		if(isset($search['btn_search'])){
+  			//print_r($search);exit();
+  			$this->view->village_list = $db->getAllVillage($search);
   		}else{
-  		$collumn = array("vill_id","village_name","village_namekh","com_id","commune_name","commune_namekh",
-  				"district_id","district_name","district_namekh","province_id","province_en_name",
-  				"province_kh_name","modify_date",
-  				"status","user_name");
-  		$this->exportFileToExcel('ln_staff',$db->getAllVillage(),$collumn);
+  		$collumn = array("vill_id","village_namekh","village_name","displayby","commune_name","district_name","province_en_name","modify_date","status","user_name");
+  		$this->exportFileToExcel('ln_village',$db->getAllVillage(),$collumn);
   		} 		
-  	}else $search = array('txtsearch' => '');
+  	}else {
+  		$search = array('adv_search' => '');
+  	}
+  	$frm = new Other_Form_FrmVillage();
+  	$frm = $frm->FrmAddVillage();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_village= $frm;
+  	//$this->view->result= $search;
   }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
   	$this->view->zone_list = $db->getAllZone();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$frm = new Other_Form_FrmZone();
+  	$frm_co=$frm->FrmAddZone();
+  	Application_Model_Decorator::removeAllDecorator($frm_co);
+  	$this->view->frm_zone = $frm_co;
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
   		//print_r($data);exit();
   		if(isset($data['btn_search'])){
   			$this->view->zone_list = $db->getAllZone($data);
   		}else{
-  		$collumn = array("ZONE_ID","ZONE_NUM","MODIFY_DATE","STATUS");
+  		$collumn = array("zone_id","zone_num","modify_date","status");
   		$this->exportFileToExcel('ln_zone',$db->getAllZone(),$collumn);
   		}
   	}else $search = array('txtsearch' => '');
@@ -75,16 +83,22 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$this->view->holiday_list = $db->getAllHoliday();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$frm = new Other_Form_FrmHoliday();
+  	$frm = $frm->FrmAddHoliday();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_holiday = $frm;
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
   		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
   			$this->view->holiday_list = $db->getAllHoliday($data);
+  			$a = $db->getAllHoliday($data);
   		}else{
-  		//print_r($search);exit();
-	  		$collumn = array("ID","HOLIDAY_NAME","AMOUNT_DAY","START_DATE","END_DATE","STATUS","MODIFY_DATE","NOTE");
+  		//print_r($data);exit();
+	  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status","modify_date","note");
 	  		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
   		}
-  	}else $search = array('txtsearch' => '');
+  	}else $data = array('adv_search' => '');
   }
   public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();
@@ -125,11 +139,20 @@ class Report_ParamaterController extends Zend_Controller_Action {
   	$this->view->branch_list = $db->getAllBranch();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$fm = new Other_Form_Frmbranch();
+  	$frm = $fm->Frmbranch();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_branch = $frm;
   	if($this->getRequest()->isPost()){
-  		$collumn = array("br_id","branch_namekh","branch_nameen","br_address","branch_code","branch_tel",
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_search'])){	
+	  		$this->view->branch_list = $db->getAllBranch($search);
+  		}else {
+  			$collumn = array("br_id","branch_namekh","branch_nameen","br_address","branch_code","branch_tel",
   				"status","fax","other","displayby");
-  		$this->exportFileToExcel('ln_branch',$db->getAllBranch(),$collumn);
-  	}
+  			$this->exportFileToExcel('ln_branch',$db->getAllBranch(),$collumn);
+  		}
+  	}else $data = array('adv_search' => '');
   }
 }
 
