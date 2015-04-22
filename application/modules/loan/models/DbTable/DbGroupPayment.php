@@ -415,8 +415,8 @@ function getLoanPaymentByLoanNumber($data){
     }
     public function getAllGroupPPayment($search){
     	
-    	$date_pay = $search['date_pay'];
-    	$date_input = $search['due_date'];
+    	$start_date = $search['start_date'];
+    	$end_date = $search['end_date'];
     	
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
@@ -447,15 +447,19 @@ function getLoanPaymentByLoanNumber($data){
     		$where.= " AND status = ".$search['status'];
     	}
     	
-    	if(!empty($search['date_pay'])){
-    		$where.=" AND lcrm.`date_pay`= '$date_pay'";
-    	}
-    	if(!empty($search['due_date'])){
-    		$where.=" AND lcrm.`date_input`= '$date_input'";
+    	if(!empty($search['start_date']) or !empty($search['end_date'])){
+    		$where.=" AND lcrm.`date_input` BETWEEN '$start_date' AND '$end_date'";
     	}
     	if($search['client_name']>0){
     		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
     	}
+    	if($search['branch_id']>0){
+    		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
+    	}
+    	if($search['co_id']>0){
+    		$where.=" AND lcrm.`co_id`= ".$search['co_id'];
+    	}
+    	
     	
     	//$where='';
     	$order = " ORDER BY receipt_no DESC";
@@ -493,7 +497,7 @@ function getLoanPaymentByLoanNumber($data){
     }
     function getAllClient(){
     	$db = $this->getAdapter();
-    	$sql = "SELECT c.`client_id` AS id ,c.`name_en` AS name ,c.`branch_id` FROM `ln_client` AS c WHERE c.`is_group`=1  AND c.`name_en`!='' " ;
+    	$sql = "SELECT c.`client_id` AS id ,c.`name_en` AS name ,c.`branch_id`,c.`client_number` FROM `ln_client` AS c WHERE c.`is_group`=1  AND c.`name_en`!='' " ;
     	return $db->fetchAll($sql);
     }
     

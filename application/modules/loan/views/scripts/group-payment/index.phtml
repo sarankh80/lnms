@@ -9,9 +9,14 @@ $frm = $this->frm_search;
    		<tr>
    			<td><?php echo $frm->getElement("advance_search");?></td>
    			<td><?php echo $frm->getElement('client_name');?></td>
-   			<td><?php echo $frm->getElement('date_pay');?></td>
-   			<td><?php echo $frm->getElement('due_date');?></td>
+   			<td><?php echo $frm->getElement('start_date');?></td>
+   			<td><?php echo $frm->getElement('end_date');?></td>
+   			<td><?php echo $frm->getElement('branch_id');?></td>
    			<td><?php echo $frm->getElement('status');?></td>
+   		</tr>
+   		<tr>
+   			
+   			<td><?php echo $frm->getElement('co_id');?></td>
    			<td><?php echo $frm->getElement("btn_submit");?></td>
    		</tr>
    </table>

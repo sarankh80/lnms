@@ -15,9 +15,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 				$search = array(
 						'advance_search' => $formdata['advance_search'],
 						'client_name'=>$formdata['client_name'],
-						'date_pay'=>$formdata['date_pay'],
-						'due_date'=>$formdata['due_date'],
+						'start_date'=>$formdata['start_date'],
+						'end_date'=>$formdata['end_date'],
 						'status'=>$formdata['status'],
+						'branch_id'		=>	$formdata['branch_id'],
+						'co_id'		=>	$formdata['co_id'],
 						);
 				//print_r($search);
 			}
@@ -25,8 +27,10 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 				$search = array(
 						'adv_search' => '',
 						'client_name' => -1,
-						'date_pay'=>0,
-						'due_date'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'),
+						'branch_id'		=>	-1,
+						'co_id'		=> -1,
 						'status'=>"",);
 			}
 			$rs_rows= $db->getAllGroupPPayment($search);

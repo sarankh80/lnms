@@ -10,8 +10,8 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	 
     }
     public function getAllIndividuleLoan($search){
-$date_pay = $search['date_pay'];
-    	$date_input = $search['due_date'];
+		$start_date = $search['start_date'];
+    	$end_date = $search['end_date'];
     	
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
@@ -42,14 +42,20 @@ $date_pay = $search['date_pay'];
     		$where.= " AND status = ".$search['status'];
     	}
     	
-    	if(!empty($search['date_pay'])){
-    		$where.=" AND lcrm.`date_pay`= '$date_pay'";
-    	}
-    	if(!empty($search['due_date'])){
-    		$where.=" AND lcrm.`date_input`= '$date_input'";
+    	if(!empty($search['start_date']) or !empty($search['end_date'])){
+    		$where.=" AND lcrm.`date_input` BETWEEN '$start_date' AND '$end_date'";
     	}
     	if($search['client_name']>0){
     		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
+    	}
+    	if($search['branch_id']>0){
+    		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
+    	}
+    	if($search['co_id']>0){
+    		$where.=" AND lcrm.`co_id`= ".$search['co_id'];
+    	}
+    	if($search['paymnet_type']>0){
+    		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
     	}
     	
     	//$where='';
@@ -144,6 +150,7 @@ public function addILPayment($data){
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
+    			'payment_option'				=>		$data["option_pay"]
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
