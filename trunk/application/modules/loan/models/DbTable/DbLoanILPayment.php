@@ -146,30 +146,19 @@ public function addILPayment($data){
     			'is_group'						=>		0,
     			
     		);
-//     		$db->getProfiler()->setEnabled(true);
 			$this->_name = "ln_client_receipt_money";
-    		//$client_pay = $db->insert("ln_client_receipt_money", $arr_client_pay);
     		$client_pay = $this->insert($arr_client_pay);
-    		
-//     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     		$db->getProfiler()->setEnabled(false);
     		
     		$date_collect = $data["collect_date"];
     		$identify = explode(',',$data['identity']);
     		foreach($identify as $i){
-//     			print_r($data["mfdid_".$i]);
 				$date_pay = $data["date_payment_".$i];
-				
 				$date = strtotime($date_collect)-strtotime($date_pay);
-// 				print_r($date_pay."-".$date_collect."=".$date);
 				
 				if($date>0){
 					$status = 3;
-					//print_r($status);
 				}else if($date==0){
 					$status=1;
-					//print_r($status);
 				}else {
 					$status=2;
 				}
@@ -205,28 +194,17 @@ public function addILPayment($data){
     							'is_closingentry'		=>		0,
     							'status'				=>		$data["option_pay"]
     					);
-//     					$db->getProfiler()->setEnabled(true);
-    						
     					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
     						
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     					$db->getProfiler()->setEnabled(false);
-    					
     					$arr_update_fun_detail = array(
     							'is_completed'		=> 	1,
     							'payment_option'	=>	$data["option_pay"]
     					);
     					$this->_name="ln_loanmember_funddetail";
     					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-//     					$db->getProfiler()->setEnabled(true);
     					$this->update($arr_update_fun_detail, $where);
     					
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     					$db->getProfiler()->setEnabled(false);
     				}else{
-//     					if($amount_receive){
 	    					$arr_money_detail = array(
 	    							'crm_id'				=>		$client_pay,
 	    							'lfd_id'				=>		$data["mfdid_".$i],
@@ -246,17 +224,8 @@ public function addILPayment($data){
 	    							'is_closingentry'		=>		0,
 	    							'status'				=>		$data["option_pay"]
 	    					);
-// 	    					$db->getProfiler()->setEnabled(true);
-	    						
 	    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 	    						
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 	    					$db->getProfiler()->setEnabled(false);
-	    					
-	    					
-// 	    					$a = $os_amount-$new_amount;
-// 	    					print_r($os_amount."-".$new_amount."=". $a);
 	    					$arr_update_fun_detail = array(
 	    							'is_completed'		=> 	0,
 	    							'total_interest'	=>  $new_interest,
@@ -265,13 +234,7 @@ public function addILPayment($data){
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
 	    					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-// 	    					$db->getProfiler()->setEnabled(true);
 	    					$this->update($arr_update_fun_detail, $where);
-	    					
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 	    					$db->getProfiler()->setEnabled(false);
-//     					}
     				}
     				
     			}
@@ -286,11 +249,9 @@ public function addILPayment($data){
 					    		AND m.`loan_number` = '$loan_number'
 					    		AND l.`is_completed` = 0 ";
     		$rs_payment = $db->fetchRow($sql_payment);
-    		//echo $sql_payment;
     		
     		$group_id = $data["client_id"];
     		if(empty($rs_payment)){
-    			echo "6666";
     			$sql ="UPDATE 
 							`ln_loan_group` AS l
 						SET l.`status` = 2
@@ -344,11 +305,7 @@ public function addILPayment($data){
     		$this->_name = "ln_client_receipt_money";
     		$where = $db->quoteInto("id=?", $data["id"]);
     		
-//     		$db->getProfiler()->setEnabled(true);
     			$client_pay = $this->update($arr_client_pay, $where);
-//     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     		$db->getProfiler()->setEnabled(false);
     		
     			$loan_fun = $this->getIlDetail($id);
     			foreach ($loan_fun as $row){
@@ -357,23 +314,13 @@ public function addILPayment($data){
 	    			);
 	    			$this->_name= "ln_loanmember_funddetail";
 	    			$where = $db->quoteInto("id=?", $row["lfd_id"]);
-// 	    			$db->getProfiler()->setEnabled(true);
 	    			$this->update($array, $where);
-	    			
-// 	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 	    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 	    			$db->getProfiler()->setEnabled(false);
     			}
     		$sql_delete = "DELETE FROM ln_client_receipt_money_detail WHERE crm_id =$id";
     		
-    		$db->getProfiler()->setEnabled(true);
     			$db->query($sql_delete);
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    		$db->getProfiler()->setEnabled(false);
     	
     		$identify = explode(',',$data['identity']);
-    		print_r($identify);
     		foreach($identify as $i){
     			$amount_receive = $data["amount_receive"];
 				$interest = $data["total_interest"];
@@ -407,13 +354,8 @@ public function addILPayment($data){
     							'is_closingentry'		=>		0,
     							'status'				=>		$data["option_pay"]
     					);
-//     					$db->getProfiler()->setEnabled(true);
     						
     					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
-    						
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     					$db->getProfiler()->setEnabled(false);
     					
     					$arr_update_fun_detail = array(
     							'is_completed'		=> 	1,
@@ -421,14 +363,9 @@ public function addILPayment($data){
     					);
     					$this->_name="ln_loanmember_funddetail";
     					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-//     					$db->getProfiler()->setEnabled(true);
     					$this->update($arr_update_fun_detail, $where);
     					
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-//     					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-//     					$db->getProfiler()->setEnabled(false);
     				}else{
-//     					if($amount_receive){
 	    					$arr_money_detail = array(
 	    							'crm_id'				=>		$client_pay,
 	    							'lfd_id'				=>		$data["mfdid_".$i],
@@ -448,15 +385,9 @@ public function addILPayment($data){
 	    							'is_closingentry'		=>		0,
 	    							'status'				=>		$data["option_pay"]
 	    					);
-	    					$db->getProfiler()->setEnabled(true);
 	    						
 	    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 	    						
-	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    					$db->getProfiler()->setEnabled(false);
-	    					
-	    					
 	    					$a = $os_amount-$new_amount;
 	    					print_r($os_amount."-".$new_amount."=". $a);
 	    					$arr_update_fun_detail = array(
@@ -467,15 +398,9 @@ public function addILPayment($data){
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
 	    					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-// 	    					$db->getProfiler()->setEnabled(true);
 	    					$this->update($arr_update_fun_detail, $where);
 	    					
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-// 	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-// 	    					$db->getProfiler()->setEnabled(false);
-//     					}
     				}
-    	
     			}
     		}
     		
@@ -493,17 +418,12 @@ public function addILPayment($data){
     		
     		$group_id = $data["client_id"];
     		if(empty($rs_payment)){
-    		$db->getProfiler()->setEnabled(true);
     		$sql ="UPDATE
 		    			`ln_loan_group` AS l
 		    		SET l.`status` = 2
 		    		WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1)
 		    			AND l.`group_id`= $group_id AND l.`loan_type`=1";
     			$db->query($sql);
-    					 
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    					$db->getProfiler()->setEnabled(false);
     					 
     					$sql_loan_member ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
     					$db->query($sql_loan_member);
