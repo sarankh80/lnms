@@ -1,4 +1,6 @@
 <?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate('BAD_LOAN'));
  $frm = $this->frm_loan;
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">	<table>

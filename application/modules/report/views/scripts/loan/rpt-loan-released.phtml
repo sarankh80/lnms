@@ -21,8 +21,8 @@
 
  </div>
 </div>
-<div style=" width:22cm; margin:0 auto; ">
-<div id="divPrint">
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint" style="border:1px solid red; width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -31,13 +31,13 @@
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php //echo $this->data['brand_out'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['rpt_loan_release'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
                 	<td colspan="3">
-                		<table width="100%">
+                		<table width="100%" >
                 			<tr class='style'>
                 				<td width="45%">
                 					<?php echo $this->data['brand_adress'];?>
@@ -54,36 +54,72 @@
     </tr>
     <tr>
     	<td>
-            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px;">
-                    <td>លរ</td>
-                    <td>លេខកំម្ជី</td>
+            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                    <td style="font-weight:bold;">លរ</td>
+                    <td style="font-weight:bold;">លេខឥណទាន</td>
                     <td>ឈ្មោះអតិថជន</td>
-                    <td>ចំនួនប្រាក់បានចេញ</td>
+                    <td>ចំនួនប្រាក់កម្ចី</td>
+                    <td>ថ្លៃរដ្ឋបាល</td>
                     <td>អត្រាការប្រាក់</td>
                     <td>រយៈពេលខ្ចី</td>
                     <td>កាលបរិឆ្ឆេទ</td>
                     <td>ឈ្មោះមន្ត្រីឥណទាន</td>
-                    
-                    <td>ថ្លែរដ្នបាល</td>
-                    <td>គោលបំណងកម្ចី</td>
+                    <td>ប្រភេទកម្ចី</td>
                 </tr>
-               <?php if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
+               <?php 
+               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
+//                print_r($this->loanrelease_list);
+               if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
+               <?php 
+               if($row['curr_type']==1){
+               		$amt_r = $amt_r+$row['total_capital'];
+               		$amn_r = $amn_r+$row['admin_fee'];
+               }elseif($row['curr_type']==2){
+               		$amt_d = $amt_d+$row['total_capital'];
+               		$amn_d = $amn_d+$row['admin_fee'];
+               }else{
+               		$amt_b = $amt_b+$row['total_capital'];
+               		$amn_b = $amn_b+$row['admin_fee'];
+               }
+               ?>
 					<tr align="center">
 					<td><?php echo $key+1; ?></td>
-					<td><?php echo$row['loan_number']?></td>
-					<td><?php echo$row['client_id']?></td>
-					<td><?php echo$row['total_capital']?></td>
-					<td><?php echo$row['interest_rate']?></td>
-					<td><?php echo$row['total_duration']?></td>
-					<td><?php echo$row['date_release']?></td>
-					<td><?php echo$row['co_name']?></td>
-					
-					<td><?php echo$row['admin_fee']?></td>
-					<td><?php echo$row['loan_purpose']?></td>
+					<td><?php echo $row['loan_number'];?></td>
+					<td><?php echo$row['client_id'].'-'.$row['client_name']; ?></td>
+					<td><?php echo $row['total_capital'].' '.$row['currency_type']; ?></td>
+					<td><?php echo$row['admin_fee'].' '.$row['currency_type']?></td>
+					<td><?php echo$row['interest_rate'].'%'; ?></td>
+					<td><?php echo$row['total_duration'];?></td>
+					<td><?php echo$row['date_release']; ?></td>
+					<td><?php echo$row['co_name']; ?></td>					
+					<td><?php echo$row['name_en']?></td>
 					</tr>
 				<?php }?>
             </table>
+            <br />
+             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                    <td></td>
+                    <td>ចំនួនប្រាក់កម្ចីសរុប</td>
+                    <td>ថ្លៃរដ្ឋបាលសរុប</td>
+                </tr>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                    <td>ដុល្លា  / ($)</td>
+                    <td><?php echo $amt_d;?></td>
+                    <td><?php echo $amn_d;?></td>
+                </tr>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                    <td>រៀល  / (R)</td>
+                    <td><?php echo $amt_r;?></td>
+                    <td><?php echo $amn_r;?></td>
+                </tr>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                    <td>បាត / (B)</td>
+                    <td><?php echo $amt_b;?></td>
+                   <td><?php echo $amn_b;?></td>
+                </tr>
+              </table>
     	</td>
     </tr>
 </table>
