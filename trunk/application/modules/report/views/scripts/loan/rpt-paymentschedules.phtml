@@ -2,8 +2,6 @@
 $client = $this->client;
 $filter = $this->form_filter;
 $dayin_khmer = $this->day_inkhmer;
-// print_r($dayin_khmer);exit();
-// print_r($client);
 $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
 												
 ?>
@@ -57,7 +55,6 @@ margin: -4px 4px 0 4px;
 		
 	}
 	</style>
-	<div id="divPrint">
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
@@ -183,5 +180,4 @@ margin: -4px 4px 0 4px;
 	    </tr>
 	</table>
 	</div>
-</div>
 </div>

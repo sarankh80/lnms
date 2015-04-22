@@ -10,7 +10,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
-			$db = new Loan_Model_DbTable_DbLoanIL();
 		    if($this->getRequest()->isPost()){
  				$search = $this->getRequest()->getPost();
  			}
@@ -28,6 +27,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 						'end_date'=>date('Y-m-d'),
 						 );
 			}
+			$db = new Loan_Model_DbTable_DbLoanIL();
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
@@ -128,6 +128,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 	}
 	
 	public function viewAction(){
+// 		$this->_helper->layout()->disableLayout();
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){
@@ -136,7 +137,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getLoanviewById($id);
 		$this->view->tran_rs = $row;
-// 		print_r($row);
 	}
 	function getLoanlevelAction(){
 		if($this->getRequest()->isPost()){

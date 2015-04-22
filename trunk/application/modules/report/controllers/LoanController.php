@@ -13,14 +13,18 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanReleasedAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
   	$rs=$db->getAllLoan();
+  	
+//   	$db = new Loan_Model_DbTable_DbLoanIL();
+//   	$rs_rows= $db->getAllIndividuleLoan($search);
+  	
   	$this->view->loanrelease_list =$rs;
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		//print_r($search);exit();
   		if(@$search["exportexcel"]== 1){
-  			$collumn = array("member_id","loan_number","client_id","total_capital","interest_rate","total_duration",
+  			unset($rs['curr_type']);
+  			$collumn = array("member_id","loan_number","client_id","client_name","total_capital","interest_rate","currency_type","total_duration",
   					"date_release","co_name","admin_fee");
   			$this->exportFileToExcel('ln_staff',$rs,$collumn);
   		}	
@@ -201,7 +205,6 @@ public function paymentscheduleListAction(){
 		if($this->getRequest()->isPost()){
 			$search = $this->getRequest()->getPost();
 			if(empty($search["exportexcel"])){
-			//print_r($search);exit();
 			$rs_rows = $db->getAllClientPaymentListRpt($search);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('total_capital'=>$link,'client_name'=>$link));
 			}	
@@ -235,7 +238,12 @@ public function paymentscheduleListAction(){
 		echo $e->getMessage();
 		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 	}
-	$frm = new Application_Form_FrmAdvanceSearch();
+// 	$frm = new Application_Form_FrmAdvanceSearch();
+// 	$frm = $frm->AdvanceSearch();
+// 	Application_Model_Decorator::removeAllDecorator($frm);
+// 	$this->view->frm_search = $frm;
+	
+	$frm = new Loan_Form_FrmSearchLoan();
 	$frm = $frm->AdvanceSearch();
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_search = $frm;
