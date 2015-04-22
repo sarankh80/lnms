@@ -212,7 +212,8 @@ function getLoanPaymentByLoanNumber($data){
     			'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
-    			'is_group'						=>		1
+    			'is_group'						=>		1,
+    			'currency_type'					=>		$data["currency_type"]
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
@@ -309,6 +310,7 @@ function getLoanPaymentByLoanNumber($data){
     				'note'							=>		$data['note'],
     				'user_id'						=>		$user_id,
     				'is_group'						=>		1,
+    				'currency_type'					=>		$data["currency_type"]
     		);
     		$this->_name = "ln_client_receipt_money";
     		$where = $db->quoteInto("id=?", $data["id"]);

@@ -150,7 +150,8 @@ public function addILPayment($data){
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
-    			'payment_option'				=>		$data["option_pay"]
+    			'payment_option'				=>		$data["option_pay"],
+    			'currency_type'					=>		$data["currency_type"]
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
