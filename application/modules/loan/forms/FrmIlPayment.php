@@ -8,6 +8,16 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 	public function FrmAddIlPayment($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
+		
+		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+		$_currency_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$_currency_type->setMultiOptions($opt);
+		//$_currency_type->setValue($request->getParam("currency_type"));
+		
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('client_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -221,8 +231,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_collect_date->setValue($data["date_pay"]);
 			$_service_charge->setValue($data["service_charge"]);
 			$reciever->setValue($data["receiver_id"]);
+			$_currency_type->setValue($data["currency_type"]);
 		}
-		$this->addElements(array($id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
@@ -276,7 +287,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_amount_receive->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'totalReturn();'
+				'onkeyup'=>'totalReturn();',
+				'required'=>true
 		));
 	
 		$_amount_return = new Zend_Dojo_Form_Element_NumberTextBox('amount_return');
@@ -411,9 +423,15 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		
+		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+		$_currency_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$_currency_type->setMultiOptions($opt);
 		if($data){
-			//print_r($data);
-			
 			$id->setValue($data["id"]);
 			$_branch_id->setValue($data["branch_id"]);
 // 			$_groupid->setValue($data["group_id"]);
@@ -432,9 +450,10 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_collect_date->setValue($data["date_pay"]);
 			$date_input->setValue($data["date_input"]);
 			$discount->setValue($data["total_discount"]);
+			$_currency_type->setValue($data["currency_type"]);
 		}
 		
-		$this->addElements(array($id,$reciept_no,$discount,$date_input,$reciever,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($_currency_type,$id,$reciept_no,$discount,$date_input,$reciever,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;

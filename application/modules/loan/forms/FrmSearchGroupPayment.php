@@ -85,6 +85,14 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		//$start_date->setValue($request->getParam("start_date"));
 		//$end_date->setValue($request->getParam("end_date"));
 		$status->setValue($request->getParam("status"));
+		
+		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+		$_currency_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$_currency_type->setMultiOptions($opt);
+		$_currency_type->setValue($request->getParam("currency_type"));
 		if($data!=null){
 			$advnceSearch->setValue($request->getParam("advance_search"));
 			$client_name->setValue($request->getParam("client_name"));
@@ -93,7 +101,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 			$status->setValue($request->getParam("status"));
 			
 		}
-		$this->addElements(array($payment_type,$_coid,$branch,$submit,$advnceSearch,$client_name,$start_date,$end_date,$status));
+		$this->addElements(array($_currency_type,$payment_type,$_coid,$branch,$submit,$advnceSearch,$client_name,$start_date,$end_date,$status));
 		return $this;
 		
 	}	
