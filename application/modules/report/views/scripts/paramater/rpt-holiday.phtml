@@ -1,17 +1,18 @@
 <?php 
-//error_reporting(0);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("HOLIDAY_LIST"));
+$frm = $this->frm_holiday;
 ?>
 <title><?php echo $tr->translate("REPORT HOLIDAY");?>Report Holiday</title>
  <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-holiday')); ?>" dojoType="dijit.form.Form" method="post">
 <table style="float: right;">
-	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
-		</td>
-	</tr>
+	 <tr> 
+		   <td><?php echo $frm->getElement("adv_search");?></td>
+		   <td> <?php echo $frm->getElement("start_date");?></td>
+           <td><?php echo $frm->getElement("end_date");?></td>
+		   <td><?php echo $frm->getElement('search_status');?></td>
+		   <td> <button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
+   	  </tr>
 </table>
 <div style=" width:21cm; margin:0 auto;">
 <style>
@@ -31,7 +32,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
+                	<!-- <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2> -->
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_holiday'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
@@ -67,7 +68,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					 	$amount_day=$amount_day+$row['amount_day'];
 					 	?>
 					     <tr align="center">
-					        <td><?php echo $key+1; ?></td>
+					        <td><?php echo $key + 1; ?></td>
 					        <td><?php echo $row['holiday_name']?></td>
 					        <td><?php echo $row['start_date']?></td>
 					        <td><?php echo $row['amount_day']?></td>

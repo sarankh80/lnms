@@ -1,18 +1,21 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("ZONE_LIST"));
+$frm = $this->frm_zone;
 ?>
-<title><?php echo $tr->translate("REPORT ZONE");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-zone')); ?>" dojoType="dijit.form.Form" method="post">
 <table style="float: right;">
 	<tr>
 		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" "  dojoType="dijit.form.TextBox"
-				 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-				 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
-		</td>
+			<?php echo $frm->getElement("adv_search");?>
+    		<?php echo $frm->getElement('search_status');?>
+ 			<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button>
+   		</td>
 	</tr>	
 </table>
+</form>
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
@@ -20,7 +23,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	font-family: 'Khmer OS Battambang';
 }
 </style>
- <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-zone')); ?>" dojoType="dijit.form.Form" method="post">
+ 
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -30,7 +33,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
+                	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2> -->
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_zone'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
@@ -82,4 +85,4 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		</td>
 	</tr>
 </table>
-</form>
+</div>

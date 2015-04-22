@@ -39,6 +39,11 @@ class Other_ZoneController extends Zend_Controller_Action {
    			$frm_co=$frm->FrmAddZone();
    			Application_Model_Decorator::removeAllDecorator($frm_co);
    			$this->view->frm_zone = $frm_co;
+   			
+   			$db= new Application_Model_DbTable_DbGlobal();
+   			$this->view->district = $db->getAllDistricts();
+   			$this->view->commune_name = $db->getCommune();
+   			$this->view->result = $search;
 	}
    function addAction(){
    	if($this->getRequest()->isPost()){

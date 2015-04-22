@@ -1,15 +1,20 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-
+echo $this->headTitle($tr->translate("VILLAGE_LIST"));
+$frm = $this->frm_village;
 ?>
 <title><?php echo $tr->translate("RPT_VILLAGE");?></title>
+<form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-village')); ?>" dojoType="dijit.form.Form" method="post">
 <table style="float: right;">
-	<tr><td align="right">
-	<input type="text" name="txtsearch" id="txtsearch" placeholder=""  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search">ស្វែង​រក</button>
-	</td></tr>
+	<tr>
+		   	<td><?php echo $frm->getElement("adv_search");?></td>
+		   	<td><?php  echo $frm->getElement('province_name');?></td>
+		   	<td><?php  echo $frm->getElement('district_name');?></td>
+		    <td><?php echo $frm->getElement('search_status');?></td>
+		    <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
+   	   </tr>
 </table>
+</form>
 <div style=" width:80%; margin:0 auto;">
 <style>
 .style{
@@ -67,8 +72,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					        <td><?php echo $row['village_namekh']?></td>
 					        <td><?php echo $row['village_name']?></td>
 					        <td><?php echo $row['commune_name']?></td>
-					        <td><?php echo $row['district_namekh']?></td>
-					        <td><?php echo $row['province_kh_name']?></td>
+					        <td><?php echo $row['district_name']?></td>
+					        <td><?php echo $row['province_en_name']?></td>
 					        <td><?php echo $row['modify_date']?></td>
 					    </tr>
 					    <?php }?>

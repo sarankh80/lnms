@@ -71,7 +71,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		$popup_commune_name->setMultiOptions($opt_commune);
 		
 		$rows_provice = $_db->getAllDistrict();
-		$opt_province = "";
+		$opt_province = array($this->tr->translate("SELECT_DISTRICT"));
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['dis_id']]=$row['district_name'];
 		$district_name = new Zend_Dojo_Form_Element_FilteringSelect('district_name');
 		$district_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'
@@ -91,7 +91,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'class'=>'fullside',));
 		
 		$rows_provice = $_db->getAllDistrict();
-		$opt_province = "";
+		$opt_province = array($this->tr->translate("SELECT_DISTRICT"));
 		if(!empty($rows_provice))foreach($rows_provice AS $row) $opt_province[$row['dis_id']]=$row['district_name'];
 		$district_name = new Zend_Dojo_Form_Element_FilteringSelect('district_name');
 		$district_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'
