@@ -373,7 +373,6 @@ function getLoanPaymentByLoanNumber($data){
 					    		AND m.`loan_number` = '$loan_number'
 					    		AND l.`is_completed` = 0 ";
     		$rs_payment = $db->fetchRow($sql_payment);
-    		//echo $sql_payment;
     		
     		$group_id = $data["client_id"];
     		if(empty($rs_payment)){

@@ -144,7 +144,6 @@ public function addILPayment($data){
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
-    			
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
@@ -389,7 +388,6 @@ public function addILPayment($data){
 	    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 	    						
 	    					$a = $os_amount-$new_amount;
-	    					print_r($os_amount."-".$new_amount."=". $a);
 	    					$arr_update_fun_detail = array(
 	    							'is_completed'		=> 	0,
 	    							'total_interest'	=>  $new_interest,
@@ -412,9 +410,7 @@ public function addILPayment($data){
 					    	WHERE l.`member_id` = m.`member_id`
 					    		AND m.`loan_number` = '$loan_number'
 					    		AND l.`is_completed` = 0 ";
-    		$rs_payment = $db->fetchAll($sql_payment);
-    		echo $sql_payment;
-    		print_r($rs_payment);
+    		$rs_payment = $db->fetchRow($sql_payment);
     		
     		$group_id = $data["client_id"];
     		if(empty($rs_payment)){
