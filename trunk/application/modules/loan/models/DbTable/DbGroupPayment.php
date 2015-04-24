@@ -178,6 +178,73 @@ function getLoanPaymentByLoanNumber($data){
  	}
     	return $db->fetchAll($sql);
    }
+   
+   function getAllLoanPaymentByLoanNumber($data){
+   	$db = $this->getAdapter();
+   	$loan_number= $data['loan_number'];
+   	if($data['type']!=1){
+   		$where =($data['type']==2)?'client_id = '.$loan_number:'client_id='.$loan_number;
+   		$sql ="SELECT
+			   		(SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
+			   		(SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
+			   		lc.`client_id`,
+			   		lc.`client_number`,
+			   		lc.`name_kh`,
+			   		lm.`loan_number`,
+			   		lm.`currency_type`,
+			   		lm.`pay_before`,
+			   		lm.`pay_after`,
+			   		lm.`branch_id`,
+			   		lg.`co_id`,
+			   		lg.`payment_method`,
+			   		lf.*
+			   		FROM
+			   		`ln_client` AS lc,
+			   		`ln_loan_member` AS lm ,
+			   		`ln_loan_group` AS lg,
+			   		`ln_loanmember_funddetail` AS lf
+			   		WHERE lc.`is_group` = 1
+			   		AND lc.`parent_id`=(SELECT client_id FROM `ln_client` WHERE $where LIMIT 1)
+			   		AND lg.`g_id`=lm.`group_id`
+			   		AND lf.`member_id`=lm.`member_id`
+			   		AND lm.`client_id`=lc.`client_id`
+			   		AND lg.`group_id`=lc.`parent_id`
+			   		AND lg.`loan_type`=2
+			   		";
+   	}elseif($data['type']==1){
+   	$where = 'lm.`loan_number`='.$loan_number;
+   	$sql ="SELECT
+			   	(SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
+			   	(SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
+			   	lc.`client_id`,
+			   	lc.`client_number`,
+			   	lc.`name_kh`,
+			   	lm.`loan_number`,
+			   	lm.`currency_type`,
+			   	lm.`pay_before`,
+			   	lm.`pay_after`,
+			   	lm.`branch_id`,
+			   	lg.`co_id`,
+			   	lg.`payment_method`,
+			   	lf.*
+			   	FROM
+			   	`ln_client` AS lc,
+			   	`ln_loan_member` AS lm ,
+			   	`ln_loan_group` AS lg,
+			   	`ln_loanmember_funddetail` AS lf
+			   	WHERE lc.`is_group` = 1
+			   	AND lc.`parent_id`=(SELECT client_id FROM `ln_client` LIMIT 1)
+			   	AND lg.`g_id`=lm.`group_id`
+			   	AND lf.`member_id`=lm.`member_id`
+			   	AND lm.`client_id`=lc.`client_id`
+			   	AND lg.`group_id`=lc.`parent_id`
+			   	AND lg.`loan_type`=2
+			   	AND $where
+			   	";
+   
+   		}
+   		return $db->fetchAll($sql);
+   		}
     public function addGroupPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
