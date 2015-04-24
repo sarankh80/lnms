@@ -157,6 +157,15 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function getAllLoannumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbGroupPayment();
+			$row = $db->getAllLoanPaymentByLoanNumber($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 	function getClientByBranchAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();

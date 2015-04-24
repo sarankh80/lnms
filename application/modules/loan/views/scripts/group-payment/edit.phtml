@@ -102,15 +102,20 @@
 		</tr>
 		<tr>
 			<td>
-				<fieldset>
-					<legend><strong>ប្រវត្តិនៃការបង់ប្រាក់</strong></legend>
-					<?php //echo $this->list;?>
-					<div id='data_table' name='data_table'></div>
-					<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-				</table>
-				
-				</fieldset>
+				<div id="mainTabContainer" style=" max-width:1135px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
+						<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="ការវិភាគបង់ប្រាក់" selected="true">
+								 <div id='data_table' name='data_table'></div>
+								<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+										<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
+								</table>
+						</div>
+						<div class="tabContentSection" dojoType="dijit.layout.ContentPane"  title="ប្រវត្តិនៃការបង់ប្រាក់" selected="false">
+							 <div id='data_table1' name='data_table1'></div>
+								<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+										<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
+								</table>
+						</div>
+				 </div>
 		 </td>
 	</tr>		
 </table>
@@ -355,6 +360,7 @@ dojo.ready(function(){
 	class: 'fullside',
 	onChange: function() {
 		getLaonPayment(3);
+		getAllLaonPaymenst(3);
 }
 	}, "group_id");
 
@@ -375,10 +381,12 @@ dojo.ready(function(){
 	class: 'fullside',
 	onChange: function() {
 		getLaonPayment(2);
+		getAllLaonPayment(2);
 	}
 	}, "client_code");
 
 	getPayment();
+	getAllLaonPayment(1);
 });
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
@@ -633,6 +641,91 @@ function getLoanById(type){
 			}
 		});
 	
+}
+
+function getAllLaonPayment(type){
+	
+	if(type==1){
+		var loan_number = dijit.byId('loan_number').get('value');
+	}else if(type==2){
+		var loan_number = dijit.byId('client_code').get('value');
+	}else if(type==3){
+		var loan_number = dijit.byId('group_id').get('value');
+	}
+	
+	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'get-all-loannumber')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,
+		    content : { 
+			    'loan_number':loan_number,
+			    'type':type,
+			},	
+			handleAs:"json",
+			load: function(respone) {
+				status='<label style="color:red;">នៅឡើយ</lable>';
+				tem='';	is_set=0;
+				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
+					+'<thead><tr><th class="tdheader">ល.រ</th>'
+					+'<th class="tdheader">កូដអតិថិជន</th>'
+					+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
+					+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
+					+'<th class="tdheader">ប្រាក់ដើមគ្រា</th>'
+					+'<th class="tdheader">ប្រាក់ដើមត្រូវបង់</th>'
+					+'<th class="tdheader">ប្រាក់ការ</th>'
+					+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
+					+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
+					+'<th class="tdheader">បញ្ចុះតម្លៃ</th>'
+					+'<th class="tdheader">ស្ថានភាព</th>'
+					+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
+				+'</thead>';
+				num=0;
+				
+				if(respone!=""){
+					for(i=0;i<respone.length;i++){
+						inx = i+1;
+						status='<label style="color:red;">នៅឡើយ</lable>';
+						++num;
+						d = new Date(respone[i].date_payment);
+						str_day = getDayString(d.getDay());
+						curr =getCurrencyType(respone[i].currency_type);
+						//date_collect = d.getDate()+'/'+d.getFullMonth()+'/'+d.getFullYear()
+						
+						//alert(total);
+						 tem+= '<tr>';
+						    tem += '<td>&nbsp;'+num+'</td>';
+						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment)+' '+curr+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;</td>';
+						    tem += '<td>&nbsp;'+respone[i].pay_before+'&nbsp;</td>';
+							if(respone[i].is_completed==1){
+								status = '<label style="color:blue;">បង់រួច</label>';
+								if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
+							}else{
+								if(is_set!=1){
+									getdataPaymentToForm(respone[i]);
+									is_set=1;
+								}
+								is_appr='';
+							}
+							tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
+							tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
+						    tem += '</tr>';
+	 					    
+					}
+				}
+				tem+='</table>';
+				dojo.byId('data_table1').innerHTML = tem;
+			},
+			error: function(e) {
+				//alert(e);
+			}
+		});
 }
 function popupCheckCO(){
 }
