@@ -22,7 +22,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
- 				'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);'
+ 				'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);',
+				'required'=>true
 				));
 		$rows = $db ->getClientByType();
 		$options=array(''=>'-----Select------');
@@ -35,7 +36,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLaonPayment(2);getAllLaonPayment(2);'
+				'onchange'=>'getLaonPayment(2);getAllLaonPayment(2);',
+				'required'=>true
 		));
 		
 		$option_client_number = array(''=>'-----Select------');
@@ -49,6 +51,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				//'onKeyUp'=>'getLaonPayment(1);getAllLaonPayment(1);'
+				'required'=>true
 		));
 		
 		
