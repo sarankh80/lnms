@@ -81,6 +81,19 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 				WHERE crmd.`crm_id` = $id ";
 		return $db->fetchAll($sql);
 	}
+	
+	public function getAllIlDetail($id){
+		$db = $this->getAdapter();
+		$sql="SELECT
+	
+		(SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = crmd.`crm_id` LIMIT 1) AS `currency_type`,
+		(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
+		(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
+		crmd.*
+		FROM
+		`ln_client_receipt_money_detail` AS crmd WHERE crmd.`crm_id` = $id";
+		return $db->fetchAll($sql);
+	}
     function getTranLoanByIdWithBranch($id){
 //     	$sql = "SELECT lg.g_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lm.payment_method,
 //     		lm.interest_rate,lm.amount_collect_principal,
@@ -503,23 +516,64 @@ public function addILPayment($data){
  	}
     	return $db->fetchAll($sql);
    }
-//     function getLoanPaymentByLoanNumber($data){
-//     	$db = $this->getAdapter();
-//     	$loan_number= $data['loan_number'];
-//     	if($data['type']!=2){
-//     		$where =($data['type']==1)?'loan_number = '.$loan_number:'client_id='.$loan_number;
-//     	    $sql=" SELECT *,
-// 					(SELECT currency_type FROM `ln_loan_member` WHERE $where LIMIT 1  ) AS curr_type
-//     	     FROM `ln_loanmember_funddetail` WHERE member_id =
-// 		    		(SELECT  member_id FROM `ln_loan_member` WHERE $where AND status=1 LIMIT 1)
-// 		    		AND status = 1 ";
-//     	}elseif($data['type']==2){
-//     		$sql="SELECT * FROM `ln_loanmember_funddetail` WHERE status = 1 AND member_id = 
-//     		       ( SELECT member_id FROM `ln_loan_member` WHERE client_id =
-//     		       (SELECT client_id FROM `ln_client` WHERE client_number = ".$loan_number." LIMIT 1) LIMIT 1) ";
-//     	}
-//     	return $db->fetchAll($sql);
-//     }
+   
+   function getAllLoanPaymentByLoanNumber($data){
+   	$db = $this->getAdapter();
+   	$loan_number= $data['loan_number'];
+   	if($data['type']!=1){
+   		$where =($data['type']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
+   		$sql ="SELECT
+			   		lc.`client_id`,
+			   		lc.`client_number`,
+			   		lc.`name_kh`,
+			   		lm.`loan_number`,
+			   		lm.`currency_type`,
+			   		lm.`pay_before`,
+			   		lm.`pay_after`,
+			   		lm.`branch_id`,
+			   		lg.`co_id`,
+			   		lg.`payment_method`,
+			   		lf.*
+			   		FROM
+			   		`ln_client` AS lc,
+			   		`ln_loan_member` AS lm ,
+			   		`ln_loan_group` AS lg,
+			   		`ln_loanmember_funddetail` AS lf
+			   		WHERE lg.`g_id`=lm.`group_id`
+			   		AND lf.`member_id`=lm.`member_id`
+			   		AND lm.`client_id`=lc.`client_id`
+			   		AND lg.`loan_type`=1
+			   		AND $where
+			   		";
+   	}elseif($data['type']==1){
+   	$where = 'lm.`loan_number`='.$loan_number;
+   	$sql ="SELECT
+			   	lc.`client_id`,
+			   	lc.`client_number`,
+			   	lc.`name_kh`,
+			   	lm.`loan_number`,
+					  lm.`currency_type`,
+   					  lm.`pay_before`,
+   					  lm.`pay_after`,
+   					  lm.`branch_id`,
+   					  lg.`co_id`,
+   					  lg.`payment_method`,
+   					  lf.*
+   					  FROM
+   					  `ln_client` AS lc,
+   					  `ln_loan_member` AS lm ,
+   					  `ln_loan_group` AS lg,
+   					  `ln_loanmember_funddetail` AS lf
+   					  WHERE lg.`g_id`=lm.`group_id`
+   					  AND lf.`member_id`=lm.`member_id`
+   					  AND lm.`client_id`=lc.`client_id`
+   					  AND lg.`loan_type`=1
+   					  AND $where";
+   
+   		}
+   		return $db->fetchAll($sql);
+   		}
+
   
    function getAllClient(){
    	$db = $this->getAdapter();
