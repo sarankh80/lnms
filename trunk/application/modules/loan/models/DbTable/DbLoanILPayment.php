@@ -297,6 +297,7 @@ public function addILPayment($data){
     	$query = new Application_Model_DbTable_DbGlobal();
     	$id= $data["id"];
     	$identify_detail = $data["identity"];
+    	$loan_number = $data['loan_number'];
     	try{
     		
     		$arr_client_pay = array(
