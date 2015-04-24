@@ -361,6 +361,7 @@ function AddNewCo(){
 	});
 }
 dojo.ready(function(){	
+	
 	var client_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->client));?>
 	});
@@ -400,6 +401,8 @@ dojo.ready(function(){
 		getAllLaonPayment(1);
 	}
 	}, "client_code");
+
+	dijit.byId('loan_number').focus();
 });
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
