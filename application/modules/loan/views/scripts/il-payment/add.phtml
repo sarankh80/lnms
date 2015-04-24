@@ -91,8 +91,8 @@
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" />
+			   <input type="button" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
@@ -338,7 +338,25 @@ dojo.ready(function(){
 		getAllLaonPayment(2);
 	}
 	}, "client_code");
+
+
+	document = dojo.byId("loan_number");
+	dojo.connect(document, "onkeyup", function(event) {
+		key_number = (event.keyCode);
+		if(key_number==13){
+			getLaonPayment(1);
+			getAllLaonPayment(1);
+		}
+	});	
 });
+
+// dijit.byId('loan_number').keypress(function(event){
+//     var keycode = (event.keyCode ? event.keyCode : event.which);
+//     if(keycode == '13'){
+//     	getLaonPayment(1);
+// 		getAllLaonPayment(1);
+//     }
+// });
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_id').query.branch_id = branch_id;
