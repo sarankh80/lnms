@@ -32,9 +32,15 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->calleteral_list = $db->getAllCalleteral($data);
+  		}else {
   		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
   				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
   		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
+  		}
   	}
   }
   function rptGroupAction($table='rms_setting'){
@@ -67,7 +73,20 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   				"village_id");
   		$this->exportFileToExcel($table,$rs,$collumn);
   		}
-  	}
+  	}else{
+  		$search = array('adv_search' => '',
+						'status' => -1,'branch_id'=>0,
+						'province_id'=>0,);
+  	}	
+  	$frm = new Application_Form_FrmAdvanceSearch();
+  	$frm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_search = $frm;
+  	
+  	$fm = new Group_Form_FrmClient();
+  	$frm = $fm->FrmAddClient();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_client = $frm;
   	
   }
   
@@ -110,10 +129,48 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
-  function rptCalleteralValueAction(){
+  function rptCalleteralChangeAction(){
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$db = new Group_Model_DbTable_DbChangeCollteral();
+  	$this->view->calleteral_list = $db->getAllChangeCollteral();//call frome model
+  	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->calleteral_list = $db->geteAllcallteral($data);
+  		}
+  	}
+  	$fm = new Group_Form_Frmchangecollteral();
+  	$frm = $fm->FrmChangeCollteral();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_changeCollteral = $frm;
   }
- 
+  function rptCalleteralsAction(){
+  	$db  = new Report_Model_DbTable_DbLnClient();
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$this->view->calleteral_list = $db->geteAllcallteral();
+  	$fm=new Group_Form_Frmcallterals();
+  	$frm=$fm->FrmCallTeral();
+  	$this->view->frm_callteral=$frm;
+  	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		if(isset($data['btn_search'])){
+  			//print_r($data);exit();
+  			$this->view->calleteral_list = $db->geteAllcallteral($data);
+  		}else {
+  		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
+  				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
+  		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
+  		}
+  	}else {
+  		$search = array(
+  				'adv_search' => '',
+  				'status_search' => -1,
+  				'start_date'=> date('Y-m-01'),
+  				'end_date'=>date('Y-m-d'));
+  	}
+  } 
 }
 
