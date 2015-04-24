@@ -75,14 +75,12 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     	$row=$db->fetchRow($sql);
     	return $row;
     }
-	function getAllClients($search = null){
-		
+	function getAllClients($search = null){		
 		$db = $this->getAdapter();
 		$from_date =(empty($search['start_date']))? '1': "create_date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': "create_date <= '".$search['end_date']." 23:59:59'";
-		$where = " WHERE ".$from_date." AND ".$to_date;
-		
-		$sql = " 
+		$where = " WHERE ".$from_date." AND ".$to_date;		
+		$sql = "
 		SELECT client_id,client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
@@ -91,8 +89,6 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		    create_date,
 		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name ";
-		
-		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = $search['adv_search'];
@@ -121,9 +117,8 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		if(!empty($search['village'])){
 			$where.=" AND village_id= ".$search['village'];
 		}
-		
 		$order=" ORDER BY client_id DESC";
-// 		echo $sql.$where.$order;
+ 		//echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
 	public function getGroupCode($data){

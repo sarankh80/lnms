@@ -10,7 +10,7 @@ class Application_Form_FrmLanguages
 		$session_lang=new Zend_Session_Namespace('lang');
 		$lang_id=$session_lang->lang_id;
 		if($lang_id==1){
-			$str="km";
+			$str="";
 		}else{$str="en"; }	
 		$tr = new Zend_Translate('ini', PUBLIC_PATH.'/lang/'.$str,  null, array('scan' => Zend_Translate::LOCALE_FILENAME));
 		// set locale
