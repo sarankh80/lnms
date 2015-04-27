@@ -4,12 +4,12 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'ln_loan_group';
-    public function getUserId(){
+ public function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
     	 
     }
-    public function addNewLoanGroup($data){
+    public function addRepayMentSchedule($data){
     	
     	$db = $this->getAdapter();
     	$db->beginTransaction();
@@ -152,8 +152,12 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     }
     public function getLoanInfo($id){
     	$db=$this->getAdapter();
-    	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal
-    	,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND STATUS=1 AND l.is_completed=0
+    $sql="SELECT 
+        (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal
+    	,l.currency_type ,l.interest_rate , 
+    	(SELECT co_id FROM `ln_loan_group` WHERE g_id  = l.member_id ) AS co_id , 
+    	(SELECT zone_id FROM `ln_loan_group` WHERE g_id  = l.member_id ) AS zone_id 
+    	 FROM `ln_loan_member` AS l WHERE l.client_id=$id AND status=1 AND l.is_completed=0
     	";
     	return $db->fetchRow($sql);
     }

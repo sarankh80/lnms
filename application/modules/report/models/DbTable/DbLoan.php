@@ -1,7 +1,7 @@
 <?php
 class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 {
-      public function getAllLoan($search = null){
+      public function getAllLoan($search = null){//rpt-loan-released
       	 $db = $this->getAdapter();
     	 $sql="SELECT g.member_id,g.loan_number
     	 ,(SELECT name_kh FROM ln_client WHERE client_id=g.client_id LIMIT 1) AS client_id
@@ -27,17 +27,65 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     	 }
       return $db->fetchAll($sql.$where.$Other);
       }
+      public function getAllLoanCo($search = null){//rpt-loan-released
+      	$db = $this->getAdapter();
+      	$sql="SELECT g.member_id,g.loan_number
+      	,(SELECT name_kh FROM ln_client WHERE client_id=g.client_id LIMIT 1) AS client_id
+      	,(SELECT name_en FROM ln_client WHERE client_id=g.client_id LIMIT 1) AS client_name,
+      	g.total_capital,
+      	(SELECT symbol FROM `ln_currency` WHERE id =g.currency_type) AS currency_type,
+      	g.currency_type AS curr_type
+      	,(SELECT total_duration FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS total_duration
+      	,(SELECT name_en FROM `ln_view` WHERE TYPE=14 AND key_code=(SELECT pay_term FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1)) AS pay_term
+      	,(SELECT date_release FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS date_release
+      	,(SELECT co_code FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS co_code
+      	,(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS co_name
+      	,(SELECT co_firstname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS co_name_en
+      	,(SELECT sex FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS sex
+      	,(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS co_id
+      	,(SELECT name_en FROM `ln_view` WHERE type = 14 AND key_code =lg.pay_term ) AS name_en
+      	,g.admin_fee FROM `ln_loan_group` AS lg, ln_loan_member AS g WHERE lg.g_id = g.group_id AND g.status=1 ";
+      	$Other =" ORDER BY co_id DESC ,g.branch_id ,g.currency_type , g.member_id DESC";
+      	$where = '';
+      	if(!empty($search['txtsearch'])){
+      		$s_where = array();
+      		$s_search = $search['txtsearch'];
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[]=" client_id LIKE '%{$s_search}%'";
+      		$where .=' AND '.implode(' OR ',$s_where).'';
+      
+      	}
+      	return $db->fetchAll($sql.$where.$Other);
+      }
       public function getALLLoancollect($search = null){
       	$db = $this->getAdapter();
-      	$sql="SELECT id,
-      	(SELECT loan_number FROM ln_loan_member WHERE loan_number=(SELECT lm.loan_number FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS loan_number,
-      	(SELECT name_kh FROM ln_client WHERE client_id = (SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS client_name
-      	,(SELECT branch_namekh FROM ln_branch WHERE br_id= branch_id LIMIT 1) AS branch_id,
-      	(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id=(SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 )LIMIT 1 ) AS co,
-      	total_principal,total_interest,STATUS
-      	,total_payment,date_payment FROM ln_loanmember_funddetail WHERE 1 ";
-      	$Other =" ORDER BY id ASC";
-      	$where = '';
+//       	$sql="SELECT id,
+//       	(SELECT loan_number FROM ln_loan_member WHERE loan_number=(SELECT lm.loan_number FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS loan_number,
+//       	(SELECT name_kh FROM ln_client WHERE client_id = (SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 ) AS client_name
+//       	,(SELECT branch_namekh FROM ln_branch WHERE br_id= branch_id LIMIT 1) AS branch_id,
+//       	(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id=(SELECT lm.client_id FROM ln_loan_member AS lm  WHERE lm.member_id LIMIT 1) LIMIT 1 )LIMIT 1 ) AS co,
+//       	total_principal,total_interest,STATUS
+//       	,total_payment,date_payment FROM ln_loanmember_funddetail WHERE 1 ";
+      	
+      	$from_date =(empty($search['start_date']))? '1': "f.date_payment >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': "f.date_payment <= '".$search['end_date']." 23:59:59'";
+      	$where = " AND ".$from_date." AND ".$to_date;
+      	
+      	$Other =" ORDER BY co_name ,id DESC ";
+      	$sql = " SELECT 
+				  f.id ,
+				  f.total_principal ,
+				  f.total_interest ,
+				  f.status ,
+				  f.total_payment ,
+				  f.date_payment ,
+				  m.loan_number ,  
+				  (SELECT name_kh FROM ln_client WHERE client_id=m.client_id) AS client_name , 
+				  (SELECT branch_namekh FROM ln_branch WHERE br_id= m.branch_id LIMIT 1) AS branch_id ,
+				  (SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id= m.group_id LIMIT 1) LIMIT 1) AS co,
+				  (SELECT co_firstname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id= m.group_id LIMIT 1) LIMIT 1) AS co_name
+				  FROM `ln_loanmember_funddetail` AS f ,`ln_loan_member` AS m WHERE m.member_id = f.member_id 
+				  AND f.is_completed=0 AND f.status=1 AND m.is_completed=0 ";
       	if(!empty($search['txtsearch'])){
       		$s_where = array();
       		$s_search = $search['txtsearch'];
@@ -46,7 +94,34 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$where .=' AND '.implode(' OR ',$s_where).'';
       	
       	}
+      	echo $sql.$where.$Other;
       	return $db->fetchAll($sql.$where.$Other);
+      }
+      public function getAllOutstadingLoan($search=null){
+	      	$db = $this->getAdapter();
+	      	$sql="SELECT g.member_id,g.loan_number
+	      	,(SELECT name_kh FROM ln_client WHERE client_id=g.client_id LIMIT 1) AS client_id
+	      	,(SELECT name_en FROM ln_client WHERE client_id=g.client_id LIMIT 1) AS client_name,
+	      	g.total_capital,g.interest_rate,
+	      	(SELECT symbol FROM `ln_currency` WHERE id =g.currency_type) AS currency_type,
+	      	(SELECT SUM(total_payment) AS total_payment FROM `ln_client_receipt_money` WHERE loan_number =g.loan_number) AS total_payment
+	      	g.currency_type AS curr_type
+	      	,(SELECT total_duration FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS total_duration
+	      	,(SELECT name_en FROM `ln_view` WHERE TYPE=14 AND key_code=(SELECT pay_term FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1)) AS pay_term
+	      	,(SELECT date_release FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS date_release
+	      	,(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS co_name,
+	      	(SELECT name_en FROM `ln_view` WHERE type = 14 AND key_code =lg.pay_term ) AS name_en
+	      	,g.admin_fee FROM `ln_loan_group` AS lg, ln_loan_member AS g WHERE lg.g_id = g.group_id AND g.status=1 ";
+	      	$Other =" ORDER BY g.branch_id ,g.currency_type , g.member_id DESC";
+	      	$where = '';
+	      	if(!empty($search['txtsearch'])){
+	      		$s_where = array();
+	      		$s_search = $search['txtsearch'];
+	      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+	      		$s_where[]=" client_id LIKE '%{$s_search}%'";
+	      		$where .=' AND '.implode(' OR ',$s_where).'';
+	      	
+	      	}
       }
       public function getALLGroupDisburse($search = null){
       	$db = $this->getAdapter();
