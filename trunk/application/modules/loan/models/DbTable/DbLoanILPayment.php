@@ -70,7 +70,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	}
 	public function getIlDetail($id){
 		$db = $this->getAdapter();
-		$sql="SELECT 
+		$sql=" SELECT 
 				  
 				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id LIMIT 1) AS `currency_type`,
 				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,

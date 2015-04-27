@@ -314,8 +314,10 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		getLaonPayment(3);
-		getAllLaonPayment(3);
+		if(not_submit==0){
+			   getLaonPayment(3);
+			   getAllLaonPayment(3);
+	   }
 }
 	}, "client_id");
 
@@ -334,16 +336,19 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		getLaonPayment(2);
-		getAllLaonPayment(2);
+		if(not_submit==0){
+		   getLaonPayment(2);
+		   getAllLaonPayment(2);
+		}
 	}
 	}, "client_code");
 
-
+    not_submit = 0;
 	document = dojo.byId("loan_number");
 	dojo.connect(document, "onkeyup", function(event) {
 		key_number = (event.keyCode);
 		if(key_number==13){
+			not_submit = 1;
 			getLaonPayment(1);
 			getAllLaonPayment(1);
 		}
@@ -593,7 +598,7 @@ function getLaonPayment(type){
 				
 			},
 			error: function(e) {
-				//alert(e);
+				alert(e);
 			}
 		});
 }
@@ -730,6 +735,7 @@ function calculateTotal(index){
     		month = pay_date.getMonth()+1;
     		var datePay = month+'/'+pay_date.getDate()+'/'+pay_date.getFullYear();
 			total_date = Math.round((date_collect - pay_date)/(oneDay));
+			//alert(total_date);
 			if(total_date>0){
 				var ps = $('#pay_after_'+arrays[i]).val();
 				total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
@@ -740,28 +746,34 @@ function calculateTotal(index){
 				 		  var rate_day = parseFloat(pps[0])/30;
 					 	    var penalize_amount=(totalPay*(rate_day*total_date))/100;
 					 	   after_penalize_amount = after_penalize_amount + parseFloat(penalize_amount);
-					 	   totalAmount = totalAmount + (parseFloat(totalPay) + parseFloat(penalize_amount));
+					 	   totalAmount = parseFloat(totalAmount) + (parseFloat(totalPay) + parseFloat(penalize_amount));
+					 	   
 				 	   }else{
 				 		  after_penalize_amount = after_penalize_amount + parseFloat(ps);
-				 		 totalAmount = totalAmount + ps;
+				 		 totalAmount = parseFloat(totalAmount) + parseFloat(ps);
+				 		 //alert(totalAmount);
 				 	   }
 				 	  }else{
 					 	   if(!isNaN(ps)&&ps!=0){
 					 		  penalize_amount = parseFloat(ps);
 					 		 after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
-						 	   totalAmount = totalAmount + (parseFloat(totalPay) + parseFloat(penalize_amount));
-						 	   //alert(penalize_amount);
+						 	   totalAmount = parseFloat(totalAmount) + (parseFloat(totalPay) + parseFloat(penalize_amount));
+							 	  //alert(totalAmount);
+							 	  
 					 	   }else{
 						 	   after_penalize_amount = after_penalize_amount + parseFloat(ps);
 						 	   totalAmount = totalAmount + totalPay;
+							 	  //alert(totalAmount);
 					 	   }
 				 	  }
 				}
 			}else if(total_date==0){
 				totalAmount = totalAmount + (parseFloat(totalPay));
 				total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
+				//alert(totalAmount);
 			}else{
 				var ds = $('#pay_before_'+arrays[i]).val();
+				//alert(ds);
 				
 				if(ds.length!=0){
 				 	if(ds.indexOf("%")!==-1){
@@ -790,21 +802,26 @@ function calculateTotal(index){
 				 	   }
 				 	  }else{
 					 	   if(!isNaN(ds)&&ds!=0){
+						 	   //alert(ds);
 						 	    discount = parseFloat(ds).toFixed(2);
 						 	  // alert(total_date);
 						 	   if(payOption==1 || payOption==2){
 							 	  totalAmount = totalAmount + (parseFloat(totalPay) - ((discount/30)*(Math.abs(total_date))));
 							 	 after_discount = parseFloat(after_discount) + ((discount/30)*(Math.abs(total_date)));
 							 	total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
+							 	//alert(totalAmount);
 							 	}else{
 							 		totalAmount = totalAmount + parseFloat(principlePerMonth);
 							 		total_interest = total_interest+parseFloat(0);
+							 		//alert(totalAmount);
 							 	}
 					 	   }else{
+						 		 // alert(ds);
 						 	   if(payOption==1 || payOption==2){
 							 		 totalAmount = totalAmount + (parseFloat(totalPay));
 							 		after_discount = after_discount+parseFloat(ds);
 							 		total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
+							 		//alert(totalAmount);
 							 	}else{
 							 		 totalAmount = totalAmount + (parseFloat(principlePerMonth));
 							 		total_interest = total_interest+parseFloat(0);
@@ -816,13 +833,14 @@ function calculateTotal(index){
 		}else{
 		}
 	}
-	dijit.byId('amount_receive').attr('value',totalAmount.toFixed(2));
+	
 	dijit.byId('penalize_amount').attr('value',after_penalize_amount.toFixed(2));
     dijit.byId('discount').attr('value',after_discount.toFixed(2));
 	dijit.byId('total_payment').attr('value',totalAmount);
 	dijit.byId('os_amount').attr('value',os_amount);
 	dijit.byId('total_interest').attr('value',total_interest);
 	dijit.byId('priciple_amount').attr('value',priciple_amount);
+	dijit.byId('amount_receive').attr('value',totalAmount);
 	var identity = dijit.byId('identity').get('value');
 	var recored = dijit.byId('record_id').get('value');
 	if(identity==recored){

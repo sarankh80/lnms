@@ -10,7 +10,7 @@ class Report_LoanController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
-  function rptLoanReleasedAction(){
+  function rptLoanReleasedAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
   	$rs=$db->getAllLoan();
   	
@@ -37,9 +37,50 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   	
   }
-  function rptLoancollectAction(){
+  function rptLoanReleasedCoAction(){//realease by co
   	$db  = new Report_Model_DbTable_DbLoan();
-  	$this->view->loancllect_list = $db->getALLLoancollect();
+  	$rs=$db->getAllLoanCo();
+  	 
+  	//   	$db = new Loan_Model_DbTable_DbLoanIL();
+  	//   	$rs_rows= $db->getAllIndividuleLoan($search);
+  	 
+  	$this->view->loanrelease_list =$rs;
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$search = $this->getRequest()->getPost();
+  		if(@$search["exportexcel"]== 1){
+  			unset($rs['curr_type']);
+  			$collumn = array("member_id","loan_number","client_id","client_name","total_capital","interest_rate","currency_type","total_duration",
+  					"date_release","co_name","admin_fee");
+  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
+  		}
+  		elseif(!empty($search['txtsearch'])){
+  			//print_r($search);exit();
+  			$rs= $db->getAllLoan($search);
+  			$this->view->loanrelease_list = $rs;
+  		}
+  	}
+  	 
+  	 
+  }
+  function rptLoancollectAction(){//list payment that collect from client
+  	$db  = new Report_Model_DbTable_DbLoan();
+  	try {
+  		if($this->getRequest()->isPost()){
+  			$search = array(
+  					'start_date'=> date('Y-m-01'),
+  					'end_date'=>date('Y-m-d'));
+  		}else{
+  			$search = array(
+  					'start_date'=> date('Y-m-01'),
+  					'end_date'=>date('Y-m-d'));
+  		}
+  
+  	}catch(Exception $e){
+  	}
+  	
+  	$this->view->loancllect_list = $db->getALLLoancollect($search);
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
@@ -127,7 +168,30 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   function rptBadloanAction(){
   }
-  function rptLoanOutstandingAction(){
+  function rptLoanOutstandingAction(){//loand out standing with /collection
+	  $db  = new Report_Model_DbTable_DbLoan();
+	  	$rs=$db->getAllLoan();
+	  	
+	//   	$db = new Loan_Model_DbTable_DbLoanIL();
+	//   	$rs_rows= $db->getAllIndividuleLoan($search);
+	  	
+	  	$this->view->loanrelease_list =$rs;
+	  	$key = new Application_Model_DbTable_DbKeycode();
+	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	  	if($this->getRequest()->isPost()){
+	  		$search = $this->getRequest()->getPost();
+	  		if(@$search["exportexcel"]== 1){
+	  			unset($rs['curr_type']);
+	  			$collumn = array("member_id","loan_number","client_id","client_name","total_capital","interest_rate","currency_type","total_duration",
+	  					"date_release","co_name","admin_fee");
+	  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
+	  		}	
+	  		elseif(!empty($search['txtsearch'])){
+	  			//print_r($search);exit();
+	  			$rs= $db->getAllLoan($search);
+	  			$this->view->loanrelease_list = $rs;
+	  		}
+	  	}
   }
   function rptLoanBereleaseAction(){
   }

@@ -17,60 +17,93 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		</td>
 	</tr>
 </table>
-<!--<table style="font-family: 'Khmer OS Content'; width:60%; float: right;" >
- 	<tr> -->
-<!-- 		<td align="right"> -->
-<!-- 			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox" -->
-<!-- 			 style="width: 320px;  height: 30px;" value='<?php //echo $this->txtsearch;?>'/>-->
-<!-- 			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button> -->
-<!-- 		</td> -->
-<!-- 	</tr> -->
-<!-- </table> -->
-<div id="divPrint">
-<body>
-	<table width="100%" border="1" style="border-collapse:collapse;" bordercolor="black">
-    	<tr bgcolor="#BBBBBB">
-        	<th><?php echo $tr->translate("NO");?></th>
-            <th><?php echo $tr->translate("LOAN_CODE");?></th>
-            <th style="white-space: pre;"><?php echo $tr->translate("CLIENT_NAMEKH");?></th>
-            <th><?php echo $tr->translate("BRANCH");?></th>
-            <th><?php echo $tr->translate("CO");?>Co</th>
-            <th><?php echo $tr->translate("PRINCIPAL");?></th>
-            <th><?php echo $tr->translate("ENTEREST");?></th>
-            <th><?php echo $tr->translate("PENALIIZE");?></th>
-            <th style="white-space: pre;"><?php echo $tr->translate("TOTAL__PAYMENT");?></th>
-            <th><?php echo $tr->translate("DATE");?></th>
-         </tr>
-         <?php foreach($this->loancllect_list as $key =>$row){?>
-		   <tr>
-		     <td>&nbsp;<?php echo $key+1; ?></td>
-		     <td>&nbsp;<?php echo $row['loan_number']?></td>
-			 <td>&nbsp;<?php echo $row['client_name']?></td>
-			 <td>&nbsp;<?php echo $row['branch_id']?></td>
-			 <td>&nbsp;<?php echo $row['co']?></td>
-			 <td>&nbsp;<?php echo $row['total_principal']?></td>
-			 <td>&nbsp;<?php echo $row['total_interest']?></td>
-			 <td>&nbsp;<?php echo $row['STATUS']?></td>
-			 <td>&nbsp;<?php echo $row['total_payment']?></td>
-			 <td>&nbsp;<?php echo $row['date_payment']?></td>
-			 
-			</tr>
-		<?php }?>
-        <?php for($i=0;$i<=7;$i++){?>
-        <tr align="center">
-        	<td><?php echo $i+1;?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <?php }?>
-     </table>
-</body>
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint" style="width: 100%;">
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+}
+</style>
+	<tr>
+		<td align="center">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['rpt_loan_collect'];?></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo 'សំរាប់ថ្ងៃទី';?></h2>
+                	</td>
+                    
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td class="style" style="font-size: 11px;">
+                					<?php echo $this->data['brand_adress'];?>
+								<br /><?php echo $this->data['phone_brand'];?>
+                				</td>
+                				<td width="65%"></td>
+                				
+                			</tr>
+			               
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
+        </td>
+	</tr>
+	<tr>
+	   <td>
+			  <table border="1"​ style="border-collapse:collapse; font-family: 'Khmer OS Battambang'; border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+		        	<th style="padding:5px 0px;"><?php echo $tr->translate("លរ");?></th>
+		        	<th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+		        	<th style="padding:5px 0px;"><?php echo $tr->translate("CO");?></th>
+		            <th style="padding:5px 0px;"><?php echo $tr->translate("លេខឥណទាន");?></th>
+		            <th style="white-space: pre;"><?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
+		            <th style="padding:5px 0px;"><?php echo $tr->translate("PRINCIPAL");?></th>
+		            <th style="padding:5px 0px;"><?php echo $tr->translate("ប្រាក់ការ");?></th>
+		            <th style="padding:5px 0px;"><?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
+		            <th style="white-space: pre;"><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
+		            <th><?php echo $tr->translate("DATE");?></th>
+		         </tr>
+		         <?php foreach($this->loancllect_list as $key =>$row){?>
+				   <tr>
+				     <td>&nbsp;<?php echo $key+1; ?></td>
+				     <td>&nbsp;<?php echo $row['branch_id']?></td>
+				     <td>&nbsp;<?php echo $row['co'].' '.$row['co_name'];?></td>
+				     <td>&nbsp;<?php echo $row['loan_number']?></td>
+					 <td>&nbsp;<?php echo $row['client_name']?></td>
+					 <td>&nbsp;<?php echo $row['total_principal']?></td>
+					 <td>&nbsp;<?php echo $row['total_interest']?></td>
+					 <td>&nbsp;<?php //echo $row['STATUS']?></td>
+					 <td>&nbsp;<?php echo $row['total_payment']?></td>
+					 <td  style="white-space: pre;">&nbsp;<?php echo $row['date_payment']?></td>
+					 
+					</tr>
+				<?php }?>
+		        <?php for($i=0;$i<=7;$i++){?>
+		        <tr align="center">
+		        	<td><?php echo $i+1;?></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		            <td></td>
+		        </tr>
+		        <?php }?>
+		     </table>
+		     </td>
+     </tr>
+</div>
 </div>
 </html>

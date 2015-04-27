@@ -1,8 +1,9 @@
 <?php
-	$this->headTitle('Add Loan IL'); 
+    $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    $this->headTitle($tr->translate('LOAN_RESCHEDULE')); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 ?>
 <style>	
@@ -50,7 +51,7 @@
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន ឥណទានទោល</strong></legend>
+					<legend><strong><?php echo $tr->translate('LOAN_RESCHEDULE');?></strong></legend>
 					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
@@ -61,11 +62,11 @@
 							<td><?php echo $frm->getElement('level');?></td>
 						</tr>
 						<tr>
-							<td>Admin Fee</td>
+							<td><?php echo $tr->translate('AMIN_FEE');?></td>
 							<td><?php echo $frm->getElement('loan_fee');?></td>
-							<td><?php echo $tr->translate("CLIENT_CODE")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><?php echo $frm->getElement('customer_code');?></td>
-							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><?php echo $frm->getElement('member');?></td>
 						</tr>
 						<tr>
@@ -76,21 +77,19 @@
 							<td></td>
 							<td></td>
 						</tr>
-					</table>
-				</fieldset>
-				<fieldset>
-					<legend><strong>ព៌ត័មាន កម្ចីសាច់ប្រាក់</strong></legend>
-					<table cellspacing="10" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("រយះពេលខ្ចី(គិតជា)")?></td>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
 							<td><?php echo $frm->getElement('pay_every');?></td>
-							<td><?php echo $tr->translate("រយះពេលខ្ចី")?></td>
+							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃចេញ")?></td>
+							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
 							<td><?php echo $frm->getElement('release_date');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង")?></td>
+							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
 							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់កម្ចី")?></td>
 							<td><?php echo $frm->getElement('date_line');?></td>
@@ -98,57 +97,51 @@
 							<td><?php //echo $frm->getElement('interest_rate');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("រូបិយ៍វត្ថុ")?></td>
+							<td><?php echo $tr->translate("CURRENCY")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចី")?></td>
+							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("វិធីសាស្រ្តបង់ប្រាក់")?></td>
+							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
-							<td><label style="font-size:10px;"><?php echo $tr->translate("រយៈពេលអនុគ្រោះប្រាក់ដើម")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
+							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
-							<td><label id="lbl_payment"><?php echo $tr->translate("រយៈពេលបង់រំលោៈដើម")?></label></td>
+							<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
 							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
 						</tr>
-					</table>
-				</fieldset>
-				<fieldset>
-					<legend><strong>ព៌ត័មាន សងប្រាក់</strong></legend>
-					<table cellspacing="10" style="margin-top: -10px;">
 						<tr>
-							<td><?php echo $tr->translate("ម៉ោងយកប្រាក់")?></td>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TIME_COLLECION")?></td>
 							<td><?php echo $frm->getElement('time');?></td>
-							<td><?php echo $tr->translate("រយៈពេលបង់(គិតជា)")?></td>
+							<td><?php echo $tr->translate("TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('collect_termtype');?></td>
-							<td><?php echo $tr->translate("រយៈពេលបង់")?></td>
+							<td><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('amount_collect');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃឈប់សំរាក")?></td>
+							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
-							<td><?php echo $tr->translate("បង់យឺតផាកពិន័យ")?></td>
+							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('pay_late');?></td>
-							<td><?php echo $tr->translate("បង់មុនថ្ងៃកំណត់")?></td>
+							<td><?php echo $tr->translate("FUND_BEFORDATE")?></td>
 							<td><?php echo $frm->getElement('pay_before');?></td>
-							
 						</tr>
 					</table>
 				</fieldset>
-				
-				<input type="hidden" name="invoice_no" id="invoice_no" >
-				<input type="hidden" name="s_name" id="s_name">
 		</td>
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="reset" value="សម្អាត" label="សម្អាត" dojoType="dijit.form.Button"
+			<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit" label="រក្សាទុកនិងបិទ" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate('SAVECLOSE');?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="រក្សាទុកនិងបន្ថែមថ្មី" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit" label="label="<?php echo $tr->translate('SAVENEW');?>"" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		
 		</td>
@@ -504,7 +497,7 @@ function calCulateFirstPayment(){
 	dijit.byId('first_payment').attr('value',epx_date);
 }
 
-var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'indexss','action'=>'get-loaninfo')); ?>';
+var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loaninfo')); ?>';
 function getClientInfo(type){
 	//alert(9);
 	if(type==1){
@@ -527,6 +520,13 @@ function getClientInfo(type){
 			dijit.byId('total_amount').attr('value',data.total_principal);
 		    dijit.byId("customer_code").attr('value',id);
 			dijit.byId("member").attr('value',id);
+			dijit.byId('currency_type').attr('value',data.currency_type);
+			dijit.byId('currency_type').set('readOnly',true);
+			dijit.byId('co_id').attr('value',data.co_id);
+			dijit.byId('zone').attr('value',data.zone_id);
+			dijit.byId('loan_code').attr('value',);
+			
+			
 			
 		},
 		error: function(err) {
