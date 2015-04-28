@@ -60,68 +60,56 @@
     <body class="<?php echo $class;?>" >
        <!--  <div data-dojo-type="dijit/layout/BorderContainer" style="width: 100%; height: 100%;"> -->
              <!-- <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'"> -->
-             <div style="height:70px;" class="border">
-                <?php echo $this->render('header.phtml')?>
-                <p style="font-size:11px !important;  padding-left: 16px;">
-                <?php $session_user=new Zend_Session_Namespace('auth');
-			          $username = $session_user->first_name;
-        		?>
-				​ប្រើ​ប្រាស់ ដោយ: <a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"><?php echo $username;?></a>
-				<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | ចាក​ចេញ</a>
-                 <?php if($action=='index'){?>
-                 <a style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?></a>
-				<?php }elseif($action=='add' OR $action=='edit'){?>	
-					<a style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>"><<?php echo $tr->translate('GO_BACK');?></a>
-				<?php }?>
-				</p>
-            </div>
-           <div style="width:195px;float: left;" class="border">
-             <?php if($module!='home'){?>
-           <!-- <div  style="width: 183px;" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'"> -->  
-             	<?php echo $this->render('menuleft.phtml')?>
-           <!--  </div><!-- end left --> 
-           </div>
-           <div style="float:left;padding-left:5px;width:1100px; overflow-x:hidden " class="border1">
-            <?php }?>
-            <?php 
-            	$module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
-            ?>
-            <!--  <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"> -->
-					<div style="clear: both;"></div>
-				<div style="height: auto; width:100%;">
-				<?php if($module=='report' AND $action!='rpt-paymentschedules'){?>
-				<script>
-				//require(["dojo/parser", "dijit/form/ComboButton", "dijit/DropDownMenu", "dijit/MenuItem"]);
-				</script>
-				<form id="frm_export" name="frm_export" dojoType="dijit.form.Form" method="post">
-					<input type="hidden" name="exportexcel" id="exportexcel" value="1" />
-				</form>
-				<form id="frmlist_mt" name="frmlist_mt" dojoType="dijit.form.Form" method="post">
-					<div data-dojo-type="dijit/form/ComboButton">
-					    <span>Export as</span>
-					    <div data-dojo-type="dijit/DropDownMenu">
-					        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Print</div>
-					        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Save as PDF</div>
-					        <div data-dojo-type="dijit/MenuItem" onclick="dijit.byId('frm_export').submit();" >Export to Excel</div>
-					    </div>
-					</div>
-					<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
-					showLabel="false" type="button" onclick="doPrint();">Print</button>					
-					<!--  <button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php //echo $tr->translate("SEARCH");?></button>					
-					<input  name="rpt_search" type="text" id="rpt_search" style="width:250px; height:30px;border-radius:1px;" >-->
-<!-- 					<div id="divPrint"> -->
-				<?php }?>
-					
-	                <?php echo $this->layout()->content; 
-	               	if($module=='report' AND $action!='rpt-paymentschedules'){
-	                ?>
-<!--                 </div> -->
-                </form>
-                <?php }?>
-                <div style="clear: both;"></div>
-                </div>
-           <!-- </div> end center -->
-      </div> 
+            <table width="100%">
+                <tr>
+                	<td colspan="2" valign="top" >
+                		 <?php echo $this->render('header.phtml')?>
+			                <p style="font-size:11px !important;  padding-left: 16px;">
+			                <?php $session_user=new Zend_Session_Namespace('auth');
+						          $username = $session_user->first_name;
+			        		?>
+							​ប្រើ​ប្រាស់ ដោយ: <a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"><?php echo $username;?></a>
+							<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | ចាក​ចេញ</a>
+			                 <?php if($action=='index'){?>
+			                 <a style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?></a>
+							<?php }elseif($action=='add' OR $action=='edit'){?>	
+								<a style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>"><<?php echo $tr->translate('GO_BACK');?></a>
+							<?php }?>
+							</p>
+                	</td>
+                </tr>
+            	<tr>
+            		<td valign="top" <?php if($module!='home') echo'width="220px"';  ?> >
+            			 <?php if($module!='home'){?>
+            			<?php echo $this->render('menuleft.phtml')?>
+            			<?php }?>
+            		</td>
+            		<td valign="top">
+            			<?php if($module=='report' AND $action!='rpt-paymentschedules'){?>
+							<form id="frm_export" name="frm_export" dojoType="dijit.form.Form" method="post">
+								<input type="hidden" name="exportexcel" id="exportexcel" value="1" />
+							</form>
+							<form id="frmlist_mt" name="frmlist_mt" dojoType="dijit.form.Form" method="post">
+								<div data-dojo-type="dijit/form/ComboButton">
+								    <span>Export as</span>
+								    <div data-dojo-type="dijit/DropDownMenu">
+								        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Print</div>
+								        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Save as PDF</div>
+								        <div data-dojo-type="dijit/MenuItem" onclick="dijit.byId('frm_export').submit();" >Export to Excel</div>
+								    </div>
+								</div>
+								<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+								showLabel="false" type="button" onclick="doPrint();">Print</button>					
+							<?php }?>
+            			<?php echo $this->layout()->content; ?>
+            			<?php //echo $this->layout()->content; 
+			               	if($module=='report' AND $action!='rpt-paymentschedules'){
+			                ?>
+		                       </form>
+		                <?php }?>
+            		</td>
+            	</tr>
+            </table>
     </body>
 
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
