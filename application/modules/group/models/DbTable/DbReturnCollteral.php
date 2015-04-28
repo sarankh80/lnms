@@ -98,7 +98,7 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 			}
 
             $order = " ORDER BY rc.return_id DESC";
-//             echo $sql.$where.$order;
+            //echo $sql.$where.$order;
 			return $db->fetchAll($sql.$where.$order);
 			$db->commit();
 		}catch (Exception $e){

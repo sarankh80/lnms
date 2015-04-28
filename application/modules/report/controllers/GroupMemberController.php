@@ -132,15 +132,21 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   function rptCalleteralChangeAction(){
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	$db = new Group_Model_DbTable_DbChangeCollteral();
-  	$this->view->calleteral_list = $db->getAllChangeCollteral();//call frome model
+  	$db = new Group_Model_DbTable_DbChangeCollteral(); 	
   	if($this->getRequest()->isPost()){
-  		$data = $this->getRequest()->getPost();
-  		if(isset($data['btn_search'])){
-  			//print_r($data);exit();
-  			$this->view->calleteral_list = $db->geteAllcallteral($data);
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_search'])){
+  			$this->view->calleteral_list = $db->getAllChangeCollteral($search);
+  		}else {
+  			$collumns = array("branch_id","owner_code_id","owner_id","fromd_id","to_id","collteral_type","number_code","date","note","owner");
+  			$this->exportFileToExcel('ln_callect',$db->getAllChangeCollteral(),$collumns);
   		}
-  	}
+  	}else{
+		$search = array(
+			'adv_search' => '',
+			'status_search' => -1);
+		$this->view->calleteral_list = $db->getAllChangeCollteral($search);//call frome model
+	}
   	$fm = new Group_Form_Frmchangecollteral();
   	$frm = $fm->FrmChangeCollteral();
   	Application_Model_Decorator::removeAllDecorator($frm);
@@ -171,6 +177,53 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   				'start_date'=> date('Y-m-01'),
   				'end_date'=>date('Y-m-d'));
   	}
-  } 
+  }
+  function rptReturncollteralAction(){
+  		$key = new Application_Model_DbTable_DbKeycode();
+  		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  		$db = new Group_Model_DbTable_DbReturnCollteral();
+  		if($this->getRequest()->isPost()){
+  		$search=$this->getRequest()->getPost();
+  			if(isset($search['btn_search'])){
+  			$this->view->calleteral_list = $db->getAllReturnCollteral($search);
+  			}else {
+  			$collumns = array("return_id","giver_name","receiver_name","collect_type","number_collteral","date","note","user_id");
+  			$this->exportFileToExcel('ln_return_collteral',$db->getAllReturnCollteral(),$collumns);
+  			}
+  		}else{
+  		$search = array(
+  				'adv_search' => '',
+  				'status_search' => -1);
+  		$this->view->calleteral_list = $db->getAllReturnCollteral($search);//call frome model
+  		}
+	  $fm = new Group_Form_Frmreturncollteral();
+	  $frm = $fm->FrmReturnCollteral();
+	  Application_Model_Decorator::removeAllDecorator($frm);
+	  $this->view->frm_returnCollteral = $frm;
+ 	}
+ 	function rptClientblacklistAction(){
+ 		$key = new Application_Model_DbTable_DbKeycode();
+ 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 		$db = new Group_Model_DbTable_DbClientBlackList();
+ 		if($this->getRequest()->isPost()){
+ 			$search=$this->getRequest()->getPost();
+ 			if(isset($search['btn_search'])){
+ 				$this->view->calleteral_list = $db->getAllBlackList($search);
+ 			}else {
+ 				$collumns = array("client_id","branch_id","name_kh","name_en","client_number","sex","reasonblack_list","is_blacklist","date_blacklist");
+ 				$this->exportFileToExcel('ln_client',$db->getAllBlackList(),$collumns);
+ 			}
+ 		}else{
+ 			$search = array(
+ 					'adv_search' => '',
+    				'status_search' => -1,
+    				'start_date'=> date('Y-m-01'),
+					'end_date'=>date('Y-m-d'));
+ 			$this->view->calleteral_list = $db->getAllBlackList($search);//call frome model
+ 		}
+ 		$frm = new Group_Form_FrmClientBlackList();
+    	$frm = $frm->FrmClientBlackList();
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frm_search = $frm;
+ 	}
 }
-

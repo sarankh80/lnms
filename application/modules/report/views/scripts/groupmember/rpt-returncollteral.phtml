@@ -1,0 +1,52 @@
+<?php 
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("RETURN_COLLETERAL"));
+	$frm=$this->frm_returnCollteral;
+?>
+<title><?php echo $tr->translate("RPT AGREEMENT");?>report Return Calleteral Value</title>
+<html>
+<head>
+<meta charset="utf-8">
+
+</head>
+<body> 
+<table style="font-family: 'Khmer OS Content';float: right;"  >
+	<tr>
+			<td><?php echo $frm->getElement('adv_search');?></td>
+			<td><?php echo $frm->getElement('collteral_type');?></td>
+			<td><?php echo $frm->getElement('start_date');?></td>
+			<td><?php echo $frm->getElement('end_date');?></td>
+			<td><?php echo $frm->getElement('status_search');?></td>
+			<td><?php echo $frm->getElement('btn_search');?></td>
+	</tr>
+</table>
+<div style="clear: both;"></div>
+	<h2 align="center"><?php //echo $this->data['brand_rep_va'];?></h2><br/>
+	<div id="divPrint">
+	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
+    	<tr bgcolor="#BBBBBB" >
+        	<th><?php echo $tr->translate("NUM");?></th>
+            <th><?php echo $tr->translate("GIVER_NAME");?></th>
+            <th><?php echo $tr->translate("RECEIVER_NAME");?></th>
+            <th><?php echo $tr->translate("COLETERAL_TYPE");?></th>
+            <th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>
+            <th><?php echo $tr->translate("DATE");?></th>
+            <th><?php echo $tr->translate("NOTE");?></th>
+            <th><?php echo $tr->translate("BY_USER");?></th>
+         </tr>
+         <?php foreach($this->calleteral_list as $key =>$row){?>
+         <tr>
+        	<td>&nbsp;<?php echo $key+1;?></td>
+		    <td>&nbsp;<?php echo $row['giver_name']?></td>
+            <td>&nbsp;<?php echo $row['receiver_name']?></td>
+            <td>&nbsp;<?php echo $row['collect_type']?></td>
+            <td>&nbsp;<?php echo $row['number_collteral']?></td>
+            <td>&nbsp;<?php echo $row['date']?></td>
+            <td>&nbsp;<?php echo $row['note']?></td>
+            <td>&nbsp;<?php echo $row['user_id']?></td>
+         </tr>
+         <?php }?>
+    </table>
+    </div>
+</body>
+</html>
