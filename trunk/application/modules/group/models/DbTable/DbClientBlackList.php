@@ -58,7 +58,7 @@ class Group_Model_DbTable_DbClientBlackList extends Zend_Db_Table_Abstract
     		$where.= " AND branch_id = ".$search['branch_id'];
     	}
     	$order = " ORDER BY client_id DESC ";
-//     	echo $sql.$where.$order;
+     	//echo $sql.$where.$order;
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getBlackListById($id){

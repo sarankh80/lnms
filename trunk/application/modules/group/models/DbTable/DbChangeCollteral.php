@@ -144,7 +144,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	}
 	function getAllChangeCollteral($search=null){
 		$db = $this->getAdapter();
-		$db->beginTransaction();
 		try {
 			$sql=" SELECT id,
 			(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1) as branch_id,
@@ -188,9 +187,9 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	// echo  $sql.$where;
 			$dbs=$db->fetchAll($sql.$where);
 			return $dbs;
-		$db->commit();
+		
 		}catch (Exception $e){
-			$db->rollBack();
+			
 		}
 	}
 	public static function getCallteralCode(){
