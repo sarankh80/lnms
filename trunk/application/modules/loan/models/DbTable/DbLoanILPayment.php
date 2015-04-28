@@ -520,7 +520,7 @@ public function addILPayment($data){
    
    function getAllLoanPaymentByLoanNumber($data){
    	$db = $this->getAdapter();
-   	$loan_number= $data['loan_number'];
+   	$loan_number= $data['loan_numbers'];
    	if($data['type']!=1){
    		$where =($data['type']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
    		$sql ="SELECT
@@ -532,6 +532,7 @@ public function addILPayment($data){
 			   		lm.`pay_before`,
 			   		lm.`pay_after`,
 			   		lm.`branch_id`,
+			   		lm.`collect_typeterm`,
 			   		lg.`co_id`,
 			   		lg.`payment_method`,
 			   		lf.*
@@ -557,6 +558,7 @@ public function addILPayment($data){
    					  lm.`pay_before`,
    					  lm.`pay_after`,
    					  lm.`branch_id`,
+   					  lm.`collect_typeterm`,
    					  lg.`co_id`,
    					  lg.`payment_method`,
    					  lf.*
@@ -572,6 +574,7 @@ public function addILPayment($data){
    					  AND $where";
    
    		}
+   		//return $sql ;
    		return $db->fetchAll($sql);
    		}
 

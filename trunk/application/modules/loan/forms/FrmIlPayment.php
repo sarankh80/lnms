@@ -76,7 +76,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_service_charge->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'addMoreService();'
+				'onkeyup'=>'totalReturn();'
 		));
 		$_service_charge->setValue(0);
 		
@@ -85,7 +85,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=>	'filterClient'
+				'OnChange'	=>	'filterClient();'
 		));
 		
 		$rows = $db->getAllBranchName();
