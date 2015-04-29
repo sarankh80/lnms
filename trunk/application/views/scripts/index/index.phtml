@@ -31,7 +31,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 </script>
 </head>
 <body class="tundra" style="overflow: hidden;" >
-<div id="header">
+<div id="header" style="position:absolute;left: 0;top: 0;">
 	<table>
 		<tr align="center">
 			<td class="title" style="padding-left: 7px; text-align: center;font-size:20px;font-family:'Khmer OS Muol Light'"><?php echo $this->data["system_name"];?></td>
@@ -40,6 +40,8 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 			<td class="textblue" align="center"></td>
 		</tr>
 	</table>
+</div>
+<div style="height:60px;">
 </div>
 <div id="content">
 	<div id='marquee'>
@@ -110,7 +112,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	</table>	
 	<br>
 </div>
-<div id="footer">
+<div id="footer" style="position:absolute;left: 0;bottom: 0;">
 	<table id="main">
 		<tr>
 			<td>
@@ -131,7 +133,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 					<b><?php echo $this->data['power_by']?></b>
 				</label>				
 			</td>
-			<td class="textgreenlight" valign="top">
+			<td class="textgreenlight" valign="top" >
 				<label class="textgreen footertitle f_style">អាសយដ្ឋាន​ ៖</label>
 				<dl>
 				   <lable class="f_style"><b><?php echo $this->data['branch_add']?></b></lable><br />
