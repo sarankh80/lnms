@@ -96,7 +96,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			<td colspan="2" align="center">
 			<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
 				iconClass="dijitIconUndo" onclick="window.location = '<?php echo $this->url(array('module'=>'rsvAcl','controller'=>"user",'action'=>'index'),null,true); ?>';" />
-				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+				<input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
 			</td>
 		</tr>
 	</table>	
