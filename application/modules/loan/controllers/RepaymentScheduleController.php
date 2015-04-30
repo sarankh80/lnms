@@ -28,16 +28,16 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 						 );
 			}
 			$db = new Loan_Model_DbTable_DbLoanIL();
-			$rs_rows= $db->getAllIndividuleLoan($search);
+			$rs_rows= $db->getAllIndividuleLoan($search,1);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("LOAN_NO","CUSTOMER_NAME","COMUNE_NAME_EN","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
 				"BRANCH_NAME","STATUS");
 			$link=array(
-					'module'=>'loan','controller'=>'index','action'=>'view',
+					'module'=>'loan','controller'=>'RepaymentSchedule','action'=>'view',
 			);
-			$link_info=array('module'=>'loan','controller'=>'index','action'=>'edit',);
+			$link_info=array('module'=>'loan','controller'=>'RepaymentSchedule','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -62,7 +62,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}
 			}catch (Exception $e) {
-				 $err =$e->getMessage();
+				echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
@@ -73,106 +73,63 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
 		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
-	}	
-	public function addloanAction(){
-		if($this->getRequest()->isPost()){
-			$data=$this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbRepaymentSchedule();
-			$id = $db->addNewLoanGroup($data);
-			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-			print_r(Zend_Json::encode($suc));
-			exit();
-		}
-	}
-	public function editAction(){
-		if($this->getRequest()->isPost()){
-			$_data = $this->getRequest()->getPost();
-			try{
-				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
-				$_dbmodel->updateLoanById($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
-			}catch (Exception $e) {
-				echo $err =$e->getMessage();exit();
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			}
-		}
-		
-		$id = $this->getRequest()->getParam('id');
-		
-		$db_g = new Application_Model_DbTable_DbGlobal();
-		$rs = $db_g->getLoanFundExist($id);
-		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
-		$db = new Loan_Model_DbTable_DbLoanIL();
-		$row = $db->getTranLoanByIdWithBranch($id);
-		
-		$frm = new Loan_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan($row);
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		$this->view->frm_loan = $frm_loan;
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
-	}
-	
-	public function viewAction(){
-		if($this->getRequest()->isPost()){
-			$_data = $this->getRequest()->getPost();
-			try{
-				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
-				$_dbmodel->updateLoanById($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
-			}catch (Exception $e) {
-				echo $err =$e->getMessage();exit();
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				$err =$e->getMessage();
-				Application_Model_DbTable_DbUserLog::writeMessageError($err);
-			}
-		}
-	
-		$id = $this->getRequest()->getParam('id');
-		$db_g = new Application_Model_DbTable_DbGlobal();
-		$rs = $db_g->getLoanFundExist($id);
-		if($rs==true){
-			Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");
-		}
-		$db = new Loan_Model_DbTable_DbLoanIL();
-		$row = $db->getLoanviewById($id);
-		$this->view->tran_rs = $row;
-		print_r($row);
-// 		$frm = new Loan_Form_FrmLoan();
-// 		$frm_loan=$frm->FrmAddLoan($row);
-// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
-// 		$this->view->frm_loan = $frm_loan;
-// 		$frmpopup = new Application_Form_FrmPopupGlobal();
 // 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
 // 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 // 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 // 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
-	}
-// 	function getLoannumberAction(){
+	}	
+// 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){
-// 			$data = $this->getRequest()->getPost();
-// 			$db = new Loan_Model_DbTable_DbLoanIL();
-// 			$row = $db->getLoanPaymentByLoanNumber($data['loan_number']);
-// 			print_r(Zend_Json::encode($row));
+// 			$data=$this->getRequest()->getPost();
+// 			$db = new Loan_Model_DbTable_DbRepaymentSchedule();
+// 			$id = $db->addNewLoanGroup($data);
+// 			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
+// 			print_r(Zend_Json::encode($suc));
 // 			exit();
 // 		}
-		
 // 	}
-
+	public function viewAction(){
+		// 		$this->_helper->layout()->disableLayout();
+		$id = $this->getRequest()->getParam('id');
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		if(empty($id)){
+			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
+		}
+		$db = new Loan_Model_DbTable_DbLoanIL();
+		$row = $db->getLoanviewById($id);
+		$this->view->tran_rs = $row;
+	}
+	
+	public function editAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try{
+				$_dbmodel = new Loan_Model_DbTable_DbRepaymentSchedule();
+				$_dbmodel->updateRepaymentSchedule($_data);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/RepaymentSchedule/index");
+			}catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
+			}
+		}
+		
+		$id = $this->getRequest()->getParam('id');
+		$db_g = new Application_Model_DbTable_DbGlobal();
+		$rs = $db_g->getLoanFundExist($id);
+		if($rs==true){
+			Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/RepaymentSchedule/index");
+		}
+		
+		$db = new Loan_Model_DbTable_DbLoanIL();
+		$row = $db->getTranLoanByIdWithBranch($id,1,1);
+		if(empty($row)){ Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/RepaymentSchedule/index"); }
+		
+		$frm = new Loan_Form_FrmLoan();
+		$frm_loan=$frm->FrmAddLoan($row);
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_loan = $frm_loan;
+	}
 }
 

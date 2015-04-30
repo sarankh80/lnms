@@ -55,16 +55,13 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 				$db = new Loan_Model_DbTable_DbLoanGroup();
 				$db->addNewLoanGroup($_data);
 				if(!empty($_data['saveclose'])){
-// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/GroupDisburse/index");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/GroupDisburse/index");
 				}else{
-					//Application_Form_FrmMessage::message("INSERT_SUCCESS");
+					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}
-				
-				
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
-				echo $err;exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
