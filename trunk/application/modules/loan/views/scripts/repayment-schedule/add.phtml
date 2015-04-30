@@ -1,22 +1,9 @@
 <?php
     $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-    $this->headTitle($tr->translate('LOAN_RESCHEDULE')); 
-	echo $this->headTitle();
+    echo $this->headTitle($tr->translate('LOAN_RESCHEDULE')); 
 	$frm = $this->frm_loan;
-	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 ?>
-<style>	
-	.dojoxGridSortNode{
-		text-align: center;	
-		height: 30px;		
-	}
-.fullside {
-	width: 100%;
-	height: 30px;
-}
-</style>
-
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'RepaymentSchedule','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -59,7 +46,9 @@
 							<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-							<td><?php echo $frm->getElement('level');?></td>
+							<td><?php echo $frm->getElement('level');?>
+							<input type="hidden" dojoType="dijit.form.TextBox"  name="group_id" id="group_id" value=""  />
+							</td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate('AMIN_FEE');?></td>
@@ -141,7 +130,7 @@
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate('SAVECLOSE');?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="label="<?php echo $tr->translate('SAVENEW');?>"" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate('SAVENEW');?>"" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		
 		</td>
@@ -235,9 +224,11 @@ function chechPaymentMethod(){
 	if(method_id==5){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dijit.byId('amount_collect_pricipal').focus();
+		dijit.byId("amount_collect").attr('value',1);
 		dijit.byId("amount_collect").set('readOnly',true);
 		dijit.byId("collect_termtype").set('readOnly',true);
 	}else if(method_id==4){
+		dijit.byId('amount_collect_pricipal').attr('value',1);
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="ចំនួនទឹកប្រាក់បង់ថេរ";
 		dijit.byId('amount_collect_pricipal').attr('value','');
@@ -418,12 +409,12 @@ function addNewVillage(){
 }
 </script>
 <?php 
- echo $this->frmpupopclient;
- echo $this->frmPopupCO;
- echo $this->frmPopupZone;
- echo $this->frmPopupCommune;
- echo $this->frmPopupDistrict;
- echo $this->frmPopupVillage;
+//  echo $this->frmpupopclient;
+//  echo $this->frmPopupCO;
+//  echo $this->frmPopupZone;
+//  echo $this->frmPopupCommune;
+//  echo $this->frmPopupDistrict;
+//  echo $this->frmPopupVillage;
 ?>
 <script>
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
@@ -499,7 +490,6 @@ function calCulateFirstPayment(){
 
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loaninfo')); ?>';
 function getClientInfo(type){
-	//alert(9);
 	if(type==1){
 	     id = dijit.byId("customer_code").get('value');
 	}else if(type==2){
@@ -523,16 +513,15 @@ function getClientInfo(type){
 			dijit.byId('currency_type').attr('value',data.currency_type);
 			dijit.byId('currency_type').set('readOnly',true);
 			dijit.byId('co_id').attr('value',data.co_id);
+			dijit.byId('interest_rate').attr('value',data.interest_rate);
 			dijit.byId('zone').attr('value',data.zone_id);
-			dijit.byId('loan_code').attr('value',);
-			
-			
-			
+		    dijit.byId('loan_code').attr('value',data.loan_number);
+		    dijit.byId('level').attr('value',data.level);
+		    dijit.byId('repayment_method').attr('value',data.payment_method);
+		    dijit.byId('group_id').attr('value',data.group_id);
+		    
 		},
 		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
 		}
 	});
 	

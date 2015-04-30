@@ -292,6 +292,7 @@ function chechPaymentMethod(){
 		dijit.byId("collect_termtype").set('readOnly',true);
 		dijit.byId('amount_collect_pricipal').attr('value',2);
 	}else if(method_id==4){
+		dijit.byId('amount_collect_pricipal').attr('value',1);
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?>";
 		dijit.byId('amount_collect_pricipal').attr('value','');
