@@ -20,9 +20,36 @@
 			<td><?php echo $frm->getElement('btn_search');?></td>
 	</tr>
 </table>
+<style>
+.style{
+	line-height: 20px;font-size: 12px;
+	font-family: 'Khmer OS Battambang';
+}
+</style>
 <div style="clear: both;"></div>
 	<h2 align="center"><?php //echo $this->data['brand_rep_va'];?></h2><br/>
 	<div id="divPrint">
+	    <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>-->
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_returncollteral'];?></h2></td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td width="45%">
+                					<?php echo $this->data['brand_adress'];?>
+								<br /><?php echo $this->data['phone_brand'];?>
+                				
+		                </table>
+		              </td>
+		           </tr>   
+    </table>
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     	<tr bgcolor="#BBBBBB" >
         	<th><?php echo $tr->translate("NUM");?></th>
@@ -36,14 +63,14 @@
          </tr>
          <?php foreach($this->calleteral_list as $key =>$row){?>
          <tr>
-        	<td>&nbsp;<?php echo $key+1;?></td>
-		    <td>&nbsp;<?php echo $row['giver_name']?></td>
-            <td>&nbsp;<?php echo $row['receiver_name']?></td>
+        	<td style="text-align: center;">&nbsp;<?php echo $key+1;?></td>
+		    <td>&nbsp; &nbsp;<?php echo $row['giver_name']?></td>
+            <td>&nbsp; &nbsp;<?php echo $row['receiver_name']?></td>
             <td>&nbsp;<?php echo $row['collect_type']?></td>
-            <td>&nbsp;<?php echo $row['number_collteral']?></td>
-            <td>&nbsp;<?php echo $row['date']?></td>
-            <td>&nbsp;<?php echo $row['note']?></td>
-            <td>&nbsp;<?php echo $row['user_id']?></td>
+            <td style="text-align: center;">&nbsp;<?php echo $row['number_collteral']?></td>
+            <td style="text-align: center;">&nbsp;<?php echo $row['date']?></td>
+            <td style="text-align: center;">&nbsp;<?php echo $row['note']?></td>
+            <td style="text-align: center;">&nbsp;<?php echo $row['user_id']?></td>
          </tr>
          <?php }?>
     </table>

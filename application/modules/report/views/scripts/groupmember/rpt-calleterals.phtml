@@ -3,19 +3,27 @@
 	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
 	$frm=$this->frm_callteral;
 ?>
+<style>
+<!--
+dt{display: none;}
+-->
+</style>
 <table style="font-family: 'Khmer OS Content';float: right;"  >
 	<tr>
 			<td><?php echo $frm->getElement('adv_search');?></td>
 			<td><?php echo $frm->getElement('branch_id');?></td>
 			<td><?php echo $frm->getElement('client_code');?></td>
 			<td><?php echo $frm->getElement('co_name');?></td>
-			<td><?php echo $frm->getElement('collteral_type');?></td>			
+			
+	</tr>
+	<tr>		
+			<td><?php echo $frm->getElement('collteral_type');?></td>	
 			<td><?php echo $frm->getElement('start_date');?></td>
 			<td><?php echo $frm->getElement('end_date');?></td>
 			<td><?php echo $frm->getElement('status_search');?></td>
 			<td><?php echo $frm->getElement('btn_search');?></td>
 			<td></td>
-		</tr>
+	</tr>
 </table>
 <div style="clear: both;"></div>
 <div style=" width="100%"  margin:0 auto;">
@@ -34,8 +42,8 @@
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_call'];?></h2></td>
+                	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>-->
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_callecteral'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -69,9 +77,9 @@
 			<tr>
 		     <td>&nbsp;<?php echo $key+1;?></td>
 		     <td>&nbsp;<?php echo $row['branch_name']?></td>
-			 <td>&nbsp;<?php echo $row['client_code']?></td>
+			 <td style="text-align: center;">&nbsp;<?php echo $row['client_code']?></td>
 		     <td style="white-space: pre;">&nbsp;<?php echo $row['client_name']?></td>
-			 <td>&nbsp;<?php echo $row['code_call']?></td>
+			 <td style="text-align: center;">&nbsp;<?php echo $row['code_call']?></td>
 			 <td>&nbsp;<?php echo $row['co_id']?></td>
 			 <td style="white-space: pre;">&nbsp;<?php echo $row['owner']?></td>
 			 <td>&nbsp;<?php echo $row['collteral_type']?></td>
