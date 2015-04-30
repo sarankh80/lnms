@@ -65,7 +65,6 @@ th{padding: 5px;}
 	        	<th aling=center;><?php echo $tr->translate("NUM");?></th>
 	            <th style="white-space: pre;"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
 	            <th style="white-space: pre;"><?php echo $tr->translate("CLIENTNAME_KH");?></th>
-	            <th><?php echo $tr->translate("CLIENTNAME_EN");?></th>
 	            <th><?php echo $tr->translate("SEX");?></th>
 	             <th><?php echo $tr->translate("BRANCH_NAME");?></th>
 	            <th style="white-space: pre;"><?php echo $tr->translate("PHONE");?></th>
@@ -75,16 +74,15 @@ th{padding: 5px;}
           </tr>
           <?php foreach($this->client_list as $key =>$row){?>
 		   <tr>
-			   <td>&nbsp;<?php echo $key+1; ?></td>
-		       <td>&nbsp;<?php echo $row['client_number']?></td>
-			   <td>&nbsp;<?php echo $row['name_kh']?></td>
-			   <td>&nbsp;<?php echo $row['name_en']?></td>
-			   <td>&nbsp;<?php echo $row['sex']?></td>
-			   <td>&nbsp;<?php echo $row['branch_name']?></td>
-			   <td style="white-space: pre;">&nbsp;<?php echo $row['phone']?></td>
+			   <td style="text-align: center;">&nbsp;<?php echo $key+1; ?></td>
+		       <td style="text-align: center;">&nbsp;<?php echo $row['client_number']?></td>
+			   <td>&nbsp;<?php echo $row['name_kh']." - ".$row['name_en']?></td>
+			   <td style="text-align: center;">&nbsp;<?php echo $row['sex']?></td>
+			   <td style="text-align: center;">&nbsp;<?php echo $row['branch_name']?></td>
+			   <td style="white-space: pre;text-align: center;">&nbsp;<?php echo $row['phone']?></td>
 			   <td style="max-width: 200px;">&nbsp;<?php echo $row['house'].", ".$row['street'].", ".$row['village_name'].", ".$row['com_name'].", ".$row['dis_name'].", ".$row['pro_name']?></td>
-			   <td>&nbsp;<?php echo$row['spouse_name']?></td>
-			   <td>&nbsp;<?php echo$row['create_date']?></td>
+			   <td style="text-align: center;">&nbsp;<?php echo$row['spouse_name']?></td>
+			   <td style="text-align: center;">&nbsp;<?php echo$row['create_date']?></td>
 		   </tr>
 		  <?php }?>
 

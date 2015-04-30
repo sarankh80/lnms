@@ -14,7 +14,7 @@
 <div style=" width:21cm; margin:0 auto;">
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 
 }
@@ -28,7 +28,7 @@
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	
+                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_name'];?></label></h2>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -36,7 +36,7 @@
                 		<table width="100%" style="font-size: 9px;">
                 			<tr class='style'>
                 				<td width="45%" style="font-size: 9px;">
-                					<span style="font-size: 9px;"><?php echo $this->data['brand_adress'];?></span>
+                					<span style="font-size: 9px;" class="style"><?php echo $this->data['brand_adress'];?></span>
 								<br /><?php echo $this->data['phone_brand'];?>
                 				</td>
                 				<td></td>
