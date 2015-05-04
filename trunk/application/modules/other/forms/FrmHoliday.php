@@ -47,7 +47,7 @@ Class Other_Form_FrmHoliday extends Zend_Dojo_Form {
 		$_holiday_name->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
 		$_startdate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$_startdate->setAttribs(array('dojoType'=>$this->date,'required'=>'true',
+		$_startdate->setAttribs(array('dojoType'=>$this->date,
 				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");

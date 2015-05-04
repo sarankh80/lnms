@@ -31,7 +31,6 @@ class Report_ParamaterController extends Zend_Controller_Action {
   		$search = array('txtsearch' => '');
   		$this->view->staff_list = $db->getAllstaff();
   	}
-  	
   }
   function  rptVillageAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -50,13 +49,21 @@ class Report_ParamaterController extends Zend_Controller_Action {
   		$this->exportFileToExcel('ln_village',$db->getAllVillage(),$collumn);
   		} 		
   	}else {
-  		$search = array('adv_search' => '');
+  		$search = array('adv_search' => '',
+  				'search_status' => -1,
+  				'province_name'=>0,
+  				'district_name'=>'',
+  				'commune_name'=>'');
   	}
   	$frm = new Other_Form_FrmVillage();
   	$frm = $frm->FrmAddVillage();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_village= $frm;
-  	//$this->view->result= $search;
+  	
+  	$db= new Application_Model_DbTable_DbGlobal();
+  	$this->view->district = $db->getAllDistricts();
+  	$this->view->commune_name = $db->getCommune();
+  	$this->view->result = $search;
   }
   function rptZoneAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -80,7 +87,6 @@ class Report_ParamaterController extends Zend_Controller_Action {
   }
   function rptHolidayAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
-  	$this->view->holiday_list = $db->getAllHoliday();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	$frm = new Other_Form_FrmHoliday();
@@ -98,7 +104,13 @@ class Report_ParamaterController extends Zend_Controller_Action {
 	  		$collumn = array("id","holiday_name","amount_day","start_date","end_date","status","modify_date","note");
 	  		$this->exportFileToExcel('ln_holiday',$db->getAllHoliday(),$collumn);
   		}
-  	}else $data = array('adv_search' => '');
+  	}else {  		
+  		$data = array('adv_search' => '',
+						'search_status' => -1,
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d')); 
+  		$this->view->holiday_list = $db->getAllHoliday($data);
+  	}
   }
   public function exportFileToExcel($table,$data,$thead){
   	$this->_helper->layout->disableLayout();

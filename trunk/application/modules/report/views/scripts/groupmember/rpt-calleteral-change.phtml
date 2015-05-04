@@ -16,6 +16,8 @@
 			<td><?php echo $frm->getElement('branch_id');?></td>
 			<td><?php echo $frm->getElement('client_code');?></td>
 			<td><?php echo $frm->getElement('client_name');?></td>
+	</tr>
+	<tr>
 			<td><?php echo $frm->getElement('to');?></td>
 		    <td><?php echo $frm->getElement('from');?></td>
 			<td><?php echo $frm->getElement('collteral_type')?>
@@ -66,7 +68,6 @@
             <th><?php echo $tr->translate("OWNER_NAME");?></th>
             <th><?php echo $tr->translate("DATE");?></th>
             <th><?php echo $tr->translate("NOTE");?></th>
-            <th><?php echo $tr->translate("BY");?></th>
          </tr>
          <?php foreach($this->calleteral_list as $key =>$row){?>
          <tr>
@@ -80,7 +81,6 @@
             <td>&nbsp;<?php echo $row['number_code']?></td>
             <td>&nbsp;<?php echo $row['date']?></td>
             <td>&nbsp;<?php echo $row['note']?></td>
-            <td style="text-align: center;">&nbsp;<?php echo $row['owner']?></td>
          </tr>
          <?php }?>
     </table>

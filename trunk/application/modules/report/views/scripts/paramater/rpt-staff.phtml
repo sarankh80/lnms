@@ -14,6 +14,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	</tr>
 </table>
 <div style=" width="100%"  margin:0 auto;">
+<br />
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <style>
 .style{
 	line-height: 20px;font-size: 12px;
@@ -48,10 +50,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             </table>
 			<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
 		    	<tr bgcolor="#BBBBBB" >
-		        	<th>&nbsp;<?php echo $tr->translate("NO");?></th>
+		        	<th>&nbsp;<?php echo $tr->translate("NUM");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("STAFF_ID");?></th>
-		            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("NAME_KHMER");?></th>
-		            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("NAME_EN");?></th>
+		            <th style="white-space: pre;">&nbsp;<?php echo $tr->translate("NAME");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("SEX");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("PHONE");?></th>
 		            <th>&nbsp;<?php echo $tr->translate("NATIONAL_ID");?></th>
@@ -72,8 +73,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 				   <tr style="font-size: 11px;" align="center">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['co_code']?></td>
-					 <td>&nbsp;<?php echo $row['co_khname']?></td>
-					 <td>&nbsp;<?php echo $row['co_firstname']?></td>
+					 <td>&nbsp;<?php echo $row['co_khname'] ." - ".$row['co_firstname']?></td>
 					 <td>&nbsp;<?php echo $row['sex']?></td>
 					 <td>&nbsp;<?php echo $row['tel']?></td>
 					 <td>&nbsp;<?php echo $row['national_id']?></td>
@@ -120,4 +120,15 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	</td>
     </tr>
 </table>
+		<br />
+		    <table align="center" width="100%">
+				    <tr >
+				        <th style="width:20%;">Approved By</th>
+				        <th></th>
+				        <th style="width:20%;">Verifyed By</th>
+				        <th></th>
+				        <th style="width:20%;">Prepare By</th>
+				   </tr>
+			</table>
+</div>
 </div>
