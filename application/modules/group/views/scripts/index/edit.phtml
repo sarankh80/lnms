@@ -37,7 +37,7 @@ dojo.require("dijit.form.Textarea");
 					<table style="margin: 0 auto; width:100%;" cellspacing="10">
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME");?>*</td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $frm->getElement('branch_id');echo $frm->getElement('id')?></td>
 							<td><?php echo $tr->translate("IS_GROUP")?></td>
 							<td><?php echo $frm->getElement('is_group');?></td>		
 							<td><?php echo $tr->translate("GROUP_CODE")?></td>
