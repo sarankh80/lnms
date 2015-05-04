@@ -75,19 +75,29 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   		}
   	}else{
   		$search = array('adv_search' => '',
-						'status' => -1,'branch_id'=>0,
-						'province_id'=>0,);
+						'status' => -1,
+						'province_id'=>0,
+						'district_id'=>'',
+						'comm_id'=>'',
+						'village'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'));
   	}	
-  	$frm = new Application_Form_FrmAdvanceSearch();
-  	$frm = $frm->AdvanceSearch();
-  	Application_Model_Decorator::removeAllDecorator($frm);
-  	$this->view->frm_search = $frm;
-  	
-  	$fm = new Group_Form_FrmClient();
-  	$frm = $fm->FrmAddClient();
-  	Application_Model_Decorator::removeAllDecorator($frm);
-  	$this->view->frm_client = $frm;
-  	
+  		$frm = new Application_Form_FrmAdvanceSearch();
+		$frm = $frm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+		
+		$fm = new Group_Form_FrmClient();
+		$frm = $fm->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_client = $frm;
+		$db= new Application_Model_DbTable_DbGlobal();
+		$this->view->district = $db->getAllDistricts();
+		$this->view->commune_name = $db->getCommune();
+		$this->view->village_name = $db->getVillage();
+		
+		$this->view->result=$search;		
   }
   
   public function exportFileToExcel($table,$data,$thead){

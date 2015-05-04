@@ -49,7 +49,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	function getecallteralbyid($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT id,branch_id,code_call,co_id,client_code,getter_name,giver_name,date_delivery,client_code,number_collteral,mortgage_Contract,
-				client_name,'with',relativewith,owner,withs,relativewiths,callate_type,note,date_registration,status FROM $this->_name where id=$id ";
+				client_name,`with`,relativewith,owner,withs,relativewiths,callate_type,note,date_registration,status FROM $this->_name where id=$id ";
 		//echo $sql;exit();
 		return $db->fetchRow($sql);
 	}

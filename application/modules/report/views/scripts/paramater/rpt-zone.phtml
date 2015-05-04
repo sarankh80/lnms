@@ -23,7 +23,8 @@ $frm = $this->frm_zone;
 	font-family: 'Khmer OS Battambang';
 }
 </style>
- 
+<br />
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm"> 
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -73,16 +74,26 @@ $frm = $this->frm_zone;
 				<?php }?>
 				 <?php if(!empty($key)) for($i=$key; $i<=14;$i++){?>
 					<tr align="center">
-					 <td><?php echo $i+1; ?></td>
+					 <td><?php $key; echo $i+1; ?></td>
 					 <td></td>
 					 <td></td>
 					 <td></td>
 				    </tr>
 				<?php }?>
 		
-		    </table>
+		    </table><br />
+		    <table align="center" width="100%">
+				    <tr >
+				        <th style="width:20%;">Approved By</th>
+				        <th></th>
+				        <th style="width:20%;">Verifyed By</th>
+				        <th></th>
+				        <th style="width:20%;">Prepare By</th>
+				   </tr>
+			</table>
 		 </div>
 		</td>
 	</tr>
 </table>
+</div>
 </div>

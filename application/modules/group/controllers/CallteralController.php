@@ -26,7 +26,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","COLLTERAL_CODE","STAFF_NAME","CLIENT_NO","CUSTOMER_NAME","OWNER_NAME","COLETERAL_TYPE","NUMBER_COLLTERAL","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","OWNER_NAME","COLETERAL_TYPE","NUMBER_COLLTERAL","DATE","NOTE","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);

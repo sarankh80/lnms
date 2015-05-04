@@ -144,8 +144,8 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 				));
-		$_name_=new Zend_Dojo_Form_Element_ValidationTextBox('names');
-		$_name_->setAttribs(array(
+		$_names=new Zend_Dojo_Form_Element_ValidationTextBox('names');
+		$_names->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
@@ -245,7 +245,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 			$clint_name->setValue($data['client_name']);
 			$_client_code->setValue($data['client_code']);
 			$_name->setValue($data['with']);
-			$_name_->setValue($data['relativewith']);
+			$_names->setValue($data['relativewith']);
 			$owner->setValue($data['owner']);
 			$_And_name->setValue($data['withs']);
 			$_And_name_->setValue($data['relativewiths']);
@@ -258,7 +258,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		}
 
 		$this->addElements(array($from_date,$to_date,$_client_code,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,$customer_code,$number_collteral,$_code,$belong_borrower,
-				$clint_name,$_name,$_name_,$owner,$_And_name,$_And_name_,$_personal,$collteral_type,$note,
+				$clint_name,$_name,$_names,$owner,$_And_name,$_And_name_,$_personal,$collteral_type,$note,
 				$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		
