@@ -29,20 +29,25 @@
 										<td><?php echo $frm->getElement("branch_nameen");?></td>
 									</tr>
 									<tr>
+										<td><?php echo $tr->translate("PREFIX_CODE");?></td>
+									    <td><?php echo $frm->getElement("prefix_code");?></td>
 										<td><?php echo $tr->translate("BRANCH_ADDRESS")?></td>
 										<td><?php echo $frm->getElement("br_address");?></td>
 										<td><?php echo $tr->translate("PHONE")?></td>
 										<td><?php echo $frm->getElement("branch_tel");?></td>
-                                        <td><?php echo $tr->translate("BRNACH_FAX")?></td>
-										<td><?php echo $frm->getElement("fax");?></td>
 									</tr>
-									<tr>										
+									<tr>		
+										<td><?php echo $tr->translate("BRNACH_FAX")?></td>
+										<td><?php echo $frm->getElement("fax");?></td>								
 										<td><?php echo $tr->translate("BRANCH_NOTE")?></td>
 										<td><?php echo $frm->getElement("branch_note");?></td>
 										<td><?php echo $tr->translate("BRANCH_STATUS")?></td>
 										<td><?php echo $frm->getElement("branch_status");?></td>
+									</tr>
+									<tr>
 										<td><?php echo $tr->translate("BRANCH_DISPLAY")?></td>
 										<td><?php echo $frm->getElement("branch_display");?></td>
+										<td colspan="4"></td>
 									</tr>
 									<tr>
 										<td colspan="6" align="center">

@@ -32,6 +32,8 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'client_number'=> $_data['client_no'],
 				'name_kh'	  => $_data['name_kh'],
 				'name_en'	  => $_data['name_en'],
+				'join_with'	  => $_data['join_with'],
+				'join_nation_id'=> $_data['join_nation_id'],
 				'sex'	      => $_data['sex'],
 				'spouse_nationid'=>$_data['spouse_nationid'],
 				'sit_status'  => $_data['situ_status'],
@@ -79,7 +81,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$from_date =(empty($search['start_date']))? '1': "create_date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': "create_date <= '".$search['end_date']." 23:59:59'";
-		$where = " WHERE ".$from_date." AND ".$to_date;		
+		$where = " WHERE (name_kh!='' AND  name_en!='') AND ".$from_date." AND ".$to_date;		
 		$sql = "
 		SELECT client_id,client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
@@ -95,6 +97,8 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$s_where[] = "client_number LIKE '%{$s_search}%'";
 			$s_where[] = " name_en LIKE '%{$s_search}%'";
 			$s_where[] = " name_kh LIKE '%{$s_search}%'";
+			$s_where[] = "join_with LIKE '%{$s_search}%'";
+			$s_where[] = "join_nation_id LIKE '%{$s_search}%'";
 			$s_where[] = " phone LIKE '%{$s_search}%'";
 			$s_where[] = " house LIKE '%{$s_search}%'";
 			$s_where[] = " street LIKE '%{$s_search}%'";
@@ -121,24 +125,46 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
  		//echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
-	public function getGroupCode($data){
+	public function getGroupCodeBYId($data){
 		$db = $this->getAdapter();
 		if($data['is_group']==1){
 			$sql = "SELECT COUNT(client_id) AS number FROM `ln_client`
-			WHERE is_group =1 ";
+			      WHERE is_group =1 AND branch_id = ".$data['branch_id'] ;
+			    $acc_no = $db->fetchOne($sql);
+				$new_acc_no= (int)$acc_no+1;
+				$acc_no= strlen((int)$acc_no+1);
+				$pre ="G".$this->getPrefixCode($data['branch_id']);
+				for($i = $acc_no;$i<3;$i++){
+					$pre.='0';
+				}
+				return $pre.$new_acc_no;
 		}else{
 			$sql = " SELECT group_code FROM `ln_client`
 			WHERE client_id = ".$data['group_id'] ;
-			return $db->fetchOne($sql);
+			 $rs = $db->fetchOne($sql);
+			if(empty($rs)){return ''; }else{
+				return $rs;
+			}
 		}
+		
+	}
+	function getPrefixCode($branch_id){
+		$db  = $this->getAdapter();
+		$sql = " SELECT prefix FROM `ln_branch` WHERE br_id = $branch_id  LIMIT 1";
+		return $db->fetchOne($sql);
+	}	
+	public function getClientCode($data){//for get client by branch
+		$db = $this->getAdapter();
+			$sql = "SELECT COUNT(client_id) AS number FROM `ln_client`
+			WHERE branch_id = ".$data['branch_id'] ;
 		$acc_no = $db->fetchOne($sql);
 		$new_acc_no= (int)$acc_no+1;
 		$acc_no= strlen((int)$acc_no+1);
-		$pre = "";
+		$pre =$this->getPrefixCode($data['branch_id']);
 		for($i = $acc_no;$i<6;$i++){
 			$pre.='0';
 		}
-		return "G".$pre.$new_acc_no;
-	}	
+		return $pre.$new_acc_no;
+	}
 }
 

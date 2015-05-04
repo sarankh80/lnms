@@ -169,15 +169,10 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptBadloanAction(){
   }
   function rptLoanOutstandingAction(){//loand out standing with /collection
-	  $db  = new Report_Model_DbTable_DbLoan();
-	  	$rs=$db->getAllLoan();
-	  	
-	//   	$db = new Loan_Model_DbTable_DbLoanIL();
-	//   	$rs_rows= $db->getAllIndividuleLoan($search);
-	  	
-	  	$this->view->loanrelease_list =$rs;
+	    $db  = new Report_Model_DbTable_DbLoan();
 	  	$key = new Application_Model_DbTable_DbKeycode();
 	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	  	$rs= $db->getAllOutstadingLoan($search=array());
 	  	if($this->getRequest()->isPost()){
 	  		$search = $this->getRequest()->getPost();
 	  		if(@$search["exportexcel"]== 1){
@@ -187,11 +182,13 @@ class Report_LoanController extends Zend_Controller_Action {
 	  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
 	  		}	
 	  		elseif(!empty($search['txtsearch'])){
-	  			//print_r($search);exit();
-	  			$rs= $db->getAllLoan($search);
-	  			$this->view->loanrelease_list = $rs;
+	  			
+	  			
 	  		}
 	  	}
+	  	$rs= $db->getAllOutstadingLoan($search);
+	  	print_r($rs);
+	  	$this->view->outstandloan = $rs;
   }
   function rptLoanBereleaseAction(){
   }

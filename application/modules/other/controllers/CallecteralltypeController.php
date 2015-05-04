@@ -1,6 +1,6 @@
 <?php
 
-class Group_CallecteralltypeController extends Zend_Controller_Action
+class Other_CallecteralltypeController extends Zend_Controller_Action
 {
 	protected $tr;
 public function init()
@@ -24,7 +24,7 @@ public function init()
 				if(isset($data['btn_save_close'])){
 					$db->addcallecterall($data);
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-					Application_Form_FrmMessage::redirectUrl('/group/Callecteralltype');
+					Application_Form_FrmMessage::redirectUrl('/other/Callecteralltype');
 				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -55,7 +55,7 @@ public function init()
     		$list = new Application_Form_Frmtable();
     		$collumns = array("NAME_EN","NAME_KH","DATE","STATUS");
     		$link=array(
-    				'module'=>'group','controller'=>'Callecteralltype','action'=>'edit',
+    				'module'=>'other','controller'=>'Callecteralltype','action'=>'edit',
     		);
     		$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('title_en'=>$link,'title_kh'=>$link));
     	}catch (Exception $e){
@@ -75,7 +75,7 @@ public function init()
 			try {
 				$db->updatcallecterall($data);
 				Application_Form_FrmMessage::message($this->tr->translate('EDIT_SUCCESS'));
-				Application_Form_FrmMessage::redirectUrl('/group/Callecteralltype');
+				Application_Form_FrmMessage::redirectUrl('/other/Callecteralltype');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();

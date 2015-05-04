@@ -22,7 +22,18 @@ class Setting_Model_DbTable_DbRestore extends Zend_Db_Table_Abstract
 		}else{
 			return false;
 		}
-	}   
+	}  
+	function getAllTruncateTable(){//check after
+		$db = $this->getAdapter();
+		$sql = " CALL strtruncate ";
+		$rows =  $db->fetchAll($sql);
+// 		$sql='TRUNCATE TABLE `ln_account_branch`;';
+		
+// 		$db->fetchRow($sql);
+		foreach ($rows as $key =>$value){
+			//echo $value['tr_table'];
+		}
+	} 
 }
 
 

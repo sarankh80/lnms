@@ -41,11 +41,11 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'iconclass'=>'dijitIconSearch',
 			));
 		
-		$village_name = new Zend_Dojo_Form_Element_TextBox('village_name');
+		$village_name = new Zend_Dojo_Form_Element_ValidationTextBox('village_name');
 		$village_name->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
-		$village_namekh = new Zend_Dojo_Form_Element_TextBox('village_namekh');
+		$village_namekh = new Zend_Dojo_Form_Element_ValidationTextBox('village_namekh');
 		$village_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
@@ -116,7 +116,8 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'class'=>'fullside',
-				'onchange'=>'filterDistrict();'
+				'onchange'=>'filterDistrict();',
+				'invalidMessage'=>false
 				));
 		$_province->setValue($request->getParam("province_name"));
 		

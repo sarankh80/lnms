@@ -785,11 +785,14 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   function getAllClient(){
   	$db = $this->getAdapter();
+//   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+// 	CONCAT(c.`name_en` ,',',(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) ,',',
+// 	(SELECT commune_name FROM `ln_commune` WHERE c.com_id = com_id  LIMIT 1) ,',',
+// 	(SELECT district_name FROM `ln_district` AS ds WHERE c.dis_id = ds.dis_id  LIMIT 1) ,',',
+// 	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) ) AS name		
+//   	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
-	CONCAT(c.`name_en` ,',',(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) ,',',
-	(SELECT commune_name FROM `ln_commune` WHERE c.com_id = com_id  LIMIT 1) ,',',
-	(SELECT district_name FROM `ln_district` AS ds WHERE c.dis_id = ds.dis_id  LIMIT 1) ,',',
-	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) ) AS name		
+  	CONCAT(c.`name_en`,'-',c.`name_kh`) AS name
   	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
   	return $db->fetchAll($sql);
   }

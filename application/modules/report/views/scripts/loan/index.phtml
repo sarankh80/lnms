@@ -7,6 +7,14 @@
   <input type="button" label="Loan Release By CO" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-released-co')); ?>';"/>
   
+   <input type="button" value="បញ្ជីប្រាក់កម្ចីដំណើរការ" label="Loan Outstanding" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-outstanding')); ?>';"/>
+  
+   
+   <input type="button" label="បញ្ជីប្រាក់កម្ចីមិនដំណើរការ" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-badloan')); ?>';"/>
+  
+ 
   <input type="button" label="បញ្ជីប្រាក់កម្ចីក្រុមបានផ្តល់" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-group-disburse')); ?>';"/>
   
@@ -25,12 +33,7 @@
   <input type="button" label="បញ្ជីសេវាឥណទានយឺត" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-late')); ?>';"/>
   
-  <input type="button" label="បញ្ជីប្រាក់កម្ចីដំណើរការ" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-outstanding')); ?>';"/>
-  
-  <input type="button" label="បញ្ជីប្រាក់កម្ចីមិនដំណើរការ" dojoType="dijit.form.Button" 
-  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-badloan')); ?>';"/>
-  
+ 
   <input type="button" label="បញ្ជីប្រាក់ដែលបានផ្តល់" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-berelease')); ?>';"/>
   

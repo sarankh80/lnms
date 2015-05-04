@@ -58,9 +58,9 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 						</tr>
 						<tr>
 							<td width="16%"><?php echo $tr->translate("CLIENT_NO")?></td>
-							<td><?php echo $frm->getElement('client_code');?></td>
+							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-						    <td><?php echo $frm->getElement('client_name')?></td>
+						    <td><input id="client_name" /><?php //echo $frm->getElement('client_name')?></td>
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('name')?></td>
 						</tr>
@@ -115,8 +115,65 @@ echo $this->frmpupopclient;
 echo $this->frmPopupCO;
 ?>
 <script type="text/javascript">
-dojo.require("dijit.form.Textarea");
-dojo.require("dijit.form.NumberTextBox");
+dojo.require("dojo.data.ObjectStore");
+
+require(["dojo/ready"], function(ready){
+	 var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "client_name",
+	id: "client_name",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getClientInfo(2);
+}
+	}, "client_name");
+
+	 var client_number = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_number}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "client_code",
+	id: "client_code",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		getClientInfo(1);
+}
+	}, "client_code");
+	 
+	});
+
+function filterClient(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('client_name').query.branch_id = branch_id;
+	dijit.byId('client_code').query.branch_id = branch_id;
+	dijit.byId('client_code').reset();
+}
+function getClientInfo(type){
+	if(type==1){
+		customer_code= dijit.byId('client_code').get('value');
+		dijit.byId('client_name').attr('value',customer_code);
+	}else{
+		customer_code= dijit.byId('client_name').get('value');
+		dijit.byId('client_code').attr('value',customer_code);
+	}
+	getLoanLevel(customer_code);
+}
 
 var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){

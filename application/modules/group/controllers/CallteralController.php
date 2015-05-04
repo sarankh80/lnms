@@ -66,6 +66,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
+		
 	}
 	public function editAction()
 	{
