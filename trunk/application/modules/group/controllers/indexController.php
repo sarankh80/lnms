@@ -6,7 +6,6 @@ class Group_indexController extends Zend_Controller_Action {
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	private $_sex = array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
 			$db = new Group_Model_DbTable_DbClient();
@@ -31,7 +30,7 @@ class Group_indexController extends Zend_Controller_Action {
 						'district_id'=>'',
 						'comm_id'=>'',
 						'village'=>'',
-						'start_date'=> date('Y-m-01'),
+						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'));
 			}
 			
@@ -99,10 +98,26 @@ class Group_indexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
 		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();// for filter
+		$this->view->allclient_number = $db->getAllClientNumber();//for filter
+		
+		
 		$db= new Application_Model_DbTable_DbGlobal();
 		$this->view->district = $db->getAllDistricts();
 		$this->view->commune_name = $db->getCommune();
-		$this->view->village_name = $db->getVillage();
+		
+		$village = $db->getVillage();
+		array_unshift($village,array( 
+				'id' => -1, 
+			    'name' => '---Add New Village Name---',
+				'commune_id' => -1 ) );
+		
+		$this->view->village_name =$village;
+		$db = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_village = $db->frmPopupVillage();
+		
+		
 	}
 	public function editAction(){
 		$db = new Group_Model_DbTable_DbClient();
@@ -121,7 +136,6 @@ class Group_indexController extends Zend_Controller_Action {
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
 	    $this->view->row=$row;
-	    echo $row['photo_name'];
 		$this->view->photo = $row['photo_name'];
 		if(empty($row)){
 			$this->_redirect("/group/Client");
@@ -155,10 +169,20 @@ class Group_indexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$db = new Group_Model_DbTable_DbClient();
 			$data = $this->getRequest()->getPost();
-			$code = $db->getGroupCode($data);
+			$code = $db->getGroupCodeBYId($data);
 			print_r(Zend_Json::encode($code));
 			exit();
 		}
 	}
+	function getclientcodeAction(){
+		if($this->getRequest()->isPost()){
+			$db = new Group_Model_DbTable_DbClient();
+			$data = $this->getRequest()->getPost();
+			$code = $db->getClientCode($data);
+			print_r(Zend_Json::encode($code));
+			exit();
+		}
+	}
+	
 }
 

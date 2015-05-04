@@ -8,6 +8,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	$_arr = array(
     			'branch_namekh'=>$_data['branch_namekh'],
     			'branch_nameen'=>$_data['branch_nameen'],
+    			'prefix'=>$_data['prefix_code'],
     			'br_address'=>$_data['br_address'],
     			'branch_code'=>$_data['branch_code'],
     			'branch_tel'=>$_data['branch_tel'],
@@ -24,6 +25,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	$_arr = array(
     			'branch_namekh'=>$_data['branch_namekh'],
     			'branch_nameen'=>$_data['branch_nameen'],
+    			'prefix'      =>      $_data['prefix_code'],
     			'br_address'=>$_data['br_address'],
     			'branch_code'=>$_data['branch_code'],
     			'branch_tel'=>$_data['branch_tel'],
@@ -38,7 +40,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.br_address,b.branch_code,b.branch_tel,b.fax,
+    	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.prefix,b.branch_code,b.br_address,b.branch_tel,b.fax,
 (SELECT v.name_en FROM `ln_view` AS v WHERE v.`type` = 4 AND v.key_code = b.displayby)AS displayby,b.other,b.`status` FROM $this->_name AS b  ";
     	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
     	
@@ -49,6 +51,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	if(!empty($search['adv_search'])){
     		$s_where=array();
     		$s_search=$search['adv_search'];
+    		$s_where[]=" b.prefix LIKE '%{$s_search}%'";
     		$s_where[]=" b.branch_namekh LIKE '%{$s_search}%'";
     		$s_where[]=" b.branch_nameen LIKE '%{$s_search}%'";
     		$s_where[]=" b.br_address LIKE '%{$s_search}%'";
@@ -66,7 +69,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     
  function getBranchById($id){
     	$db = $this->getAdapter();
-    	$sql = "SELECT br_id,branch_namekh,branch_nameen,br_address,branch_code,branch_tel,fax,displayby,other,status FROM
+    	$sql = "SELECT br_id,prefix,branch_namekh,branch_nameen,br_address,branch_code,branch_tel,fax,displayby,other,status FROM
     	$this->_name ";
     	$where = " WHERE `br_id`= $id" ;
   

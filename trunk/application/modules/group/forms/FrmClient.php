@@ -17,7 +17,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
 		$_group->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
-				'onClick'=>'getGroupCode();'
+				'onClick'=>'getGroupCode();',
 				));
 		
 		$_group_code = new Zend_Dojo_Form_Element_TextBox('group_code');
@@ -35,10 +35,11 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'Onchange'=>'getFunction();'
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
-		$options='';//array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>"---Select Branch Name---");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['br_id']]=$row['displayby']==1?$row['branch_namekh']:$row['branch_nameen'];
 		$_branch_id->setMultiOptions($options);
 	
@@ -52,7 +53,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getClientByType(1);
-		$options=array(''=>"------Select------",-1=>"Add New");
+		$options=array(''=>"---Select Group Name---");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
 		$_member->setMultiOptions($options);
 		
@@ -63,7 +64,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 						'required' =>'true'
 		));
 		
-		$id_client = $db->getNewClientId();
+// 		$id_client = $db->getNewClientId();
 		$_clientno = new Zend_Dojo_Form_Element_TextBox('client_no');
 		$_clientno->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -71,13 +72,25 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'readonly'=>'readonly',
 				'style'=>'color:red;'
 		));
-		$_clientno->setValue($id_client);
+// 		$_clientno->setValue($id_client);
 	
-		$_nameen = new Zend_Dojo_Form_Element_TextBox('name_en');
+		$_nameen = new Zend_Dojo_Form_Element_ValidationTextBox('name_en');
 		$_nameen->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required' =>'true'
+		));
+		
+		$_join_with = new Zend_Dojo_Form_Element_TextBox('join_with');
+		$_join_with->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_join_nation_id = new Zend_Dojo_Form_Element_TextBox('join_nation_id');
+		$_join_nation_id->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
 		));
 		
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('sex');
@@ -93,7 +106,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt_status = $db->getAllSituation();
+		$opt_status = $db->getVewOptoinTypeByType(5,1);
 		$_situ_status->setMultiOptions($opt_status);
 		
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province');
@@ -209,7 +222,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$chackcall = new Zend_Dojo_Form_Element_CheckBox('chackcall');
 		$chackcall->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
-				//'onClick'=>''
+				'checked'=>'checked'
 		));
 // 		$_id=new Zend_Form_Element_Hidden('id');
 		$_id = new Zend_Form_Element_Hidden("id");
@@ -226,6 +239,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		
 // 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
+			$_branch_id->setValue($data['branch_id']);
 			$_member->setValue($data['parent_id']);
 			$_group->setValue($data['is_group']);
 			$_namekh->setValue($data['name_kh']);
@@ -251,8 +265,11 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$job->setValue($data['job']);
 			$national_id->setValue($data['id_number']);
 			$spouse_nationid->setValue($data['spouse_nationid']);
+			$_join_with->setValue($data['join_with']);
+			$_join_nation_id->setValue($data['join_nation_id']);
+// 			print_r($data);
 		}
-		$this->addElements(array($spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

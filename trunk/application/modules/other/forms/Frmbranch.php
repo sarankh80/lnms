@@ -101,6 +101,14 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 // 				'readonly'=>true
 				));
 		
+		$prefix_code = new Zend_Dojo_Form_Element_ValidationTextBox('prefix_code');
+		$prefix_code->setAttribs(array(
+				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		
+		
 		$branch_status = new Zend_Dojo_Form_Element_FilteringSelect('branch_status');
 		$branch_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -128,13 +136,9 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 	
 		
 		$_id = new Zend_Form_Element_Hidden('id');
-		
-		$this->addElements(array($_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
-				$branch_status,$branch_display));
-		
 		if(!empty($data)){
-			  
 			$br_id->setValue($data['br_id']);
+			$prefix_code->setValue($data['prefix']);
 			$branch_namekh->setValue($data['branch_namekh']);
 			$branch_nameen->setValue($data['branch_nameen']);
 			$br_address->setValue($data['br_address']);
@@ -144,8 +148,11 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$branch_note->setValue($data['other']);
 			$branch_status->setValue($data['status']);
 			$branch_display->setValue($data['displayby']);
-			
 		}
+		
+		$this->addElements(array($prefix_code,$_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
+				$branch_status,$branch_display));
+		
 		return $this;
 		
 	}

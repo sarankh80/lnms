@@ -24,7 +24,7 @@ class Other_BranchController extends Zend_Controller_Action {
            $glClass = new Application_Model_GlobalClass();
 			$rs_rowshow = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_KH","BRANCH_EN","ADDRESS","CODE","TEL","FAX","DISPLAY","OTHER","STATUS");
+			$collumns = array("BRANCH_KH","BRANCH_EN","PREFIX_CODE","CODE","ADDRESS","TEL","FAX","DISPLAY","OTHER","STATUS");
 			$link=array(
 					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
@@ -65,8 +65,6 @@ class Other_BranchController extends Zend_Controller_Action {
 	}
 	function editAction(){
 		$id=$this->getRequest()->getParam("id");
-		$db=new Other_Model_DbTable_DbBranch();
-		$row=$db->getBranchById($id);
 		if($this->getRequest()->isPost())
 		{
 			$data = $this->getRequest()->getPost();

@@ -56,7 +56,9 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
     	$_branch_id->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'Onchange'=>"filterClient();"
+    			
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"------Select Branch------");
@@ -106,9 +108,9 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required'=>true
 		));
-		$number_collteral = new Zend_Dojo_Form_Element_NumberTextBox('number_collteral');
+		$number_collteral = new Zend_Dojo_Form_Element_ValidationTextBox('number_collteral');
 		$number_collteral->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required'=>true
 		));

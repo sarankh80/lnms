@@ -82,7 +82,7 @@
 	  'setting'=>'<li class="link">
 	  		<a title="USER" href="'.$setting.'">
 	  		<span>'.$tr->translate("SETTING").'</span>
-	  		</a>
+	  </a>
 	  		</li>',
 	  );
 ?>  
@@ -98,5 +98,30 @@
 				}
 			} 
 		?>
+		<li style="float: right;">
+			<a href="#" class="langiconen" onclick="changeLange(2);"></a>
+		</li>
+		<li style="float: right;">
+		<a href="#" class="langiconkh" onclick="changeLange(1);"></a>
+		</li>
 	</ul>
 </div>
+<script>
+		
+var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
+function changeLange(lang){
+	dojo.xhrPost({
+		url: url_changelang,
+	    content :{ 
+			    'lange':lang,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			location.reload();
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+	</script>

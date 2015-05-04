@@ -22,8 +22,11 @@ class Setting_LabelController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
+		$db = new Setting_Model_DbTable_DbRestore();
+		$db->getAllTruncateTable();
 	}
 	function addAction(){
+		$this->_redirect('/setting/index');
 		
 	}
 	function editAction(){
@@ -37,6 +40,9 @@ class Setting_LabelController extends Zend_Controller_Action {
 		$id = $this->getRequest()->getParam('id');
 		$rs = $key->getLabelVaueById($id);
 		$this->view->rs= $rs;
+		
+	}
+	function getAllSqlTruncateAction(){
 		
 	}
 	

@@ -30,9 +30,9 @@
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['rpt_loan_release'];?></h2></td>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_release'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -58,6 +58,7 @@
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
                     <td style="padding:5px 0px;">លរ</td>
+                    <td>សាខា</td>
                     <td style="padding:5px 0px;">លេខឥណទាន</td>
                     <td style="padding:5px 0px;">ឈ្មោះអតិថជន</td>
                     <td style="padding:5px 0px;">ចំនួនប្រាក់កម្ចី</td>
@@ -66,7 +67,6 @@
                     <td style="padding:5px 0px;">រយៈពេលខ្ចី</td>
                     <td style="padding:5px 0px;">កាលបរិឆ្ឆេទ</td>
                     <td style="padding:5px 0px;">ឈ្មោះមន្ត្រីឥណទាន</td>
-                    <td style="padding:5px 0px;">ប្រភេទកម្ចី</td>
                 </tr>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
@@ -86,15 +86,15 @@
                ?>
 					<tr align="center">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+					<td >&nbsp;<strong style="font-size:10px;font-family:'Khmer MEF2';text-align:center"><?php echo $row['branch_name']; ?></strong>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td align="left">&nbsp;<?php echo $row['client_id'].'- '.$row['client_name']; ?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['total_duration'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['date_release']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>					
-					<td>&nbsp;<?php echo $row['name_en']?>&nbsp;</td>
 					</tr>
 				<?php }?>
             </table>

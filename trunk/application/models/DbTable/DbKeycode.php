@@ -25,7 +25,7 @@ class Application_Model_DbTable_DbKeycode extends Zend_Db_Table_Abstract
 	}
 	public function getLabelVaueById($id){
 		$db = $this->getAdapter();
-		$sql = "SELECT code,keyName,keyValue FROM `rms_setting` WHERE code = $id";
+		$sql = "SELECT code,keyName,keyValue FROM `rms_setting` WHERE code = $id AND access_type=0";
 		return $db->fetchRow($sql);
 	}
 	

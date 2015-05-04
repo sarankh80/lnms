@@ -38,7 +38,7 @@ class IndexController extends Zend_Controller_Action
 			{
 				$session_lang=new Zend_Session_Namespace('lang');
 				$session_lang->lang_id=$formdata["lang"];//for creat session
-				Application_Form_FrmLanguages::getCurrentlanguage($formdata["lang"]);//for choose lang for when login
+				Application_Form_FrmLanguages::getCurrentlanguage($session_lang->lang_id);//for choose lang for when login
 				$user_name=$form->getValue('txt_user_name');
 				$password=$form->getValue('txt_password');
 				$db_user=new Application_Model_DbTable_DbUsers();
@@ -176,6 +176,16 @@ class IndexController extends Zend_Controller_Action
     }
     public static function start(){
     	return ($this->getRequest()->getParam('limit_satrt',0));
+    }
+    function changelangeAction(){
+    	if($this->getRequest()->isPost()){
+    		$data = $this->getRequest()->getPost();
+    		$session_lang=new Zend_Session_Namespace('lang');
+    		$session_lang->lang_id=$data['lange'];
+    		Application_Form_FrmLanguages::getCurrentlanguage($data['lange']);
+    		print_r(Zend_Json::encode(2));
+    		exit();
+    	}
     }
 
 

@@ -166,4 +166,5 @@ span.current-left {
     border-bottom-left-radius: 3px;	*/	
 }
 /*---------------------end slide left-------------------------*/
-
+.langiconen{  color:red; background:url('../images/en.jpg') left top no-repeat;width:42px;height:33px; }
+.langiconkh{  color:red; background:url('../images/km.gif') left top no-repeat;width:42px;height:33px;  }
