@@ -195,17 +195,36 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanCollectioncoAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
 //   
-  	$rs=$db->getALLLoanCollectionco();
-  	$this->view->LoanCollectionco_list =$rs;
+  	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_submit'])){
+  			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+  		}else {
   		$collumn = array("id","Client_id","co_id","total_principal","principal_permonth","total_interest","total_payment"
   				,"amount_day","STATUS","is_completed"
   				,"is_approved","date_payment"
   				);
-  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
-  	}
+  		$this->exportFileToExcel('ln_staff',$db->getALLLoanCollectionco(),$collumn);
+  		}
+  	}else{
+			$search = array(
+				'adv_search' => '',
+				'client_name' => -1,
+				'start_date'=> date('Y-m-d'),
+				'end_date'=>date('Y-m-d'),
+				'branch_id'		=>	-1,
+				'co_id'		=> -1,
+				'paymnet_type'	=> -1,
+				'status'=>"",);
+			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+	}
+  	$frm = new Loan_Form_FrmSearchGroupPayment();
+  	$fm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($fm);
+  	$this->view->frm_search = $fm;
   }
   function activeAction(){
   }

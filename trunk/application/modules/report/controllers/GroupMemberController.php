@@ -57,32 +57,27 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   function rptClientAction($table='ln_account_name'){
   	header('Content-Type: text/html; charset=utf-8');
     $db  = new Report_Model_DbTable_DbLnClient();
-    $rs = $db->getAllLnClient();
-  	$this->view->client_list =$rs;
-  	//  	print_r($rows);exit();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	
   	if($this->getRequest()->isPost()){  		
-  		$data = $this->getRequest()->getPost();
-  		if(isset($data['btn_search'])){
-  			//print_r($data);exit();
-  			$this->view->client_list = $db->getAllLnClient($data);
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_search'])){
+  			$this->view->client_list = $db->getAllLnClient($search);
   		}else{
   		$collumn = array("client_number","name_kh","name_en","sex","branch_name","pro_id","dis_id","com_id",
   				"village_id");
-  		$this->exportFileToExcel($table,$rs,$collumn);
+  		$this->exportFileToExcel($table,$db->getAllLnClient(),$collumn);
   		}
-  	}else{
+  	}else
   		$search = array('adv_search' => '',
 						'status' => -1,
-						'province_id'=>0,
-						'district_id'=>'',
-						'comm_id'=>'',
+						'province'=>0,
+						'district'=>'',
+						'commune'=>'',
 						'village'=>'',
 						'start_date'=> date('Y-m-01'),
 						'end_date'=>date('Y-m-d'));
-  	}	
+  		$this->view->client_list =$db->getAllLnClient($search);	
   		$frm = new Application_Form_FrmAdvanceSearch();
 		$frm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($frm);
@@ -92,10 +87,10 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
-		$db= new Application_Model_DbTable_DbGlobal();
+		$db= new Application_Model_DbTable_DbGlobal();		
 		$this->view->district = $db->getAllDistricts();
-		$this->view->commune_name = $db->getCommune();
-		$this->view->village_name = $db->getVillage();
+		$this->view->commune = $db->getCommune();
+		$this->view->village = $db->getVillage();
 		
 		$this->view->result=$search;		
   }
