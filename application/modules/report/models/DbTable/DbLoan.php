@@ -187,16 +187,60 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	,verify_by,is_closingentry FROM `ln_client_receipt_money`';
       	return $db->fetchAll($sql);
       }
-      public function getALLLoanCollectionco(){
-//       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
-//       	$db = $this->getAdapter();
-      	//       	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
-      	$db = $this->getAdapter();
-      	$sql="SELECT id,(SELECT m.client_id FROM `ln_loan_member` AS m WHERE m.member_id=member_id LIMIT 1) AS Client_id
-		,(SELECT l.co_id FROM `ln_loan_group` AS l  WHERE l.branch_id=branch_id LIMIT 1)AS co_id
-		,total_principal,principal_permonth,total_interest,total_payment,amount_day
-		,STATUS,is_completed,is_approved,date_payment FROM `ln_loanmember_funddetail`";
-      	return $db->fetchAll($sql);
+      public function getALLLoanCollectionco($search=null){
+		$start_date = $search['start_date'];
+    	$end_date = $search['end_date'];
+    	
+    	$db = $this->getAdapter();
+    	$sql = "SELECT lcrm.`id`,
+					lcrm.`receipt_no`,
+					lcrm.`loan_number`,
+					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`group_id`) AS team_group ,
+					lcrm.`total_principal_permonth`,
+					lcrm.`total_payment`,
+    			  (SELECT symbol FROM `ln_currency` WHERE id =lcrm.currency_type) AS currency_typeshow ,lcrm.currency_type,
+					lcrm.`recieve_amount`,
+					lcrm.`total_interest`,
+					lcrm.`penalize_amount`,
+					lcrm.`date_pay`,
+					lcrm.`date_input`,
+				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
+    				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch
+				FROM `ln_client_receipt_money` AS lcrm WHERE lcrm.is_group=0";
+    	$where ='';
+    	if(!empty($search['advance_search'])){
+    		//print_r($search);
+    		$s_where = array();
+    		$s_search = $search['advance_search'];
+    		$s_where[] = "lcrm.`loan_number` LIKE '%{$s_search}%'";
+    		$s_where[] = " lcrm.`receipt_no` LIKE '%{$s_search}%'";
+    		
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
+    	}
+    	if($search['status']!=""){
+    		$where.= " AND status = ".$search['status'];
+    	}
+    	
+    	if(!empty($search['start_date']) or !empty($search['end_date'])){
+    		$where.=" AND lcrm.`date_input` BETWEEN '$start_date' AND '$end_date'";
+    	}
+    	if($search['client_name']>0){
+    		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
+    	}
+    	if($search['branch_id']>0){
+    		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
+    	}
+    	if($search['co_id']>0){
+    		$where.=" AND lcrm.`co_id`= ".$search['co_id'];
+    	}
+    	if($search['paymnet_type']>0){
+    		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
+    	}
+    	
+    	//$where='';
+    	$order = " ORDER BY lcrm.currency_type";
+    	//echo $sql.$where.$order;
+    	return $db->fetchAll($sql.$where.$order);
       }
  }
 

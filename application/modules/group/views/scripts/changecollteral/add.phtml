@@ -163,7 +163,7 @@ function getOwnerInfo(){
 		load: function(data) {
 			dojo.byId('display_info').innerHTML="<span class='collteral'>ឈ្មោះម្ចាស់កម្មសិទ្ធ​ ​:  </span>"+data.client_name+",<span class='collteral'>ប្រភេទទ្រព្យបញ្ចាំ  : </span>"+data.collteral_type+", <span class='collteral'>លេខកូដសម្គាល់ :  </span>"+data.number_collteral;
 			dijit.byId('from').attr('value',data.callate_type);
-			dijit.byId('from').set('readOnly',true);
+			dijit.byId('from').set('readOnly',false);
 			dijit.byId('collteral_type').attr('value',1);
 			dijit.byId('owner_name').attr('value',data.client_name);
 			dijit.byId('giver_name').attr('value',data.client_name);

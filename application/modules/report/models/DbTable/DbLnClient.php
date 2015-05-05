@@ -35,6 +35,15 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
 			if($search['province']>0){
 				$where.=" AND pro_id= ".$search['province'];
 			}
+			if($search['district']>0){
+				$where.=" AND dis_id= ".$search['district'];
+			}
+			if($search['commune']>0){
+				$where.=" AND com_id= ".$search['commune'];
+			}
+			if($search['village']>0){
+				$where.=" AND village_id= ".$search['village'];
+			}
 			if($search['branch_id']>0){
 				$where.=" AND branch_id= ".$search['branch_id'];
 			}

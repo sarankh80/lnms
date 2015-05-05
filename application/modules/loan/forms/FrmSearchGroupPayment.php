@@ -56,7 +56,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		//$start_date->setValue($date);
 		$_date = $request->getParam("start_date");
 		if(empty($_date)){
-			$_date = date('Y-m-01');
+			$_date = date('Y-m-d');
 		}
 		$start_date->setValue($_date);
 		

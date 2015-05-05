@@ -1,7 +1,7 @@
 <script type="text/javascript">
 dojo.require("dojo.data.ObjectStore");
 dojo.ready(function(){
-	dijit.byId('province').attr('value',<?php echo $this->result['province_id'];?>);	
+	dijit.byId('province').attr('value',<?php echo $this->result['province'];?>);	
 	var district_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->district));?>
 	});
@@ -10,13 +10,13 @@ dojo.ready(function(){
 	store: dojo.data.ObjectStore({objectStore: district_data}),
 	autoComplete: true,
 	query: {
-		pro_id:"<?php echo $this->result['province_id'];?>"
+		pro_id:"<?php echo $this->result['province'];?>"
 	},            
 	required: false,		           
 	name: "district",
 	id: "district",
 	searchAttr: "name",
-	value: "<?php echo $this->result['district_id'];?>",
+	value: "<?php echo $this->result['district'];?>",
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
 		onChange: function() {
@@ -26,7 +26,7 @@ dojo.ready(function(){
 	
 
 	var commune_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->commune_name));?>
+	       data: <?php print_r(Zend_Json::encode($this->commune));?>
 	});
 	 
 	new dijit.form.FilteringSelect({
@@ -34,13 +34,13 @@ dojo.ready(function(){
 	autoComplete: true,
 	query: {
 		//district_id: "-1"
-		district_id: "<?php echo $this->result['district_id'];?>"
+		district_id: "<?php echo $this->result['district'];?>"
 	},            
 	required: false,		           
 	name: "commune",
 	id: "commune",
 	searchAttr: "name",
-	value: "<?php echo $this->result['comm_id'];?>",
+	value: "<?php echo $this->result['commune'];?>",
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
 		onChange: function() {
@@ -49,14 +49,14 @@ dojo.ready(function(){
 	}, "commune");
 
 	var village_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->village_name));?>
+	       data: <?php print_r(Zend_Json::encode($this->village));?>
 	});
 	 
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: village_data}),
 	autoComplete: true,
 	query: {
-		commune_id:"<?php echo $this->result['comm_id'];?>"
+		commune_id:"<?php echo $this->result['commune'];?>"
 	},            
 	required: false,		           
 	name: "village",
@@ -161,15 +161,15 @@ th{padding: 5px;}
 <body>
 	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">   
     	<tr bgcolor="#BBBBBB" >
-	        	<th aling=center;><?php echo $tr->translate("NUM");?></th>
-	            <th style="white-space: pre;"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
-	            <th style="white-space: pre;"><?php echo $tr->translate("NAME");?></th>
-	            <th><?php echo $tr->translate("SEX");?></th>
-	             <th><?php echo $tr->translate("BRANCH_NAME");?></th>
-	            <th style="white-space: pre;"><?php echo $tr->translate("PHONE");?></th>
-	            <th><?php echo $tr->translate("ADRESS");?></th>
-	            <th style="white-space: pre;"><?php echo $tr->translate("SPOUSE_NAME");?></th>
-	            <th><?php echo $tr->translate("DATE");?></th>
+	        	<th aling=center; style="font-size: 10px;"><?php echo $tr->translate("NUM");?></th>
+	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
+	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("NAME");?></th>
+	            <th style="font-size: 10px;"><?php echo $tr->translate("SEX");?></th>
+	            <th style="font-size: 10px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("PHONE");?></th>
+	            <th style="font-size: 10px;"><?php echo $tr->translate("ADRESS");?></th>
+	            <th style="white-space: pre; font-size: 10px;"><?php echo $tr->translate("SPOUSE_NAME");?></th>
+	            <th style="font-size: 10px;"><?php echo $tr->translate("DATE");?></th>
           </tr>
           <?php foreach($this->client_list as $key =>$row){?>
 		   <tr>
