@@ -203,11 +203,9 @@ class Report_LoanController extends Zend_Controller_Action {
   		if(isset($search['btn_submit'])){
   			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
   		}else {
-  		$collumn = array("id","Client_id","co_id","total_principal","principal_permonth","total_interest","total_payment"
-  				,"amount_day","STATUS","is_completed"
-  				,"is_approved","date_payment"
-  				);
-  		$this->exportFileToExcel('ln_staff',$db->getALLLoanCollectionco(),$collumn);
+  		$collumn = array("id","branch","co_name","receipt_no","loan_number","team_group","total_principal_permonth"
+  				,"total_interest","penalize_amount","amount_payment","date_pay"	);
+  		$this->exportFileToExcel('ln_client_receipt_money',$db->getALLLoanCollectionco(),$collumn);
   		}
   	}else{
 			$search = array(

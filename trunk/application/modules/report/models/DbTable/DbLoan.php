@@ -200,7 +200,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 					lcrm.`total_payment`,
     			  (SELECT symbol FROM `ln_currency` WHERE id =lcrm.currency_type) AS currency_typeshow ,lcrm.currency_type,
 					lcrm.`recieve_amount`,
-					lcrm.`total_interest`,
+					lcrm.`total_interest`,lcrm.amount_payment,
 					lcrm.`penalize_amount`,
 					lcrm.`date_pay`,
 					lcrm.`date_input`,
