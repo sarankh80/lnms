@@ -50,7 +50,7 @@ class Application_Model_Decorator
 		return null;
 	}
 	public function spanMenu($url,$class="current-left"){
-		$temp=str_replace('<a', '<span class="'.$class.'"', $url);
+		$temp=str_replace('<a', '<a class="'.$class.'"', $url);
 		$temp=str_replace('</a>', '</span>', $temp);
 		return $temp;
 	}

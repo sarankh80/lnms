@@ -26,7 +26,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","OWNER_NAME","COLETERAL_TYPE","NUMBER_COLLTERAL","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","STAFF_NAME","COLLTERAL_CODE","CLIENT_NO","CUSTOMER_NAME","AND_NAME","RELATIVE_WITH","DATE","NOTE","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
@@ -61,14 +61,17 @@ class Group_CallteralController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
 		
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+// 		$frmpopup = new Application_Form_FrmPopupGlobal();
+// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
+// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->allclient = $db->getAllClient();
 		$this->view->allclient_number = $db->getAllClientNumber();
+		$db = new Application_Model_GlobalClass();
+		$this->view->collect_option = $db->getCollecteralOption();
+		$this->view->owner_type = $db->getCollecteralTypeOption();
 		
 	}
 	public function editAction()
@@ -80,18 +83,34 @@ class Group_CallteralController extends Zend_Controller_Action {
 					$db = $db_call->updatecallteral($calldata);
 					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL. '/Callteral/index');
 				} catch (Exception $e) {
-					$this->view->msg = 'EDIT_FAIL';
+					Application_Form_FrmMessage::message("Application Error");
+				    Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 				}
 		}
 		$id = $this->getRequest()->getParam('id');
-		if(empty($id)){
-			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
-		}
+		
 		$db = new Group_Model_DbTable_DbCallteral();
 		$row  = $db->getecallteralbyid($id);
+		if(empty($id) OR empty($row) ){
+			Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
+		}
+		
+		$this->view->client_id = $row['client_id'];
+		$this->view->branch_id = $row['branch_id'];
+		$this->view->rows = $db->getCallecteralDetailById($id);
+		
 		$fm = new Group_Form_Frmcallterals();
 		$frm = $fm->FrmCallTeral($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
+		$db = new Application_Model_GlobalClass();
+		$this->view->collect_option = $db->getCollecteralOption();
+		$this->view->owner_type = $db->getCollecteralTypeOption();
+		
+		
     }
 }

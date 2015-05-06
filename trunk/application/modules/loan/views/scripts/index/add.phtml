@@ -128,8 +128,8 @@
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
 							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('pay_late');?></td>
-							<td><?php echo $tr->translate("FUND_BEFORDATE")?></td>
-							<td><?php echo $frm->getElement('pay_before');?></td>
+							<td><?php //echo $tr->translate("FUND_BEFORDATE")?></td>
+							<td><?php //echo $frm->getElement('pay_before');?></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -143,7 +143,7 @@
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>;" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		
 		</td>
@@ -193,8 +193,18 @@
 		collect_amount = dijit.byId('amount_collect').get('value');
 		
 		amount_payment  = amount_principal/((debt_term*debt_amount)/(collect_term*collect_amount));
+		alert(amount_payment);
 		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);
-    }
+
+		interest_rate=dijit.byId('interest_rate').get('value')/100;
+
+		top_pow = Math.pow((1+interest_rate),debt_amount);
+		bellow = Math.pow((1*interest_rate),(debt_amount-1));
+		alert(bellow);
+		//alert(amount_principal*interest_rate*top_pow);//big than 40
+		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
+		alert(amount_payment)
+		}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
 		saveTrans(); 
@@ -262,7 +272,33 @@ function filterClient(){
 		dijit.byId('member').query.branch_id = branch_id;
 		dijit.byId('customer_code').query.branch_id = branch_id;
 		dijit.byId('customer_code').reset();
+		getLoanByBranch();
 }
+var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
+
+function getLoanByBranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_getloan,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);	
+			dijit.byId('loan_code').attr('value',data);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+}
+
 function calCulateAdminFee(){
 	p_income="<?php echo $this->setting['adminfee']?>";
 	t_admin=dijit.byId('total_amount').get('value');
