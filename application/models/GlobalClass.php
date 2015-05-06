@@ -263,6 +263,26 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			}
 			return $options;
 		}
+		public function getCollecteralOption(){
+			$db = new Application_Model_DbTable_DbGlobal();
+			$rows= $db->getCollteralType();
+			$options = '';
+			if(!empty($rows))foreach($rows as $value){
+				$options .= '<option value="'.$value['id'].'" >'.htmlspecialchars($value['title_en'], ENT_QUOTES).'</option>';
+			}
+			return $options;
+		}
+		public function getCollecteralTypeOption(){
+				$options= '<option value="1" >'.htmlspecialchars('ផ្ទាល់ខ្លួន', ENT_QUOTES).'</option>';
+				$options .= '<option value="2" >'.htmlspecialchars('អ្នកធានាជំនួស', ENT_QUOTES).'</option>';
+			return $options;
+		}
+		
+		
+		
+		
+	
+		
 		
 }
 

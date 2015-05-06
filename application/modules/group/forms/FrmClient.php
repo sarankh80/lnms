@@ -12,6 +12,31 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
+		$_releted = new Zend_Dojo_Form_Element_TextBox('relate_with');
+		$_releted->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_relate_tel = new Zend_Dojo_Form_Element_TextBox('relate_tel');
+		$_relate_tel->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_guarantor_tel = new Zend_Dojo_Form_Element_TextBox('guarantor_tel');
+		$_guarantor_tel->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_guarantor_with = new Zend_Dojo_Form_Element_TextBox('guarantor_with');
+		$_guarantor_with->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
 		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
@@ -98,8 +123,10 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt = array(1=>"Male",2=>"Femail");
-		$_sex->setMultiOptions($opt);
+// 		$opt = array(1=>"Male",2=>"Femail");
+		$opt_status = $db->getVewOptoinTypeByType(11,1);
+		$_sex->setMultiOptions($opt_status);
+		
 		
 		$_situ_status = new Zend_Dojo_Form_Element_FilteringSelect('situ_status');
 		$_situ_status->setAttribs(array(
@@ -267,9 +294,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$spouse_nationid->setValue($data['spouse_nationid']);
 			$_join_with->setValue($data['join_with']);
 			$_join_nation_id->setValue($data['join_nation_id']);
+			$_relate_tel->setValue($data['join_tel']);
+			$_releted->setValue($data['relate_with']);
+			$_guarantor_with->setValue($data['guarantor_with']);
+			$_guarantor_tel->setValue($data['guarantor_tel']);
+			
 // 			print_r($data);
 		}
-		$this->addElements(array($_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

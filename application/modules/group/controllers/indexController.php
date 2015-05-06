@@ -151,8 +151,8 @@ class Group_indexController extends Zend_Controller_Action {
 	}
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
-		$db_client = new Group_Model_DbTable_DbClient();
-		$this->view->client_list = $db_client->getViewClientByGroupId($id);
+		$db = new Group_Model_DbTable_DbClient();
+		$this->view->client_list = $db->getClientDetailInfo($id);
 	}
 	public function addNewclientAction(){//ajax
 		if($this->getRequest()->isPost()){
@@ -178,6 +178,15 @@ class Group_indexController extends Zend_Controller_Action {
 			$db = new Group_Model_DbTable_DbClient();
 			$data = $this->getRequest()->getPost();
 			$code = $db->getClientCode($data);
+			print_r(Zend_Json::encode($code));
+			exit();
+		}
+	}
+	function getclientinfoAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$db = new Group_Model_DbTable_DbClient();
+			$data = $this->getRequest()->getPost();
+			$code = $db->getClientDetailInfo($data);
 			print_r(Zend_Json::encode($code));
 			exit();
 		}

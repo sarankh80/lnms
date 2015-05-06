@@ -23,7 +23,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 						'status' => -1,
 						'currency_type'=>-1,
 						'pay_every'=>-1,
-						'start_date'=> date('Y-m-01'),
+						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'),
 						 );
 			}
@@ -55,7 +55,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 				$_dbmodel->addNewLoanIL($_data);
-				if(empty($_data['saveclose'])){
+				if(!empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
 				}else{
 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
@@ -166,6 +166,15 @@ class Loan_IndexController extends Zend_Controller_Action {
 // 			exit();
 // 		}
 // 	}
+    function getloannumberAction(){
+    			if($this->getRequest()->isPost()){
+    				$data = $this->getRequest()->getPost();
+    				$db = new Application_Model_DbTable_DbGlobal();
+		            $loan_number = $db->getLoanNumber($data);
+    				print_r(Zend_Json::encode($loan_number));
+    				exit();
+    			}
+    }
 	public function testAction($result=null,$table='ln_branch'){
 
 	}

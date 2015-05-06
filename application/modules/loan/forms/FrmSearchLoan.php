@@ -118,7 +118,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			$_date = date('Y-m-01');
+			$_date = date('Y-m-d');
 		}
 		$_releasedate->setValue($_date);
 		

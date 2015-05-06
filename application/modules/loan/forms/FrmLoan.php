@@ -111,6 +111,13 @@ public function init()
 		));
 		$_loan_fee->setValue(0);
 		
+		$_other_fee = new Zend_Dojo_Form_Element_NumberTextBox('other_fee');
+		$_other_fee->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
+		$_other_fee->setValue(0);
+		
 		$_time_collect = new Zend_Dojo_Form_Element_NumberTextBox('amount_collect');
 		$_time_collect->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -279,7 +286,7 @@ public function init()
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options='';
+		$options=array(''=>'---Select Branch---');
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
@@ -342,7 +349,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));

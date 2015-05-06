@@ -25,17 +25,6 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
-		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
-		$_client_code->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'getClient();'
-		));
-		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
-		$_client_code->setMultiOptions($group_opt);
-		$_client_code->setValue($request->getParam('client_code'));
-		
-		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
 		$_status_search->setAttribs(array('dojoType'=>$this->filter));
 		$_status_opt = array(
@@ -102,86 +91,41 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 				'class'=>'fullside'
 				));
 		
-		$customer_code = new Zend_Dojo_Form_Element_NumberTextBox('customer_code');
-		$customer_code->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
-				'required'=>true
-		));
-		$number_collteral = new Zend_Dojo_Form_Element_ValidationTextBox('number_collteral');
-		$number_collteral->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside',
-				'required'=>true
-		));
-		
-		$_code = new Zend_Dojo_Form_Element_NumberTextBox('code');
-		$_code ->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
-				'required'=>true
-		));
-		$belong_borrower=new Zend_Dojo_Form_Element_RadioButton('belong_borrower');
-		$belong_borrower->setAttribs(array(
-				'dojoType'=>'dijit.form.RadioButton',
-				'class'=>'fullside'
-				));
-		$option=array(1=>'កម្មសិទ្ធិរបស់អ្នកខ្ចីប្រាក់',2=>'កម្មសិទិ្ធរបស់អ្នកធានា');
-		$belong_borrower->setMultiOptions($option);
-		$belong_borrower->setValue(1);
-
-		$clint_name = new Zend_Dojo_Form_Element_FilteringSelect('client_name');
-		$clint_name->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'checkClientCode()'
-		));
-		$options = $db->getGroupCodeById(2,0,1);
-		$clint_name->setMultiOptions($options);
-		
 		$_name=new Zend_Dojo_Form_Element_ValidationTextBox('name');
 		$_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 				));
-		$_names=new Zend_Dojo_Form_Element_ValidationTextBox('names');
-		$_names->setAttribs(array(
+		$relattive=new Zend_Dojo_Form_Element_ValidationTextBox('names');
+		$relattive->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$owner=new Zend_Dojo_Form_Element_ValidationTextBox('owner');
-		$owner->setAttribs(array(
+		$guarantor=new Zend_Dojo_Form_Element_ValidationTextBox('owner');
+		$guarantor->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$_And_name=new Zend_Dojo_Form_Element_ValidationTextBox('and_name');
-		$_And_name->setAttribs(array(
+		$relative_guarantor=new Zend_Dojo_Form_Element_ValidationTextBox('and_name');
+		$relative_guarantor->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$_And_name_=new Zend_Dojo_Form_Element_ValidationTextBox('and_names');
-		$_And_name_->setAttribs(array(
+		$relative_guarantor_=new Zend_Dojo_Form_Element_ValidationTextBox('and_names');
+		$relative_guarantor_->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside'
 		));
-		$_personal=new Zend_Dojo_Form_Element_FilteringSelect('personal');
-		$_personal->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
-				));
-		$opt=array(1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
-		$_personal->setMultiOptions($opt);
-		$_personal->setValue(1);
 		
-        $db = new Application_Model_DbTable_DbGlobal();
-		$collteral_type=new Zend_Dojo_Form_Element_FilteringSelect('collteral_type');
-		$collteral_type->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
-				));
-		$opt= $db->getCollteralType(1);
-		$collteral_type->setMultiOptions($opt);
-		$collteral_type->setValue($request->getParam('collteral_type'));
+//         $db = new Application_Model_DbTable_DbGlobal();
+// 		$collteral_type=new Zend_Dojo_Form_Element_FilteringSelect('collteral_type');
+// 		$collteral_type->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside'
+// 				));
+// 		$opt= $db->getCollteralType(1);
+// 		$collteral_type->setMultiOptions($opt);
+// 		$collteral_type->setValue($request->getParam('collteral_type'));
 		
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
@@ -237,29 +181,24 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		
 		$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){
-		
 			$_branch_id->setValue($data['branch_id']);
-			$cod_cal->setValue($data['code_call']);
+			$cod_cal->setValue($data['collecteral_code']);
 			$co_name->setValue($data['co_id']);
-			$number_collteral->setValue($data['number_collteral']);
-			$clint_name->setValue($data['client_name']);
-			$_client_code->setValue($data['client_code']);
-			$_name->setValue($data['with']);
-			$_names->setValue($data['relativewith']);
-			$owner->setValue($data['owner']);
-			$_And_name->setValue($data['withs']);
-			$_And_name_->setValue($data['relativewiths']);
-			$collteral_type->setValue($data['callate_type']);
+
+			$_name->setValue($data['join_with']);
+			$relattive->setValue($data['relative']);
+			$guarantor->setValue($data['guarantor']);
+			$relative_guarantor->setValue($data['guarantor_relative']);
 			$note->setValue($data['note']);
-			$Date_estate->setValue($data['date_registration']);
+// 			$Date_estate->setValue($data['date_registration']);
 			$stutas->setValue($data['status']);
 			$id->setValue($data['id']);
 			
 		}
 
-		$this->addElements(array($from_date,$to_date,$_client_code,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,$customer_code,$number_collteral,$_code,$belong_borrower,
-				$clint_name,$_name,$_names,$owner,$_And_name,$_And_name_,$_personal,$collteral_type,$note,
-				$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
+
+		$this->addElements(array($from_date,$to_date,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,
+				$_name,$relattive,$guarantor,$relative_guarantor,$note,	$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		
 	}	

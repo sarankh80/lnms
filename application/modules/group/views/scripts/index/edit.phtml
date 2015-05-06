@@ -37,7 +37,7 @@ dojo.require("dijit.form.Textarea");
 					<table style="margin: 0 auto; width:100%;" cellspacing="10">
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME");?>*</td>
-							<td><?php echo $frm->getElement('branch_id');echo $frm->getElement('id')?></td>
+							<td><?php echo $frm->getElement('branch_id'); echo $frm->getElement('id');?></td>
 							<td><?php echo $tr->translate("IS_GROUP")?></td>
 							<td><?php echo $frm->getElement('is_group');?></td>		
 							<td><?php echo $tr->translate("GROUP_CODE")?></td>
@@ -70,6 +70,23 @@ dojo.require("dijit.form.Textarea");
 						<tr>
 							<td><?php echo $tr->translate("PHOTO")?></td>
 							<td><?php echo $frm->getElement('photo');?></td>
+							<td><?php echo $tr->translate("PROVINCE")?>*</td>
+							<td><?php echo $frm->getElement('province');?></td>
+							<td><?php echo $tr->translate("DISTRICT")?></td>
+							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
+							
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("COMMUNE")?></td>
+							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
+							<td><?php echo $tr->translate("VILLAGE")?></td>
+							<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
+							<td><?php echo $tr->translate("STREET")?></td>
+							<td><?php  echo $frm->getElement('street');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("HOUSE")?></td>
+							<td><?php  echo $frm->getElement('house');?></td>
 							<td><?php echo $tr->translate("JOIN_WITH")?></td>
 							<td><?php  echo $frm->getElement('join_with');?></td>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
@@ -77,35 +94,29 @@ dojo.require("dijit.form.Textarea");
 							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("PROVINCE")?>*</td>
-							<td><?php echo $frm->getElement('province');?></td>
-							<td><?php echo $tr->translate("DISTRICT")?></td>
-							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
-					        <td><?php echo $tr->translate("COMMUNE")?></td>
-							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("VILLAGE")?></td>
-							<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
-							<td><?php echo $tr->translate("STREET")?></td>
-							<td><?php  echo $frm->getElement('street');?></td>
-							<td><?php echo $tr->translate("HOUSE")?></td>
-							<td><?php  echo $frm->getElement('house');?></td>
-						</tr>
-						<tr>
+							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+							<td><?php  echo $frm->getElement('relate_with');?></td>
+							<td><?php echo $tr->translate("TEL")?></td>
+							<td><?php  echo $frm->getElement('relate_tel');?></td>
 							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
-							<td><?php echo $frm->getElement('spouse');?></td>
+							<td><?php echo $frm->getElement('spouse');?></td>							
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
 							<td><?php echo $frm->getElement('spouse_nationid');?></td>
-							<td><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
-							<td><?php  echo $frm->getElement('chackcall');?></td>
+							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+							<td><?php  echo $frm->getElement('guarantor_with');?></td>
+							<td><?php echo $tr->translate("TEL")?></td>
+							<td><?php  echo $frm->getElement('guarantor_tel');?></td>
+							
 						</tr>
 						<tr>
 							<td valign="top"><?php echo $tr->translate("STATUS")?></td>
 							<td valign="top"><?php  echo $frm->getElement('status');?></td>
 							<td valign="top"><?php echo $tr->translate("NOTE")?></td>
-							<td valign="top"><?php  echo $frm->getElement('desc');?></td>
-							<td colspan="2" ><img height="70px" src="<?php echo $this->baseUrl().'/images/'.$this->photo;?>" /></td>
+							<td><?php  echo $frm->getElement('desc');?></td>
+							<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL"); echo $frm->getElement('chackcall');?></td>
+							<td><img height="70px" src="<?php echo $this->baseUrl().'/images/'.$this->photo;?>" /></td>
 						</tr>
 						<tr>
 							<td colspan="6" align="center">
