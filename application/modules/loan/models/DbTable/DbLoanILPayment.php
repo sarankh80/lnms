@@ -207,7 +207,7 @@ public function addILPayment($data){
     							'total_payment'			=>		$data["payment_".$i],
     							'currency_id'			=>		$data["curr"],
     							'pay_before'			=>		$data['pay_before_'.$i],
-    							'pay_after'				=>		$data['pay_after_'.$i],
+    							'pay_after'				=>		$data['multiplier_'.$i],
     							'is_completed'			=>		1,
     							'is_verify'				=>		0,
     							'verify_by'				=>		0,
@@ -237,7 +237,7 @@ public function addILPayment($data){
 	    							'total_payment'			=>		$data["payment_".$i],
 	    							'currency_id'			=>		$data["curr"],
 	    							'pay_before'			=>		$data['pay_before_'.$i],
-	    							'pay_after'				=>		$data['pay_after_'.$i],
+	    							'pay_after'				=>		$data['multiplier_'.$i],
 	    							'is_completed'			=>		0,
 	    							'is_verify'				=>		0,
 	    							'verify_by'				=>		0,
@@ -473,6 +473,7 @@ public function addILPayment($data){
 					  lm.`pay_before`,
 					  lm.`pay_after`,
 					  lm.`branch_id`,
+					  lm.`interest_rate`,
 					  lg.`co_id`,
 					  lg.`payment_method`,   
 					  lf.*
@@ -489,7 +490,7 @@ public function addILPayment($data){
     				  AND $where
     				";
     	}elseif($data['type']==1){
-    		$where = 'lm.`loan_number`='.$loan_number;
+    		$where = 'lm.`loan_number`='."'".$loan_number."'";
     		$sql ="SELECT 
 					  lc.`client_id`,
 					  lc.`client_number`,
@@ -499,6 +500,7 @@ public function addILPayment($data){
 					  lm.`pay_before`,
 					  lm.`pay_after`,
 					  lm.`branch_id`,
+					  lm.`interest_rate`,
 					  lg.`co_id`,
 					  lg.`payment_method`,   
 					  lf.*
@@ -515,14 +517,15 @@ public function addILPayment($data){
     				AND lf.`is_completed`=0";
     				
  	}
+ 		//return $sql;
     	return $db->fetchAll($sql);
    }
    
    function getAllLoanPaymentByLoanNumber($data){
    	$db = $this->getAdapter();
    	$loan_number= $data['loan_numbers'];
-   	if($data['type']!=1){
-   		$where =($data['type']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
+   	if($data['types']!=1){
+   		$where =($data['types']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
    		$sql ="SELECT
 			   		lc.`client_id`,
 			   		lc.`client_number`,
@@ -547,7 +550,7 @@ public function addILPayment($data){
 			   		AND lg.`loan_type`=1
 			   		AND $where
 			   		";
-   	}elseif($data['type']==1){
+   	}elseif($data['types']==1){
    	$where = 'lm.`loan_number`='.$loan_number;
    	$sql ="SELECT
 			   	lc.`client_id`,

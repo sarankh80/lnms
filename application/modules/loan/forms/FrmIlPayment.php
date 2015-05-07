@@ -9,6 +9,22 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		
+		$_interest_rate = new Zend_Dojo_Form_Element_TextBox("interest_rate");
+		$_interest_rate->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
+		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
+		$_payterm->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$_payterm->setMultiOptions($term_opt);
+		
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -70,6 +86,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'style'=>'color:red;',
+				'required'=>true
 		));
 		
 		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
@@ -112,18 +129,21 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_priciple_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 		));
 		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');
 		$_loan_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 		));
 		
 		$_os_amount = new Zend_Dojo_Form_Element_NumberTextBox('os_amount');
 		$_os_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 		));
 		
 		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('total_interest');
@@ -132,6 +152,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true',
 				'style'=>'color:red;',
+				'readOnly'=>'readOnly'
 		));
 // 		$value_interest = 2.5;
 // 		$_rate->setValue($value_interest);
@@ -140,7 +161,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_penalize_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'required'=>true
+				'required'=>true,
+				'readOnly'=>'readOnly'
 		));
 		$_penalize_amount->setValue(0);
 		
@@ -150,7 +172,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true',
 				'style'=>'color:red;',
-				'required'=>true
+				'required'=>true,
+				'readOnly'=>'readOnly'
 		));
 		
 		$_hide_total_payment = new Zend_Form_Element_Hidden('hide_total_payment');
@@ -207,7 +230,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'OnChange'=>'payOption();'
 		));
-		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
+		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
 		
 		$id = new Zend_Form_Element_Hidden('id');
@@ -231,12 +254,12 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_rate->setValue($data["total_interest"]);
 			$_note->setValue($data["note"]);
 			$date_input->setValue($data["date_input"]);
-			$_collect_date->setValue($data["date_pay"]);
+			$_collect_date->setValue(date("y-m-d"));
 			$_service_charge->setValue($data["service_charge"]);
 			$reciever->setValue($data["receiver_id"]);
 			$_currency_type->setValue($data["currency_type"]);
 		}
-		$this->addElements(array($_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;

@@ -92,6 +92,8 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
+		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
+		
 		$this->view->client = $db->getAllClient();
 		$this->view->clientCode = $db->getAllClientCode();
 		
