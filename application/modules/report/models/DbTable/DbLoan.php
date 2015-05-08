@@ -424,33 +424,44 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT f.id,f.`total_interest`,f.`status`,(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=f.branch_id) AS branch,
-				m.`currency_type`,(SELECT symbol FROM `ln_currency` WHERE id = m.currency_type) AS currency_typeshow,m.loan_number,
-				(SELECT CONCAT(c.client_number,' - ',c.name_kh ,' - ',c.name_en) AS client_name FROM ln_client AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_name,
-				f.`date_payment` FROM `ln_loanmember_funddetail`AS f,`ln_loan_member` AS m WHERE f.`member_id` = m.`member_id`";
-      	$where ='';
-      	if(!empty($search['advance_search'])){
-      		//print_r($search);
-      		$s_where = array();
-      		$s_search = $search['advance_search'];
-      		$s_where[] = " f.total_interest LIKE '%{$s_search}%'";
-      		$s_where[] = " f.date_payment LIKE '%{$s_search}%'";
-      		$where .=' AND ('.implode(' OR ',$s_where).')';
-      	}
-      	if($search['status']!=""){
-      		$where.= " AND f.status = ".$search['status'];
-      	}
-      
-      	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND f.date_payment BETWEEN '$start_date' AND '$end_date'";
-      	}
-      	if($search['branch_id']>0){
-      		$where.=" AND f.`branch_id`= ".$search['branch_id'];
-      	}
-      	//$where='';
-      	$order = " ORDER BY m.currency_type";
-      	//echo $sql.$where.$order;
-      	return $db->fetchAll($sql.$where.$order);
+    	
+    	$sql = "SELECT l.id,b.branch_namekh,
+    	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
+    	(SELECT name_en FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
+  		l.loss_date, l.`cash_type`,(SELECT c.symbol FROM `ln_currency` AS c WHERE c.status = 1 AND c.id = l.`cash_type`) AS currency_typeshow,
+		l.total_amount ,l.intrest_amount ,CONCAT (l.tem,' Days')as tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
+		WHERE b.br_id = l.branch";    	
+    	$where='';
+    	if(($search['status']>0)){
+    		$where.=" AND l.status =".$search['status'];
+    	}
+    	if(!empty($search['branch'])){
+    		$where.=" AND b.br_id = ".$search['branch'];
+    	}
+    	if(!empty($search['client_name'])){
+    		$where.=" AND l.client_code = ".$search['client_name'];
+    	}
+    	if(!empty($search['client_code'])){
+    		$where.=" AND l.client_code = ".$search['client_code'];
+    	}
+    	if(!empty($search['Term'])){
+    		$where.=" AND l.tem = ".$search['Term'];
+    	}
+    	if(!empty($search['cash_type'])){
+    		$where.=" AND l.`cash_type` = ".$search['cash_type'];
+    	}
+    	if(!empty($search['adv_search'])){
+    		$s_where=array();
+    		$s_search=$search['adv_search'];
+    		$s_where[]=" l.note LIKE '%{$s_search}%'";
+    		$s_where[]=" total_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" intrest_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" l.tem = '{$s_search}' ";
+    		$where .=' AND ('.implode(' OR ',$s_where).' )';
+    	}
+    	$order = ' ORDER BY l.`cash_type` ';
+//     	echo $sql.$where;
+    	return $db->fetchAll($sql.$where.$order);
       }
  }
 
