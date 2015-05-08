@@ -49,7 +49,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
     			'client_name'=>$_data['client_name'],
-    			'number_code'=>$_data['number_code'],
+//     			'number_code'=>$_data['number_code'],
     			'date'=>$_data['Date'],
     			'loss_date'=>$_data['date_loss'],
     			'cash_type'=>$_data['cash_type'],
@@ -110,17 +110,17 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
   		l.loss_date, 
 		CONCAT (total_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS total_amount ,
 		CONCAT (intrest_amount,' ',(SELECT symbol FROM `ln_currency` WHERE status = 1 AND id = l.`cash_type`))AS intrest_amount ,
-			l.tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
+		CONCAT (l.tem,' Days')as tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
 		WHERE b.br_id = l.branch  ";    	
     	$where='';
-    	if(($search['status']>0)){
-    		$where.=" AND l.status =".$search['status'];
-    	}
-    	if(!empty($search['branch'])){
+    if(!empty($search['branch'])){
     		$where.=" AND b.br_id = ".$search['branch'];
     	}
     	if(!empty($search['client_name'])){
     		$where.=" AND l.client_code = ".$search['client_name'];
+    	}
+    	if(!empty($search['client_code'])){
+    		$where.=" AND l.client_code = ".$search['client_code'];
     	}
     	if(!empty($search['Term'])){
     		$where.=" AND l.tem = ".$search['Term'];
@@ -128,13 +128,15 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	if(!empty($search['cash_type'])){
     		$where.=" AND l.`cash_type` = ".$search['cash_type'];
     	}
-    	
+    	if($search['status']!=""){
+    		$where.= " AND status = ".$search['status'];
+    	}    	
     	if(!empty($search['adv_search'])){
     		$s_where=array();
     		$s_search=$search['adv_search'];
     		$s_where[]=" l.note LIKE '%{$s_search}%'";
-    		$s_where[]=" total_amount LIKE '%{$s_search}%'";
-    		$s_where[]=" intrest_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" l.total_amount LIKE '%{$s_search}%'";
+    		$s_where[]=" l.intrest_amount LIKE '%{$s_search}%'";
     		$s_where[]=" l.tem = '{$s_search}' ";
     		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}

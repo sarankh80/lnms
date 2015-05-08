@@ -473,28 +473,29 @@ function rptPaymentschedulesAction(){
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
- 		if(isset($search['btn_submit'])){
+ 		if(isset($search['btn_search'])){
  			$this->view->LoanCollectionco_list =$db->getALLBadloan($search);
  		}else {
- 			$collumn = array("id","branch","loan_number","client_name","total_interest","date_payment"	);
+ 			$collumn = array("id","branch_namekh","client_name_en","loss_date","cash_type","currency_typeshow","total_amount","intrest_amount","tem","note","date");
  			$this->exportFileToExcel('ln_loanmember_funddetail',$db->getALLBadloan(),$collumn);
  		}
  	}else{
  		$search = array(
- 				'adv_search' => '',
- 				'client_name' => -1,
- 				'start_date'=> date('Y-m-d'),
- 				'end_date'=>date('Y-m-d'),
- 				'branch_id'		=>	-1,
- 				'co_id'		=> -1,
- 				'paymnet_type'	=> -1,
- 				'status'=>"",);
+ 				'adv_search'=>'',
+				'branch' => '',
+				'client_name' =>'',
+				'client_code'=>'',
+				'Term'=>'',
+				'status' =>'',
+				'cash_type'=>'',
+				'start_date'=> date('Y-m-01'),
+				'end_date'=>date('Y-m-d'));
  		$this->view->LoanCollectionco_list =$db->getALLBadloan($search);
  	}
- 	$frm = new Loan_Form_FrmSearchGroupPayment();
- 	$fm = $frm->AdvanceSearch();
- 	Application_Model_Decorator::removeAllDecorator($fm);
- 	$this->view->frm_search = $fm;
+ 	$fm = new Loan_Form_Frmbadloan();
+	$frm = $fm->FrmBadLoan();
+	Application_Model_Decorator::removeAllDecorator($frm);
+	$this->view->frm_loan = $frm;
  }
 }
 
