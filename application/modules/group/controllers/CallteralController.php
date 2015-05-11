@@ -19,7 +19,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			    			$search = array(
 			    					'adv_search' => '',
 			    					'status_search' => -1,
-			    					'start_date'=> date('Y-m-01'),
+			    					'start_date'=> date('Y-m-d'),
 									'end_date'=>date('Y-m-d'));
 			    	}
 			$rs_rows= $db->geteAllcallteral($search);//call frome model
