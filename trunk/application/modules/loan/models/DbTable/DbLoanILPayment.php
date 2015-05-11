@@ -141,6 +141,35 @@ public function addILPayment($data){
     	
     	$loan_number = $data['loan_number'];
     	
+    	$amount_receive = $data["amount_receive"];
+    	$total_payment = $data["total_payment"];
+    	$return = $data["amount_return"];
+    	
+    	$interest = $data["total_interest"];
+    	$os_amount = $data["os_amount"];
+    	
+    	if($amount_receive>$total_payment){
+    		$amount_payment = $amount_receive - $return;
+    	}elseif($amount_receive = $total_payment){
+    		$amount_payment = $total_payment;
+    	}elseif($amount_receive<$total_payment){
+    		$amount_payment = $data["amount_receive"];
+    	}
+    	
+		if($amount_receive<=$interest){
+			$new_amount = $interest-$amount_receive;
+			$new_interest = $new_amount;
+		}else{
+			$new_amount = $amount_receive-$interest;
+			$new_interest = 0;
+		}
+		
+		if($amount_receive>=$total_payment){
+			$status = 1;
+		}else {
+			$status=0;
+		}
+    	
     	try{
     		$arr_client_pay = array(
     			'co_id'							=>		$data['co_id'],
@@ -152,19 +181,21 @@ public function addILPayment($data){
     			'date_pay'						=>		$data['collect_date'],
     			'date_input'					=>		$data["date_input"],
     			'principal_amount'				=>		$data["priciple_amount"],
-    			'total_principal_permonth'		=>		$data['os_amount'],
-    			'total_payment'					=>		$data['total_payment'],
-    			'total_interest'				=>		$data['total_interest'],
-    			'recieve_amount'				=>		$data['amount_receive'],
+    			'total_principal_permonth'		=>		$os_amount,
+    			'total_payment'					=>		$total_payment,
+    			'total_interest'				=>		$interest,
+    			'recieve_amount'				=>		$amount_receive,
     			'penalize_amount'				=>		$data['penalize_amount'],
-    			'return_amount'					=>		$data['amount_return'],
+    			'return_amount'					=>		$return,
     			'service_charge'				=>		$data['service_charge'],
     			'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
     			'payment_option'				=>		$data["option_pay"],
-    			'currency_type'					=>		$data["currency_type"]
+    			'currency_type'					=>		$data["currency_type"],
+    			'status'						=>		$status,
+    			'amount_payment'				=>		$amount_payment
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
@@ -172,27 +203,6 @@ public function addILPayment($data){
     		$date_collect = $data["collect_date"];
     		$identify = explode(',',$data['identity']);
     		foreach($identify as $i){
-				$date_pay = $data["date_payment_".$i];
-				$date = strtotime($date_collect)-strtotime($date_pay);
-				
-				if($date>0){
-					$status = 3;
-				}else if($date==0){
-					$status=1;
-				}else {
-					$status=2;
-				}
-				$amount_receive = $data["amount_receive"];
-				$interest = $data["total_interest"];
-				$os_amount = $data["os_amount"];
-				$total_payment = $data["total_payment"];
-				if($amount_receive<=$interest){
-					$new_amount = $interest-$amount_receive;
-					$new_interest = $new_amount;
-				}else{
-					$new_amount = $amount_receive-$interest;
-					$new_interest = 0;
-				}
     			if($data["mfdid_".$i]){
     				if($amount_receive>=$total_payment){
     					$arr_money_detail = array(
@@ -256,7 +266,6 @@ public function addILPayment($data){
 	    					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
 	    					$this->update($arr_update_fun_detail, $where);
     				}
-    				
     			}
     		}
     		
