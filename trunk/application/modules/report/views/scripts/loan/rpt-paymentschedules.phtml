@@ -5,17 +5,6 @@ $dayin_khmer = $this->day_inkhmer;
 $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
 												
 ?>
-<style type="text/css">
-.fullside {
-width: 98%;
-height: 25px;
-}
-.tundra .dijitArrowButtonInner {
-width: 7px;
-height: 7px;
-margin: -4px 4px 0 4px;
-}
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:105px;">
@@ -40,6 +29,9 @@ margin: -4px 4px 0 4px;
 	</table>
  </div>
 </div>
+<style>
+td p{ margin-top:0px !important;}
+</style>
 <button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
 				showLabel="false" type="button" onclick="doPrint();">Print</button>
 <div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
@@ -54,57 +46,47 @@ margin: -4px 4px 0 4px;
 		font-size: 12px;
 		
 	}
+	td p{ margin-top:-12px;}
 	</style>
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 	            	<tr>
-	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
-	                	<td width="60%" valign="top">
+	                	<td><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px">
+	                		<p style="font-family: 'Khmer OS Battambang'; font-size:9px;border-bottom: 1px solid #000; margin-top:-4px; line-height:15px;"><?php //echo $client['branch_name'];?>  ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ ,Tel :(855) 10 78 55 44</p>
+	                	</td>
+	                	<td width="47%" valign="top">
 	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
-	                    <td width="20%"><img src="<?php echo $url_barcode;?>" /></td>
+	                    <td width="25%"><img src="<?php echo $url_barcode;?>" /></td>
 	                </tr>
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
 	                	  $row = $db->getClientByType(null,$client['client_id'],1);
-// 	                	  print_r($row);
 	                ?> 
 	                <tr>
 	                	<td colspan="3">
 	                		<table width="100%">
-	                			<tr class='style'>
-	                				<td width="40%">
-	                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-									<br />TEL :(855) 10 78 55 44
-	                				</td>
-	                				<td></td>
-	                				<td width="30%">ឈ្មោះមន្ត្រី ឥណទាន : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
-	                				<td>ទូរស័ព្ទ  : <?php echo $client['tel'];?></td>
-	                			</tr>
 			                	<tr class='style'>
-				                	<td colspan="2">
-				                	<p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> , លេខ សំគាល់: <?php echo $client['client_number']?></p>
+				                   <td width="35%">
+				                	    <p><b>ឈ្មោះអតិថិជន</b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </p>
+				                	    <p>លេខ សំគាល់: <?php echo $client['client_number']?></p>
+				                		<p><b>អាសយដ្ឋាន</b>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <br /><?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?>
+				                		<p>វគ្គទី: <?php echo $client['level'];?></p>
 				                	</td>
-				                    <td style="font-weight: bold !important;">ប្រាក់កម្ចី : <?php echo number_format($client['total_capital'],(!strrpos($client['total_capital'],". "))? 0 : 2);echo($client['currency_type']==1)? "រៀល":"ដុល្លា";?></td>
-				                    <td>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></td>
-				                </tr>
-				                <tr class='style'>
-				                	<td rowspan="2" colspan="2"> <p><b>អាសយដ្ឋាន</b>:<?php echo $row['village_name'];?> ,<?php echo $row['commune_name'];?> <br /><?php echo $row['district_name'];?> ,  <?php echo $row['province_en_name'];?></td>
-				                    <td>រយៈពេលខ្ចី  : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']);?> </td>
-				                    <td></td>
-				                </tr>
-				                <tr class='style'>
-				                	<td style="white-space: nowrap;">ថ្ងៃបញ្ចេញប្រាក់ : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </td>
-				                	<td style="white-space: nowrap;">ថ្ងៃបង់ប្រាក់លើកទី១ : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></td>
-				                </tr>
-				                 <tr class='style' valign="top">
-				                	<td colspan="2">វគ្គទី: <?php echo $client['level'];?></td>
-				                	<td>លេខកូដកម្ចី: <b><?php echo $client['loan_number'];?></b></td>
-				                	<td><br />
-				                		
-				                	</td>
+				                    <td valign="top" style="" width="33%">
+				                        <p>ឈ្មោះមន្ត្រី ឥណទាន : <?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></p>
+				                    	<p>ប្រាក់កម្ចី : <?php echo number_format($client['total_capital'],(!strrpos($client['total_capital'],". "))? 0 : 2);echo '&nbsp;'.$client['currency_type'];?></p>
+				                    	<p>រយៈពេលខ្ចី  : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']);?></p>
+				                    	<p>ថ្ងៃបញ្ចេញប្រាក់ : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </p>
+				                    	<p>លេខកូដកម្ចី: <b><?php echo $client['loan_number'];?></b></p>
+				                    </td>
+				                    <td valign="top">
+				     	              <p>ទូរស័ព្ទ  : <?php echo $client['tel'];?></p>   
+				                      <p>អត្រាការប្រាក់ : <?php echo $client['interest_rate']?></p>
+				                      <p>ថ្ងៃបង់ប្រាក់លើកទី១ : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></p>
+				                    </td>
 				                </tr>
 			                </table>
 			              </td>
@@ -169,7 +151,7 @@ margin: -4px 4px 0 4px;
 	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom"><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center" height="80px" valign="bottom"><?php echo $client['user_name'];?></td>
 	            		<td align="center"  valign="bottom">
 	            			<?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
 	            		<td align="center" height="75px" valign="bottom">

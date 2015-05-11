@@ -102,7 +102,6 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->allclient = $db->getAllClient();// for filter
 		$this->view->allclient_number = $db->getAllClientNumber();//for filter
 		
-		
 		$db= new Application_Model_DbTable_DbGlobal();
 		$this->view->district = $db->getAllDistricts();
 		$this->view->commune_name = $db->getCommune();
@@ -191,6 +190,16 @@ class Group_indexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function getclientcollateralAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$db = new Group_Model_DbTable_DbClient();
+			$data = $this->getRequest()->getPost();
+			$code = $db->getClientCallateralBYId($data['client_id']);
+			print_r(Zend_Json::encode($code));
+			exit();
+		}
+	}
+	
 	
 }
 

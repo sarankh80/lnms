@@ -188,22 +188,35 @@
     	amount_principal = dijit.byId('total_amount').get('value');
     	debt_term = dijit.byId('pay_every').get('value');
     	debt_amount = dijit.byId('period').get('value');
+    	if(debt_term==1){
+    		debt_term=1;
+    	}else if(debt_term==2){
+    		debt_term=7;
+    	}
+    	else{
+    		debt_term=30;
+    	}
     	
     	collect_term = dijit.byId('collect_termtype').get('value');
 		collect_amount = dijit.byId('amount_collect').get('value');
+		if(collect_term==1){
+			collect_term=1;
+    	}else if(collect_term==2){
+    		collect_term=7;
+    	}
+    	else{
+    		collect_term=30;
+    	}
 		
-		amount_payment  = amount_principal/((debt_term*debt_amount)/(collect_term*collect_amount));
-		alert(amount_payment);
-		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);
+    	term = (debt_term*debt_amount)/(collect_term*collect_amount);
 
 		interest_rate=dijit.byId('interest_rate').get('value')/100;
 
-		top_pow = Math.pow((1+interest_rate),debt_amount);
-		bellow = Math.pow((1*interest_rate),(debt_amount-1));
-		alert(bellow);
-		//alert(amount_principal*interest_rate*top_pow);//big than 40
+		top_pow = Math.pow((1+interest_rate),term);
+		bellow = Math.pow((1+interest_rate),(term))-1;
+		
 		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
-		alert(amount_payment)
+		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);
 		}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();

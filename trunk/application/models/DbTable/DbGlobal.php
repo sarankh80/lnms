@@ -397,8 +397,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
   		(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
   		lm.client_id,
-  		lm.currency_type,lm.total_capital,lm.loan_number,
-  		lm.interest_rate,lm.branch_id FROM 
+  		(SELECT curr_namekh FROM `ln_currency` WHERE id = lm.currency_type limit 1) AS currency_type
+  		,lm.total_capital,lm.loan_number,
+  		lm.interest_rate,lm.branch_id,
+        (SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = lg.user_id LIMIT 1) AS user_name
+  		FROM 
   	   `ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
   		lg.g_id =lm.group_id  ";
   	if(!empty($member_id)){

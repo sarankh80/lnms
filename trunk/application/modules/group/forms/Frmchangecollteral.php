@@ -61,7 +61,8 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
     	$_branch_id->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'onchange'=>'filterClient();'
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"------Select------");
@@ -224,27 +225,49 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				));
 		
+		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+			$_date = date('Y-m-d');
+		}
+		$from_date->setValue($_date);
+		
+		
+		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$to_date->setValue($_date);
+		
 		$id = new Zend_Form_Element_Hidden("id");
 		$receiver_name->setValue($this->getUserName());
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
-			$_client_code->setValue($data['owner_code_id']);
-			$clint_name->setValue($data['owner_id']);
-			$from->setValue($data['from_id']);
-			$owner->setValue($data['owner']);
-			$to->setValue($data['to_id']);
-			$collteral_type->setValue($data['collteral_type']);
-			$number_code->setValue($data['number_code']);
-			$owner_name->setValue($data['owner']);
+// 			$_client_code->setValue($data['owner_code_id']);
+// 			$clint_name->setValue($data['owner_id']);
+			$giver_name->setValue($data['giver_name']);
+			$receiver_name->setValue($data['receiver_name']);
+// 			$to->setValue($data['to_id']);
+// 			$collteral_type->setValue($data['collteral_type']);
+// 			$number_code->setValue($data['number_code']);
+// 			$owner_name->setValue($data['owner']);
 			$note->setValue($data['note']);
 			$Date->setValue($data['date']);
 			$stutas->setValue($data['status']);
-			$_note->setValue('change collteral');
+			$_note->setValue($data['return_note']);
 			$id->setValue($data['id']);
 			//$collteral_id->setValue($data['collteral_id']);
-			$changecollteral_id->setValue($data['id']);
+// 			$changecollteral_id->setValue($data['id']);
 		}
-		$this->addElements(array($changecollteral_id,$collteral_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
+		$this->addElements(array($from_date,$to_date,$changecollteral_id,$collteral_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
 				$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,
 				$number_code,$contract_code,$_code,$clint_name,$owner,$collteral_type,
 				$note,$Date,$_branch_id,$id,$stutas,$cod_cal));

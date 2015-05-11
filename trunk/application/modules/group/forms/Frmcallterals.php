@@ -158,12 +158,11 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'class'=>'fullside',
-				'onchange'=>'CalculateDate();'));
+				'class'=>'fullside'));
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			$_date = date('Y-m-01');
+			$_date = date('Y-m-d');
 		}
 		$from_date->setValue($_date);
 		
