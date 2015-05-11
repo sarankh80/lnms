@@ -30,6 +30,7 @@ Class Accounting_Form_Frmfixedasset extends Zend_Dojo_Form {
 				'required'=>'true'
 				));
 		
+		
 		$useful_life = new Zend_Dojo_Form_Element_NumberTextBox('usefull_life');
 		$useful_life->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -67,7 +68,7 @@ Class Accounting_Form_Frmfixedasset extends Zend_Dojo_Form {
 				));
 		$_id = new Zend_Form_Element_Hidden('id');
 		
-		$this->addElements(array($asset_name,$asset_type,$asset_cost,$useful_life,$salvage_value,'
+		$this->addElements(array($asset_name,$asset_type,$asset_cost,$useful_life,$salvage_value,'asset_code,
 				$payment_method,
 				$Date,$branch));
 		return $this;

@@ -82,7 +82,7 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		if($search['user_id']>0){
 			$where.=" AND user_id = ".$search['user_id'];
 		}
-		echo $sql.$where;
+		//echo $sql.$where;
 		return $db->fetchAll($sql.$where);
 	}
 	function getExchangeDetail($id){
