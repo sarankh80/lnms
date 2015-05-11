@@ -76,7 +76,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_amount_receive->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'totalReturn();',
+				'onChange'=>'totalReturn();',
 				'style'=>'color:red;',
 				'required'=>true
 		));
@@ -86,7 +86,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'style'=>'color:red;',
-				'required'=>true
+				'required'=>true,
+				'readonly'=>true
 		));
 		
 		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
