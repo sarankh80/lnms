@@ -804,10 +804,6 @@ function calculateTotal(index){
   	  				if(Math.abs(total_late_day)>=1){
   	  					dijit.byId('option_pay').attr('readOnly',false);
 	  	  	  			if(payOption==1){
-	  	  	  			$('.checkbox').each(function() { //loop through each checkbox
-		  	  	            this.checked = false; 
-		  	  	            this.disabled= false; 
-	  	  					});
 		  	  	  			alert(1);
 	  	  	  				total_interest_late = total_interest_late + 0;
 	  	  	  				total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
@@ -821,8 +817,10 @@ function calculateTotal(index){
 	  	  	  			}else if(payOption==4){
 		  	  	  			$('.checkbox').each(function() { //loop through each checkbox
 		  	  	            this.checked = true; 
-		  	  	            this.disabled= true; 
+		  	  	            this.disabled= false; 
 	  	  					});
+		  	  	  			var ids =dijit.byId('record_id').get('value');
+		  	  				dijit.byId('identity').attr('value',ids);
 	  	  	  			}
   	  	  			}else{
   	  	  				dijit.byId('option_pay').attr('readOnly','readOnly');
@@ -1021,6 +1019,9 @@ function totalReturn(){
 			dijit.byId('submitButton').attr('disabled',false);
 			dijit.byId('saveprint').attr('disabled',false);
 		}
+	}else{
+		dijit.byId('submitButton').attr('disabled',false);
+		dijit.byId('saveprint').attr('disabled',false);
 	}
 	amonut_return = receive_amount-total_payments;
 	if(amonut_return<0){
