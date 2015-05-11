@@ -11,18 +11,18 @@ class Tellerandexchange_XchangeController extends Zend_Controller_Action
 	public function indexAction(){
 		try{
 			$db = new Tellerandexchange_Model_DbTable_Dbexchange();
-			if($this->getRequest()->isPost()){
-				$search=$this->getRequest()->getPost();
-			}
-			else{
-				$search = array(
-						'client_id' => -1,
-						'status' => -1,
-						'from_date' =>date('Y-m-d'),
-						'to_date' => date('Y-m-d'),
-				);
-			}
-			$rs_rows= $db->getAllExchangeListMulti($search);
+// 			if($this->getRequest()->isPost()){
+// 				$search=$this->getRequest()->getPost();
+// 			}
+// 			else{
+// 				$search = array(
+// 						'client_id' => -1,
+// 						'status' => -1,
+// 						'from_date' =>date('Y-m-d'),
+// 						'to_date' => date('Y-m-d'),
+// 				);
+// 			}
+			$rs_rows= $db->getAllExchangeListMulti();
 			$rs_row =array();
 			foreach ($rs_rows AS $key => $rs){
 				$rs_row[$key]=array(
