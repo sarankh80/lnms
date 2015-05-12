@@ -153,11 +153,40 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	return $db->fetchAll($sql);
       }
       public function getALLLoanlate($search = null){
-     	$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
+      	$start_date = $search['start_date'];
+     	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
-      	$sql="select id,(SELECT co_khname FROM `ln_co` WHERE co_id=member_id) AS name_kh,total_principal,principal_permonth,total_interest,total_payment,
-      	amount_day,is_approved,branch_id from ln_loanmember_funddetail WHERE status=1 AND is_completed=0 AND $to_date";
-      	return $db->fetchAll($sql);
+      	$sql="SELECT mf.id,(SELECT co_khname FROM `ln_co` WHERE co_id=mf.member_id) AS name_kh,
+			mf.total_principal,mf.principal_permonth,mf.total_interest,mf.total_payment, 
+			(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=mf.branch_id) AS branch_name,m.`currency_type`,
+			(SELECT symbol FROM `ln_currency` WHERE id =m.currency_type) AS currency_typeshow ,
+			mf.date_payment, mf.amount_day,mf.is_approved FROM ln_loanmember_funddetail AS mf,`ln_loan_member` AS m
+			WHERE mf.member_id = m.member_id AND mf.is_completed = 0 ";
+      	$where='';
+      	if(!empty($search['adv_search'])){
+      		//print_r($search);
+      		$s_where = array();
+      		$s_search = $search['adv_search'];
+      		$s_where[] = " mf.total_principal LIKE '%{$s_search}%'";
+      		$s_where[] = " mf.`principal_permonth` LIKE '%{$s_search}%'";
+      		$s_where[] = " mf.`total_payment` LIKE '%{$s_search}%'";
+      		$s_where[] = " mf.`total_interest` LIKE '%{$s_search}%'";
+      		$s_where[] = " mf.`date_payment` LIKE '%{$s_search}%'";
+      		$s_where[] = " mf.`amount_day` LIKE '%{$s_search}%'";
+      		$where .=' AND ('.implode(' OR ',$s_where).')';
+      	}
+      	if(($search['status']>0)){
+    		$where.=" AND mf.status =".$search['status'];
+    	}   	 
+      	if(!empty($search['start_date'])){
+      		$where.=" AND mf.date_payment < '$start_date'";
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND mf.branch_id = ".$search['branch_id'];
+      	}
+      	$order = " ORDER BY m.currency_type";
+      	//echo $sql.$where.$order;
+      	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLLoandateline(){
       	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";

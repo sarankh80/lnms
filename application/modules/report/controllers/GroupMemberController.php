@@ -27,21 +27,30 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	}
   }
   function rptCalleteralAction(){
-  	$db  = new Report_Model_DbTable_DbLnClient();
-  	$this->view->calleteral_list = $db->getAllCalleteral();
+  	$db  = new Report_Model_DbTable_DbLnClient();  	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
-  		$data = $this->getRequest()->getPost();
-  		if(isset($data['btn_search'])){
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_search'])){
   			//print_r($data);exit();
-  			$this->view->calleteral_list = $db->getAllCalleteral($data);
+  			$this->view->calleteral_list = $db->getAllCalleteral($search);
   		}else {
-  		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
-  				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
+  		$collumn = array('id' ,'branch_name' ,'co_id' ,'collecteral_code','client_code' ,'client_id','client_name','name_kh', 'join_with' , 'relative' , 
+		'date' ,'note');
   		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
   		}
-  	}
+  	}else{$search = array(
+		'adv_search' => '',
+		'status_search' => -1,
+		'start_date'=> date('Y-m-d'),
+		'end_date'=>date('Y-m-d'));
+  	$this->view->calleteral_list = $db->getAllCalleteral($search);
+	}
+  	$fm=new Group_Form_Frmcallterals();
+  	$frm=$fm->FrmCallTeral();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_callteral=$frm;
   }
   function rptGroupAction($table='rms_setting'){
   	$db  = new Report_Model_DbTable_DbLnClient();
@@ -137,7 +146,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   function rptCalleteralChangeAction(){
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	$db = new Group_Model_DbTable_DbChangeCollteral(); 	
+  	$db = new Report_Model_DbTable_DbLnClient(); 	
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(isset($search['btn_search'])){

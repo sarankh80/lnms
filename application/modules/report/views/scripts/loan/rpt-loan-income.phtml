@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("IL Payment"));
+echo $this->headTitle($tr->translate("Report Income"));
 $frm = $this->frm_search;
 ?>
 <style>
@@ -10,7 +10,6 @@ $frm = $this->frm_search;
 th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 -->
 </style>
-<title><?php echo $tr->translate("RPT PAYMENT");?></title>
 <table style="font-family: 'Khmer OS Content';float: right;" >
 	<tr>
    			<td><?php echo $frm->getElement("advance_search");?></td>

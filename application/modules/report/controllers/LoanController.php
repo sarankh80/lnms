@@ -141,28 +141,33 @@ class Report_LoanController extends Zend_Controller_Action {
   	}
   }
   function rptLoanLateAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
-  	$search = array(
-  			'client_id' => -1,
-  			'status' => -1,
-  			'from_date' =>date('Y-m-d'),
-  			'to_date' => date('Y-m-d'),
-  	);
-  	$rs=$db->getALLLoanlate($search);
+  	$db  = new Report_Model_DbTable_DbLoan();  	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(@$search["exportexcel"]== 1){
-  			$collumn = array("id","name_kh","total_principal","principal_permonth","total_interest","total_payment",
-      		"amount_day","is_approved","branch_id");
-  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
-  		}elseif(!empty($search['txtsearch'])){
+  			$collumn = array("id","branch_name","name_kh","total_principal","principal_permonth","total_interest","total_payment",
+      		"amount_day","date_payment");
+  			$this->exportFileToExcel('ln_staff',$db->getALLLoanlate(),$collumn);
+  		}elseif(!empty($search['btn_search'])){
   			//print_r($search);exit();
-  			$this->view->loanlate_list =$rs;
+  			$this->view->loanlate_list =$db->getALLLoanlate($search);
   		}
   		
+  	}else {
+  		$search = array(
+  				'adv_search'		=>	"",
+  				'start_date' => date('Y-m-d'),
+  				'status' => "",
+  				'branch_id'		=>	0,
+  		);
+  		$this->view->loanlate_list =$db->getALLLoanlate($search);
   	}
+  	$frm = new Loan_Form_FrmSearchLoan();
+  	$frm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_search = $frm;
   }
   function rptLoanCycleAction(){
   }
