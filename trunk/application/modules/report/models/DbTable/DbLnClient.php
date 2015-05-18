@@ -139,17 +139,14 @@ function geteAllcallteral($search=null){
 				if(!empty($search['branch_id'])){
 					$where.=" AND branch_id = ".$search['branch_id'];
 				}
-				if(!empty($search['client_code'])){
-					$where.=" AND client_id = ".$search['client_code'];
-				}
 				if(!empty($search['client_name'])){
-					$where.=" AND owner_id = ".$search['client_name'];
+					$where.=" AND client_id = ".$search['client_name'];
 				}
 				if(!empty($search['adv_search'])){
 				$s_where=array();
 				$s_search=$search['adv_search'];
 				$s_where[]="branch_name LIKE '%{$s_search}%'";
-				$s_where[]="owner_name LIKE '%{$s_search}%'";
+				$s_where[]="number_collateral LIKE '%{$s_search}%'";
 				$s_where[]="date LIKE '%{$s_search}%'";
 				$s_where[]="note LIKE '%{$s_search}%'";
 				$where .=' AND ('.implode(' OR ',$s_where).')';

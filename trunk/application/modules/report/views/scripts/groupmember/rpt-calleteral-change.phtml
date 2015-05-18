@@ -10,7 +10,6 @@
 	<tr>
 			<td><?php echo $frm->getElement('adv_search');?></td>
 			<td><?php echo $frm->getElement('branch_id');?></td>
-			<td><?php echo $frm->getElement('client_code');?></td>
 			<td><?php echo $frm->getElement('client_name');?></td>
 			<td><?php echo $frm->getElement('status_search');?></td>
 		</tr>
@@ -68,6 +67,21 @@
     <tr >
     	<td>
             <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                <?php if(empty($this->calleteral_list)){?>
+                <tr>
+                	<td colspan="6">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
+                </tr>
+            	<tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </td>                   
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("OWNER_NAME");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?> </td>
+                </tr>
+            	<?php }?>
                    <?php  
 //                    print_r($this->calleteral_list);
                     $id='';
