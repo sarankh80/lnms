@@ -48,10 +48,10 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
 				$result['BD'] = $r['rate_out'];
 				$result['SPDB'] = $r['spread'];
 			}
-			elseif($r['in_cur_id'] == 2 && $r['out_cur_id'] == 1){
+			elseif($r['in_cur_id'] == 1 && $r['out_cur_id'] == 2){
 				$result['DR'] = $r['rate_in'];
 				$result['RD'] = $r['rate_out'];	
-				$result['SPRD'] = $r['spread'];
+				$result['SPDR'] = $r['spread'];
 			}
 			elseif($r['in_cur_id'] == 3 && $r['out_cur_id'] == 1){
 				$result['BR'] = $r['rate_in'];

@@ -96,7 +96,7 @@ td p{ margin-top:0px !important;}
 	    </tr>
 	    <tr>
 	    	<td>
-	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px;">
 	                    <td rowspan="2">លរ</td>
 	                    <td rowspan="2" colspan="2">ថ្ងៃបង់ប្រាក់</td>
@@ -111,7 +111,7 @@ td p{ margin-top:0px !important;}
 	                    <td>ប្រាក់ការ</td>
 	                    <td>សរុប</td>
 	                </tr>
-	               <?php foreach($tran as $key =>$row){?>
+	               <?php if(!empty($tran)) foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
 	                    <td ><?php echo $key+1;?></td>
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));

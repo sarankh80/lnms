@@ -818,7 +818,7 @@ form dl fieldset{
 
 /* Let's get this party started */
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
  
 /* Track */
@@ -836,6 +836,16 @@ form dl fieldset{
 	-webkit-border-radius: 5px;
 	border-radius: 5px
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: #9AA6A9;
 }
+.menureport { width: 50%;padding:10px;}
+.menureport ul li{ float: left; list-style: none;}
+.menureport ul li a{  width: 64px; height: 64px; margin-right: 10px; }
+.menureport li.preview a { background:url('../images/search.png') no-repeat;  width:48px; height: 48px;
+                           background-size: 48px 48px; border:1px solid #ccc; display: block;}
+.menureport li.print a { background:url('../images/print_64.png') no-repeat;  width:48px; height: 48px;
+background-size: 48px 48px; border:1px solid #ccc;  display: block;}
+.menureport li.excel a { background:url('../images/Excel-icon.png') no-repeat;  width:48px; height: 48px;
+background-size: 48px 48px; border:1px solid #ccc;  display: block;}

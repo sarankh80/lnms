@@ -16,7 +16,9 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			    		else{
 			    			$search = array(
 			    					'adv_search' => '',
-			    					'status_search' => -1);
+			    					'status_search' => -1,
+			    					'start_date'=>date('Y-m-d'),
+			    					'end_date'=>date('Y-m-d'));
 			    		}
 			$rs_rows= $db->getAllChangeCollteral($search);//call frome model
 			
@@ -26,6 +28,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 					'id'=>$rs['id'],
 					'branch_id'=>$rs['branch_id'],
 					'client_name'=>$rs['client_name'],
+					'from'=>'from',
 					'to'=>$rs['to'],
 					'date'=>$rs['date'],
 					'note'=>$rs['id'],
@@ -35,11 +38,16 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 				);
 				
 				$rows = $db->getColleteralById($rs['id']);
+				$from_array='';
 				$to_array='';
-				foreach($rows as $row){
+				foreach($rows as $key =>$row){
+					$from_array.=$row['from_collateral']. ' ,';
 					$to_array.=$row['collateral']. ' ,';
 				}
+				
+				$arr[$index]['from']=$from_array;
 				$arr[$index]['to']=$to_array;
+				
 				
 				
 			}
@@ -47,7 +55,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($arr, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CLIENT_NAME","TO","DATE","NOTE","STATUS","BY");
+			$collumns = array("BRANCH_NAME","CUSTOMER_NAME","FROM","TO","DATE","NOTE","STATUS","BY");
 			$link=array(
 					'module'=>'group','controller'=>'changecollteral','action'=>'edit',
 			);
@@ -124,10 +132,6 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
-		
-		
-		
-	
     }
     public function getOwnerinfoAction(){
     	if($this->getRequest()->isPost()){

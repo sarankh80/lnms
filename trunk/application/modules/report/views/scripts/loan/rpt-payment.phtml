@@ -37,7 +37,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     <tr>
     	<td>
     	<div id="divPrint">
-            <table width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
+            <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" bgcolor="#669">
                     <th><?php echo $tr->translate("REC_NO");?></th>
                     <th><?php echo $tr->translate("CLIENT_ID");?></th>
@@ -59,7 +59,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <th><?php echo $tr->translate("VERIFY_BY");?></th>
                     <th><?php echo $tr->translate("IS_CLOSINGENTY");?></th>
                 </tr>
-                <?php foreach ($this->loanpayment_list as $index => $rs){ ?>
+                <?php if(!empty($this->loanpayment_list))  foreach ($this->loanpayment_list as $index => $rs){ ?>
                 <tr>
                		<td><?php echo $rs["receipt_no"];?></td>
                		<td><?php echo $rs["client_id"];?></td>

@@ -35,6 +35,14 @@
 	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/jquery.tablesorter.js"> </script>
 	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/jquery.tablesorter.pager.js"> </script>
 	<?php //}?>
+	<!-- export library -->
+	 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jquery.base64.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/html2canvas.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/sprintf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/jspdf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/base64.js"></script> 
+	<!-- end -->
 	<link rel="shortcut icon" href="<?php echo $base_url;?>images/icon.ico" type="image/x-icon"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 	<style type="text/css">
@@ -78,9 +86,9 @@
 			                <?php $session_user=new Zend_Session_Namespace('auth');
 						          $username = $session_user->first_name;
 			        		?>
-						              <span style="padding-left: 3px;padding-right: 3px;float: left; font-weight:600;">ប្រើ​ប្រាស់ ដោយ:<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"><?php echo $username;?></a></span>  
-							<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | ចាក​ចេញ</a>
-			                 <?php if($action=='index' AND $module!='report'){?>
+						              <span style="padding-left: 3px;padding-right: 3px;float: left; font-weight:600;"><?php echo $tr->translate("USING_BY");?><a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'changepassword')); ?>"><?php echo $username;?></a></span>  
+							<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | <?php echo $tr->translate("SIGN_OUT");?></a>
+			                 <?php if($action=='index' AND $module!='report' AND $module!='home'){?>
 			                 <a class='add-link' style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?></a>
 							<?php }elseif($action=='add' OR $action=='edit' OR $module=='report'){?>	
 								<a class='add-link' style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>"><<?php echo $tr->translate('GO_BACK');?></a>
@@ -97,27 +105,20 @@
             			<?php }?>
             		</td>
             		<td valign="top">
-            			<?php if($module=='report' AND $action!='rpt-paymentschedules'){?>
-							<form id="frm_export" name="frm_export" dojoType="dijit.form.Form" method="post">
-								<input type="hidden" name="exportexcel" id="exportexcel" value="1" />
-							</form>
-							<form id="frmlist_mt" name="frmlist_mt" dojoType="dijit.form.Form" method="post">
-								<div data-dojo-type="dijit/form/ComboButton">
-								    <span>Export as</span>
-								    <div data-dojo-type="dijit/DropDownMenu">
-								        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Print</div>
-								        <div data-dojo-type="dijit/MenuItem" onclick="doPrint();">Save as PDF</div>
-								        <div data-dojo-type="dijit/MenuItem" onclick="dijit.byId('frm_export').submit();" >Export to Excel</div>
-								    </div>
-								</div>
-								<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
-								showLabel="false" type="button" onclick="doPrint();">Print</button>					
+            			<?php if($module=='report' AND $action!='index'){?>
+							<div class="menureport">
+								<ul>
+									<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
+									<li class="print"><a href="#" title="Print" onclick="doPrint();" ></a></li>
+									<li class="excel"><a href="#"  title="Export"  onclick="exportExcel();"></a></li>
+								</ul>
+							</div>
+							<div style="clear:both;"></div>
 							<?php }?>
             			<?php echo $this->layout()->content; ?>
             			<?php //echo $this->layout()->content; 
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
 			                ?>
-		                       </form>
 		                <?php }?>
             		</td>
             	</tr>
@@ -125,6 +126,7 @@
     </body>
 
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<?php if($module=='report' AND $action!='index'){?>
 <script type="text/javascript">
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
@@ -135,5 +137,24 @@ function doPrint() {
 function hideleft(){
 	(dojo.style("leftmenu","display") == "none") ? 'show':'hide'();
 }
+function preview()
+{ 
+  var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
+      disp_setting+="scrollbars=no,width=1100, height=700, left=100, top=25"; 
+  var content_vlue = document.getElementById("divPrint").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head>'); 
+   docprint.document.write('</head><body style="margin:0px; font-family:Verdana; font-size:16px !important;"><center>');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</center></body></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+function exportExcel(){
+	$('#exportExcel').tableExport({type:'excel',escape:'false'});
+}
+<?php }?>
 </script>
 </html>

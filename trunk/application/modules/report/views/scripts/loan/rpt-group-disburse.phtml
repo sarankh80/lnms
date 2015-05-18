@@ -47,7 +47,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	<table width="96%" align="center"  cellspacing="0" style="margin-left: 10px;">
 	<tr>
     	<td>
-  	<table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
+  	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
     
                     <tr bgcolor="#888888" align="center">
                     	<th><?php echo $tr->translate("NO");?></th>
@@ -61,7 +61,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                         <th><?php echo $tr->translate("BRANCH");?></th>
                         <th><?php echo $tr->translate("LOAN PURPOSE");?></th>
                     </tr>
-                    <?php foreach ($this->loancllect_list as $index => $rs){ ?>
+                    <?php if(!empty($this->loancllect_list)) foreach ($this->loancllect_list as $index => $rs){ ?>
                     <tr height="40px">
                         <td><?php echo $index+1;?></td>
                         <td><?php echo $rs['member_id']?></td>

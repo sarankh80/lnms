@@ -66,7 +66,6 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 					'from_owner_id'=>$data['owner_type'.$i],
 					'from_owner_name'=>$data['owner_name'.$i],
 					'from_number_collateral'=>$data['number_collteral'.$i],
-					
 					'collateral_type'=>$data['tocollect_type'.$i],
 					'owner_id'=>$data['toowner_type'.$i],
 					'toowner_name'=>$data['toowner_name'.$i],
@@ -247,18 +246,17 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	}
 	function getAllChangeCollteral($search=null){
 		$db = $this->getAdapter();
-		
-		$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
-		$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
-		$where = " WHERE ".$from_date." AND ".$to_date;
-		
-
 		try {
+			
+			$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
+			$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+			$where = " WHERE ".$from_date." AND ".$to_date;
+			
 			 $sql=" SELECT id, (SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id LIMIT 1) AS branch_id, 
 			(SELECT CONCAT(client_number,' ',name_kh,' ',name_en) FROM ln_client AS c WHERE c.client_id=client_id LIMIT 1) AS client_name, 
 			 'to',date,note,status, (SELECT user_name FROM rms_users WHERE id=user_id) AS user_id
-			 FROM $this->_name WHERE 1";
-			$where='';
+			 FROM $this->_name ";
+			
 			if($search['status_search']>-1){
 				$where.=" AND status=".$search['status_search'];
 			}
@@ -266,10 +264,10 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 				$where.=" AND branch_id = ".$search['branch_id'];
 			}
 			if(!empty($search['client_code'])){
-				$where.=" AND owner_code_id = ".$search['client_code'];
+				$where.=" AND client_id = ".$search['client_code'];
 			}
 			if(!empty($search['client_name'])){
-				$where.=" AND owner_id = ".$search['client_name'];
+				$where.=" AND client_id = ".$search['client_name'];
 			}
 			if(!empty($search['adv_search'])){
 				$s_where=array();
@@ -283,11 +281,14 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 		}catch (Exception $e){
 			
 		}
+		
 	}
 	function getColleteralById($id){//get id by change collaterall id 
 			$db = $this->getAdapter();
 			$sql = "SELECT id,
-					(SELECT ct.title_en FROM `ln_callecteral_type` AS ct WHERE  ct.id =collateral_type ) AS collateral  FROM `ln_changecollteral_detail` 
+			        (SELECT ct.title_en FROM `ln_callecteral_type` AS ct WHERE  ct.id =from_collateral_type ) AS from_collateral , 
+					(SELECT ct.title_en FROM `ln_callecteral_type` AS ct WHERE  ct.id =collateral_type ) AS collateral
+					FROM `ln_changecollteral_detail` 
 					WHERE change_id = $id";
 			return $db->fetchAll($sql);
 	}

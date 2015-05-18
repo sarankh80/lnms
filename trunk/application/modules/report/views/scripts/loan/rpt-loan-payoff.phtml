@@ -62,7 +62,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     
     <tr>
     	<td>
-            <table width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
+            <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
                     <th style="font-size: 9px;"><?php echo $tr->translate("ID");?></th>
                     <th style="font-size: 9px;"><?php echo $tr->translate("Branch");?></th>
@@ -82,7 +82,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$amt_d6 = 0;$amt_d7 = 0;
                 	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$amn_b6 = 0;$amn_b7 = 0;
                 ?>
-                <?php foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
+                <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php 
 		               if($rs['currency_type']==1){
 		               		$amt_r1 = $amt_r1+$rs['total_principal_permonth'];

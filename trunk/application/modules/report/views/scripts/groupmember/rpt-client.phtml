@@ -159,7 +159,7 @@ th{padding: 5px;}
 </tr>
 </table>
 <body>
-	<table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">   
+	<table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">   
     	<tr bgcolor="#BBBBBB" >
 	        	<th aling=center; style="font-size: 10px;"><?php echo $tr->translate("NUM");?></th>
 	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
@@ -171,7 +171,7 @@ th{padding: 5px;}
 	            <th style="white-space: pre; font-size: 10px;"><?php echo $tr->translate("SPOUSE_NAME");?></th>
 	            <th style="font-size: 10px;"><?php echo $tr->translate("DATE");?></th>
           </tr>
-          <?php foreach($this->client_list as $key =>$row){?>
+          <?php if(!empty($this->client_list)) foreach($this->client_list as $key =>$row){?>
 		   <tr>
 			   <td style="text-align: center;">&nbsp;<?php echo $key+1; ?></td>
 		       <td style="text-align: center;">&nbsp;<?php echo $row['client_number']?></td>

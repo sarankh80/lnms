@@ -27,7 +27,7 @@ $frm = $this->frm_holiday;
 	<tr>
     	<td align="center">
     	   <div id="divPrint">
-        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+    	  <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
@@ -53,7 +53,7 @@ $frm = $this->frm_holiday;
 		              </td>
 		           </tr>   
             </table>
-        <table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+        <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB" style="background: #BBBBBB !important;">
 				        <th><?php echo $tr->translate("NUM");?></th>
 				        <th><?php echo $tr->translate("HOLIDAY_NAME");?></th>

@@ -42,7 +42,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	</td>
     </tr>
 </table>
-<table align="center" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;padding: 5px;" cellspacing="0">
+<table id="exportExcel" align="center" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;padding: 5px;" cellspacing="0">
                 <tr align="center" bgcolor="#669">
                     <th><?php echo $tr->translate("ID");?></th>
                     <th><?php echo $tr->translate("LFD_ID");?></th>
@@ -64,7 +64,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <th><?php echo $tr->translate("NOTE");?></th>
                     <th><?php echo $tr->translate("USER_ID");?></th>
                 </tr>
-                <?php foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+                <?php if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
                 <tr>
                		<td><?php echo $rs["id"];?></td>
                		<td><?php echo $rs["lfd_id"];?></td>

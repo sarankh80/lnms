@@ -190,10 +190,5 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 		}
 		return $tmp;
 	}
- 	public function checkRateAction(){
-    	$db_rate=new Application_Model_DbTable_DbRate();
-    	echo $db_rate->getCurrentRateJson();
-    	exit();
-    }
-   
+
   }

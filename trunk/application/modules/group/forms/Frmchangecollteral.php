@@ -65,7 +65,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
     			'onchange'=>'filterClient();'
     	));
     	$rows = $db->getAllBranchName();
-    	$options=array(''=>"------Select------");
+    	$options=array(''=>"---Select Branch Name---");
     	if(!empty($rows))
     		foreach($rows AS $row){
     		$options[$row['br_id']]=$row['branch_namekh'];
@@ -149,6 +149,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		$_note->setValue('return back to client');
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
@@ -251,21 +252,21 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$receiver_name->setValue($this->getUserName());
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
-// 			$_client_code->setValue($data['owner_code_id']);
-// 			$clint_name->setValue($data['owner_id']);
 			$giver_name->setValue($data['giver_name']);
 			$receiver_name->setValue($data['receiver_name']);
-// 			$to->setValue($data['to_id']);
-// 			$collteral_type->setValue($data['collteral_type']);
-// 			$number_code->setValue($data['number_code']);
-// 			$owner_name->setValue($data['owner']);
 			$note->setValue($data['note']);
 			$Date->setValue($data['date']);
 			$stutas->setValue($data['status']);
 			$_note->setValue($data['return_note']);
 			$id->setValue($data['id']);
+			//$_client_code->setValue($data['owner_code_id']);
+			//$clint_name->setValue($data['owner_id']);
 			//$collteral_id->setValue($data['collteral_id']);
-// 			$changecollteral_id->setValue($data['id']);
+            //$changecollteral_id->setValue($data['id']);
+			//$to->setValue($data['to_id']);
+			//$collteral_type->setValue($data['collteral_type']);
+			//$number_code->setValue($data['number_code']);
+			// $owner_name->setValue($data['owner']);
 		}
 		$this->addElements(array($from_date,$to_date,$changecollteral_id,$collteral_id,$owner_name,$giver_name,$receiver_name,$_note,$from,$to,
 				$_client_code,$_btn_search,$_status_search,$_title,$co_name,$Date,

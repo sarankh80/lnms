@@ -778,9 +778,9 @@ a,a:focus, a:hover, a:active {
 
 /* footer */
 #footer {
-    background: #f0f0f0;
+    background: rgb(13, 174, 211);
     bottom: 0;
-    color:#757575 ;
+    color:#fff ;
     font-size: 12px;
     padding: 10px;
     position: fixed;

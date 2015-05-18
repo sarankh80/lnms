@@ -37,20 +37,20 @@ class Tellerandexchange_ExchangerateController extends Zend_Controller_Action
     
     }
     
-    public function rateAction(){
-    	$db_rate=new Application_Model_DbTable_DbRate();
+//     public function rateAction(){
+//     	$db_rate=new Application_Model_DbTable_DbRate();
     	
-    	if($this->getRequest()->isPost()){
-    		$formdata=$this->getRequest()->getPost();
-    		$db_rate->setNewRate($formdata);
-    	}
+//     	if($this->getRequest()->isPost()){
+//     		$formdata=$this->getRequest()->getPost();
+//     		$db_rate->setNewRate($formdata);
+//     	}
     	
-    	$this->view->ratelist = $db_rate->getCurrentRate();
-    	$db_keycode = new Application_Model_DbTable_DbKeycode();
-    	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-    	$session_user=new Zend_Session_Namespace('auth');
-    	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
-    }
+//     	$this->view->ratelist = $db_rate->getCurrentRate();
+//     	$db_keycode = new Application_Model_DbTable_DbKeycode();
+//     	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+//     	$session_user=new Zend_Session_Namespace('auth');
+//     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+//     }
     public function showrateAction(){
     	
     }

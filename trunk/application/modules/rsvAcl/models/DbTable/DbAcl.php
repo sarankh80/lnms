@@ -99,6 +99,7 @@ class RsvAcl_Model_DbTable_DbAcl extends Zend_Db_Table_Abstract
 	public function insertAcl($arr)
 	{
 		$data=array(); 
+		$data['label']=$arr['label'];
 		$data['module']=$arr['module'];   
 		$data['controller']=$arr['controller'];   
 		$data['action']=$arr['action'];   	
@@ -110,6 +111,7 @@ class RsvAcl_Model_DbTable_DbAcl extends Zend_Db_Table_Abstract
 	{
 		$data=array(); 	
 		//Sophen add here
+		$data['label']=$arr['label'];
 		$data['module']=$arr['module'];
 		$data['controller']=$arr['controller'];
 		$data['action']=$arr['action'];  	
@@ -118,7 +120,7 @@ class RsvAcl_Model_DbTable_DbAcl extends Zend_Db_Table_Abstract
 	}
 	public function getAllAclList(){
 		$db = $this->getAdapter();
-		$sql = " SELECT `acl_id`,`module`,`controller`,`action`,`status` FROM rms_acl_acl ";
+		$sql = " SELECT `acl_id`,label,`module`,`controller`,`action`,`status` FROM rms_acl_acl ORDER BY `acl_id` DESC ";
 		return $db->fetchAll($sql);
 	}
 	
