@@ -109,8 +109,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		$where = " WHERE ".$from_date." AND ".$to_date;
 		
 		
-		$sql=" SELECT id ,branch_name ,co_id ,collecteral_code, 
-		client_code ,client_name, join_with , relative , 
+		$sql=" SELECT id ,branch_name ,co_id ,collecteral_code,client_code ,client_name, join_with , relative , 
 		date ,note ,status FROM `v_getallcallateral` ";
 		if($search['status_search']>-1){
 			$where.=" AND status=".$search['status_search'];

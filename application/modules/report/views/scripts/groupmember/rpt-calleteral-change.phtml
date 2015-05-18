@@ -5,6 +5,7 @@
 <title>Loan Released By CO</title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<form method="post">
 <table style="font-family: 'Khmer OS Content';float: right;"  >
 	<tr>
 			<td><?php echo $frm->getElement('adv_search');?></td>
@@ -20,6 +21,7 @@
 			<td><?php echo $frm->getElement('btn_search');?></td>
 		</tr>
 </table>
+</form>
 <style>
 .style{
 	line-height: 20px;font-size: 11px;
@@ -33,7 +35,7 @@
 </div>
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
-<table style="font-family: 'Khmer OS Content'; width:100%;">
+<table style="font-family: 'Khmer OS Content'; width:100%;" >
 	<tr>
     	<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
@@ -63,9 +65,9 @@
             </table>
         </td>
     </tr>
-    <tr>
+    <tr >
     	<td>
-            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+            <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                    <?php  
 //                    print_r($this->calleteral_list);
                     $id='';
