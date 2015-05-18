@@ -25,15 +25,21 @@
 			zone = dijit.byId('zone').get('value');
 			co_id = dijit.byId('co_id').get('value');
 			client = dijit.byId('member').get('value');
+           branch_id = dijit.byId('branch_id').get('value');
+		    if (branch_id=='' || branch_id==-1){
+		  	   alert('Please Select Branch Name!');
+			   dijit.byId('branch_id').focus();
+			   return false;
+		    }
 			if (client=='' || client==-1){
 				alert('Please Select Client Name !');
 				dijit.byId('member').focus();
 				return false;
-			}else if(co_id=='' || co_id==-1){
+			}if(co_id=='' || co_id==-1){
 				alert('Please Select CO Name !');
 				dijit.byId('co_id').focus();
 				return false;
-			}else if(zone=='' || zone==-1){
+			} if(zone=='' || zone==-1){
 				alert('Please Select Zone !');
 				dijit.byId('zone').focus();
 				return false;
@@ -139,16 +145,32 @@
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>;" dojoType="dijit.form.Button"
+			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
+			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+				 iconClass="dijitIconNewTask"/>
 		
 		</td>
 	</tr>	
 </table>
+<div class="dijitHidden">
+<style>
+.print tr td{
+	padding:5px 2px; 
+}
+</style>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="frm_client" style="width:1000px">
+	<div id="rpt_print" class="print">
+		<table border="1" id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+			<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
+		</table>	
+	</div>
+</div>
+</div>
 </form>
 <script type="text/javascript">	
     function checkValidateDate(){
@@ -233,6 +255,8 @@
 </script>
 <script type="text/javascript">
 dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
 
 require(["dojo/ready"], function(ready){
 	 ready(function(){
@@ -616,4 +640,90 @@ function calCulateFirstPayment(){
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
+////add preview loan
+var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloantest')); ?>';
+function addPreviewLoan(){
+	r=0;
+	if(dijit.byId('frm_add_tran').validate()) {
+		zone = dijit.byId('zone').get('value');
+		co_id = dijit.byId('co_id').get('value');
+		client = dijit.byId('member').get('value');
+		branch_id = dijit.byId('branch_id').get('value');
+		if (branch_id=='' || branch_id==-1){
+			alert('Please Select Branch Name!');
+			dijit.byId('branch_id').focus();
+			return false;
+		}
+		if (client=='' || client==-1){
+			alert('Please Select Client Name !');
+			dijit.byId('member').focus();
+			return false;
+		}if(co_id=='' || co_id==-1){
+			alert('Please Select CO Name !');
+			dijit.byId('co_id').focus();
+			return false;
+		}if(zone=='' || zone==-1){
+			alert('Please Select Zone !');
+			dijit.byId('zone').focus();
+			return false;
+		}
+		rs = checkValidateDate();
+		if(rs==false){
+          return false;			
+        }
+			
+		dojo.xhrPost({
+		    url: url_previewloan,	
+			form: dojo.byId("frm_add_tran"),		    
+			handleAs:"json", 
+			load: function(data) {
+				temp='';	fund_title=0;thead='';
+				for(i=0;i<data.length;i++){
+					
+					if(fund_title!=1){
+						thead='<th><?php echo $tr->translate("NUM");?></th>';
+						thead+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
+						thead+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
+						thead+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';
+						thead+='<th><?php echo $tr->translate("ប្រាក់ការ");?></th>';
+						thead+='<th><?php echo $tr->translate("សរុប");?></th>';
+						thead+='<th><?php echo $tr->translate("ចំនួនថ្ងៃ");?></th>';
+						fund_title=1;
+						dojo.query("#head_title").append(thead);
+						
+			        }
+			        r++;
+					    temp='<td align="center">'+r+'</td>';
+						var myDate = new Date(data[i].date_payment);
+						dateString=((myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear());
+						temp+='<td>'+dateString+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_principal,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';
+						temp+='<td><b>'+dojo.number.format(data[i].total_payment,2)+'<b></td>';
+						temp+='<td>'+data[i].amount_day+'</td>';
+						
+						tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
+						tmp+="</tr>";
+
+						dojo.query("#t_amountmoneytype").append(tmp);
+						dojo.html.set(dojo.byId("row_capital"+r),temp, {
+					    parseContent: true,
+						   });
+				        }
+				//dojo.byId('rpt_print').innerHTML=temp;
+				dijit.byId("frm_client").show();
+			},
+			error: function(err) {
+				alert(err);
+			alert("You can not preview this loan number!");
+			}
+	   });
+	}
+}
+function hideDialog() {		
+	dijit.byId("frm_client").hide();
+}
+
+
 </script>

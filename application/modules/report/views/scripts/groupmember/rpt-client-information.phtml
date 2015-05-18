@@ -14,7 +14,7 @@
 	<h2 align="center">Client Information</h2>
 	<p>02.05.2014+All element->Application that</p>
 	<div id="divPrint">
-	<table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
+	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB">
         	<th>ID</th>
@@ -30,7 +30,7 @@
             <th>Activity</th>
         </tr>
 <?php 
-     foreach ($rows as $key => $row){?>
+    if(!empty($rows))  foreach ($rows as $key => $row){?>
      	<tr >
      	     <td style="padding-left: 10px;"><?php echo $key+1?> </td>
      	     <td style="padding-left: 10px;"><?php echo $row['client_number']?></td>

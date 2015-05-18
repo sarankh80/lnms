@@ -147,7 +147,7 @@ dojo.require("dijit.Dialog");
 									name:'SPRD',
 									id:'SPRD',	
 									class:'input-inner',								
-									value:<?php echo $this->ratelist['SPRD']?>,
+									value:<?php echo $this->ratelist['SPDR']?>,
 									constraints:{pattern:'#,###.##'},
 									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
@@ -237,7 +237,7 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","acti
 					   	<table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
 					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td colspan="2" align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
+						   		<td colspan="2" align="center"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['client_company_name'];?></strong></td>
 							</tr>
 							<tr>
 								<td align="center" style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><b><?php echo $this->keycode['rpt-transfer-title-eng'];?></td>
@@ -246,25 +246,25 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","acti
 			            </td>	   	        
 				   </tr> 
 					<tr>
-					   	<td align="center" colspan="3" style="font-family:'KH Koulen';"><?php echo $this->keycode['exchange_ratetitle'];?></td>	   	        
+					   	<td align="center" colspan="3" style="font-family:'KH Koulen';"><?php echo @$this->keycode['exchange_ratetitle'];?></td>	   	        
 					</tr>            
 				   <tr>
 						<td align="right" colspan="3" style="font-size: 8pt;" >
-							កាលបរិច្ឆេទ <?php echo date('d-m-Y');?><br/>
+							<span style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">កាលបរិច្ឆេទ <?php echo date('d-m-Y');?></span><br/>
 						</td>
 				   </tr>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
 						<td class="pleft" style="border-bottom:1px solid #000;">
-							<strong class="fonttel" style="font-size:10px;">ឈ្មោះបុគ្គលិក  <?php print($this->user_name);?></strong>
+							<strong class="fonttel" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">ឈ្មោះបុគ្គលិក  <?php print($this->user_name);?></strong>
 						</td>
 						<td align="right" colspan="2" style="border-bottom:1px solid #000;">
 							&nbsp;
 						</td>
 				   </tr>
 				   <tr>
-				   	<td>និមិត្តសញ្ញា</td>
-				   	<td>​ទិញចូល</td>
-				   	<td align="right">លក់ចេញ</td>
+				   	<td style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">និមិត្តសញ្ញា</td>
+				   	<td style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">​ទិញចូល</td>
+				   	<td align="right" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">លក់ចេញ</td>
 				   </tr>
 				   <tr>
 						<td  style="font-family:'KH Koulen';">

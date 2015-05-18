@@ -23,9 +23,9 @@ class RsvAcl_AclController extends Zend_Controller_Action
           	$rs_rows = Application_Model_DbTable_DbGlobal::getResultWarning();
           }
           $list = new Application_Form_Frmtable();
-          $collumns = array("MODULE_NAME","CONTROLLER","ACTION","STATUS");
+          $collumns = array("VIEW","MODULE_NAME","CONTROLLER","ACTION","STATUS");
           $link=array(
-          		'module'=>'rsvAcl','controller'=>'acl','action'=>'edit-acl',
+          		'module'=>'rsvAcl','controller'=>'acl','action'=>'edit',
           );
         	if (empty($rs_rows)){
         		$result = Application_Model_DbTable_DbUserLog::writeMessageError('');
@@ -49,7 +49,7 @@ class RsvAcl_AclController extends Zend_Controller_Action
     	}  	 
     	
     }
-	public function addAclAction()
+	public function addAction()
 		{
 			$form = new RsvAcl_Form_FrmAcl();	
 			$this->view->form=$form;
@@ -59,7 +59,7 @@ class RsvAcl_AclController extends Zend_Controller_Action
 				$db=new RsvAcl_Model_DbTable_DbAcl();	
 				$post=$this->getRequest()->getPost();
 							
-				//if(!$db->isActionExist($post['action'])){
+// 				if(!$db->isActionExist($post['action'])){
 					  
 						$id=$db->insertAcl($post);
 						 //write log file 
@@ -67,14 +67,14 @@ class RsvAcl_AclController extends Zend_Controller_Action
 				    		 $userLog->writeUserLog($id);
 				     	  //End write log file
 				
-						//Application_Form_FrmMessage::message('One row affected!');
-						Application_Form_FrmMessage::redirector('/rsvAcl/acl/index');																			
-				//}else {
-					Application_Form_FrmMessage::message('Action had existed already');
-				//}
+						Application_Form_FrmMessage::message('INSERT_SUCCESS');
+// 						Application_Form_FrmMessage::redirector('/rsvAcl/acl/index');																			
+// 				}else {
+// 					Application_Form_FrmMessage::message('Action had existed already');
+// 				}
 			}
 		}
-    public function editAclAction()
+    public function editAction()
     {	
     	$acl_id=$this->getRequest()->getParam('id');
     	if(!$acl_id)$acl_id=0;  

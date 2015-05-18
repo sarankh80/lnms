@@ -1,4 +1,4 @@
-<title>SRMS System | Edit Module</title>
+<title>loan System | Edit Module</title>
 <?php 
 	$cancel_url=$this->url(array(
 		'module'=>'rsvAcl',
@@ -27,6 +27,14 @@
 						<tr>
 							<td align="center" valign="top">
 								<table width="100%" cellspacing="10" >
+								   <tr>
+										<td>Label</td>
+										<td width="300px">
+											<input type="text" required="true" name="label" id="label" placeholder="label" 
+											dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->acl_data['label'];?>"
+											missingMessage="Label" class='fullside'/>
+										</td>
+									</tr>
 									<tr>
 										<td>Module</td>
 										<td width="300px">

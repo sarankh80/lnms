@@ -13,7 +13,7 @@ dojo.require("dijit.Dialog");
 <!--
 	.tbtable{		
 		text-align: center;
-		font-size: 2em;	
+		font-size: 1.6em;	
 		color: #fff;
 		line-height: 40px;
 		font-weight: bolder;
@@ -92,7 +92,7 @@ dojo.require("dijit.Dialog");
 							<th class="col-input">អត្រា​ប្រាក់កណ្តាល</th>
 							<th class="col-input">អត្រា​លក់ចេញ</th>
 						</tr>
-						<tr class="first">
+						<tr class="first" height="50px">
 							<td>$ - ฿</td>
 							<td>
 								<input type="text" name="DB" id="DB"  data-dojo-type="dijit.form.NumberTextBox"
@@ -128,7 +128,7 @@ dojo.require("dijit.Dialog");
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
 							</td>
 						</tr>
-						<tr class="second">
+						<tr class="second" height="50px">
 							<td>$ - ៛</td>
 							<td>
 								<input type="text" name="DR" id="DR"  data-dojo-type="dijit.form.NumberTextBox"
@@ -147,7 +147,7 @@ dojo.require("dijit.Dialog");
 									name:'SPRD',
 									id:'SPRD',	
 									class:'input-inner',								
-									value:<?php echo $this->ratelist['SPRD']?>,
+									value:<?php echo $this->ratelist['SPDR']?>,
 									constraints:{pattern:'#,###.##'},
 									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
@@ -164,7 +164,7 @@ dojo.require("dijit.Dialog");
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
 							</td>
 						</tr>
-						<tr class="first">
+						<tr class="first" height="50px">
 							<td>฿ - ៛</td>
 							<td>
 								<input type="text" name="BR" id="BR"  data-dojo-type="dijit.form.NumberTextBox"

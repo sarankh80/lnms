@@ -53,48 +53,41 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                                 <i class="icon-user"></i>
                             </span>
                         </a>
-                        <div class="status" align="center">បង្កើតឈ្មោះអតិថិជន</div>
+                         <div class="status" align="center"><?php echo $tr->translate('CLIENT_INFO');?></div>
                     </div>
                     <div class="metro-nav-block nav-block-orange">
                         <a href="<?php echo $collecteral;?>" data-original-title="">
                             <i class="icon-user"></i>
                             <div class="info"></div>
-                            <div class="status">ទ្រពបញ្ចំអតិថិជន</div>
+                            <div class="status"><?php echo $tr->translate('CLIENT_COLLETERAL');?></div>
                         </a>
                     </div>
 
                    <div class="metro-nav-block nav-block-green">
-                       <a href="<?php $chagen_coll;?>" data-original-title="">
+                       <a href="<?php echo $chagen_coll;?>" data-original-title="">
                            <i class="icon-comments-alt"></i>
                            <div class="info"></div>
-                           <div class="status">ប្តូរទ្រព្យបញ្ចំ</div>
+                           <div class="status"><?php echo $tr->translate('CHANGE_COLLETERAL');?></div>
                        </a>
                    </div>
                     <div class="metro-nav-block nav-block-blue double">
                         <a href="<?php echo $indi_loan;?>" data-original-title="">
                             <i class="icon-tasks"></i>
                             <div class="info">$37624</div>
-                            <div class="status">ប្រាក់កម្ចីបុគ្គល</div>
+                            <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-yellow">
                         <a href="<?php echo $disburse_loan;?>" data-original-title="">
                             <i class="icon-tags"></i>
                             <div class="info"></div>
-                            <div class="status">ប្រាក់កម្ចីជាក្រុម</div>
+                            <div class="status"><?php echo $tr->translate('INFO_LOANGROUP');?></div>
                         </a>
                     </div>
-                    <div class="metro-nav-block nav-block-grey">
+                    <div class="metro-nav-block nav-block-blue double">
                         <a href="<?php echo $indi_payment;?>" class="text-center" data-original-title="">
-                            <i class="icon-phone"></i>
-                            <div class="status">សងប្រាក់បុគ្គល</div>
-                        </a>
-                    </div>
-                    <div class="metro-nav-block nav-block-red double">
-                        <a href="<?php echo $group_payment;?>" data-original-title="">
                             <i class="icon-bar-chart"></i>
-                            <div class="info"></div>
-                            <div class="status">សងប្រាក់ជាក្រុម</div>
+                            <div class="status"><?php echo $tr->translate('IL_PAYMENT');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-orange">
@@ -103,6 +96,13 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                             <div class="status">កាលវិភាគថ្មី</div>
                         </a>
                     </div>
+                    <div class="metro-nav-block nav-block-red double">
+                        <a href="<?php echo $group_payment;?>" data-original-title="">
+                            <i class="icon-bar-chart"></i>
+                            <div class="status">សងប្រាក់ជាក្រុម</div>
+                        </a>
+                    </div>
+                    
                     <div class="metro-nav-block nav-block-purple double">
                         <a href="<?php echo $quickpayment;?>" data-original-title="">
                             <i class="icon-eye-open"></i>
@@ -188,7 +188,7 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
 
    <!-- BEGIN FOOTER -->
    <div id="footer">
-      Copy&copy;Right by VSS Consultancy.
+      &copy;CopyRight by VSS Consultancy.
    </div>
    <!-- END FOOTER -->
 

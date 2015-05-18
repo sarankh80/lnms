@@ -116,7 +116,7 @@ $frm = $this->frm_village;
 		              </td>
 		           </tr>   
             </table>
-        	<table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+        	<table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
 				        <th><?php echo $tr->translate("NUM");?></th>
 				        <th><?php echo $tr->translate("VILLAGE_KHMER");?></th>
@@ -128,7 +128,7 @@ $frm = $this->frm_village;
 				        
 				    </tr>
 					<?php 
-					 foreach($this->village_list as $key =>$row){
+					 if(!empty($this->village_list))foreach($this->village_list as $key =>$row){
 					 	?>
 					     <tr align="center">
 					        <td><?php echo $key+1; ?></td>

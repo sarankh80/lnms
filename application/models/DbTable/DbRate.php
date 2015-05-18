@@ -54,7 +54,6 @@ class Application_Model_DbTable_DbRate extends Zend_Db_Table_Abstract
     			WHERE r.`active` = 1
 				ORDER BY r.`in_cur_id`, r.`out_cur_id`";
     	$rows = $db->fetchAll($sql);
-    	 
     	return Zend_Json::encode($rows);
     }
     

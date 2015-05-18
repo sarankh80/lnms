@@ -59,7 +59,7 @@ dt{display: none;}
 		              </td>
 		           </tr>   
             </table>
-   <table width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
+   <table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
     	<tr bgcolor="#BBBBBB">
         	<th><?php echo $tr->translate("NUM");?></th>
@@ -74,7 +74,7 @@ dt{display: none;}
             <th><?php echo $tr->translate("DATE");?></th>
             <th><?php echo $tr->translate("NOTE");?></th>
            </tr>
-           <?php foreach($this->calleteral_list as $key =>$row){?>
+           <?php if(!empty($this->calleteral_list)) foreach($this->calleteral_list as $key =>$row){?>
 			<tr>
 		     <td>&nbsp;<?php echo $key+1;?></td>
 		     <td>&nbsp;<?php echo $row['branch_id']?></td>

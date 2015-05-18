@@ -9,7 +9,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	<td>
         	<h2 align="center">Delinquent Loans</h2>
             <p>5.12.2014.all Currencies-Pound</p>
-            <table width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
+            <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
                 
                 <tr bgcolor="#BBBBBB" align="center" >
                     <td><?php echo $tr->translate("CONTACT_CODE");?></td>
@@ -34,7 +34,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <th colspan="12">Loan Officer1-Instrument Personal loan(IL)</th>
                
                 </tr>
-                 <?php foreach ($this->loandateline_list as $index => $rs){ ?>
+                 <?php if(!empty($this->loandateline_list)) foreach ($this->loandateline_list as $index => $rs){ ?>
                 <tr>
                		<td><?php //echo $rs["g_id"];?></td>
                		<td><?php echo $rs["first_name"];?></td>

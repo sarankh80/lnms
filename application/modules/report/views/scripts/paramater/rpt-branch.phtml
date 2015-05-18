@@ -50,7 +50,7 @@
 		              </td>
 		           </tr>   
             </table>
-        	<table align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+        	<table id="exportExcel"  align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
 				        <th><?php echo $tr->translate("BR_ID");?></th>
 				        <th><?php echo $tr->translate("BRANCH_KHMER");?></th>
@@ -62,7 +62,7 @@
 				        <th><?php echo $tr->translate("OTHER");?></th>
 				    </tr>
 					<?php 
-					 foreach($this->branch_list as $key =>$row){
+					if(!empty($this->branch_list)) foreach($this->branch_list as $key =>$row){
 					 	?>
 					     <tr align="center">
 					        <td><?php echo $key+1; ?></td>

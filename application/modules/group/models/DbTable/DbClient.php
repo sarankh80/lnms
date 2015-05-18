@@ -96,7 +96,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	public function getClientCallateralBYId($client_id){
 		$db = $this->getAdapter();
 		$sql = " SELECT cd.* FROM `ln_client_callecteral` AS cc , `ln_client_callecteral_detail` AS cd WHERE  
-		         cd.client_coll_id = cc.id AND cc.client_id = ".$client_id;
+		         cd.is_return=0 AND cd.client_coll_id = cc.id AND cc.client_id = ".$client_id;
 		return $db->fetchAll($sql);
 	}
     function getViewClientByGroupId($group_id){

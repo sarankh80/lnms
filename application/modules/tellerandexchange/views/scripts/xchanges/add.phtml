@@ -483,7 +483,6 @@
 
 	    }, "from_amount_type");
 
-		checkRate();
 
 		dojo.connect(dojo.byId("from_amount"), "onkeyup", function(evt){			
 			if(!dojo.byId("special_cus").checked){
@@ -505,6 +504,7 @@
 		dojo.connect(dojo.byId("recieve_money"), "onkeyup", function(evt){
 			return_money();
 	    });	
+		checkRate();
 		
 	});   
 
@@ -535,7 +535,7 @@
 			    		  lblid1="DB";
 				    	  lblid2="BD";
 				      }
-			    	  else if(tmp[i].in_cur_id === "2" && tmp[i].out_cur_id === "1"){
+			    	  else if(tmp[i].in_cur_id === "1" && tmp[i].out_cur_id === "2"){
 			    		  lblid1="DR";
 				    	  lblid2="RD";
 
@@ -544,12 +544,15 @@
 			    		  lblid1="BR";
 				    	  lblid2="RB";
 				      }
+				     //alert(lblid1);
+				      //alert(lblid2);
 			    	 dojo.byId(lblid1).innerHTML = dojo.number.format(tmp[i].rate_in);
 			    	 dojo.byId(lblid2).innerHTML = dojo.number.format(tmp[i].rate_out);
 		    	  }
 		    	  
 		      },
 		      error: function(error){
+			      alert(error);
 		       alert("Error, please reload page, Try it again.");
 		      }
 	    });
