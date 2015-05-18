@@ -63,9 +63,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			try {
 				if($identify==""){
 					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/il-payment/");
-					//exit();
 				}else {
-					
 					$db->addILPayment($_data);
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/il-payment/");
 				}
@@ -76,7 +74,6 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmAddIlPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
@@ -162,6 +159,16 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Loan_Model_DbTable_DbLoanIL();
 			$row = $db->getLoanPaymentByLoanNumber($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
+	function getLastPayDateAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanIL();
+			$row = $db->getLastPayDate($data);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

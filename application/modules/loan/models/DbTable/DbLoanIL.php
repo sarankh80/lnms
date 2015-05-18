@@ -878,5 +878,12 @@ function getLoanLevelByClient($client_id,$type){
     	WHERE lm.status =1 AND lm.group_id = $member_id ";
     	return $db->fetchAll($sql);
     }
+    public function getLastPayDate($data){
+    	$loanNumber = $data['loan_numbers'];
+    	$db = $this->getAdapter();
+    	$sql ="SELECT cd.`date_payment` FROM `ln_client_receipt_money_detail` AS cd,`ln_client_receipt_money` AS c WHERE c.`id` = cd.`crm_id` AND c.`loan_number`='$loanNumber' ORDER BY cd.`id` DESC";
+    	//return $sql;
+    	return $db->fetchOne($sql);
+    }
   
 }

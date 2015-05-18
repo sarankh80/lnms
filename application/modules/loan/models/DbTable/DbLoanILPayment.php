@@ -483,6 +483,8 @@ public function addILPayment($data){
 					  lm.`pay_after`,
 					  lm.`branch_id`,
 					  lm.`interest_rate`,
+			   		  lm.`collect_typeterm`,
+			   		  lm.`amount_collect_principal`,
 					  lg.`co_id`,
 					  lg.`payment_method`,   
 					  lf.*
@@ -510,6 +512,8 @@ public function addILPayment($data){
 					  lm.`pay_after`,
 					  lm.`branch_id`,
 					  lm.`interest_rate`,
+			   		  lm.`collect_typeterm`,
+			   		  lm.`amount_collect_principal`,
 					  lg.`co_id`,
 					  lg.`payment_method`,   
 					  lf.*
@@ -560,7 +564,7 @@ public function addILPayment($data){
 			   		AND $where
 			   		";
    	}elseif($data['types']==1){
-   	$where = 'lm.`loan_number`='.$loan_number;
+   	$where = 'lm.`loan_number`='."'".$loan_number."'";
    	$sql ="SELECT
 			   	lc.`client_id`,
 			   	lc.`client_number`,
