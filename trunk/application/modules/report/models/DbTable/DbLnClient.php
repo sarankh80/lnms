@@ -48,6 +48,7 @@ class Report_Model_DbTable_DbLnClient extends Zend_Db_Table_Abstract
 				$where.=" AND branch_id= ".$search['branch_id'];
 			}
 			$order=" ORDER BY client_id DESC";
+			echo $sql.$where.$order;
 	          return $db->fetchAll($sql.$where.$order);
     } 
     public function getAllGroup(){
@@ -129,43 +130,33 @@ function geteAllcallteral($search=null){
 	
 		$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
-		$where = " WHERE ".$from_date." AND ".$to_date;
-	
-	
-		try {
-			$sql="SELECT c.id,(SELECT `branch_namekh` FROM `ln_branch` WHERE br_id= c.branch_id) AS branch_name ,
-					c.client_id ,c.date,c.note AS notes,
-					(SELECT cc.`collecteral_code` FROM `ln_client_callecteral` AS cc WHERE  cc.id = cd.`change_id` LIMIT 1) AS collecteral_code,
-					(SELECT ct.title_en FROM ln_callecteral_type AS ct WHERE  ct.id = cd.`from_collateral_type` LIMIT 1) AS collecteral_title_old,
-					(SELECT ct.title_en FROM ln_callecteral_type AS ct WHERE  ct.id = cd.`collateral_type` LIMIT 1) AS collecteral_title_en,
-					(SELECT name_kh FROM `ln_view` WHERE TYPE = 21 AND key_code = cd.owner_id LIMIT 1) AS collecteral_owner,
-					(SELECT CONCAT(client_number,' - ',name_kh,' - ',name_en) FROM ln_client WHERE client_id = c.client_id LIMIT 1) AS client_name, cd.*
-					FROM `ln_changecollteral` AS c, `ln_changecollteral_detail` AS cd WHERE c.id = cd.change_id ORDER BY c.client_id ";
-			$where='';
-			if($search['status_search']>-1){
-			$where.=" AND status=".$search['status_search'];
-			}
+		$where = " WHERE ".$from_date." AND ".$to_date;	
+			$sql="SELECT * FROM v_getchangcolleral Where 1 ";
+				$where='';
+				if($search['status_search']>-1){
+					$where.=" AND statuss =".$search['status_search'];
+				}
 				if(!empty($search['branch_id'])){
-						$where.=" AND branch_id = ".$search['branch_id'];
-			}
+					$where.=" AND branch_id = ".$search['branch_id'];
+				}
 				if(!empty($search['client_code'])){
-						$where.=" AND owner_code_id = ".$search['client_code'];
-						}
-						if(!empty($search['client_name'])){
-						$where.=" AND owner_id = ".$search['client_name'];
-						}
-						if(!empty($search['adv_search'])){
-							$s_where=array();
-							$s_search=$search['adv_search'];
-							$s_where[]="note LIKE '%{$s_search}%'";
-							$where .=' AND ('.implode(' OR ',$s_where).')';
-						}
-						echo  $sql.$where;
-						$dbs=$db->fetchAll($sql.$where);
-						return $dbs;
-		}catch (Exception $e){
-				
-		}
+					$where.=" AND client_id = ".$search['client_code'];
+				}
+				if(!empty($search['client_name'])){
+					$where.=" AND owner_id = ".$search['client_name'];
+				}
+				if(!empty($search['adv_search'])){
+				$s_where=array();
+				$s_search=$search['adv_search'];
+				$s_where[]="branch_name LIKE '%{$s_search}%'";
+				$s_where[]="owner_name LIKE '%{$s_search}%'";
+				$s_where[]="date LIKE '%{$s_search}%'";
+				$s_where[]="note LIKE '%{$s_search}%'";
+				$where .=' AND ('.implode(' OR ',$s_where).')';
+				}
+			//echo  $sql.$where;
+			$dbs=$db->fetchAll($sql.$where);
+			return $dbs;
 	}
 }
 

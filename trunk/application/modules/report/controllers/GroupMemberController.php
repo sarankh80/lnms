@@ -70,6 +70,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){  		
   		$search = $this->getRequest()->getPost();
+  		//print_r($search);exit();
   		if(isset($search['btn_search'])){
   			$this->view->client_list = $db->getAllLnClient($search);
   		}else{
@@ -80,6 +81,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	}else
   		$search = array('adv_search' => '',
 						'status' => -1,
+  						'branch_id' => 0,  				
 						'province'=>0,
 						'district'=>'',
 						'commune'=>'',
@@ -150,13 +152,12 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(isset($search['btn_search'])){
+  			//print_r($search);exit();
   			$this->view->calleteral_list = $db->getAllChangeCollteral($search);
-  		}else {
-  			$collumns = array("branch_id","owner_code_id","owner_id","fromd_id","to_id","collteral_type","number_code","date","note","owner");
-  			$this->exportFileToExcel('ln_callect',$db->getAllChangeCollteral(),$collumns);
   		}
   	}else{
 		$search = array(
+			'start_date' => date('Y-m-d'),
 			'adv_search' => '',
 			'status_search' => -1);
 		$this->view->calleteral_list = $db->getAllChangeCollteral($search);//call frome model
@@ -177,12 +178,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
   		if(isset($data['btn_search'])){
-  			//print_r($data);exit();
   			$this->view->calleteral_list = $db->geteAllcallteral($data);
-  		}else {
-  		$collumn = array("branch_id","code_call","co_id","getter_name","giver_name","date_delivery",
-  				"client_code","contracts_borrow","mortgage_Contract","name_borrower");
-  		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
   		}
   	}else {
   		$search = array(
@@ -195,14 +191,11 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   function rptReturncollteralAction(){
   		$key = new Application_Model_DbTable_DbKeycode();
   		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  		$db = new Group_Model_DbTable_DbReturnCollteral();
+  		$db = new Report_Model_DbTable_DbRpt();
   		if($this->getRequest()->isPost()){
   		$search=$this->getRequest()->getPost();
   			if(isset($search['btn_search'])){
   			$this->view->calleteral_list = $db->getAllReturnCollteral($search);
-  			}else {
-  			$collumns = array("return_id","giver_name","receiver_name","collect_type","number_collteral","date","note","user_id");
-  			$this->exportFileToExcel('ln_return_collteral',$db->getAllReturnCollteral(),$collumns);
   			}
   		}else{
   		$search = array(
