@@ -19,8 +19,8 @@ class Report_Model_DbTable_DbRpt extends Zend_Db_Table_Abstract
 			if($search['status_search']>-1){
 				$where.=" AND status=".$search['status_search'];
 			}
-			if(!empty($search['collteral_type'])){
-				$where.=" AND callate_type=".$search['collteral_type'];
+			if(!empty($search['branch_id'])){
+				$where.=" AND branch_id =".$search['branch_id'];
 			}
 				
 			if(!empty($search['adv_search'])){
@@ -28,6 +28,7 @@ class Report_Model_DbTable_DbRpt extends Zend_Db_Table_Abstract
 				$s_search=$search['adv_search'];
 				$s_where[]=" giver_name LIKE '%{$s_search}%'";
 				$s_where[]=" receiver_name LIKE '%{$s_search}%'";
+				$s_where[]=" client_code LIKE '%{$s_search}%'";
 				$s_where[]=" note LIKE '%{$s_search}%'";
 				$s_where[]=" number_collteral LIKE '%{$s_search}%'";
 	
@@ -35,7 +36,7 @@ class Report_Model_DbTable_DbRpt extends Zend_Db_Table_Abstract
 			}
 	
 			$order = " ORDER BY return_id DESC";
-			echo $sql.$where.$order;
+			//echo $sql.$where.$order;
 			return $db->fetchAll($sql.$where.$order);
 			$db->commit();
 		}catch (Exception $e){
