@@ -234,8 +234,18 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
 		
+		$amount_payment_term = new Zend_Dojo_Form_Element_TextBox("amount_payment_term");
+		$amount_payment_term->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
 		$id = new Zend_Form_Element_Hidden('id');
 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
+		$installment_date = new Zend_Form_Element_Text("installment_date");
+		
+		
+		
 		if($data!=""){
 			$id->setValue($data["id"]);
 			$_groupid->setValue($data["group_id"]);
@@ -260,7 +270,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$reciever->setValue($data["receiver_id"]);
 			$_currency_type->setValue($data["currency_type"]);
 		}
-		$this->addElements(array($_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
