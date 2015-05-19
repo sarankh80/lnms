@@ -171,6 +171,15 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 // 		$_pay_every->setValue(3);
 		$_pay_every->setValue($request->getParam('pay_every'));
 		
+		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
+		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
+		$rows = $db->getAllClient();
+		if(!empty($rows))foreach($rows AS $row){
+			$opt_client[$row['id']]=$row['name'];
+		}
+		$client_name->setMultiOptions($opt_client);
+		$client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',));
+		$client_name->setValue($request->getParam("client_name"));
 		if($data!=null){
 			print_r($data);
 			$_branch_id->setValue($data['member_id']);
@@ -179,8 +188,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			$_zone->setValue($data['zone_id']);
 			$_releasedate->setValue($data['date_release']);
 			$_currency_type->setValue($data['payment_method']);
+			$client_name->setValue($data['client_name']);
 		}
-		$this->addElements(array($_pay_every,$_groupid,$_title,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_releasedate
+		$this->addElements(array($client_name,$_pay_every,$_groupid,$_title,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_releasedate
 				,$_payterm,$_dateline,$_group_code,$_customer_code,$_status,$_btn_search,$_repayment_method));
 		return $this;
 		

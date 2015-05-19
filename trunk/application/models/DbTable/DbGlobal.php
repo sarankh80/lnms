@@ -153,10 +153,10 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$sql = " call stGetAllCOName();";
    	$db = $this->getAdapter();
    	$rows =  $db->fetchAll($sql);
-   	$options = array(''=>'----Select Credit Officer----');
+   	$options = array(''=>'----Select Credit Officer ----');
    	if($option!=null){
    		if(!empty($rows))foreach($rows as $rs){
-   				$options[$rs['co_id']]=$rs['co_firstname'];}
+   				$options[$rs['co_id']]=$rs['co_firstname']." - ".$rs['co_khname'];}
    				return $options;
    	}
    	return $rows;

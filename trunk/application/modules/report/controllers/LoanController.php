@@ -257,19 +257,31 @@ function rptLoanDatelineAction(){
 	
 }
 function rptLoanTotalCollectAction(){
-	$db  = new Report_Model_DbTable_DbLoan();
-	$rs=$db->getALLLoanTotalcollect();
-	$this->view->loantotalcollect_list =$rs;
+	$db  = new Report_Model_DbTable_DbLoan();	
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	if($this->getRequest()->isPost()){
-		$collumn = array("id","lfd_id","receipt_no","branch_id","loan_number","client_id","co_id","receiver_id","date_pay","date_input","capital","remain_capital","principal_permonth"
-				,"total_interest","service_charge","recieve_amount","return_amount","note","user_id"
-				,"is_complete","is_verify","verify_by","is_closingentry");
-	
-	
-		$this->exportFileToExcel('ln_staff',$rs,$collumn);
+		$search = $this->getRequest()->getPost();
+		if(isset($search['btn_search'])){
+			$this->view->loantotalcollect_list=$db->getALLLoanTotalcollect($search);
+		}
+	}else {
+	$search = array(
+			'adv_search' => '',
+			'status_search' => -1,
+			'status' => -1,
+			'branch_id' => "",
+			'client_name' => "",
+			'co_id' => "",
+			'start_date' =>date('Y-m-d'),
+			'end_date' => date('Y-m-d'),
+	);
+	$this->view->loantotalcollect_list =$rs=$db->getALLLoanTotalcollect($search);
 	}
+	$frm = new Loan_Form_FrmSearchLoan();
+	$frm = $frm->AdvanceSearch();
+	Application_Model_Decorator::removeAllDecorator($frm);
+	$this->view->frm_search = $frm;
 }
 public function paymentscheduleListAction(){
 	try{
