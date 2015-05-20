@@ -188,7 +188,7 @@ public function addILPayment($data){
     			'penalize_amount'				=>		$data['penalize_amount'],
     			'return_amount'					=>		$return,
     			'service_charge'				=>		$data['service_charge'],
-    			'total_discount'				=>		$data["discount"],
+    			//'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,

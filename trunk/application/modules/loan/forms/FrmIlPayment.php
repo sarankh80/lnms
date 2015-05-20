@@ -234,7 +234,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
 		
-		$amount_payment_term = new Zend_Dojo_Form_Element_TextBox("amount_payment_term");
+		$amount_payment_term = new Zend_Form_Element_Hidden("amount_payment_term");
 		$amount_payment_term->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
@@ -242,7 +242,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$id = new Zend_Form_Element_Hidden('id');
 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
-		$installment_date = new Zend_Form_Element_Text("installment_date");
+		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
 		
 		
