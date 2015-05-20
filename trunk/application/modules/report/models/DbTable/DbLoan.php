@@ -151,38 +151,35 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	return $db->fetchAll($sql);
       }
       public function getALLLoanlate($search = null){
-      	$start_date = $search['start_date'];
+      	//$start_date = $search['start_date'];
+   		$end_date = $search['end_date'];
      	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
-      	$sql="SELECT mf.id,(SELECT co_khname FROM `ln_co` WHERE co_id=mf.member_id) AS name_kh,
-			mf.total_principal,mf.principal_permonth,mf.total_interest,mf.total_payment, 
-			(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=mf.branch_id) AS branch_name,m.`currency_type`,
-			(SELECT symbol FROM `ln_currency` WHERE id =m.currency_type) AS currency_typeshow ,
-			mf.date_payment, mf.amount_day,mf.is_approved FROM ln_loanmember_funddetail AS mf,`ln_loan_member` AS m
-			WHERE mf.member_id = m.member_id AND mf.is_completed = 0 ";
+      	$sql="SELECT * FROM `v_getloanlates` WHERE 1";
       	$where='';
       	if(!empty($search['adv_search'])){
       		//print_r($search);
       		$s_where = array();
       		$s_search = $search['adv_search'];
-      		$s_where[] = " mf.total_principal LIKE '%{$s_search}%'";
-      		$s_where[] = " mf.`principal_permonth` LIKE '%{$s_search}%'";
-      		$s_where[] = " mf.`total_payment` LIKE '%{$s_search}%'";
-      		$s_where[] = " mf.`total_interest` LIKE '%{$s_search}%'";
-      		$s_where[] = " mf.`date_payment` LIKE '%{$s_search}%'";
-      		$s_where[] = " mf.`amount_day` LIKE '%{$s_search}%'";
+      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " name_kh LIKE '%{$s_search}%'";
+      		$s_where[] = " total_principal LIKE '%{$s_search}%'";
+      		$s_where[] = " principal_permonth LIKE '%{$s_search}%'";
+      		$s_where[] = " total_payment LIKE '%{$s_search}%'";
+      		$s_where[] = " total_interest LIKE '%{$s_search}%'";
+      		$s_where[] = " amount_day LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if(($search['status']>0)){
-    		$where.=" AND mf.status =".$search['status'];
+    		$where.=" AND status =".$search['status'];
     	}   	 
-      	if(!empty($search['start_date'])){
-      		$where.=" AND mf.date_payment < '$start_date'";
-      	}
+      	if(!empty($search['end_date'])){
+			$where.=" AND date_payment < '$end_date'";
+		}
       	if($search['branch_id']>0){
-      		$where.=" AND mf.branch_id = ".$search['branch_id'];
+      		$where.=" AND branch_id = ".$search['branch_id'];
       	}
-      	$order = " ORDER BY m.currency_type";
+      	$order = " ORDER BY currency_type";
       	//echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);
       }
@@ -481,31 +478,30 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT f.id,f.`total_interest`,f.`status`,(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=f.branch_id) AS branch,
-				m.`currency_type`,(SELECT symbol FROM `ln_currency` WHERE id = m.currency_type) AS currency_typeshow,m.loan_number,
-				(SELECT CONCAT(c.client_number,' - ',c.name_kh ,' - ',c.name_en) AS client_name FROM ln_client AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_name,
-				f.`date_payment` FROM `ln_loanmember_funddetail`AS f,`ln_loan_member` AS m WHERE f.`member_id` = m.`member_id`";
+      	$sql = "SELECT * FROM `v_getexpectincome` WHERE 1";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		//print_r($search);
       		$s_where = array();
       		$s_search = $search['advance_search'];
-      		$s_where[] = " f.total_interest LIKE '%{$s_search}%'";
-      		$s_where[] = " f.date_payment LIKE '%{$s_search}%'";
+      		$s_where[] = " branch LIKE '%{$s_search}%'";
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " total_interest LIKE '%{$s_search}%'";      		
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if($search['status']!=""){
-      		$where.= " AND f.status = ".$search['status'];
+      		$where.= " AND status = ".$search['status'];
       	}
       
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND f.date_payment BETWEEN '$start_date' AND '$end_date'";
+      		$where.=" AND date_payment BETWEEN '$start_date' AND '$end_date'";
       	}
       	if($search['branch_id']>0){
-      		$where.=" AND f.`branch_id`= ".$search['branch_id'];
+      		$where.=" AND branch_id`= ".$search['branch_id'];
       	}
       	//$where='';
-      	$order = " ORDER BY m.currency_type";
+      	$order = " ORDER BY currency_type";
       	//echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);
       }
