@@ -31,9 +31,9 @@ $frm = $this->frm_holiday;
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<!-- <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2> -->
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_holiday'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['brand_holiday'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -55,11 +55,11 @@ $frm = $this->frm_holiday;
             </table>
         <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB" style="background: #BBBBBB !important;">
-				        <th><?php echo $tr->translate("NUM");?></th>
-				        <th><?php echo $tr->translate("HOLIDAY_NAME");?></th>
-				        <th><?php echo $tr->translate("DATE");?></th>
-				        <th><?php echo $tr->translate("AMOUNT");?></th>
-				        <th><?php echo $tr->translate("NOTE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("HOLIDAY_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("AMOUNT");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
 					<?php $amount_day = 0;
 					 
@@ -67,7 +67,7 @@ $frm = $this->frm_holiday;
 						foreach($this->holiday_list as $key =>$row){
 					 	$amount_day=$amount_day+$row['amount_day'];
 					 	?>
-					     <tr align="center">
+					     <tr style="font-size: 10px;" align="center">
 					        <td><?php echo $key + 1; ?></td>
 					        <td><?php echo $row['holiday_name']?></td>
 					        <td><?php echo $row['start_date']?></td>

@@ -1,41 +1,59 @@
-<?php 
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+<?php  $tran = $this->tran_schedule;
+$client = $this->client;
+$filter = $this->form_filter;
+$dayin_khmer = $this->day_inkhmer;
+$url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();												
 ?>
-<title><?php echo $tr->translate("LOANCOLLECT");?></title>
-<html>
-<head>
-<meta charset="utf-8">
-<title></title>
-
-</head>
-
-<table style="font-family: 'Khmer OS Content'; width:60%; float: right;" >
-	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
-		</td>
-	</tr>
-</table>
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<div id="divPrint" style="width: 100%;">
-<style>
-.style{
-	line-height: 20px;font-size: 12px;
-	font-family: 'Khmer OS Battambang';
+<style type="text/css">
+.fullside {
+width: 98%;
+height: 25px;
+}
+.tundra .dijitArrowButtonInner {
+width: 7px;
+height: 7px;
+margin: -4px 4px 0 4px;
 }
 </style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:105px;">
+ <div dojoType="dijit.layout.ContentPane" region="top" style="height: auto;">
+ <form method="post">
+	<table width="100%">
+		<tr>
+			<td>Client Name</td>
+			<td><?php echo $filter->getElement('client_id');?></td>
+			<td>CO Name</td>
+			<td><?php echo $filter->getElement('co_id');?></td>
+			<td>Loan Type</td>
+			<td><?php echo $filter->getElement('loan_type');?></td>
+		</tr>
+		<tr>
+			<td>Search </td>
+			<td><?php echo $filter->getElement('client_code');?></td>
+			<td>From</td>
+			<td><?php echo $filter->getElement('from_date');?></td>
+			<td>To</td>
+			<td><?php echo $filter->getElement('to_date');?></td>
+			<td><?php echo $filter->getElement('btn_search');?></td>
+		</tr>
+	</table>
+	</form>
+ </div>
+ <table>
 	<tr>
 		<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['rpt_loan_collect'];?></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo 'សំរាប់ថ្ងៃទី';?></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_collect'];?></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo 'សំរាប់ថ្ងៃទី';?></h2>
                 	</td>
                     
                     <td width="20%"></td>
@@ -60,21 +78,21 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	</tr>
 	<tr>
 	   <td>
-			  <table id="exportExcel" border="1"​ style="border-collapse:collapse; font-family: 'Khmer OS Battambang'; border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
-		        	<th style="padding:5px 0px;"><?php echo $tr->translate("លរ");?></th>
-		        	<th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-		        	<th style="padding:5px 0px;"><?php echo $tr->translate("CO");?></th>
-		            <th style="padding:5px 0px;"><?php echo $tr->translate("លេខឥណទាន");?></th>
-		            <th style="white-space: pre;"><?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
-		            <th style="padding:5px 0px;"><?php echo $tr->translate("PRINCIPAL");?></th>
-		            <th style="padding:5px 0px;"><?php echo $tr->translate("ប្រាក់ការ");?></th>
-		            <th style="padding:5px 0px;"><?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
-		            <th style="white-space: pre;"><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
-		            <th><?php echo $tr->translate("DATE");?></th>
+			  <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;" bordercolor="black">
+                 <tr bgcolor="#BBBBBB" >
+		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("លរ");?></th>
+		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
+		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("លេខឥណទាន");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPAL");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ការ");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
 		         </tr>
 		         <?php if(!empty($this->loancllect_list)) foreach($this->loancllect_list as $key =>$row){?>
-				   <tr>
+				   <tr style="font-size: 10px;" align="center">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['branch_id']?></td>
 				     <td>&nbsp;<?php echo $row['co'].' '.$row['co_name'];?></td>
@@ -84,7 +102,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					 <td>&nbsp;<?php echo $row['total_interest']?></td>
 					 <td>&nbsp;<?php //echo $row['STATUS']?></td>
 					 <td>&nbsp;<?php echo $row['total_payment']?></td>
-					 <td  style="white-space: pre;">&nbsp;<?php echo $row['date_payment']?></td>
+					 <td>&nbsp;<?php echo $row['date_payment']?></td>
 					 
 					</tr>
 				<?php }?>
@@ -105,6 +123,120 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		     </table>
 		     </td>
      </tr>
+   </table>
 </div>
+
+<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+	<div id="divPrint">
+	<style type="text/css">
+	.style{
+		line-height: 20px;font-size: 11px;
+		font-family: 'Khmer OS Battambang';
+	}
+	.font_bold{
+		font-family:'Khmer MEF2';
+		font-size: 12px;
+		
+	}
+	</style>
+	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+		<tr>
+	    	<td align="center">
+	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
+	            	<tr>
+	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+	                	<td width="60%" valign="top">
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
+	                    <td width="20%"><img src="<?php echo $url_barcode;?>" /></td>
+	                </tr>
+	                <?php $db = new Application_Model_DbTable_DbGlobal();
+	                	  $row = $db->getClientByType(null,$client['client_id'],1);
+// 	                	  print_r($row);
+	                ?> 
+	                <tr>
+	                	<td colspan="3">
+	                		<table width="100%">
+	                			<tr class='style'>
+	                				<td width="40%">
+	                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
+									<br />TEL :(855) 10 78 55 44
+	                				</td>
+	                				<td></td>
+	                				
+				                </tr>
+			                </table>
+			              </td>
+			           </tr>   
+	            </table>
+	        </td>
+	    </tr>
+	    <tr>
+	    	<td>
+	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	                 <tr class="style" align="center" bgcolor="#BBBBBB">
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">លរ</td>
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
+	                    
+	                    
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
+	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
+	                    <td colspan="3" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
+	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
+	                </tr>
+	                <tr class="style" align="center" bgcolor="#BBBBBB">
+	                    <!--<td>ចំនួនថ្ងៃ</td>-->
+	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
+	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
+	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
+	                </tr>
+	               <?php foreach($tran as $key =>$row){?>
+	               	<tr align="center" style="font-size:10px; height: 20px;" class="style">
+	                    <td ><?php echo $key+1;?></td>
+	                    <td ><?php echo $row['branch_kh'];?></td>
+	                     <td ><?php echo $row['co_name'];?></td>
+	                   
+	                   
+	                    <?php $str_day = date('D',strtotime($row['date_payment']));
+	                    	$day_as_khmer = $dayin_khmer[$str_day];
+	                    ?>
+	                    
+	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
+	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <?php 
+	                    $remain = $row['total_principal']-$row['principal_permonth']
+	                    ?>
+	                     <td><?php echo $row['client_name'];?></td>
+	                </tr>
+	               <?php }
+	               	//for($record = $key;$record<11;$record++){
+	               //?>
+	               		
+	               <?php //}?>
+	            </table>
+	            <table width="100%" cellpadding="3">
+	            	<tr class="font_bold" style="height:25px;">
+	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះគណនេយ្យ</td>
+	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td> 
+	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
+	            	</tr>
+	            	<tr class="font_bold">
+	            		<td align="center" height="80px" valign="bottom"><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center"  valign="bottom">
+	            			<?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            		<td align="center" height="75px" valign="bottom">
+	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
+	            	</tr>
+	            </table>
+	    	</td>
+	    </tr>
+	</table>
+	</div>
 </div>
-</html>

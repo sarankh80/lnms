@@ -95,8 +95,8 @@ $frm = $this->frm_village;
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['village'];?></h2></td>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['village'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -118,19 +118,19 @@ $frm = $this->frm_village;
             </table>
         	<table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th><?php echo $tr->translate("NUM");?></th>
-				        <th><?php echo $tr->translate("VILLAGE_KHMER");?></th>
-				        <th><?php echo $tr->translate("VILLAGE_NAME");?></th>
-				        <th><?php echo $tr->translate("COMMMUNE_NAME");?></th>
-				        <th><?php echo $tr->translate("DISTRICT_NAME");?></th>
-				        <th><?php echo $tr->translate("PROVINCE_NAME");?></th>
-				        <th><?php echo $tr->translate("DATE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COMMUNE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DISTRICT_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PROVINCE_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
 				        
 				    </tr>
 					<?php 
 					 if(!empty($this->village_list))foreach($this->village_list as $key =>$row){
 					 	?>
-					     <tr align="center">
+					     <tr align="center" style="font-size: 10px;">
 					        <td><?php echo $key+1; ?></td>
 					        <td><?php echo $row['village_namekh']?></td>
 					        <td><?php echo $row['village_name']?></td>

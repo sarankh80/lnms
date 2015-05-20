@@ -6,18 +6,25 @@ class Application_Form_FrmSearchGlobal extends Zend_Dojo_Form
 	{
 		
 	}
-	public function FrmSearchLoadSchedule(){
+	public function FrmSearchLoadSchedule($forms = null){
+		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$db = new Application_Model_DbTable_DbGlobal();
 		$_from_date = new Zend_Dojo_Form_Element_DateTextBox('from_date');
 		$_from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'required'=>'true','class'=>'fullside',));
-		$_from_date->setValue(date('Y-m-d'));
+		$_from_date->setValue($request->getParam("from_date"));
 		
+		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
+		$_btn_search->setAttribs(array(
+				'dojoType'=>'dijit.form.Button',
+				'iconclass'=>'dijitIconSearch',
+		
+		));
 		$_to = new Zend_Dojo_Form_Element_DateTextBox('to_date');
-		$_to->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',));
-		$_to->setValue(date('Y-m-d'));
 		
+		$_to->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',));
+		$_to->setValue($request->getParam("to_date"));
 		$_client = new Zend_Dojo_Form_Element_FilteringSelect('client_id');
 		$_client->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -27,6 +34,7 @@ class Application_Form_FrmSearchGlobal extends Zend_Dojo_Form
 		$options=array(''=>"------Select------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
 		$_client->setMultiOptions($options);
+		$_client->setValue($request->getParam("client_id"));
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$rows = $db ->getAllCOName();
@@ -38,6 +46,7 @@ class Application_Form_FrmSearchGlobal extends Zend_Dojo_Form
 				'onchange'=>'popupCheckCO();'
 		));
 		$_coid->setMultiOptions($options);
+		$_coid->setValue($request->getParam("co_id"));
 		
 		$_loan_type = new Zend_Dojo_Form_Element_FilteringSelect('loan_type');
 		$_loan_type->setAttribs(array(
@@ -57,7 +66,7 @@ class Application_Form_FrmSearchGlobal extends Zend_Dojo_Form
 		
 		
 		
-		$this->addElements(array($_client,$_coid,$_client_no,$_loan_type,$_from_date,$_to));
+		$this->addElements(array($_btn_search,$_client,$_coid,$_client_no,$_loan_type,$_from_date,$_to));
 		return $this;
 		
 	}

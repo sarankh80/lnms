@@ -12,6 +12,7 @@ $frm = $this->frm_search;
 th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 -->
 </style>
+<form method="post">
 <table style="font-family: 'Khmer OS Content';float: right;" >
 	<tr>
    			<td><?php echo $frm->getElement("adv_search");?></td>
@@ -21,6 +22,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
    			<td><?php echo $frm->getElement("btn_search");?></td>
    	</tr>
 </table>
+</form>
 <br/>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:50px;">
  
@@ -34,7 +36,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_late'];?></h2></td>
                 	
                     <td width="20%"></td>

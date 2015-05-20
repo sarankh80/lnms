@@ -33,9 +33,9 @@ $frm = $this->frm_zone;
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
                 	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2> -->
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_zone'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['brand_zone'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -58,14 +58,14 @@ $frm = $this->frm_zone;
 	
 			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
 		    	<tr bgcolor="#BBBBBB" >
-		        	<th><?php echo  $tr->translate("NO");?></th>
-		            <th><?php echo  $tr->translate("ZONE_NAME");?></th>
-		            <th><?php echo  $tr->translate("ZONE_NUMBER");?></th>
-		            <th><?php echo  $tr->translate("DATE");?></th>
+		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("NUM");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("ZONE_NAME");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("ZONE_NUMBER");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("DATE");?></th>
 		           
 		         </tr>
 		        <?php if(!empty($this->zone_list))foreach($this->zone_list as $key =>$row){?>
-				   <tr align="center">
+				   <tr align="center" style="font-size: 10px;">
 				     <td>&nbsp;&nbsp;<?php echo $key+1; ?></td>
 				     <td align="left">&nbsp;&nbsp;<?php echo $row['zone_name']?></td>
 					 <td>&nbsp;&nbsp;<?php echo $row['zone_num']?></td>
