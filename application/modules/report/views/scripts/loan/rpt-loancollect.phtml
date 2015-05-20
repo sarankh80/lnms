@@ -1,6 +1,6 @@
 <?php  $tran = $this->tran_schedule;
 $client = $this->client;
-$filter = $this->form_filter;
+$filter = $this->frm_search;
 $dayin_khmer = $this->day_inkhmer;
 $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();												
@@ -24,20 +24,15 @@ margin: -4px 4px 0 4px;
  <form method="post">
 	<table width="100%">
 		<tr>
-			<td>Client Name</td>
-			<td><?php echo $filter->getElement('client_id');?></td>
-			<td>CO Name</td>
+			<td><?php echo $filter->getElement('adv_search');?></td>
+			<td><?php echo $filter->getElement('branch_id');?></td>
+			<td><?php echo $filter->getElement('client_name');?></td>
 			<td><?php echo $filter->getElement('co_id');?></td>
-			<td>Loan Type</td>
-			<td><?php echo $filter->getElement('loan_type');?></td>
 		</tr>
 		<tr>
-			<td>Search </td>
-			<td><?php echo $filter->getElement('client_code');?></td>
-			<td>From</td>
-			<td><?php echo $filter->getElement('from_date');?></td>
-			<td>To</td>
-			<td><?php echo $filter->getElement('to_date');?></td>
+			
+			<td><?php echo $filter->getElement('start_date');?></td>
+			<td><?php echo $filter->getElement('end_date');?></td>
 			<td><?php echo $filter->getElement('btn_search');?></td>
 		</tr>
 	</table>

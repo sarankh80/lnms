@@ -10,6 +10,7 @@ class Report_LoanController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
+  
   function rptLoanReleasedAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
   	$rs=$db->getAllLoan();
@@ -71,35 +72,30 @@ class Report_LoanController extends Zend_Controller_Action {
 //   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   		if($this->getRequest()->isPost()){
   			$search = $this->getRequest()->getPost();
-  			
   			if(isset($search['btn_search'])){
   				$this->view->tran_schedule=$dbs->getAllLnClient($search);
-  				Application_Model_Decorator::removeAllDecorator($frm);
-  				//.print_r($frm->FrmSearchLoadSchedule($search));
-  				$this->view->form_filter = $frm->FrmSearchLoadSchedule($search);
   			}
   		}
   		else{
   			$search = array(
-  					'from_date'=> date('Y-m-d'),
-  					'to_date'=>date('Y-m-d'));
+  					'branch_id'=>'',
+  					'client_name'=>'',
+  					'co_id'=>'',
+  					'start_date'=> date('Y-m-d'),
+  					'end_date'=>date('Y-m-d'));
+  			
   			$this->view->tran_schedule=$dbs->getAllLnClient($search);
-  		
+  		}	
   		$row = $dbs->getAllLnClient($search);
   		$this->view->tran_schedule=$row;
   		
-
-	
-	  	
-  		}	
 	  	$db = new Application_Model_DbTable_DbGlobal();
 	  	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
 	  	$this->view->client =$rs;
-  		
-	  	
-	  	$form = $frm->FrmSearchLoadSchedule();
-	  	Application_Model_Decorator::removeAllDecorator($form);
-	  	$this->view->form_filter = $form;
+	  	$frm = new Loan_Form_FrmSearchLoan();
+	  	$frm = $frm->AdvanceSearch();
+	  	Application_Model_Decorator::removeAllDecorator($frm);
+	  	$this->view->frm_search = $frm;
   }
   function rptGroupDisburseAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
@@ -523,5 +519,6 @@ function rptPaymentschedulesAction(){
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_loan = $frm;
  }
+ 
 }
 
