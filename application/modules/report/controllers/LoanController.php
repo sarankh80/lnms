@@ -169,7 +169,8 @@ class Report_LoanController extends Zend_Controller_Action {
   	}else {
   		$search = array(
   				'adv_search'		=>	"",
-  				'start_date' => date('Y-m-d'),
+  				//'start_date' => date('Y-m-d'),
+  				'end_date' => date('Y-m-d'),
   				'status' => "",
   				'branch_id'		=>	0,
   		);
@@ -474,9 +475,6 @@ function rptPaymentschedulesAction(){
  		$search = $this->getRequest()->getPost();
  		if(isset($search['btn_submit'])){
  			$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
- 		}else {
- 			$collumn = array("id","branch","loan_number","client_name","total_interest","date_payment"	);
- 			$this->exportFileToExcel('ln_loanmember_funddetail',$db->getALLLoanExpectIncome(),$collumn);
  		}
  	}else{
  		$search = array(
