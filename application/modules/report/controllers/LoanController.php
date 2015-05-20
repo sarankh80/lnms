@@ -117,28 +117,33 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   function rptIlpaymentAction(){
   }
+  
   function rptPaymentAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
-  	$rs=$db->getALLPayment();
-  	$this->view->loanpayment_list =$rs;
-  	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	if($this->getRequest()->isPost()){
-  		$collumn = array("receipt_no","client_id","co_id","receiver_id","date_input","capital","remain_capital",
-				"principal_permonth","total_interest","penalize_amount","total_fund","service_charge","recieve_amount"
-				,"reuturn_amount","note","is_complete","is_verify","verify_by","is_closingentry");
-  		$this->exportFileToExcel('ln_staff',$rs,$collumn);
-  	}
-  }
-  function rptPaymentScheduleAction(){
-  	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	if($this->getRequest()->isPost()){
-  		$data = $this->getRequest()->getPost();
-  		if(isset($data['btn_search'])){
-  			$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  		}
-  	}
+  	$db  = new Report_Model_DbTable_DbLoan();	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	if($this->getRequest()->isPost()){
+		$search = $this->getRequest()->getPost();
+		if(isset($search['btn_search'])){
+			$this->view->loantotalcollect_list=$db->getALLLoanPayment($search);
+		}
+	}else {
+	$search = array(
+			'adv_search' => '',
+			'status_search' => -1,
+			'status' => -1,
+			'branch_id' => "",
+			'client_name' => "",
+			'co_id' => "",
+			'start_date' =>date('Y-m-d'),
+			'end_date' => date('Y-m-d'),
+	);
+	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+	}
+	$frm = new Loan_Form_FrmSearchLoan();
+	$frm = $frm->AdvanceSearch();
+	Application_Model_Decorator::removeAllDecorator($frm);
+	$this->view->frm_search = $frm;
   }
   function rptLoanLateAction(){
   	$db  = new Report_Model_DbTable_DbLoan();  	
