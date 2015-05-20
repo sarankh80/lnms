@@ -793,7 +793,7 @@ if(arrays!=""){
 			}else{
 				total_late_day = late_day;
 			}
-//  			alert(total_late_day);
+ 			alert(total_late_day);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
@@ -832,10 +832,12 @@ if(arrays!=""){
 	  	  	  			
 	  	  	  			}else if(payOption==2){
 		  	  	  			total_interest_late = total_interest_late + 0;
-	  	  	  				total_interest = total_interest+0;
+	  	  	  				//total_interest = total_interest+0;
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==3){
-		  	  	  			
+		  	  	  			total_interest_late = total_interest_late + 0;
+	  	  	  				total_interest = 0;
+	  	  	  				totalAmount = totalAmount + parseFloat(principlePerMonth)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==4){
 		  	  	  			var ids =dijit.byId('record_id').get('value');
 			  	  	  		dijit.byId('identity').attr('value',ids);
@@ -873,9 +875,12 @@ if(arrays!=""){
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==2){
 		  	  	  			total_interest_late = total_interest_late + 0;
-	  	  	  				total_interest = total_interest+0;
+	  	  	  				//total_interest = total_interest+0;
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==3){
+		  	  	  			total_interest_late = total_interest_late + 0;
+	  	  	  				total_interest = 0;
+	  	  	  				totalAmount = totalAmount + parseFloat(principlePerMonth)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==4){
 		  	  	  			os_amount=0;
 		  	  	  			var ids =dijit.byId('record_id').get('value');
@@ -907,12 +912,14 @@ if(arrays!=""){
 		  	  	  			total_interest_late = total_interest_late + 0;
 	  	  	  				//total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
-	  	  	  				
 	  	  	  			}else if(payOption==2){
 		  	  	  			total_interest_late = total_interest_late + 0;
-	  	  	  				total_interest = total_interest+0;
+	  	  	  				//total_interest = total_interest+0;
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==3){
+		  	  	  			total_interest_late = total_interest_late + 0;
+	  	  	  				total_interest = 0;
+	  	  	  				totalAmount = totalAmount + parseFloat(principlePerMonth)+parseFloat(total_interest_late);
 	  	  	  			}else if(payOption==4){
 		  	  	  			//alert(4);
 	  	  	  				os_amount=0;
