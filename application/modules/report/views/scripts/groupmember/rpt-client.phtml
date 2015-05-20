@@ -163,27 +163,27 @@ th{padding: 5px;}
 <body>
 	<table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">   
     	<tr bgcolor="#BBBBBB" >
-	        	<th aling=center; style="font-size: 10px;"><?php echo $tr->translate("NUM");?></th>
-	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
-	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("NAME");?></th>
-	            <th style="font-size: 10px;"><?php echo $tr->translate("SEX");?></th>
-	            <th style="font-size: 10px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-	            <th style="white-space: pre;font-size: 10px;"><?php echo $tr->translate("PHONE");?></th>
-	            <th style="font-size: 10px;"><?php echo $tr->translate("ADRESS");?></th>
-	            <th style="white-space: pre; font-size: 10px;"><?php echo $tr->translate("SPOUSE_NAME");?></th>
-	            <th style="font-size: 10px;"><?php echo $tr->translate("DATE");?></th>
+	        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SEX");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PHONE");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ADDRESS");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SPOUSE_NAME");?></th>
+	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
           </tr>
           <?php if(!empty($this->client_list)) foreach($this->client_list as $key =>$row){?>
-		   <tr>
-			   <td style="text-align: center;">&nbsp;<?php echo $key+1; ?></td>
-		       <td style="text-align: center;">&nbsp;<?php echo $row['client_number']?></td>
-			   <td>&nbsp;<?php echo $row['name_kh']." - ".$row['name_en']?></td>
-			   <td style="text-align: center;">&nbsp;<?php echo $row['sex']?></td>
-			   <td style="text-align: center;">&nbsp;<?php echo $row['branch_name']?></td>
-			   <td style="white-space: pre;text-align: center;">&nbsp;<?php echo $row['phone']?></td>
-			   <td style="max-width: 200px;">&nbsp;<?php echo $row['house'].", ".$row['street'].", ".$row['village_name'].", ".$row['com_name'].", ".$row['dis_name'].", ".$row['pro_name']?></td>
-			   <td style="text-align: center;">&nbsp;<?php echo$row['spouse_name']?></td>
-			   <td style="text-align: center;">&nbsp;<?php echo$row['create_date']?></td>
+		   <tr style="font-size: 10px;" align="center">
+			   <td><?php echo $key+1; ?></td>
+		       <td ><?php echo $row['client_number']?></td>
+			   <td><?php echo $row['name_kh']." - ".$row['name_en']?></td>
+			   <td ><?php echo $row['sex']?></td>
+			   <td ><?php echo $row['branch_name']?></td>
+			   <td ><?php echo $row['phone']?></td>
+			   <td ><?php echo $row['house'].", ".$row['street'].", ".$row['village_name'].", ".$row['com_name'].", ".$row['dis_name'].", ".$row['pro_name']?></td>
+			   <td ><?php echo$row['spouse_name']?></td>
+			   <td ><?php echo$row['create_date']?></td>
 		   </tr>
 		  <?php }?>
 

@@ -29,8 +29,8 @@
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_name'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_name'];?></label></h2>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -52,19 +52,19 @@
             </table>
         	<table id="exportExcel"  align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th><?php echo $tr->translate("BR_ID");?></th>
-				        <th><?php echo $tr->translate("BRANCH_KHMER");?></th>
-				        <th><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
-				        <th><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
-				        <th><?php echo $tr->translate("BRANCH_CODE");?></th>
-				        <th><?php echo $tr->translate("BRANCH_TEL");?></th>
-				        <th><?php echo $tr->translate("FAX");?></th>
-				        <th><?php echo $tr->translate("OTHER");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BR_ID");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_CODE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_TEL");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FAX");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></th>
 				    </tr>
 					<?php 
 					if(!empty($this->branch_list)) foreach($this->branch_list as $key =>$row){
 					 	?>
-					     <tr align="center">
+					     <tr style="font-size: 10px;" align="center" >
 					        <td><?php echo $key+1; ?></td>
 					        <td><?php echo $row['branch_namekh']?></td>
 					        <td><?php echo $row['branch_nameen']?></td>

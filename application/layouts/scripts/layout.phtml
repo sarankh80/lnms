@@ -146,9 +146,9 @@ function preview()
   var docprint=window.open("","",disp_setting); 
    docprint.document.open(); 
    docprint.document.write('<html><head>'); 
-   docprint.document.write('</head><body style="margin:0px; font-family:Verdana; font-size:16px !important;"><center>');          
+   docprint.document.write('</head><div style=" font-size:16px !important; margin:0px; font-family:Verdana;"><style>table th {font-size:14px !important;} table td{font-size:12px !important;}</style><center>');          
    docprint.document.write(content_vlue);          
-   docprint.document.write('</center></body></html>'); 
+   docprint.document.write('</center></div></html>'); 
    docprint.document.close(); 
    docprint.focus(); 
 }

@@ -65,35 +65,41 @@ class Report_LoanController extends Zend_Controller_Action {
   	 
   }
   function rptLoancollectAction(){//list payment that collect from client
-  	$db  = new Report_Model_DbTable_DbLoan();
-  	try {
+  	$dbs = new Report_Model_DbTable_DbloanCollect();
+  	$frm = new Application_Form_FrmSearchGlobal();
+//   	$key = new Application_Model_DbTable_DbKeycode();
+//   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   		if($this->getRequest()->isPost()){
-  			$search = array(
-  					'start_date'=> date('Y-m-01'),
-  					'end_date'=>date('Y-m-d'));
-  		}else{
-  			$search = array(
-  					'start_date'=> date('Y-m-01'),
-  					'end_date'=>date('Y-m-d'));
+  			$search = $this->getRequest()->getPost();
+  			
+  			if(isset($search['btn_search'])){
+  				$this->view->tran_schedule=$dbs->getAllLnClient($search);
+  				Application_Model_Decorator::removeAllDecorator($frm);
+  				//.print_r($frm->FrmSearchLoadSchedule($search));
+  				$this->view->form_filter = $frm->FrmSearchLoadSchedule($search);
+  			}
   		}
-  
-  	}catch(Exception $e){
-  	}
-  	
-  	$this->view->loancllect_list = $db->getALLLoancollect($search);
-  	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	if($this->getRequest()->isPost()){
-  		$search = $this->getRequest()->getPost();
-  		if(@$search["exportexcel"]== 1){
-	  		$collumn = array("id","loan_number","client_name","branch_id","co","total_principal","total_interest",
-	  							"STATUS","total_payment","date_payment");
-	  		$this->exportFileToExcel('ln_staff',$db->getALLLoancollect(),$collumn);
-  		}elseif(!empty($search['txtsearch'])){
-  			//print_r($search);exit();
-  			$this->view->loancllect_list = $db->getALLLoancollect($search);
-  		}
-  	}
+  		else{
+  			$search = array(
+  					'from_date'=> date('Y-m-d'),
+  					'to_date'=>date('Y-m-d'));
+  			$this->view->tran_schedule=$dbs->getAllLnClient($search);
+  		
+  		$row = $dbs->getAllLnClient($search);
+  		$this->view->tran_schedule=$row;
+  		
+
+	
+	  	
+  		}	
+	  	$db = new Application_Model_DbTable_DbGlobal();
+	  	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
+	  	$this->view->client =$rs;
+  		
+	  	
+	  	$form = $frm->FrmSearchLoadSchedule();
+	  	Application_Model_Decorator::removeAllDecorator($form);
+	  	$this->view->form_filter = $form;
   }
   function rptGroupDisburseAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
