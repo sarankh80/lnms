@@ -73,21 +73,21 @@ margin: -4px 4px 0 4px;
 	</tr>
 	<tr>
 	   <td>
-			  <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;" bordercolor="black">
-                 <tr bgcolor="#BBBBBB" >
-		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("លរ");?></th>
-		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
-		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("លេខឥណទាន");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPAL");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ការ");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
+			  <table id="exportExcel"  border="1" width="100%" style="border-collapse:collapse;" bordercolor="black">
+                 <tr bgcolor="#BBBBBB">
+		        	<th style=" font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("លរ");?></th>
+		        	<th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?></th>
+		        	<th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("CO");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("លេខឥណទាន");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("PRINCIPAL");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ការ");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
+		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("DATE");?></th>
 		         </tr>
 		         <?php if(!empty($this->loancllect_list)) foreach($this->loancllect_list as $key =>$row){?>
-				   <tr style="font-size: 10px;" align="center">
+				   <tr style="font-size: 10px;" align="left">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['branch_id']?></td>
 				     <td>&nbsp;<?php echo $row['co'].' '.$row['co_name'];?></td>
@@ -102,7 +102,7 @@ margin: -4px 4px 0 4px;
 					</tr>
 				<?php }?>
 		        <?php for($i=0;$i<=7;$i++){?>
-		        <tr align="center">
+		        <tr align="left">
 		        	<td><?php echo $i+1;?></td>
 		            <td></td>
 		            <td></td>
@@ -171,22 +171,22 @@ margin: -4px 4px 0 4px;
 	    	<td>
 	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" bgcolor="#BBBBBB">
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">លរ</td>
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លរ</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
 	                    
 	                    
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
-	                    <td colspan="3" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
-	                    <td rowspan="2" style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
+	                    <td colspan="3" style=" font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
 	                </tr>
-	                <tr class="style" align="center" bgcolor="#BBBBBB">
+	                <tr class="style" bgcolor="#BBBBBB">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
-	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
-	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
-	                    <td style="text-align:center; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
+	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
+	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
+	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-size:10px; height: 20px;" class="style">

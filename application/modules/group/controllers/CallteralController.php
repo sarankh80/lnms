@@ -48,6 +48,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 				$db = $db_call->addcallteral($calldata);
 				if(!empty($calldata['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					
 				}else{
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/Callteral/index');
 				}

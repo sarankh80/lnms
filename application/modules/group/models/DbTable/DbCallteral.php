@@ -103,7 +103,6 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	}
 	function geteAllcallteral($search=null){
 		$db = $this->getAdapter();
-		
 		$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
 		$where = " WHERE ".$from_date." AND ".$to_date;
