@@ -261,7 +261,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_total_payment->setValue($data["total_payment"]);
 			$_priciple_amount->setValue($data["principal_amount"]);
 			$_os_amount->setValue($data["total_principal_permonth"]);
-			$discount->setValue($data["total_discount"]);
+// 			$discount->setValue($data["total_discount"]);
 			$_rate->setValue($data["total_interest"]);
 			$_note->setValue($data["note"]);
 			$date_input->setValue($data["date_input"]);
@@ -269,6 +269,10 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_service_charge->setValue($data["service_charge"]);
 			$reciever->setValue($data["receiver_id"]);
 			$_currency_type->setValue($data["currency_type"]);
+			$amount_payment_term->setValue($data["amount_term"]);
+			$_interest_rate->setValue($data["interest_rate"]);
+			$_payterm->setValue($data["collect_typeterm"]);
+			$_collect_date->setValue($data["date_pay"]);
 		}
 		$this->addElements(array($installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
