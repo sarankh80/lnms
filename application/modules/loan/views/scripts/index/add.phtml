@@ -677,7 +677,8 @@ function addPreviewLoan(){
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
-				temp='';	fund_title=0;thead='';
+				temp='';	fund_title=0;thead='';fund_title=0;
+				dojo.query("#head_title").append('');
 				for(i=0;i<data.length;i++){
 					
 					if(fund_title!=1){
