@@ -65,13 +65,19 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     }
 	function getIlPaymentByID($id){
 		$db = $this->getAdapter();
-		$sql="SELECT * FROM `ln_client_receipt_money` WHERE id = $id";
+		$sql="SELECT 
+				  crm.*,
+				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS amount_term,
+				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS collect_typeterm,
+				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `interest_rate`
+				FROM
+				  `ln_client_receipt_money` AS crm 
+				WHERE id = $id";
 		return $db->fetchRow($sql);
 	}
 	public function getIlDetail($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT 
-				  
 				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id LIMIT 1) AS `currency_type`,
 				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
 				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
@@ -86,13 +92,14 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql="SELECT
 	
-		(SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = crmd.`crm_id` LIMIT 1) AS `currency_type`,
-		(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
-		(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
-		crmd.*
+			(SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = crmd.`crm_id` LIMIT 1) AS `currency_type`,
+			(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
+			(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
+			crmd.*
 		FROM
-		`ln_client_receipt_money_detail` AS crmd WHERE crmd.`crm_id` = $id";
-		return $db->fetchAll($sql);
+			`ln_client_receipt_money_detail` AS crmd WHERE crmd.`crm_id` = $id";
+		return $sql;
+		//return $db->fetchAll($sql);
 	}
     function getTranLoanByIdWithBranch($id){
 //     	$sql = "SELECT lg.g_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lm.payment_method,
@@ -313,7 +320,6 @@ public function addILPayment($data){
     			'co_id'							=>		$data['co_id'],
     			'group_id'						=>		$data["client_id"],
     			'receiver_id'					=>		$data['reciever'],
-    			//'receipt_no'					=>		$reciept_no,
     			'branch_id'						=>		$data['branch_id'],
     			'loan_number'					=>		$data['loan_number'],
     			'date_pay'						=>		$data['collect_date'],
@@ -330,6 +336,7 @@ public function addILPayment($data){
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
+    			'amount_payment'				=>		1,
     			
     		);
     		$this->_name = "ln_client_receipt_money";
