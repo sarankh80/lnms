@@ -3,6 +3,7 @@
 	echo $this->headTitle($tr->translate("BRANCH_LIST"));
 ?>	
 <?php $frm =  $this->frm_branch;?>
+<form method="post">
 <table style="float: right;">
 	
 	<tr>	
@@ -11,16 +12,12 @@
 	 	<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
 	 </tr>
 </table>
+</form>
+<br /><br /><br />
 <div style=" width:21cm; margin:0 auto;">
-<br />
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<style>
-.style{
-	line-height: 20px;font-size: 12px !important;
-	font-family: 'Khmer OS Battambang';
 
-}
-</style>
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">

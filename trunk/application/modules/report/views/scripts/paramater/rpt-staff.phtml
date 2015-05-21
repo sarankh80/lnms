@@ -4,6 +4,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <title><?php echo $tr->translate("Report Staff");?></title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<form method="post">
 <table style="float: right;">
 	<tr>
 		<td align="right">
@@ -13,8 +14,10 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		</td>
 	</tr>
 </table>
+</form>
+<br /><br /><br />
 <div style=" width="100%"  margin:0 auto;">
-<br />
+
 <div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <style>
 .style{
@@ -51,24 +54,25 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             </table>
 			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
 		    	<tr bgcolor="#BBBBBB" >
-		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("NUM");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("STAFF_ID");?></th>
-		            <th​​ style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("STAFF_NAME");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("SEX");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'" >&nbsp;<?php echo $tr->translate("PHONE");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("NATIONAL_ID");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ADDRESS");?></th>
+		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_ID");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO_NAME");?></th>
+		            <th​​ style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_NAME");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SEX");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'" ><?php echo $tr->translate("PHONE");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NATIONAL_ID");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ADDRESS");?></th>
 		           <!-- <th>&nbsp;<?php //echo $tr->translate("DEGREE");?></th>-->
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("EMAIL");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("SALARY");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("START_DATE");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("END_DATE");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("EMAIL");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SALARY");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("START_DATE");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("END_DATE");?></th>
 		            <!--<th style="white-space:pre;">&nbsp;<?php //echo $tr->translate("NUMBER_OF_CONTROCT");?></th> 
 		            <th>&nbsp;Shift<class="MEF2"/th>
 		            <th style="white-space: pre;">&nbsp;<?php // echo $tr->translate("WORKING_HOUR");?></th>-->
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("POSITION");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?></th>
-		           <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("NOTE");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("POSITION");?></th>
+		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
+		           <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?></th>
 		         </tr>
 		       <?php if(!empty($this->staff_list))foreach($this->staff_list as $key =>$row){?>
 				   <tr style="font-size: 10px;" align="center">
