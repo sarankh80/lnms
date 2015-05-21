@@ -172,7 +172,7 @@
 	<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
 </form>
 <div class="dijitHidden">
-	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'របាយការណ៍ ប្តូរ', onCancel:hideDialog" id="terms" >
+	<div data-dojo-type="dijit.Dialog" style="width:8cm;" data-dojo-props="title:'របាយការណ៍ ប្តូរ', onCancel:hideDialog" id="terms" >
 		<div id="divPrint" style="width: 7cm; padding: 0px; margin: 0px;">
 			<style>
 				.fontbig{
@@ -191,7 +191,7 @@
 					   	<table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
 					   			<td width="36%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td width="35%" align="center"><strong style="font-size:16px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
+						   		<td width="35%" align="center"><strong style="font-size:12px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['exchange_reciept'];?></strong></td>
 								<td width="32%" rowspan="2" style="valign:top;"><img style="align:top; float:right;" src="<?php echo $base_url;?>images/logo-right.png" height="34px;"/></td>
 							</tr>
 							<tr>
@@ -206,95 +206,10 @@
 				   <tr>
 						<td align="center" colspan="3" style="font-size: 8pt;">
 							<?php echo $this->keycode['rpt-transfer-business-meaning-eng'];?><br/>
-							<?php echo $this->keycode['rpt-transfer-location-adr-kh'];?><br/>
-							<strong class="fontbig"><?php echo $this->keycode['rpt-transfer-tel-eng'];?></strong>
+							<?php echo $this->keycode['branch-add-client'];?><br/>
+							<strong class="fontbig"><?php echo $this->keycode['tel-client'];?></strong>
 						</td>
 				   </tr>
-				   <?php /*
-				   <tr>
-					   	<td align="center" colspan="3">	
-				            <strong class="fonttel"><label id="lblinvioice">ប័ណ្ណ​ប្តូរប្រាក់</label></strong>		
-			            </td>	   	        
-				   </tr> 
-				   <tr>
-						<td class="pleft">
-							Nº: <?php echo $this->inv_no;?>
-						</td>
-						<td align="right" colspan="2">
-							ឈ្មោះបុគ្គលិក៖ <?php print($this->user_name);?>
-						</td>
-				   </tr>
-				   <tr>
-						<td>
-							ចំនួន​ទឹក​ប្រាក់ប្តូរ
-						</td>
-						<td>:</td>
-						<td align="right">
-							<strong class="fontbig"><label id="rpt_from_amount"></label></strong>
-						</td>
-				   </tr>
-				   <tr>
-						<td>
-							អត្រាប្តូរប្រាក់
-						</td>
-						<td>:</td>
-						<td align="right">
-							<strong class="fontbig"><label id="rpt_rate"></label></strong>
-						</td>
-				   </tr>
-				   <tr>
-						<td>
-							ចំនួន​ទឹក​ប្រាក់សរុប
-						</td>
-						<td>:</td>
-						<td align="right">
-							<strong class="fontbig"><label id="rpt_to_amount"></label></strong>
-						</td>
-				   </tr>
-				   <tr>
-						<td>
-							ចំនួន​ទឹក​ប្រាក់ទទួល
-						</td>
-						<td>:</td>
-						<td align="right">
-							<strong class="fontbig"><label id="rpt_recieve"></label></strong>
-						</td>
-				   </tr>
-				   <tr>
-						<td>
-							ចំនួន​ទឹក​ប្រាក់អាប់
-						</td>
-						<td>:</td>
-						<td align="right">
-							<strong class="fontbig"><label id="rpt_change"></label></strong>
-						</td>
-				   </tr>
-				   <tr>
-						<td colspan="3" align="center">
-							<label>
-								<?php echo $this->keycode['rpt-transfer-warnning-kh'];?>
-							</label>
-						</td>			
-				   </tr>
-				   <tr style="border:1px solid #000;">
-						<td colspan="3" align="center" style="border:1px solid #000;">
-								<?php echo $this->keycode['comment'];?>
-						</td>			
-				   </tr>
-				   <tr>
-						<td colspan="3"><br />
-							<hr style="background: transparent; border-left:  none;	border-right: none;	border-top:   none;
-								border-bottom: 2px dashed #000;" />
-						</td>			
-				   </tr>
-				   <tr>
-						<td>
-							<img src="<?php echo $base_url.$this->keycode['imgPath'];?>" width="50%"/>
-						</td>	
-						<td align='right'  valign="top" colspan="2">
-							<?php echo date("d/m/Y H:i:s");?>
-						</td>
-				   </tr> */?>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
 						<td class="pleft" style="border-bottom:1px solid #000;">
 							<strong class="fonttel" style="font-size:10px;"><label id="lblinvioice">ប័ណ្ណ​ប្តូរប្រាក់</label></strong>
@@ -351,7 +266,8 @@
 				   <tr>
 						<td colspan="3" align="center" style="border-top:1px solid #000;">
 							<label>
-								<?php echo $this->keycode['rpt-transfer-warnning-kh'];?>
+							here
+								<?php //echo $this->keycode['rpt-transfer-warnning-kh'];?>
 							</label>
 						</td>			
 				   </tr>
@@ -367,7 +283,7 @@
 				   </tr>
 				   <tr>
 						<td>
-							<img src="<?php echo $base_url.$this->keycode['imgPath'];?>" width="50%"/>
+							<img src="<?php echo $base_url.$this->keycode['logo-path-name'];?>" width="50%"/>
 						</td>	
 						<td align='right'  valign="top" colspan="2">
 							<?php echo date("d/m/Y H:i:s");?>

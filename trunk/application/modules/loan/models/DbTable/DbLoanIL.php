@@ -289,13 +289,15 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$start_date = $next_payment;
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    						$interest_paymonth = $remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
+ 
+    						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     						$interest_paymonth = $remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
     						
     					}else{
     						$next_payment = $data['first_payment'];
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-//     						$interest_paymonth = ($data['total_amount'])*($data['interest_rate']/100)*($amount_day/$day_perterm);
-    						$interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
+    						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     						$interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
     					}
     				}elseif($payment_method==2){//baloon
     					$pri_permonth=0;
@@ -312,7 +314,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$next_payment = $data['first_payment'];
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     					}
-    					$interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
+    					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
     					
     				}elseif($payment_method==3){//fixed rate
     					$pri_permonth = ($data['total_amount']/($amount_borrow_term/$amount_fund_term));
@@ -328,9 +331,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$next_payment = $data['first_payment'];
     					}
     					    $amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-//     						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100)*($amount_day/$day_perterm);
-    					    $interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm);
-//     						$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);////for roundup
+    					    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					    $interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm);
     						
     				}elseif($payment_method==4){//fixed payment full last period yes
     					if($i!=1){
@@ -343,7 +345,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$next_payment = $data['first_payment'];
     					}
     					$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    					$interest_paymonth = $remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
+    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = $remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
     					$interest_paymonth = $this->round_up_currency($curr_type, $interest_paymonth);
     					$pri_permonth = $data['amount_collect_pricipal']-$interest_paymonth;
     					if($i==$loop_payment){//for end of record only
@@ -369,12 +372,14 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     							$start_date = $next_payment;
     							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
     							$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    							$interest_paymonth = ($remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
+    							$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     							$interest_paymonth = ($remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
     					}else{
     						$pri_permonth = 0;//check if get pri first too much change;
     						$next_payment = $data['first_payment'];
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    						$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
+    						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     						$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
     					}
     				}else{//    fixed payment with fixed rate
     					    $pri_permonth = $data['total_amount']/$data['period']*$amount_collect;
@@ -391,7 +396,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					    			$next_payment = $data['first_payment'];
     					    	}
     					    			$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    					    			$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)/$data['period']*($day_perterm/$day_perterm));
+    					    			$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					    			$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)/$data['period']*($day_perterm/$day_perterm));
+    					    			
     				}
     				$old_remain_principal =$old_remain_principal+$remain_principal;
     				$old_pri_permonth = $old_pri_permonth+$pri_permonth;
@@ -436,32 +443,38 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				$amount_day = $amount_day = $dbtable->CountDayByDate($start_date,$data['date_line']);
     				if($payment_method==1){
     					$pri_permonth = $remain_principal-$pri_permonth; // $pri_permonth*($amount_day/$amount_fund_term);//check it if khmer currency
-    					$interest_paymonth = ($pri_permonth*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
+    					$interest_paymonth = $pri_permonth*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($pri_permonth*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     				}elseif($payment_method==2){
 //     					$pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
 //     					$pri_permonth = ($curr_type==1)? round($pri_permonth,-2): round($pri_permonth);
     					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
     					$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-    					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
+    					$interest_paymonth = $pri_permonth*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     				}elseif($payment_method==3){
     					$pri_permonth = $remain_principal-$pri_permonth;
-    					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
+    					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
 //     					$pri_permonth = $this->round_up_currency($curr_type,$pri_permonth);
     				}elseif($payment_method==4){
-    					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
+    					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     					$pri_permonth = $remain_principal-$pri_permonth;
     				}elseif($payment_method==5){
     					$pri_permonth = $remain_principal;
-    					$interest_paymonth = ($remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
+    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     				}elseif($payment_method==6){
     					$pri_permonth = $pri_permonth*($amount_day/$amount_fund_term);//if odd number 
 //     					$pri_permonth = $this->round_up_currency($curr_type,$pri_permonth);
-    					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
+    					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
+//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     				}
     				
