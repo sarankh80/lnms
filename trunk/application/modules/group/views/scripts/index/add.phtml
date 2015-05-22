@@ -61,15 +61,16 @@ dojo.require("dijit.form.Textarea");
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td><?php  echo $frm->getElement('client_d_type');?></td>
+							<td></td>
 							<td><?php  echo $frm->getElement('national_id');?></td>
 							<td><?php echo $tr->translate("JOB_TYPE")?></td>
 							<td><?php echo $frm->getElement('job');?></td>
-							<td><?php echo $tr->translate("PHONE")?></td>
-							<td><?php  echo $frm->getElement('phone');?></td>
+							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("PHOTO")?></td>
-							<td><?php echo $frm->getElement('photo');?></td>
+						<td><?php echo $tr->translate("PHONE")?></td>
+							<td><?php  echo $frm->getElement('phone');?></td>
 							<td><?php echo $tr->translate("PROVINCE")?>*</td>
 							<td><?php echo $frm->getElement('province');?></td>
 							<td><?php echo $tr->translate("DISTRICT")?></td>
@@ -86,28 +87,36 @@ dojo.require("dijit.form.Textarea");
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("HOUSE")?></td>
-							<td><?php  echo $frm->getElement('house');?></td>
-							<td><?php echo $tr->translate("JOIN_WITH")?></td>
-							<td><?php  echo $frm->getElement('join_with');?></td>
+							<td><?php  echo $frm->getElement('house');?></td>							
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td><?php  echo $frm->getElement('join_d_type');?></td>
+							<td></td>
 							<td><?php  echo $frm->getElement('join_nation_id');?></td>
 							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("JOIN_WITH")?></td>
+							<td><?php  echo $frm->getElement('join_with');?></td>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php  echo $frm->getElement('relate_with');?></td>
 							<td><?php echo $tr->translate("TEL")?></td>
-							<td><?php  echo $frm->getElement('relate_tel');?></td>
-							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
-							<td><?php echo $frm->getElement('spouse');?></td>							
+							<td><?php  echo $frm->getElement('relate_tel');?></td>														
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
+							<td><?php echo $frm->getElement('spouse');?></td>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td><?php echo $frm->getElement('spouse_nationid');?></td>
+							<td><?php echo $frm->getElement('guarantor_d_type');?></td>
+							<td></td>
+							<td><?php echo $frm->getElement('spouse_nationid');?></td>						
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php  echo $frm->getElement('guarantor_with');?></td>
 							<td><?php echo $tr->translate("TEL")?></td>
 							<td><?php  echo $frm->getElement('guarantor_tel');?></td>
+							<td><?php echo $tr->translate("GUARANTOR_ADDRESS")?></td>
+							<td><?php  echo $frm->getElement('guarantor_address');?></td>
 							
 						</tr>
 						<tr>
@@ -117,6 +126,10 @@ dojo.require("dijit.form.Textarea");
 							<td><?php  echo $frm->getElement('desc');?></td>
 							<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
 							<td valign="top"><?php  echo $frm->getElement('chackcall');?></td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("PHOTO")?></td>
+							<td><?php echo $frm->getElement('photo');?></td>
 						</tr>
 						<tr>
 							<td colspan="6" align="center">

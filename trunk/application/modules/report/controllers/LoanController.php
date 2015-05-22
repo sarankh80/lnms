@@ -519,6 +519,32 @@ function rptPaymentschedulesAction(){
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_loan = $frm;
  }
- 
+ function rptWritoffAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$search = $this->getRequest()->getPost();
+ 		if(isset($search['btn_search'])){
+ 			$this->view->LoanCollectionco_list =$db->getALLWritoff($search);
+ 		}
+ 	}else{
+ 		$search = array(
+ 				'adv_search'=>'',
+ 				'branch' => '',
+ 				'client_name' =>'',
+ 				'client_code'=>'',
+ 				'Term'=>'',
+ 				'status' =>'',
+ 				'cash_type'=>'',
+ 				'start_date'=> date('Y-m-01'),
+ 				'end_date'=>date('Y-m-d'));
+ 		$this->view->LoanCollectionco_list =$db->getALLWritoff($search);
+ 	}
+ 	$fm = new Loan_Form_Frmbadloan();
+ 	$frm = $fm->FrmBadLoan();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_loan = $frm;
+ }
 }
 

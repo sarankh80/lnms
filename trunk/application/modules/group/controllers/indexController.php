@@ -43,7 +43,10 @@ class Group_indexController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'group','controller'=>'index','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+			$link1=array(
+					'module'=>'group','controller'=>'index','action'=>'view',
+			);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_number'=>$link1,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -68,6 +71,7 @@ class Group_indexController extends Zend_Controller_Action {
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
+				//print_r($data);exit();
 				$db = new Group_Model_DbTable_DbClient();
 				try{
 				 if(isset($data['save_new'])){
@@ -123,6 +127,7 @@ class Group_indexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
+				//print_r($data);exit();
 				$db->addClient($data);
 				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
 			}catch (Exception $e){

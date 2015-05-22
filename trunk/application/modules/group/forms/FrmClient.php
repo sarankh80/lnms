@@ -136,6 +136,38 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$opt_status = $db->getVewOptoinTypeByType(5,1);
 		$_situ_status->setMultiOptions($opt_status);
 		
+		$client_d_type = new Zend_Dojo_Form_Element_FilteringSelect('client_d_type');
+		$client_d_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_client_d_type= $db->getVewOptoinTypeByType(23,1);
+		$client_d_type->setMultiOptions($opt_client_d_type);
+		
+		$join_d_type = new Zend_Dojo_Form_Element_FilteringSelect('join_d_type');
+		$join_d_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_join_d_type= $db->getVewOptoinTypeByType(23,1);
+		$join_d_type->setMultiOptions($opt_join_d_type);
+		
+		$guarantor_d_type = new Zend_Dojo_Form_Element_FilteringSelect('guarantor_d_type');
+		$guarantor_d_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_guarantor_d_type= $db->getVewOptoinTypeByType(23,1);
+		$guarantor_d_type->setMultiOptions($opt_guarantor_d_type);
+		
+		$guarantor_address = new Zend_Dojo_Form_Element_TextBox('guarantor_address');
+		$guarantor_address->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		///////////////////////////////////
+		
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province');
 		$_province->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -290,7 +322,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_id->setValue($data['client_id']);
 			$_group_code->setValue($data['group_code']);
 			$job->setValue($data['job']);
-			$national_id->setValue($data['id_number']);
+			$national_id->setValue($data['nation_id']);
 			$spouse_nationid->setValue($data['spouse_nationid']);
 			$_join_with->setValue($data['join_with']);
 			$_join_nation_id->setValue($data['join_nation_id']);
@@ -298,10 +330,13 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_releted->setValue($data['relate_with']);
 			$_guarantor_with->setValue($data['guarantor_with']);
 			$_guarantor_tel->setValue($data['guarantor_tel']);
-			
+			$client_d_type->setValue($data['client_d_type']);
+			$join_d_type->setValue($data['join_d_type']);
+			$guarantor_d_type->setValue($data['guarantor_d_type']);
+			$guarantor_address->setValue($data['guarantor_address']);
 // 			print_r($data);
 		}
-		$this->addElements(array($_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($client_d_type,$join_d_type,$guarantor_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno));
 		return $this;

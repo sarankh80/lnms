@@ -516,10 +516,13 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     	(SELECT name_en FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
   		l.loss_date, l.`cash_type`,(SELECT c.symbol FROM `ln_currency` AS c WHERE c.status = 1 AND c.id = l.`cash_type`) AS currency_typeshow,
 		l.total_amount ,l.intrest_amount ,CONCAT (l.tem,' Days')as tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b 
-		WHERE b.br_id = l.branch";    	
+		WHERE b.br_id = l.branch AND l.is_writoff= 0";    	
     	$where='';
     	if(($search['status']>0)){
     		$where.=" AND l.status =".$search['status'];
+    	}
+    	if(!empty($search['start_date']) or !empty($search['end_date'])){
+    		$where.=" AND l.date BETWEEN '$start_date' AND '$end_date'";
     	}
     	if(!empty($search['branch'])){
     		$where.=" AND b.br_id = ".$search['branch'];
@@ -548,6 +551,53 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     	$order = ' ORDER BY l.`cash_type` ';
 //     	echo $sql.$where;
     	return $db->fetchAll($sql.$where.$order);
+      }
+      public function getALLWritoff($search=null){
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      
+      	$db = $this->getAdapter();
+      	 
+      	$sql = "SELECT l.id,b.branch_namekh,
+    	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',
+    	(SELECT name_en FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
+  		l.loss_date, l.`cash_type`,(SELECT c.symbol FROM `ln_currency` AS c WHERE c.status = 1 AND c.id = l.`cash_type`) AS currency_typeshow,
+		l.total_amount ,l.intrest_amount ,CONCAT (l.tem,' Days')as tem,l.note,l.date,l.status FROM `ln_badloan` AS l,ln_branch AS b
+		WHERE b.br_id = l.branch AND l.is_writoff=1";
+      	$where='';
+      	if(($search['status']>0)){
+      		$where.=" AND l.status =".$search['status'];
+      	}
+      	if(!empty($search['branch'])){
+      		$where.=" AND b.br_id = ".$search['branch'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND l.date BETWEEN '$start_date' AND '$end_date'";
+      	}
+      	if(!empty($search['client_name'])){
+      		$where.=" AND l.client_code = ".$search['client_name'];
+      	}
+      	if(!empty($search['client_code'])){
+      		$where.=" AND l.client_code = ".$search['client_code'];
+      	}
+      	if(!empty($search['Term'])){
+      		$where.=" AND l.tem = ".$search['Term'];
+      	}
+      	if(!empty($search['cash_type'])){
+      		$where.=" AND l.`cash_type` = ".$search['cash_type'];
+      	}
+      	if(!empty($search['adv_search'])){
+      		$s_where=array();
+      		$s_search=$search['adv_search'];
+      		$s_where[]=" l.note LIKE '%{$s_search}%'";
+      		$s_where[]=" total_amount LIKE '%{$s_search}%'";
+      		$s_where[]=" intrest_amount LIKE '%{$s_search}%'";
+      		$s_where[]=" l.tem = '{$s_search}' ";
+      		$where .=' AND ('.implode(' OR ',$s_where).' )';
+      	}
+      	$order = ' ORDER BY l.`cash_type` ';
+      	//     	echo $sql.$where;
+      	return $db->fetchAll($sql.$where.$order);
       }
  }
 
