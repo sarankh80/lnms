@@ -289,7 +289,6 @@ function showReciept(){
 	 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
 	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
 	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
-	 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
 	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
 	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
 	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
@@ -421,7 +420,7 @@ function submitData(){
 				
 			},
 			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+				//alert("Your message could not be sent, please try again!.");
 			}
 		});
 }
@@ -467,7 +466,7 @@ function trRow(x){
 	if(pay_option==1){
 		dijit.byId('identity').attr('value',1);
 		if(x==1){
-			alert(x);
+			//alert(x);
 			document.getElementById('tr_'+x).style.background='none';
 			$('#mfdid_'+x).attr('checked',true);
 			$('#mfdid_'+x).attr('onclick',"return true", 'onkeydown',"return true");
@@ -628,11 +627,11 @@ function getLaonPayment(type){
 				calculateTotal();
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}	
 }
 
@@ -706,7 +705,7 @@ function getAllLaonPayment(types){
 				dojo.byId('data_table1').innerHTML = tmp;
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 }
@@ -728,7 +727,7 @@ function getLastPayDate(){
 			}
 		},
 		error: function(e) {
-			alert(e);
+			//alert(e);
 		}
 	});
 }
@@ -783,7 +782,7 @@ if(arrays!=""){
 			}else{
 				total_late_day = late_day;
 			}
- 			alert(total_late_day);
+ 			//alert(total_late_day);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
@@ -943,7 +942,7 @@ if(arrays!=""){
 		$('#check_all').attr('checked');
 	}
 }catch(err){
-	alert(err.message);
+	//alert(err.message);
 }
 }
 
@@ -988,7 +987,7 @@ function checkAll(index){
     				}else{
     					total_late_day = late_day;
     				}
-    	 			alert(total_late_day);
+    	 			//alert(total_late_day);
     				if(total_late_day>0){
     					dijit.byId('option_pay').attr('value',1);
     					dijit.byId('option_pay').attr('readOnly',true);

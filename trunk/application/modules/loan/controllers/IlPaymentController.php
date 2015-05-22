@@ -59,7 +59,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
   	$db = new Loan_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			print_r($_data);exit();
+			//print_r($_data);exit();
 			$identify = $_data["identity"];
 			try {
 				if($identify==""){
