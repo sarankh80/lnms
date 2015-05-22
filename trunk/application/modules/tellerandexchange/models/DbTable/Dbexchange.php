@@ -82,7 +82,32 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		if($search['user_id']>0){
 			$where.=" AND user_id = ".$search['user_id'];
 		}
+		$order=' ORDER BY e.id';
 		//echo $sql.$where;
+		return $db->fetchAll($sql.$where);
+	}
+	function getAllSigleExchange($search){
+		$db = $this->getAdapter();
+		$from_date =(empty($search['from_date']))? '1': "e.statusDate >= '".$search['from_date']." 00:00:00'";
+		$to_date = (empty($search['to_date']))? '1': "e.statusDate <= '".$search['to_date']." 23:59:59'";
+		$where = " WHERE ".$from_date." AND ".$to_date;
+		if($search['user_id']>0){
+			$where.=" AND user_id = ".$search['user_id'];
+		}
+		$sql = "SELECT
+		e.`id`,
+		DATE_FORMAT(e.`statusDate`,'%d/%m/%Y') as `statusDate`,
+		e.`from_to`,
+		e.`fromAmount`,
+		e.`rate`,
+		e.`toAmount`,
+		e.`recievedAmount`,
+		e.`changedAmount`,
+		e.status
+		FROM
+		`ln_xchange` AS e ";
+		
+		$order=' ORDER BY e.id';
 		return $db->fetchAll($sql.$where);
 	}
 	function getExchangeDetail($id){

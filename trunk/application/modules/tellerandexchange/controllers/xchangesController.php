@@ -30,16 +30,17 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 				);
 			}
 			$this->view->list_search=$search;
-			$rs_row= $db->getAllExchangeListMulti($search);
+// 			$rs_row= $db->getAllExchangeListMulti($search);
+			$rs_row= $db->getAllSigleExchange($search);
 			
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("ឈ្មោះអតិថិជន","ថ្ងៃ​ប្រតិបត្តិ","វិ.បត្រ","ការប្តូរប្រាក់","ទិញចូល","អត្រាប្តូរប្រាក់","លក់ចេញ","ប្រាក់​ទទួល​បាន​","ប្រាក់​អាប់","TYPE","STATUS");
+			$collumns = array("DATE","EXCHANGE","FROM_AMOUNT","អត្រាប្តូរប្រាក់","ចំនួនទឹកប្រាក់បានប្តូររួច​","ប្រាក់ទទួលបាន","ប្រាក់​អាប់","STATUS");
 			$link=array(
 					'module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name'=>$link,'invoice_code'=>$link,'date'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('statusDate'=>$link,'from_to'=>$link,'fromAmount'=>$link));
 		  
 			$usr_mod = new Application_Model_DbTable_DbUsers();
 			$this->view->users = $usr_mod->getUserListSelect();
@@ -71,18 +72,14 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 		
 		$this->view->currency = $this->_helpfilteroption($currency);
 		
-		
 		$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
-		
 		
 		if($this->getRequest()->isPost()){
 			$formdata=$this->getRequest()->getPost();	
-			//print_r($formdata);exit();
 			$db_exc=new Tellerandexchange_Model_DbTable_DbxChangeMoney();	
 			try {
 				$id = $db_exc->save($formdata);
-				
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
+				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/add');
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
@@ -136,7 +133,7 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
  		
  		try {
  			$formdata['id']=$id;
- 				$id = $db_exc->updateExchange($formdata);
+ 				$id = $db_exc->editExchange($formdata);
  				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/index/add');
  			
  			
@@ -159,13 +156,12 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
  	$currency = $cur->getCurrencyList();
  	
  	$this->view->currency = $this->_helpfilteroption($currency);
- 	
  	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
  	
- 	
  	$rs=$db_exc->getxchangById($id);
- 	//print_r($rs);
- 	$this->view->rs=$rs;
+ 	print_r($rs);
+
+ 	$this->view->dataedit=$rs;
  }
  
 	protected function _helpfilteroption($data){
