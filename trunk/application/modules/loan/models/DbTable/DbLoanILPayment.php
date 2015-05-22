@@ -170,29 +170,37 @@ public function addILPayment($data){
     		$new_amount = $service_charge-$amount_receive;
     		$service_charge = $new_amount;
     		$interest_fun=$interest;
+    		
+    		print_r('amount_receive < service_charge :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     	}else{
     		$new_amount = $amount_receive-$service_charge;
+    		print_r('new amount:'.$amount_receive.'-'.$service_charge);
     		$service_charge=$new_amount;
     		if($new_amount<=$penalize){
     			$new_penelize = $new_amount-$penalize;
     			$penalize = $new_penelize;
     			$total_os = $data["os_amount"];
     			$interest_fun=$interest;
+    			
+    			print_r('new amount < penalize :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     		}else{
-    			$new_amount= $new_amount-$penalize;//
+    			$new_penelize= $new_amount-$penalize;//
     			$penalize=0;
     			if($new_penelize<=$interest){
     				$new_interest = $interest-$new_penelize;
     				$interest_fun=$new_interest;
     				$total_os = $data["os_amount"];
+    				print_r('new penalize < Interest :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     			}else{
     				$new_interest = $new_penelize - $interest;
     				$interest_fun=0;
     				$total_os= $data["os_amount"]-$new_interest;
+    				print_r('new penalize > Interest : service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     			}
     		}
     	}
-		
+    	print_r('<br />'.$amount_receive.$new_amount.'service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
+		//exit();
     	try{
     		$arr_client_pay = array(
     			'co_id'							=>		$data['co_id'],

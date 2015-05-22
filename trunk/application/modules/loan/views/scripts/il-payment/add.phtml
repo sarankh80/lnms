@@ -14,15 +14,54 @@
 	}
 </style>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-
 <form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+<script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
-				return true;
-			}else {
+				service_charge = dijit.byId('service_charge').get('value');
+				receive_amount = dijit.byId('amount_receive').get('value');
+				option_pay = dijit.byId('option_pay').get('value');
+				dijit.byId('total_payment').attr('value',total_amount);
+				total_payments = dijit.byId('total_payment').get('value');
+				if(option_pay==2 || option_pay==3 || option_pay==4){
+					if(receive_amount<total_payments){
+						alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
+						dijit.byId('amount_receive').focus();
+						return false;
+					}
+				}
+				if(option_pay==1){
+ 					if(receive_amount<service_charge){
+						alert('Recieve Amount Can not less than Service charge!!');
+						dijit.byId('amount_receive').focus();
+						return false;
+ 					}
+				}
+				if(receive_amount==""){
+					alert('Please fill Recieve Amount');
+					dijit.byId('amount_receive').focus();
+					return false;
+				}
+			
+			co_id = dijit.byId('co_id').get('value');
+			client = dijit.byId('client_id').get('value');
+           	branch_id = dijit.byId('branch_id').get('value');
+		    if (branch_id=='' || branch_id==-1){
+		  	   alert('Please Select Branch Name!');
+			   dijit.byId('branch_id').focus();
+			   return false;
+		    }
+			if (client=='' || client==-1){
+				alert('Please Select Client Name !');
+				dijit.byId('client_id').focus();
 				return false;
-			}
+			}if(co_id=='' || co_id==-1){
+				alert('Please Select CO Name !');
+				dijit.byId('co_id').focus();
+				return false;
+			} 
+		}
+			
 </script>
 <table cellspacing="10" class='fullside'>
 	<tr>
@@ -1190,19 +1229,21 @@ function totalReturn(){
 	
 	dijit.byId('total_payment').attr('value',total_amount);
 	total_payments = dijit.byId('total_payment').get('value');
-	if(option_pay==2 || option_pay==3 || option_pay==4){
-		if(receive_amount<total_payments){
-			alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
-			dijit.byId('submitButton').attr('disabled','disabled');
-			dijit.byId('saveprint').attr('disabled','disabled');
-		}else{
-			dijit.byId('submitButton').attr('disabled',false);
-			dijit.byId('saveprint').attr('disabled',false);
-		}
-	}else{
-		dijit.byId('submitButton').attr('disabled',false);
-		dijit.byId('saveprint').attr('disabled',false);
-	}
+// 	if(option_pay==2 || option_pay==3 || option_pay==4){
+// 		if(receive_amount<total_payments){
+// 			alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
+// 			dijit.byId('submitButton').attr('disabled','disabled');
+// 			dijit.byId('saveprint').attr('disabled','disabled');
+// 		}else{
+// 			dijit.byId('submitButton').attr('disabled',false);
+// 			dijit.byId('saveprint').attr('disabled',false);
+// 		}
+// 	}else{
+// // 		if(receive_amount<service_charge){
+// // 		}
+// 		dijit.byId('submitButton').attr('disabled',false);
+// 		dijit.byId('saveprint').attr('disabled',false);
+// 	}
 	amonut_return = receive_amount-total_payments;
 	if(amonut_return<0){
 		dijit.byId('amount_return').attr('value',0);
