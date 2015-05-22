@@ -75,7 +75,7 @@ class Group_indexController extends Zend_Controller_Action {
 				$db = new Group_Model_DbTable_DbClient();
 				try{
 				 if(isset($data['save_new'])){
-					$db->addClient($data);
+					echo $db->addClient($data);exit();
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
@@ -83,11 +83,11 @@ class Group_indexController extends Zend_Controller_Action {
 					}
 				}
 				else if (isset($data['save_close'])){
-					$db->addClient($data);
+					$id= $db->addClient($data);
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add");
+						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add/id/".$id);
 					}
 					Application_Form_FrmMessage::redirectUrl("/group/index");
 				}
