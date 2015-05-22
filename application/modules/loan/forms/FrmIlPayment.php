@@ -240,7 +240,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-		$id = new Zend_Form_Element_Hidden('id');
+		$id = new Zend_Form_Element_Text('id');
 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
 		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		

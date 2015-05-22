@@ -467,10 +467,13 @@ function trRow(x){
 	}
 	calculateTotal();
 }
+
 dojo.ready(function(){
 	getAllLaonPayment(1);
 	getPayment();
 	dijit.byId('currency_type').attr('readOnly','readOnly');
+	dijit.byId("option_pay").getOptions("4").disabled = true;
+	$("#option_pay option[value='4']").attr("disabled","disabled");
 });
 function getPayment(){
 	status='<label style="color:red;">នៅឡើយ</lable>';
@@ -486,7 +489,6 @@ function getPayment(){
 		+'<th class="tdheader">ប្រាក់ការ</th>'
 		+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
 		+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
-		+'<th class="tdheader">បញ្ចុះតម្លៃ</th>'
 		+'<th class="tdheader">ស្ថានភាព</th>'
 		+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
 	+'</thead>';
@@ -502,7 +504,7 @@ function getPayment(){
 	str_day = getDayString(d.getDay());
 	curr =getCurrencyType(<?php echo $r["currency_type"]?>);
 	
-	tem+= '<tr >';
+	tem+= '<tr id=tr_'+<?php echo $inx;?>+'>';
     tem += '<td>'+<?php echo $inx;?>+'<input type="hidden" name="curr" id="curr" value="<?php echo $r['currency_id']?>" /></td>';
     tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["lfd_id"];?>+'" OnChange="calculateTotal('+<?php echo $inx;?>+')" Checked="checked"/></td>';
     tem += '<td>&nbsp;<?php echo $r["client_number"];?>&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /></td>';
@@ -513,8 +515,7 @@ function getPayment(){
     tem += '<td>&nbsp;'+<?php echo $r["principal_permonth"];?>+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+<?php echo $inx;?>+'" id="principal_permonth_'+<?php echo $inx;?>+'" value="'+<?php echo $r["principal_permonth"];?>+'" /></td>';
     tem += '<td>&nbsp;'+<?php echo $r["total_interest"];?>+' '+curr+'&nbsp;<input type="hidden" name="interest_'+<?php echo $inx;?>+'" id="interest_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_interest"];?>+'" /></td>';
     tem += '<td>&nbsp;'+<?php echo $r["total_payment"];?>+' '+curr+'&nbsp;<input type="hidden" name="payment_'+<?php echo $inx;?>+'" id="payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
-    tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="hidden" name="pay_after_'+<?php echo $inx;?>+'" id="pay_after_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
-    tem += '<td>&nbsp;<?php echo $r["pay_before"];?><input type="hidden" name="pay_before_'+<?php echo $inx;?>+'" id="pay_before_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_before"];?>" /></td>';
+    tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="hidden" name="multiplier_'+<?php echo $inx;?>+'" id="multiplier_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
     if(<?php echo $r["is_completed"];?> == 1){
 		status = '<label style="color:blue;">បង់រួច</label>';
 		if(<?php echo $r["is_completed"];?>==1){is_appr='<label style="color:blue;">Approved</label>';}
