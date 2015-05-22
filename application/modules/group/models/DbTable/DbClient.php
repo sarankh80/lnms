@@ -55,6 +55,10 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'create_date' => date("Y-m-d"), 
 				'remark'	  => $_data['desc'],
 				'status'      => $_data['status'],
+				'client_d_type'      => $_data['client_d_type'],
+				'join_d_type'      => $_data['join_d_type'],
+				'guarantor_d_type'      => $_data['guarantor_d_type'],
+				'guarantor_address'      => $_data['guarantor_address'],
 				'user_id'	  => $this->getUserId()
 		);
 		if(!empty($_data['id'])){

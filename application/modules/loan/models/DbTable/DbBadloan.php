@@ -10,6 +10,11 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		if($_data['Term']<90){
+    			$writ_off = 0;
+    		}elseif($_data['Term']>=90) {
+    			$writ_off = 1;
+    		}
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_codeadd'],
@@ -23,7 +28,8 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
     			'status'=>$_data['status'],
-    			'create_by'=>$user_id
+    			'create_by'=>$user_id,
+    			'is_writoff'=>$writ_off    			
     			);
     	$this->insert($arr);//insert data
     	
@@ -45,6 +51,12 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$session_transfer=new Zend_Session_Namespace();
     	$session_user=new Zend_Session_Namespace('auth');
     	$user_id = $session_user->user_id;
+    	if($_data['Term']<90){
+    		$writ_off = 0;
+    	}elseif($_data['Term']>=90) {
+    		$writ_off = 1;
+    	}
+    	//print_r($_data);exit();
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
@@ -58,15 +70,22 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
     			'status'=>$_data['status'],
-    			'create_by'=>$user_id
+    			'create_by'=>$user_id,
+    			'is_writoff'=>$writ_off
     			);
-    	$where=" id = ".$_data['id'];
+    	$where=" id = ".$_data['id'];    	
     	$this->update($arr, $where);
     }
     function updatebadloan_bad($_data){
     	$session_transfer=new Zend_Session_Namespace();
     	$session_user=new Zend_Session_Namespace('auth');
     	$user_id = $session_user->user_id;
+    	if($_data['Term']<90){
+    		$writ_off = 0;
+    	}elseif($_data['Term']>=90) {
+    		$writ_off = 1;
+    	}
+    	//print_r($_data);exit();
     	$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
@@ -80,7 +99,8 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
     			'status'=>$_data['status'],
-    			'create_by'=>$user_id
+    			'create_by'=>$user_id,
+    			'is_writoff'=>$writ_off
     	);
     	$where=" id = ".$_data['id'];
     	$this->update($arr, $where);
