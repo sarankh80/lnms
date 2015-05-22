@@ -169,6 +169,7 @@ public function addILPayment($data){
     	if($amount_receive<=$service_charge){
     		$new_amount = $service_charge-$amount_receive;
     		$service_charge = $new_amount;
+    		$interest_fun=$interest;
     	}else{
     		$new_amount = $amount_receive-$service_charge;
     		$service_charge=$new_amount;
@@ -176,6 +177,7 @@ public function addILPayment($data){
     			$new_penelize = $new_amount-$penalize;
     			$penalize = $new_penelize;
     			$total_os = $data["os_amount"];
+    			$interest_fun=$interest;
     		}else{
     			$new_amount= $new_amount-$penalize;//
     			$penalize=0;
