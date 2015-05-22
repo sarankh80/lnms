@@ -3,6 +3,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_callteral;
 echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
 $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+$row=$this->row;
+print_r($row);
 ?>
 <style>	
 .fullside {
@@ -89,12 +91,8 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	<tr>
 		<td align="center">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
-				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-					<tr>
-						<td colspan="5"><input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
-					</tr>
-				</table>		
+				<div  id="test"></div>
+				<input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
 		</td>
 	<tr>	
 	<tr>
@@ -127,12 +125,13 @@ require(["dojo/ready"], function(ready){
 	store: dojo.data.ObjectStore({objectStore: client_data}),
 	autoComplete: true,
 	query: {
-		branch_id: "-1"
+		branch_id: "<?php echo $row['branch_id'];?>"
 	},            
 	required: true,		           
 	name: "client_name",
 	id: "client_name",
 	searchAttr: "name",
+	value:'<?php echo $row['client_id'];?>',
 	class: 'fullside',
 	onChange: function() {
 		getClientInfo(2);
@@ -146,16 +145,20 @@ require(["dojo/ready"], function(ready){
 	store: dojo.data.ObjectStore({objectStore: client_number}),
 	autoComplete: true,
 	query: {
-		branch_id: "-1"
+		branch_id: "<?php echo $row['branch_id'];?>"
 	},            		           
 	name: "client_code",
 	id: "client_code",
 	searchAttr: "name",
 	class: 'fullside',
+	value:'<?php echo $row['client_id'];?>',
 	onChange: function() {
 		getClientInfo(1);	
 		}
 	}, "client_code");
+	//dijit.byId('branch_id').attr('value','');
+	//getClientInfo(1);	
+	dijit.byId('branch_id').attr('value',<?php echo $row['branch_id'];?>);
 	
 	});
 
@@ -168,9 +171,26 @@ function filterClient(){
 	dijit.byId('client_code').reset();
 }
 function getClientInfo(type){
+	
 	if(type==1){
+		
 		customer_code= dijit.byId('client_code').get('value');
 		dijit.byId('client_name').attr('value',customer_code);
+		dojo.query("#test").append('');
+		tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
+		tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
+		tmp+='</table>';
+		dojo.query("#test").append(tmp);
+		thead='<th><?php echo $tr->translate("DEL");?></th>';
+		thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
+		thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
+		thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
+		thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
+		thead+='<th><?php echo $tr->translate("NOTE");?> </th>';
+		fund_title=1;
+		
+		dojo.query("#head_title").append(thead);	
+		dijit.byId('record_row').attr('value','');
 		addCollecteral();
 	}else{
 		customer_code= dijit.byId('client_name').get('value');
@@ -243,16 +263,6 @@ collect_option = '<?php echo $this->collect_option;?>';
 owner_option = '<?php echo $this->owner_type;?>';
 function addCollecteral(){
 		r++;
-		if(fund_title!=1){
-			thead='<th><?php echo $tr->translate("DEL");?></th>';
-			thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
-			thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
-			thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
-			thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
-			thead+='<th><?php echo $tr->translate("NOTE");?> </th>';
-			fund_title=1;
-			dojo.query("#head_title").append(thead);
-    }
 		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 		temp+='<td><select style=" width:90%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
 	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';

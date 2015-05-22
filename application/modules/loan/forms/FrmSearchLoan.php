@@ -5,7 +5,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	public function AdvanceSearch ($data=null){
+	public function AdvanceSearch($data=null){
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		
@@ -181,7 +181,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',));
 		$client_name->setValue($request->getParam("client_name"));
 		if($data!=null){
-			print_r($data);
+			//print_r($data);
 			$_branch_id->setValue($data['member_id']);
 			$_member->setValue($data['client_id']);
 			$_coid->setValue($data['co_id']);

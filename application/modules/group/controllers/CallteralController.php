@@ -41,6 +41,13 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->frm_callteral=$frm;
 	}
 	public function addAction(){
+		$id=$this->getRequest()->getParams('id');
+		$db = new Group_Model_DbTable_DbClient();
+		$id = $this->getRequest()->getParam("id");
+		$row = $db->getClientById($id);
+		//$row = $db->addClient($id);
+		//print_r($row);exit();
+		$this->view->row=$row;
 		if($this->getRequest()->isPost()){
 			$calldata=$this->getRequest()->getPost();
 			$db_call = new Group_Model_DbTable_DbCallteral();

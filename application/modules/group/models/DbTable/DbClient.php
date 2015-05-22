@@ -27,6 +27,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$_arr=array(
 				'is_group'	  => $_data['is_group'],
 				//'parent_id'	  =>$parent,
+				'branch_id'	  => $_data['branch_id'],
 				'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
 				'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
 				'client_number'=> $_data['client_no'],
@@ -65,6 +66,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$where = 'client_id = '.$_data['id'];
 			return  $this->update($_arr, $where);
 		}else{
+			//echo $this->insert($_arr);exit();
 			return  $this->insert($_arr);
 		}
 		}catch(Exception $e){
