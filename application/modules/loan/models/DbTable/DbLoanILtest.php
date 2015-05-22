@@ -27,10 +27,10 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     	}
     }
     public function addNewLoanILTest($data){
-    	
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		
     		$datagroup = array(
     				'group_id'=>$data['member'],
     				'co_id'=>$data['co_id'],
@@ -50,11 +50,11 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				'loan_type'=>1,
     				'collect_typeterm'=>$data['collect_termtype']
     		);
-    	
+    		
     		$g_id = $this->insert($datagroup);//add group loan
-    	
+    		
     		unset($datagroup);
-    	
+    		
     		$datamember = array(
     				'group_id'=>$g_id,
     				'loan_number'=>$data['loan_code'],
@@ -79,30 +79,11 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		$member_id = $this->insert($datamember);//add member loan
     		unset($datamember);
     		 
-    		$arr =array(
-    				'branch_id'=>$data['branch_id'],
-    				'receipt_number'=>$data['loan_code'],
-    				'date'=>$data['release_date'],
-    				'create_date'=>date('Y-m-d'),
-    				'note'=>'from loan disburse',
-    				'from_location'=>1,
-    				'user_id'=>$this->getUserId(),
-    				'balance'=>$data['total_amount'],
-    				'loan_fee'=>$data['loan_fee'],
-    				'client_id'=>$data['member'],
-    				'currency_type'=>$data['currency_type']
-    					
-    		);
-    		//     			$this->insert($arr);
-    		//     			unset($arr);
-    		$db_j = new Accounting_Model_DbTable_DbJournal();
-    		$jur_id = $db_j->addTransactionJournal($arr);
-    		 
     		$remain_principal = $data['total_amount'];
     		$next_payment = $data['first_payment'];
     		$start_date = $data['release_date'];//loan release;
     		//     			$next_payment = $start_date;
-    	
+    		
     		 
     		$old_remain_principal = 0;
     		$old_pri_permonth = 0;
@@ -128,7 +109,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     			$amount_collect = $data['amount_collect'];
     			$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
     			$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
-    	
+    		
     			if($payment_method==1){//decline//completed
     				//     					$pri_permonth = ($data['total_amount']/($data['period']-$data['graice_pariod'])*$amount_collect);
     				$pri_permonth = $data['total_amount']/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
@@ -141,7 +122,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     						if($i*$amount_collect>$data['graice_pariod']+$amount_collect){//not wright
     							$remain_principal = $remain_principal-$pri_permonth;
     						}else{
-    	
+    		
     						}
     					}else{
     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
@@ -154,10 +135,10 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					$start_date = $next_payment;
     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
     					$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-    	
+    		
     					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
     					//     						$interest_paymonth = $remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm);
-    	
+    		
     				}else{
     					$next_payment = $data['first_payment'];
     					$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
@@ -198,7 +179,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
     				//     					    $interest_paymonth = $data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm);
-    	
+    		
     			}elseif($payment_method==4){//fixed payment full last period yes
     				if($i!=1){
     					$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
@@ -256,21 +237,21 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     						$pri_permonth = $remain_principal;
     					}
     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
-    	
+    		
     				}else{
     					$next_payment = $data['first_payment'];
     				}
     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
     				//     					    			$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)/$data['period']*($day_perterm/$day_perterm));
-    	
+    		
     			}
     			$old_remain_principal =$old_remain_principal+$remain_principal;
     			$old_pri_permonth = $old_pri_permonth+$pri_permonth;
     			$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));
     			$old_amount_day =$old_amount_day+ $amount_day;
-    	
-    	
+    		
+    		
     			if($data['amount_collect']==$amount_collect){
     					
     				$datapayment = array(
@@ -294,11 +275,6 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				$old_amount_day = 0;
     					
     			}else{
-    					
-    				//if(){ the old record;
-    	
-    				//}
-    				//if record not cherk min smer 0
     					
     			}
     			$amount_collect++;
@@ -342,7 +318,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     				$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     			}
-    	
+    		
     			$datapayment = array(
     					'member_id'=>$member_id,
     					'total_principal'=>$pri_permonth,//good
@@ -357,7 +333,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					'collect_by'=>$data['co_id']
     			);
     			$this->insert($datapayment);
-    	
+    		
     		}
     		$sql = "SELECT * FROM ln_test_loanmember_funddetail  WHERE member_id = ".$member_id;
     		$rows =  $db->fetchAll($sql);
@@ -365,7 +341,6 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		return $rows;
     	}catch (Exception $e){
     		$db->rollBack();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }  
 }

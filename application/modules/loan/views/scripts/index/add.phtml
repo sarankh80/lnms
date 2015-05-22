@@ -139,8 +139,6 @@
 						</tr>
 					</table>
 				</fieldset>
-				<input type="hidden" name="invoice_no" id="invoice_no" >
-				<input type="hidden" name="s_name" id="s_name">
 		</td>
 	</tr>		
 	<tr>
@@ -165,9 +163,7 @@
 </style>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="frm_client" style="width:1000px">
 	<div id="rpt_print" class="print">
-		<table border="1" id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-			<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-		</table>	
+	<div id="t_amountmoneytype" name="t_amountmoneytype"></div>
 	</div>
 </div>
 </div>
@@ -678,23 +674,18 @@ function addPreviewLoan(){
 			handleAs:"json", 
 			load: function(data) {
 				temp='';	fund_title=0;thead='';fund_title=0;
-				dojo.query("#head_title").append('');
+				 		temp='<table class="collape tablesorter" style="font-size:13px;" id="table" width="100%">'
+						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
+						temp+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ការ");?></th>';
+						temp+='<th><?php echo $tr->translate("សរុប");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមនៅសល់");?></th>';
+						temp+='<th><?php echo $tr->translate("ចំនួនថ្ងៃ");?></th></tr>';
 				for(i=0;i<data.length;i++){
-					
-					if(fund_title!=1){
-						thead='<th><?php echo $tr->translate("NUM");?></th>';
-						thead+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
-						thead+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
-						thead+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';
-						thead+='<th><?php echo $tr->translate("ប្រាក់ការ");?></th>';
-						thead+='<th><?php echo $tr->translate("សរុប");?></th>';
-						thead+='<th><?php echo $tr->translate("ចំនួនថ្ងៃ");?></th>';
-						fund_title=1;
-						dojo.query("#head_title").append(thead);
-						
-			        }
 			        r++;
-					    temp='<td align="center">'+r+'</td>';
+					    temp+='<tr><td align="center">'+r+'</td>';
 						var myDate = new Date(data[i].date_payment);
 						dateString=((myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear());
 						temp+='<td>'+dateString+'</td>';
@@ -702,21 +693,14 @@ function addPreviewLoan(){
 						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';
 						temp+='<td><b>'+dojo.number.format(data[i].total_payment,2)+'<b></td>';
-						temp+='<td>'+data[i].amount_day+'</td>';
-						
-						tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
-						tmp+="</tr>";
-
-						dojo.query("#t_amountmoneytype").append(tmp);
-						dojo.html.set(dojo.byId("row_capital"+r),temp, {
-					    parseContent: true,
-						   });
-				        }
-				//dojo.byId('rpt_print').innerHTML=temp;
+						temp+='<td><b>'+dojo.number.format((data[i].total_principal-data[i].principal_permonth),2)+'<b></td>';
+						temp+='<td>'+data[i].amount_day+'</td></tr>';
+				 }
+				temp+='</table>';
+				dojo.byId('t_amountmoneytype').innerHTML = temp;
 				dijit.byId("frm_client").show();
 			},
 			error: function(err) {
-				alert(err);
 			alert("You can not preview this loan number!");
 			}
 	   });

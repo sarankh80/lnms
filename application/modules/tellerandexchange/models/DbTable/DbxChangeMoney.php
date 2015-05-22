@@ -30,9 +30,33 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     }
     function getxchangById($id){//for record capital detail by id
     	$db = $this->getAdapter();
-    	$this->_name='ln_exchange_detail';
-    	$sql = "SELECT * FROM `ln_exchange` AS c,`ln_exchange_detail` AS d WHERE c.id=d.`exchange_id` AND  c.id = $id AND c.status=1";
+    	$this->_name='ln_xchange';
+//     	$sql = "SELECT * FROM `ln_xchange` WHERE id = $id AND status=1";
+//     	return $db->fetchRow($sql);
+    	
+    	$sql ="SELECT
+    	e.`id`,
+    	e.`statusDate`,
+    	e.`status_in`,
+    	e.`specail_customer`,
+    	e.`fromAmount`,
+    	e.`rate`,
+    	e.`toAmount`,
+    	e.`recievedAmount`,
+    	e.`changedAmount`,
+    	e.`recieptNo`,
+    	e.`status`,
+    	(SELECT c.id FROM ln_currency AS c WHERE c.symbol =  e.`fromAmountType`) as `fromAmountType`,
+    	(SELECT c.id FROM ln_currency AS c WHERE c.symbol =  e.`toAmountType`) as `toAmountType`,
+    	(SELECT c.`curr_nameen` FROM ln_currency AS c WHERE c.symbol = e.`fromAmountType`) AS fromTxtType,
+    	(SELECT c.`curr_nameen` FROM ln_currency AS c WHERE c.symbol = e.`toAmountType`) AS toTxtType
+    	FROM
+    	`ln_xchange` AS e
+    	WHERE `id` = ".$id;
+    	$db = $this->getAdapter();
+    	//     	echo $sql; exit();
     	return $db->fetchRow($sql);
+    	
     }
     
     function getCurrencyById($fieldname,$id){
@@ -40,86 +64,149 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	$sql = "SELECT ". $fieldname ."
 				FROM `ln_currency`
 				WHERE id = ". $id;
-//     	echo $sql; exit();
     	return $db->fetchRow($sql);
     } 
-    
-    
     function save($data){
-    		$session_user=new Zend_Session_Namespace('auth');
-    		$user_id = $session_user->user_id;
-    		$db = $this->getAdapter();
-    		$db->beginTransaction();
-    		try {
-    			
-    			
-    			$recieve_dollar=0;
-    			$recieve_riel=0;
-    			$recieve_dollar=0;
-    			$return_dollar=0;
-    			$return_riel=0;
-    			$recieve_bath=0;
-    			
-    			///// recieve
-    			if($data['from_amount_type']==1){
-    				$recieve_dollar = $data['recieve_money'];
-    		    }elseif($data['from_amount_type']==2){
-    		    	$recieve_riel = $data['recieve_money'];
-    		    }else{
-    		    	$recieve_bath = $data['recieve_money'];
-    		    }
-    		    ////return 
-    		    if($data['to_amount_type']==1){
-    		    	$return_dollar = $data['recieve_money'];
-    		    }elseif($data['to_amount_type']==2){
-    		    	$return_riel = $data['recieve_money'];
-    		    }else{
-    		    	$recieve_bath = $data['recieve_money'];
-    		    }
-    			
-    		    $sing = "*";
-    		    if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
-    		    	$status = "/";
-    		    }
-    			$_data = array(
-    					'customer_id'=>0,
-    					'is_single'=>1,
-    					'receive_dollar'=>$recieve_dollar,
-    					'receive_riel'=>$recieve_riel,
-    					'receive_bath'=>$recieve_dollar,
-    					'return_dollar'=>$return_dollar,
-    					'return_riel'=>$return_riel,
-    					'return_bath'=>$recieve_bath,
-//     					'return_amount'=>$data['return_money'],
-//     					'invoice_code'=>$data['inv_no'],
-    					'date'=>date("Y-m-d"),
-    					'user_id'=>$user_id,
-    					'status'=>1,
-    					'sign'=>$sing,
-    			);
-    			$this->_name='ln_exchange';
-    			$x_id = $this->insert($_data);
+		    	$db = $this->getAdapter();
+		    	$db->beginTransaction();
+		    	try {
+    			$this->_name='ln_xchange';
+    			$session_user=new Zend_Session_Namespace('auth');
     			$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     			$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
+    			$status = "in";
+    			if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
+    				$status = "out";
+    			}
+    				$user_id = $session_user->user_id;
+    				$_data=array(
+    						"changedAmount"=>$data["return_money"],
+    						"recieptNo"=>$data["inv_no"],
+    						"toAmount"=>$data["to_amount"],
+    						"toAmountType"=>$to_type["symbol"],
+    						"rate"=>$data["rate"],
+    						"fromAmountType"=>$from_type["symbol"],
+    						"fromAmount"=>$data["from_amount"],
+    						"recievedType"=>$from_type["symbol"],
+    						"recievedAmount"=>$data["recieve_money"],
+    						"statusDate"=>date('Y-m-d H:i:s'),
+    						"userid"=>$user_id,
+    						"status_in"=>$status,
+    						"specail_customer"=>(empty($data['special_cus']))? 0 : 1,
+    						"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
+    				);
+    				$this->insert($_data);
+    				  $db->commit();
+    			} catch (Exception $e) {
+    				$db->rollBack();
+    			}
+    			
+    			
+//     			$recieve_dollar=0;
+//     			$recieve_riel=0;
+//     			$recieve_dollar=0;
+//     			$return_dollar=0;
+//     			$return_riel=0;
+//     			$recieve_bath=0;
+    			
+//     			///// recieve
+//     			if($data['from_amount_type']==1){
+//     				$recieve_dollar = $data['recieve_money'];
+//     		    }elseif($data['from_amount_type']==2){
+//     		    	$recieve_riel = $data['recieve_money'];
+//     		    }else{
+//     		    	$recieve_bath = $data['recieve_money'];
+//     		    }
+//     		    ////return 
+//     		    if($data['to_amount_type']==1){
+//     		    	$return_dollar = $data['recieve_money'];
+//     		    }elseif($data['to_amount_type']==2){
+//     		    	$return_riel = $data['recieve_money'];
+//     		    }else{
+//     		    	$recieve_bath = $data['recieve_money'];
+//     		    }
+    			
+//     		    $sing = "*";
+//     		    if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
+//     		    	$status = "/";
+//     		    }
+//     			$_data = array(
+//     					'customer_id'=>0,
+//     					'is_single'=>1,
+//     					'receive_dollar'=>$data['recieve_money'],
+// //     					'receive_riel'=>$recieve_riel,
+// //     					'receive_bath'=>$recieve_dollar,
+//     					'return_dollar'=>$return_dollar,
+// //     					'return_riel'=>$return_riel,
+// //     					'return_bath'=>$recieve_bath,
+// //     					'return_amount'=>$data['return_money'],
+//     					'invoice_code'=>$data['inv_no'],
+//     					'date'=>date("Y-m-d"),
+//     					'user_id'=>$user_id,
+//     					'status'=>1,
+//     					'sign'=>$sing,
+//     			);
+//     			$this->_name='ln_exchange';
+//     			$x_id = $this->insert($_data);
+//     			$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
+//     			$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
     		
-    			$x_detail = array(
-    					'exchange_id'=>$x_id,//
-    					'to_currency_type'=>$data["to_amount_type"],//
-    					'from_currency_type'=>$data["from_amount_type"],//
-    					'from_amount'=>$data['from_amount'],//
-    					'to_amount'=>$data['to_amount'],//
-    					'exchange_rate'=>$data["rate"],
-    					'from_to'=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"],//
-    					'status'=>1,//
-    					'date'=>date("Y-m-d"),//
-    					'specail_customer'=>(empty($data['special_cus']))? 0 : 1//
-    			);
-    			$this->_name='ln_exchange_detail';
-    			$this->insert($x_detail);
-    			return  $db->commit();
-    		} catch (Exception $e) {
-    			$db->rollBack();
+//     			$x_detail = array(
+//     					'exchange_id'=>$x_id,//
+//     					'to_currency_type'=>$data["to_amount_type"],//
+//     					'from_currency_type'=>$data["from_amount_type"],//
+//     					'from_amount'=>$data['from_amount'],//
+//     					'to_amount'=>$data['to_amount'],//
+//     					'exchange_rate'=>$data["rate"],
+//     					'from_to'=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"],//
+//     					'status'=>1,//
+//     					'date'=>date("Y-m-d"),//
+//     					'specail_customer'=>(empty($data['special_cus']))? 0 : 1//
+//     			);
+//     			$this->_name='ln_exchange_detail';
+//     			$this->insert($x_detail);
+//     			return  $db->commit();
+//     		} catch (Exception $e) {
+//     			$db->rollBack();
+//     			echo $e->getMessage();exit();
+//     		}
+    }
+    function editExchange($data){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try {
+    		$this->_name='ln_xchange';
+    		$session_user=new Zend_Session_Namespace('auth');
+    		$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
+    		$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
+    		$status = "in";
+    		if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
+    				$status = "out";
     		}
+    		 
+    		$user_id = $session_user->user_id;
+    		$_data=array(
+    				"changedAmount"=>$data["return_money"],
+    				"recieptNo"=>$data["inv_no"],
+    				"toAmount"=>$data["to_amount"],
+    				"toAmountType"=>$to_type["symbol"],
+    				"rate"=>$data["rate"],
+    				"fromAmountType"=>$from_type["symbol"],
+    				"fromAmount"=>$data["from_amount"],
+    				"recievedType"=>$from_type["symbol"],
+    				"recievedAmount"=>$data["recieve_money"],
+    				"statusDate"=>date('Y-m-d H:i:s'),
+    				"userid"=>$user_id,
+    				"status_in"=>$status,
+    				"specail_customer"=>(empty($data['special_cus']))? 0 : 1,
+    				"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
+    		);
+    		$where=$this->getAdapter()->quoteInto('id=?', $data['id']);
+    		$this->update($_data, $where);
+    	} catch (Exception $e) {
+    		$db->rollBack();
+    	}
+    	
     }
     function updateExchange($data){
     	$session_user=new Zend_Session_Namespace('auth');
