@@ -44,59 +44,69 @@
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td class="border-cover "><?php echo $rs['client_d_type'];?></td>
+							<td></td>
 							<td class="border-cover "><?php echo $rs['nation_id'];?></td>
 							<td><?php echo $tr->translate("JOB_TYPE")?></td>
 							<td class="border-cover "><?php echo $rs['job'];?></td>
-							<td><?php echo $tr->translate("PHONE")?></td>
-							<td class="border-cover "><?php echo $rs['phone'];?></td>
+							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("PHONE")?></td>
+							<td class="border-cover "><?php echo $rs['phone'];?></td>
 							<td><?php echo $tr->translate("PHOTO")?></td>
 							<td class="border-cover "><?php //echo $frm->getElement('photo');?></td>
 							<td><?php echo $tr->translate("PROVINCE")?>*</td>
 							<td class="border-cover "><?php echo $rs['province_en_name'];?></td>
-							<td><?php echo $tr->translate("DISTRICT")?></td>
-							<td class="border-cover "><?php echo $rs['district_name'];?></td>
+							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("DISTRICT")?></td>
+							<td class="border-cover "><?php echo $rs['district_name'];?></td>
 							<td><?php echo $tr->translate("COMMUNE")?></td>
 							<td class="border-cover "><?php echo $rs['commune_name'];?></td>
 							<td><?php echo $tr->translate("VILLAGE")?></td>
-							<td class="border-cover "><?php echo $rs['village_name'];?></td>
-							<td><?php echo $tr->translate("STREET")?></td>
-							<td class="border-cover "><?php echo $rs['street'];?></td>
+							<td class="border-cover "><?php echo $rs['village_name'];?></td>							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("STREET")?></td>
+							<td class="border-cover "><?php echo $rs['street'];?></td>
 							<td><?php echo $tr->translate("HOUSE")?></td>
 							<td class="border-cover "><?php echo $rs['house'];?></td>
 							<td><?php echo $tr->translate("JOIN_WITH")?></td>
-							<td class="border-cover "><?php echo $rs['join_with'];?></td>
-							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td class="border-cover "><?php echo $rs['join_nation_id'];?></td>
+							<td class="border-cover "><?php echo $rs['join_with'];?></td>	
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td class="border-cover "><?php echo $rs['join_d_type'];?></td>
+							<td></td>
+							<td class="border-cover "><?php echo $rs['join_nation_id'];?></td>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
-							<td class="border-cover "><?php echo $rs['relate_with'];?></td>
+							<td class="border-cover "><?php echo $rs['relate_with'];?></td>														
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("TEL")?></td>
 							<td class="border-cover "><?php echo $rs['join_tel'];?></td>
 							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
-							<td class="border-cover "><?php echo $rs['spouse_name']; ?></td>							
+							<td class="border-cover "><?php echo $rs['spouse_name']; ?></td>
+							<td><?php echo $tr->translate("TEL")?></td>
+							<td class="border-cover "><?php echo $rs['guarantor_tel'];?></td>				
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							<td class="border-cover "><?php echo $rs['guarantor_d_type'];?></td>
+							<td></td>
 							<td class="border-cover "><?php echo $rs['spouse_nationid'];?></td>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td class="border-cover "><?php echo $rs['guarantor_with'];?></td>
-							<td><?php echo $tr->translate("TEL")?></td>
-							<td class="border-cover "><?php echo $rs['guarantor_tel'];?></td>
 						</tr>
 						<tr>
-							<td valign="top"><?php echo $tr->translate("STATUS")?></td>
-							<td valign="top" class="border-cover "><?php  echo $rs['status'];?></td>
 							<td><?php echo $tr->translate("NOTE")?></td>
 							<td class="border-cover "><?php echo $rs['remark'];?></td>
-							<td valign="top"></td>
-							<td valign="top"></td>	
+							<td valign="top"><?php echo $tr->translate("GUARANTOR_ADDRESS")?></td>
+							<td valign="top" class="border-cover "><?php  echo $rs['guarantor_address'];?></td>
+							<td valign="top"><?php echo $tr->translate("STATUS")?></td>
+							<td valign="top" class="border-cover "><?php  echo $rs['status'];?></td>
 						</tr>
 					</table>	
 				</div>
