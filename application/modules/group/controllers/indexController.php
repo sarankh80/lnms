@@ -75,11 +75,11 @@ class Group_indexController extends Zend_Controller_Action {
 				$db = new Group_Model_DbTable_DbClient();
 				try{
 				 if(isset($data['save_new'])){
-					echo $db->addClient($data);exit();
+					$id= $db->addClient($data);
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add");
+						Application_Form_FrmMessage::redirectUrl("/group/Callteral/addid/".$id);
 					}
 				}
 				else if (isset($data['save_close'])){

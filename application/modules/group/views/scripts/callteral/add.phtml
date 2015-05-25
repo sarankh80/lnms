@@ -4,7 +4,7 @@ $frm = $this->frm_callteral;
 echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
 $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 $row=$this->row;
-print_r($row["branch_id"]);
+//print_r($row["branch_id"]);
 ?>
 <style>	
 .fullside {
@@ -158,7 +158,7 @@ require(["dojo/ready"], function(ready){
 		}
 	}, "client_code");
 		
-	dijit.byId('co_name').attr('value','client_id');
+	//dijit.byId('co_id').attr('value','co_name');
 	});
 
 
