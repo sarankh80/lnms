@@ -318,6 +318,7 @@ public function init()
 			$_loan_code->setValue($data['loan_number']);
 			$_level->setValue($data['level']);
 			$_loan_fee->setValue($data['admin_fee']);
+			$_other_fee->setValue($data['other_fee']);
 			$_member->setValue($data['client_id']);
 			$_customer_code->setValue($data['client_id']);
 			$_coid->setValue($data['co_id']);
