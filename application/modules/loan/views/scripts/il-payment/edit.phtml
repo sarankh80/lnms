@@ -9,7 +9,7 @@
 	$client_id = $this->client_id;
 	$client_code = $this->client_code;
 	$loan_number = $this->loan_number;
-	
+	$ilPaymentById = $this->ilPaymentById;
 	$keycode = $this->keycode;
 	$user_name = $this->user_name;
 	$graiceperiod = $this->graiceperiod;
@@ -23,7 +23,56 @@
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">
+			if(this.validate()) {
+				service_charge = dijit.byId('service_charge').get('value');
+				receive_amount = dijit.byId('amount_receive').get('value');
+				option_pay = dijit.byId('option_pay').get('value');
+				dijit.byId('total_payment').attr('value',total_amount);
+				total_payments = dijit.byId('total_payment').get('value');
+				if(option_pay==2 || option_pay==3 || option_pay==4){
+					if(receive_amount<total_payments){
+						alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
+						dijit.byId('amount_receive').focus();
+						return false;
+					}
+				}
+				if(option_pay==1){
+ 					if(receive_amount<service_charge){
+						alert('Recieve Amount Can not less than Service charge!!');
+						dijit.byId('amount_receive').focus();
+						return false;
+ 					}
+				}
+				if(receive_amount==""){
+					alert('Please fill Recieve Amount');
+					dijit.byId('amount_receive').focus();
+					return false;
+				}
+			
+			co_id = dijit.byId('co_id').get('value');
+			client = dijit.byId('client_id').get('value');
+           	branch_id = dijit.byId('branch_id').get('value');
+		    if (branch_id=='' || branch_id==-1){
+		  	   alert('Please Select Branch Name!');
+			   dijit.byId('branch_id').focus();
+			   return false;
+		    }
+			if (client=='' || client==-1){
+				alert('Please Select Client Name !');
+				dijit.byId('client_id').focus();
+				return false;
+			}if(co_id=='' || co_id==-1){
+				alert('Please Select CO Name !');
+				dijit.byId('co_id').focus();
+				return false;
+			} 
+		}else {
+			return false;
+		}
+</script>
 				<?php echo $frm->getElement('id');?>
+	
 <table cellspacing="10" class='fullside'>
 	<tr>
 		<td>
@@ -61,7 +110,7 @@
 							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
 							<td><?php echo $frm->getElement('penalize_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
-							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
+							<td><?php echo $frm->getElement('total_payment');echo $frm->getElement('oldTotalPay');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
@@ -474,8 +523,31 @@ dojo.ready(function(){
 	dijit.byId('currency_type').attr('readOnly','readOnly');
 	dijit.byId("option_pay").getOptions("4").disabled = true;
 	$("#option_pay option[value='4']").attr("disabled","disabled");
+
 });
 function getPayment(){
+	dijit.byId('priciple_amount').attr('value','<?php echo $ilPaymentById["principal_amount"];?>');
+	dijit.byId('os_amount').attr('value','<?php echo $ilPaymentById["total_principal_permonth"];?>');
+	dijit.byId('total_payment').attr('value','<?php echo $ilPaymentById["total_payment"];?>');
+	dijit.byId('amount_receive').attr('value','<?php echo $ilPaymentById["recieve_amount"];?>');
+	dijit.byId('total_interest').attr('value','<?php echo $ilPaymentById["total_interest"];?>');
+	dijit.byId('amount_return').attr('value','<?php echo $ilPaymentById["return_amount"];?>');
+	dijit.byId('payment_term').attr('value','<?php echo $ilPaymentById["total_interest"];?>');
+	dijit.byId('currency_type').attr('value','<?php echo $ilPaymentById["currency_type"];?>');
+
+	dijit.byId('oldTotalPay').attr('value','<?php echo $ilPaymentById["total_payment"]-$ilPaymentById["service_charge"]-$ilPaymentById["penalize_amount"];?>');
+	dijit.byId('option_pay').attr('value','<?php echo $ilPaymentById["payment_option"];?>');
+	dijit.byId('payment_term').attr('value','<?php echo $ilPaymentById["collect_typeterm"];?>');
+	dijit.byId('amount_payment_term').attr('value','<?php echo $ilPaymentById["amount_term"];?>');
+	dijit.byId('collect_date').attr('value','<?php echo $ilPaymentById["date_pay"];?>');
+	dijit.byId('date_input').attr('value','<?php echo $ilPaymentById["date_input"];?>');
+	dijit.byId('penalize_amount').attr('value','<?php echo $ilPaymentById["penalize_amount"];?>');
+	dijit.byId('collect_date').attr('value','<?php echo $ilPaymentById["date_pay"];?>');
+	dijit.byId('date_input').attr('value','<?php echo $ilPaymentById["date_input"];?>');
+
+	dijit.byId('co_id').attr('value','<?php echo $ilPaymentById["co_id"];?>');
+	dijit.byId('note').attr('value','<?php echo $ilPaymentById["note"];?>');
+	//dijit.byId('date_input').attr('value','<?php //echo $ilPaymentById["date_input"];?>');
 	status='<label style="color:red;">នៅឡើយ</lable>';
 	tem='';	//is_set=0;
 	tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
@@ -537,7 +609,7 @@ function getPayment(){
     <?php }?>
     tem+='</table>';
 	dojo.byId('data_table').innerHTML = tem;
-	checkAll();
+	//checkAll();
     <?php }?>
 }
 
@@ -551,10 +623,10 @@ function getLaonPayment(type){
 	}
 	var clientId = dijit.byId('client_id').get('value');
 	var clientCode = dijit.byId('client_code').get('value');
-	var loanNumber = dijit.byId('loan_number').get('value');
+	var loanNumbers = dijit.byId('loan_number').get('value');
 	var client_id = '<?php echo $client_id?>';
 	var client_code = '<?php echo $client_code?>';
-	var loan_number = '<?php echo $loan_number?>';  
+	var loan_numbers = '<?php echo $loan_number?>';  
 	if(type==3 && client_id == clientId){
 		getPayment();
 		dijit.byId('client_code').attr('value',clientId);
@@ -563,7 +635,8 @@ function getLaonPayment(type){
 		getPayment();
 		dijit.byId('client_id').attr('value',clientCode);
 		dijit.byId('loan_number').attr('value',loan_number);
-	}else if(type==1 && loanNumber==loan_number){
+	}else if(type==1 && loan_numbers==loan_number){
+		//alert(1);
 		getPayment();
 		dijit.byId('client_id').attr('value',client_id);
 		dijit.byId('client_code').attr('value',client_code);
@@ -997,11 +1070,12 @@ if(arrays!=""){
 		total_interest=0;
 		priciple_amount=0;
 	}
+	var serviceCharge =  dijit.byId('service_charge').get('value');
 	dijit.byId('oldTotalPay').attr('value',totalAmount);
-	dijit.byId('amount_receive').attr('value',totalAmount);
+	//dijit.byId('amount_receive').attr('value',totalAmount);
 	dijit.byId('amount_return').attr('value',0);
 	dijit.byId('penalize_amount').attr('value',total_interest_late);
-	dijit.byId('total_payment').attr('value',totalAmount);
+	dijit.byId('total_payment').attr('value',totalAmount+serviceCharge);
 	dijit.byId('os_amount').attr('value',os_amount);
 	dijit.byId('total_interest').attr('value',total_interest);
 	dijit.byId('priciple_amount').attr('value',priciple_amount);
@@ -1197,7 +1271,7 @@ function checkAll(index){
     		  }
     		}
     	dijit.byId('oldTotalPay').attr('value',totalAmount);
-    	dijit.byId('amount_receive').attr('value',totalAmount);
+    	//dijit.byId('amount_receive').attr('value',totalAmount);
     	dijit.byId('amount_return').attr('value',0);
     	dijit.byId('penalize_amount').attr('value',total_interest_late);
     	dijit.byId('total_payment').attr('value',totalAmount);
@@ -1228,12 +1302,12 @@ function getCurrencyType(type){
 	var option=["៛","$","B"];
 	return option[type-1];
 }
-function totalReturn(){
-	receive_amount = dijit.byId('amount_receive').get('value');
-	total_payment = dijit.byId('total_payment').get('value');
-	amonut_return = receive_amount-total_payment;
-	dijit.byId('amount_return').attr('value',amonut_return);
-}
+// function totalReturn(){
+// 	receive_amount = dijit.byId('amount_receive').get('value');
+// 	total_payment = dijit.byId('total_payment').get('value');
+// 	amonut_return = receive_amount-total_payment;
+// 	dijit.byId('amount_return').attr('value',amonut_return);
+// }
 function getdataPaymentToForm(data){//use
 	is_change = 1;
 	//alert(1);
@@ -1263,19 +1337,7 @@ function totalReturn(){
 	
 	dijit.byId('total_payment').attr('value',total_amount);
 	total_payments = dijit.byId('total_payment').get('value');
-	if(option_pay==2 || option_pay==3 || option_pay==4){
-		if(receive_amount<total_payments){
-			alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
-			dijit.byId('submitButton').attr('disabled','disabled');
-			dijit.byId('saveprint').attr('disabled','disabled');
-		}else{
-			dijit.byId('submitButton').attr('disabled',false);
-			dijit.byId('saveprint').attr('disabled',false);
-		}
-	}else{
-		dijit.byId('submitButton').attr('disabled',false);
-		dijit.byId('saveprint').attr('disabled',false);
-	}
+	
 	amonut_return = receive_amount-total_payments;
 	if(amonut_return<0){
 		dijit.byId('amount_return').attr('value',0);
