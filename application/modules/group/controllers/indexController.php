@@ -79,7 +79,7 @@ class Group_indexController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-						Application_Form_FrmMessage::redirectUrl("/group/Callteral/addid/".$id);
+						Application_Form_FrmMessage::redirectUrl("/group/Callteral/add/id/".$id);
 					}
 				}
 				else if (isset($data['save_close'])){
@@ -123,13 +123,21 @@ class Group_indexController extends Zend_Controller_Action {
 		
 	}
 	public function editAction(){
+		
 		$db = new Group_Model_DbTable_DbClient();
+		
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
 				//print_r($data);exit();
-				$db->addClient($data);
-				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
+				$id= $db->addClient($data);
+				if($data['chackcall']==1){
+					Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
+					Application_Form_FrmMessage::redirectUrl("/group/Callteral/add/id/".$id);
+				}
+				Application_Form_FrmMessage::redirectUrl("/group/index");
+				//$db->addClient($data);
+				//Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAILE");
 				echo $e->getMessage();

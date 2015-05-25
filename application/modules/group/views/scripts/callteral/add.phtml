@@ -118,7 +118,7 @@ dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 
 require(["dojo/ready"], function(ready){
-	
+	ready(function(){
 	 var client_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
 	});
@@ -138,7 +138,7 @@ require(["dojo/ready"], function(ready){
 		getClientInfo(2);
 }
 	}, "client_name");
-
+	
 	 var client_number = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
 	});
@@ -156,10 +156,12 @@ require(["dojo/ready"], function(ready){
 	onChange: function() {
 		getClientInfo(1);	
 		}
+	
 	}, "client_code");
-		
+	getClientInfo(1);
 	//dijit.byId('co_id').attr('value','co_name');
 	});
+});
 
 
 
@@ -171,7 +173,7 @@ function filterClient(){
 }
 function getClientInfo(type){
 	if(type==1){
-		
+		//alert(1);
 		customer_code= dijit.byId('client_code').get('value');
 		dijit.byId('client_name').attr('value',customer_code);
 		dojo.query("#test").append('');

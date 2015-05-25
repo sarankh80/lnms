@@ -64,7 +64,9 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		);
 		if(!empty($_data['id'])){
 			$where = 'client_id = '.$_data['id'];
-			return  $this->update($_arr, $where);
+			$this->update($_arr, $where);
+			return $_data['id'];
+			 
 		}else{
 			//echo $this->insert($_arr);exit();
 			return  $this->insert($_arr);
