@@ -170,8 +170,6 @@ function filterClient(){
 	dijit.byId('client_code').reset();
 }
 function getClientInfo(type){
-	var br_id = '<?php echo $row['branch_id'];?>';
-	dijit.byId('branch_id').attr('value',br_id);
 	if(type==1){
 		
 		customer_code= dijit.byId('client_code').get('value');
