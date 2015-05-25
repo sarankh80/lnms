@@ -170,19 +170,14 @@ public function addILPayment($data){
     		$new_amount = $service_charge-$amount_receive;
     		$service_charge = $new_amount;
     		$interest_fun=$interest;
-    		
-    		print_r('amount_receive < service_charge :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     	}else{
     		$new_amount = $amount_receive-$service_charge;
-    		print_r('new amount:'.$amount_receive.'-'.$service_charge);
     		$service_charge=$new_amount;
     		if($new_amount<=$penalize){
     			$new_penelize = $new_amount-$penalize;
     			$penalize = $new_penelize;
     			$total_os = $data["os_amount"];
     			$interest_fun=$interest;
-    			
-    			print_r('new amount < penalize :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     		}else{
     			$new_penelize= $new_amount-$penalize;//
     			$penalize=0;
@@ -190,16 +185,13 @@ public function addILPayment($data){
     				$new_interest = $interest-$new_penelize;
     				$interest_fun=$new_interest;
     				$total_os = $data["os_amount"];
-    				print_r('new penalize < Interest :service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     			}else{
     				$new_interest = $new_penelize - $interest;
     				$interest_fun=0;
     				$total_os= $data["os_amount"]-$new_interest;
-    				print_r('new penalize > Interest : service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
     			}
     		}
     	}
-    	print_r('<br />'.$amount_receive.$new_amount.'service charge:'.$service_charge.'and interest:'.$interest."and penalize:".$penalize."and interest fun:".$interest_fun."and os:".$total_os);
 		//exit();
     	try{
     		$arr_client_pay = array(
@@ -218,7 +210,7 @@ public function addILPayment($data){
     			'recieve_amount'				=>		$amount_receive,
     			'penalize_amount'				=>		$data['penalize_amount'],
     			'return_amount'					=>		$return,
-    			'service_charge'				=>		$service_charge,
+    			'service_charge'				=>		$data["service_charge"],
     			//'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
@@ -342,14 +334,12 @@ public function addILPayment($data){
     	
     	$identify_detail = $data["identity"];
     	$loan_number = $data['loan_number'];
-    	
     	$amount_receive = $data["amount_receive"];
     	$total_payment = $data["total_payment"];
     	$return = $data["amount_return"];
-    	 
     	$interest = $data["total_interest"];
     	$os_amount = $data["os_amount"];
-    	 
+    	
     	if($amount_receive>$total_payment){
     		$amount_payment = $amount_receive - $return;
     	}elseif($amount_receive<$total_payment){
@@ -357,12 +347,42 @@ public function addILPayment($data){
     	}else{
     		$amount_payment = $total_payment;
     	}
-    	 
-    	if($amount_receive>=$total_payment){
-    		$status = 1;
-    	}else {
-    		$status=0;
+    	
+    	$service_charge= $data["service_charge"];
+    	$penalize = $data["penalize_amount"];
+    	$total_pay = $data["total_payment"]-$amount_receive;
+    	$total_os = $data["os_amount"];
+    	if($amount_receive<=$service_charge){
+    		$new_amount = $service_charge-$amount_receive;
+    		$service_charge = $new_amount;
+    		$interest_fun=$interest;
+    		
+    	}else{
+    		$new_amount = $amount_receive-$service_charge;
+    		$service_charge=$new_amount;
+    		if($new_amount<=$penalize){
+    			$new_penelize = $new_amount-$penalize;
+    			$penalize = $new_penelize;
+    			$total_os = $data["os_amount"];
+    			$interest_fun=$interest;
+    			
+    		}else{
+    			$new_penelize= $new_amount-$penalize;//
+    			$penalize=0;
+    			if($new_penelize<=$interest){
+    				$new_interest = $interest-$new_penelize;
+    				$interest_fun=$new_interest;
+    				$total_os = $data["os_amount"];
+    			}else{
+    				$new_interest = $new_penelize - $interest;
+    				$interest_fun=0;
+    				$total_os= $data["os_amount"]-$new_interest;
+    				$total_os=$total_os<0?0:$total_os;
+    			}
+    		}
     	}
+    	 
+    	
     	try{
     		
     		$arr_client_pay = array(
@@ -419,7 +439,7 @@ public function addILPayment($data){
     							'principal_permonth'	=>		$data["principal_permonth_".$i],
     							'total_interest'		=>		$data["interest_".$i],
     							'total_payment'			=>		$data["payment_".$i],
-    							'currency_id'			=>		$data["curr"],
+    							'currency_id'			=>		$data["currency_type"],
     							//'pay_before'			=>		$data['pay_before_'.$i],
     							'pay_after'				=>		$data['multiplier_'.$i],
     							'is_completed'			=>		1,
@@ -432,7 +452,10 @@ public function addILPayment($data){
     					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
     					
     					$arr_update_fun_detail = array(
-    							'is_completed'		=> 	1,
+    							'is_completed'		=> 	0,
+    							'total_interest'	=>  $interest_fun,
+    							'total_payment'		=>	$total_pay,
+    							'principal_permonth'=>	$total_os,
     							'payment_option'	=>	$data["option_pay"]
     					);
     					$this->_name="ln_loanmember_funddetail";
@@ -461,7 +484,7 @@ public function addILPayment($data){
 	    							'principal_permonth'	=>		$data["principal_permonth_".$i],
 	    							'total_interest'		=>		$data["interest_".$i],
 	    							'total_payment'			=>		$data["payment_".$i],
-	    							'currency_id'			=>		$data["curr"],
+	    							'currency_id'			=>		$data["currency_type"],
 	    							'pay_after'				=>		$data['multiplier_'.$i],
 	    							'is_completed'			=>		0,
 	    							'is_verify'				=>		0,

@@ -94,7 +94,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_service_charge->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'totalReturn();'
+				'onkeyUp'=>'totalReturn();'
 		));
 		$_service_charge->setValue(0);
 		
@@ -144,7 +144,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_os_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'required'=>true,
 		));
 		
 		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('total_interest');
@@ -153,7 +154,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true',
 				'style'=>'color:red;',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'required'=>true,
 		));
 // 		$value_interest = 2.5;
 // 		$_rate->setValue($value_interest);
@@ -163,7 +165,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true,
-				'readOnly'=>'readOnly'
+				//'readOnly'=>'readOnly'
 		));
 		$_penalize_amount->setValue(0);
 		
@@ -203,7 +205,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$date_input->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>true
 		));
 		$date_input->setValue($c_date);
 		
@@ -244,7 +246,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
 		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
-		
+		$old_tota_pay = new Zend_Form_Element_Hidden("oldTotalPay");
+		$old_tota_pay->setAttrib('dojoType', 'dijit.form.TextBox');
 		
 		if($data!=""){
 			$id->setValue($data["id"]);
@@ -273,8 +276,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 			$_interest_rate->setValue($data["interest_rate"]);
 			$_payterm->setValue($data["collect_typeterm"]);
 			$_collect_date->setValue($data["date_pay"]);
+			$old_tota_pay->setValue($data["total_payment"]-$data["service_charge"]);
 		}
-		$this->addElements(array($installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
+		$this->addElements(array($old_tota_pay,$installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;

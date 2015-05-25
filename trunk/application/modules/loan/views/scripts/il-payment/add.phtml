@@ -60,8 +60,9 @@
 				dijit.byId('co_id').focus();
 				return false;
 			} 
+		}else {
+			return false;
 		}
-			
 </script>
 <table cellspacing="10" class='fullside'>
 	<tr>
@@ -523,6 +524,9 @@ function trRow(x){
 		$('#mfdid_'+x).attr('onclick',"return true", 'onkeydown',"return true");
 		if(x==1){
 			$('#mfdid_'+x).attr('checked',true);
+		}else{
+			dijit.byId('identity').attr('value',1);
+			$('#mfdid_'+x).attr('checked',false);
 		}
 	}
 	calculateTotal();
