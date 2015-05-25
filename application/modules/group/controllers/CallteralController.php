@@ -45,9 +45,17 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$db = new Group_Model_DbTable_DbClient();
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
+		$row['collecteral_code']='';
+		$row['co_id']='';
+		$row['guarantor']=$row['spouse_name'];
+		$row['relative']=$row['relate_with'];
+		$row['guarantor_relative']=$row['guarantor_with']; 
+		$row['note']=$row['remark']; 
+		$row['id']='';
+		
 		//$row = $db->addClient($id);
-		//print_r($row);exit();
-		$this->view->row=$row;
+		print_r($row);
+		
 		if($this->getRequest()->isPost()){
 			$calldata=$this->getRequest()->getPost();
 			$db_call = new Group_Model_DbTable_DbCallteral();
@@ -65,9 +73,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 			}
 		}
 		$fm = new Group_Form_Frmcallterals();
-		$frm = $fm->FrmCallTeral();
+		$frm = $fm->FrmCallTeral($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_callteral = $frm;
+		$this->view->row=$row;
 		
 // 		$frmpopup = new Application_Form_FrmPopupGlobal();
 // 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
