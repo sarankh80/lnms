@@ -118,13 +118,13 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+// 		$frmpopup = new Application_Form_FrmPopupGlobal();
+// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
+// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
+// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
+// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 	}
 	
 	public function viewAction(){
