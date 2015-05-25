@@ -45,7 +45,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$db = new Group_Model_DbTable_DbClient();
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
-		if(!empty($id)){
+		if(!empty($row)){
 		$row['collecteral_code']='';
 		$row['co_id']='';
 		$row['guarantor']=$row['spouse_name'];
@@ -53,6 +53,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$row['guarantor_relative']=$row['guarantor_with']; 
 		$row['note']=$row['remark']; 
 		$row['id']='';
+		
 		}
 		//$row = $db->addClient($id);
 		//print_r($row);
