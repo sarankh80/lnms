@@ -148,10 +148,13 @@
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
-			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
+			   <input type="submit" name="save" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" />
+			   <input type="button" name="saveprint" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
+			   
+			   <input type="submit" name="cancel" value="cancel" label="<?php echo $tr->translate('CANCEL');?>" id="cancelButton" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconDelete" />
 			</td>
 		</tr>
 		<tr>
