@@ -199,6 +199,10 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   
   function rptLoanOutstandingAction(){//loand out standing with /collection
+  		$frm = new Loan_Form_FrmSearchLoan();
+  		$frms = $frm->AdvanceSearch();
+  		Application_Model_Decorator::removeAllDecorator($frms);
+  		$this->view->frm_search = $frms;
 	    $db  = new Report_Model_DbTable_DbLoan();
 	  	$key = new Application_Model_DbTable_DbKeycode();
 	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -212,12 +216,23 @@ class Report_LoanController extends Zend_Controller_Action {
 	  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
 	  		}	
 	  		elseif(!empty($search['txtsearch'])){
-	  			
+	  			$this->view->outstandloan =$db->getAllOutstadingLoan($search);
 	  			
 	  		}
+	  		
+	  	}
+	  	else {
+	  		$search = array(
+	  				'adv_search'		=>	"",
+	  				//'start_date' => date('Y-m-d'),
+	  				'end_date' => date('Y-m-d'),
+	  				'status' => "",
+	  				'branch_id'		=>	0,
+	  		);
+	  		$this->view->outstandloan =$db->getAllOutstadingLoan($search);
 	  	}
 	  	$rs= $db->getAllOutstadingLoan($search);
-	  	print_r($rs);
+	  	//print_r($rs);
 	  	$this->view->outstandloan = $rs;
   }
   function rptLoanBereleaseAction(){
@@ -563,6 +578,37 @@ function rptPaymentschedulesAction(){
  	$frm = $fm->FrmBadLoan();
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_loan = $frm;
+ }
+ function rptLoanXchangeAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$search = $this->getRequest()->getPost();
+ 		if(isset($search['btn_search'])){
+ 			$this->view->Loanxchange_list =$db->getAllxchange($search);
+ 		}else {
+ 			$collumn = array("id","branch_namekh","client_name_en","loss_date","cash_type","currency_typeshow","total_amount","intrest_amount","tem","note","date");
+ 			$this->exportFileToExcel('ln_loanmember_funddetail',$db->getALLBadloan(),$collumn);
+ 		}
+ 	}else{
+ 		$search = array(
+ 				'adv_search'=>'',
+ 				'branch' => '',
+ 				'client_name' =>'',
+ 				'client_code'=>'',
+ 				'Term'=>'',
+ 				'status' =>'',
+ 				'cash_type'=>'',
+ 				'start_date'=> date('Y-m-01'),
+ 				'end_date'=>date('Y-m-d'));
+ 		$this->view->Loanxchange_list =$db->getAllxchange($search);
+ 	}
+ 	
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frm = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
  }
 }
 
