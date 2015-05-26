@@ -204,10 +204,10 @@ public function addILPayment($data){
     			'date_pay'						=>		$data['collect_date'],
     			'date_input'					=>		$data["date_input"],
     			'principal_amount'				=>		$data["priciple_amount"],
-    			'total_principal_permonth'		=>		$os_amount,
-    			'total_payment'					=>		$total_payment,
-    			'total_interest'				=>		$interest,
-    			'recieve_amount'				=>		$amount_receive,
+    			'total_principal_permonth'		=>		$data["os_amount"],
+    			'total_payment'					=>		$data["total_payment"],
+    			'total_interest'				=>		$data["total_interest"],
+    			'recieve_amount'				=>		$data["amount_receive"],
     			'penalize_amount'				=>		$data['penalize_amount'],
     			'return_amount'					=>		$return,
     			'service_charge'				=>		$data["service_charge"],
@@ -452,10 +452,7 @@ public function addILPayment($data){
     					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
     					
     					$arr_update_fun_detail = array(
-    							'is_completed'		=> 	0,
-    							'total_interest'	=>  $interest_fun,
-    							'total_payment'		=>	$total_pay,
-    							'principal_permonth'=>	$total_os,
+    							'is_completed'		=> 	1,
     							'payment_option'	=>	$data["option_pay"]
     					);
     					$this->_name="ln_loanmember_funddetail";
@@ -498,8 +495,9 @@ public function addILPayment($data){
 	    					$a = $os_amount-$new_amount;
 	    					$arr_update_fun_detail = array(
 	    							'is_completed'		=> 	0,
-	    							'total_interest'	=>  $new_interest,
+	    							'total_interest'	=>  $interest_fun,
 	    							'total_payment'		=>	$total_pay,
+	    							'principal_permonth'=>	$total_os,
 	    							'payment_option'	=>	$data["option_pay"]
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
@@ -537,6 +535,41 @@ public function addILPayment($data){
     		echo $e->getMessage();exit();
     	}
     }
+   function cancelPayment($id){
+   	$db = $this->getAdapter();
+   	$db->beginTransaction();
+   	$session_user=new Zend_Session_Namespace('auth');
+   	$user_id = $session_user->user_id;
+   	$data = $this->getIlPaymentByID($id);
+   	try{
+   		if($data){
+   			$total_principle = $data["total_principal_permonth"];
+   			$total_payment = $data["total_payment"];
+   			$interest = $data["total_interest"];
+   			$penelize = $data["penalize_amount"];
+   			$service_charge = $data["service_charge"];
+   			$receive_amount = $data["recieve_amount"];
+   			$option_pay = $data["payment_option"];
+   			
+   			$old_totalPayment = $total_payment+$receive_amount; 
+//    			$old_penelize = ($receive_amount-$service_charge)-
+//    			$old_interest = 
+   			
+//    			$arr = array(
+//    				'principal_permonth'	=>$old_totalPayment,
+//    				'total_interest'		=>,
+//    				'total_payment'			=>,
+//    				'is_completed'			=>0
+//    			);
+   			
+   		}
+   		//$db->commit();
+   	}catch (Exception $e){
+   		$db->rollBack();
+   		echo $e->getMessage();exit();
+   	}
+   	
+   }
    function getAllPaymentListBySender($client_id){
    		$db = $this->getAdapter();
    		$sql = " CALL `stgetAllPaymentById`($client_id)";
