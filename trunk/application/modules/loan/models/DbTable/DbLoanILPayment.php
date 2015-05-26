@@ -541,6 +541,7 @@ public function addILPayment($data){
    	$session_user=new Zend_Session_Namespace('auth');
    	$user_id = $session_user->user_id;
    	$data = $this->getIlPaymentByID($id);
+   //	print_r($data);exit();
    	try{
    		if($data){
    			$total_principle = $data["total_principal_permonth"];
@@ -550,18 +551,28 @@ public function addILPayment($data){
    			$service_charge = $data["service_charge"];
    			$receive_amount = $data["recieve_amount"];
    			$option_pay = $data["payment_option"];
-   			
+   			$caculate = $receive_amount-$service_charge-$penelize-$interest;
+   			if($caculate<0){
+   				$old_principle = $total_principle;
+   			}else{
+   				$old_principle = $caculate+$total_principle;
+   			}
+   			print_r($receive_amount."-".$service_charge."-".$penelize."-".$interest."<br>");
    			$old_totalPayment = $total_payment+$receive_amount; 
-//    			$old_penelize = ($receive_amount-$service_charge)-
-//    			$old_interest = 
+   			//$old_principle = ($old_totalPayment -$total_principle)+$total_principle;
+   			$old_interest = ($receive_amount-$service_charge-$penelize) +($total_principle-$receive_amount);
    			
-//    			$arr = array(
-//    				'principal_permonth'	=>$old_totalPayment,
-//    				'total_interest'		=>,
-//    				'total_payment'			=>,
-//    				'is_completed'			=>0
-//    			);
-   			
+   			$sql = "SELECT lfd_id FROM ln_client_receipt_money_detail WHERE crm_id = $id";
+   			$payment_detail = $db->fetchRow($sql);
+   			print_r("* current value:<br>"."- principle :".$total_principle."<br>- totalpay:".$total_payment."<br>- interest :".$interest."* old value:<br>"."-Total princile :".$old_principle."<br>-Interest:".$old_interest."<br>- total pay:".$old_totalPayment);exit();
+   			$arr = array(
+   				'principal_permonth'	=>$old_principle,
+   				'total_interest'		=>$old_interest,
+   				'total_payment'			=>$old_totalPayment,
+   				'is_completed'			=>0
+   			);
+   			$this->_name = "ln_loanmember_funddetail";
+   			$where = $db->quoteInto("id=?", $payment_detail["lfd_id"]);
    		}
    		//$db->commit();
    	}catch (Exception $e){
