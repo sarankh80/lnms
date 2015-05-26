@@ -131,30 +131,42 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       public function getAllOutstadingLoan($search=null){//
 //       	$sql = 'SELECT * FROM `ln_loanmember_funddetail` WHERE STATUS=1 AND is_completed=0 GROUP BY member_id ORDER BY id DESC ';
 	      	$db = $this->getAdapter();//
-	      	$sql="SELECT g.member_id,g.loan_number,
-	      	(SELECT branch_namekh FROM ln_branch WHERE br_id=g.branch_id LIMIT 1) AS branch_name
-	      	,CONCAT((SELECT name_kh FROM ln_client WHERE client_id=g.client_id LIMIT 1),'<br />',
-	      	(SELECT name_en FROM ln_client WHERE client_id=g.client_id LIMIT 1)) AS client_name,
-	      	g.total_capital,g.interest_rate,
-	      	(SELECT symbol FROM `ln_currency` WHERE id =g.currency_type) AS currency_type,g.currency_type as curr_type,
-	      	(SELECT SUM(total_payment) AS total_payment FROM `ln_client_receipt_money` WHERE loan_number =g.loan_number) AS total_payment
-	      	,(SELECT total_duration FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS total_duration
-	      	,(SELECT name_en FROM `ln_view` WHERE TYPE=14 AND key_code=(SELECT pay_term FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1)) AS pay_term
-	      	,(SELECT date_release FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1) AS date_release
-	      	,(SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id = g.group_id LIMIT 1))AS co_name,
-	      	(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =lg.pay_term ) AS name_en
-	      	,g.admin_fee FROM `ln_loan_group` AS lg, ln_loan_member AS g WHERE lg.g_id = g.group_id AND g.status=1 AND is_completed=0 AND g.is_reschedule!=2 GROUP BY member_id ";//IF BAD LOAN STILL GET IT 
-	      	$order =" ORDER BY g.currency_type ,g.branch_id , g.member_id DESC";
+	      	$start_date = $search['start_date'];
+	      	$end_date = $search['end_date'];
+	      	$sql="SELECT * FROM v_loanoutstanding Where 1 ";//IF BAD LOAN STILL GET IT 
+	      	//$sql=""
+	      	//$order =" ORDER BY g.currency_type ,g.branch_id , g.member_id DESC";
 	      	$where = '';
-	      	if(!empty($search['txtsearch'])){
+	      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+	      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+	      	}
+     	 if($search['branch_id']>0){
+    		$where.=" AND br_id = ".$search['branch_id'];
+    		}
+    	if($search['client_name']>0){
+    		$where.=" AND client_id = ".$search['client_name'];
+    	}
+    	if($search['co_id']>0){
+    		$where.=" AND co_id = ".$search['co_id'];
+    	}
+	      	if(!empty($search['adv_search'])){
 	      		$s_where = array();
-	      		$s_search = $search['txtsearch'];
+	      		$s_search = $search['adv_search'];
 	      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-	      		$s_where[]=" client_id LIKE '%{$s_search}%'";
+	      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+	      		$s_where[] = " co_name LIKE '%{$s_search}%'";
+	      		$s_where[]=" branch_name LIKE '%{$s_search}%'";
+	      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+	      		//$s_where[]=" interest_rate LIKE '%{$s_search}%'";
+	      		//$s_where[] = " date_release LIKE '%{$s_search}%'";
+	      		//$s_where[]=" curr_type LIKE '%{$s_search}%'";
+	      		//$s_where[] = " total_payment LIKE '%{$s_search}%'";
+	      		//$s_where[]=" total_duration LIKE '%{$s_search}%'";
+	      		//$s_where[]=" pay_term LIKE '%{$s_search}%'";
 	      		$where .=' AND '.implode(' OR ',$s_where).'';
 	      	
 	      	}
-	      	return $db->fetchAll($sql.$where.$order);
+	      	return $db->fetchAll($sql.$where);
       }
       public function getALLGroupDisburse($search = null){
       	$db = $this->getAdapter();
@@ -629,5 +641,45 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	//     	echo $sql.$where;
       	return $db->fetchAll($sql.$where.$order);
       }
+      public function getAllxchange($search = null){
+      	$db = $this->getAdapter();
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      	$sql = "SELECT * FROM `v_xchange` WHERE 1";
+      	$where ='';
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND statusDate BETWEEN '$start_date' AND '$end_date'";
+      	}
+//       	if($search['branch_id']>0){
+//       		$where.=" AND branch_id = ".$search['branch_id'];
+//       	}
+//       	if($search['client_name']>0){
+//       		$where.=" AND client_id = ".$search['client_name'];
+//       	}
+      	if(!empty($search['adv_search'])){
+      		$s_where = array();
+      		$s_search = $search['adv_search'];
+      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " changedAmount LIKE '%{$s_search}%'";
+      		$s_where[]=" fromAmount LIKE '%{$s_search}%'";
+      		$s_where[] = " rate LIKE '%{$s_search}%'";
+      		$s_where[]=" recieptNo LIKE '%{$s_search}%'";
+      		$s_where[] = " recievedAmount LIKE '%{$s_search}%'";
+      		$s_where[]=" status_in LIKE '%{$s_search}%'";
+      		$s_where[] = " statusDate LIKE '%{$s_search}%'";
+      		$s_where[]=" toAmount LIKE '%{$s_search}%'";
+      		$s_where[]=" toAmountType LIKE '%{$s_search}%'";
+      		$s_where[]=" fromAmountType LIKE '%{$s_search}%'";
+      		$s_where[]=" from_to LIKE '%{$s_search}%'";
+      		$s_where[]=" recievedType LIKE '%{$s_search}%'";
+      		$s_where[]=" specail_customer LIKE '%{$s_search}%'";
+      		
+      		$where .=' AND '.implode(' OR ',$s_where).'';
+      	
+      	}
+      	return $db->fetchAll($sql.$where);
+      	
+      } 
  }
 

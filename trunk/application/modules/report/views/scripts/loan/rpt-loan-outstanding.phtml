@@ -1,21 +1,22 @@
+<?php $frm = $this->frm_search;?>
 <title>Loan Released</title>
 <meta charset="utf-8">
 <title>out standing loan</title>
-<table style="font-family: 'Khmer OS Content';float: right;"  >
+<form method="post">
+<table style="font-family: 'Khmer OS Content';" >
 	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
-		</td>
-	</tr>
+   			<td><?php echo $frm->getElement("adv_search");?></td>
+   			<td><?php echo $frm->getElement('branch_id');?></td>
+   			<td><?php echo $frm->getElement('co_id');?></td>
+   			<td><?php echo $frm->getElement('start_date');?></td>
+   			<td><?php echo $frm->getElement('end_date');?></td>
+   			<td><?php //echo $frm->getElement('status');?></td>
+   			<td><?php echo $frm->getElement("btn_search");?></td>
+   	</tr>
 </table>
-<style>
-.style{
-	line-height: 20px !important;font-size: 12px;
-	font-family: 'Khmer OS Battambang';
-}
-</style>
+</form>
+<br /><br /><br />
+
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;">
@@ -56,6 +57,7 @@
                     <th>&nbsp;សាខា&nbsp;</th>
                     <th>&nbsp;ថ្ងៃខ្ចី&nbsp;</th>
                     <th>&nbsp;លេខឥណទាន&nbsp;</th>
+                    <th>&nbsp;មន្ត្រើឥណទាន&nbsp;</th>
                     <th>&nbsp;ឈ្មោះអតិថជន&nbsp;</th>
                     <th>&nbsp;ចំនួនប្រាក់កម្ចី&nbsp;</th>
                     <th>&nbsp;ចំនួនប្រាក់ប្រមូលមកវិញ&nbsp;</th>
@@ -83,6 +85,7 @@
 					<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
 					<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_name']; ?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_payment'],2);?>&nbsp;</td>
