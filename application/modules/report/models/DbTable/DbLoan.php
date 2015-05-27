@@ -90,9 +90,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where = array();
       		$s_search = $search['adv_search'];
       		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		//$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " client_id LIKE '%{$s_search}%'";
       		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " co_name LIKE '%{$s_search}%'";
+      		//$s_where[] = " co_name LIKE '%{$s_search}%'";
       		$where .=' AND '.implode(' OR ',$s_where).'';
       	}
 //       	$db = $this->getAdapter();
