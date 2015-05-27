@@ -75,9 +75,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	else{
   		$search = array(
   				'pay_every'=>'',
-  				'branch_id'=>'',
-  				'client_name'=>'',
-  				'co_id'=>'',
+  			  	'client_name'=>'',
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   			
