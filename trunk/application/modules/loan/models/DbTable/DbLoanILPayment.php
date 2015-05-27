@@ -544,31 +544,82 @@ public function addILPayment($data){
    //	print_r($data);exit();
    	try{
    		if($data){
-   			$total_principle = $data["total_principal_permonth"];
-   			$total_payment = $data["total_payment"];
-   			$interest = $data["total_interest"];
-   			$penelize = $data["penalize_amount"];
-   			$service_charge = $data["service_charge"];
-   			$receive_amount = $data["recieve_amount"];
+   			$principle_be = $data["total_principal_permonth"];
+   			$total_payment_be = $data["total_payment"];
+   			$interest_be = $data["total_interest"];
+   			$penelize_be = $data["penalize_amount"];
+   			$service_charge_be = $data["service_charge"];
+   			$receive_amount_be = $data["recieve_amount"];
    			$option_pay = $data["payment_option"];
-   			$caculate = $receive_amount-$service_charge-$penelize-$interest;
-   			if($caculate<0){
-   				$old_principle = $total_principle;
-   			}else{
-   				$old_principle = $caculate+$total_principle;
-   			}
-   			print_r($receive_amount."-".$service_charge."-".$penelize."-".$interest."<br>");
-   			$old_totalPayment = $total_payment+$receive_amount; 
-   			//$old_principle = ($old_totalPayment -$total_principle)+$total_principle;
-   			$old_interest = ($receive_amount-$service_charge-$penelize) +($total_principle-$receive_amount);
-   			
    			$sql = "SELECT lfd_id FROM ln_client_receipt_money_detail WHERE crm_id = $id";
    			$payment_detail = $db->fetchRow($sql);
-   			print_r("* current value:<br>"."- principle :".$total_principle."<br>- totalpay:".$total_payment."<br>- interest :".$interest."* old value:<br>"."-Total princile :".$old_principle."<br>-Interest:".$old_interest."<br>- total pay:".$old_totalPayment);exit();
+   			
+   			$lfd_id = $payment_detail['lfd_id'];
+   			$sql_fun_detail = "SELECT * FROM ln_loanmember_funddetail WHERE id = $lfd_id";
+   			$fun_detail = $db->fetchRow($sql_fun_detail);
+   			
+   			$principle_af = $fun_detail["principal_permonth"];
+   			$interest_af = $fun_detail["total_interest"];
+   			$total_payment_af = $fun_detail["total_payment"];
+   			
+   			if($interest_be>0){
+   				$principe = $principle_af;
+   			}else{
+   				$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
+   			}
+   			
+   			$amount_remain = $receive_amount_be-$service_charge_be;
+   			
+   			if($amount_remain>0){
+   				if($amount_remain>$penelize_be){
+	   				$amount_remain_pene = $amount_remain - $penelize_be;
+	   				if($amount_remain_pene>0){
+		   				if($amount_remain_pene>$interest_be){
+		   					$amount_remain_int = $amount_remain_pene - $interest_be;
+		   					if($amount_remain_int>0){
+		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
+		   					}else{
+		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
+		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+		   					}
+		   				}else{
+		   					$amount_remain_int = $interest_be - $amount_remain_pene;
+		   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be+$amount_remain_int));
+		   				}
+	   				}else{
+	   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
+	   				}
+   				}else{
+   					$amount_remain_pene = $penelize_be - $amount_remain;
+   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$amount_remain_pene));
+   				}
+   			}else{
+   				$interest = $interest_be;
+   				$principe = $principle_af + ($receive_amount_be-($service_charge_be));
+   			}
+   			
+   			
+   			
+   			$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+   			$payment = $principle_be+($service_charge_be+$penelize_be+$interest_be);
+   			
+   			//print_r("Principle:".$pri)
+   			
+   			print_r("- principle :".$principe."<br> - interest :".$interest."<br> - payment :".$payment);exit();
+   			
+   			$arr_crm = array(
+   				'status'		=> 0,
+   				'is_completed'	=> 0
+   			);
+   			$this->_name = "ln_client_receipt_money";
+   			$where = $db->quoteInto("id=?", $id);
+   			$this->update($arr_crm, $where);
+   			
    			$arr = array(
-   				'principal_permonth'	=>$old_principle,
-   				'total_interest'		=>$old_interest,
-   				'total_payment'			=>$old_totalPayment,
+   				'principal_permonth'	=>$principe,
+   				'total_interest'		=>$interest,
+   				'total_payment'			=>$payment,
    				'is_completed'			=>0
    			);
    			$this->_name = "ln_loanmember_funddetail";
