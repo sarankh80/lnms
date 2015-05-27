@@ -1,25 +1,21 @@
+<?php $filter = $this->frm_search;?>
 <title>Loan Released By CO</title>
 <meta charset="utf-8">
 <title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
-<table style="font-family: 'Khmer OS Content';float: right;"  >
-	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=" (Holiday Name)"  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
-		</td>
-	</tr>
-</table>
-<style>
-.style{
-	line-height: 20px;font-size: 12px;
-	font-family: 'Khmer OS Battambang';
-}
-</style>
-<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
- <div dojoType="dijit.layout.ContentPane" region="top" >
-
- </div>
+<div dojoType="dijit.layout.ContentPane" region="top" style="height: auto;">
+<form method="post">
+	<table width="100%" style="font-family: 'Khmer OS Content';float: left;">
+		<tr>
+			<td><?php echo $filter->getElement('adv_search');?></td>
+			<td><?php echo $filter->getElement('client_name');?></td>
+			<td><?php echo $filter->getElement('pay_every');?></td>
+		
+			<td><?php echo $filter->getElement('start_date');?></td>
+			<td><?php echo $filter->getElement('end_date');?></td>
+			<td><?php echo $filter->getElement('btn_search');?></td>
+		</tr>
+	</table>
+	</form>
 </div>
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
