@@ -196,7 +196,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'Onchange'	=>	'calculateTotal();'
+				'Onchange'	=>	'calculateTotal();payOption();'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
