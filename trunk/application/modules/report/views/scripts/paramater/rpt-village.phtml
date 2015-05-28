@@ -63,11 +63,13 @@ $frm = $this->frm_village;
 ?>
 <title><?php echo $tr->translate("RPT_VILLAGE");?></title>
 <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-village')); ?>" dojoType="dijit.form.Form" method="post">
-<table style="float: right;">
+<table style="float: left;">
 	<tr>
 		   	<td><?php echo $frm->getElement("adv_search");?></td>
 		   	<td><?php  echo $frm->getElement('province_name');?></td>
 		   	<td><input id="district_name" ></td>
+	</tr>
+	<tr>
 		   	<td><input id="commune_name" ></td>
 		    <td><?php echo $frm->getElement('search_status');?></td>
 		    <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
