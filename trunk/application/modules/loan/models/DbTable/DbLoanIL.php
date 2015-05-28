@@ -529,6 +529,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		return 1;
     	}catch (Exception $e){
     		$db->rollBack();
+    		echo $e->getMessage();exit();
     	}
     }
     function updateLoanById($data){

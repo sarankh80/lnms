@@ -166,7 +166,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 	function getLastPayDateAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanIL();
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
 			$row = $db->getLastPayDate($data);
 			print_r(Zend_Json::encode($row));
 			exit();
