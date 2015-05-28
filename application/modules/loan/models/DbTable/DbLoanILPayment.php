@@ -598,13 +598,9 @@ public function addILPayment($data){
    				$interest = $interest_be;
    				$principe = $principle_af + ($receive_amount_be-($service_charge_be));
    			}
-   			
-   			
-   			
    			$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
    			$payment = $principle_be+($service_charge_be+$penelize_be+$interest_be);
    			
-   			//print_r("Principle:".$pri)
    			
    			print_r("- principle :".$principe."<br> - interest :".$interest."<br> - payment :".$payment);exit();
    			
@@ -656,7 +652,9 @@ public function addILPayment($data){
 			   		  lm.`collect_typeterm`,
 			   		  lm.`amount_collect_principal`,
 					  lg.`co_id`,
-					  lg.`payment_method`,   
+					  lg.`payment_method`,
+					  lg.`date_release`,    
+					  lg.`level`,
 					  lf.*
 					FROM
 					  `ln_client` AS lc,
@@ -685,7 +683,9 @@ public function addILPayment($data){
 			   		  lm.`collect_typeterm`,
 			   		  lm.`amount_collect_principal`,
 					  lg.`co_id`,
-					  lg.`payment_method`,   
+					  lg.`payment_method`,
+					  lg.`date_release`,   
+					  lg.`level`, 
 					  lf.*
 					FROM
 					  `ln_client` AS lc,
@@ -775,6 +775,24 @@ public function addILPayment($data){
    	$db = $this->getAdapter();
    	$sql = "SELECT c.`client_id` AS id ,c.`client_number` AS name ,c.`branch_id` FROM `ln_client` AS c WHERE c.`name_en`!='' " ;
    	return $db->fetchAll($sql);
+   }
+   
+   public function getLastPayDate($data){
+   	$loanNumber = $data['loan_numbers'];
+   	$db = $this->getAdapter();
+   	$sql ="SELECT 
+			  lf.`date_payment`
+			FROM
+			  `ln_loanmember_funddetail` AS lf,
+			  `ln_client_receipt_money` AS c,
+			  `ln_loan_member` AS lm
+			WHERE c.`loan_number` = lm.`loan_number`
+			  AND lm.`member_id` = lf.`member_id`
+			  AND c.`loan_number` = '$loanNumber' 
+			  AND lf.`is_completed`=1
+			ORDER BY lf.`id` DESC LIMIT 1";
+   	//return $sql;
+   	return $db->fetchOne($sql);
    }
 }
 

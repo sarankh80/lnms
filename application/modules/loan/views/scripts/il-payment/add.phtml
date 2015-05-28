@@ -71,6 +71,14 @@
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table class="center" cellspacing="10">
 						<tr>
+							<td></td>
+							<td></td>
+							<td><?php echo $tr->translate("កម្រិតកម្ខី")?></td>
+							<td><?php echo $frm->getElement('load_level');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃខ្ចីប្រាក់")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
@@ -87,7 +95,23 @@
 							<td><?php echo $frm->getElement('co_id');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('option_pay');?></td>
+							<td><?php echo $tr->translate("រយៈពេលនៃការបង់ប្រាក់")?></td>
+							<td><?php echo $frm->getElement('payment_term');?></td>
+							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
+							<td><?php echo $frm->getElement('currency_type');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
+							<td><?php echo $frm->getElement('service_charge');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('penalize_amount');?></td>
+							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>
 							
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("ប្រាក់ដើមនៅសល់")?></td>
 							<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមត្រូវសង")?></td>
@@ -96,26 +120,10 @@
 							<td><?php echo $frm->getElement('total_interest');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
-							<td><?php echo $frm->getElement('service_charge');?></td>
-							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
-							<td><?php echo $frm->getElement('penalize_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
 							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('option_pay');?></td>
-							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('interest_rate');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("រយៈពេលនៃការបង់ប្រាក់")?></td>
-							<td><?php echo $frm->getElement('payment_term');?></td>
-							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
-							<td><?php echo $frm->getElement('currency_type');?></td>
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 						</tr>
@@ -124,14 +132,16 @@
 							<td><?php  echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('date_input');?></td>
-							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
-							<td><?php echo $frm->getElement('note');?></td>
+							<td><?php echo $tr->translate("ប្រាក់នៅសល់")?></td>
+							<td><?php echo $frm->getElement('remain');?></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td></td>
 							<td><?php  echo $frm->getElement('installment_date');?></td>
 							<td><?php  echo $frm->getElement('amount_payment_term');?></td>
+							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
+							<td><?php echo $frm->getElement('note');?></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -528,7 +538,7 @@ function trRow(x){
 			$('#mfdid_'+x).attr('checked',true);
 		}else{
 			dijit.byId('identity').attr('value',1);
-			$('#mfdid_'+x).attr('checked',false);
+// 			$('#mfdid_'+x).removeAattr('checked');
 		}
 	}
 	calculateTotal();
@@ -878,13 +888,18 @@ if(arrays!=""){
 				  	  	  		dijit.byId('identity').attr('value',ids);
 				  	  	  		var arrays = ids.split(',');
 				  	  	  		for(var i=0;i<arrays.length;i++){
-					  	  	  		installment_date=old_installment_date==""?new Date($('#date_payment_1').val()):installment_date;
+					  	  	  		
 				  	  	  			priciple_amount = 0;
 				  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
 				  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
-				  	  	  			practical_date  = Math.round((installment_date - date_collect)/(oneDay));
+				  	  	  			
 				  	  	  		}
-					  	  	  	total_interest = ((os_amount*interest_rate/100)/1)*practical_date;
+					  	  	  	installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
+// 				  	  	  		alert(installment_date);
+				  	  	  		practical_date  = Math.round((date_collect - installment_date)/(oneDay));
+// 				  	  	  		alert(practical_date);
+					  	  	  	total_interest = ((os_amount*(interest_rate/100)/1))*practical_date;
+// 					  	  	  	alert(os_amount+'*('+interest_rate+'/100)'+'/1)'+'*'+practical_date);
 					  	  		totalAmount = os_amount+total_interest;
 			  	  	  		}
 	  	  	  			}
@@ -913,13 +928,14 @@ if(arrays!=""){
 			  	  	  		dijit.byId('identity').attr('value',ids);
 			  	  	  		var arrays = ids.split(',');
 			  	  	  		for(var i=0;i<arrays.length;i++){
-				  	  	  		installment_date=old_installment_date==""?new Date($('#date_payment_1').val()):installment_date;
+				  	  	  		installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
+				  	  	  	alert(installment_date);
 			  	  	  			priciple_amount = 0;
 			  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
 			  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
 			  	  	  			document.getElementById('tr_'+arrays[i]).style.background='#eee';
 			  	  	  			
-			  	  	  			practical_date  = Math.round((installment_date - date_collect)/(oneDay));
+			  	  	  			practical_date  = Math.round((date_collect - installment_date)/(oneDay));
 			  	  	  		}
 				  	  	  	total_interest = ((os_amount*interest_rate/100)/7)*practical_date;
 				  	  		totalAmount = os_amount+total_interest;
@@ -949,11 +965,12 @@ if(arrays!=""){
 			  	  	  		dijit.byId('identity').attr('value',ids);
 			  	  	  		var arrays = ids.split(',');
 			  	  	  		for(var j=0;j<arrays.length;j++){
-				  	  	  		installment_date=old_installment_date==""?new Date($('#date_payment_1').val()):installment_date;
+				  	  	  		installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
+				  	  	  		alert(installment_date);
 			  	  	  			priciple_amount = 0;
 			  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[j]).val();
 			  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
-			  	  	  			practical_date  = Math.round((installment_date - date_collect)/(oneDay));
+			  	  	  			practical_date  = Math.round((date_collect - installment_date)/(oneDay));
 			  	  	  		}
 				  	  	  	total_interest = ((os_amount*interest_rate/100)/30)*practical_date;
 				  	  		totalAmount = os_amount+total_interest;
@@ -1214,6 +1231,8 @@ function getdataPaymentToForm(data){//use
 	dijit.byId('currency_type').attr('value',data.currency_type);
 	dijit.byId('reciever').attr('value',data.collect_by);
 	dijit.byId('amount_payment_term').attr('value',data.amount_collect_principal);
+	dijit.byId('release_date').attr('value',data.date_release);
+	dijit.byId('load_level').attr('value',data.level);
 	var today = new Date();
 	dijit.byId('collect_date').attr('value',today);
 	totalReturn();
@@ -1241,26 +1260,18 @@ function totalReturn(){
 	
 	dijit.byId('total_payment').attr('value',total_amount);
 	total_payments = dijit.byId('total_payment').get('value');
-// 	if(option_pay==2 || option_pay==3 || option_pay==4){
-// 		if(receive_amount<total_payments){
-// 			alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
-// 			dijit.byId('submitButton').attr('disabled','disabled');
-// 			dijit.byId('saveprint').attr('disabled','disabled');
-// 		}else{
-// 			dijit.byId('submitButton').attr('disabled',false);
-// 			dijit.byId('saveprint').attr('disabled',false);
-// 		}
-// 	}else{
-// // 		if(receive_amount<service_charge){
-// // 		}
-// 		dijit.byId('submitButton').attr('disabled',false);
-// 		dijit.byId('saveprint').attr('disabled',false);
-// 	}
 	amonut_return = receive_amount-total_payments;
+	remain_amount = total_payments-receive_amount;
 	if(amonut_return<0){
 		dijit.byId('amount_return').attr('value',0);
 	}else{
 		dijit.byId('amount_return').attr('value',amonut_return);
+	}
+
+	if(remain_amount>0){
+		dijit.byId('remain').attr('value',remain_amount);
+	}else{
+		dijit.byId('remain').attr('value',0);
 	}
 	//alert(receive_amount);
 }
