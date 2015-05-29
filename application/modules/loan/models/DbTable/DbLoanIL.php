@@ -445,6 +445,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     							'member_id'=>$member_id,
     							'total_principal'=>$remain_principal,//good
     							'principal_permonth'=> $old_pri_permonth,//good
+    							'principle_after'=> $old_pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
     							'date_payment'=>$next_payment,//good
@@ -513,6 +514,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						'member_id'=>$member_id,
     						'total_principal'=>$pri_permonth,//good
     						'principal_permonth'=> $pri_permonth,//good
+    						'principle_after'=> $old_pri_permonth,//good
     						'total_interest'=>$interest_paymonth,//good
     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
     						'date_payment'=>$data['date_line'],//good
