@@ -1,4 +1,8 @@
 
+@font-face {
+    font-family: 'NiDA Khmer Empire';
+    src: url("../font/NiDAKhmerEmpire.ttf");
+}
 body{
 	margin: 0;
 	padding: 0;
