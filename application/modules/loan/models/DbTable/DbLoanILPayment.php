@@ -220,8 +220,8 @@ public function addILPayment($data){
     			'payment_option'				=>		$data["option_pay"],
     			'currency_type'					=>		$data["currency_type"],
     			'status'						=>		1,
-    			'amount_payment'				=>		$amount_payment
-    			//''								=>		
+    			'amount_payment'				=>		$amount_payment,
+    			'is_completed'					=>		1
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
