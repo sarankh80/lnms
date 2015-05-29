@@ -62,14 +62,26 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		}
 		$_client_code->setMultiOptions($option_client_number);
 		
-		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
+// 		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
+// 		$_loan_number->setAttribs(array(
+// 				'dojoType'=>'dijit.form.TextBox',
+// 				'class'=>'fullside',
+// 				//'onKeyUp'=>'getLaonPayment(1);getAllLaonPayment(1);'
+// 				'required'=>true
+// 		));
+		$row_loan_number = $db->getAllLoanNumber();
+		$options=array(''=>'-----Select Loan Number------');
+		if(!empty($row_loan_number))foreach($row_loan_number AS $row){
+			$options[$row['loan_number']]=$row['loan_number'];
+		}
+		$_loan_number = new Zend_Dojo_Form_Element_FilteringSelect('loan_number');
 		$_loan_number->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				//'onKeyUp'=>'getLaonPayment(1);getAllLaonPayment(1);'
 				'required'=>true
 		));
-		
+		$_loan_number->setMultiOptions($options);
 		
 		
 		$_amount_receive = new Zend_Dojo_Form_Element_NumberTextBox('amount_receive');

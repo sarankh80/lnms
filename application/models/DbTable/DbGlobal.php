@@ -817,6 +817,11 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
           WHERE m.status=1 AND g.status=1 AND m.group_id = g.g_id AND m.member_id = $member_id GROUP BY m.member_id ";
   	return $db->fetchRow($sql);
   }
-   
+
+  function getAllLoanNumber(){
+  	$db = $this->getAdapter();
+  	$sql ="SELECT lm.`loan_number` FROM `ln_loan_member` AS lm WHERE lm.`is_completed`=0";
+  	return $db->fetchAll($sql);
+  }
 }
 ?>
