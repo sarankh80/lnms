@@ -332,7 +332,7 @@ public function paymentscheduleListAction(){
 		$glClass = new Application_Model_GlobalClass();
 		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 		$list = new Application_Form_Frmtable();
-		$collumns = array("Client Name","Release Amount","Admin Fee","Interest Rate","Method","Time Collect","Zone","CO",
+		$collumns = array("Cust ID","Branch Name","Loan Number","Client Name","loan Amount","Admin Fee","Interest Rate","Pay Term","Method","Time Collect","Zone","Co",
 				"status");
 		$link=array(
 				'module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',
