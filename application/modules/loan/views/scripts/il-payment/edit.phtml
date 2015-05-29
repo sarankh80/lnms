@@ -80,6 +80,14 @@
 					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
 					<table class="center" cellspacing="10">
 						<tr>
+							<td></td>
+							<td></td>
+							<td><?php echo $tr->translate("កម្រិតកម្ខី")?></td>
+							<td><?php echo $frm->getElement('load_level');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃខ្ចីប្រាក់")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
@@ -96,7 +104,23 @@
 							<td><?php echo $frm->getElement('co_id');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('option_pay');?></td>
+							<td><?php echo $tr->translate("រយៈពេលនៃការបង់ប្រាក់")?></td>
+							<td><?php echo $frm->getElement('payment_term');?></td>
+							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
+							<td><?php echo $frm->getElement('currency_type');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
+							<td><?php echo $frm->getElement('service_charge');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('penalize_amount');?></td>
+							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>
 							
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("ប្រាក់ដើមនៅសល់")?></td>
 							<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមត្រូវសង")?></td>
@@ -105,26 +129,10 @@
 							<td><?php echo $frm->getElement('total_interest');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
-							<td><?php echo $frm->getElement('service_charge');?></td>
-							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
-							<td><?php echo $frm->getElement('penalize_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
-							<td><?php echo $frm->getElement('total_payment');echo $frm->getElement('oldTotalPay');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('option_pay');?></td>
-							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('interest_rate');?></td>
+							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("រយៈពេលនៃការបង់ប្រាក់")?></td>
-							<td><?php echo $frm->getElement('payment_term');?></td>
-							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
-							<td><?php echo $frm->getElement('currency_type');?></td>
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 						</tr>
@@ -133,14 +141,16 @@
 							<td><?php  echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('date_input');?></td>
-							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
-							<td><?php echo $frm->getElement('note');?></td>
+							<td><?php echo $tr->translate("ប្រាក់នៅសល់")?></td>
+							<td><?php echo $frm->getElement('remain');?></td>
 						</tr>
 						<tr>
 							<td></td>
 							<td></td>
 							<td><?php  echo $frm->getElement('installment_date');?></td>
 							<td><?php  echo $frm->getElement('amount_payment_term');?></td>
+							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
+							<td><?php echo $frm->getElement('note');?></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -547,6 +557,9 @@ function getPayment(){
 	dijit.byId('penalize_amount').attr('value','<?php echo $ilPaymentById["penalize_amount"];?>');
 	dijit.byId('collect_date').attr('value','<?php echo $ilPaymentById["date_pay"];?>');
 	dijit.byId('date_input').attr('value','<?php echo $ilPaymentById["date_input"];?>');
+	dijit.byId('load_level').attr('value','<?php echo $ilPaymentById["level"];?>');
+	dijit.byId('release_date').attr('value','<?php echo $ilPaymentById["date_release"];?>');
+	
 
 	dijit.byId('co_id').attr('value','<?php echo $ilPaymentById["co_id"];?>');
 	dijit.byId('note').attr('value','<?php echo $ilPaymentById["note"];?>');
@@ -1344,14 +1357,19 @@ function totalReturn(){
 	service_charge=isNaN(service_charge)?0:service_charge;
 	total_amount = parseFloat(service_charge) + parseFloat(total_payment);
 	
-	dijit.byId('total_payment').attr('value',total_amount);
+	dijit.byId('total_payment').attr('value',total_amount.toFixed(2));
 	total_payments = dijit.byId('total_payment').get('value');
-	
 	amonut_return = receive_amount-total_payments;
+	remain_amount = total_payments-receive_amount;
 	if(amonut_return<0){
 		dijit.byId('amount_return').attr('value',0);
 	}else{
-		dijit.byId('amount_return').attr('value',amonut_return);
+		dijit.byId('amount_return').attr('value',amonut_return.toFixed(2));
+	}
+	if(remain_amount>0){
+		dijit.byId('remain').attr('value',remain_amount.toFixed(2));
+	}else{
+		dijit.byId('remain').attr('value',0);
 	}
 	//alert(receive_amount);
 }

@@ -237,5 +237,16 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
+	function getLoanHasPayByLoanNumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$loan_number = $data["loan_number"];
+			$row = $db->getLaonHasPayByLoanNumber($loan_number);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 }
 
