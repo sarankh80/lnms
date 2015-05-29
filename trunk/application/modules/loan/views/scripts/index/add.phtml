@@ -343,9 +343,17 @@ function chechPaymentMethod(){
 	dijit.byId("amount_collect").set('readOnly',false);
 	dijit.byId("collect_termtype").set('readOnly',false);
 	
-	if(method_id==5){
+	
+	if(method_id==6){
+		dijit.byId("collect_termtype").set('readOnly',true);
+		dijit.byId('amount_collect_pricipal').set('readOnly',true);
+		dijit.byId('amount_collect').attr('value',1);
+		dijit.byId('amount_collect').set('readOnly',true);
+		
+	}else if(method_id==5){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dijit.byId('amount_collect_pricipal').focus();
+		dijit.byId('amount_collect_pricipal').attr('value',1);
 		dijit.byId("amount_collect").set('readOnly',true);
 		dijit.byId("collect_termtype").set('readOnly',true);
 		dijit.byId('amount_collect_pricipal').attr('value',2);
@@ -356,8 +364,7 @@ function chechPaymentMethod(){
 		dijit.byId('amount_collect_pricipal').attr('value','');
 		dijit.byId('amount_collect_pricipal').focus();
 		setDefaultPaymentAmount();
-		}
-	else{
+	}else{
 		dijit.byId('amount_collect_pricipal').set('readOnly',true);
 	}
 	if(method_id==1){

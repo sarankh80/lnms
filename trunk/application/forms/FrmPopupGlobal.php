@@ -333,10 +333,8 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 						<tr>
 							<td colspan="2" align="center">
 											<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
-											<input type="submit" value="save_close" name="save_close" label="'. $tr->translate('SAVECLOSE').'" dojoType="dijit.form.Button" 
-												iconClass="dijitEditorIcon dijitEditorIconSave" />
-											<input type="submit" value="save_new" name="save_new" label='.$tr->translate('SAVENEW').' dojoType="dijit.form.Button" 
-												iconClass="dijitEditorIcon dijitEditorIconSave" />
+											<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button" 
+												iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="alert(2);"  />
 							</td>
 						</tr>
 					</table>';
