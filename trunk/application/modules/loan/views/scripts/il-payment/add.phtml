@@ -939,7 +939,7 @@ if(arrays!=""){
 			}else{
 				total_late_day = late_day;
 			}
- 			//alert(total_late_day);
+ 			//alert(late_day);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
@@ -969,7 +969,7 @@ if(arrays!=""){
 			}else{
 				dijit.byId('option_pay').attr('readOnly',false);
 				if(payment_term==1){
-  	  				if(Math.abs(total_late_day)>=1){
+  	  				//if(Math.abs(total_late_day)>=1){
 	  	  	  			if(payOption==1){
 	  	  	  				total_interest_late = total_interest_late + 0;
 	  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
@@ -1005,14 +1005,14 @@ if(arrays!=""){
 					  	  		totalAmount = os_amount+total_interest;
 			  	  	  		}
 	  	  	  			}
-  	  	  			}else{
-  	  	  				dijit.byId('option_pay').attr('value',1);
-  	  	  				dijit.byId('option_pay').attr('readOnly','readOnly');
-  	  	  				total_interest_late = total_interest_late + 0;
-	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
-  	  	  			}
+//   	  	  			}else{
+//   	  	  				dijit.byId('option_pay').attr('value',1);
+//   	  	  				dijit.byId('option_pay').attr('readOnly','readOnly');
+//   	  	  				total_interest_late = total_interest_late + 0;
+// 	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
+//   	  	  			}
   	  			}else if(payment_term==2){
-	  	  			if(Math.abs(total_late_day)>=7){
+	  	  			//if(Math.abs(total_late_day)>=7){
 		  				dijit.byId('option_pay').attr('readOnly',false);
 	  	  	  			if(payOption==1){
 		  	  	  			total_interest_late = total_interest_late + 0;
@@ -1041,14 +1041,14 @@ if(arrays!=""){
 				  	  	  	total_interest = ((os_amount*interest_rate/100)/7)*practical_date;
 				  	  		totalAmount = os_amount+total_interest;
 	  	  	  			}
-		  	  		}else{
-		  	  			dijit.byId('option_pay').attr('value',1);
-		  	  			dijit.byId('option_pay').attr('readOnly','readOnly');
-		  	  			total_interest_late = total_interest_late + 0;
-	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
-		  	  		}
+// 		  	  		}else{
+// 		  	  			dijit.byId('option_pay').attr('value',1);
+// 		  	  			dijit.byId('option_pay').attr('readOnly','readOnly');
+// 		  	  			total_interest_late = total_interest_late + 0;
+// 	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
+// 		  	  		}
   	  			}else if(payment_term==3){
-	  	  			if(Math.abs(total_late_day)>=30){
+	  	  			//if(Math.abs(total_late_day)>=30){
 		  				dijit.byId('option_pay').attr('readOnly',false);
 		  				if(payOption==1){
 		  	  	  			total_interest_late = total_interest_late + 0;
@@ -1067,22 +1067,23 @@ if(arrays!=""){
 			  	  	  		var arrays = ids.split(',');
 			  	  	  		for(var j=0;j<arrays.length;j++){
 				  	  	  		installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
-				  	  	  		//alert(installment_date);
+				  	  	  	
 			  	  	  			priciple_amount = 0;
 			  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[j]).val();
 			  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
 			  	  	  			practical_date  = Math.round((date_collect - installment_date)/(oneDay));
 			  	  	  		}
+			  	  	  	//alert(practical_date);
 				  	  	  	total_interest = ((os_amount*interest_rate/100)/30)*practical_date;
 				  	  		totalAmount = os_amount+total_interest;
 // 			  	  		alert(os_amount+'*'+interest_rate+'/30*'+practical_date);
 	  	  	  			}
-		  	  		}else{
-		  	  			dijit.byId('option_pay').attr('value',1);
-		  	  			dijit.byId('option_pay').attr('readOnly','readOnly');
-		  	  			total_interest_late = total_interest_late + 0;
-	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
-		  	  		}
+// 		  	  		}else{
+// 		  	  			dijit.byId('option_pay').attr('value',1);
+// 		  	  			dijit.byId('option_pay').attr('readOnly','readOnly');
+// 		  	  			total_interest_late = total_interest_late + 0;
+// 	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late);
+// 		  	  		}
   	  			}
 			}
 		}
