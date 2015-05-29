@@ -67,37 +67,37 @@
 						<tr>
 							<td><?php echo $tr->translate("ZONE_NAME")?></td>
 							<td><?php echo $frm->getElement('zone');?></td>
+							<td></td>
+							<td></td>
 							<td><?php echo $tr->translate("OTHER_FEE")?></td>
 							<td><?php echo $frm->getElement('other_fee');?></td>
-							<td></td>
-							<td></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+							<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+							<td><?php echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php echo $frm->getElement('interest_rate');?></td>
 							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
 							<td><?php echo $frm->getElement('pay_every');?></td>
 							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
 							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
 							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 							<td><?php echo $frm->getElement('date_line');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-							<td><?php echo $tr->translate("AMIN_FEE")?></td>
-							<td><?php echo $frm->getElement('loan_fee');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
@@ -140,7 +140,6 @@
 				 iconClass="dijitIconNewTask"/>
 			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
-		
 		</td>
 	</tr>	
 </table>

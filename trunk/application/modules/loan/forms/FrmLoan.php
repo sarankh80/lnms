@@ -91,8 +91,8 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
-// 		$opt = $db->getVewOptoinTypeByType(15,1,3);
+// 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$opt = $db->getVewOptoinTypeByType(15,1,3);
 		$_currency_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
