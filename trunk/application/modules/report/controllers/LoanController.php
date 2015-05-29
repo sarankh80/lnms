@@ -13,10 +13,7 @@ class Report_LoanController extends Zend_Controller_Action {
   
   function rptLoanReleasedAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
-  	
-//   	$db = new Loan_Model_DbTable_DbLoanIL();
-//   	$rs_rows= $db->getAllIndividuleLoan($search);
-  	
+
   	$this->view->loanrelease_list =$db->getAllLoan();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
