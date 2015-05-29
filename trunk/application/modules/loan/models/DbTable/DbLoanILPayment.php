@@ -69,7 +69,9 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 				  crm.*,
 				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS amount_term,
 				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS collect_typeterm,
-				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `interest_rate`
+				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `interest_rate`,
+				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS date_release,
+				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS level
 				FROM
 				  `ln_client_receipt_money` AS crm 
 				WHERE id = $id";
@@ -219,6 +221,7 @@ public function addILPayment($data){
     			'currency_type'					=>		$data["currency_type"],
     			'status'						=>		1,
     			'amount_payment'				=>		$amount_payment
+    			//''								=>		
     		);
 			$this->_name = "ln_client_receipt_money";
     		$client_pay = $this->insert($arr_client_pay);
@@ -552,57 +555,57 @@ public function addILPayment($data){
    			$receive_amount_be = $data["recieve_amount"];
    			$option_pay = $data["payment_option"];
    			$sql = "SELECT lfd_id FROM ln_client_receipt_money_detail WHERE crm_id = $id";
-   			$payment_detail = $db->fetchRow($sql);
+   			$payment_detail = $db->fetchOne($sql);
    			
-   			$lfd_id = $payment_detail['lfd_id'];
-   			$sql_fun_detail = "SELECT * FROM ln_loanmember_funddetail WHERE id = $lfd_id";
-   			$fun_detail = $db->fetchRow($sql_fun_detail);
+//    			$lfd_id = $payment_detail['lfd_id'];
+//    			$sql_fun_detail = "SELECT * FROM ln_loanmember_funddetail WHERE id = $lfd_id";
+//    			$fun_detail = $db->fetchRow($sql_fun_detail);
    			
-   			$principle_af = $fun_detail["principal_permonth"];
-   			$interest_af = $fun_detail["total_interest"];
-   			$total_payment_af = $fun_detail["total_payment"];
+//    			$principle_af = $fun_detail["principal_permonth"];
+//    			$interest_af = $fun_detail["total_interest"];
+//    			$total_payment_af = $fun_detail["total_payment"];
    			
-   			if($interest_be>0){
-   				$principe = $principle_af;
-   			}else{
-   				$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
-   			}
+//    			if($interest_be>0){
+//    				$principe = $principle_af;
+//    			}else{
+//    				$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
+//    			}
    			
-   			$amount_remain = $receive_amount_be-$service_charge_be;
+//    			$amount_remain = $receive_amount_be-$service_charge_be;
    			
-   			if($amount_remain>0){
-   				if($amount_remain>$penelize_be){
-	   				$amount_remain_pene = $amount_remain - $penelize_be;
-	   				if($amount_remain_pene>0){
-		   				if($amount_remain_pene>$interest_be){
-		   					$amount_remain_int = $amount_remain_pene - $interest_be;
-		   					if($amount_remain_int>0){
-		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
-		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
-		   					}else{
-		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
-		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
-		   					}
-		   				}else{
-		   					$amount_remain_int = $interest_be - $amount_remain_pene;
-		   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be+$amount_remain_int));
-		   				}
-	   				}else{
-	   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
-	   				}
-   				}else{
-   					$amount_remain_pene = $penelize_be - $amount_remain;
-   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$amount_remain_pene));
-   				}
-   			}else{
-   				$interest = $interest_be;
-   				$principe = $principle_af + ($receive_amount_be-($service_charge_be));
-   			}
-   			$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
-   			$payment = $principle_be+($service_charge_be+$penelize_be+$interest_be);
+//    			if($amount_remain>0){
+//    				if($amount_remain>$penelize_be){
+// 	   				$amount_remain_pene = $amount_remain - $penelize_be;
+// 	   				if($amount_remain_pene>0){
+// 		   				if($amount_remain_pene>$interest_be){
+// 		   					$amount_remain_int = $amount_remain_pene - $interest_be;
+// 		   					if($amount_remain_int>0){
+// 		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+// 		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be));
+// 		   					}else{
+// 		   						$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
+// 		   						$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+// 		   					}
+// 		   				}else{
+// 		   					$amount_remain_int = $interest_be - $amount_remain_pene;
+// 		   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be+$interest_be+$amount_remain_int));
+// 		   				}
+// 	   				}else{
+// 	   					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$penelize_be));
+// 	   				}
+//    				}else{
+//    					$amount_remain_pene = $penelize_be - $amount_remain;
+//    					$principe = $principle_af + ($receive_amount_be-($service_charge_be+$amount_remain_pene));
+//    				}
+//    			}else{
+//    				$interest = $interest_be;
+//    				$principe = $principle_af + ($receive_amount_be-($service_charge_be));
+//    			}
+//    			$interest = $total_payment_be-$principle_be-($service_charge_be+$penelize_be);
+//    			$payment = $principle_be+($service_charge_be+$penelize_be+$interest_be);
    			
    			
-   			print_r("- principle :".$principe."<br> - interest :".$interest."<br> - payment :".$payment);exit();
+//    			print_r("- principle :".$principe."<br> - interest :".$interest."<br> - payment :".$payment);exit();
    			
    			$arr_crm = array(
    				'status'		=> 0,
@@ -613,9 +616,9 @@ public function addILPayment($data){
    			$this->update($arr_crm, $where);
    			
    			$arr = array(
-   				'principal_permonth'	=>$principe,
-   				'total_interest'		=>$interest,
-   				'total_payment'			=>$payment,
+   				'principal_permonth'	=>$principle_be,
+   				'total_interest'		=>$interest_be,
+   				'total_payment'			=>$total_payment_be-($service_charge_be+$penelize_be),
    				'is_completed'			=>0
    			);
    			$this->_name = "ln_loanmember_funddetail";
@@ -674,6 +677,7 @@ public function addILPayment($data){
 					  lc.`client_id`,
 					  lc.`client_number`,
 					  lc.`name_kh`,
+					  lm.`total_capital`,
 					  lm.`loan_number`,
 					  lm.`currency_type`,
 					  lm.`pay_before`,
@@ -683,6 +687,8 @@ public function addILPayment($data){
 			   		  lm.`collect_typeterm`,
 			   		  lm.`amount_collect_principal`,
 					  lg.`co_id`,
+					  lg.`total_duration`,
+					  lg.`payment_method`,
 					  lg.`payment_method`,
 					  lg.`date_release`,   
 					  lg.`level`, 
@@ -793,6 +799,35 @@ public function addILPayment($data){
 			ORDER BY lf.`id` DESC LIMIT 1";
    	//return $sql;
    	return $db->fetchOne($sql);
+   }
+   public function getLaonHasPayByLoanNumber($loan_number){
+   	$db= $this->getAdapter();
+   	$sql="SELECT 
+			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_name,
+			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_code,
+			  crm.`receipt_no`,
+			  crm.`date_input`,
+			  crm.`principal_amount`,
+			  crm.`total_principal_permonth`,
+			  crm.`total_payment`,
+			  crm.`total_interest`,
+			  crm.`amount_payment`,
+			  crm.`recieve_amount`,
+			  crm.`return_amount`,
+			  crm.`service_charge`,
+			  crm.`penalize_amount`,
+			  crm.`group_id`,
+			   crm.`is_completed`,
+			  crm.`currency_type`,
+			  crmd.`capital`,
+			  crmd.`total_payment`,
+			  crmd.`date_payment`
+			FROM
+			  `ln_client_receipt_money` AS crm,
+			  `ln_client_receipt_money_detail` AS crmd 
+			WHERE crm.`id` = crmd.`crm_id` 
+			  AND crm.`loan_number` = '$loan_number'";
+   	return $db->fetchAll($sql);
    }
 }
 
