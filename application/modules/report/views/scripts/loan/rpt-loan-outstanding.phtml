@@ -58,11 +58,14 @@
                  <tr class="style" align="center" style="font-weight:bold; line-height: 13px; font-size:11px;padding: 5px 0px;">
                     <th>&nbsp;លរ&nbsp;</th>
                     <th>&nbsp;សាខា&nbsp;</th>
-                    <th>&nbsp;ថ្ងៃខ្ចី&nbsp;</th>
                     <th>&nbsp;លេខឥណទាន&nbsp;</th>
-                    <th>&nbsp;មន្ត្រើឥណទាន&nbsp;</th>
+                    <th>&nbsp;លេខអតិថជន&nbsp;</th>
                     <th>&nbsp;ឈ្មោះអតិថជន&nbsp;</th>
+                    <th>&nbsp;មន្ត្រើឥណទាន&nbsp;</th>
+                     <th>&nbsp;ថ្ងៃខ្ចី&nbsp;</th>
                     <th>&nbsp;ចំនួនប្រាក់កម្ចី&nbsp;</th>
+                    <th>&nbsp;Period&nbsp;</th>
+                    <th>&nbsp;Condition&nbsp;</th>
                     <th>&nbsp;ចំនួនប្រាក់ប្រមូលមកវិញ&nbsp;</th>
                     <th>&nbsp;អត្រាសង(%)&nbsp;</th>
                     <th>&nbsp;ប្រាក់មិនទាន់សង&nbsp;</th>
@@ -86,11 +89,15 @@
 					<tr align="center">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
-					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['client_id'];?>&nbsp;</td>
 					<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_name']; ?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
+					
+					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
+					<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']);?>&nbsp;</td>
+					<td style="white-space: nowrap;">&nbsp;<?php echo $row['pay_term'];?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_payment'],2);?>&nbsp;</td>
 					<td>&nbsp;<?php echo (round(($row['total_payment']/$row['total_capital']),2)*100).' %';?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['total_capital']-$row['total_payment'];?>&nbsp;</td>

@@ -79,13 +79,16 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td style="padding:5px 0px;">លរ</td>
                     <td>សាខា</td>
                     <td style="padding:5px 0px;">លេខឥណទាន</td>
+                    <td style="padding:5px 0px;">លេខអតិថជន</td>
                     <td style="padding:5px 0px;">ឈ្មោះអតិថជន</td>
+                     <td style="padding:5px 0px;">ឈ្មោះមន្ត្រីឥណទាន</td>
                     <td style="padding:5px 0px;">ចំនួនប្រាក់កម្ចី</td>
-                    <td style="padding:5px 0px;">ថ្លៃរដ្ឋបាល</td>
+                    <!-- - <td style="padding:5px 0px;">ថ្លៃរដ្ឋបាល</td>-->
                     <td style="padding:5px 0px;">អត្រាការប្រាក់</td>
                     <td style="padding:5px 0px;">រយៈពេលខ្ចី</td>
                     <td style="padding:5px 0px;">កាលបរិឆ្ឆេទ</td>
-                    <td style="padding:5px 0px;">ឈ្មោះមន្ត្រីឥណទាន</td>
+                    <td style="padding:5px 0px;">Loan Type</td>
+                   
                 </tr>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
@@ -105,15 +108,19 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                ?>
 					<tr align="center">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+					
 					<td >&nbsp;<strong style="font-size:10px;font-family:'Khmer MEF2';text-align:center"><?php echo $row['branch_name']; ?></strong>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['client_id'];?>&nbsp;</td>
 					<td align="left">&nbsp;<?php echo $row['client_name']; ?>&nbsp;</td>
+					<td align="left">&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>	
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
+					<!--  <td style="white-space:nowrap; text-align: right;">&nbsp;<?php //echo number_format($row['admin_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
+					--><td>&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['date_release']; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>					
+					<td>&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
+									
 					</tr>
 				<?php }?>
             </table>
