@@ -466,7 +466,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   }
   
-  public function getVewOptoinTypeByType($type=null,$option = null,$limit =null){
+  public function getVewOptoinTypeByType($type=null,$option = null,$limit =null,$first_option =null){
   	$db = $this->getAdapter();
   	$sql="SELECT id,key_code,CONCAT(name_kh,'-',name_en) AS name_en ,displayby FROM `ln_view` WHERE status =1 ";//just concate
   	if($type!=null){
@@ -477,7 +477,10 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"-----ជ្រើសរើស-----");
+  		$options=array();
+  		if($first_option==null){//if don't want to get first select
+  			$options=array(''=>"-----ជ្រើសរើស-----");
+  		}
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['key_code']]=$row['name_en'];//($row['displayby']==1)?$row['name_kh']:$row['name_en'];
   		}
@@ -722,7 +725,8 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getSystemSetting($keycode){
   	$db = $this->getAdapter();
-  	$sql = "SELECT  id,keycode FROM `ln_system_setting` WHERE keycode =".'"$keycode"';
+  	$sql = "SELECT * FROM `ln_system_setting` WHERE keycode ='".$keycode."'";
+//   	echo $sql;
   	return $db->fetchRow($sql);
   }
   static function getPaymentTermById($id=null){
@@ -823,5 +827,23 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   	$sql ="SELECT lm.`loan_number` FROM `ln_loan_member` AS lm WHERE lm.`is_completed`=0";
   	return $db->fetchAll($sql);
   }
+  function getAllViewType($opt=null){
+  		$db = $this->getAdapter();
+  	$sql ="SELECT * FROM `ln_view_type`";
+  	
+  	$result = $db->fetchAll($sql);
+  	$options=array('-1'=>"------Select View Type------");
+  	if($opt!=null){
+  		if(!empty($result))foreach($result AS $row){
+  			    $options[$row['id']]=$row['name'];
+  		}
+  		return $options;
+  	}else{
+  		return $result;
+  	}
+  	
+  }
+  
+  
 }
 ?>

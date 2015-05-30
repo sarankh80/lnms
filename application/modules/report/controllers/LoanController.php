@@ -14,7 +14,6 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanReleasedAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
 
-  	$this->view->loanrelease_list =$db->getAllLoan();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
@@ -27,6 +26,7 @@ class Report_LoanController extends Zend_Controller_Action {
   		$search = array(
   				'branch_id'=>'',
   				'client_name'=>'',
+  				'pay_every'=>-1,
   				'co_id'=>'',
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));

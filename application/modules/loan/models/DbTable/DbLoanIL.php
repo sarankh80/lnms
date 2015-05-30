@@ -203,7 +203,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				'holiday'=>$data['every_payamount'],
     				'is_renew'=>0,
     				'loan_type'=>1,
-    				'collect_typeterm'=>$data['collect_termtype']
+    				'collect_typeterm'=>$data['collect_termtype'],
+    				'for_loantype'=>$data['loan_type']
     				);
     		
     		$g_id = $this->insert($datagroup);//add group loan
@@ -411,7 +412,6 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					}
     				}else{//    fixed payment with fixed rate
     					if($i!=1){
-    							
     						$remain_principal = $remain_principal-$pri_permonth;
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
@@ -420,10 +420,15 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     						$pri_permonth = $fixed_principal-$interest_paymonth;
     						if($i==$loop_payment){//for end of record only
     							$pri_permonth = $remain_principal;
+    							
+    							$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    							$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
+    							$interest_paymonth = $fixed_principal-$remain_principal;
     						}
     							
     					}else{
     						$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed
+    						$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     						$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
     						$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
     						$pri_permonth = $fixed_principal+$total_payment_first;
