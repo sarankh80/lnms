@@ -128,7 +128,7 @@ dojo.require("dijit.form.Textarea");
 							<td><?php  echo $frm->getElement('guarantor_with');?></td>
 							<td><?php echo $tr->translate("TEL")?></td>
 							<td><?php  echo $frm->getElement('guarantor_tel');?></td>
-							<td><?php echo $tr->translate("GUARANTOR_ADDRESS")?></td>
+							<td><?php echo $tr->translate("ADDRESS")?></td>
 							<td><?php  echo $frm->getElement('guarantor_address');?></td>
 							
 						</tr>
@@ -171,6 +171,8 @@ echo $this->frm_popup_village;
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
+var village_store  = getDataStorefromJSON('village','village', <?php print_r(Zend_Json::encode($this->village_name));?> );
+
 dojo.ready(function(){
 	var district_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->district));?>
@@ -300,6 +302,36 @@ function getFunction(){
 			error: function(err) {
 			}
 		});
+}
+client_village = '<?php echo $this->url(array('module'=>'other','controller'=>'Village','action'=>'add-village'));?>';
+function addVillagetoOption(){
+	dojo.xhrPost({
+		url:client_village,	
+		form:dojo.byId('form_village'),
+		handleAs:"json",
+		load: function(data) {	
+			dijit.byId('frm_village').reset();
+			dijit.byId('frm_village').hide();
+			var select = registry.byId("village");
+
+			//option1 = { value: "331", label: "option 1", selected: false };
+			//option2 = { value: "323", label: "option 2", selected: true };
+
+			//select.addOption([option1, option2]); // add all options at once as an array
+			
+			//var myNewItem = {		
+				//	bank_name: dijit.byId('village_name').get('value')
+			//};	
+			//sender  = getDataStorefromJSON('id','name', response);
+		    //sender_store = sender;//assign for overived var sender_store
+			//dijit.byId('village').set('store', sender_store);
+			//addDataToSelectbox(dijit.byId('village'),  dojo.data.ObjectStore({objectStore: village_data}), myNewItem, dojo.byId('village_name').get('value'));
+			
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
 }
 function showPopupVillage(){
 	dijit.byId('frm_village').show();

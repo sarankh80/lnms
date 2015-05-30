@@ -92,8 +92,16 @@ public function init()
 				'class'=>'fullside',
 		));
 // 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
-		$opt = $db->getVewOptoinTypeByType(15,1,3);
+		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
 		$_currency_type->setMultiOptions($opt);
+		
+		$_loan_type = new Zend_Dojo_Form_Element_FilteringSelect('loan_type');
+		$_loan_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt = $db->getVewOptoinTypeByType(24,1,null,1);
+		$_loan_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
@@ -108,6 +116,7 @@ public function init()
 		$_loan_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'required'=>true
 		));
 		$_loan_fee->setValue(0);
 		
@@ -115,6 +124,7 @@ public function init()
 		$_other_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'required'=>true,
 		));
 		$_other_fee->setValue(0);
 		
@@ -276,6 +286,10 @@ public function init()
 				'required' =>'true'
 		));
 		$_pay_late->setValue(0);
+		$arr=$db->getSystemSetting('interest_late');
+		$_pay_late->setValue($arr['value']);
+		
+// 		print_r($arr);exit();
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -350,7 +364,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));

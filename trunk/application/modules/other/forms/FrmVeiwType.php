@@ -1,5 +1,5 @@
 <?php 
-Class Callecterall_Form_Frmcallecterall extends Zend_Dojo_Form {
+Class Other_Form_FrmVeiwType extends Zend_Dojo_Form {
 	protected $tr;
 	protected $tvalidate =null;//text validate
 	protected $filter=null;
@@ -14,7 +14,8 @@ Class Callecterall_Form_Frmcallecterall extends Zend_Dojo_Form {
 		$this->text = 'dijit.form.TextBox';
 		$this->tarea = 'dijit.form.SimpleTextarea';
 	}
-	public function Frmcallecterall($data=null){
+	public function FrmViewType($data=null){
+		$db = new  Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
@@ -66,6 +67,16 @@ Class Callecterall_Form_Frmcallecterall extends Zend_Dojo_Form {
 				'missingMessage'=>'Invalid Module!',
 				'class'=>'fullside'));
 		
+		$_type = new Zend_Dojo_Form_Element_FilteringSelect("type");
+		$_type->setMultiOptions($_arr);
+		$_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'required'=>'true',
+				'missingMessage'=>'Invalid Module!',
+				'class'=>'fullside'));
+		$opt= $db->getAllViewType(1);
+		$_type->setMultiOptions($opt);
+		
 		$_display=  new Zend_Dojo_Form_Element_FilteringSelect('display_by');
 		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
 		$_display_opt = array(
@@ -88,11 +99,11 @@ Class Callecterall_Form_Frmcallecterall extends Zend_Dojo_Form {
 			$_display->setValue($data['displayby']);
 			$_status->setValue($data['status']);
 			$date_call->setValue($data['date']);
-			//$key_code->setValue($data['key_code']);
+			$_type->setValue($data['type']);
 		    $_id->setValue($data['id']);
 			
 		}
-		$this->addElements(array($status_search,$_title,$_btn_search,$name_en,$name_kh,$key_code,$_id,$_display,$_status,$date_call));
+		$this->addElements(array($_type,$status_search,$_title,$_btn_search,$name_en,$name_kh,$key_code,$_id,$_display,$_status,$date_call));
 		return $this;
 		
 	}	

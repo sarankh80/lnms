@@ -5,7 +5,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 $db = $this->getAdapter();
       	 $start_date = $search['start_date'];
       	 $end_date = $search['end_date'];
-      	 $sql = "SELECT * FROM v_loanreleased Where 1";
+      	 $sql = "SELECT * FROM v_loanreleased WHERE 1";
       	 $where ='';
       	 if(!empty($search['start_date']) or !empty($search['end_date'])){
       	 	$where.=" AND date_release AND '$start_date' AND '$end_date'";
@@ -27,6 +27,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 if(!empty($search['adv_search'])){
       	 	$s_where = array();
       	 	$s_search = $search['adv_search'];
+      	 	$s_where[] = " interest_rate LIKE '%{$s_search}%'";
+      	 	$s_where[] = " total_capital LIKE '%{$s_search}%'";
       	 	$s_where[] = " loan_number LIKE '%{$s_search}%'";
       	 	$s_where[] = " branch_name LIKE '%{$s_search}%'";
       	 	$s_where[] = " client_name LIKE '%{$s_search}%'";
@@ -34,7 +36,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 	$s_where[] = " loan_type LIKE '%{$s_search}%'";
       	 	$where .=' AND '.implode(' OR ',$s_where).'';
       	 }
-      	// echo $sql.$where;
+      	echo $sql.$where;
       	 return $db->fetchAll($sql.$where);
 //     	 $sql="SELECT g.member_id,g.loan_number,
 //     	 (SELECT branch_namekh FROM ln_branch WHERE br_id=g.branch_id LIMIT 1) AS branch_name

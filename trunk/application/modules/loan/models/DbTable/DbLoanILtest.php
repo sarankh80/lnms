@@ -242,13 +242,19 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					$remain_principal = $remain_principal-$pri_permonth;
     					$interest_paymonth = $this->round_up_currency($curr_type,$remain_principal*$irr_interest);
     					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     					$pri_permonth = $fixed_principal-$interest_paymonth;
     					if($i==$loop_payment){//for end of record only
     						   $pri_permonth = $remain_principal;
+    						   $fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    						   $fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
+    						   $interest_paymonth = $fixed_principal-$remain_principal;
+    						   	
     					}
     					
     				}else{
-    					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed 
+    					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed '
+    					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     					$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
     					$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
     					$pri_permonth = $fixed_principal+$total_payment_first;

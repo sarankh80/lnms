@@ -112,4 +112,14 @@ class Other_VillageController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	public function addVillageAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$data['status']=1;
+			$db_vill = new Other_Model_DbTable_DbVillage();
+			$id = $db_vill->addVillageByAjax($data);
+			print_r(Zend_Json::encode($id));
+			exit();
+		}
+	}
 }
