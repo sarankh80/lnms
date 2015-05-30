@@ -141,8 +141,8 @@
 							<td><?php echo $frm->getElement('penalize_amount');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃបង់ជាក់ស្តែង")?></td>
-							<td><?php echo $frm->getElement('using_date');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់");//echo $tr->translate("ថ្ងៃបង់ជាក់ស្តែង")?></td>
+							<td><?php echo $frm->getElement('collect_date');//echo $frm->getElement('using_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
 							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
@@ -150,16 +150,16 @@
 							
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('collect_date');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
+							<td><?php echo $frm->getElement('date_input'); //echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 							<td><?php echo $tr->translate("ប្រាក់នៅសល់")?></td>
 							<td><?php echo $frm->getElement('remain');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
-							<td><?php echo $frm->getElement('date_input'); ?></td>
+							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
+							<td><?php //echo $frm->getElement('date_input'); ?></td>
 							<td><?php echo $frm->getElement('installment_date');?></td>
 							<td><?php echo $frm->getElement('amount_payment_term');?></td>
 							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
@@ -173,7 +173,7 @@
 			<td align="center">
 			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
-			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEEDIT');?>" id="saveprint" dojoType="dijit.form.Button" 
+			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
 		</tr>
@@ -761,7 +761,7 @@ function getAllLaonPayment(types){
 						    tmp += '<td style="white-space: nowrap;">&nbsp;'+str_days+'&nbsp;</td>';
 						    tmp += '<td style="white-space: nowrap;">&nbsp;'+data[j].date_payment+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_principal)+' '+currs+'&nbsp;</td>';
-						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].principle_after)+' '+currs+'&nbsp;</td>';
+						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].principal_permonth)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_interest)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_payment)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+data[j].pay_after+'&nbsp;</td>';
@@ -803,8 +803,8 @@ function getLaonHasPayByLoanNumber(){
 						+'<th class="tdheader">លេខវិក័យបត្ត្រ</th>'
 						+'<th class="tdheader">កូដអតិថិជន</th>'
 						+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
-						+'<th class="tdheader" colspan="2">ថ្ងៃត្រូវបង់ប្រាក់</th>'
-						+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
+						+'<th class="tdheader" >ថ្ងៃត្រូវបង់ប្រាក់</th>'
+						+'<th class="tdheader" >ថ្ងៃបង់ប្រាក់</th>'
 						+'<th class="tdheader">ប្រាក់ដើមគ្រា</th>'
 						+'<th class="tdheader">ប្រាក់ដើមត្រូវបង់</th>'
 						+'<th class="tdheader">ប្រាក់ការត្រូវសង</th>'
@@ -812,8 +812,8 @@ function getLaonHasPayByLoanNumber(){
 						+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
 						+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
 						+'<th class="tdheader">ប្រាក់បានបង់</th>'
-						+'<th class="tdheader">ស្ថានភាព</th>'
-						+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
+						//+'<th class="tdheader">ស្ថានភាព</th>'
+						//+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
 					+'</thead>';
 					nums=0;
 					
@@ -834,9 +834,9 @@ function getLaonHasPayByLoanNumber(){
 								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_pay+'&nbsp;</td>';
+								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_pay+'&nbsp;</td>';
 								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_payment+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_get+'&nbsp;</td>';
+								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_get+'&nbsp;</td>';
 								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_input+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
@@ -851,8 +851,8 @@ function getLaonHasPayByLoanNumber(){
 								}else{
 									is_apprs='';
 								}
-								temp += '<td>&nbsp;<label style="font-size:10px;">'+statuss+'</label></td>';
-								temp += '<td>&nbsp;<label style="font-size:10px;">'+is_apprs+'</label></td>';
+								//temp += '<td>&nbsp;<label style="font-size:10px;">'+statuss+'</label></td>';
+								//temp += '<td>&nbsp;<label style="font-size:10px;">'+is_apprs+'</label></td>';
 							temp += '</tr>';
 						}
 					}

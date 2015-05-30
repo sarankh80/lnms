@@ -70,10 +70,14 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS amount_term,
 				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS collect_typeterm,
 				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `interest_rate`,
+				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `total_capital`,
 				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS date_release,
-				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS level
+				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS level,
+				  (SELECT g.`total_duration` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS total_duration,
+				  (SELECT g.`payment_method` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS payment_method
 				FROM
 				  `ln_client_receipt_money` AS crm 
+				  
 				WHERE id = $id";
 		return $db->fetchRow($sql);
 	}
@@ -283,12 +287,13 @@ public function addILPayment($data){
 	    							'status'				=>		$data["option_pay"]
 	    					);
 	    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
-	    						
+	    					
 	    					$arr_update_fun_detail = array(
 	    							'is_completed'		=> 	0,
 	    							'total_interest'	=>  $interest_fun,
 	    							'total_payment'		=>	$total_pay,
-	    							'principal_permonth'=>	$total_os,
+	    							//'principal_permonth'=>	$total_os,
+	    							'principle_after'=>	$total_os,
 	    							'payment_option'	=>	$data["option_pay"]
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
@@ -409,6 +414,7 @@ public function addILPayment($data){
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
     			'amount_payment'				=>		$amount_payment,
+    			'is_completed'					=>		1
     			
     		);
     		$this->_name = "ln_client_receipt_money";
@@ -500,7 +506,8 @@ public function addILPayment($data){
 	    							'is_completed'		=> 	0,
 	    							'total_interest'	=>  $interest_fun,
 	    							'total_payment'		=>	$total_pay,
-	    							'principal_permonth'=>	$total_os,
+	    							//'principal_permonth'=>	$total_os,
+	    							'principle_after'=>	$total_os,
 	    							'payment_option'	=>	$data["option_pay"]
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
