@@ -1,8 +1,7 @@
 <?php  $tran = $this->tran_schedule;
-$client = $this->client;
+// print_r($tran);
 $filter = $this->frm_search;
 $dayin_khmer = $this->day_inkhmer;
-$url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();												
 ?>
 <style type="text/css">
@@ -18,7 +17,7 @@ margin: -4px 4px 0 4px;
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<title></title>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:105px;">
  <div dojoType="dijit.layout.ContentPane" region="top" style="height: auto;">
  <form method="post">
@@ -38,90 +37,8 @@ margin: -4px 4px 0 4px;
 	</table>
 	</form>
  </div>
- <table>
-	<tr>
-		<td align="center">
-        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
-            	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
-                	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_collect'];?></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo 'សំរាប់ថ្ងៃទី';?></h2>
-                	</td>
-                    
-                    <td width="20%"></td>
-                </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 11px;">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
-                				</td>
-                				<td width="65%"></td>
-                				
-                			</tr>
-			               
-		                </table>
-		              </td>
-		           </tr>   
-            </table>
-        </td>
-	</tr>
-	<tr>
-	   <td>
-			  <table id="exportExcel"  border="1" width="100%" style="border-collapse:collapse;" bordercolor="black">
-                 <tr bgcolor="#BBBBBB">
-		        	<th style=" font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("លរ");?></th>
-		        	<th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?></th>
-		        	<th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("CO");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("លេខឥណទាន");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ឈ្មោះអតិថជន");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("PRINCIPAL");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ការ");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ពិន័យ");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប");?></th>
-		            <th style="font-size:10px; font-family:'Khmer MEF2'">&nbsp;<?php echo $tr->translate("DATE");?></th>
-		         </tr>
-		         <?php if(!empty($this->loancllect_list)) foreach($this->loancllect_list as $key =>$row){?>
-				   <tr style="font-size: 10px;" align="left">
-				     <td>&nbsp;<?php echo $key+1; ?></td>
-				     <td>&nbsp;<?php echo $row['branch_id']?></td>
-				     <td>&nbsp;<?php echo $row['co'].' '.$row['co_name'];?></td>
-				     <td>&nbsp;<?php echo $row['loan_number']?></td>
-					 <td>&nbsp;<?php echo $row['client_name']?></td>
-					 <td>&nbsp;<?php echo $row['total_principal']?></td>
-					 <td>&nbsp;<?php echo $row['total_interest']?></td>
-					 <td>&nbsp;<?php //echo $row['STATUS']?></td>
-					 <td>&nbsp;<?php echo $row['total_payment']?></td>
-					 <td>&nbsp;<?php echo $row['date_payment']?></td>
-					 
-					</tr>
-				<?php }?>
-		        <?php for($i=0;$i<=7;$i++){?>
-		        <tr align="left">
-		        	<td><?php echo $i+1;?></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		            <td></td>
-		        </tr>
-		        <?php }?>
-		     </table>
-		     </td>
-     </tr>
-   </table>
 </div>
-
-<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div style=" width:27cm; min-height:25cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
@@ -141,14 +58,12 @@ margin: -4px 4px 0 4px;
 	            	<tr>
 	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
 	                	<td width="60%" valign="top">
-	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label>សុខាមីក្រូហិរញ្ញវត្ថុ</label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'">តារាងកាលវិភាគសងប្រាក់ឥណទាន<?php echo ($client['loan_type']==1)?'ទោល':'ក្រុម' ;?></h2></td>
-	                    <td width="20%"><img src="<?php echo $url_barcode;?>" /></td>
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php ?></label></h2>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_collect'];?></h2></td>
+	                    <td width="20%"></td>
 	                </tr>
-	                <?php $db = new Application_Model_DbTable_DbGlobal();
-	                	  $row = $db->getClientByType(null,$client['client_id'],1);
-// 	                	  print_r($row);
+	                <?php 
 	                ?> 
 	                <tr>
 	                	<td colspan="3">
@@ -169,46 +84,52 @@ margin: -4px 4px 0 4px;
 	    </tr>
 	    <tr>
 	    	<td>
-	            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	            <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" bgcolor="#BBBBBB">
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លរ</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
-	                    
-	                    
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ទូរសព្ទលេខ</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លេខកម្ចី</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
-	                    <td colspan="3" style=" font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
+	                    <td rowspan="2" style="text-align:center ;font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
+	                    <td colspan="3" style="text-align:center ; font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
+	                    <td rowspan="2" style="min-width:85px; font-size:10px; font-family:'Khmer MEF2'">ផ្សេងៗ</td>
+	                    
 	                </tr>
 	                <tr class="style" bgcolor="#BBBBBB">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
-	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
-	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
-	                    <td style=" font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
+	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
+	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
+	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-size:10px; height: 20px;" class="style">
-	                    <td ><?php echo $key+1;?></td>
-	                    <td ><?php echo $row['branch_kh'];?></td>
-	                     <td ><?php echo $row['co_name'];?></td>
+	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
+	                    <td align="left">&nbsp;<?php echo $row['branch_kh'];?>&nbsp;</td>
+	                     <td align="left">&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
+	                     <td align="left">&nbsp;<?php echo $row['client_name'];?>&nbsp;</td>
+	                     <td align="left">&nbsp;<?php echo $row['phone_number'];?>&nbsp;</td>
+	                     <td align="left">&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 	                   
 	                   
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
 	                    
-	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
+	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?>&nbsp;</td>
 	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_principal'],2));?>&nbsp;</td>
+	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?>&nbsp;</td>
+	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
+	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?>&nbsp;</td>
+	                    <td></td>
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
-	                     <td><?php echo $row['client_name'];?></td>
+	                   
 	                </tr>
 	               <?php }
 	               	//for($record = $key;$record<11;$record++){
@@ -216,20 +137,7 @@ margin: -4px 4px 0 4px;
 	               		
 	               <?php //}?>
 	            </table>
-	            <table width="100%" cellpadding="3">
-	            	<tr class="font_bold" style="height:25px;">
-	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះគណនេយ្យ</td>
-	            		<td align="center" valign="bottom">ហត្ថលេខា និងឈ្មោះមន្រ្តីឥណទាន</td> 
-	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
-	            	</tr>
-	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom"><?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
-	            		<td align="center"  valign="bottom">
-	            			<?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
-	            		<td align="center" height="75px" valign="bottom">
-	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
-	            	</tr>
-	            </table>
+	            
 	    	</td>
 	    </tr>
 	</table>

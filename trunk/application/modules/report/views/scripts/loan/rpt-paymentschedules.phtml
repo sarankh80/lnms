@@ -113,7 +113,7 @@ td p{ margin-top:0px !important;}
 	                </tr>
 	               <?php if(!empty($tran)) foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
-	                    <td ><?php echo $key+1;?></td>
+	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
@@ -123,7 +123,7 @@ td p{ margin-top:0px !important;}
 	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
 	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
 	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <td align="left"><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
@@ -151,11 +151,11 @@ td p{ margin-top:0px !important;}
 	            		<td align="center" valign="bottom">ស្នាមមេដៃស្តាំ និងឈ្មោះអតិថិជន</td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom"><?php echo $client['user_name'];?></td>
+	            		<td align="center" height="80px" valign="bottom"><?php //echo $client['user_name'];?></td>
 	            		<td align="center"  valign="bottom">
-	            			<?php echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
+	            			<?php //echo ($client['displayby']==1)?$client['co_khname']:$client['co_enname'] ;?></td>
 	            		<td align="center" height="75px" valign="bottom">
-	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
+	            			<?php //echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>
 	    	</td>
