@@ -159,7 +159,7 @@
 						</tr>
 						<tr>
 							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
-							<td><?php //echo $frm->getElement('date_input'); ?></td>
+							<td><?php echo $frm->getElement('last_payment_date'); ?></td>
 							<td><?php echo $frm->getElement('installment_date');?></td>
 							<td><?php echo $frm->getElement('amount_payment_term');?></td>
 							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
@@ -428,10 +428,14 @@ dojo.ready(function(){
 		key_number = (event.keyCode);
 		if(key_number==13){
 			not_submit = 1;
-			getLaonPayment(1);
-			getAllLaonPayment(1);
+			dijit.byId('last_payment_date').attr('value',"");
+			getLastPaymentDate();
 			getLastPayDate();
 			getLaonHasPayByLoanNumber();
+			getLaonPayment(1);
+			getAllLaonPayment(1);
+			
+			
 		}
 	});	
 });
@@ -888,7 +892,36 @@ function getLastPayDate(){
 		}
 	});
 }
+
+function getLastPaymentDate(){
+	//alert(1);
+	var loan_numbers = dijit.byId('loan_number').get('value');
+	var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-last-payment-date-by-loan')); ?>';
+	dojo.xhrPost({
+	    url: url_submits,
+	    content : { 
+		    'loan_numbers':loan_numbers,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			if(data!=""){
+				//var lastPayDate = data;
+				//alert(data);
+				dijit.byId('last_payment_date').attr('value',data);
+			}else{
+				$('#last_payment_date').val("");
+			}
+		},
+		error: function(e) {
+			alert(e);
+		}
+	});
+}
 function calculateTotal(index){
+	//getLastPaymentDate();
+	var last_payment_date = $('#last_payment_date').val();
+// 	alert(2);
+// 	alert(last_payment_date);
 	try{
 	var total_payment = 0;
 	var os_amount = 0;
@@ -931,15 +964,18 @@ if(arrays!=""){
           	var total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
           	var totalPay = $('#payment_'+arrays[i]).val();
           	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
-            var pay_date = new Date($('#date_payment_'+arrays[i]).val());
+          	
+          	//pay_date = new Date(last_payment_date);
+          	pay_date=last_payment_date==""?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
+            //var pay_date = new Date($('#date_payment_'+arrays[i]).val());
 			var late_day = Math.round((date_collect - pay_date)/(oneDay));
-
 			if(late_day>0){
 				total_late_day = late_day - graice_period;
 			}else{
 				total_late_day = late_day;
 			}
- 			//alert(late_day);
+			
+ 			alert(pay_date);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
