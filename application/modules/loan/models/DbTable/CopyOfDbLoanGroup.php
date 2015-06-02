@@ -1,6 +1,6 @@
 <?php
 
-class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
+class Loan_Model_DbTable_DbLoanGroupTEst extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'ln_loan_group';

@@ -683,13 +683,12 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       }
       public function getAllxchange($search = null){
       	$db = $this->getAdapter();
-      	$start_date = $search['start_date'];
-      	$end_date = $search['end_date'];
       	$sql = "SELECT * FROM `v_xchange` WHERE 1";
       	$where ='';
-      	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND statusDate BETWEEN '$start_date' AND '$end_date'";
-      	}
+      	$from_date =(empty($search['start_date']))? '1': "statusDate >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': "statusDate <= '".$search['end_date']." 23:59:59'";
+      	$where.= " AND ".$from_date." AND ".$to_date;
+      	
 //       	if($search['branch_id']>0){
 //       		$where.=" AND branch_id = ".$search['branch_id'];
 //       	}
@@ -718,7 +717,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$where .=' AND '.implode(' OR ',$s_where).'';
       	
       	}
-      	return $db->fetchAll($sql.$where);
+      	$order=" ORDER BY id DESC";
+//       	echo $sql.$where;
+      	return $db->fetchAll($sql.$where.$order);
       	
       } 
  }

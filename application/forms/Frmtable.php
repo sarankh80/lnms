@@ -16,7 +16,7 @@ class Application_Form_Frmtable
         //-------------------------Header----------------------
        	$form='';                 
         $counter='<strong>Number of record(s): '.count($rows).'</strong>';
-        $head=$form.'<table class="collape tablesorter" id="table"  width="100%">';
+        $head=$form.'<table class="collape tablesorter" id="exportExcel"  width="100%">';//id="table"
         $col_str="";
         if($type!=null){
     		$col_str='<thead><tr><th class="tdheader">No</th>';
@@ -160,7 +160,7 @@ class Application_Form_Frmtable
      * @param $link field with its link for access to its detail info EX: array('name'=>$link): name is field, link where u want to access
      * @param $editLink for link edit form 
      */
-    public function getCheckList($delete=0, $columns,$rows,$link=null,$editLink="", $class='items', $textalign= "left", $report=false, $id = "table")
+    public function getCheckList($delete=0, $columns,$rows,$link=null,$editLink="", $class='items', $textalign= "left", $report=false, $id = "exportExcel")
     {
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	/*
