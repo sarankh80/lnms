@@ -41,7 +41,13 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql.$where);
     	
     }
-
+	public function latepayment($search=null){
+		$db=$this->getAdapter();
+		$pay_date = $search['payment_date'];
+		$late_date = $search['late_date'];
+		$sql="SELECT * FROM v_getloancollects WHERE 1";
+		$late_pay_date=$late_date-$pay_date;
+	}
 	
 }
 

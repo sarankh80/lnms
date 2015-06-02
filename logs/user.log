@@ -23,3 +23,15 @@
 [2015-04-10 10:47:17] user name=>channy module=>loancontroller name=>:transferco-loand action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tf.loan_id' in 'where clause'
 [2015-04-10 10:49:11] user name=>channy module=>loancontroller name=>:transferco-client action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tf.client_id' in 'where clause'
 [2015-04-10 10:52:14] user name=>channy module=>loancontroller name=>:transferco-client action =>index error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tf.client_id' in 'where clause'
+[2015-05-22 17:14:35] user name=>soeurn module=>groupcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_d_type' in 'field list'
+[2015-05-22 17:15:35] user name=>soeurn module=>groupcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_d_type' in 'field list'
+[2015-05-22 17:16:18] user name=>soeurn module=>groupcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_d_type' in 'field list'
+[2015-05-22 17:16:22] user name=>soeurn module=>groupcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_d_type' in 'field list'
+[2015-05-22 17:16:39] user name=>soeurn module=>groupcontroller name=>:index action =>add error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'client_d_type' in 'field list'
+[2015-05-26 08:16:55] user name=>soeurn module=>tellerandexchangecontroller name=>:xchanges action =>index error name=>SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_loan.ln_xchange' doesn't exist
+[2015-05-26 08:17:02] user name=>soeurn module=>tellerandexchangecontroller name=>:xchanges action =>index error name=>SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_loan.ln_xchange' doesn't exist
+[2015-05-26 08:17:55] user name=>soeurn module=>tellerandexchangecontroller name=>:xchanges action =>index error name=>SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_loan.ln_xchange' doesn't exist
+[2015-05-29 13:27:42] user name=>soeurn module=>reportcontroller name=>:loan action =>paymentschedule-list error name=>SQLSTATE[21000]: Cardinality violation: 1241 Operand should contain 1 column(s)
+[2015-05-29 13:28:26] user name=>soeurn module=>reportcontroller name=>:loan action =>paymentschedule-list error name=>SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM `ln_loan_group` WHERE g_id = m.group_id LIMIT 1)) AS time_collect,
+    	(SE' at line 4
+[2015-05-29 13:55:40] user name=>soeurn module=>reportcontroller name=>:loan action =>paymentschedule-list error name=>SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.code' in 'field list'

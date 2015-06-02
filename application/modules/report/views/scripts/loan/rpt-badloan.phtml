@@ -68,6 +68,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
                     <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
+                     <th style="font-size: 9px;"><?php echo $tr->translate("NUMBER_CODE");?></th>
                     <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                      <th style="font-size: 9px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
                       <th style="font-size: 9px;"><?php echo $tr->translate("LOSS_DATE");?></th>                   
@@ -77,26 +78,31 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                     <th style="font-size: 9px;"><?php echo $tr->translate("NOTE");?></th>
                     <th style="font-size: 9px;"><?php echo $tr->translate("DATE");?></th>
                 </tr>
-                <?php $amt_r1 = 0;$amt_r2 = 0;
-                	  $amt_d1 = 0;$amt_d2 = 0;
-                	  $amn_b1 = 0; $amn_b2 = 0;
+                <?php $amt_r1 = 0;$amt_r2 = 0; $total_r=0;
+                	  $amt_d1 = 0;$amt_d2 = 0; $total_b=0;
+                	  $amn_b1 = 0; $amn_b2 = 0; $total_d=0;
+                	 
                 ?>
                 <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php 
 		               if($rs['cash_type']==1){
 		               		$amt_r1 = $amt_r1+$rs['total_amount'];
 		               		$amt_r2 = $amt_r2+$rs['intrest_amount'];
+		               		$total_r=$amt_r1+$amt_r2;
 		               }elseif($rs['cash_type']==2){
 							$amt_d1 = $amt_d1+$rs['total_amount'];
 							$amt_d2 = $amt_d2+$rs['intrest_amount'];
+							$total_d=$amt_d1+$amt_d2;
 		               }else{
 		               		$amn_b1 = $amn_b1+$rs['total_amount'];
 		               		$amn_b2 = $amn_b2+$rs['intrest_amount'];
+		               		$total_b=$amn_b1+$amn_b2;
 		               }
 		               //print_r($rs);exit();
                ?>
                 <tr class="style" style="font-family: 'Khmer OS Content';">
                		<td style="font-size: 9px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["number_code"];?></td>
                		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["branch_namekh"];?></td>
                		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["client_name_en"];?></td>
                		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["loss_date"];?></td>
@@ -114,21 +120,25 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                     <td></td>                 
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
                     <th><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;ដុល្លា  / ($)</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;រៀល  / (R)</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_r,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;បាត / (B)&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_b,2);?>&nbsp;</td>
                 </tr>
               </table>
     	</td>

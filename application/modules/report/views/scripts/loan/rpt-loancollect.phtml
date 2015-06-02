@@ -88,14 +88,16 @@ margin: -4px 4px 0 4px;
 	                 <tr class="style" align="center" bgcolor="#BBBBBB">
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លរ</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លេខកម្ចី</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ទូរសព្ទលេខ</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លេខកម្ចី</td>
+	                    
 	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
 	                    <td rowspan="2" style="text-align:center ;font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
 	                    <td colspan="3" style="text-align:center ; font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
+	                    <td rowspan="2" style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ផាកពិន័យ</td>
 	                    <td rowspan="2" style="min-width:85px; font-size:10px; font-family:'Khmer MEF2'">ផ្សេងៗ</td>
 	                    
 	                </tr>
@@ -104,15 +106,17 @@ margin: -4px 4px 0 4px;
 	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
 	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
 	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
+	                    
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-size:10px; height: 20px;" class="style">
 	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
 	                    <td align="left">&nbsp;<?php echo $row['branch_kh'];?>&nbsp;</td>
+	                     <td align="left">&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['client_name'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['phone_number'];?>&nbsp;</td>
-	                     <td align="left">&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
+	                    
 	                   
 	                   
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
@@ -125,12 +129,14 @@ margin: -4px 4px 0 4px;
 	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?>&nbsp;</td>
 	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
 	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?>&nbsp;</td>
-	                    <td></td>
+	                   	
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
-	                   
+	                   <td><?php echo "";?></td>
+	                   <td><?php echo "";?></td>
 	                </tr>
+	                
 	               <?php }
 	               	//for($record = $key;$record<11;$record++){
 	               //?>

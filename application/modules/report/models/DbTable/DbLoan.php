@@ -593,7 +593,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       
       	$db = $this->getAdapter();
     	
-    	$sql = "SELECT l.id,b.branch_namekh,
+    	$sql = "SELECT l.id,number_code,b.branch_namekh,
     	CONCAT((SELECT client_number FROM `ln_client` WHERE client_id = l.client_code LIMIT 1),' - ',		
     	(SELECT name_en FROM `ln_client` WHERE client_id = l.client_code LIMIT 1)) AS client_name_en,
   		l.loss_date, l.`cash_type`,(SELECT c.symbol FROM `ln_currency` AS c WHERE c.status = 1 AND c.id = l.`cash_type`) AS currency_typeshow,

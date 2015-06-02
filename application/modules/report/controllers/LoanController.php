@@ -11,7 +11,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   }
   
-  function rptLoanReleasedAction(){//release all loan
+  function rptLoanDisburseAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
 
   	$key = new Application_Model_DbTable_DbKeycode();
@@ -53,7 +53,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_search = $frm;
   }
-  function rptLoanReleasedCoAction(){//realease by co
+  function rptLoanDisburseCoAction(){//realease by co
   	$db  = new Report_Model_DbTable_DbLoan();
   	$rs=$db->getAllLoanco();
   	 
