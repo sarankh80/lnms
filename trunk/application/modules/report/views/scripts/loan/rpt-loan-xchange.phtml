@@ -64,12 +64,12 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     </tr>
     <tr>
     	<td>
-            <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-                 <tr class="style" bgcolor="#BBBBBB" align="center" style="font-weight:bold; line-height: 24px;font-size:9px; font-family: 'Khmer OS Content'">
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("No");?></td>
+            <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; " width="100%" cellspacing="0">
+                 <tr class="style" bgcolor="#BBBBBB" align="center" style="font-weight:bold; line-height: 24px;font-size:10px; font-family: 'Khmer OS Content'">
+                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></td>
                     <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></td>
                     <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEPTNO");?></td>
+                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEPT_NO");?></td>
                     <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FROM_AMOUNT");?></td>
                     <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("TO_AMOUNT");?></td>
                     <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("EXCHANGE_RATE");?></td>
@@ -86,11 +86,11 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                		<td>&nbsp;<?php echo $row['branch_name']?></td>
                		<td>&nbsp;<?php echo $row['client_name']?>&nbsp;</td>
                		<td>&nbsp;<?php echo $row['recieptNo']?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $row['fromAmount']?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $row['toAmount']?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $row['rate']?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $row['recievedAmount']?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['changedAmount']?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $row['fromAmount'].$row['fromAmountType'];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $row['toAmount'].$row['toAmountType'];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $row['rate'].$row['toAmountType'];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $row['recievedAmount'].$row['fromAmountType'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['changedAmount'].$row['fromAmountType'];?>&nbsp;</td>
                		<td>&nbsp;<?php echo date('d-m-Y',strtotime($row['statusDate']))?>&nbsp;</td>
                		<td>&nbsp;<?php echo $row['from_to']?>&nbsp;</td>
                		<td>&nbsp;<?php echo ($row['specail_customer']==1)?"Yes":"No"?>&nbsp;</td>

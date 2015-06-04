@@ -1,4 +1,6 @@
-<?php $frm = $this->frm_search;?>
+<?php $frm = $this->frm_search;
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
 <title>Loan Released</title>
 <meta charset="utf-8">
 <title>out standing loan</title>
@@ -56,13 +58,13 @@
     	<td>
             <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <tr class="style" align="center" style="font-weight:bold; line-height: 13px; font-size:11px;padding: 5px 0px;">
-                    <th>&nbsp;លរ&nbsp;</th>
-                    <th>&nbsp;សាខា&nbsp;</th>
-                    <th>&nbsp;លេខឥណទាន&nbsp;</th>
-                    <th>&nbsp;លេខអតិថជន&nbsp;</th>
-                    <th>&nbsp;ឈ្មោះអតិថជន&nbsp;</th>
-                    <th>&nbsp;មន្ត្រើឥណទាន&nbsp;</th>
-                     <th>&nbsp;ថ្ងៃខ្ចី&nbsp;</th>
+                    <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
+                    <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NUMBER");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("CO_NAME");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("TERM_BORROW");?></td>
                     <th>&nbsp;ចំនួនប្រាក់កម្ចី&nbsp;</th>
                     <th>&nbsp;Period&nbsp;</th>
                     <th>&nbsp;Condition&nbsp;</th>

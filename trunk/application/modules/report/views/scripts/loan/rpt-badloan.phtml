@@ -68,7 +68,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
                     <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
-                     <th style="font-size: 9px;"><?php echo $tr->translate("NUMBER_CODE");?></th>
+                     <th style="font-size: 9px;"><?php echo $tr->translate("LOAN_NO");?></th>
                     <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                      <th style="font-size: 9px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
                       <th style="font-size: 9px;"><?php echo $tr->translate("LOSS_DATE");?></th>                   
@@ -123,19 +123,19 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                     <th><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
-                    <td>&nbsp;ដុល្លា  / ($)</td>
+                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
-                    <td>&nbsp;រៀល  / (R)</td>
+                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($total_r,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
-                    <td>&nbsp;បាត / (B)&nbsp;</td>
+                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($total_b,2);?>&nbsp;</td>

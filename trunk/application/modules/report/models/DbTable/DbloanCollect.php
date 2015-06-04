@@ -11,7 +11,7 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     	$db=$this->getAdapter();
     	$start_date = $search['start_date'];
    		$end_date = $search['end_date'];
-    	$sql = "SELECT * FROM v_getloancollects WHERE 1";
+    	$sql = "SELECT * FROM v_newloancolect WHERE 1";
     	$where ='';
     	if(!empty($search['start_date']) or !empty($search['end_date'])){
     		$where.=" AND date_payment BETWEEN '$start_date' AND '$end_date'";
