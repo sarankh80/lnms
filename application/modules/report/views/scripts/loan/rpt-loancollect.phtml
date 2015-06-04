@@ -1,8 +1,16 @@
 <?php  $tran = $this->tran_schedule;
 // print_r($tran);
+
 $filter = $this->frm_search;
 $dayin_khmer = $this->day_inkhmer;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();												
+?>
+<?php  $end_dat=$this->date_show;
+?>
+<?php //$db = $this->getAdapter();
+$db_keycode = new Application_Model_DbTable_DbKeycode();
+$key_code= $db_keycode->getSystemSetting(9);
+$free_day=$key_code['value'];
 ?>
 <style type="text/css">
 .fullside {
@@ -86,26 +94,29 @@ margin: -4px 4px 0 4px;
 	    	<td>
 	            <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" bgcolor="#BBBBBB">
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លរ</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">សាខា</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">លេខកម្ចី</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">មន្រ្តីឥណទាន</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ឈ្មោះអតិថិជន</td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ទូរសព្ទលេខ</td>
+	                 	
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("No");?></td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("Branch");?></td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUMBER_CODE");?></td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO_NAME");?></td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PHONE");?></td>
 	                    
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'">ថ្ងៃបង់ប្រាក់</td>
+	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DAY_PAYMENT");?></td>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
-	                    <td rowspan="2" style="text-align:center ;font-size:10px; font-family:'Khmer MEF2'">ប្រាក់ដើមគ្រា</td>
-	                    <td colspan="3" style="text-align:center ; font-size:10px; font-family:'Khmer MEF2'">ចំនួនប្រាក់ត្រូវបង់</td>
-	                    <td rowspan="2" style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ផាកពិន័យ</td>
-	                    <td rowspan="2" style="min-width:85px; font-size:10px; font-family:'Khmer MEF2'">ផ្សេងៗ</td>
+	                    <td rowspan="2" style="text-align:center ;font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPLE");?></td>
+	                    <td colspan="4" style="text-align:center ; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAYMENT");?></td>
+	                    
+	                    <td rowspan="2" style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAYMENT");?></td>
+	                    <td rowspan="2" style="min-width:85px; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></td>
 	                    
 	                </tr>
 	                <tr class="style" bgcolor="#BBBBBB">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ដើម</td>
-	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ការ</td>
-	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'">ប្រាក់ត្រូវបង់</td>
+	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPLE_PERMONTH");?></td>
+	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("INTEREST");?></td>
+	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LATE_DAY");?></td>
+	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
 	                    
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
@@ -123,17 +134,49 @@ margin: -4px 4px 0 4px;
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
 	                    
-	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?>&nbsp;</td>
+	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));
+	                    //$last_pay=$row['date_payment'];
+	                    //$total_day=$end_dat-$last_pay;
+	                     ?>&nbsp;</td>
 	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
-	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_principal'],2));?>&nbsp;</td>
-	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?>&nbsp;</td>
-	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
-	                    <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?>&nbsp;</td>
+	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_principal'],2));?>&nbsp;</td>
+	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?>&nbsp;</td>
+	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest'],2));?>&nbsp;</td>
+	                    
 	                   	
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
-	                   <td><?php echo "";?></td>
+	                	<td><?php if ($row['last_pay_date']==null){
+	                					$total_day=strtotime($end_dat)-strtotime($row['date_payment']);
+										$all_day=$total_day/(60*60*24);
+										echo $all_day;
+										
+										}
+									else {
+											$total_day=strtotime($end_dat)-strtotime($row['last_pay_date']);
+											$all_day=$total_day/(60*60*24);
+											echo $all_day;
+									}
+							?>
+							</td>		
+	                   <td><?php 
+	                   			if($all_day<=2){ 
+									$all_day=0;$total=0;
+									echo $total;
+
+	                   				}
+	                   			else {
+	                   				$total=($row['principal_permonth']+$row['total_interest'])*($row['pay_after']*($row['interest_rate']/(100*30)))*($all_day-$free_day);
+									echo str_replace('.00', '', number_format($total,2));
+ 	
+									}
+	                   			
+	                   							
+	                   	?>
+	                   </td>
+	                  
+	                  <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format(($total+$row['total_payment']),2)); ?>&nbsp;</td>
 	                   <td><?php echo "";?></td>
 	                </tr>
 	                

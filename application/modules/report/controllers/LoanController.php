@@ -89,6 +89,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	$frm = new Application_Form_FrmSearchGlobal();
   		if($this->getRequest()->isPost()){
   			$search = $this->getRequest()->getPost();
+  			
   		}
   		else{
   			$search = array(
@@ -99,6 +100,7 @@ class Report_LoanController extends Zend_Controller_Action {
   					'end_date'=>date('Y-m-d'));
   			
   		}	
+  		$this->view->date_show=$search['end_date'];
   		$row = $dbs->getAllLnClient($search);
   		$this->view->tran_schedule=$row;
   		
