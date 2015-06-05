@@ -50,12 +50,16 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('client_no');?></td>
 							<td><?php echo $tr->translate("NAME_KHMER")?>*</td>
 							<td><?php  echo $frm->getElement('name_kh');?></td>
+						</tr><tr>		
+							<td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_client');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NAME_ENG")?>*</td>
 							<td><?php  echo $frm->getElement('name_en');?></td>
 							<td><?php echo $tr->translate("SEX")?></td>
 							<td><?php  echo $frm->getElement('sex');?></td>
+							
 							<td><?php echo $tr->translate("SITU_STATUS")?>*</td>
 							<td><?php  echo $frm->getElement('situ_status');?></td>
 						</tr>
@@ -104,6 +108,9 @@ dojo.require("dijit.form.Textarea");
 							<td>No</td>
 							<td><?php  echo $frm->getElement('join_nation_id');?></td>
 						</tr>
+						<tr><td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_join_acc');?></td>
+						</tr>
 						<tr>
 						<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php  echo $frm->getElement('relate_with');?></td>
@@ -122,6 +129,9 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('guarantor_d_type');?></td>
 							<td></td>
 							<td><?php echo $frm->getElement('spouse_nationid');?></td>						
+						</tr>
+						<tr><td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_guarantor');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
@@ -166,6 +176,7 @@ dojo.require("dijit.form.Textarea");
 </table>
 <?php 
 echo $this->frm_popup_village;
+//echo $this->frm_popup_comm;
 ?>
 <script type="text/javascript">
 dojo.require("dojo.data.ItemFileWriteStore");  
@@ -336,4 +347,5 @@ function addVillagetoOption(){
 function showPopupVillage(){
 	dijit.byId('frm_village').show();
 }
+
 </script>

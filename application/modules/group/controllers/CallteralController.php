@@ -46,13 +46,15 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
 		if(!empty($row)){
-		$row['collecteral_code']='';
+		
 		$row['co_id']='';
 		$row['guarantor']=$row['spouse_name'];
 		$row['relative']=$row['relate_with'];
 		$row['guarantor_relative']=$row['guarantor_with']; 
 		$row['note']=$row['remark']; 
 		$row['id']='';
+		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
+		$row['collecteral_code']=$code;
 		
 		}
 		//$row = $db->addClient($id);

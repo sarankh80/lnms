@@ -197,40 +197,28 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   
   function rptLoanOutstandingAction(){//loand out standing with /collection
-  		$frm = new Loan_Form_FrmSearchLoan();
-  		$frms = $frm->AdvanceSearch();
-  		Application_Model_Decorator::removeAllDecorator($frms);
-  		$this->view->frm_search = $frms;
 	    $db  = new Report_Model_DbTable_DbLoan();
-	  	$key = new Application_Model_DbTable_DbKeycode();
-	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-	  	$rs= $db->getAllOutstadingLoan($search=array());
 	  	if($this->getRequest()->isPost()){
 	  		$search = $this->getRequest()->getPost();
-	  		if(@$search["exportexcel"]== 1){
-	  			unset($rs['curr_type']);
-	  			$collumn = array("member_id","loan_number","client_id","client_name","total_capital","interest_rate","currency_type","total_duration",
-	  					"date_release","co_name","admin_fee");
-	  			$this->exportFileToExcel('ln_staff',$rs,$collumn);
-	  		}	
-	  		elseif(!empty($search['txtsearch'])){
-	  			$this->view->outstandloan =$db->getAllOutstadingLoan($search);
-	  			
-	  		}
-	  		
 	  	}
 	  	else {
 	  		$search = array(
 	  				'adv_search'		=>	"",
-	  				//'start_date' => date('Y-m-d'),
+	  				'start_date' => date('Y-m-d'),
 	  				'end_date' => date('Y-m-d'),
 	  				'status' => "",
-	  				'branch_id'		=>	0,
+	  				'co_id' => "",
+	  				'branch_id'		=>"",
 	  		);
-	  		$this->view->outstandloan =$db->getAllOutstadingLoan($search);
 	  	}
+	  	
 	  	$rs= $db->getAllOutstadingLoan($search);
-	  	//print_r($rs);
+	  	$frm = new Loan_Form_FrmSearchLoan();
+	  	$frms = $frm->AdvanceSearch();
+	  	$key = new Application_Model_DbTable_DbKeycode();
+	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	  	Application_Model_Decorator::removeAllDecorator($frms);
+	  	$this->view->frm_search = $frms;
 	  	$this->view->outstandloan = $rs;
   }
   function rptLoanBereleaseAction(){

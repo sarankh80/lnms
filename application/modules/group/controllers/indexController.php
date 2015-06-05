@@ -119,6 +119,8 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->village_name =$village;
 		$db = new Application_Form_FrmPopupGlobal();
 		$this->view->frm_popup_village = $db->frmPopupVillage();
+		//$this->view->frm_popup_comm = $db->frmPopupCommune();
+		
 		
 		
 	}
