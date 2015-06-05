@@ -153,6 +153,17 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	
 	}
+	function ilQuickPaymentAction(){
+		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			
+		}
+		$frm = new Loan_Form_FrmIlPayment();
+		$frm_loan=$frm->FrmAddIlPayment();
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_ilpayment = $frm_loan;
+	}
 	function getLoannumberAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();

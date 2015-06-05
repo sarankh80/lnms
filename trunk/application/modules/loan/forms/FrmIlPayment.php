@@ -126,7 +126,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_branch_id->setMultiOptions($options);
 		
 		
-		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
+		//$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$rows = $db ->getAllCOName();
 		$options=array(''=>"------Select------",-1=>"Add New");
@@ -137,6 +137,17 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		 						'onchange'=>'popupCheckCO();'
 		));
 		$_coid->setMultiOptions($options);
+		
+		$_cocode = new Zend_Dojo_Form_Element_FilteringSelect('co_code');
+		$rows = $db ->getAllCOName();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
+		$_cocode->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
+		));
+		$_cocode->setMultiOptions($options);
 		
 		$_priciple_amount = new Zend_Dojo_Form_Element_NumberTextBox('priciple_amount');
 		$_priciple_amount->setAttribs(array(
@@ -292,7 +303,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'required' =>true
 		));
 		
-		$_last_payment_date = new Zend_Dojo_Form_Element_TextBox("last_payment_date");
+		$_last_payment_date = new Zend_Form_Element_Hidden("last_payment_date");
 		$_last_payment_date->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
