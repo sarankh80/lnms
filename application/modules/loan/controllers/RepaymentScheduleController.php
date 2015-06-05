@@ -55,16 +55,15 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbRepaymentSchedule();
 				$_dbmodel->addRepayMentSchedule($_data);
-				
 				if(empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
 				}else{
 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}
 			}catch (Exception $e) {
-				echo $e->getMessage();exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
+				echo $e->getMessage();exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
@@ -72,13 +71,12 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+        $db = new Application_Model_DbTable_DbGlobal();
+        $this->view->allclient = $db->getAllClient();
+        $this->view->allclient_number = $db->getAllClientNumber();
+        
+		$db = new Setting_Model_DbTable_DbLabel();
+		$this->view->setting=$db->getAllSystemSetting();
 	}	
 // 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){

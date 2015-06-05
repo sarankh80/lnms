@@ -26,6 +26,8 @@ public function init()
 		$loan_number = $db->getLoanNumber();
 		$_loan_code->setValue($loan_number);
 		
+		
+		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -41,6 +43,16 @@ public function init()
 		));
 		$group_opt = $db ->getGroupCodeById(1,1,1);
 		$_group_code->setMultiOptions($group_opt);
+		
+		$get_laonnumber = new Zend_Dojo_Form_Element_FilteringSelect('get_laonnumber');
+		$get_laonnumber->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getInfoByLoanNumber();'
+		));
+		$group_opt = $db->getLoanAllLoanNumber(1,1);
+		$get_laonnumber->setMultiOptions($group_opt);
+		
 		
 		$dbs = new Loan_Model_DbTable_DbLoanIL();
 		
@@ -364,7 +376,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));
