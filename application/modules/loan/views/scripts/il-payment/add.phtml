@@ -804,6 +804,7 @@ function getLaonHasPayByLoanNumber(){
 					temp='';	
 					temp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 						+'<thead><tr><th class="tdheader">ល.រ</th>'
+						+'<th class="tdheader">លេខកូដកម្ចី</th>'
 						+'<th class="tdheader">លេខវិក័យបត្ត្រ</th>'
 						+'<th class="tdheader">កូដអតិថិជន</th>'
 						+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
@@ -835,6 +836,7 @@ function getLaonHasPayByLoanNumber(){
 							currs =getCurrencyType(data_loan[k].currency_type);
 							temp+= '<tr>';
 								temp += '<td>&nbsp;'+nums+'</td>';
+								temp += '<td>&nbsp;'+data_loan[k].loan_number+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
@@ -1013,7 +1015,7 @@ if(arrays!=""){
 					  	  	  	installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
 // 				  	  	  		alert(installment_date);
 				  	  	  		practical_date  = Math.round((date_collect - installment_date)/(oneDay));
-				  	  	  		alert(practical_date);
+				  	  	  		//alert(practical_date);
 					  	  	  	total_interest = ((os_amount*(interest_rate/100)/1))*practical_date;
 // 					  	  	  	alert(os_amount+'*('+interest_rate+'/100)'+'/1)'+'*'+practical_date);
 					  	  		totalAmount = os_amount+total_interest;

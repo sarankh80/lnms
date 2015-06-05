@@ -836,6 +836,7 @@ public function addILPayment($data){
 			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_name,
 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_code,
 			  crm.`receipt_no`,
+			  crm.`loan_number`,
 			  crm.`date_input`,
 			  crm.`principal_amount`,
 			  crm.`total_principal_permonth`,
