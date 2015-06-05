@@ -859,5 +859,37 @@ public function addILPayment($data){
 			  AND crm.`loan_number` = '$loan_number'";
    	return $db->fetchAll($sql);
    }
+   
+   function getAllLoanByCoId($co_id){ //quick Il Payment
+   	$db = $this->getAdapter();
+   	$sql = "SELECT 
+			  (SELECT CONCAT(co.`co_firstname`,`co_lastname`,',',`co_khname`) FROM `ln_co` AS co WHERE co.`co_id`=lg.`co_id`) AS co_name,
+			  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lm.`branch_id`) AS branch,
+			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id` ) AS `client`,
+  			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id` ) AS `client_number`,
+			  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crm.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC
+			   LIMIT 1) AS last_pay_date,
+			  lm.`loan_number`,
+			  lm.`client_id`,
+			  lm.`branch_id`,
+			  lm.`interest_rate`,
+			  lm.`payment_method`,
+			  lm.`pay_after`,
+			  lm.`collect_typeterm`,
+			  lm.`currency_type`,
+			  lf.* 
+			FROM
+			  `ln_loanmember_funddetail` AS lf,
+			  `ln_loan_member` AS lm,
+			  `ln_loan_group` AS lg 
+			WHERE lf.`is_completed` = 0 
+			  AND lf.`member_id` = lm.`member_id` 
+			  AND lm.`status` = 1 
+			  AND lm.`is_completed` = 0
+			  AND lm.`group_id`=lg.`g_id`
+			  AND lg.`co_id`=$co_id
+			  GROUP BY lm.`client_id`";
+   	return $db->fetchAll($sql);
+   }
 }
 
