@@ -428,8 +428,8 @@ dojo.ready(function(){
 		key_number = (event.keyCode);
 		if(key_number==13){
 			not_submit = 1;
-			dijit.byId('last_payment_date').attr('value',"");
-			getLastPaymentDate();
+			//dijit.byId('last_payment_date').attr('value',"");
+			//getLastPaymentDate(1);
 			getLastPayDate();
 			getLaonHasPayByLoanNumber();
 			getLaonPayment(1);
@@ -893,35 +893,8 @@ function getLastPayDate(){
 	});
 }
 
-function getLastPaymentDate(){
-	//alert(1);
-	var loan_numbers = dijit.byId('loan_number').get('value');
-	var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-last-payment-date-by-loan')); ?>';
-	dojo.xhrPost({
-	    url: url_submits,
-	    content : { 
-		    'loan_numbers':loan_numbers,
-		},	
-		handleAs:"json",
-		load: function(data) {
-			if(data!=""){
-				//var lastPayDate = data;
-				//alert(data);
-				dijit.byId('last_payment_date').attr('value',data);
-			}else{
-				$('#last_payment_date').val("");
-			}
-		},
-		error: function(e) {
-			alert(e);
-		}
-	});
-}
+
 function calculateTotal(index){
-	//getLastPaymentDate();
-	var last_payment_date = $('#last_payment_date').val();
-// 	alert(2);
-// 	alert(last_payment_date);
 	try{
 	var total_payment = 0;
 	var os_amount = 0;
@@ -956,8 +929,12 @@ function calculateTotal(index){
    var arrays = ids.split(',');
 if(arrays!=""){
 	for(var i=0;i<arrays.length;i++) {
+		last_payment_date=0;
 		var oneDay = 24*60*60*1000;
 		if($('#mfdid_'+arrays[i]).attr('checked')){
+			getLastPaymentDate(arrays[i]);
+			last_payment_date= dijit.byId('last_payment_date').get('value');
+			//alert(last_payment_date);
 			var ps = $('#multiplier_'+arrays[i]).val();
           	var os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
           	var priciple_amount = parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
@@ -965,17 +942,18 @@ if(arrays!=""){
           	var totalPay = $('#payment_'+arrays[i]).val();
           	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
           	
-          	//pay_date = new Date(last_payment_date);
           	pay_date=last_payment_date==""?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
-            //var pay_date = new Date($('#date_payment_'+arrays[i]).val());
+			//alert(pay_date);
 			var late_day = Math.round((date_collect - pay_date)/(oneDay));
 			if(late_day>0){
-				total_late_day = late_day - graice_period;
+				if(last_payment_date!=""){
+					total_late_day = late_day;
+				}else{
+					total_late_day = late_day - graice_period;
+				}
 			}else{
 				total_late_day = late_day;
 			}
-			
- 			alert(pay_date);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
@@ -1145,8 +1123,38 @@ if(arrays!=""){
 		$('#check_all').attr('checked');
 	}
 }catch(err){
-	//alert(err.message);
+	alert(err);
 }
+}
+var url_getlast = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-last-payment-date-by-loan')); ?>';
+
+function getLastPaymentDate(index){
+	var loan_numbers = dijit.byId('loan_number').get('value');
+	var fn_id = $('#mfdid_'+index).val();
+	//alert(888888);
+	dojo.xhrPost({
+	    url: url_getlast,
+	    content : { 
+		    'loan_numbers':loan_numbers,
+		    'fn_id':fn_id,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			if(data!=""){
+				//alert(data);
+				dijit.byId('last_payment_date').attr('value',data);
+				//return 10;
+				//alert(dijit.byId('last_payment_date').get('value'));
+			}else{
+				//alert(1111);
+				$('#last_payment_date').val("");
+				//return 0;
+			}
+		},
+		error: function(e) {
+			alert(e);
+		}
+	});
 }
 
 function checkAll(index){

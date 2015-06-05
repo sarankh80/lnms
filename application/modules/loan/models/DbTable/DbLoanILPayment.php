@@ -815,8 +815,19 @@ public function addILPayment($data){
    
    public function getLastPaymentDate($data){
    	$loanNumber = $data['loan_numbers'];
+   	$fn_id = $data["fn_id"];
    	$db = $this->getAdapter();
-   	$sql = "SELECT c.`date_input` FROM `ln_client_receipt_money` AS c WHERE c.`loan_number`='$loanNumber' ORDER BY c.`receipt_no` DESC LIMIT 1";
+   	$sql = "SELECT 
+			  c.`date_input` 
+			FROM
+			  `ln_client_receipt_money` AS c,
+			  `ln_client_receipt_money_detail` AS cr 
+			WHERE c.`loan_number` = '$loanNumber' 
+			  AND c.`id` = cr.`crm_id` 
+			  AND cr.`lfd_id` = $fn_id 
+			ORDER BY c.`receipt_no` DESC 
+			LIMIT 1";
+   	//return $sql;
    	return $db->fetchOne($sql);
    }
    public function getLaonHasPayByLoanNumber($loan_number){
