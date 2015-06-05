@@ -162,7 +162,21 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmAddIlPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$db_keycode = new Application_Model_DbTable_DbKeycode();
+		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		$this->view->frm_ilpayment = $frm_loan;
+	}
+	function getAllLoanByCoIdAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$co_id = $data["co_id"];
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$row = $db->getAllLoanByCoId($co_id);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
 	}
 	function getLoannumberAction(){
 		if($this->getRequest()->isPost()){
