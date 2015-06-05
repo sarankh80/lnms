@@ -147,6 +147,7 @@ margin: -4px 4px 0 4px;
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
+	                    
 	                	<td><?php if ($row['last_pay_date']==null){
 	                					$total_day=strtotime($end_dat)-strtotime($row['date_payment']);
 										$all_day=$total_day/(60*60*24);
@@ -160,23 +161,36 @@ margin: -4px 4px 0 4px;
 									}
 							?>
 							</td>		
-	                   <td><?php 
-	                   			if($all_day<=2){ 
-									$all_day=0;$total=0;
-									echo $total;
+	                   <td><?php $pay_term=$row['collect_typeterm'];
+	                   			if($all_day<=$free_day){ 
+									$all_day=0;$result=0;
+									echo $result;
 
 	                   				}
 	                   			else {
-	                   				$total=($row['principal_permonth']+$row['total_interest'])*($row['pay_after']*($row['interest_rate']/(100*30)))*($all_day-$free_day);
-									echo str_replace('.00', '', number_format($total,2));
- 	
+	                   				$total_late=($row['principal_permonth']+$row['total_interest']);
+									 //$total_late=str_replace('.00', '', number_format($total_late,2));
+									 if ($pay_term==1){
+									 	$result=$total_late*($row['pay_after']*($row['interest_rate']/100)/1)*($all_day-$free_day);
+									 	echo $total_late."+"."(".$row['pay_after']."*"."(".$row['interest_rate']."/100)/30)*(".$all_day."-".$free_day.")";
+									 	echo str_replace('.00', '', number_format($result,2));;
+									 }
+									 if ($pay_term==2){
+									 	$result=$total_late*($row['pay_after']*($row['interest_rate']/100)/7)*($all_day-$free_day);
+									 	echo str_replace('.00', '', number_format($result,2));;
+									 }
+									 if ($pay_term==3){
+									 	$result=$total_late*($row['pay_after']*(($row['interest_rate']/100)/30))*($all_day-$free_day);
+									 	//echo $total_late."+"."(".$row['pay_after']."*"."(".$row['interest_rate']."/100)/30)*(".$all_day."-".$free_day.")=".$result;
+									 	echo str_replace('.00', '', number_format($result,2));;
+									 }
 									}
 	                   			
 	                   							
 	                   	?>
 	                   </td>
 	                  
-	                  <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format(($total+$row['total_payment']),2)); ?>&nbsp;</td>
+	                  <td align="left">&nbsp;<?php echo str_replace('.00', '', number_format(($result+$row['total_payment']),2)); ?>&nbsp;</td>
 	                   <td><?php echo "";?></td>
 	                </tr>
 	                
