@@ -60,32 +60,35 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                  <tr class="style" align="center" style="font-weight:bold; line-height: 13px; font-size:11px;padding: 5px 0px;">
                     <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
                     <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NUMBER");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NO");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("CO_NAME");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <th>&nbsp;ចំនួនប្រាក់កម្ចី&nbsp;</th>
-                    <th>&nbsp;Period&nbsp;</th>
-                    <th>&nbsp;Condition&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
+                   
                     <th>&nbsp;ចំនួនប្រាក់ប្រមូលមកវិញ&nbsp;</th>
                     <th>&nbsp;អត្រាសង(%)&nbsp;</th>
                     <th>&nbsp;ប្រាក់មិនទាន់សង&nbsp;</th>
                 </tr>
                <?php 
-               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
+               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
 //                print_r($this->loanrelease_list);
                if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
                <?php 
                if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
                		$amn_r = $amn_r+$row['total_payment'];
+               		$result_r=number_format(($amn_r/$amt_r)*100,2).' %';
                }elseif($row['curr_type']==2){
                		$amt_d = $amt_d+$row['total_capital'];
                		$amn_d = $amn_d+$row['total_payment'];
+               		$result_d=number_format(($amn_d/$amt_d)*100,2).' %';
                }else{
                		$amt_b = $amt_b+$row['total_capital'];
                		$amn_b = $amn_b+$row['total_payment'];
+               		$result_b=number_format(($amn_b/$amt_b)*100,2).' %';
                }
                ?>
 					<tr align="center">
@@ -93,15 +96,20 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_id'];?>&nbsp;</td>
-					<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_name']; ?>&nbsp;</td>
+					<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_kh']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
 					
 					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']);?>&nbsp;</td>
-					<td style="white-space: nowrap;">&nbsp;<?php echo $row['pay_term'];?>&nbsp;</td>
+					<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
+					
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_payment'],2);?>&nbsp;</td>
-					<td>&nbsp;<?php echo (round(($row['total_payment']/$row['total_capital']),2)*100).' %';?>&nbsp;</td>
+					<td>&nbsp;<?php 
+						
+							echo (round(($row['total_payment']/$row['total_capital']),2)*100).' %';
+						
+						
+					?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['total_capital']-$row['total_payment'];?>&nbsp;</td>
 					</tr>
 				<?php }?>
@@ -110,31 +118,31 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px;">
                     <td></td>
-                    <td>ចំនួនប្រាក់កម្ចីសរុប</td>
-                    <td>ចំនួនប្រាក់ប្រមូលសរុប</td>
-                    <td>អត្រាសង(%)</td>
-                    <td>ប្រាក់មិនទាន់សងសរុប</td>
+                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
+                    <td><?php echo $tr->translate("TOTAL_RECIEST");?></td>
+                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?>អត្រាសង(%)</td>
+                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?>ប្រាក់មិនទាន់សងសរុប</td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
                     <td>&nbsp;ដុល្លា  / ($)</td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format(($amn_d/$amt_d)*100,2).' %';?>&nbsp;</td>
+                    <td>&nbsp;<?php echo $result_d;?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format(($amt_d-$amn_d)*100,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
                     <td>&nbsp;រៀល  / (R)</td>
                     <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format(($amn_r/$amt_r)*100,2).' %';?>&nbsp;</td>
+                    <td>&nbsp;<?php echo $result_r;?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_r-$amn_r);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
                     <td>&nbsp;បាត / (B)&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format(($amn_b/$amt_b)*100,2).' %';?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format(($amt_b-$amn_d),2);?>&nbsp;</td>
+                    <td>&nbsp;<?php echo $result_b;?>&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($amt_b-$amn_b);?>&nbsp;</td>
                 </tr>
               </table>
     	</td>

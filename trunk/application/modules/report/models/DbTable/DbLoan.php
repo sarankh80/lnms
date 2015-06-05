@@ -3,6 +3,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 {
       public function getAllLoan($search = null){//rpt-loan-released/
       	 $db = $this->getAdapter();
+      	// print_r($search);exit();
       	 $start_date = $search['start_date'];
       	 $end_date = $search['end_date'];
       	 $sql = "SELECT * FROM v_loanreleased WHERE 1";
@@ -169,41 +170,37 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	return $db->fetchAll($sql.$where.$Other);
       }
       public function getAllOutstadingLoan($search=null){//
-//       	$sql = 'SELECT * FROM `ln_loanmember_funddetail` WHERE STATUS=1 AND is_completed=0 GROUP BY member_id ORDER BY id DESC ';
-	      	$db = $this->getAdapter();//
-	      	$start_date = $search['start_date'];
-	      	$end_date = $search['end_date'];
+
+      	$db = $this->getAdapter();
+	      	$from_date =(empty($search['start_date']))? '1': "date_release >= '".$search['start_date']." 00:00:00'";
+	      	$to_date = (empty($search['end_date']))? '1': "date_release <= '".$search['end_date']." 23:59:59'";
+	      	$where = " AND ".$from_date." AND ".$to_date;
+      	
 	      	$sql="SELECT * FROM v_loanoutstanding Where 1 ";//IF BAD LOAN STILL GET IT 
-	      	//$sql=""
-	      	//$order =" ORDER BY g.currency_type ,g.branch_id , g.member_id DESC";
-	      	$where = '';
-	      	if(!empty($search['start_date']) or !empty($search['end_date'])){
-	      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
-	      	}
      	 if($search['branch_id']>0){
     		$where.=" AND br_id = ".$search['branch_id'];
     		}
-    	if($search['client_name']>0){
-    		$where.=" AND client_id = ".$search['client_name'];
-    	}
+//     	if($search['client_name']>0){
+//     		$where.=" AND client_id = ".$search['client_name'];
+//     	}
     	if($search['co_id']>0){
     		$where.=" AND co_id = ".$search['co_id'];
     	}
 	      	if(!empty($search['adv_search'])){
 	      		$s_where = array();
 	      		$s_search = $search['adv_search'];
-	      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-	      		$s_where[] = " client_name LIKE '%{$s_search}%'";
 	      		$s_where[] = " co_name LIKE '%{$s_search}%'";
-	      		$s_where[]=" branch_name LIKE '%{$s_search}%'";
-	      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
-	      		//$s_where[]=" interest_rate LIKE '%{$s_search}%'";
-	      		//$s_where[] = " date_release LIKE '%{$s_search}%'";
-	      		//$s_where[]=" curr_type LIKE '%{$s_search}%'";
-	      		//$s_where[] = " total_payment LIKE '%{$s_search}%'";
-	      		//$s_where[]=" total_duration LIKE '%{$s_search}%'";
-	      		//$s_where[]=" pay_term LIKE '%{$s_search}%'";
-	      		$where .=' AND '.implode(' OR ',$s_where).'';
+// // 	      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+// 	      		$s_where[] = " co_name LIKE '%{$s_search}%'";
+// 	      		$s_where[]=" branch_name LIKE '%{$s_search}%'";
+// 	      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+// 	      		//$s_where[]=" interest_rate LIKE '%{$s_search}%'";
+// 	      		//$s_where[] = " date_release LIKE '%{$s_search}%'";
+// 	      		//$s_where[]=" curr_type LIKE '%{$s_search}%'";
+// 	      		//$s_where[] = " total_payment LIKE '%{$s_search}%'";
+// 	      		//$s_where[]=" total_duration LIKE '%{$s_search}%'";
+// 	      		//$s_where[]=" pay_term LIKE '%{$s_search}%'";
+// 	      		$where .=' AND '.implode(' OR ',$s_where).'';
 	      	
 	      	}
 	      	return $db->fetchAll($sql.$where);

@@ -38,6 +38,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'relate_with'	  => $_data['relate_with'],
 				'join_tel'	  => $_data['relate_tel'],
 				'sex'	      => $_data['sex'],
+				'dob'			=>$_data['dob_client'],
 				'sit_status'  => $_data['situ_status'],
 				'pro_id'      => $_data['province'],
 				'dis_id'      => $_data['district'],

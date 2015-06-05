@@ -479,7 +479,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($option!=null){
   		$options=array();
   		if($first_option==null){//if don't want to get first select
-  			$options=array(''=>"-----ជ្រើសរើស-----");
+  			$options=array(''=>"-----ជ្រើសរើស-----",-1=>"add New",);
   		}
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['key_code']]=$row['name_en'];//($row['displayby']==1)?$row['name_kh']:$row['name_en'];
