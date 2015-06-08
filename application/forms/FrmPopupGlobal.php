@@ -231,20 +231,25 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 	public function frmPopupDistrict(){
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$frm = new Other_Form_FrmDistrict();
-		$frm = $frm->FrmAddDistrict();
-		Application_Model_Decorator::removeAllDecorator($frm);
+		$frms = $frm->FrmAddDistrict();
+		Application_Model_Decorator::removeAllDecorator($frms);
 		$str='<div class="dijitHidden">
 				<div data-dojo-type="dijit.Dialog"  id="frm_district" >
 				<form id="form_district" >';
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>District Name</td>
+						<td>District Name English</td>
 						<td>'.$frm->getElement('pop_district_name').'</td>
 					</tr>
-					<tr>
-						<td>Province Name</td>
-						<td>'.$frm->getElement('province_name').'</td>
+								<tr>
+						<td>Province Name English</td>
+						<td>'.$frm->getElement('pop_district_namekh').'</td>
 					</tr>
+					<tr>
+						<td>District Name Khmer</td>
+						<td>'.$frm->getElement('province_names').'</td>
+					</tr>
+					
 					<tr>
 						<td colspan="2" align="center">
 						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
@@ -259,19 +264,23 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 	public function frmPopupCommune(){
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$frm = new Other_Form_FrmCommune();
-		$frm = $frm->FrmAddCommune();
-		Application_Model_Decorator::removeAllDecorator($frm);
+		$frms = $frm->FrmAddCommune();
+		Application_Model_Decorator::removeAllDecorator($frms);
 		$str='<div class="dijitHidden">
 				<div data-dojo-type="dijit.Dialog"  id="frm_commune" >
 					<form id="form_commune" >';
 			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>Commune Name</td>
-						<td>'.$frm->getElement('commune_name').'</td>
+						<td>Commune Name EN</td>
+						<td>'.$frm->getElement('commune_nameen').'</td>
+					</tr>
+					<tr>
+						<td>Commune KH</td>
+						<td>'.$frm->getElement('commune_namekh').'</td>
 					</tr>
 					<tr>
 						<td>District Name</td>
-						<td>'.$frm->getElement('district_name').'</td>
+						<td>'.$frm->getElement('district_nameen').'</td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
@@ -334,7 +343,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 							<td colspan="2" align="center">
 											<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 											<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button" 
-												iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addVillagetoOption();"  />
+												iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addVillage();"  />
 							</td>
 						</tr>
 					</table>';

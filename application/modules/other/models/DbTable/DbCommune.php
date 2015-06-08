@@ -26,6 +26,20 @@ class Other_Model_DbTable_DbCommune extends Zend_Db_Table_Abstract
 			return  $this->insert($_arr);
 		}
 	}
+	public function addCommunebyAJAX($_data,$id=null){
+		$_arr=array(
+				'district_id' => $_data['district_nameen'],
+				'commune_namekh'=> $_data['commune_namekh'],
+				'commune_name'=> $_data['commune_nameen'],
+				//'displayby'=> $_data['display'],
+				'status'	  => 1,
+				'modify_date' => Zend_Date::now(),
+				'user_id'	  => $this->getUserId()
+		);
+			return  $this->insert($_arr);
+		
+	}
+	
 	public function getCommuneById($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT c.com_id,c.district_id,c.commune_name,commune_namekh,displayby,c.modify_date,c.status,c.user_id,

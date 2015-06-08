@@ -119,7 +119,9 @@ require(["dojo/ready"], function(ready){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
+		
 		getClientInfo(2);
+		
 }
 	}, "client_name");
 
@@ -159,11 +161,17 @@ function getClientInfo(type){
 	if(type==1){
 		customer_code= dijit.byId('client_code').get('value');
 		dijit.byId('client_name').attr('value',customer_code);
+
+		giver_name= dijit.byId('client_name').attr('displayedValue');
+		//alert(a);
+		dijit.byId('giver_name').attr('value',giver_name);
+		//dijit.byId('giver_name').attr('value',customer_code);
 		//addCollecteral();
 		getClientCollateral();
 	}else{
 		customer_code= dijit.byId('client_name').get('value');
 		dijit.byId('client_code').attr('value',customer_code);
+		//dijit.byId('giver_name').attr('value',customer_code);
 	}
 	getClientInfomation();
 }
@@ -262,16 +270,16 @@ function getClientCollateral(){
 				dojo.query("#head_title").append(thead);
 	        }
 			temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-			temp+='<td><select style=" width:120px;background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
+			temp+='<td><select style=" width:120px;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
 		    temp+='<td><select style=" width:110px; background:#fff; padding-left:5px;" readonly="true" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" >'+owner_option+'</select></td>';
 			temp+='<td><input style=" width:130px" type="text" required="true"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 			temp+='<td><input style=" width:100px" type="text" required="true" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 
-			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;" id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
-		    temp+='<td><select style=" width:90px; background:#fff; padding-left:5px;" id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-			temp+='<td><input style=" width:90%;" type="text" required="true" name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input type="text" style=" width:110px" required="true" name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input style=" width:110px" type="text" name="tonote'+r+'" id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
+			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;"  id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
+		    temp+='<td><select style=" width:90px; background:#fff; padding-left:5px;"  id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
+			temp+='<td><input style=" width:90%;" type="text" required="true"  name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input type="text" style=" width:110px" required="true"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input style=" width:110px" type="text" name="tonote'+r+'"  id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
 
 			
 			tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
@@ -302,6 +310,7 @@ function getClientCollateral(){
 		}
 	});
 }
+
 function setOwnerNameCollecteralById(index){
 	label='';
 	owner_type = dijit.byId('toowner_type'+index).get('value');
