@@ -188,6 +188,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'onchange'=>'filterDistrict();',
 				
 		));
+		
 		$rows =  $db->getAllProvince();
 		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['province_id']]=$row['province_en_name'];

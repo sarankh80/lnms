@@ -57,6 +57,11 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
 		
+		$pop_district_namekh = new Zend_Dojo_Form_Element_TextBox('pop_district_namekh');
+		$pop_district_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
+				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
+		));
+		
 		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
 		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
 		$_display_opt = array(
@@ -82,6 +87,17 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				));
 		$_province->setValue($request->getParam('province_name'));
+		
+		if(!empty($rows_province))foreach($rows_province AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
+		
+		$_provincess=new Zend_Dojo_Form_Element_FilteringSelect('province_names');
+		$_provincess->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'filterDistrict();',
+		));
+		$_provincess->setMultiOptions($opt_province);
+		
+		
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
 		$_status->setMultiOptions($_arr);
@@ -100,7 +116,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 			
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($_status_search,$_title,$id,$district_name,$popupdistrict_name,$district_namekh,$_display,$_province, $_status));
+		$this->addElements(array($pop_district_namekh,$_provincess,$_status_search,$_title,$id,$district_name,$popupdistrict_name,$district_namekh,$_display,$_province, $_status));
 		return $this;
 		
 	}

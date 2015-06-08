@@ -28,6 +28,7 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		}
 		
 	}
+
 	function addVillageByAjax($_data){
 		$db = $this->getAdapter();
 		$_arr=array(

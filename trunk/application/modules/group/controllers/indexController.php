@@ -98,28 +98,41 @@ class Group_indexController extends Zend_Controller_Action {
 			}
 		}
 		$fm = new Group_Form_FrmClient();
+		$db = new Application_Model_DbTable_DbGlobal();
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_client = $frm;
-		
-		$db = new Application_Model_DbTable_DbGlobal();
 		$this->view->allclient = $db->getAllClient();// for filter
 		$this->view->allclient_number = $db->getAllClientNumber();//for filter
 		
-		$db= new Application_Model_DbTable_DbGlobal();
-		$this->view->district = $db->getAllDistricts();
-		$this->view->commune_name = $db->getCommune();
+		$districts = $db->getAllDistricts();
+		array_unshift($districts,array(
+		'id' => -1,
+		'name' => '---Add New ---',
+		'pro_id' => -1 ) );
+		$this->view->district = $districts;
+		
+		
+		
+		$commune = $db->getCommune();
+		array_unshift($commune,array(
+		'id' => -1,
+		'name' => '---Add New ---',
+		'district_id' => -1 ) );
+		$this->view->commune_name = $commune;
 		
 		$village = $db->getVillage();
 		array_unshift($village,array( 
 				'id' => -1, 
 			    'name' => '---Add New Village Name---',
 				'commune_id' => -1 ) );
-		
 		$this->view->village_name =$village;
+		
 		$db = new Application_Form_FrmPopupGlobal();
+		
 		$this->view->frm_popup_village = $db->frmPopupVillage();
-		//$this->view->frm_popup_comm = $db->frmPopupCommune();
+		$this->view->frm_popup_comm = $db->frmPopupCommune();
+		$this->view->frm_popup_district = $db->frmPopupDistrict();
+		$this->view->frm_client = $frm;
 		
 		
 		
@@ -214,7 +227,33 @@ class Group_indexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	
+	function insertDistrictAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db_district = new Other_Model_DbTable_DbDistrict();
+			$district=$db_district->addDistrictByAjax($data);
+			print_r(Zend_Json::encode($district));
+			exit();
+		}
+	}
+	function insertcommuneAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db_commune = new Other_Model_DbTable_DbCommune();
+			$commune=$db_commune->addCommunebyAJAX($data);
+			print_r(Zend_Json::encode($commune));
+			exit();
+		}
+	}
+	function addVillageAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db_village = new Other_Model_DbTable_DbVillage();
+			$village=$db_village->addVillage($data);
+			print_r(Zend_Json::encode($village));
+			exit();
+		}
+	}
 	
 }
 

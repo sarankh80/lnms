@@ -175,20 +175,28 @@ dojo.require("dijit.form.Textarea");
 </tr>
 </table>
 <?php 
+echo $this->frm_popup_district;
 echo $this->frm_popup_village;
-//echo $this->frm_popup_comm;
+echo $this->frm_popup_comm;
 ?>
 <script type="text/javascript">
+dojo.require("dijit/registry");
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
-var village_store  = getDataStorefromJSON('village','village', <?php print_r(Zend_Json::encode($this->village_name));?> );
+dojo.require("dojo.parser");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Textarea"); 
+//dojo.require("dojo.data.registry");
+//var village_store  = getDataStorefromJSON('village','village', <?php print_r(Zend_Json::encode($this->village_name));?> );
 
 dojo.ready(function(){
+	try{
 	var district_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->district));?>
+	      
 	});
-	 
+	 //alert(district_data);
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: district_data}),
 	autoComplete: true,
@@ -202,8 +210,12 @@ dojo.ready(function(){
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ ស្រុក/ខ័ណ្ឌ!",	
 		onChange: function() {
+			district = dijit.byId('district').get('value');
+			if(district==-1){
+				showPopupdistrict();
+				}
 				filterCommune();
-	    }
+		}  
 	}, "district");
 
 	var commune_data = new dojo.store.Memory({
@@ -213,6 +225,7 @@ dojo.ready(function(){
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: commune_data}),
 	autoComplete: true,
+	
 	query: {
 		district_id: "-1"
 	},            
@@ -223,7 +236,14 @@ dojo.ready(function(){
 	class: 'fullside',
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឃុំ/សង្កាត់",	
 		onChange: function() {
+			commune = dijit.byId('commune').get('value');
+			if(commune==-1){
+				showPopupCommune();
+				//filterVillage();
+			}
+			else{
 			filterVillage();
+			}
   }
 	}, "commune");
 
@@ -246,10 +266,14 @@ dojo.ready(function(){
 		onChange: function() {
 			vill = dijit.byId('village').get('value');
 			if(vill==-1){
+
 				showPopupVillage();
 			}
-}
+		}
 	}, "village");
+	}catch(e){
+		alert(e);
+	}
 });
 function filterDistrict(){
 	dijit.byId('district').query.pro_id = dijit.byId('province').get('value');
@@ -315,28 +339,26 @@ function getFunction(){
 		});
 }
 client_village = '<?php echo $this->url(array('module'=>'other','controller'=>'Village','action'=>'add-village'));?>';
-function addVillagetoOption(){
+function addVillage(){
+	var village_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->village));?>
+	      
+	});
 	dojo.xhrPost({
 		url:client_village,	
 		form:dojo.byId('form_village'),
 		handleAs:"json",
-		load: function(data) {	
+		load: function(data) {
+			alert(data);	
 			dijit.byId('frm_village').reset();
 			dijit.byId('frm_village').hide();
-			var select = registry.byId("village");
-
-			//option1 = { value: "331", label: "option 1", selected: false };
-			//option2 = { value: "323", label: "option 2", selected: true };
-
-			//select.addOption([option1, option2]); // add all options at once as an array
-			
-			//var myNewItem = {		
-				//	bank_name: dijit.byId('village_name').get('value')
-			//};	
-			//sender  = getDataStorefromJSON('id','name', response);
-		    //sender_store = sender;//assign for overived var sender_store
-			//dijit.byId('village').set('store', sender_store);
-			//addDataToSelectbox(dijit.byId('village'),  dojo.data.ObjectStore({objectStore: village_data}), myNewItem, dojo.byId('village_name').get('value'));
+			var myNewItem = {		
+					bank_name: dijit.byId('village_name').get('value')
+			};	
+			sender  = getDataStorefromJSON('id','name', data);
+		    sender_store = sender;//assign for overived var sender_store
+			dijit.byId('village').set('store', sender_store);
+			addDataToSelectbox(dijit.byId('village'),  dojo.data.ObjectStore({objectStore: village_data}), myNewItem, dijit.byId('village_name').get('value'));
 			
 		},
 		error: function(err) {
@@ -346,6 +368,69 @@ function addVillagetoOption(){
 }
 function showPopupVillage(){
 	dijit.byId('frm_village').show();
+}
+var commune_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insertcommune'));?>';
+function addNewCommune(){
+	var commune_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->commune));?>
+	      
+	});
+	dojo.xhrPost({
+		url:commune_url,	
+		form:dojo.byId('form_commune'),
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			dijit.byId('frm_commune').reset();
+			dijit.byId('frm_commune').hide();
+			//var select = registry.byId("commune");
+			var myNewItem = {		
+					bank_name: dijit.byId('commune_nameen').get('value')
+			};	
+			sender  = getDataStorefromJSON('id','name', data);
+		    sender_store = sender;//assign for overived var sender_store
+			dijit.byId('commune').set('store', sender_store);
+			addDataToSelectbox(dijit.byId('commune'),  dojo.data.ObjectStore({objectStore: commune_data}), myNewItem, dijit.byId('commune_nameen').get('value'));
+			
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+function showPopupCommune(){
+	dijit.byId('frm_commune').show();
+}
+function showPopupdistrict(){
+	dijit.byId('frm_district').show();
+}
+var district_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-district'));?>';
+function addNewDistrict(){
+	var district_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->district));?>
+	      
+	});
+	dojo.xhrPost({
+		url:district_url,	
+		form:dojo.byId('form_district'),
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			dijit.byId('frm_district').reset();
+			dijit.byId('frm_district').hide();
+			var myNewItem = {		
+					bank_name: dijit.byId('pop_district_name').get('value')
+			};	
+			sender  = getDataStorefromJSON('id','name', data);
+		    sender_store = sender;//assign for overived var sender_store
+			dijit.byId('district').set('store', sender_store);
+			addDataToSelectbox(dijit.byId('district'),  dojo.data.ObjectStore({objectStore: district_data}), myNewItem, dijit.byId('pop_district_name').get('value'));
+			
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
 }
 
 </script>
