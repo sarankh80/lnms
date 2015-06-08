@@ -618,6 +618,8 @@ function getLaonPayment(type){
 						multiplier = respone[i].pay_after;
 						pay_before = respone[i].pay_before;
 						date_pay = respone[i].date_payment;
+						datePayment = new Date(date_pay);
+						var dateString = datePayment.toLocaleFormat('%d-%m-%Y');
 						id = respone[i].id;
 						//trRow(inx);
 						pay_option = dijit.byId('option_pay').get('value');
@@ -645,7 +647,7 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-						    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
@@ -758,12 +760,15 @@ function getAllLaonPayment(types){
 						ds = new Date(data[j].date_payment);
 						str_days = getDayString(ds.getDay());
 						currs =getCurrencyType(data[j].currency_type);
+
+						datePayment = new Date(ds);
+						var dateString = datePayment.toLocaleFormat('%d-%m-%Y');
 						 tmp+= '<tr>';
 						    tmp += '<td>&nbsp;'+nums+'</td>';
 						    tmp += '<td>&nbsp;'+data[j].client_number+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+data[j].name_kh+'&nbsp;</td>';
 						    tmp += '<td style="white-space: nowrap;">&nbsp;'+str_days+'&nbsp;</td>';
-						    tmp += '<td style="white-space: nowrap;">&nbsp;'+data[j].date_payment+'&nbsp;</td>';
+						    tmp += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_principal)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].principal_permonth)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_interest)+' '+currs+'&nbsp;</td>';
@@ -832,6 +837,12 @@ function getLaonHasPayByLoanNumber(){
 
 							date_get = new Date(data_loan[k].date_input);
 							str_day_get = getDayString(date_get.getDay());
+
+							datePayment = new Date(date_pay);
+							var dateString = datePayment.toLocaleFormat('%d-%m-%Y');
+
+							date_input = new Date(date_get);
+							var dateStringInput = date_input.toLocaleFormat('%d-%m-%Y');
 							
 							currs =getCurrencyType(data_loan[k].currency_type);
 							temp+= '<tr>';
@@ -841,9 +852,9 @@ function getLaonHasPayByLoanNumber(){
 								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
 								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_pay+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_payment+'&nbsp;</td>';
+								temp += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;</td>';
 								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_get+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_input+'&nbsp;</td>';
+								temp += '<td style="white-space: nowrap;">&nbsp;'+dateStringInput+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_interest)+' '+currs+'&nbsp;</td>';
@@ -1379,7 +1390,12 @@ function getdataPaymentToForm(data){//use
 	dijit.byId('currency_type').attr('value',data.currency_type);
 	dijit.byId('reciever').attr('value',data.collect_by);
 	dijit.byId('amount_payment_term').attr('value',data.amount_collect_principal);
-	dijit.byId('release_date').attr('value',data.date_release);
+
+	var daterelease = new Date(data.date_release);
+	releaseDate = daterelease.toLocaleFormat('%d-%m-%Y'); // 30-Dec-2011
+	dijit.byId('release_date').attr('value',releaseDate);
+	
+	//dijit.byId('release_date').attr('value',data.date_release);
 	dijit.byId('load_level').attr('value',data.level);
 
 	dijit.byId('total_amount_loan').attr('value',data.total_capital);
