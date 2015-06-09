@@ -40,7 +40,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 
  </div>
 </div>
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style=" width:26cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -75,7 +75,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     <tr>
     	<td>
             <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                 <tr bgcolor="#888888" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NO");?></td>
@@ -90,15 +90,15 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td style="padding:5px 0px;"><?php echo $tr->translate("OTHER_FEE");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("RELEASED_DATE");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_TYPE");?></td>
-                   
+                   <td style="padding:5px 0px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></td>
                 </tr>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
                $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
 //                print_r($this->loanrelease_list);
                if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
-               	<?php if ($row['loantype']==1){ echo  "";?>
-               	<?php }else { ?>
+               	<?php //if ($row['loantype']==1){ echo  "";?>
+               	<?php //}else { ?>
                <?php 
               if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
@@ -135,9 +135,16 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 					<td><?php echo $row['other_fee'];?></td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['date_release']; ?>&nbsp;</td>
 					<td align="left">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
-									
+					<td align="left">&nbsp;<?php 
+					if ($row['loantype']==1){
+						echo 'individule';
+					}
+					else {
+						echo 'group';
+					}
+					; ?>&nbsp;</td>				
 					</tr>
-				<?php }?>
+				<?php //}?>
 				<?php }?>
             </table>
             <br />
