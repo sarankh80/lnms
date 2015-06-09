@@ -37,7 +37,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 	$s_where[] = " loan_type LIKE '%{$s_search}%'";
       	 	$where .=' AND '.implode(' OR ',$s_where).'';
       	 }
-      	echo $sql.$where;
+      	//echo $sql.$where;
       	 return $db->fetchAll($sql.$where);
 //     	 $sql="SELECT g.member_id,g.loan_number,
 //     	 (SELECT branch_namekh FROM ln_branch WHERE br_id=g.branch_id LIMIT 1) AS branch_name
