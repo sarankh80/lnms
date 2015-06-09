@@ -221,6 +221,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  lg.`total_duration`,
 					lg.loan_type,
 					lg.date_release,
+					lg.for_loantype,
 				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS customer_number,
 				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS name_kh,
 				  (SELECT c.`name_en` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS name_en,
