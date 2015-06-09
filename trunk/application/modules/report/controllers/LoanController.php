@@ -56,13 +56,10 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptLoanDisburseCoAction(){//realease by co
   	$db  = new Report_Model_DbTable_DbLoan();
   	$rs=$db->getAllLoanco();
-  	 
-  	//   	$db = new Loan_Model_DbTable_DbLoanIL();
-  	//   	$rs_rows= $db->getAllIndividuleLoan($search);
-  	 
   	$this->view->loanrelease_list =$rs;
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	
   if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(isset($search['btn_search'])){
@@ -115,8 +112,10 @@ class Report_LoanController extends Zend_Controller_Action {
   }
   function rptGroupDisburseAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
-  	$rs= $db->getALLGroupDisburse();
-  	$this->view->loancllect_list =$rs;
+  	$id = $this->getRequest()->getParam("id");
+  	//print_r($id);
+  	//$rs= $db->getALLGroupDisburse();
+  	//$this->view->loancllect_list =$rs;
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
@@ -129,9 +128,10 @@ class Report_LoanController extends Zend_Controller_Action {
   				,"amount_collect_principal","show_barcode");
   		$this->exportFileToExcel('ln_staff','$rs','$collumn');
   		}elseif(!empty($search['txtsearch'])){
-  			$this->view->loancllect_list =$db->getALLGroupDisburse($search);
+  			//$this->view->loancllect_list =$db->getALLGroupDisburse($id);
   		}
   	}
+  	$this->view->loancllect_list =$db->getALLGroupDisburse($id);
   }
   function rptIlpaymentAction(){
   }

@@ -205,24 +205,44 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 	      	}
 	      	return $db->fetchAll($sql.$where);
       }
-      public function getALLGroupDisburse($search = null){
+      public function getALLGroupDisburse($id){
+      
       	$db = $this->getAdapter();
-      	$sql="SELECT member_id
-		,chart_id,group_id,loan_number,client_id,payment_method
-		,client_id,currency_type,admin_fee,SUM(total_capital) AS tastotal_capital ,collect_typeterm
-		,interest_rate,is_completed,branch_id,loan_cycle,loan_purpose
-		,pay_before,pay_after,graice_period,amount_collect_principal,show_barcode
-		 FROM `ln_loan_member` WHERE 1";
-      	$Other =" ORDER BY member_id ASC";
-      	$where = '';
-      	if(!empty($search['txtsearch'])){
-      		$s_where = array();
-      		$s_search = $search['txtsearch'];
-      		$s_where[] = " chart_id LIKE '%{$s_search}%'";
-      		$s_where[]=" group_id LIKE '%{$s_search}%'";
-      		$where .=' AND '.implode(' OR ',$s_where).'';      		 
-      	}
-      	return $db->fetchAll($sql.$where.$Other);
+      	$sql="SELECT 
+  				lm.`loan_number`,
+  				lm.`payment_method`,
+  				lm.`currency_type`,
+ 				 lm.`total_capital`,
+ 				 lm.`admin_fee`,
+ 				 lm.`other_fee`,
+  				  lm.`collect_typeterm`,
+				  lm.`interest_rate`,
+				  lm.`group_id`,
+				  lg.`total_duration`,
+					lg.loan_type,
+					lg.date_release,
+				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS customer_number,
+				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS name_kh,
+				  (SELECT c.`name_en` FROM `ln_client` AS c WHERE c.`client_id`=lm.`client_id`) AS name_en,
+				  (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lg.`co_id`) AS co_kh,
+      			(SELECT lb.`branch_namekh` FROM `ln_branch` AS lb WHERE (lb.`br_id` = lm.`branch_id`)LIMIT 1) AS branch_name,
+				  (SELECT lv.`name_en` FROM `ln_view` AS lv WHERE lv.`type` = 24 AND lv.`key_code` = lg.`for_loantype`) AS for_loan_type
+				FROM
+				  `ln_loan_group` AS lg,
+				  `ln_loan_member` AS lm 
+				WHERE lg.`g_id` = lm.`group_id` 
+				AND lm.`group_id`=$id";
+      	//$Other =" ORDER BY member_id ASC";
+//       	$where = '';
+//       	if(!empty($search['txtsearch'])){
+//       		$s_where = array();
+//       		$s_search = $search['txtsearch'];
+//       		$s_where[] = " chart_id LIKE '%{$s_search}%'";
+//       		$s_where[]=" group_id LIKE '%{$s_search}%'";
+//       		$where .=' AND '.implode(' OR ',$s_where).'';      		 
+      //	}
+      //echo $sql;
+      	return $db->fetchAll($sql);
       }
       public function getALLPayment(){
       	$db = $this->getAdapter();
