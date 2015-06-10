@@ -106,6 +106,7 @@ public function init()
 // 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
 		$_currency_type->setMultiOptions($opt);
+		$_currency_type->setValue(2);
 		
 		$_loan_type = new Zend_Dojo_Form_Element_FilteringSelect('loan_type');
 		$_loan_type->setAttribs(array(

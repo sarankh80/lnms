@@ -1,6 +1,5 @@
 <?php 
 	  $tr=Application_Form_FrmLanguages::getCurrentlanguage();
-	
 	  $home=$this->url(array('module'=>'home','controller'=>'index','action'=>'index'), null, true);
 	  $group=$this->url(array('module'=>'group','controller'=>'index','action'=>'index'), null, true);
 	  $other=$this->url(array('module'=>'other','controller'=>'index','action'=>'index'), null, true);
@@ -38,26 +37,11 @@
 							<span>'.$tr->translate("Loan_View").'</span>
 						</a>
 					</li>',	 
-	  /*	'callecterall'=>'<li class="link">
-			  		<a title="" href="'.$callecterall.'">
-			  			<span>'.$tr->translate("Callecterall").'</span>
-			  		</a>
-	  		</li>',
-	  	'payroll'=>'<li class="link">
-			  		<a title="ព័ត៏មានប្រាក់ខែ" href="'.$payroll_view.'">
-			  			<span>'.$tr->translate("Payroll").'</span>
-			  		</a>
-	  		</li>',*/
 	  	'tellerandexchange'=>'<li class="link">
 			  		<a title="" href="'.$teller.'">
 			  			<span>'.$tr->translate("TELLER_Module").'</span>
 			  		</a>
-	    </li>',/*
-	  	'capital'=>'<li class="link">
-		  			<a title="ព័ត៏មានប្រាក់ខែ" href="'.$capital.'">
-		  				<span>'.$tr->translate("Capital").'</span>
-		  			</a>
-	  			</li>',*/
+	    </li>',
 	  	'accounting'=>'<li class="link">
 			  		<a title="ព័ត៏មានចំណាយផ្សេងៗ" href="'.$accounting_view.'">
 			  			<span>'.$tr->translate("Accounting").'</span>
