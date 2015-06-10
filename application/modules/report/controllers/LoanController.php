@@ -395,6 +395,10 @@ function rptPaymentschedulesAction(){
 	$db= new Application_Model_DbTable_DbGlobal();
 	$day_inkhmer = $db->getDayInkhmerBystr(null);
 	$this->view->day_inkhmer = $day_inkhmer;
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	
  }
  function rptLoanIncomeAction(){
  	$db  = new Report_Model_DbTable_DbLoan();

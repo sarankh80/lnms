@@ -89,18 +89,17 @@ public function viewUserAccessAction()
 				//Display all for admin id = 1
 				//Do not change admin id = 1 in database 
 				//Otherwise, it error
-				$sql = "select acl.acl_id,CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access
+				$sql = "select acl.acl_id,acl.label , CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access
 						from rms_acl_acl as acl 
 						WHERE 1 " . $where;
 			}
 			else {
 				//Display all of his/her parent access	
-				$sql="SELECT acl.acl_id, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
+				$sql="SELECT acl.acl_id,acl.label , CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
 						FROM rms_acl_user_access AS ua 
 						INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
 						INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ut.user_type_id =".$id . $where;	
 			}
-			//echo $sql; exit;			
 			$acl=$db_acl->getGlobalDb($sql);
 			$acl = (is_null($acl))? array(): $acl;
 			//print_r($acl);
@@ -108,80 +107,34 @@ public function viewUserAccessAction()
 			if(!$usernotparentid){
 				///Display only of his/her parent access	and not have user_type_id of user access in user type parent id
 				//ua.user_type_id != ut.parent_id
-				$sql_acl = "SELECT acl.acl_id, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
+				$sql_acl = "SELECT acl.acl_id,acl.label , CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
 							FROM rms_acl_user_access AS ua 
 							INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.user_type_id)
 							INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ua.user_type_id =".$id . $where;
 			}else{
 				//Display only he / she access in rms_acl_user_access
-				$sql_acl = "SELECT acl.acl_id, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
+				$sql_acl = "SELECT acl.acl_id,acl.label , CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status 
 							FROM rms_acl_user_access AS ua 
 							INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
 							INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE ua.user_type_id =".$id . $where;
 			}			
-			$acl_name=$db_acl->getGlobalDb($sql_acl);
-			$acl_name = (is_null($acl_name))? array(): $acl_name;
-			
-// 			$imgnone='<img src="'.BASE_URL.'/images/icon/none.png"/>';
-// 			$imgtick='<img src="'.BASE_URL.'/images/icon/tick.png"/>';
-			$rows= array();
-			$num = 1;
-			foreach($acl as $com){
-				$img='<img src="'.BASE_URL.'/images/icon/none.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].','.$id.');" class="pointer"/>';
-				$tmp_status = 0;
-				foreach($acl_name as $read){
-					if($read['acl_id']==$com['acl_id']){
-						$img='<img src="'.BASE_URL.'/images/icon/tick.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].', '.$id.');" class="pointer"/>';
-						$tmp_status = 1;
-						break;
-					}
-				}
-				if(!empty($status) || $status === 0){
-					if($tmp_status !== $status) continue;
-				}
-				$rows[] = array('num'=> $num++,'acl_id'=>$com['acl_id'],"user_access"=> $com['user_access'], 'status'=>$tmp_status) ;
-			}	 
-// 			$list=new Application_Form_Frmlist();
-// 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-// 			$columns=array($tr->translate('URL'), $tr->translate('STATUS'));
-// 			$this->view->acl_name = $list->getCheckList('radio', $columns, $rows);
-			
-        	$db_tran=new Application_Model_DbTable_DbGlobal();
-        	//create sesesion
-        	$session_transfer=new Zend_Session_Namespace('search_user-access-acl');
-        	if(empty($session_transfer->limit)){
-        		$session_transfer->limit =  Application_Form_FrmNavigation::getLimit();
-        		$session_transfer->lock();
-        	}
-        	if($this->getRequest()->isPost() && $this->getRequest()->getParam("btsave") !== "Search"){
-        		$formdata=$this->getRequest()->getPost();
-        		$session_transfer->unlock();
-        		$session_transfer->limit =  $formdata['rows_per_page'];
-        		$session_transfer->lock();
-        	}
-        	//start page nevigation
-        	$limit = $session_transfer->limit;
-        	$start = $this->getRequest()->getParam('limit_satrt',0);
-        	$result = array();
-        	if ($limit == "All") {
-        		$result=$rows;
+			$result=$db_acl->getGlobalDb($sql_acl);
+        	
+			$list = new Application_Form_Frmtable();
+        	print_r($result);
+        	if(!empty($result)){
+        		$glClass = new Application_Model_GlobalClass();
+        		$rs_rows = $glClass->getImgActive($result, BASE_URL, true);
         	}
         	else{
-	        	for ($i = $start; $i < ($start + $limit) ;$i++){
-	        		if(count($rows) == $i) break;
-	        		$result[]= $rows[$i];        		
-	        	}
+        		$rs_rows=array();
+        		$result = Application_Model_DbTable_DbGlobal::getResultWarning();
         	}
-        	$record_count = count($rows);
-        	if (empty($result)){
-        		$result = array('err'=>1, 'msg'=>'áž˜áž·áž“â€‹áž‘áž¶áž“áŸ‹â€‹áž˜áž¶áž“â€‹áž‘áž“áŸ’áž“áž·áž“áŸ�áž™â€‹áž“áž¼ážœâ€‹áž¡áž¾áž™â€‹áž‘áŸ�!');
-        	}
-        	$this->view->list = Zend_Json::encode($result);
-        	$page = new Application_Form_FrmNavigation();
-        	$page->init(self::REDIRECT_URL. "/view-user-access?id=".$id, $start, $limit, $record_count, "&");
-        	$this->view->nevigation = $page->navigationPage();
-        	$this->view->rows_per_page = $page->getRowsPerPage($limit, 'frmlist');
-        	$this->view->result_row = $page->getResultRows();
+        	$collumns = array("PERMISSION","URL","STATUS");
+        	$link=array(
+        			'module'=>'aclAcl','controller'=>'user','action'=>'edited',
+        	);
+        	$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('cate_name'=>$link,'title'=>$link));
     	}  	 
     }
 	public function addUserAccessAction()
@@ -243,6 +196,7 @@ public function viewUserAccessAction()
 		$acl_name=$db_acl->getGlobalDb($sql_acl);
 		//print_r($acl_name); exit;
 		if($acl_name!=''){ $form->setAcl($acl_name);}
+		
 		Application_Model_Decorator::setForm($form, $rs);
 		$this->view->form = $form;
 		$rows= array();

@@ -398,8 +398,11 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     							'member_id'=>$member_id,
     							'total_principal'=>$remain_principal,//good
     							'principal_permonth'=> $old_pri_permonth,//good
+    							'principle_after'=> $pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
+    							'total_interest_after'=>$old_interest_paymonth,//good
     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
+    							'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth,//good
     							'date_payment'=>$next_payment,//good
     							'is_completed'=>0,
     							'branch_id'=>$data['branch_id'],
@@ -460,7 +463,9 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'member_id'=>$member_id,
     						'total_principal'=>$pri_permonth,//good
     						'principal_permonth'=> $pri_permonth,//good
+    						'principle_after'=> $pri_permonth,//good
     						'total_interest'=>$interest_paymonth,//good
+    						'total_payment_after'=>$interest_paymonth,//good
     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
     						'date_payment'=>$data['date_line'],//good
     						'is_completed'=>0,
@@ -470,6 +475,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'branch_id'=>$data['branch_id'],
     						'collect_by'=>$data['co_id']
     				);
+    				
     				$this->insert($datapayment);
     			}
     		}
@@ -735,8 +741,11 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     							'member_id'=>$member_id,
     							'total_principal'=>$remain_principal,//good
     							'principal_permonth'=> $old_pri_permonth,//good
+    							'principle_after'=> $old_pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
+    							'total_interest_after'=>$old_interest_paymonth,//good
     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
+    							'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth,
     							'date_payment'=>$next_payment,//good
     							'is_completed'=>0,
     							'branch_id'=>1,
@@ -744,6 +753,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     							'amount_day'=>$old_amount_day,
     					);
     					$this->insert($datapayment);
+    					
     					$amount_collect=0;
     					$old_remain_principal = 0;
     					$old_pri_permonth = 0;
@@ -800,14 +810,18 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'member_id'=>$member_id,
     						'total_principal'=>$pri_permonth,//good
     						'principal_permonth'=> $pri_permonth,//good
+    						'principle_after'=>$pri_permonth,
     						'total_interest'=>$interest_paymonth,//good
+    						'total_interest_after'=>$interest_paymonth,//good
     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
+    						'total_payment_after'=>$interest_paymonth+$pri_permonth,//good
     						'date_payment'=>$data['date_line'],//good
     						'is_completed'=>0,
     						'branch_id'=>1,
     						'status'=>1,
     						'amount_day'=>$amount_day,
     				);
+    				
     				$this->insert($datapayment);
     			}
     		}
