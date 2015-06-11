@@ -13,6 +13,13 @@
 	 </tr>
 </table>
 </form>
+<style>
+.style{
+	line-height: 20px;font-size: 10px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <br /><br /><br />
 <div style=" width:21cm; margin:0 auto;">
 
@@ -26,17 +33,17 @@
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_name'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
+                	<h2 style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_NAME");?></label></h2>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
                 	<td colspan="3">
-                		<table width="100%" style="font-size: 9px;">
+                		<table width="100%">
                 			<tr class='style'>
-                				<td width="45%" style="font-size: 9px;">
-                					<span style="font-size: 9px;" class="style"><?php echo $this->data['brand_adress'];?></span>
-								<br /><?php echo $this->data['phone_brand'];?>
+                				<td width="45%" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td></td>
                 				
@@ -78,13 +85,13 @@
 		</tr>
 	</table><br />
 	<table align="center" width="100%">
-				    <tr >
-				        <th style="width:20%;">Approved By</th>
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;">Verifyed By</th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;">Prepare By</th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
-	</table>			
+			</table>			
  </div>
  </div>

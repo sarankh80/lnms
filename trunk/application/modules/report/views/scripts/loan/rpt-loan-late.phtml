@@ -6,6 +6,7 @@ $client = $this->client;
 $frm = $this->frm_search;
 ?>
 <meta charset="utf-8">
+<title><?php echo $tr->translate("LOAN_LATE");?></title>
 <style>
 <!--
 .style td{font-size: 12px !important;font-family: 'Khmer OS Content';}
@@ -37,8 +38,8 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_late'];?></h2></td>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_LATE");?></h2></td>
                 	
                     <td width="20%"></td>
                 </tr> 
@@ -47,8 +48,8 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                 		<table width="100%">
                 			<tr class='style'>
                 				<td width="45%" style="font-size: 7px;">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td></td>
                 				
@@ -146,6 +147,16 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b4,2);?>&nbsp;</td>
                 </tr>
               </table>
+              <br />
+              <table align="center" width="100%">
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
     	</td>
     </tr>
 </table>

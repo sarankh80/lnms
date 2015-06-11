@@ -1,14 +1,17 @@
-<input type="button" label="បញ្ជីឈ្មោះអតិថិជន" dojoType="dijit.form.Button" 
+<?php 
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<input type="button" label="<?php echo $tr->translate("LIST_OF_CLIENT");?>" dojoType="dijit.form.Button" 
  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'groupmember','action'=>'rpt-client')); ?>';"/>
   
-<input type="button" label="ទ្រពបញ្ចំាអតិថិជន" dojoType="dijit.form.Button" 
+<input type="button" label=" <?php echo $tr->translate("CLIENT_CALLETERAL");?>" dojoType="dijit.form.Button" 
  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'groupmember','action'=>'rpt-calleteral')); ?>';"/>
 
-<input type="button" label="ប្តូរទ្រព្យបញ្ចំា" dojoType="dijit.form.Button" 
+<input type="button" label=" <?php echo $tr->translate("CHANGE_CALLETERAL");?>" dojoType="dijit.form.Button" 
 onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'groupmember','action'=>'rpt-calleteral-change')); ?>';"/>
 
-<input type="button" label="ប្រគល់ទ្រព្យបញ្ចំាទៅអតិថិជន" dojoType="dijit.form.Button" 
+<input type="button" label=" <?php echo $tr->translate("RETURN_CALLETERAL");?>" dojoType="dijit.form.Button" 
  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'groupmember','action'=>'rpt-returncollteral')); ?>';"/>
 
-<input type="button" label="អតិជនបញ្ជីខ្មៅ" dojoType="dijit.form.Button" 
+<input type="button" label=" <?php echo $tr->translate("CLINET_BLACKLIST");?>" dojoType="dijit.form.Button" 
  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'groupmember','action'=>'rpt-clientblacklist')); ?>';"/>

@@ -1,9 +1,8 @@
 <?php $frm = $this->frm_search;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
-<title>Loan Released</title>
 <meta charset="utf-8">
-<title>out standing loan</title>
+<title><?php echo $tr->translate("LOAN_OUTSTADING");?></title>
 <form method="post">
 <table style="font-family: 'Khmer OS Content';float: left;" >
 	<tr>
@@ -20,7 +19,13 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 </table>
 </form>
 <br /><br /><br /><br /><br />
-
+<style>
+.style{
+	line-height: 20px;font-size: 10px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
 
@@ -31,18 +36,18 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_outstanding'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING");?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr class='style'>
-                				<td class="style" style="font-size: 11px;">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                				<td class="style" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td width="65%"></td>
                 				
@@ -57,9 +62,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
     <tr>
     	<td>
             <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 13px; font-size:11px;padding: 5px 0px;">
-                    <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 13px; font-size:12px;padding: 5px 0px;">
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NO");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
@@ -68,9 +73,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <th>&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
                    
-                    <th>&nbsp;ចំនួនប្រាក់ប្រមូលមកវិញ&nbsp;</th>
-                    <th>&nbsp;អត្រាសង(%)&nbsp;</th>
-                    <th>&nbsp;ប្រាក់មិនទាន់សង&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
                 </tr>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
@@ -119,32 +124,42 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                  <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px;">
                     <td></td>
                     <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("TOTAL_RECIEST");?></td>
-                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?>អត្រាសង(%)</td>
-                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?>ប្រាក់មិនទាន់សងសរុប</td>
+                    <td><?php echo $tr->translate("TOTAL_RECIEPT");?></td>
+                    <td><?php echo $tr->translate("PERCENT");?></td>
+                    <td><?php echo $tr->translate("TOTAL");?></td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
-                    <td>&nbsp;ដុល្លា  / ($)</td>
+                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo $result_d;?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_d-$amn_d,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
-                    <td>&nbsp;រៀល  / (R)</td>
+                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo $result_r;?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_r-$amn_r);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
-                    <td>&nbsp;បាត / (B)&nbsp;</td>
+                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo $result_b;?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b-$amn_b);?>&nbsp;</td>
                 </tr>
               </table>
+              <br />
+              <table align="center" width="100%">
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
     	</td>
     </tr>
 </table>

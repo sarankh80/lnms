@@ -6,11 +6,9 @@ $client = $this->client;
 ?>
 
 <meta charset="utf-8">
+<title><?php echo $tr->translate("LIST_LOAN_XCHANGE");?></title>
 <style>
-<!--
-.style td{font-size: 12px !important;font-family: 'Khmer OS Content';}
-th{font-size: 12px !important;font-family: 'Khmer OS Content';}
--->
+
 </style>
 <form method="post">
 <table style="font-family: 'Khmer OS Content';float: left;" >
@@ -38,8 +36,8 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php //echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php //echo $this->data['rpt_xchange'];?></h2></td>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_XCHANGE");?></h2></td>
                 	
                     <td width="20%"></td>
                 </tr> 
@@ -47,9 +45,9 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr class='style'>
-                				<td width="45%" style="font-size: 7px;">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                				<td class="style" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td></td>
                 				
@@ -66,22 +64,22 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     	<td>
             <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; " width="100%" cellspacing="0">
                  <tr class="style" bgcolor="#BBBBBB" align="center" style="font-weight:bold; line-height: 24px;font-size:10px; font-family: 'Khmer OS Content'">
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEPT_NO");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FROM_AMOUNT");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("TO_AMOUNT");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("EXCHANGE_RATE");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEVED_AMOUNT");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RETURN_AMOUNT");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FROM_TO");?></td>
-                    <td style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEPT_NO");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FROM_AMOUNT");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("TO_AMOUNT");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("EXCHANGE_RATE");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RECIEVED_AMOUNT");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RETURN_AMOUNT");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FROM_TO");?></td>
+                    <td style=" font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></td>
                     
                 </tr>
                 <?php foreach ($xchange as $row){ $i=1;?>
-               <tr style="font-size: 10px;" align="left">
+               <tr style="font-size: 11px;" align="left">
                		<td style="text-align: center;"><?php echo $i++;?></td>
                		<td>&nbsp;<?php echo $row['branch_name']?></td>
                		<td>&nbsp;<?php echo $row['client_name']?>&nbsp;</td>

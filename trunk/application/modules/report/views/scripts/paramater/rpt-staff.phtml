@@ -1,20 +1,26 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
-<title><?php echo $tr->translate("Report Staff");?></title>
 <meta charset="utf-8">
-<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<title><?php echo $tr->translate("REPORT STAFF");?></title>
 <form method="post">
 <table style="float: right;">
 	<tr>
 		<td align="right">
 			<input type="text" name="txtsearch" id="txtsearch" placeholder=""  dojoType="dijit.form.TextBox"
 			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit">ស្វែង​រក</button>
+			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 		</td>
 	</tr>
 </table>
 </form>
+<style>
+.style{
+	line-height: 20px;font-size: 10px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <br /><br /><br />
 <div style=" width="100%"  margin:0 auto;">
 
@@ -34,9 +40,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label>(សាខា ទី ២)</label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['brand_Staff'];?></h2></td>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_II");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_STAFF");?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -44,8 +50,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 		<table width="100%">
                 			<tr class='style'>
                 				<td width="45%">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 			</tr>
 			              </table>
@@ -127,12 +133,12 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 </table>
 		<br />
 		    <table align="center" width="100%">
-				    <tr >
-				        <th style="width:20%;">Approved By</th>
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;">Verifyed By</th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;">Prepare By</th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
 			</table>
 </div>

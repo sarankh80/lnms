@@ -33,20 +33,6 @@ class Report_LoanController extends Zend_Controller_Action {
   			
   		$this->view->loanrelease_list=$db->getAllLoan($search);
   	}
-//   	if($this->getRequest()->isPost()){
-//   		$search = $this->getRequest()->getPost();
-//   		if(@$search["exportexcel"]== 1){
-//   			unset($rs['curr_type']);
-//   			$collumn = array("member_id","loan_number","client_id","client_name","total_capital","interest_rate","currency_type","total_duration",
-//   					"date_release","co_name","admin_fee");
-//   			$this->exportFileToExcel('ln_staff',$rs,$collumn);
-//   		}	
-//   		elseif(!empty($search['txtsearch'])){
-//   			//print_r($search);exit();
-//   			$rs= $db->getAllLoan($search);
-//   			$this->view->loanrelease_list = $rs;
-//   		}
-//   	}
   	
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
@@ -113,25 +99,18 @@ class Report_LoanController extends Zend_Controller_Action {
   function rptGroupDisburseAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
   	$id = $this->getRequest()->getParam("id");
-  	//print_r($id);
-  	//$rs= $db->getALLGroupDisburse();
-  	//$this->view->loancllect_list =$rs;
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if (empty($id)){
+  		
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		if(@$search["exportexcel"]== 1){
-  		$collumn = array("member_id","chart_id","group_id","loan_number","client_id"
-  				,"payment_method","currency_type","sum(total_capital) As total_capital"
-  				,"admin_fee","collect_typeterm","interest_rate","status","is_completed","branch_id"
-  				,"loan_cycle","loan_purpose","pay_before","pay_after","graice_period"
-  				,"amount_collect_principal","show_barcode");
-  		$this->exportFileToExcel('ln_staff','$rs','$collumn');
-  		}elseif(!empty($search['txtsearch'])){
-  			//$this->view->loancllect_list =$db->getALLGroupDisburse($id);
-  		}
+  		//$this->view->loancllect_list =$db->getALLGroupDisburse();
   	}
   	$this->view->loancllect_list =$db->getALLGroupDisburse($id);
+  	}else {
+  	$this->view->loancllect_list =$db->getALLGroupDisburse($id);
+  	}
   }
   function rptIlpaymentAction(){
   }
@@ -331,8 +310,8 @@ public function paymentscheduleListAction(){
 		$glClass = new Application_Model_GlobalClass();
 		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 		
-		$collumns = array("Branch Name","Loan Number","CLIENT_NO","Client Name","loan Amount","Admin Fee","Interest Rate","Pay Term","Method","Time Collect","Zone","Co",
-				"status");
+		$collumns = array("BRANCH_NAME","LOAN_NO","CLIENT_NO","CUSTOMER_NAME","LOAN_AMOUNT","AMIN_FEE","INTEREST RATE","TERM_BORROW","METHOD","TIME_COLLECT","ZONE","CO_NAME",
+				"STATUS");
 		$link=array(
 				'module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',
 		);
