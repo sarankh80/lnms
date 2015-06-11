@@ -205,8 +205,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 	      	}
 	      	return $db->fetchAll($sql.$where);
       }
-      public function getALLGroupDisburse($id){
-      
+      public function getALLGroupDisburse($id=null){
       	$db = $this->getAdapter();
       	$sql="SELECT 
   				lm.`loan_number`,
@@ -232,7 +231,13 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  `ln_loan_group` AS lg,
 				  `ln_loan_member` AS lm 
 				WHERE lg.`g_id` = lm.`group_id` 
-				AND lm.`group_id`=$id";
+				";
+      	$codition = " AND lm.`group_id`=$id";
+      	if(empty($id)){
+      		return $db->fetchAll($sql);
+      	}else{
+      		return $db->fetchAll($sql.$codition);
+      	}
       	//$Other =" ORDER BY member_id ASC";
 //       	$where = '';
 //       	if(!empty($search['txtsearch'])){

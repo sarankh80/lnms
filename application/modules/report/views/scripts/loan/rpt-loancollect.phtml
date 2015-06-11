@@ -25,7 +25,7 @@ margin: -4px 4px 0 4px;
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title><?php  echo $tr->translate("LIST_LOAN_COLLECT");?></title>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:105px;">
  <div dojoType="dijit.layout.ContentPane" region="top" style="height: auto;">
  <form method="post">
@@ -46,19 +46,16 @@ margin: -4px 4px 0 4px;
 	</form>
  </div>
 </div>
+<style>
+.style{
+	line-height: 20px;font-size: 10px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <div style=" width:27cm; min-height:25cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 	<div id="divPrint">
-	<style type="text/css">
-	.style{
-		line-height: 20px;font-size: 11px;
-		font-family: 'Khmer OS Battambang';
-	}
-	.font_bold{
-		font-family:'Khmer MEF2';
-		font-size: 12px;
-		
-	}
-	</style>
+	
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
@@ -66,9 +63,9 @@ margin: -4px 4px 0 4px;
 	            	<tr>
 	                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
 	                	<td width="60%" valign="top">
-	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php ?></label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_loan_collect'];?></h2></td>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_COLLECT");?></h2></td>
 	                    <td width="20%"></td>
 	                </tr>
 	                <?php 
@@ -78,8 +75,8 @@ margin: -4px 4px 0 4px;
 	                		<table width="100%">
 	                			<tr class='style'>
 	                				<td width="40%">
-	                					ផ្ទះលេខ ១៦២ ផ្លូវលេខ ១៥០ សង្កាត់ ទឹកល្អក់១ ទូលគោក ភ្នំពេញ
-									<br />TEL :(855) 10 78 55 44
+	                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
 	                				</td>
 	                				<td></td>
 	                				
@@ -204,7 +201,16 @@ margin: -4px 4px 0 4px;
 	               		
 	               <?php //}?>
 	            </table>
-	            
+	            <br />
+              <table align="center" width="100%">
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
 	    	</td>
 	    </tr>
 	</table>

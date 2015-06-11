@@ -1,14 +1,10 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate('BAD_LOAN'));
+echo $this->headTitle($tr->translate('WRITE_OFF'));
  $frm = $this->frm_loan;
 ?>
-<style>
-<!--
-.style td{font-size: 12px !important;font-family: 'Khmer OS Content';}
-th{font-size: 12px !important;font-family: 'Khmer OS Content';}
--->
-</style>
+
+
 <form method="post">
 <table style="font-family: 'Khmer OS Content';" >
 	<tr>
@@ -39,18 +35,18 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $this->data['rpt_bad_loan'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_WRITE_OFF");?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr class='style'>
-                				<td class="style" style="font-size: 7px;">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                				<td class="style" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td width="65%"></td>
                 				
@@ -67,15 +63,15 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     	<td>
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
                 <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
-                    <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                     <th style="font-size: 9px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
-                      <th style="font-size: 9px;"><?php echo $tr->translate("LOSS_DATE");?></th>                   
-                    <th style="font-size: 9px;"><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("TERM");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("NOTE");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("DATE");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("NUM");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+                     <th style="font-size: 12px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
+                      <th style="font-size:12px;"><?php echo $tr->translate("LOSS_DATE");?></th>                   
+                    <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
+                    <th style="font-size:12px;"><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("TERM");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("NOTE");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("DATE");?></th>
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;
@@ -96,36 +92,36 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 		               //print_r($rs);exit();
                ?>
                 <tr class="style" style="font-family: 'Khmer OS Content';">
-               		<td style="font-size: 9px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["branch_namekh"];?></td>
-               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["client_name_en"];?></td>
-               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo $rs["loss_date"];?></td>
-               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo number_format($rs["total_amount"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="font-size: 9px;">&nbsp;&nbsp;<?php echo number_format($rs["intrest_amount"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="font-size: 9px;text-align: center;"><?php echo $rs["tem"];?></td>
-               		<td style="font-size: 9px;text-align: center;"><?php echo $rs["note"];?></td>
-               		<td style="font-size: 9px;text-align: center;"><?php echo $rs["date"];?></td>
+               		<td style="font-size:11px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["branch_namekh"];?></td>
+               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["client_name_en"];?></td>
+               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["loss_date"];?></td>
+               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo number_format($rs["total_amount"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo number_format($rs["intrest_amount"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;text-align: center;"><?php echo $rs["tem"];?></td>
+               		<td style="font-size: 11px;text-align: center;"><?php echo $rs["note"];?></td>
+               		<td style="font-size: 11px;text-align: center;"><?php echo $rs["date"];?></td>
                 </tr>
                 <?php }?>
             </table>
             <br /><br />
-             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
+                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
                     <td></td>                 
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
                     <th><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
                 </tr>
-                 <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;ដុល្លា  / ($)</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                 </tr>
-                 <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;រៀល  / (R)</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
                 </tr>
-                 <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;បាត / (B)&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>

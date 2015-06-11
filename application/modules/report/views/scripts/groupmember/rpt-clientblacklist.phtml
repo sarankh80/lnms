@@ -1,12 +1,12 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("Client Black List"));
+	//echo $this->headTitle($tr->translate("Client Black List"));
 	$frm = $this->frm_search;
 ?>
 <html>
 <head>
 <meta charset="utf-8">
-
+<title><?php echo $tr->translate("LIST_REPORT_CLIENT_BLACKLIST");?></title>
 </head>
 <body> 
 <form method="post">
@@ -23,31 +23,33 @@
    	</tr>
 </table>
 </form>
+
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 10px !important;
 	font-family: 'Khmer OS Battambang';
 }
+th{padding: 5px;}
 </style>
-<div style="clear: both;"></div>
-	<h2 align="center"><?php //echo $this->data['brand_rep_va'];?></h2><br/>
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+	
 	<div id="divPrint">
 	    <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
-                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $this->data['brand_title'];?></label></h2>
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2>-->
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $this->data['brand_clientblacklist'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("REPORT_CLIENT_BLACKLIST");?><?php //echo $this->data['brand_clientblacklist'];?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr class='style'>
-                				<td width="45%">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                				<td width="45%" class="style" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				
 		                </table>
 		              </td>
@@ -77,6 +79,17 @@
          </tr>
          <?php }?>
     </table>
+    <br />
+              <table align="center" width="100%">
+				    <tr style="font-size: 12px;">
+				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>
+    </div>
     </div>
 </body>
 </html>
