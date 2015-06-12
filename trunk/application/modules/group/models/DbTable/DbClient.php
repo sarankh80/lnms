@@ -206,5 +206,20 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		return $pre.$new_acc_no;
 	}
+// 	public function adddoocumenttype($data){
+		
+// 		$db = $this->getAdapter();
+// 		$document_type=array(
+// 				'name_en'=>$data['clienttype_nameen'],
+// 				'name_kh'=>$data['clienttype_namekh'],
+// 				'displayby'=>1,
+// 				'type'=>23,
+// 				'status'=>1
+				
+// 		);
+		
+// 		$row= $this->insert($document_type);
+// 		return $row;
+// 	}
 }
 

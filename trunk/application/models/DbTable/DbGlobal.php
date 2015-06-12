@@ -130,6 +130,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$db = $this->getAdapter();
    	return $db->fetchAll($sql);
    }
+   
    public function getVillage(){
    	$this->_name='ln_village';
    	$sql = " SELECT vill_id,vill_id AS id,village_name,CONCAT(village_namekh,'-',village_name) AS name,commune_id FROM $this->_name WHERE status=1 AND village_name!='' ";
@@ -465,7 +466,12 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $rows;
   	}
   }
-  
+  public  function getclientdtype(){
+  	$db = $this->getAdapter();
+  	$sql="SELECT id,key_code,CONCAT(name_kh,'-',name_en) AS name ,displayby FROM `ln_view` WHERE STATUS =1 AND TYPE=23";
+  	$rows = $db->fetchAll($sql);
+  	return $rows;
+  }
   public function getVewOptoinTypeByType($type=null,$option = null,$limit =null,$first_option =null){
   	$db = $this->getAdapter();
   	$sql="SELECT id,key_code,CONCAT(name_kh,'-',name_en) AS name_en ,displayby FROM `ln_view` WHERE status =1 ";//just concate
@@ -479,7 +485,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($option!=null){
   		$options=array();
   		if($first_option==null){//if don't want to get first select
-  			$options=array(''=>"-----ជ្រើសរើស-----",-1=>"Other",);
+  			$options=array(''=>"-----ជ្រើសរើស-----",-1=>"Add New",);
   		}
   		if(!empty($rows))foreach($rows AS $row){
   			$options[$row['key_code']]=$row['name_en'];//($row['displayby']==1)?$row['name_kh']:$row['name_en'];

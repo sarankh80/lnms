@@ -1,6 +1,7 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	echo $this->headTitle($tr->translate('ADD_CLIENT'));
+	//print_r($this->village_name);
 ?>	
 <?php  $frm = $this->frm_client;?>
 <script type="text/javascript">
@@ -65,7 +66,7 @@ dojo.require("dijit.form.Textarea");
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td><?php  echo $frm->getElement('client_d_type');?></td>
+							<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
 							<td></td>
 							<td><?php  echo $frm->getElement('national_id');?></td>
 							<td><?php echo $tr->translate("JOB_TYPE")?></td>
@@ -178,6 +179,7 @@ dojo.require("dijit.form.Textarea");
 echo $this->frm_popup_district;
 echo $this->frm_popup_village;
 echo $this->frm_popup_comm;
+echo $this->frm_popup_clienttype;
 ?>
 <script type="text/javascript">
 dojo.require("dijit/registry");
@@ -191,6 +193,7 @@ dojo.require("dijit.form.Textarea");
 //var village_store  = getDataStorefromJSON('village','village', <?php print_r(Zend_Json::encode($this->village_name));?> );
 
 dojo.ready(function(){
+	
 	try{
 	var district_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->district));?>
@@ -271,10 +274,39 @@ dojo.ready(function(){
 			}
 		}
 	}, "village");
+
+
+	var d_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->clienttype));?>
+	});
+	//alert(d_data);
+	new dijit.form.FilteringSelect({
+		store: dojo.data.ObjectStore({objectStore: d_data}),
+		autoComplete: true,
+// 		query: {
+// 			id:"-1"
+// 		},            
+		required: false,		           
+		name: "client_d_type",
+		id: "client_d_type",
+		searchAttr: "name",
+		class: 'fullside',
+		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះភូមិ!",	
+			onChange: function() {
+				client_d_type = dijit.byId('client_d_type').get('value');
+				if(client_d_type==-1){
+					showPopupclientdtype();
+				}
+				 filterclientdtype();
+			}
+		}, "client_d_type");
 	}catch(e){
 		alert(e);
 	}
 });
+function filterclientdtype(){
+	dijit.byId('client_d_type').get('value');
+}
 function filterDistrict(){
 	dijit.byId('district').query.pro_id = dijit.byId('province').get('value');
 }
@@ -340,26 +372,20 @@ function getFunction(){
 }
 client_village = '<?php echo $this->url(array('module'=>'other','controller'=>'Village','action'=>'add-village'));?>';
 function addVillage(){
-	var village_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->village));?>
-	      
-	});
 	dojo.xhrPost({
 		url:client_village,	
 		form:dojo.byId('form_village'),
 		handleAs:"json",
 		load: function(data) {
-			alert(data);	
+			//alert(data);
+			labelen = dijit.byId('village_name').get('value');
+			labelkh = dijit.byId('village_namekh').get('value');
+			$('#village').val(labelkh+'-'+labelen);
+			 $('input[name="village"]').val(data);
+			 	
 			dijit.byId('frm_village').reset();
 			dijit.byId('frm_village').hide();
-			var myNewItem = {		
-					bank_name: dijit.byId('village_name').get('value')
-			};	
-			sender  = getDataStorefromJSON('id','name', data);
-		    sender_store = sender;//assign for overived var sender_store
-			dijit.byId('village').set('store', sender_store);
-			addDataToSelectbox(dijit.byId('village'),  dojo.data.ObjectStore({objectStore: village_data}), myNewItem, dijit.byId('village_name').get('value'));
-			
+	
 		},
 		error: function(err) {
 			alert(err);
@@ -369,28 +395,21 @@ function addVillage(){
 function showPopupVillage(){
 	dijit.byId('frm_village').show();
 }
+
 var commune_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insertcommune'));?>';
 function addNewCommune(){
-	var commune_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->commune));?>
-	      
-	});
 	dojo.xhrPost({
 		url:commune_url,	
 		form:dojo.byId('form_commune'),
 		handleAs:"json",
 		load: function(data) {	
-			alert(data);
+			communeen = dijit.byId('commune_nameen').get('value');
+			communekh = dijit.byId('commune_namekh').get('value');
+			$('#commune').val(communekh+'-'+communeen);
+			 $('input[name="commune"]').val(data);
+			 
 			dijit.byId('frm_commune').reset();
 			dijit.byId('frm_commune').hide();
-			//var select = registry.byId("commune");
-			var myNewItem = {		
-					bank_name: dijit.byId('commune_nameen').get('value')
-			};	
-			sender  = getDataStorefromJSON('id','name', data);
-		    sender_store = sender;//assign for overived var sender_store
-			dijit.byId('commune').set('store', sender_store);
-			addDataToSelectbox(dijit.byId('commune'),  dojo.data.ObjectStore({objectStore: commune_data}), myNewItem, dijit.byId('commune_nameen').get('value'));
 			
 		},
 		error: function(err) {
@@ -405,32 +424,48 @@ function showPopupdistrict(){
 	dijit.byId('frm_district').show();
 }
 var district_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-district'));?>';
+
 function addNewDistrict(){
-	var district_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->district));?>
-	      
-	});
 	dojo.xhrPost({
 		url:district_url,	
 		form:dojo.byId('form_district'),
 		handleAs:"json",
 		load: function(data) {	
-			alert(data);
+			districten = dijit.byId('pop_district_name').get('value');
+			districtkh = dijit.byId('pop_district_namekh').get('value');
+			$('#district').val(districtkh+'-'+districten);
+			 $('input[name="district"]').val(data);
 			dijit.byId('frm_district').reset();
 			dijit.byId('frm_district').hide();
-			var myNewItem = {		
-					bank_name: dijit.byId('pop_district_name').get('value')
-			};	
-			sender  = getDataStorefromJSON('id','name', data);
-		    sender_store = sender;//assign for overived var sender_store
-			dijit.byId('district').set('store', sender_store);
-			addDataToSelectbox(dijit.byId('district'),  dojo.data.ObjectStore({objectStore: district_data}), myNewItem, dijit.byId('pop_district_name').get('value'));
-			
 		},
 		error: function(err) {
 			alert(err);
 		}
-	});
+	});	
 }
+var document_type_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-document-type'));?>';
+function addNewDocumentType(){
 
+	dojo.xhrPost({
+		url:document_type_url,	
+		form:dojo.byId('form_clienttype'),
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			clienttypeen = dijit.byId('clienttype_nameen').get('value');
+			clienttypekh = dijit.byId('clienttype_namekh').get('value');
+			$('#client_d_type').val(clienttypekh+'-'+clienttypeen);
+			 $('input[name="client_d_type"]').val(data);
+			dijit.byId('frm_clienttype').reset();
+			dijit.byId('frm_clienttype').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});	
+}
+function showPopupclientdtype(){
+	dijit.byId('frm_clienttype').show();
+}
 </script>

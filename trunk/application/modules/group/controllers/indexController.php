@@ -104,6 +104,13 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->allclient = $db->getAllClient();// for filter
 		$this->view->allclient_number = $db->getAllClientNumber();//for filter
 		
+		$client_type = $db->getclientdtype();
+		array_unshift($client_type,array(
+		'id' => -1,
+		'name' => '---Add New ---',
+		 ) );
+		$this->view->clienttype = $client_type;
+		
 		$districts = $db->getAllDistricts();
 		array_unshift($districts,array(
 		'id' => -1,
@@ -132,6 +139,7 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->frm_popup_village = $db->frmPopupVillage();
 		$this->view->frm_popup_comm = $db->frmPopupCommune();
 		$this->view->frm_popup_district = $db->frmPopupDistrict();
+		$this->view->frm_popup_clienttype = $db->frmPopupclienttype();
 		$this->view->frm_client = $frm;
 		
 		
@@ -251,6 +259,20 @@ class Group_indexController extends Zend_Controller_Action {
 			$db_village = new Other_Model_DbTable_DbVillage();
 			$village=$db_village->addVillage($data);
 			print_r(Zend_Json::encode($village));
+			exit();
+		}
+	}
+	function insertDocumentTypeAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$data['status']=1;
+			$data['display_by']=1;
+			$data['type']=24;
+			$data['title_en']=$data['clienttype_nameen'];
+			$data['title_kh']=$data['clienttype_namekh'];
+			$db = new Other_Model_DbTable_DbLoanType();
+			$id = $db->addViewType($data);
+			print_r(Zend_Json::encode($id));
 			exit();
 		}
 	}

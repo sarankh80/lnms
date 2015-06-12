@@ -15,9 +15,7 @@ class Other_Model_DbTable_DbLoanType extends Zend_Db_Table_Abstract
     			'type'=>$data['type'],
     			
     			);
-         $id=$this->insert($arr);
-         exit();
-     
+         return $this->insert($arr);
     }
     function getLastKeycodeByType($type){
     	$sql = "SELECT key_code FROM `ln_view` WHERE type=$type ORDER BY key_code DESC LIMIT 1 ";

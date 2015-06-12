@@ -18,16 +18,20 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 		
-		
-		
+		$clienttype_nameen= new Zend_Dojo_Form_Element_DateTextBox('clienttype_nameen');
+		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'
+		));
+		$clienttype_namekh= new Zend_Dojo_Form_Element_DateTextBox('clienttype_namekh');
+		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'
+		));
 		$dob_join_acc= new Zend_Dojo_Form_Element_DateTextBox('dob_join_acc');
-		$dob_join_acc->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		$dob_join_acc->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
 		));
 		$_dob_Guarantor= new Zend_Dojo_Form_Element_DateTextBox('dob_guarantor');
-		$_dob_Guarantor->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		$_dob_Guarantor->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
 		));
 		$_dob= new Zend_Dojo_Form_Element_DateTextBox('dob_client');
-		$_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		$_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
 		));
 		
 		
@@ -154,6 +158,11 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
+		
+// 		$opt_client_d_type = 
+		
+// 		);
+		//
 		$opt_client_d_type= $db->getVewOptoinTypeByType(23,1);
 		$client_d_type->setMultiOptions($opt_client_d_type);
 		
@@ -348,12 +357,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$join_d_type->setValue($data['join_d_type']);
 			$guarantor_d_type->setValue($data['guarantor_d_type']);
 			$guarantor_address->setValue($data['guarantor_address']);
+			$clienttype_nameen->setValue($data['clienttype_nameen']);
+			$clienttype_namekh->setValue($data['clienttype_namekh']);
 			//$_dob_client->setValue($data[]);
 // 			print_r($data);
 		}
 		$this->addElements(array($client_d_type,$join_d_type,$guarantor_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_type,$_id_no,
-				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor));
+				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$dob_join_acc,$_dob_Guarantor,$clienttype_namekh,$clienttype_nameen));
 		return $this;
 		
 	}	
