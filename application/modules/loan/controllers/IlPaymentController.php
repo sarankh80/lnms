@@ -144,6 +144,8 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->client = $db->getAllClient();
 		$this->view->clientCode = $db->getAllClientCode();
 		
+		
+		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
@@ -157,23 +159,27 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
+			//print_r($data);
+			$db->quickPayment($data);
 			
 		}
 		$frm = new Loan_Form_FrmIlPayment();
-		$frm_loan=$frm->FrmAddIlPayment();
+		$frm_loan=$frm->quickPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		$this->view->frm_ilpayment = $frm_loan;
+		
+		$this->view->co = $db->getAllCo();
 	}
 	function getAllLoanByCoIdAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$co_id = $data["co_id"];
+			
 			$db = new Loan_Model_DbTable_DbLoanILPayment();
-			$row = $db->getAllLoanByCoId($co_id);
+			$row = $db->getAllLoanByCoId($data);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

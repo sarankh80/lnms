@@ -563,8 +563,188 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
 				$_amount_receive,$_client_code,$_loan_number,$_branch_id,$_hide_total_payment));
 		return $this;
+	}
+	public function quickPayment(){
+		$db = new Application_Model_DbTable_DbGlobal();
+		
+		$branch_id = new Zend_Dojo_Form_Element_FilteringSelect("branch_id");
+		$branch_id->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true',
+				'OnChange'	=> 'filterCo();'
+		));
+		
+		$rows = $db->getAllBranchName();
+		$options=array(''=>'------Select------');
+		if(!empty($rows))foreach($rows AS $row){
+			$options[$row['br_id']]=$row['branch_namekh'];
+		}
+		$branch_id->setMultiOptions($options);
+		
+		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
+		$rows = $db ->getAllCOName();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
+		$_coid->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getLoan();'
+		));
+		$_coid->setMultiOptions($options);
+		
+		$_cocode = new Zend_Dojo_Form_Element_FilteringSelect('co_code');
+		$rows = $db ->getAllCOName();
+		$options=array(''=>"------Select------",-1=>"Add New");
+		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_code'];
+		$_cocode->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getLoan();'
+		));
+		$_cocode->setMultiOptions($options);
 		
 		
-	
+		$_priciple_amount = new Zend_Dojo_Form_Element_NumberTextBox('priciple_amount');
+		$_priciple_amount->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly'
+		));
+		
+		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');
+		$_loan_fee->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly'
+		));
+		
+		$_os_amount = new Zend_Dojo_Form_Element_NumberTextBox('os_amount');
+		$_os_amount->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly',
+				'required'=>true,
+		));
+		
+		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('total_interest');
+		$_rate->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				'style'=>'color:red;',
+				'readOnly'=>'readOnly',
+				'required'=>true,
+		));
+		// 		$value_interest = 2.5;
+		// 		$_rate->setValue($value_interest);
+		
+		$_penalize_amount = new Zend_Dojo_Form_Element_NumberTextBox('penalize_amount');
+		$_penalize_amount->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>true,
+				//'readOnly'=>'readOnly'
+		));
+		$_penalize_amount->setValue(0);
+		
+		$_total_payment = new Zend_Dojo_Form_Element_NumberTextBox('total_payment');
+		$_total_payment->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				'style'=>'color:red;',
+				'required'=>true,
+				'readOnly'=>'readOnly'
+		));
+		
+		$_hide_total_payment = new Zend_Form_Element_Hidden('hide_total_payment');
+		$_hide_total_payment->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+		));
+		
+		$_note = new Zend_Dojo_Form_Element_TextBox('note');
+		$_note->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				//'required' =>'true'
+		));
+		
+		$_collect_date = new Zend_Dojo_Form_Element_DateTextBox('collect_date');
+		$_collect_date->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				'Onchange'	=>	'calculateTotal();'
+		));
+		$c_date = date('Y-m-d');
+		$_collect_date->setValue($c_date);
+		
+		$date_input = new Zend_Dojo_Form_Element_DateTextBox('date_input');
+		$date_input->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>true
+		));
+		$date_input->setValue($c_date);
+		
+		$_interest_rate = new Zend_Dojo_Form_Element_TextBox("interest_rate");
+		$_interest_rate->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
+		$_service_charge->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onkeyUp'=>'totalReturn();'
+		));
+		$_service_charge->setValue(0);
+		
+		$total_amount_loan = new Zend_Dojo_Form_Element_TextBox("total_amount_loan");
+		$total_amount_loan->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
+		
+		$reciever = new Zend_Form_Element_Hidden("reciever");
+		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
+		
+		$_amount_return = new Zend_Dojo_Form_Element_NumberTextBox('amount_return');
+		$_amount_return->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onkeyup'	=>	'netReturn();'
+		));
+		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('total_interest');
+		$_rate->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				'style'=>'color:red;',
+				'readOnly'=>'readOnly',
+				'required'=>true,
+		));
+		
+		$_amount_receive = new Zend_Dojo_Form_Element_NumberTextBox('amount_receive');
+		$_amount_receive->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'onChange'=>'totalReturn();',
+				'style'=>'color:red;',
+				'required'=>true
+		));
+		
+		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+		$_currency_type->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getLoan();'
+		));
+		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+		$_currency_type->setMultiOptions($opt);
+		$_currency_type->setValue(2);
+		
+		$this->addElements(array($_currency_type,$date_input,$_note,$_amount_receive,$_rate,$_amount_return,$_service_charge,$branch_id,$_cocode,$_coid,$_collect_date,$_os_amount,$_penalize_amount,$_priciple_amount,$_total_payment));
+		return $this;
 	}
 }
