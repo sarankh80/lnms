@@ -781,7 +781,12 @@ public function addILPayment($data){
    		return $db->fetchAll($sql);
    		}
 
-  
+   function getAllCo(){
+   			$db = $this->getAdapter();
+   			$sql="SELECT `co_id` AS id,CONCAT(`co_firstname`,' ',`co_lastname`,'- ',`co_khname`) AS `name`,`branch_id` FROM `ln_co` WHERE `co_khname`!=''  OR `co_firstname`!=''" ;
+   			return $db->fetchAll($sql);
+   		
+   }
    function getAllClient(){
    	$db = $this->getAdapter();
    	$sql = "SELECT c.`client_id` AS id ,c.`name_en` AS name ,c.`branch_id` FROM `ln_client` AS c WHERE c.`name_en`!='' " ;
@@ -861,8 +866,10 @@ public function addILPayment($data){
    	return $db->fetchAll($sql);
    }
    
-   function getAllLoanByCoId($co_id){ //quick Il Payment
+   function getAllLoanByCoId($data){ //quick Il Payment
    	$db = $this->getAdapter();
+   	$co_id = $data["co_id"];
+   	$cu_id = $data["currency"];
    	$sql = "SELECT 
 			  (SELECT CONCAT(co.`co_firstname`,`co_lastname`,',',`co_khname`) FROM `ln_co` AS co WHERE co.`co_id`=lg.`co_id`) AS co_name,
 			  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lm.`branch_id`) AS branch,
@@ -889,8 +896,182 @@ public function addILPayment($data){
 			  AND lm.`is_completed` = 0
 			  AND lm.`group_id`=lg.`g_id`
 			  AND lg.`co_id`=$co_id
+			  AND lm.`currency_type`=$cu_id
 			  GROUP BY lm.`client_id`";
    	return $db->fetchAll($sql);
+   }
+   
+   public function quickPayment($data){
+   		$db = $this->getAdapter();
+   		$db->beginTransaction();
+   		$session_user=new Zend_Session_Namespace('auth');
+   		$user_id = $session_user->user_id;
+   		$reciept_no=$this->getIlPaymentNumber();
+   		try {
+   			$identify = explode(',',$data['identity']);
+   			if(!empty($identify)){
+   				$arr_reciept_money = array(
+   						'co_id'							=>		$data['co_id'],
+   						//'receiver_id'					=>		$data['reciever'],
+   						'receipt_no'					=>		$reciept_no,
+   						'branch_id'						=>		$data['branch_id'],
+   						'date_input'					=>		$data["date_input"],
+   						'principal_amount'				=>		$data["priciple_amount"],
+   						'total_principal_permonth'		=>		$data["os_amount"],
+   						'total_payment'					=>		$data["total_payment"],
+   						'total_interest'				=>		$data["total_interest"],
+   						'recieve_amount'				=>		$data["amount_receive"],
+   						'penalize_amount'				=>		$data['penalize_amount'],
+   						'return_amount'					=>		$data["amount_return"],
+   						'service_charge'				=>		$data["service_charge"],
+   						'note'							=>		$data['note'],
+   						'user_id'						=>		$user_id,
+   						'is_group'						=>		2,
+   						'payment_option'				=>		1,
+   						'currency_type'					=>		$data["currency_type"],
+   						'status'						=>		1,
+   						'amount_payment'				=>		$data["amount_receive"]-$data["amount_return"],
+   						'is_completed'					=>		1
+   				);
+   				
+   				$this->_name="ln_client_receipt_money";
+   				$db->getProfiler()->setEnabled(true);
+   				$client_recipt_money = $this->insert($arr_reciept_money);
+   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+   				$db->getProfiler()->setEnabled(false);
+   				
+	   			foreach ($identify as $i){
+	   				$client_detail = $data["mfdid_".$i];
+	   				$sub_recieve_amount = $data["sub_recive_amount_".$i];
+	   				$sub_service_charge = $data["sub_service_charge_".$i];
+	   				$sub_peneline_amount = $data["sub_penelize_".$i];
+	   				$sub_interest_amount = $data["sub_interest_".$i];
+	   				$sub_principle= $data["sub_principal_permonth_".$i];
+	   				$sub_total_payment = $data["sub_payment_".$i];
+	   				//print_r($sub_recieve_amount."<br/>".$sub_total_payment);
+	   				if($client_detail!=""){
+	   					$reciept_no=$this->getIlPaymentNumber();
+		   				if($sub_recieve_amount>=$sub_total_payment){
+		   					$arr_money_detail = array(
+		   							'crm_id'				=>		$client_recipt_money,
+		   							'loan_number'			=>		$data["loan_number_".$i],
+		   							'lfd_id'				=>		$data["mfdid_".$i],
+		   							'client_id'				=>		$data["client_id_".$i],
+		   							'date_payment'			=>		$data["date_payment_".$i],
+		   							'capital'				=>		$data["sub_total_priciple_".$i],
+		   							'remain_capital'		=>		$data["sub_total_priciple_".$i] - $data["sub_principal_permonth_".$i],
+		   							'principal_permonth'	=>		$data["sub_principal_permonth_".$i],
+		   							'total_interest'		=>		$data["sub_interest_".$i],
+		   							'total_payment'			=>		$data["sub_payment_".$i],
+		   							'currency_id'			=>		$data["cu_id_".$i],
+		   							'pay_after'				=>		$data['multiplier_'.$i],
+		   							'is_completed'			=>		0,
+		   							'is_verify'				=>		0,
+		   							'verify_by'				=>		0,
+		   							'is_closingentry'		=>		0,
+		   							//'status'				=>		$data["option_pay"]
+		   					);
+		   					$db->getProfiler()->setEnabled(true);
+		   					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+		   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+		   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+		   					$db->getProfiler()->setEnabled(false);
+		   						
+		   					$arr_update_fun_detail = array(
+		   							'is_completed'		=> 	1,
+		   							'payment_option'	=>	1
+		   					);
+		   					$this->_name="ln_loanmember_funddetail";
+		   					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+		   					
+		   					$db->getProfiler()->setEnabled(true);
+		   					$this->update($arr_update_fun_detail, $where);
+		   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+		   					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+		   					$db->getProfiler()->setEnabled(false);
+		   					
+		   				}else{
+		   					$new_sub_interest_amount = $data["sub_interest_".$i];
+		   					$new_sub_penelize = $data["sub_penelize_".$i];
+		   					$new_sub_service_charge = $data["sub_service_charge_".$i];
+		   					$new_sub_principle = $data["sub_principal_permonth_".$i];
+			   				if($sub_recieve_amount>0){
+			   					$new_amount_after_service = $sub_recieve_amount-$sub_service_charge;
+			   					//print_r("<br />".$new_amount_after_service);
+			   					if($new_amount_after_service>=0){
+			   						$new_sub_service_charge = 0;
+			   						$new_amount_after_penelize = $new_amount_after_service - $sub_peneline_amount;
+			   						//print_r("<br />".$sub_peneline_amount."<br />".$new_amount_after_penelize);
+			   						if($new_amount_after_penelize>=0){
+			   							$new_sub_penelize = 0;
+			   							$new_amount_after_interest = $new_amount_after_penelize - $sub_interest_amount;
+			   							if($new_amount_after_interest>=0){
+			   								$new_sub_interest_amount = 0;
+			   								$new_sub_principle = $sub_principle - $new_amount_after_interest;
+			   							}else{
+			   								$new_sub_interest_amount = abs($new_amount_after_interest);
+			   							}
+			   						}else{
+			   							$new_sub_penelize = abs($new_amount_after_penelize);
+			   						}
+			   					}else{
+			   						$new_sub_service_charge = abs($new_amount_after_service);
+			   					}
+			   				}
+			   				
+			   				//print_r("- sub Interest=".$new_sub_interest_amount."<br />- sub penelize=".$new_sub_penelize."<br/>- sub recieve=".$sub_recieve_amount."<br/>- service charge = ". $new_sub_service_charge."<br/>- sub pay = ".$new_sub_principle);
+			   				$arr_money_detail = array(
+			   						'crm_id'				=>		$client_recipt_money,
+			   						'loan_number'			=>		$data["loan_number_".$i],
+			   						'lfd_id'				=>		$data["mfdid_".$i],
+			   						'client_id'				=>		$data["client_id_".$i],
+			   						'date_payment'			=>		$data["date_payment_".$i],
+			   						'capital'				=>		$data["sub_total_priciple_".$i],
+			   						'remain_capital'		=>		$data["sub_total_priciple_".$i] - $data["sub_principal_permonth_".$i],
+			   						'principal_permonth'	=>		$sub_principle,
+			   						'total_interest'		=>		$sub_interest_amount,
+			   						'total_payment'			=>		$sub_total_payment,
+			   						'currency_id'			=>		$data["cu_id_".$i],
+			   						'pay_after'				=>		$data['multiplier_'.$i],
+			   						'is_completed'			=>		0,
+			   						'is_verify'				=>		0,
+			   						'verify_by'				=>		0,
+			   						'is_closingentry'		=>		0,
+			   						//'status'				=>		$data["option_pay"]
+			   				);
+			   				$db->getProfiler()->setEnabled(true);
+			   				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+			   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+			   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+			   				$db->getProfiler()->setEnabled(false);
+			   				
+			   				$arr_update_fun_detail = array(
+			   						'is_completed'			=> 	0,
+			   						'total_interest_after'	=>  $new_sub_interest_amount,
+			   						'total_payment_after'	=>	$new_sub_principle,
+			   						'penelize'				=>	$new_sub_penelize,
+			   						'principle_after'		=>	$new_sub_principle,
+			   						'service_charge'		=>	$new_sub_service_charge,
+			   						'payment_option'		=>	1
+			   				);
+			   				$this->_name="ln_loanmember_funddetail";
+			   				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+			   				$db->getProfiler()->setEnabled(true);
+			   				$this->update($arr_update_fun_detail, $where);
+			   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
+			   				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
+			   				$db->getProfiler()->setEnabled(false);
+		   				}
+	   				}
+	   			}
+   			}
+   			exit();
+   			$db->commit();
+   		}catch (Exception $e){
+   			$db->rollBack();
+   			echo $e->getMessage();
+   		}
    }
 }
 
