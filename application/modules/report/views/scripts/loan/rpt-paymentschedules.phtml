@@ -34,7 +34,7 @@ td p{ margin-top:0px !important;}
 								<br /><?php echo $this->data['phone_brand'];?></p>
 	                	</td>
 	                	<td width="47%" valign="top">
-	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $this->data['brand_title'];?></label></h2>
+	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?><?php //echo $this->data['brand_title'];?></label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2></td>
 	                    <td width="25%"><img src="<?php echo $url_barcode;?>" /></td>
@@ -61,7 +61,7 @@ td p{ margin-top:0px !important;}
 				                    </td>
 				                    <td valign="top">
 				     	              <p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
-				                      <p><?php echo $tr->translate("INTEREST");?> : <?php echo $client['interest_rate']?></p>
+				                      <p><?php echo $tr->translate("INTEREST");?> : <?php echo $client['interest_rate']?> %</p>
 				                      <p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></p>
 				                    </td>
 				                </tr>
@@ -85,29 +85,30 @@ td p{ margin-top:0px !important;}
 	                <tr class="style" align="center" style="font-weight:bold; line-height: 20px;">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
 	                    <td>ប្រាក់ដើម</td>
-	                    <td>ប្រាក់ការ</td>
-	                    <td>សរុប</td>
+	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
+	                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
 	                </tr>
 	               <?php if(!empty($tran)) foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
 	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
+	                    
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
-	                    <td align="right">&nbsp;<?php echo $day_as_khmer; ?>&nbsp;&nbsp;&nbsp;</td>
+	                    <td align="right">&nbsp;<?php echo $day_as_khmer.'-'.$str_day; ?>&nbsp;&nbsp;&nbsp;</td>
 	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
 	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
 	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
 	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
 	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-	                    <td align="left"><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <td ><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
 	                    <?php 
 	                    $remain = $row['total_principal']-$row['principal_permonth']
 	                    ?>
 	                    <td><?php echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
 	                </tr>
 	               <?php }
-	               	for($record = $key;$record<11;$record++){
+	               	if(!empty($record))for($record = $key;$record<11;$record++){
 	               ?>
 	               		<tr>
 	               			<td>&nbsp;</td>

@@ -134,12 +134,12 @@ th{padding: 5px;}
 					 	?>
 					     <tr align="center" style="font-size: 10px;">
 					        <td><?php echo $key+1; ?></td>
-					        <td><?php echo $row['village_namekh']?></td>
-					        <td><?php echo $row['village_name']?></td>
+					        <td align="left">&nbsp;<?php echo $row['village_namekh']?>&nbsp;</td>
+					        <td align="left">&nbsp;<?php echo $row['village_name']?>&nbsp;</td>
 					        <td><?php echo $row['commune_name']?></td>
 					        <td><?php echo $row['district_name']?></td>
 					        <td><?php echo $row['province_en_name']?></td>
-					        <td><?php echo $row['modify_date']?></td>
+					        <td><?php echo date('d/m/Y',strtotime($row['modify_date']));?></td>
 					    </tr>
 					    <?php }?>
 				   </table>

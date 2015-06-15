@@ -613,14 +613,15 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $amount_days;//;*$amount_collect;//return all next day collect laon form customer
   }
-  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null){//code make slow
-  	for($i=0;$i<$amount_amount;$i++){
+  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){//code make slow
+  	$default_day = Date("d",strtotime($first_payment));
+ for($i=0;$i<$amount_amount;$i++){
 //   		$d = new DateTime($next_payment);
 //   		$d->modify("$str_next");
 //   		echo $str_next;exit();
 //   		echo $d->format('Y-m-d');exit();
 //   		$next_payment =  $d->format('Y-m-d');
-  		$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+  		$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
   	}
   	if($holiday_status==3){
   		return $next_payment;//if normal day

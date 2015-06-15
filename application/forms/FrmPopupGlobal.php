@@ -351,6 +351,53 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</div>';
 		return $str;
 	}
+	public function frmPopupLoanTye(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		
+		$fm = new Other_Form_FrmVeiwType();
+		$frm = $fm->FrmViewType();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		
+		$str='<div class="dijitHidden">
+		<div data-dojo-type="dijit.Dialog"  id="frm_loantype" >
+		<form id="form_village" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		<script type="dojo/method" event="onSubmit">
+		if(this.validate()) {
+		return true;
+	} else {
+	return false;
+	}
+	</script>
+	';
+		$str.='<table style="margin: 0 auto; width: 95%;" cellspacing="10">
+		<tr>
+		<td>'.$tr->translate("TITLE_KH").'</td>
+		<td>'.$frm->getElement('title_kh').'</td>
+		</tr>
+		<tr>
+		<td>'.$tr->translate("TITLE_EN").'</td>
+		<td>'.$frm->getElement('title_en').'</td>
+		</tr>
+		<tr>
+		<td>'. $tr->translate("DISPLAY_BY").'</td>
+		<td>'.$frm->getElement('display_by').'</td>
+		</tr>
+		<tr>
+		<td>'.$tr->translate("STATUS").'</td>
+		<td>'. $frm->getElement('status').'</td>
+		</tr>
+		<tr>
+		<td colspan="2" align="center">
+		<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button"
+		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addVillage();"  />
+		</td>
+		</tr>
+		</table>';
+		$str.='</form></div>
+		</div>';
+		return $str;
+	}
 	public function frmPopupclienttype(){
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$frm = new Group_Form_FrmClient();
@@ -380,5 +427,6 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 			</div>';
 		return $str;
 	}
+
 }
 
