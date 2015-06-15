@@ -9,6 +9,25 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
+    function calCulateIRR($total_loan_amount,$loan_amount,$term,$curr){
+    	$array =array();//array(-1000,107,103,103,103,103,103,103,103,103,103,103,103);
+    	for($j=0; $j<= $term;$j++){
+    		if($j==0){
+    			$array[]=-$loan_amount;
+    		}elseif($j==1){
+    			$fixed_principal = round($total_loan_amount/$term,0, PHP_ROUND_HALF_DOWN);
+    			$post_fiexed = $total_loan_amount/$term-$fixed_principal;
+    			$total_add_first = $this->round_up_currency($curr,$post_fiexed*$term);
+    
+    			$array[]=($total_add_first+$fixed_principal);
+    		}else{
+    			$array[]=round($total_loan_amount/$term,0, PHP_ROUND_HALF_DOWN);
+    		}
+    
+    	}
+    	$array = array_values($array);
+    	return Loan_Model_DbTable_DbIRRFunction::IRR($array);
+    }
     function round_up($value, $places)
     {
     	$mult = pow(10, abs($places));
@@ -128,10 +147,12 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     			$curr_type = $data['currency_type'];
     			 
     			//for IRR method
-    			$term_install = $data['period'];
-    			$loan_amount = $data['total_amount'];
-    			$total_loan_amount = $loan_amount+($loan_amount*$data['interest_rate']/100*$term_install);
-    			$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,$term_install,$curr_type);
+    			if($data['repayment_method']==6){
+	    			$term_install = $data['period'];
+	    			$loan_amount = $data['total_amount'];
+	    			$total_loan_amount = $loan_amount+($loan_amount*$data['interest_rate']/100*$term_install);
+	    			$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,$term_install,$curr_type);
+    			}
     			//end IRR method
     			 
     			$this->_name='ln_loanmember_funddetail';
