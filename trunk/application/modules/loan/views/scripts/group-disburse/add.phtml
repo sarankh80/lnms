@@ -63,31 +63,41 @@
 							<td><?php  echo $frm->getElement('zone');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_TYPE")?></td>
+							<td><?php echo $frm->getElement('loan_type');?></td>
+							<td><?php echo $tr->translate("OTHER_FEE")?></td>
+							<td><?php echo $frm->getElement('other_fee');?></td>
+							<td><?php //echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php  //echo $frm->getElement('zone');?></td>
+						</tr>
+						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
 						</tr>
 						<tr>
+						    <td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php echo $frm->getElement('interest_rate');?></td>
 							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
 							<td><?php echo $frm->getElement('pay_every');?></td>
+							
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
 							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
 							<td><?php echo $frm->getElement('release_date');?></td>
+								<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 							<td><?php echo $frm->getElement('date_line');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
+							
 						</tr>
 						<tr>
 							<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
@@ -113,8 +123,8 @@
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
 							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
 							<td><?php echo $frm->getElement('pay_late');?></td>
-							<td><?php echo $tr->translate("FUND_BEFORDATE")?></td>
-							<td><?php echo $frm->getElement('pay_before');?></td>
+							<td><?php //echo $tr->translate("FUND_BEFORDATE")?></td>
+							<td><?php //echo $frm->getElement('pay_before');?></td>
 						</tr>
 					</table>
 				</fieldset>

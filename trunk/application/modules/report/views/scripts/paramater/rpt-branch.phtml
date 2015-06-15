@@ -56,11 +56,11 @@ th{padding: 5px;}
             </table>
         	<table id="exportExcel"  align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BR_ID");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_CODE");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_TEL");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FAX");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></th>
@@ -70,10 +70,10 @@ th{padding: 5px;}
 					 	?>
 					     <tr style="font-size: 10px;" align="center" >
 					        <td><?php echo $key+1; ?></td>
-					        <td><?php echo $row['branch_namekh']?></td>
-					        <td><?php echo $row['branch_nameen']?></td>
-					        <td><?php echo $row['br_address']?></td>
+					        <td align="left">&nbsp;<?php echo $row['branch_namekh']?>&nbsp;</td>
+					        <td align="left">&nbsp;<?php echo $row['branch_nameen']?>&nbsp;</td>
 					        <td><?php echo $row['branch_code']?></td>
+					        <td align="left">&nbsp;<?php echo $row['br_address']?></td>
 					        <td><?php echo $row['branch_tel']?></td>
 					        <td><?php echo $row['fax']?></td>
 					        <td><?php echo $row['other']?></td>

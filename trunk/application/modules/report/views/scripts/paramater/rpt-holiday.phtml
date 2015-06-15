@@ -1,6 +1,5 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-//echo $this->headTitle($tr->translate("HOLIDAY_LIST"));
 $frm = $this->frm_holiday;
 ?>
 <title><?php echo $tr->translate("LIST HOLIDAY");?></title>
@@ -46,10 +45,8 @@ th{padding: 5px;}
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td></td>
-                				
                 				<td></td>
                 			</tr>
-			               
 		                </table>
 		              </td>
 		           </tr>   
@@ -59,7 +56,7 @@ th{padding: 5px;}
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("HOLIDAY_NAME");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("AMOUNT");?></th>
+				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("AMOUNT_DAY");?></th>
 				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
 					<?php $amount_day = 0;

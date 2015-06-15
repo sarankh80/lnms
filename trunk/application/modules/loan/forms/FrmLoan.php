@@ -112,8 +112,10 @@ public function init()
 		$_loan_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'onChange'=>'showloantype();'
 		));
 		$opt = $db->getVewOptoinTypeByType(24,1,null,1);
+		$opt[-1]="--- Add New---";
 		$_loan_type->setMultiOptions($opt);
 		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
@@ -213,7 +215,7 @@ public function init()
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				//'onchange'=>'calCulateFirstPayment();'
+			    'onchange'=>'calCulateEndDate();'
 				
 		));
 		//$_first_payment->setValue('2005-12-30');
@@ -329,14 +331,15 @@ public function init()
 		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
 		
-		$_holiday = new Zend_Dojo_Form_Element_FilteringSelect('holiday');
-		$_holiday->setAttribs(array(
+		$_status = new Zend_Dojo_Form_Element_FilteringSelect('status_using');
+		$_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
-		$_holiday->setMultiOptions($options);
+// 		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
+		$options= array(1=>"Active",0=>"Cancel");
+		$_status->setMultiOptions($options);
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
@@ -378,7 +381,7 @@ public function init()
 // 			print_r($data);
 		}
 		$this->addElements(array($get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
-				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_holiday,$_graice_pariod,$_period,
+				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_status,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));
 		return $this;
