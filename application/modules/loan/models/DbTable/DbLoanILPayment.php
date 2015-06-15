@@ -162,15 +162,17 @@ public function addILPayment($data){
     	
     	if($amount_receive>$total_payment){
     		$amount_payment = $amount_receive - $return;
+    		$total_pay = $amount_receive - $data["total_payment"];
     	}elseif($amount_receive<$total_payment){
     		$amount_payment = $amount_receive;
+    		$total_pay = $data["total_payment"]-$amount_receive;
     	}else{
     		$amount_payment = $total_payment;
     	}
     	
     	$service_charge= $data["service_charge"];
     	$penalize = $data["penalize_amount"];
-    	$total_pay = $data["total_payment"]-$amount_receive;
+    	
     	$total_os = $data["os_amount"];
     	if($amount_receive<=$service_charge){
     		$new_amount = $service_charge-$amount_receive;
@@ -291,7 +293,7 @@ public function addILPayment($data){
 	    					$arr_update_fun_detail = array(
 	    							'is_completed'			=> 	0,
 	    							'total_interest_after'	=>  $interest_fun,
-	    							'total_payment'			=>	$total_pay,
+	    							'total_payment_after'	=>	$total_pay,
 	    							'principle_after'		=>	$total_os,
 	    							'payment_option'		=>	$data["option_pay"],
 	    							'penelize'				=>	$penalize,

@@ -151,7 +151,7 @@
 						</tr>
 						<tr>
 							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
-							<td><?php //echo $frm->getElement('date_input'); //echo $frm->getElement('collect_date');?></td>
+							<td><?php echo $frm->getElement('date_input'); //echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
 							<td><?php  echo $frm->getElement('amount_return');?></td>
 							<td><?php echo $tr->translate("ប្រាក់នៅសល់")?></td>
@@ -631,7 +631,7 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /><input type="hidden" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
@@ -833,7 +833,7 @@ function getLaonHasPayByLoanNumber(){
 								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;</td>';
+								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_payment+'&nbsp;</td>';
 								temp += '<td style="white-space: nowrap;">&nbsp;'+dateStringInput+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
