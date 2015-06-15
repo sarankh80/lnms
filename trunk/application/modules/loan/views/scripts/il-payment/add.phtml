@@ -922,10 +922,9 @@ if(arrays!=""){
           	var total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
           	var totalPay = $('#payment_'+arrays[i]).val();
           	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
-          	last_payment_date= new Date($('#last_date_payment_'+arrays[i]).val());
+          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
           	
           	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
-          	alert(pay_date);
 			var late_day = Math.round((date_collect - pay_date)/(oneDay));
 			if(late_day>0){
 				if(last_payment_date!=""){
