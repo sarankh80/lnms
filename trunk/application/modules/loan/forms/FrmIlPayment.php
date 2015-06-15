@@ -224,12 +224,15 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
 		
-		$date_input = new Zend_Dojo_Form_Element_DateTextBox('date_input');
-		$date_input->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-				'class'=>'fullside',
-				'required' =>true
-		));
+// 		$date_input = new Zend_Dojo_Form_Element_DateTextBox('date_input');
+// 		$date_input->setAttribs(array(
+// 				'dojoType'=>'dijit.form.DateTextBox',
+// 				'class'=>'fullside',
+// 				'required' =>true
+// 		));
+// 		$date_input->setValue($c_date);
+
+		$date_input = new Zend_Form_Element_Hidden("date_input");
 		$date_input->setValue($c_date);
 		
 		$reciever = new Zend_Form_Element_Hidden("reciever");

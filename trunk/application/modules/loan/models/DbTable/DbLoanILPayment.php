@@ -289,12 +289,13 @@ public function addILPayment($data){
 	    					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 	    					
 	    					$arr_update_fun_detail = array(
-	    							'is_completed'		=> 	0,
-	    							'total_interest'	=>  $interest_fun,
-	    							'total_payment'		=>	$total_pay,
-	    							//'principal_permonth'=>	$total_os,
-	    							'principle_after'=>	$total_os,
-	    							'payment_option'	=>	$data["option_pay"]
+	    							'is_completed'			=> 	0,
+	    							'total_interest_after'	=>  $interest_fun,
+	    							'total_payment'			=>	$total_pay,
+	    							'principle_after'		=>	$total_os,
+	    							'payment_option'		=>	$data["option_pay"],
+	    							'penelize'				=>	$penalize,
+	    							'service_charge'		=>	$service_charge
 	    					);
 	    					$this->_name="ln_loanmember_funddetail";
 	    					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
@@ -329,7 +330,7 @@ public function addILPayment($data){
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();
+    		//echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		//exit();
     	}
@@ -669,7 +670,7 @@ public function addILPayment($data){
 					  lg.`payment_method`,
 					  lg.`date_release`,    
 					  lg.`level`,
-					  lf.*
+					  lf.*,
 					FROM
 					  `ln_client` AS lc,
 					  `ln_loan_member` AS lm ,
@@ -702,9 +703,10 @@ public function addILPayment($data){
 					  lg.`total_duration`,
 					  lg.`payment_method`,
 					  lg.`payment_method`,
-					  lg.`date_release`,   
+					  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
 					  lg.`level`, 
-					  lf.*
+					  lf.*,
+					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
 					FROM
 					  `ln_client` AS lc,
 					  `ln_loan_member` AS lm ,
