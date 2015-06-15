@@ -6,6 +6,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 	protected $t_num=null;
 	protected $text=null;
 	protected $tarea=null;
+	protected $date;
 	public function init()
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -13,6 +14,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		$this->filter = 'dijit.form.FilteringSelect';
 		$this->text = 'dijit.form.TextBox';
 		$this->tarea = 'dijit.form.SimpleTextarea';
+		$this->date = 'dijit.form.DateTextBox';
 	}
 	public function FrmAddVillage($data=null){
 		
@@ -129,6 +131,28 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
 				'class'=>'fullside'));
+		$_fromdate = new Zend_Dojo_Form_Element_DateTextBox('from_date');
+		$_fromdate->setAttribs(array('dojoType'=>$this->date,
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();'));
+		$_date = $request->getParam("start_date");
+
+		if(empty($_date)){
+			$_date = date('Y-m-01');
+		}
+		$_fromdate->setValue($_date);
+		
+		
+		$_todate = new Zend_Dojo_Form_Element_DateTextBox('to_date');
+		$_todate->setAttribs(array('dojoType'=>$this->date,'class'=>'fullside',
+		));
+		
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$_todate->setValue($_date);
 		$id = new Zend_Form_Element_Hidden('id');
 		if(!empty($data)){
 			$id->setValue($data['vill_id']);
@@ -142,7 +166,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 			
 			
 		}
-		$this->addElements(array($_btn_search,$_status_search,$_title,$id,$commune_name,$popup_commune_name,$village_name,$district_name,$_province, $_status,$village_namekh,$_display));
+		$this->addElements(array($_fromdate,$_todate,$_btn_search,$_status_search,$_title,$id,$commune_name,$popup_commune_name,$village_name,$district_name,$_province, $_status,$village_namekh,$_display));
 		return $this;
 		
 	}
