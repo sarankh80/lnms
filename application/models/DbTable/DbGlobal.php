@@ -852,7 +852,7 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   }
   public function getLoanAllLoanNumber($diplayby=1,$opt=null){
   	$db = $this->getAdapter();
-  	$sql = " CALL `stGetAllLoanNumber";
+  	$sql = "CALL `stGetAllLoanNumber`";
   	$result = $db->fetchAll($sql);
   	$options=array(''=>"---Select Loan Number---");
   	if($opt!=null){

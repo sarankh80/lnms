@@ -257,7 +257,6 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$renderer = Zend_Barcode::factory(
 				'code128', 'image', $barcodeOptions, $rendererOptions
 		)->render();
-	
 	}
 	
 	function getIlLoanDetailAction(){
