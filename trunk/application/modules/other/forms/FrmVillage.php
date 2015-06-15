@@ -45,21 +45,6 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		$village_name->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
 		));
-		$db=new Report_Model_DbTable_DbParamater();
-		$rows=$db->getAllVillage();
-		$opt_village_name = array(''=>$this->tr->translate("SELECT_BRANCH_NAME"));
-		if(!empty($rows))foreach($rows AS $row) $opt_village_name[$row['vill_id']]=$row['village_name'];
-		$select_village_name = new Zend_Dojo_Form_Element_FilteringSelect('select_village_name');
-		$select_village_name->setAttribs(array(
-				'dojoType'=>$this->filter,
-				'missingMessage'=>'Invalid Module!',
-				'class'=>'fullside'
-		));
-		$select_village_name->setMultiOptions($opt_village_name);
-		$select_village_name->setValue($request->getParam('select_village_name'));
-		
-		$sse_name = new Zend_Dojo_Form_Element_ValidationTextBox('dddddddddddd');
-		
 		$village_namekh = new Zend_Dojo_Form_Element_ValidationTextBox('village_namekh');
 		$village_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox',
 				'required'=>'true','missingMessage'=>'Invalid Module!','class'=>'fullside'
@@ -149,7 +134,6 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 			$id->setValue($data['vill_id']);
 			$village_name->setValue($data['village_name']);
 			$village_namekh->setValue($data['village_namekh']);
-			$select_village_name->setValue($data['village_name']);
 			$_display->setValue($data['displayby']);
 			$_province->setValue($data['pro_id']);
 			$district_name->setValue($data['dis_id']);
@@ -158,7 +142,7 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 			
 			
 		}
-		$this->addElements(array($sse_name,$select_village_name,$_btn_search,$_status_search,$_title,$id,$commune_name,$popup_commune_name,$village_name,$district_name,$_province, $_status,$village_namekh,$_display));
+		$this->addElements(array($_btn_search,$_status_search,$_title,$id,$commune_name,$popup_commune_name,$village_name,$district_name,$_province, $_status,$village_namekh,$_display));
 		return $this;
 		
 	}
