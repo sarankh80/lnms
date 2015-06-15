@@ -216,14 +216,14 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     			$is_subremain = 2;
     			$remain_principal = $data['debt_amount'.$i];
     			
-    			
     			//for IRR method
-    			$term_install = $data['period'];
-    			$loan_amount = $data['debt_amount'.$i];;
-    			$total_loan_amount = $loan_amount+($loan_amount*$data['interest_rate']/100*$term_install);
-    			$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,$term_install,$curr_type);
+    			if($data['repayment_method']==6){
+    				$term_install = $data['period'];
+    				$loan_amount = $data['debt_amount'.$i];
+    				$total_loan_amount = $loan_amount+($loan_amount*$data['interest_rate']/100*$term_install);
+    				$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,$term_install,$curr_type);
+    			}
     			//end IRR method
-    			
     			
     			$this->_name='ln_loanmember_funddetail';
     			
