@@ -125,7 +125,14 @@ th{padding: 5px;}
 					<td >&nbsp;<strong style="font-size:10px;font-family:'Khmer MEF2';text-align:center"><?php echo $row['branch_name']; ?></strong>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
-					<td align="left"><a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;</td>
+					<td align="left">
+						<?php if ($row['loantype']==1){
+							echo $row['client_name'];
+					}else {?>
+					<a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;</td>	
+					<?php }?>
+					
+					
 					<td align="left">&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>	
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<!--  <td style="white-space:nowrap; text-align: right;">&nbsp;<?php //echo number_format($row['admin_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
