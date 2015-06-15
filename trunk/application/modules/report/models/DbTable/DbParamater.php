@@ -44,16 +44,22 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     }
     public function getALLstaff($search = null){
     	$db = $this->getAdapter();
-    	$sql="SELECT co_code,co_khname,co_firstname,(SELECT name_kh FROM ln_view WHERE TYPE = 11 AND key_code=sex ) AS sex
+    	$from_date =(empty($search['from_date']))? '1': "create_date >= '".$search['from_date']." 00:00:00'";
+    	$to_date = (empty($search['to_date']))? '1': "create_date <= '".$search['to_date']." 23:59:59'";
+    	$where = " AND ".$from_date." AND ".$to_date;	
+    	$sql="SELECT co_id,co_code,co_khname,co_firstname,(SELECT name_kh FROM ln_view WHERE TYPE = 11 AND key_code=sex ) AS sex
     	,email,basic_salary,start_date,end_date,contract_no,shift,workingtime,(SELECT position_kh FROM ln_position WHERE id=position_id) As position,
     	tel,basic_salary,national_id,address,degree,
     	(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id limit 1) AS branch_name,note FROM ln_co WHERE 1";
     	$Other =" ORDER BY co_id DESC ";
-    	$where = '';
+    	//$where = '';
     	//echo $search['txtsearch'];
-    	if(!empty($search['txtsearch'])){
+    	if(!empty($search['co_khname'])){
+    		$where.= " AND co_id = ".$search['co_khname'];
+    	}
+    	if(!empty($search['adv_search'])){
     		$s_where = array();
-    		$s_search = $search['txtsearch'];
+    		$s_search = $search['adv_search'];
     		$s_where[] =" co_code LIKE '%{$s_search}%'";
     		$s_where[]=" co_khname LIKE '%{$s_search}%'";
     		$s_where[]=" co_firstname LIKE '%{$s_search}%'";
@@ -96,12 +102,14 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 		$order= ' ORDER BY v.vill_id DESC ';
 		return $db->fetchAll($sql.$where.$order);
     }
-    	function getAllBranch($search=null){
+function getAllBranch($search=null){
     		$db = $this->getAdapter();
     	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.br_address,b.branch_code,b.branch_tel,b.fax,
 (SELECT v.name_en FROM `ln_view` AS v WHERE v.`type` = 4 AND v.key_code = b.displayby)AS displayby,b.other,b.`status` FROM ln_branch AS b  ";
     	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
-    	
+    	if($search['select_branch_nameen']>0){
+    		$where.= " AND b.br_id = ".$search['select_branch_nameen'];
+    	}
     	if($search['status_search']>-1){
     		$where.= " AND b.status = ".$search['status_search'];
     	}

@@ -31,6 +31,9 @@ class Report_ParamaterController extends Zend_Controller_Action {
   		$search = array('txtsearch' => '');
   		$this->view->staff_list = $db->getAllstaff();
   	}
+  	$frm=new Other_Form_FrmStaff();
+  	$row=$frm->FrmAddStaff();
+  	$this->view->frm_staff=$row;
   }
   function  rptVillageAction(){
   	$db  = new Report_Model_DbTable_DbParamater();
@@ -56,9 +59,9 @@ class Report_ParamaterController extends Zend_Controller_Action {
   				'commune_name'=>'');
   	}
   	$frm = new Other_Form_FrmVillage();
-  	$frm = $frm->FrmAddVillage();
-  	Application_Model_Decorator::removeAllDecorator($frm);
-  	$this->view->frm_village= $frm;
+  	$frms = $frm->FrmAddVillage();
+  	Application_Model_Decorator::removeAllDecorator($frms);
+  	$this->view->frm_village= $frms;
   	
   	$db= new Application_Model_DbTable_DbGlobal();
   	$this->view->district = $db->getAllDistricts();

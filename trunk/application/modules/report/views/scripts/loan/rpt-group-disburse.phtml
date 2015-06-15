@@ -18,7 +18,7 @@ th{padding: 5px;}
     	<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;" >
             	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_II");?></label></h2>
@@ -61,7 +61,7 @@ th{padding: 5px;}
                     <td style="padding:5px 0px;"><?php echo $tr->translate("RELEASED_DATE");?></td>
                     </tr>
                     <?php if(!empty($this->loancllect_list)) foreach ($this->loancllect_list as $index => $rs){ ?>
-                    <tr height="40px">
+                    <tr>
                         <td><?php echo $index+1;?></td>
                         <td><?php echo $rs['branch_name'];?></td>
                         <td><?php echo $rs['co_kh']?></td>
@@ -82,12 +82,12 @@ th{padding: 5px;}
                 </table>
                 <br />
               <table align="center" width="100%">
-				    <tr style="font-size: 12px;">
-				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
 			</table>
    		</td>

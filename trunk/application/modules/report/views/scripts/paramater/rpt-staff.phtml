@@ -1,37 +1,34 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm_staff;
 ?>
 <meta charset="utf-8">
 <title><?php echo $tr->translate("REPORT STAFF");?></title>
-<form method="post">
-<table style="float: right;">
-	<tr>
-		<td align="right">
-			<input type="text" name="txtsearch" id="txtsearch" placeholder=""  dojoType="dijit.form.TextBox"
-			 style="width: 320px;  height: 30px;" value='<?php echo $this->txtsearch;?>'/>
-			 <button dojoType="dijit.form.Button" showLabel="true" name="btn_search" type="submit"><?php echo $tr->translate("SEARCH");?></button>
-		</td>
-	</tr>
+<form name="frm_rptstaff" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-staff')); ?>" dojoType="dijit.form.Form" method="post">
+<table style="float:left;">
+	 <tr> 
+		   <td><?php echo $frm->getElement("adv_search");?></td>
+		   <td><?php echo $frm->getElement("co_khname");?></td>
+		   
+	</tr><tr><td> <?php echo $frm->getElement("start_date");?></td>	   
+           <td><?php echo $frm->getElement("end_date");?></td>
+		   <td><?php echo $frm->getElement('search_status');?></td>
+		   <td style="padding-top: 15px;"> <button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
+   	  </tr>
 </table>
-</form>
-<style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
-<br /><br /><br />
-<div style=" width="100%"  margin:0 auto;">
-
-<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<style>
+ </form> 
+ <style>
 .style{
 	line-height: 20px;font-size: 12px;
 	font-family: 'Khmer OS Battambang';
 }
 .MEF2{text-align:center; font-size:10px; font-family:'Khmer MEF2'}
+
 </style>
+ <br /> <br /> <br /> <br /><br /> <br /><br />
+<div style=" width="100%"  margin:0 auto;">
+<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -63,40 +60,35 @@ th{padding: 5px;}
 		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_ID");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO_NAME");?></th>
-		            <th​​ style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_NAME");?></th>
+		            <th​​ style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php //echo $tr->translate("STAFF_NAME");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SEX");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'" ><?php echo $tr->translate("PHONE");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NATIONAL_ID");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ADDRESS");?></th>
-		           <!-- <th>&nbsp;<?php //echo $tr->translate("DEGREE");?></th>-->
+		           
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("EMAIL");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SALARY");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("START_DATE");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("END_DATE");?></th>
-		            <!--<th style="white-space:pre;">&nbsp;<?php //echo $tr->translate("NUMBER_OF_CONTROCT");?></th> 
-		            <th>&nbsp;Shift<class="MEF2"/th>
-		            <th style="white-space: pre;">&nbsp;<?php // echo $tr->translate("WORKING_HOUR");?></th>-->
+		            
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("POSITION");?></th>
 		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
 		           <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?></th>
 		         </tr>
 		       <?php if(!empty($this->staff_list))foreach($this->staff_list as $key =>$row){?>
-				   <tr style="font-size: 10px;" align="center">
+				   <tr style="font-size: 10px;" align="left">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['co_code']?></td>
 					 <td>&nbsp;<?php echo $row['co_khname'] ." - ".$row['co_firstname']?></td>
+					 
 					 <td>&nbsp;<?php echo $row['sex']?></td>
 					 <td>&nbsp;<?php echo $row['tel']?></td>
 					 <td>&nbsp;<?php echo $row['national_id']?></td>
 					 <td style="white-space: pre;">&nbsp;<?php echo $row['address']?></td>
-				<!-- 	 <td>&nbsp;<?php echo $row['degree']?></td>-->
 					 <td>&nbsp;<?php echo $row['email']?></td>
 					 <td>&nbsp;<?php echo $row['basic_salary']?></td>
-					 <td>&nbsp;<?php echo $row['start_date']?></td>
-					 <td>&nbsp;<?php echo $row['end_date']?></td>
-				<!--   <td>&nbsp;<?php //echo $row['contract_no']?></td>
-					 <td>&nbsp;<?php //echo $row['shift']?></td>
-					 <td>&nbsp;<?php //echo $row['workingtime']?></td>-->	
+					 <td><?php echo date('d/m/Y',strtotime($row['start_date']));?></td>
+					  <td><?php echo date('d/m/Y',strtotime($row['end_date']));?></td>
 					 <td>&nbsp;<?php echo $row['position']?></td>
 					 <td>&nbsp;<?php echo $row['branch_name']?></td>
 					 <td>&nbsp;<?php echo $row['note']?></td>
@@ -118,11 +110,7 @@ th{padding: 5px;}
 					 <td></td>
 					 <td></td>
 					 <td></td>
-<!-- 					 <td></td> -->
-<!-- 					 <td></td> -->
-<!-- 					 <td></td> -->
-<!-- 					 <td></td> -->
-					 <td></td>
+
 					 </tr>
 				 <?php }?>
 						
@@ -132,13 +120,13 @@ th{padding: 5px;}
     </tr>
 </table>
 		<br />
-		    <table align="center" width="100%">
-				    <tr style="font-size: 12px;">
-				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+		   <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
 			</table>
 </div>

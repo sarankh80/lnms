@@ -68,6 +68,20 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'required'=>true,
 				'onkeyup'=>'Caltweenty()'
 				));
+		$db=new Report_Model_DbTable_DbParamater();
+		$rows=$db->getAllBranch();
+		$opt_branch = array(''=>$this->tr->translate("SELECT_BRANCH_NAME"));
+		if(!empty($rows))foreach($rows AS $row) $opt_branch[$row['br_id']]=$row['branch_nameen'];
+		$select_branch_nameen = new Zend_Dojo_Form_Element_FilteringSelect('select_branch_nameen');
+		$select_branch_nameen->setAttribs(array(
+				'dojoType'=>$this->filter,
+				'class'=>'fullside',
+				'required'=>true,
+				'onkeyup'=>'Caltweenty()'
+		));
+		$select_branch_nameen->setMultiOptions($opt_branch);
+		$select_branch_nameen->setValue($request->getParam('select_branch_nameen'));
+		
 		$branch_code = new Zend_Dojo_Form_Element_NumberTextBox('branch_code');
 		$branch_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -141,6 +155,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$prefix_code->setValue($data['prefix']);
 			$branch_namekh->setValue($data['branch_namekh']);
 			$branch_nameen->setValue($data['branch_nameen']);
+			$select_branch_nameen->setValue($data['branch_nameen']);
 			$br_address->setValue($data['br_address']);
 			$branch_tel->setValue($data['branch_tel']);
 			$branch_code->setValue($data['branch_code']);
@@ -150,7 +165,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$branch_display->setValue($data['displayby']);
 		}
 		
-		$this->addElements(array($prefix_code,$_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
+		$this->addElements(array($select_branch_nameen,$prefix_code,$_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
 				$branch_status,$branch_display));
 		
 		return $this;
