@@ -38,7 +38,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("Recirpt No","Loan No","Group Client","Total Principle","Total Payment","Recieve Amount","Total Interest","Penalize Amount","Date Pay","Due Date","CO Name","Branch",
+			$collumns = array("RECIEPT_NO","LOAN_NO","LIST_GROUP_CLIENT","TOTAL_PRINCEPLE","TOTAL_PAYMENT","RECEIVE_AMOUNT","TOTAL_INTEREST","PENALIZE AMOUNT","DATE","DATE_DUE","CO_NAME","BRANCH_NAME",
 				);
 			$link=array(
 					'module'=>'loan','controller'=>'il-payment','action'=>'edit',

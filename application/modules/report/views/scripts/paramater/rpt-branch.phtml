@@ -8,6 +8,7 @@
 	
 	<tr>	
 	 	<td><?php echo $frm->getElement('adv_search') ?></td>
+	 	<td><?php echo $frm->getElement('select_branch_nameen') ?></td>
 	 	<td><?php echo $frm->getElement('status_search');?></td>
 	 	<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
 	 </tr>
@@ -56,14 +57,14 @@ th{padding: 5px;}
             </table>
         	<table id="exportExcel"  align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_CODE");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_TEL");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FAX");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAMEEN");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_CODE");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_ADDRESS");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_TEL");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("FAX");?></th>
+				        <th style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></th>
 				    </tr>
 					<?php 
 					if(!empty($this->branch_list)) foreach($this->branch_list as $key =>$row){
@@ -85,12 +86,12 @@ th{padding: 5px;}
 		</tr>
 	</table><br />
 	<table align="center" width="100%">
-				    <tr style="font-size: 12px;">
-				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
 			</table>			
  </div>

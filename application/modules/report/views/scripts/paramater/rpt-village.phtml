@@ -66,6 +66,7 @@ $frm = $this->frm_village;
 <table style="float: left;">
 	<tr>
 		   	<td><?php echo $frm->getElement("adv_search");?></td>
+		   	<td><?php echo $frm->getElement("select_village_name");?></td>
 		   	<td><?php  echo $frm->getElement('province_name');?></td>
 		   	<td><input id="district_name" ></td>
 	</tr>
@@ -120,22 +121,22 @@ th{padding: 5px;}
             </table>
         	<table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <tr bgcolor="#BBBBBB">
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COMMUNE");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DISTRICT_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PROVINCE_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("VILLAGE_NAME");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COMMUNE");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DISTRICT_NAME");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PROVINCE_NAME");?></th>
+				        <th style="text-align:left; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
 				        
 				    </tr>
 					<?php 
 					 if(!empty($this->village_list))foreach($this->village_list as $key =>$row){
 					 	?>
-					     <tr align="center" style="font-size: 10px;">
+					     <tr style="text-align:left; font-size:10px;">
 					        <td><?php echo $key+1; ?></td>
-					        <td align="left">&nbsp;<?php echo $row['village_namekh']?>&nbsp;</td>
-					        <td align="left">&nbsp;<?php echo $row['village_name']?>&nbsp;</td>
+					        <td>&nbsp;<?php echo $row['village_namekh']?>&nbsp;</td>
+					        <td>&nbsp;<?php echo $row['village_name']?>&nbsp;</td>
 					        <td><?php echo $row['commune_name']?></td>
 					        <td><?php echo $row['district_name']?></td>
 					        <td><?php echo $row['province_en_name']?></td>
@@ -148,13 +149,13 @@ th{padding: 5px;}
 		</tr>
 </table>
 		<br />
-		    <table align="center" width="100%">
-				    <tr style="font-size: 12px;">
-				        <th style="width:20%;"><?php echo $tr->translate('APPROVED BY');?></th>
+		  <table align="center" width="100%">
+				   <tr style="font-size: 12px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
 				        <th></th>
-				        <th style="width:20%;"><?php echo $tr->translate('PREPARE BY');?></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
 			</table>
  </div>
