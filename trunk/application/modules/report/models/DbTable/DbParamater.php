@@ -74,6 +74,9 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     }
     public function getAllVillage($search= null){
     	$db = $this->getAdapter();
+    	$from_date =(empty($search['from_date']))? '1': "modify_date >= '".$search['from_date']." 00:00:00'";
+    	$to_date = (empty($search['to_date']))? '1': "modify_date <= '".$search['to_date']." 23:59:59'";
+    	$where = " AND ".$from_date." AND ".$to_date;
     	$sql = "SELECT
 				v.vill_id,v.village_namekh,v.village_name,v.displayby,
 				(SELECT commune_name FROM ln_commune WHERE v.commune_id=com_id LIMIT 1) AS commune_name,
@@ -82,7 +85,7 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 				(SELECT first_name FROM rms_users WHERE id=v.user_id LIMIT 1) AS user_name
 				FROM ln_village AS v,`ln_commune` AS c, `ln_district` AS d , `ln_province` AS p
 				WHERE v.commune_id = c.com_id AND c.district_id = d.dis_id AND d.pro_id = p.province_id ";
-    	$where = '';
+    	
         if($search['province_name']>0){
         	$where.= " AND p.province_id = ".$search['province_name'];
         }
