@@ -685,6 +685,7 @@ public function addILPayment($data){
     	}elseif($data['type']==1){
     		$where = 'lm.`loan_number`='."'".$loan_number."'";
     		$sql ="SELECT 
+    				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crm.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
 					  lc.`client_id`,
 					  lc.`client_number`,
 					  lc.`name_kh`,
@@ -783,7 +784,7 @@ public function addILPayment($data){
 
    function getAllCo(){
    			$db = $this->getAdapter();
-   			$sql="SELECT `co_id` AS id,CONCAT(`co_firstname`,' ',`co_lastname`,'- ',`co_khname`) AS `name`,`branch_id` FROM `ln_co` WHERE `co_khname`!=''  OR `co_firstname`!=''" ;
+   			$sql="SELECT `co_id` AS id,CONCAT(`co_firstname`,' ',`co_lastname`,'- ',`co_khname`) AS `name`,`branch_id` FROM `ln_co` WHERE `position_id`=1 AND (`co_khname`!=''  OR `co_firstname`!='')" ;
    			return $db->fetchAll($sql);
    		
    }

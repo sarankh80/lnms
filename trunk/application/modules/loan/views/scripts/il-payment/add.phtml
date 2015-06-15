@@ -428,9 +428,6 @@ dojo.ready(function(){
 		key_number = (event.keyCode);
 		if(key_number==13){
 			not_submit = 1;
-			//dijit.byId('last_payment_date').attr('value',"");
-			//getLastPaymentDate(1);
-			getLastPayDate();
 			getLaonHasPayByLoanNumber();
 			getLaonPayment(1);
 			getAllLaonPayment(1);
@@ -612,9 +609,9 @@ function getLaonPayment(type){
 						curr =getCurrencyType(respone[i].currency_type);
 						client_id = respone[i].client_id;
 						total_principal = respone[i].total_principal;
-						principal_permonth = respone[i].principal_permonth;
-						interest = respone[i].total_interest;
-						payment = respone[i].total_payment;
+						principal_permonth = respone[i].principle_after;
+						interest = respone[i].total_interest_after;
+						payment = respone[i].total_payment_after;
 						multiplier = respone[i].pay_after;
 						pay_before = respone[i].pay_before;
 						date_pay = respone[i].date_payment;
@@ -647,11 +644,11 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-						    tem += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /><input type="hidden" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment)+' '+curr+'&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="multiplier_'+inx+'" id="multiplier_'+inx+'" value="'+multiplier+'" /></td>';
 							if(respone[i].is_completed==1){
 								status = '<label style="color:blue;">បង់រួច</label>';
@@ -804,8 +801,6 @@ function getLaonHasPayByLoanNumber(){
 				},	
 				handleAs:"json",
 				load: function(data_loan) {
-					//alert(data_loan);
-					//statuss='<label style="color:red;">នៅឡើយ</lable>';
 					temp='';	
 					temp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 						+'<thead><tr><th class="tdheader">ល.រ</th>'
@@ -851,9 +846,7 @@ function getLaonHasPayByLoanNumber(){
 								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
-								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_pay+'&nbsp;</td>';
 								temp += '<td style="white-space: nowrap;">&nbsp;'+dateString+'&nbsp;</td>';
-								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_get+'&nbsp;</td>';
 								temp += '<td style="white-space: nowrap;">&nbsp;'+dateStringInput+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
@@ -868,8 +861,6 @@ function getLaonHasPayByLoanNumber(){
 								}else{
 									is_apprs='';
 								}
-								//temp += '<td>&nbsp;<label style="font-size:10px;">'+statuss+'</label></td>';
-								//temp += '<td>&nbsp;<label style="font-size:10px;">'+is_apprs+'</label></td>';
 							temp += '</tr>';
 						}
 					}
@@ -885,27 +876,6 @@ function getLaonHasPayByLoanNumber(){
 }
 function popupCheckCO(){
 }
-function getLastPayDate(){
-	var loan_numbers = dijit.byId('loan_number').get('value');
-	var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-last-pay-date')); ?>';
-	dojo.xhrPost({
-	    url: url_submits,
-	    content : { 
-		    'loan_numbers':loan_numbers,
-		},	
-		handleAs:"json",
-		load: function(data) {
-			if(data!=""){
-				var lastPayDate = data;
-				$('#installment_date').val(data);
-			}
-		},
-		error: function(e) {
-			alert(e);
-		}
-	});
-}
-
 
 function calculateTotal(index){
 	try{
@@ -946,17 +916,16 @@ if(arrays!=""){
 		var oneDay = 24*60*60*1000;
 		if($('#mfdid_'+arrays[i]).attr('checked')){
 			getLastPaymentDate(arrays[i]);
-			last_payment_date= dijit.byId('last_payment_date').get('value');
-			//alert(last_payment_date);
 			var ps = $('#multiplier_'+arrays[i]).val();
           	var os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
           	var priciple_amount = parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
           	var total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
           	var totalPay = $('#payment_'+arrays[i]).val();
           	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
+          	last_payment_date= new Date($('#last_date_payment_'+arrays[i]).val());
           	
-          	pay_date=last_payment_date==""?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
-			//alert(pay_date);
+          	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
+          	alert(pay_date);
 			var late_day = Math.round((date_collect - pay_date)/(oneDay));
 			if(late_day>0){
 				if(last_payment_date!=""){
