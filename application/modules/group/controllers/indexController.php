@@ -267,9 +267,8 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$data['status']=1;
 			$data['display_by']=1;
-			$data['type']=24;
-			$data['title_en']=$data['clienttype_nameen'];
-			$data['title_kh']=$data['clienttype_namekh'];
+			//$data['type']=24;
+			
 			$db = new Other_Model_DbTable_DbLoanType();
 			$id = $db->addViewType($data);
 			print_r(Zend_Json::encode($id));

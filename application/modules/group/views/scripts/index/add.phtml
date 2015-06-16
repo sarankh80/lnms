@@ -448,7 +448,13 @@ function addNewDocumentType(){
 
 	dojo.xhrPost({
 		url:document_type_url,	
-		form:dojo.byId('form_clienttype'),
+		//form:dojo.byId('form_clienttype'),
+		content:{ 
+		    'title_en':dijit.byId('clienttype_nameen').get('value'),
+		    'title_kh':dijit.byId('clienttype_namekh').get('value'),
+		    'type':23,
+		    
+		},
 		handleAs:"json",
 		load: function(data) {	
 			//alert(data);
@@ -456,6 +462,18 @@ function addNewDocumentType(){
 			clienttypekh = dijit.byId('clienttype_namekh').get('value');
 			$('#client_d_type').val(clienttypekh+'-'+clienttypeen);
 			 $('input[name="client_d_type"]').val(data);
+
+
+			 clienttypeen = dijit.byId('clienttype_nameen').get('value');
+			 clienttypekh = dijit.byId('clienttype_namekh').get('value');
+             $('#join_d_type').val(clienttypekh+'-'+clienttypeen);
+			 $('input[name="join_d_type"]').val(data);
+
+			 clienttypeen = dijit.byId('clienttype_nameen').get('value');
+			 clienttypekh = dijit.byId('clienttype_namekh').get('value');
+             $('#guarantor_d_type').val(clienttypekh+'-'+clienttypeen);
+			 $('input[name="guarantor_d_type"]').val(data);
+				 
 			dijit.byId('frm_clienttype').reset();
 			dijit.byId('frm_clienttype').hide();
 	
