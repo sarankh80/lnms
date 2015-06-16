@@ -291,6 +291,7 @@ public function addILPayment($data){
     				if($amount_receive>=$total_payment){
     					$arr_money_detail = array(
     							'crm_id'				=>		$client_pay,
+    							'loan_number'			=>		$data['loan_number'],
     							'lfd_id'				=>		$data["mfdid_".$i],
     							'client_id'				=>		$data["client_id_".$i],
     							'date_payment'			=>		$data["date_payment_".$i],
@@ -323,6 +324,7 @@ public function addILPayment($data){
     					
 	    					$arr_money_detail = array(
 	    							'crm_id'				=>		$client_pay,
+	    							'loan_number'			=>		$data['loan_number'],
 	    							'lfd_id'				=>		$data["mfdid_".$i],
 	    							'client_id'				=>		$data["client_id_".$i],
 	    							'date_payment'			=>		$data["date_payment_".$i],
