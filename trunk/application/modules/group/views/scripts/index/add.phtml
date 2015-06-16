@@ -451,7 +451,7 @@ function addNewDocumentType(){
 		form:dojo.byId('form_clienttype'),
 		handleAs:"json",
 		load: function(data) {	
-			alert(data);
+			//alert(data);
 			clienttypeen = dijit.byId('clienttype_nameen').get('value');
 			clienttypekh = dijit.byId('clienttype_namekh').get('value');
 			$('#client_d_type').val(clienttypekh+'-'+clienttypeen);

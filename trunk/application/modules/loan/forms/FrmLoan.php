@@ -112,7 +112,7 @@ public function init()
 		$_loan_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onChange'=>'showloantype();'
+				'onChange'=>'loantype();'
 		));
 		$opt = $db->getVewOptoinTypeByType(24,1,null,1);
 		$opt[-1]="--- Add New---";
@@ -122,9 +122,10 @@ public function init()
 		$_zone->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckZone();'
+				'onchange'=>'zone();'
 		));
 		$options = $db ->getZoneList(1);
+		$options[-1]="--- Add New---";
 		$_zone->setMultiOptions($options);
 		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');

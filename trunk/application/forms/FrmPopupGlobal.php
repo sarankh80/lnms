@@ -351,16 +351,46 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</div>';
 		return $str;
 	}
+	
+	public function frmPopupclienttype(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$frm = new Group_Form_FrmClient();
+		$frm = $frm->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="frm_clienttype" >
+					<form id="form_clienttype" >';
+		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>Document Type EN</td>
+						<td>'.$frm->getElement('clienttype_nameen').'</td>
+					</tr>
+					<tr>
+						<td>Document Type KH</td>
+						<td>'.$frm->getElement('clienttype_namekh').'</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2" align="center">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewDocumentType();"/>
+						</td>
+					</tr>
+				</table>';
+		$str.='</form></div>
+			</div>';
+		return $str;
+	}
 	public function frmPopupLoanTye(){
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-		
+	
 		$fm = new Other_Form_FrmVeiwType();
 		$frm = $fm->FrmViewType();
 		Application_Model_Decorator::removeAllDecorator($frm);
-		
+	
 		$str='<div class="dijitHidden">
 		<div data-dojo-type="dijit.Dialog"  id="frm_loantype" >
-		<form id="form_village" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		<form id="form_loantype" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 		<script type="dojo/method" event="onSubmit">
 		if(this.validate()) {
 		return true;
@@ -390,41 +420,12 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		<td colspan="2" align="center">
 		<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button"
-		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addVillage();"  />
+		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addNewloanType();"  />
 		</td>
 		</tr>
 		</table>';
 		$str.='</form></div>
 		</div>';
-		return $str;
-	}
-	public function frmPopupclienttype(){
-		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-		$frm = new Group_Form_FrmClient();
-		$frm = $frm->FrmAddClient();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$str='<div class="dijitHidden">
-				<div data-dojo-type="dijit.Dialog"  id="frm_clienttype" >
-					<form id="form_clienttype" >';
-		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
-					<tr>
-						<td>Document Type EN</td>
-						<td>'.$frm->getElement('clienttype_nameen').'</td>
-					</tr>
-					<tr>
-						<td>Document Type KH</td>
-						<td>'.$frm->getElement('clienttype_namekh').'</td>
-					</tr>
-					
-					<tr>
-						<td colspan="2" align="center">
-						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
-						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewDocumentType();"/>
-						</td>
-					</tr>
-				</table>';
-		$str.='</form></div>
-			</div>';
 		return $str;
 	}
 

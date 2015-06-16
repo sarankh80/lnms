@@ -4,6 +4,7 @@ class Other_Model_DbTable_DbLoanType extends Zend_Db_Table_Abstract
 {
     protected $_name = 'ln_view';
     function addViewType($data){
+    	try{
     	$db = $this->getAdapter();
     	$key_code = $this->getLastKeycodeByType($data['type']);
     	$arr = array(
@@ -16,6 +17,9 @@ class Other_Model_DbTable_DbLoanType extends Zend_Db_Table_Abstract
     			
     			);
          return $this->insert($arr);
+    	}catch (Exception $e){
+    		echo '<script>alert('."$e".');</script>';
+    	}
     }
     function getLastKeycodeByType($type){
     	$sql = "SELECT key_code FROM `ln_view` WHERE type=$type ORDER BY key_code DESC LIMIT 1 ";
