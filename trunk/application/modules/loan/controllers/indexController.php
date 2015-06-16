@@ -199,11 +199,10 @@ class Loan_IndexController extends Zend_Controller_Action {
 		print_r(Zend_Json::encode($rows_return));
 		exit();
 	}
-	function addNewloantypeAction(){
+function addNewloantypeAction(){
 	if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$data['status']=1;
-			$data['type']=24;
 			$data['display_by']=1;
 			$db = new Other_Model_DbTable_DbLoanType();
 			$id = $db->addViewType($data);
@@ -211,5 +210,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
 }
 
