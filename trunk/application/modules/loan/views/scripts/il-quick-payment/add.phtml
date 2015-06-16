@@ -91,7 +91,7 @@
 							<td><?php echo $frm->getElement('total_interest');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់");?></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
 							<td><?php echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
 							<td><?php echo $frm->getElement('service_charge');?></td>
@@ -99,7 +99,7 @@
 							<td><?php echo $frm->getElement('penalize_amount');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
+							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
 							<td><?php echo $frm->getElement('date_input');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
 							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
@@ -349,7 +349,7 @@ function calculateTotal(index){
 		var total_interest = 0;
 		var total_service_charge = 0;
 		var total_priciple_amount = 0;
-		var date_collect = dijit.byId('date_input').get('value');
+		var date_collect = dijit.byId('collect_date').get('value');
 		var recored = dijit.byId('record_id').get('value');
 		var ids =dijit.byId('identity').get('value');
 		var arrays = ids.split(',');

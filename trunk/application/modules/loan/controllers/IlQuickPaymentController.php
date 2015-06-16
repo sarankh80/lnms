@@ -36,12 +36,12 @@ class Loan_IlQuickPaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllQuickIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("RECIEPT_NO","LOAN_NO","LIST_GROUP_CLIENT","TOTAL_PRINCEPLE","TOTAL_PAYMENT","RECEIVE_AMOUNT","TOTAL_INTEREST","PENALIZE AMOUNT","DATE","DATE_DUE","CO_NAME","BRANCH_NAME",
+			$collumns = array("BRANCH_NAME","CO_NAME","RECIEPT_NO","TOTAL_PRINCEPLE_PAYMENT","TOTAL_PAYMENT","RECEIVE_AMOUNT","TOTAL_INTEREST","PENALIZE AMOUNT","DATE_PAYMENT"
 				);
 			$link=array(
 					'module'=>'loan','controller'=>'il-payment','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('co_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
