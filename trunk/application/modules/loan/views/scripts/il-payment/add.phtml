@@ -899,6 +899,7 @@ function calculateTotal(index){
    var ids =dijit.byId('identity').get('value');
    var arrays = ids.split(',');
    graice_period = '<?php echo $graiceperiod["value"]?>';
+   
 if(arrays!=""){
 	for(var i=0;i<arrays.length;i++) {
 		last_payment_date=0;
@@ -914,9 +915,10 @@ if(arrays!=""){
           	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
           	
           	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
+          	alert(pay_date);
 			var late_day = Math.round((date_collect - pay_date)/(oneDay));
 			if(late_day>0){
-				if(last_payment_date!=""){
+				if(last_payment_date!="null"){
 					total_late_day = late_day;
 				}else{
 					total_late_day = late_day - graice_period;
@@ -924,6 +926,7 @@ if(arrays!=""){
 			}else{
 				total_late_day = late_day;
 			}
+			alert(total_late_day);
 			if(total_late_day>0){
 				dijit.byId('option_pay').attr('value',1);
 				dijit.byId('option_pay').attr('readOnly',true);
