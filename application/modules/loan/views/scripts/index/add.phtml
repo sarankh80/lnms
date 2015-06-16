@@ -727,9 +727,9 @@ function addPreviewLoan(){
 				for(i=0;i<data.length;i++){
 			        r++;
 					    temp+='<tr><td align="center">'+r+'</td>';
-						var myDate = new Date(data[i].date_payment);
-						dateString=((myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear());
-						temp+='<td>'+dateString+'</td>';
+						//var myDate = new Date(data[i].date_payment);
+						//dateString=((myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear());
+						temp+='<td>'+data[i].date_payments+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].total_principal,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';

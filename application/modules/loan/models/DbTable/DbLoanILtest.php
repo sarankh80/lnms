@@ -380,7 +380,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     			$this->insert($datapayment);
     		
     		}
-    		$sql = "SELECT * FROM ln_test_loanmember_funddetail  WHERE member_id = ".$member_id;
+    		$sql = "SELECT f.* , DATE_FORMAT(f.date_payment, '%d-%m-%Y') AS date_payments FROM ln_test_loanmember_funddetail AS f  WHERE member_id = ".$member_id;
     		$rows =  $db->fetchAll($sql);
     		$db->commit();
     		return $rows;
