@@ -262,7 +262,7 @@ public function addILPayment($data){
     			'branch_id'						=>		$data['branch_id'],
     			'loan_number'					=>		$data['loan_number'],
     			'date_pay'						=>		$data['collect_date'],
-    			'date_input'					=>		$data["date_input"],
+    			'date_input'					=>		$data['collect_date'],
     			'principal_amount'				=>		$data["priciple_amount"],
     			'total_principal_permonth'		=>		$data["os_amount"],
     			'total_payment'					=>		$data["total_payment"],
@@ -1027,7 +1027,7 @@ public function addILPayment($data){
 		   							'is_verify'				=>		0,
 		   							'verify_by'				=>		0,
 		   							'is_closingentry'		=>		0,
-		   							//'status'				=>		$data["option_pay"]
+		   							'status'				=>		1
 		   					);
 		   					$db->getProfiler()->setEnabled(true);
 		   					$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
@@ -1095,7 +1095,7 @@ public function addILPayment($data){
 			   						'is_verify'				=>		0,
 			   						'verify_by'				=>		0,
 			   						'is_closingentry'		=>		0,
-			   						//'status'				=>		$data["option_pay"]
+			   						'status'				=>		1
 			   				);
 			   				$db->getProfiler()->setEnabled(true);
 			   				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);

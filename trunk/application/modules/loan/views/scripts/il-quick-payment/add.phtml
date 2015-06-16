@@ -330,7 +330,8 @@ function getLoan(type){
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
 				
-				calculateTotal();
+				//calculateTotal();
+				//checkAll();
 			},
 			error: function(e) {
 				alert(e);
@@ -469,6 +470,133 @@ function calculateTotal(index){
 		alert(err);
 	}
 }
+function checkAll(){
+	try{
+		var total_payment = 0;
+		var os_amount=0;
+		var total_penalize_amount=0;
+		var total_interest = 0;
+		var total_service_charge = 0;
+		var total_priciple_amount = 0;
+		var date_collect = dijit.byId('collect_date').get('value');
+		
+		if($('#check_all').attr('checked')){
+			$('.checkbox').each(function() { //loop through each checkbox
+	            this.checked = true;  
+			});
+			var ids =dijit.byId('record_id').get('value');
+			dijit.byId('identity').attr('value',ids);
+	    	var arrays = ids.split(',');
+	    	if(arrays!=""){
+				for(var i=0;i<arrays.length;i++) {
+					var oneDay = 24*60*60*1000;
+					var mfdid = $('#mfdid_'+arrays[i]);
+					if(mfdid.checked=true){
+						checkRow(arrays[i]);
+						var ps = $('#multiplier_'+arrays[i]).val();
+			          	var priciple_amount = parseFloat($('#sub_total_priciple_'+arrays[i]).val());
+			          	var interest_amount = parseFloat($('#sub_interest_'+arrays[i]).val());
+			          	var totalPay = $('#sub_payment_'+arrays[i]).val();
+			          	var oldtotalPay = $('#old_sub_payment_'+arrays[i]).val();
+			          	var principlePerMonth = $('#sub_principal_permonth_'+arrays[i]).val();
+			          	var last_paydate = $('#last_paydate_'+arrays[i]).val();
+			          	var payment_term = $('#paymentTerm_'+arrays[i]).val();
+			          	var interest_rate = $('#interestRate_'+arrays[i]).val();
+			          	var penelize = $('#sub_penelize_'+arrays[i]).val();
+			          	var old_penelize = $('#sub_penelize_'+arrays[i]).val();
+
+			          	pay_date=last_paydate="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_paydate);
+						var late_day = Math.round((date_collect - pay_date)/(oneDay));
+						if(late_day>0){
+							if(last_paydate!="null"){
+								total_late_day = late_day;
+							}else{
+								total_late_day = late_day - graice_period;
+							}
+						}else{
+							total_late_day = late_day;
+						}
+						if(total_late_day>0){
+							if(payment_term==1){
+								$('#sub_service_charge_'+arrays[i]).val(0);
+								$('#old_sub_service_charge_'+arrays[i]).val(0);
+								sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+								sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+							}else if(payment_term==2){
+								$('#sub_service_charge_'+arrays[i]).val(0);
+								$('#old_sub_service_charge_'+arrays[i]).val(0);
+								sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+								sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+							}else if((payment_term==3)){
+								$('#sub_service_charge_'+arrays[i]).val(0);
+								$('#old_sub_service_charge_'+arrays[i]).val(0);
+								sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+								sub_total_recieve = sub_total_amount;
+								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+								document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+							}
+						}else{
+							sub_total_penelize = old_penelize-0;
+							sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+						}
+						penalize_amount = $('#sub_penelize_'+arrays[i]).val();
+						service_charge = $('#sub_service_charge_'+arrays[i]).val();
+						total_payment = parseFloat(total_payment)+parseFloat(sub_total_amount);
+						os_amount = parseFloat(os_amount)+parseFloat(principlePerMonth);
+						total_interest = parseFloat(total_interest)+parseFloat(interest_amount);
+						total_penalize_amount = parseFloat(total_penalize_amount)+parseFloat(penalize_amount);
+						total_service_charge = parseFloat(total_service_charge)+parseFloat(service_charge);
+						total_priciple_amount = parseFloat(total_priciple_amount)+parseFloat(priciple_amount);
+						totalReturn(2,arrays[i]);
+					}
+				}
+			}
+			dijit.byId('total_payment').attr('value',total_payment.toFixed(2));
+			dijit.byId('os_amount').attr('value',os_amount.toFixed(2));
+			dijit.byId('total_interest').attr('value',total_interest.toFixed(2));
+			dijit.byId('penalize_amount').attr('value',total_penalize_amount.toFixed(2));
+			dijit.byId('service_charge').attr('value',total_service_charge.toFixed(2));
+			dijit.byId('priciple_amount').attr('value',total_priciple_amount.toFixed(2));
+			dijit.byId('amount_receive').attr('value',total_payment.toFixed(2));
+			dijit.byId('amount_return').attr('value',0);
+		}else{
+			$('.checkbox').each(function() { //loop through each checkbox
+	            this.checked = false;  
+			});
+			dijit.byId('total_payment').attr('value',0);
+			dijit.byId('os_amount').attr('value',0);
+			dijit.byId('total_interest').attr('value',0);
+			dijit.byId('penalize_amount').attr('value',0);
+			dijit.byId('service_charge').attr('value',0);
+			dijit.byId('priciple_amount').attr('value',0);
+			dijit.byId('amount_receive').attr('value',0);
+		}
+	}catch (err){
+		alert(err);
+	}
+}
 function getDayString(num){
 	var days= ["ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហ","សុក្រ","សៅរ៏","អាទិត្យ"];
 	return days[num];
@@ -558,12 +686,15 @@ function netReturn(){
 	dijit.byId('amount_return').attr('value',total_return.toFixed(2));
 }
 function checkRow(index){
+	
 	control = document.getElementById('mfdid_'+index);
 	if(control.checked){
+		alert(1);
 		$('#sub_penelize_'+index).removeAttr('disabled','disabled');
 		$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
 		totalReturn(2,index);
 	}else{
+		alert(index);
 		$('#sub_penelize_'+index).attr('disabled','disabled');
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
 		totalReturn(2,index);

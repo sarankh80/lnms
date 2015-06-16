@@ -13,7 +13,6 @@
 	$keycode = $this->keycode;
 	$user_name = $this->user_name;
 	$graiceperiod = $this->graiceperiod;
-	
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <style>	
@@ -154,7 +153,7 @@
 							<td><?php echo $tr->translate("COLLECT_DATE");//echo $tr->translate("ថ្ងៃបង់ជាក់ស្តែង")?></td>
 							<td><?php echo $frm->getElement('collect_date');//echo $frm->getElement('using_date');?></td>
 							<td><?php echo $tr->translate("AMOUNT_PAYMENT")?></td>
-							<td><?php echo $frm->getElement('AMOUNT_PAYMENT');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
+							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("AMOUNT_RECEIPT")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
 							
@@ -576,6 +575,7 @@ dojo.ready(function(){
 
 });
 function getPayment(){
+	try{
 	dijit.byId('priciple_amount').attr('value','<?php echo $ilPaymentById["principal_amount"];?>');
 	dijit.byId('os_amount').attr('value','<?php echo $ilPaymentById["total_principal_permonth"];?>');
 	dijit.byId('total_payment').attr('value','<?php echo $ilPaymentById["total_payment"];?>');
@@ -590,10 +590,9 @@ function getPayment(){
 	dijit.byId('payment_term').attr('value','<?php echo $ilPaymentById["collect_typeterm"];?>');
 	dijit.byId('amount_payment_term').attr('value','<?php echo $ilPaymentById["amount_term"];?>');
 	dijit.byId('collect_date').attr('value','<?php echo $ilPaymentById["date_pay"];?>');
-	dijit.byId('date_input').attr('value','<?php echo $ilPaymentById["date_input"];?>');
+	$('#date_input').val('<?php echo $ilPaymentById["date_input"];?>');
 	dijit.byId('penalize_amount').attr('value','<?php echo $ilPaymentById["penalize_amount"];?>');
 	dijit.byId('collect_date').attr('value','<?php echo $ilPaymentById["date_pay"];?>');
-	dijit.byId('date_input').attr('value','<?php echo $ilPaymentById["date_input"];?>');
 	dijit.byId('load_level').attr('value','<?php echo $ilPaymentById["level"];?>');
 	dijit.byId('release_date').attr('value','<?php echo $ilPaymentById["date_release"];?>');
 
@@ -669,6 +668,9 @@ function getPayment(){
 	dojo.byId('data_table').innerHTML = tem;
 	//checkAll();
     <?php }?>
+	}catch(e){
+		alert(e);
+	}
 }
 
 function getLaonPayment(type){
@@ -858,7 +860,7 @@ function getAllLaonPayment(types){
 			handleAs:"json",
 			load: function(data) {
 				status='<label style="color:red;">នៅឡើយ</lable>';
-				temp='';	is_sets=0;
+				temp='';	//is_sets=0;
 				temp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
 					+'<th class="tdheader">កូដអតិថិជន</th>'
@@ -922,8 +924,8 @@ function getLaonHasPayByLoanNumber(){
 				load: function(data_loan) {
 					//alert(data_loan);
 					//statuss='<label style="color:red;">នៅឡើយ</lable>';
-					temp='';	
-					temp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
+					tmp='';	
+					tmp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 						+'<thead><tr><th class="tdheader">ល.រ</th>'
 						+'<th class="tdheader">លេខវិក័យបត្ត្រ</th>'
 						+'<th class="tdheader">កូដអតិថិជន</th>'
@@ -944,8 +946,7 @@ function getLaonHasPayByLoanNumber(){
 					
 					if(data_loan!=""){
 						for(k=0;k<data_loan.length;k++){
-							statuss='<label style="color:red;">នៅឡើយ</lable>';
-							++nums;
+							++num1s;
 							var is_apprs="";
 							date_pay = new Date(data_loan[k].date_payment);
 							str_day_pay = getDayString(date_pay.getDay());
@@ -954,35 +955,27 @@ function getLaonHasPayByLoanNumber(){
 							str_day_get = getDayString(date_get.getDay());
 							
 							currs =getCurrencyType(data_loan[k].currency_type);
-							temp+= '<tr>';
-								temp += '<td>&nbsp;'+nums+'</td>';
-								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
+							tmp+= '<tr>';
+								tmp += '<td>&nbsp;'+num1s+'</td>';
+								tmp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+data_loan[k].client_code+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+data_loan[k].client_name+'&nbsp;</td>';
 								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_pay+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_payment+'&nbsp;</td>';
+								tmp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_payment+'&nbsp;</td>';
 								//temp += '<td style="white-space: nowrap;">&nbsp;'+str_day_get+'&nbsp;</td>';
-								temp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_input+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_interest)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].service_charge)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].penalize_amount)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_payment)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].recieve_amount)+' '+currs+'&nbsp;</td>';
-								if(data_loan[k].is_completed==1){
-									statuss = '<label style="color:blue;">បង់រួច</label>';
-									if(data_loan[k].is_approved==1){is_apprs='<label style="color:blue;">Approved</label>';}
-								}else{
-									is_apprs='';
-								}
-								//temp += '<td>&nbsp;<label style="font-size:10px;">'+statuss+'</label></td>';
-								//temp += '<td>&nbsp;<label style="font-size:10px;">'+is_apprs+'</label></td>';
-							temp += '</tr>';
+								tmp += '<td style="white-space: nowrap;">&nbsp;'+data_loan[k].date_input+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].capital)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_principal_permonth)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_interest)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].service_charge)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].penalize_amount)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_payment)+' '+currs+'&nbsp;</td>';
+								tmp += '<td>&nbsp;'+dojo.number.format(data_loan[k].recieve_amount)+' '+currs+'&nbsp;</td>';
+								tmp += '</tr>';
 						}
 					}
-					temp+='</table>';
-					dojo.byId('data_table_loan_haspay').innerHTML = temp;
+					tmp+='</table>';
+					dojo.byId('data_table_loan_haspay').innerHTML = tmp;
 				},
 				error: function(e) {
 					//alert(e);
