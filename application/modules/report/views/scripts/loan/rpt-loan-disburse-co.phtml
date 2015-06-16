@@ -170,7 +170,7 @@ th{padding: 5px;}
 						<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
 						<td><?php echo $row['other_fee'];?></td>
 						<td>&nbsp;<?php echo $row['loan_type'];;?>&nbsp;</td>
-						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['date_release']; ?>&nbsp;</td>
+						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 						
 					</tr>
 				<?php } //echo $a;?>

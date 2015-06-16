@@ -75,14 +75,16 @@ class Loan_IndexController extends Zend_Controller_Action {
         
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
+		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 // 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
 // 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+		
 // 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
+		
 		
 	}	
 	public function addloanAction(){
@@ -196,6 +198,18 @@ class Loan_IndexController extends Zend_Controller_Action {
 		}
 		print_r(Zend_Json::encode($rows_return));
 		exit();
+	}
+	function addNewloantypeAction(){
+	if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$data['status']=1;
+			$data['type']=24;
+			$data['display_by']=1;
+			$db = new Other_Model_DbTable_DbLoanType();
+			$id = $db->addViewType($data);
+			print_r(Zend_Json::encode($id));
+			exit();
+		}
 	}
 }
 

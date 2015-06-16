@@ -4,6 +4,8 @@
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	echo $this->frmpupoploantype;
+	echo $this->frmPopupZone;
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
@@ -163,6 +165,7 @@
 </div>
 </div>
 </form>
+<?php echo $this->frmpupoploantype;?>
 <script type="text/javascript">	
     function checkValidateDate(){
     	debt_term = dijit.byId('pay_every').get('value');
@@ -254,6 +257,8 @@ require(["dojo/ready"], function(ready){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
 		changeCollectType();
 	  });
+
+	  
 	 var client_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
 	});
@@ -746,6 +751,39 @@ function addPreviewLoan(){
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 }
-
+function loantype(){
+	var data=dijit.byId("loan_type").get('value');
+	if(data==-1){
+		dijit.byId("frm_loantype").show();
+		}
+}
+function zone(){
+	var data=dijit.byId("zone").get('value');
+	if(data==-1){
+		dijit.byId("frm_zone").show();
+		}
+}
+var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
+function addNewloanType(){
+	dojo.xhrPost({
+		url:url_loantype,	
+		form:dojo.byId('form_loantype'),
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);
+			labelen = dijit.byId('title_en').get('value');
+			labelkh = dijit.byId('title_kh').get('value');
+			$('#loan_type').val(labelkh+'-'+labelen);
+			 //$('input[name="loan_type"]').val(data);
+			 	
+			dijit.byId('form_loantype').reset();
+			dijit.byId('frm_loantype').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
 
 </script>
