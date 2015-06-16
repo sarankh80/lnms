@@ -1,9 +1,9 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("IL_PAYMENT"));
+echo $this->headTitle($tr->translate("IL_QUICK_PAYMENT"));
 $frm = $this->frm_search;
 ?>
-<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'il-quick-payment','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
    
    <table style="width: 100%">
    		<tr>
