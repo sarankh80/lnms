@@ -797,7 +797,8 @@ public function addILPayment($data){
 			   		lm.`collect_typeterm`,
 			   		lg.`co_id`,
 			   		lg.`payment_method`,
-			   		lf.*
+			   		lf.*,
+			   		DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
 			   		FROM
 			   		`ln_client` AS lc,
 			   		`ln_loan_member` AS lm ,
@@ -901,7 +902,7 @@ public function addILPayment($data){
 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_code,
 			  crm.`receipt_no`,
 			  crm.`loan_number`,
-			  crm.`date_input`,
+			  DATE_FORMAT(crm.date_input, '%d-%m-%Y') AS `date_input`,
 			  crm.`principal_amount`,
 			  crm.`total_principal_permonth`,
 			  crm.`total_payment`,
@@ -916,7 +917,7 @@ public function addILPayment($data){
 			  crm.`currency_type`,
 			  crmd.`capital`,
 			  crmd.`total_payment`,
-			  crmd.`date_payment`
+			  DATE_FORMAT(crmd.date_payment, '%d-%m-%Y') AS `date_payment`
 			FROM
 			  `ln_client_receipt_money` AS crm,
 			  `ln_client_receipt_money_detail` AS crmd 
@@ -929,6 +930,7 @@ public function addILPayment($data){
    	$db = $this->getAdapter();
    	$co_id = $data["co_id"];
    	$cu_id = $data["currency"];
+   	$date = $data["collect_date"];
    	$sql = "SELECT 
 			  (SELECT CONCAT(co.`co_firstname`,`co_lastname`,',',`co_khname`) FROM `ln_co` AS co WHERE co.`co_id`=lg.`co_id`) AS co_name,
 			  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lm.`branch_id`) AS branch,
@@ -956,7 +958,9 @@ public function addILPayment($data){
 			  AND lm.`group_id`=lg.`g_id`
 			  AND lg.`co_id`=$co_id
 			  AND lm.`currency_type`=$cu_id
+			  
 			  GROUP BY lm.`client_id`";
+   	//return $sql;
    	return $db->fetchAll($sql);
    }
    
