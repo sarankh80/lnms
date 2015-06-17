@@ -72,7 +72,6 @@ class Loan_IndexController extends Zend_Controller_Action {
         $db = new Application_Model_DbTable_DbGlobal();
         $this->view->allclient = $db->getAllClient();
         $this->view->allclient_number = $db->getAllClientNumber();
-        
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
@@ -84,8 +83,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
-		
-		
 	}	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){
@@ -109,14 +106,12 @@ class Loan_IndexController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
 			}
 		}
-		
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		$rs = $db_g->getLoanFundExist($id);
 		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getTranLoanByIdWithBranch($id,1);
-		
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
@@ -129,7 +124,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 	}
-	
 	public function viewAction(){
 // 		$this->_helper->layout()->disableLayout();
 		$id = $this->getRequest()->getParam('id');

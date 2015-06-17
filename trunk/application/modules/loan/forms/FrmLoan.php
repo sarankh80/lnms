@@ -255,9 +255,7 @@ public function init()
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-		
 		$_payterm->setMultiOptions($term_opt);
-		
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
 		$_pay_every->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -269,7 +267,6 @@ public function init()
 // 		$_pay_every->setMultiOptions($options);
 		$_pay_every->setValue(3);
 		$_pay_every->setMultiOptions($term_opt);
-		
 		$_every_payamount = new Zend_Dojo_Form_Element_FilteringSelect('every_payamount');
 		$_every_payamount->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',

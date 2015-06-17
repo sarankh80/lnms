@@ -42,6 +42,10 @@
 				return false;
 			}
 </script>
+<?php 
+	echo $this->frmPopupZone;
+	echo $this->frmpupoploantype;
+?>
 <table cellspacing="10" class='fullside'>
 	<tr>
 		<td>
@@ -710,6 +714,70 @@ function getInfoByLoanNumber(){
 		    dijit.byId('branch_id').set('readOnly',true);
 		    dijit.byId('loan_code').attr('value',data.loan_number);
 		    dijit.byId('group_id').attr('value',data.group_id);
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+function loantype(){
+	var data=dijit.byId("loan_type").get('value');
+	if(data==-1){
+		dijit.byId("frm_loantype").show();
+		}
+}
+function zone(){
+	
+	dijit.byId("frm_zone").show();
+
+}
+var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
+function addNewloanType(){
+	dojo.xhrPost({
+		url:url_loantype,	
+		content:{ 
+		    'title_en':dijit.byId('title_en').get('value'),
+		    'title_kh':dijit.byId('title_kh').get('value'),
+		    'type':24,
+		    
+		},
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);
+			labelen = dijit.byId('title_en').get('value');
+			labelkh = dijit.byId('title_kh').get('value');
+			$('#loan_type').val(labelkh+'-'+labelen);
+			 //$('input[name="loan_type"]').val(data);
+			 	
+			dijit.byId('frm_loantype').reset();
+			dijit.byId('frm_loantype').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+var url_zone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
+function addNewZone(){
+	dojo.xhrPost({
+		url:url_zone,	
+		content:{ 
+		    'zone_name':dijit.byId('zone_name').get('value'),
+		    'zone_number':dijit.byId('zone_number').get('value'),
+		    'status':1,
+		},
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);
+			labelen = dijit.byId('zone_name').get('value');
+			labelkh = dijit.byId('zone_number').get('value');
+			$('#zone').val(labelkh+'-'+labelen);
+			 //$('input[name="loan_type"]').val(data);
+			 	
+			dijit.byId('frm_zone').reset();
+			dijit.byId('frm_zone').hide();
+	
 		},
 		error: function(err) {
 			alert(err);
