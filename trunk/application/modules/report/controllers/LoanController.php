@@ -190,7 +190,7 @@ class Report_LoanController extends Zend_Controller_Action {
 	  				'branch_id'		=>"",
 	  		);
 	  	}
-	  	
+	  	$this->view->fordate = $search['end_date'];
 	  	$rs= $db->getAllOutstadingLoan($search);
 	  	$frm = new Loan_Form_FrmSearchLoan();
 	  	$frms = $frm->AdvanceSearch();
@@ -457,9 +457,7 @@ function rptPaymentschedulesAction(){
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
- 		if(isset($search['btn_submit'])){
- 			$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
- 		}
+ 		
  	}else{
  		$search = array(
  				'adv_search' => '',
@@ -470,8 +468,9 @@ function rptPaymentschedulesAction(){
  				'co_id'		=> -1,
  				'paymnet_type'	=> -1,
  				'status'=>"",);
- 		$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
+ 		
  	}
+ 	$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
