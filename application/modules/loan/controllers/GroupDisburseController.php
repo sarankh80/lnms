@@ -72,7 +72,8 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 // 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
 // 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
+ 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 // 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
