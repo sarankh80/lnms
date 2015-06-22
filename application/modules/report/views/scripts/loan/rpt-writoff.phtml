@@ -28,6 +28,13 @@ echo $this->headTitle($tr->translate('WRITE_OFF'));
 <div style="width:100%; margin:0 auto;">
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table width="100%" >
 	<tr>
     	<td align="center">
@@ -62,16 +69,16 @@ echo $this->headTitle($tr->translate('WRITE_OFF'));
     <tr>
     	<td>
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
-                <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
-                    <th style="font-size: 12px;"><?php echo $tr->translate("NUM");?></th>
-                    <th style="font-size: 12px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                     <th style="font-size: 12px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
-                      <th style="font-size:12px;"><?php echo $tr->translate("LOSS_DATE");?></th>                   
-                    <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
-                    <th style="font-size:12px;"><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
-                    <th style="font-size: 12px;"><?php echo $tr->translate("TERM");?></th>
-                    <th style="font-size: 12px;"><?php echo $tr->translate("NOTE");?></th>
-                    <th style="font-size: 12px;"><?php echo $tr->translate("DATE");?></th>
+                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
+                    <th><?php echo $tr->translate("NUM");?></th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                     <th><?php echo $tr->translate("CUSTOMER_NAME");?></th> 
+                      <th><?php echo $tr->translate("LOSS_DATE");?></th>                   
+                    <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
+                    <th><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("TERM");?></th>
+                    <th><?php echo $tr->translate("NOTE");?></th>
+                    <th><?php echo $tr->translate("DATE");?></th>
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;
@@ -106,8 +113,8 @@ echo $this->headTitle($tr->translate('WRITE_OFF'));
             </table>
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
-                    <td></td>                 
+                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center;">
+                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>                 
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
                     <th><?php echo $tr->translate("INTERREST_AMOUNT");?></th>
                 </tr>

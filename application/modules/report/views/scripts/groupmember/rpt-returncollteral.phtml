@@ -21,16 +21,17 @@
 	</tr>
 </table>
 </form>
+
+<br />
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
-<br />
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<div id="divPrint" style="width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;" >
 	<tr>
     	<td align="center">
@@ -46,8 +47,8 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 10px;">
+                			<tr>
+                				<td style="font-size: 10px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -66,17 +67,17 @@ th{padding: 5px;}
             <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                <?php if(empty($this->calleteral_list)){?>
                 <tr>
-                	<td colspan="5">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
+                	<td colspan="5">&nbsp;<span ><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("GIVER_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("RECEIVER_NAME");?> </td>                   
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?> </td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                    <th><?php echo $tr->translate("NUM");?> </th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?> </th>
+                    <th><?php echo $tr->translate("GIVER_NAME");?> </th>
+                    <th><?php echo $tr->translate("RECEIVER_NAME");?> </th>                   
+                    <th><?php echo $tr->translate("COLETERAL_TYPE");?> </th>
+                    <th><?php echo $tr->translate("NUMBER_COLLTERAL");?> </th>
+                    <th><?php echo $tr->translate("NOTE");?> </th>
+                    <th><?php echo $tr->translate("DATE");?> </th>
                 </tr>
             	<?php }?>
                    <?php  
@@ -99,7 +100,7 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="5">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code']." - ".$row['owner_name']; ?></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("GIVER_NAME");?> </td>

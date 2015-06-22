@@ -28,13 +28,15 @@ dt{display: none;}
 <div style="clear: both;"></div>
 <div style=" width="100%"  margin:0 auto;">
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+
+<div id="divPrint">
 <style>
 .style{
-	line-height: 20px;font-size: 12px;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
+th{padding: 5px;}
 </style>
-<div id="divPrint">
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
     	<td align="center">
@@ -50,18 +52,21 @@ dt{display: none;}
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td width="45%">
-                					<?php echo $this->data['brand_adress'];?>
-								<br /><?php echo $this->data['phone_brand'];?>
+                			<tr >
+                				<td  style="font-size: 11px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
+                				</td>
+                				<td width="65%"></td>
                 				
+                			</tr>
 		                </table>
 		              </td>
 		           </tr>   
             </table>
    <table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
     
-    	<tr bgcolor="#BBBBBB">
+    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
         	<th><?php echo $tr->translate("NUM");?></th>
             <th><?php echo $tr->translate("BRANCH_NAME");?> </th>
             <th><?php echo $tr->translate("COLLTERAL_CODE");?></th>

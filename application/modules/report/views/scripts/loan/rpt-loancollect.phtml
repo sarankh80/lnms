@@ -12,18 +12,6 @@ $db_keycode = new Application_Model_DbTable_DbKeycode();
 $key_code= $db_keycode->getSystemSetting(9);
 $free_day=$key_code['value'];
 ?>
-<style type="text/css">
-.fullside {
-width: 98%;
-height: 25px;
-}
-.tundra .dijitArrowButtonInner {
-width: 7px;
-height: 7px;
-margin: -4px 4px 0 4px;
-}
-</style>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php  echo $tr->translate("LIST_LOAN_COLLECT");?></title>
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:105px;">
@@ -46,16 +34,21 @@ margin: -4px 4px 0 4px;
 	</form>
  </div>
 </div>
-<style>
+
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
+
+ </div>
+</div>
+<div style=" width:27cm; min-height:25cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+	<div id="divPrint">
+	<style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
-<div style=" width:27cm; min-height:25cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
-	<div id="divPrint">
-	
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
 	    	<td align="center">
@@ -90,33 +83,33 @@ th{padding: 5px;}
 	    <tr>
 	    	<td>
 	            <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
-	                 <tr class="style" align="center" bgcolor="#BBBBBB">
+	                 <tr class="style" align="center" bgcolor="#ccc">
 	                 	
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_KH");?></td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUMBER_CODE");?></td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CO_NAME");?></td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PHONE");?></td>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_KH");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("CO_NAME");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("PHONE");?></th>
 	                    
-	                    <td rowspan="2" style=" font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DAY_PAYMENT");?></td>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("DAY_PAYMENT");?></th>
 	                    <!-- <td>ចំនួនថ្ងៃ</td> -->
-	                    <td rowspan="2" style="text-align:center ;font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPLE");?></td>
-	                    <td colspan="6" style="text-align:center ; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAYMENT");?></td>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("PRINCIPLE");?></th>
+	                    <th colspan="6" style="padding:5px 0px;"><?php echo $tr->translate("PAYMENT");?></th>
 	                    
-	                    <td rowspan="2" style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAYMENT");?></td>
-	                    <td rowspan="2" style="min-width:85px; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OTHER");?></td>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("PAYMENT");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("OTHER");?></th>
 	                    
 	                </tr>
-	                <tr class="style" bgcolor="#BBBBBB">
+	                <tr class="style" bgcolor="#ccc">
 	                    <!--<td>ចំនួនថ្ងៃ</td>-->
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PRINCIPLE_PERMONTH");?></td>
-	                    <td style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("INTEREST");?></td>
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LATE_DAY");?></td>
+	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PRINCIPLE_PERMONTH");?></th>
+	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("INTEREST");?></th>
+	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("LATE_DAY");?></th>
 	                    
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAY_AFTER");?></td>
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("INTEREST_RATE");?></td>
-	                    <td  style="text-align:center ; font-size:9px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
+	                    <th  style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PAY_AFTER");?></th>
+	                    <th  style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("INTEREST_RATE");?></th>
+	                    <tdh  style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
 	                </tr>
 	               <?php foreach($tran as $key =>$row){?>
 	               	<tr align="center" style="font-size:10px; height: 20px;" class="style">

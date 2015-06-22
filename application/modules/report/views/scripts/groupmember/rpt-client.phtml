@@ -118,15 +118,14 @@ $frms=$this->frm_client;
 <div style=" width:98%; margin:0 auto; ">
 <br />
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
-
-<div id="divPrint">
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -142,8 +141,8 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td width="45%" class="style" style="font-size: 9px;">
+                			<tr >
+                				<td width="45%" style="font-size: 10px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -161,16 +160,16 @@ th{padding: 5px;}
 </table>
 <body>
 	<table id="exportExcel"  width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">   
-    	<tr bgcolor="#BBBBBB" >
-	        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_CODE");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SEX");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PHONE");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ADDRESS");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SPOUSE_NAME");?></th>
-	            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
+    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+	        	<th ><?php echo $tr->translate("NUM");?></th>
+	            <th ><?php echo $tr->translate("CUSTOMER_CODE");?></th>
+	            <th ><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	            <th ><?php echo $tr->translate("SEX");?></th>
+	            <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
+	            <th ><?php echo $tr->translate("PHONE");?></th>
+	            <th ><?php echo $tr->translate("ADDRESS");?></th>
+	            <th ><?php echo $tr->translate("SPOUSE_NAME");?></th>
+	            <th ><?php echo $tr->translate("DATE");?></th>
           </tr>
           <?php if(!empty($this->client_list)) foreach($this->client_list as $key =>$row){?>
 		   <tr style="font-size: 10px;line-height: 25px;" align="center">

@@ -28,13 +28,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <!-- 		</td> -->
 <!-- 	</tr> -->
 <!-- </table> -->
-<style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
+
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
  <div dojoType="dijit.layout.ContentPane" region="top" >
 
@@ -42,6 +36,13 @@ th{padding: 5px;}
 </div>
 <div style=" width:26cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
     	<td align="center">
@@ -57,8 +58,8 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 11px;">
+                			<tr >
+                				<td  style="font-size: 11px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -75,22 +76,22 @@ th{padding: 5px;}
     <tr>
     	<td>
             <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#888888" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
-                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_NO");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("CLIENT_NO");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                     <td style="padding:5px 0px;"><?php echo $tr->translate("CO_NAME");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th ><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th ><?php echo $tr->translate("CLIENT_NO");?></th>
+                    <th ><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                     <th ><?php echo $tr->translate("CO_NAME");?></th>
+                    <th ><?php echo $tr->translate("LOAN_AMOUNT");?></th>
                     <!-- - <td style="padding:5px 0px;">ថ្លៃរដ្ឋបាល</td>-->
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("INTEREST RATE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("AMIN_FEE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("OTHER_FEE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("RELEASED_DATE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_TYPE");?></td>
-                   <td style="padding:5px 0px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></td>
+                    <th ><?php echo $tr->translate("INTEREST RATE");?></th>
+                    <th ><?php echo $tr->translate("TERM_BORROW");?></th>
+                    <th ><?php echo $tr->translate("AMIN_FEE");?></th>
+                    <th ><?php echo $tr->translate("OTHER_FEE");?></th>
+                    <th ><?php echo $tr->translate("RELEASED_DATE");?></th>
+                    <th ><?php echo $tr->translate("LOAN_TYPE");?></th>
+                   <th ><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                 </tr>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
@@ -122,7 +123,7 @@ th{padding: 5px;}
 					<tr align="center">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					
-					<td >&nbsp;<strong style="font-size:10px;font-family:'Khmer MEF2';text-align:center"><?php echo $row['branch_name']; ?></strong>&nbsp;</td>
+					<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 					<td align="left">
@@ -157,28 +158,28 @@ th{padding: 5px;}
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px;">
-                    <td></td>
-                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("TOTAL_FEE");?></td>
-                    <td><?php echo $tr->translate("OTHER");?></td>
-                    <td><?php echo $tr->translate("TOTAL");?></td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
+                    <th><?php echo $tr->translate("TOTAL_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("TOTAL_FEE");?></th>
+                    <th><?php echo $tr->translate("OTHER");?></th>
+                    <th><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($other_fee_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td>
                  </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
                    	<td>&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
                    	<td>&nbsp;<?php echo number_format($total_r,2);?>&nbsp;</td>
                 </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;">
                     <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
                    <td>&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
@@ -188,7 +189,7 @@ th{padding: 5px;}
               </table>
               <br />
               <table align="center" width="100%">
-				   <tr style="font-size: 12px;">
+				   <tr style="font-size: 11px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
 				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
