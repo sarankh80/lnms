@@ -4,12 +4,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_search;
 ?>
 <title><?php echo $tr->translate("LIST_LOAN_TOTAL_COLLECT");?></title>
-<style>
-<!--
-.style td{font-size: 12px !important;font-family: 'Khmer OS Content';}
-th{font-size: 12px !important;font-family: 'Khmer OS Content';}
--->
-</style>
 <form method="post">
 <table style="font-family: 'Khmer OS Content';float: right;" >
 	<tr>
@@ -30,6 +24,13 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 <div style="width:100%; margin:0 auto;">
 <div style=" width:30cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table width="100%">
 	<tr>
     	<td align="center">
@@ -64,7 +65,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     <tr>
     	<td>
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
-	                <tr class="style" align="center" style="font-size: 9px;padding:5px 0;height: 20px;">
+	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px;">
 	                    <th ><?php echo $tr->translate("NUM");?></th>
 	                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
 	                    <th><?php echo $tr->translate("LOAN_NO");?></th>	                    
@@ -101,7 +102,7 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 							$amn_b4 = $amn_b4+$rs['total_payment'];
 		               }
                ?>
-                <tr class="style" style="font-family: 'Khmer OS Content';font-size: 9px;">
+                <tr class="style" style="font-family: 'Khmer OS Content';">
                		<td style="text-align: center;">&nbsp;<?php echo $i++; ?>&nbsp;</td>
                		<td>&nbsp;&nbsp;<?php echo $rs["branch_name"];?></td>
                		<td>&nbsp;&nbsp;<?php echo $rs["loan_number"];?></td>                 		
@@ -117,8 +118,8 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
                 <?php }?>
             </table>
             <br />
-             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; " width="100%" cellspacing="0">
+                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
                     <td></td>
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th> 
 	                <th><?php echo $tr->translate("TOTAL_PRINCIPLE_PERMONTH");?></th>                  

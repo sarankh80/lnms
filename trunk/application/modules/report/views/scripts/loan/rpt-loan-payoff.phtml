@@ -4,12 +4,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("PAY_OFF"));
 $frm = $this->frm_search;
 ?>
-<style>
-<!--
-.style td{font-size: 12px !important;font-family: 'Khmer OS Content';}
-th{font-size: 12px !important;font-family: 'Khmer OS Content';}
--->
-</style>
 <form method="post">
 <table style="font-family: 'Khmer OS Content';float: right;" >
 	<tr>
@@ -30,6 +24,13 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
 <div style="width:100%; margin:0 auto;">
 <div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table width="100%">
 	<tr>
     	<td align="center">
@@ -64,20 +65,20 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
     <tr>
     	<td>
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
-                <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
-                    <th style="font-size: 9px;"><?php echo $tr->translate("NUM");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("CO_NAME");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("Recirpt No");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("LOAN_NO");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("PRINCIPLE");?></th>                    
-                    <th style="font-size: 9px;"><?php echo $tr->translate("INTEREST");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>                    
-                    <th style="font-size: 9px;"><?php echo $tr->translate("SERVICE CHARGE");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("PAYMENT");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("AMOUNT");?></th>
-                    <th style="font-size: 9px;"><?php echo $tr->translate("DAY_PAYMENT");?></th>
+                <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 24px; padding:10px 0px; ">
+                    <th ><?php echo $tr->translate("NUM");?></th>
+                    <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th ><?php echo $tr->translate("CO_NAME");?></th>
+                    <th ><?php echo $tr->translate("Recirpt No");?></th>
+                    <th ><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th ><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th ><?php echo $tr->translate("PRINCIPLE");?></th>                    
+                    <th ><?php echo $tr->translate("INTEREST");?></th>
+                    <th ><?php echo $tr->translate("PENALIZE AMOUNT");?></th>                    
+                    <th ><?php echo $tr->translate("SERVICE CHARGE");?></th>
+                    <th ><?php echo $tr->translate("PAYMENT");?></th>
+                    <th ><?php echo $tr->translate("AMOUNT");?></th>
+                    <th ><?php echo $tr->translate("DAY_PAYMENT");?></th>
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$amt_r6 = 0;$amt_r7 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$amt_d6 = 0;$amt_d7 = 0;
@@ -127,8 +128,8 @@ th{font-size: 12px !important;font-family: 'Khmer OS Content';}
             </table>
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
-                    <td></td>
+                 <tr class="style" bgcolor="#ccc"  style="font-weight:bold; line-height: 24px; text-align: center;">
+                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>                    
                     <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
                     <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>

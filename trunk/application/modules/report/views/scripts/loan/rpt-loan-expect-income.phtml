@@ -23,6 +23,13 @@ $frm = $this->frm_search;
 <div style="width:100%; margin:0 auto;">
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table width="100%">
 	<tr>
     	<td align="center">
@@ -57,7 +64,7 @@ $frm = $this->frm_search;
     <tr>
     	<td>
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border:1px solid #000;" cellspacing="0">
-                <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
+                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
                     <th style="font-size: 12px;"><?php echo $tr->translate("NUM");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("LOAN_NO");?></th> 
@@ -108,7 +115,7 @@ $frm = $this->frm_search;
             </table>
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: left; font-size:12px;font-family: 'Khmer OS Content';">
+                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: left; font-size:12px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>                 
                     <th>&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>

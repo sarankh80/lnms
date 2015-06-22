@@ -16,14 +16,11 @@ $frm = $this->frm_zone;
 	</tr>	
 </table>
 </form>
-<style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
-<br /><br /><br />
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
+
+ </div>
+</div>
 <div style=" width:21cm; margin:0 auto;">
 
 
@@ -32,6 +29,13 @@ th{padding: 5px;}
 	<tr>
     	<td align="center">
     	  <div id="divPrint">
+    	  <style>
+			.style{
+					line-height: 20px;font-size: 11px !important;
+					font-family: 'Khmer OS Battambang';
+					}
+					th{padding: 5px;}
+			</style>
         	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -45,7 +49,7 @@ th{padding: 5px;}
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr>
-                				<td class='style' width="45%" style="font-size: 10px;">
+                				<td  width="45%" style="font-size: 10px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -60,11 +64,11 @@ th{padding: 5px;}
             </table>
 	
 			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
-		    	<tr bgcolor="#BBBBBB" >
-		        	<th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("NUM");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("ZONE_NAME");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("ZONE_NUMBER");?></th>
-		            <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo  $tr->translate("DATE");?></th>
+		    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+		        	<th ><?php echo  $tr->translate("NUM");?></th>
+		            <th ><?php echo  $tr->translate("ZONE_NAME");?></th>
+		            <th ><?php echo  $tr->translate("ZONE_NUMBER");?></th>
+		            <th ><?php echo  $tr->translate("DATE");?></th>
 		           
 		         </tr>
 		        <?php if(!empty($this->zone_list))foreach($this->zone_list as $key =>$row){?>

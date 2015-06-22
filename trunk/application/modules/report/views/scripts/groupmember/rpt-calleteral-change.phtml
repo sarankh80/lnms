@@ -20,21 +20,26 @@
 		</tr>
 </table>
 </form>
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
+
+ </div>
+</div>
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<div id="divPrint" style="width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;" >
 	<tr>
     	<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
             	<tr>
-                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
@@ -64,17 +69,17 @@ th{padding: 5px;}
             <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                 <?php if(empty($this->calleteral_list)){?>
                 <tr>
-                	<td colspan="6">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
+                	<td colspan="6">&nbsp;<span class="style"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-            	<tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </td>                   
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("OWNER_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?> </td>
+            	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                    <th ><?php echo $tr->translate("NUM");?> </th>
+                    <th ><?php echo $tr->translate("BRANCH_NAME");?> </th>
+                    <th ><?php echo $tr->translate("COLLTERAL_CODE");?> </th>
+                    <th ><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </th>                   
+                    <th ><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </th>
+                    <th ><?php echo $tr->translate("OWNER_NAME");?> </td>
+                    <th ><?php echo $tr->translate("NUMBER_COLLTERAL");?> </th>
+                    <th ><?php echo $tr->translate("DATE");?> </th>
                 </tr>
             	<?php }?>
                    <?php  
@@ -95,17 +100,17 @@ th{padding: 5px;}
                 <?php } ?>
              <?php ?>
                 <tr>
-                	<td colspan="6">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_name']; ?></td>
+                	<td colspan="6">&nbsp;<span class="style"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_name']; ?></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </td>                   
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("OWNER_NAME");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?> </td>
+                 <tr bgcolor="#ccc" class="style"  align="center" style="font-weight:bold; line-height: 14px; ">
+                    <td ><?php echo $tr->translate("NUM");?> </td>
+                    <td ><?php echo $tr->translate("BRANCH_NAME");?> </td>
+                    <td ><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
+                    <td ><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </td>                   
+                    <td ><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </td>
+                    <td ><?php echo $tr->translate("OWNER_NAME");?> </td>
+                    <td ><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
+                    <td ><?php echo $tr->translate("DATE");?> </td>
                 </tr>
                 <?php }
                

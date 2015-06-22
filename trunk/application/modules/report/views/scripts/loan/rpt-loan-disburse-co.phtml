@@ -18,6 +18,18 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	</table>
 	</form>
 </div>
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
+
+ </div>
+</div>
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
 <table style="font-family: 'Khmer OS Content'; width:100%;">
@@ -78,30 +90,30 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 ?>
                 <?php if($key>0){?>
                 <tr>
-                	<td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+                	<td class="style" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
                 </tr>
-	                <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
-	                    <td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
-	                    <td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
-	                    <td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
-	                    <td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
-	                    <td style="font-family:'Khmer OS Muol'; font-size:10px" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-	                </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+	            <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px;">
+	                    <td style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
+	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
+	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
+	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
+	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+	             </tr>
+                 <tr class="style">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
                     <td colspan="2"><?php echo  number_format($other_fee_d,2);?></td>
                     <td colspan="2"><?php echo number_format($total_d,2);?></td>
                 </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                 <tr class="style" style="font-weight:bold; line-height: 24px;">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
                     <td colspan="2"><?php echo  number_format($other_fee_r,2);?></td>
                     <td colspan="2"><?php echo number_format($total_r,2);?></td>
                 </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
+                 <tr class="style" style="font-weight:bold; line-height: 24px;">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
                    <td colspan="2">&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
@@ -118,18 +130,18 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                 ?>
              <?php ?>
                 <tr>
-                	<td colspan="4">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CO_NAME");?> </span><?php  echo $row['co_code'].' , '.$row['co_name'].' - '.$row['co_name_en'].' '.($row['sex']=1?'ភេទ ប្រុស':'ភេទ  ស្រី'); ?></td>
+                	<td colspan="4" class="style">&nbsp;<span style="text-align:center;"><?php echo $tr->translate("CO_NAME");?> </span><?php  echo $row['co_code'].' , '.$row['co_name'].' - '.$row['co_name_en'].' '.($row['sex']=1?'ភេទ ប្រុស':'ភេទ  ស្រី'); ?></td>
                 </tr>
-                 <tr align="center" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
-                   <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                   <td style="padding:5px 0px;"><?php echo $tr->translate("AMIN_FEE");?></td>
-                   <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_PERIOD");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("OTHER_FEE");?></td>
-                      <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_TYPE");?></td>
-                       <td style="padding:5px 0px;"><?php echo $tr->translate("LOAN_DATE");?></td>
+                 <tr bgcolor="#ccc" align="center" class="style" style="font-weight:bold; line-height: 24px; font-size:11px; padding:10px 0px; ">
+                   <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("NUMBER_CODE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></th>
+                   <th style="padding:5px 0px;"><?php echo $tr->translate("AMIN_FEE");?></td>
+                   <th style="padding:5px 0px;"><?php echo $tr->translate("LOAN_PERIOD");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("OTHER_FEE");?></td>
+                      <th style="padding:5px 0px;"><?php echo $tr->translate("LOAN_TYPE");?></th>
+                       <th style="padding:5px 0px;"><?php echo $tr->translate("LOAN_DATE");?></th>
                    
                 </tr>
                 <?php }
@@ -172,12 +184,12 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
             	 <tr>
                 	<td colspan="10">&nbsp;</td>
                 </tr>
-                  <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';" >
-	                    <td colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
-	                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
-	                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
-	                    <td colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
-	                    <td colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+                  <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center;" >
+	                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
+	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</th>
+	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</th>
+	                    <th style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</th>
+	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</th>
 	                </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
@@ -211,10 +223,10 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
      
      	<tr><td>
               <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-              		 <tr class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px; " >
-	                    <td  colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
+              		 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px; " >
+	                    <td  style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
 	                    
-	                    <td  colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+	                    <td  style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 	                </tr>
 	                <tr class="style" style="font-weight:bold; line-height: 24px; font-size:11px;">
                     	<td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>

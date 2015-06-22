@@ -14,19 +14,23 @@ $frm = $this->frm_holiday;
    	  </tr>
 </table>
  </form> 
- <style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
-<br /><br /><br />
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
+
+ </div>
+</div>
 <div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <table style="font-family: 'Khmer OS Content'; width:100%;">	
 	<tr>
     	<td align="center">
     	   <div id="divPrint">
+    	   <style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
     	  <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -40,7 +44,7 @@ th{padding: 5px;}
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr >
-                				<td class='style' width="45%" style="font-size: 10px;">
+                				<td width="45%" style="font-size: 10px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -52,12 +56,12 @@ th{padding: 5px;}
 		           </tr>   
             </table>
         <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
-				    <tr bgcolor="#BBBBBB" style="background: #BBBBBB !important;">
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("HOLIDAY_NAME");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("AMOUNT_DAY");?></th>
-				        <th style="text-align:center; font-size:10px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?></th>
+				    <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+				        <th ><?php echo $tr->translate("NUM");?></th>
+				        <th ><?php echo $tr->translate("HOLIDAY_NAME");?></th>
+				        <th ><?php echo $tr->translate("DATE");?></th>
+				        <th ><?php echo $tr->translate("AMOUNT_DAY");?></th>
+				        <th ><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
 					<?php $amount_day = 0;
 					 

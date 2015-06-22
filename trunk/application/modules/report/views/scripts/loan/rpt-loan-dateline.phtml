@@ -4,14 +4,20 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 <meta charset="utf-8">
 <title>Delinquent Loans</title>
 <div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+th{padding: 5px;}
+</style>
 <table width="100%" align="center" cellspacing="0">
 	<tr>
     	<td>
-        	<h2 align="center">Delinquent Loans</h2>
-            <p>5.12.2014.all Currencies-Pound</p>
+        	<br />
             <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size:12px;" bordercolor="black">
                 
-                <tr bgcolor="#BBBBBB" align="center" >
+                <tr bgcolor="#ccc" align="center" >
                     <td><?php echo $tr->translate("CONTACT_CODE");?></td>
                     <td><?php echo $tr->translate("FIRST_NAME");?></td>
                     <td><?php echo $tr->translate("LAST_NAME");?></td>
@@ -51,7 +57,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                		<td><?php echo $rs["date_release"];?></td>
                 </tr>
                 <?php }?>
-                 <tr>
+                 <tr bgcolor="#ccc" class="style">
                     <th colspan="6">&nbsp;SubTotal-loan Oficer1-Instrument Personal loan(IL)</th>
                     <td>&nbsp;16.0000</td>
                     <td>&nbsp;5.30000</td>
@@ -72,13 +78,13 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td colspan="13"></td>
                 </tr>
                 
-                 <tr>
+                 <tr bgcolor="#ccc" class="style">
                     <th colspan="12">Loan Officer2-Instrument Personal loan(IL)</th>
-               
+               		<th></th>
                 </tr>
                 
                 <?php for($i=1;$i<=7;$i++) {?>
-                <tr>
+                <tr >
                     <td>&nbsp;LDH/14/1l-2/17/19</td>
                     <td>&nbsp;Jimmy</td>
                     <td>&nbsp;page</td>
@@ -94,7 +100,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td>&nbsp;79</td>
                 </tr>
                 <?php }?>
-                 <tr>
+                 <tr >
                     <th colspan="6">SubTotal-loan Oficer1-Instrument Personal loan(IL)</th>
                     <td>&nbsp;16.0000</td>
                     <td>&nbsp;5.30000</td>
@@ -115,9 +121,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td colspan="13"></td>
                 </tr>
                 
-                 <tr>
-                    <th colspan="12">Team Manager1-Album launch(Label)(All)</th>
-               
+                 <tr bgcolor="#ccc" class="style">
+                    <th colspan="12" >Team Manager1-Album launch(Label)(All)</th>
+               		<th></th>
                 </tr>
                 
             
@@ -158,9 +164,9 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
                     <td colspan="13"></td>
                 </tr>
                 
-                 <tr>
-                    <th colspan="12">Team Manager1-Reccording loan(RL)</th>
-               
+                 <tr bgcolor="#ccc" class="style">
+                    <th colspan="12" >Team Manager1-Reccording loan(RL)</th>
+               		<th></th>
                 </tr>
                 
             

@@ -23,17 +23,21 @@
    	</tr>
 </table>
 </form>
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
+ <div dojoType="dijit.layout.ContentPane" region="top" >
 
-<style>
+ </div>
+</div>
+<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+	
+	<div id="divPrint">
+	<style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 11px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-	
-	<div id="divPrint">
 	    <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
@@ -46,8 +50,8 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="3">
                 		<table width="100%">
-                			<tr class='style'>
-                				<td width="45%" class="style" style="font-size: 10px;">
+                			<tr >
+                				<td width="45%" style="font-size: 10px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				
@@ -56,7 +60,7 @@ th{padding: 5px;}
 		           </tr>   
     </table>
 	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">
-    	<tr bgcolor="#BBBBBB" >
+    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; " >
         	<th><?php echo $tr->translate("NUM");?></th>
             <th><?php echo $tr->translate("BRANCH_NAME");?></th>
             <th><?php echo $tr->translate("COMMUNE_NAME_KH");?> - <?php echo $tr->translate("COMUNE_NAME_EN");?></th>
