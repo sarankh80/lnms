@@ -34,6 +34,7 @@ public function init()
 				'class'=>'fullside',
 				
 		));
+
 		
 		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
 		$_group_code->setAttribs(array(
@@ -65,7 +66,8 @@ public function init()
 // 		$group_opt = $dbs ->getClient(1);//code,individual,option
 		$group_opt = $db->getGroupCodeById(1,0,1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
-		
+// 		$_opt_client_Code=array(''=>'Select Cient No','-1'=>"Add New");
+// 		$_client_code->setMultiOptions($_opt_client_Code);
 		
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(

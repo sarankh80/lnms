@@ -72,6 +72,7 @@ class Loan_IndexController extends Zend_Controller_Action {
         $db = new Application_Model_DbTable_DbGlobal();
         $this->view->allclient = $db->getAllClient();
         $this->view->allclient_number = $db->getAllClientNumber();
+        
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
