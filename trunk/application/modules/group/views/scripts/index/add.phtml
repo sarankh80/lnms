@@ -51,16 +51,12 @@ dojo.require("dijit.form.Textarea");
 							<td><?php echo $frm->getElement('client_no');?></td>
 							<td><?php echo $tr->translate("NAME_KHMER")?>*</td>
 							<td><?php  echo $frm->getElement('name_kh');?></td>
-						</tr><tr>		
-							<td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_client');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("NAME_ENG")?>*</td>
 							<td><?php  echo $frm->getElement('name_en');?></td>
 							<td><?php echo $tr->translate("SEX")?></td>
 							<td><?php  echo $frm->getElement('sex');?></td>
-							
 							<td><?php echo $tr->translate("SITU_STATUS")?>*</td>
 							<td><?php  echo $frm->getElement('situ_status');?></td>
 						</tr>
@@ -76,27 +72,26 @@ dojo.require("dijit.form.Textarea");
 						<tr>
 						<td><?php echo $tr->translate("PHONE")?></td>
 							<td><?php  echo $frm->getElement('phone');?></td>
+							<td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_client');?></td>
 							<td><?php echo $tr->translate("PROVINCE")?>*</td>
 							<td><?php echo $frm->getElement('province');?></td>
-							<td><?php echo $tr->translate("DISTRICT")?></td>
-							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
-							
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("DISTRICT")?></td>
+							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
 							<td><?php echo $tr->translate("COMMUNE")?></td>
 							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
 							<td><?php echo $tr->translate("VILLAGE")?></td>
 							<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
-							<td><?php echo $tr->translate("STREET")?></td>
-							<td><?php  echo $frm->getElement('street');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("STREET")?></td>
+							<td><?php  echo $frm->getElement('street');?></td>
 							<td><?php echo $tr->translate("HOUSE")?></td>
 							<td><?php  echo $frm->getElement('house');?></td>							
 							<td><?php echo $tr->translate("PHOTO")?></td>
 							<td><?php echo $frm->getElement('photo');?></td>
-							<td></td>
-							<td></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>Join Account Info</strong></td>
@@ -109,16 +104,13 @@ dojo.require("dijit.form.Textarea");
 							<td>No</td>
 							<td><?php  echo $frm->getElement('join_nation_id');?></td>
 						</tr>
-						<tr><td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_join_acc');?></td>
-						</tr>
 						<tr>
 						<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php  echo $frm->getElement('relate_with');?></td>
 							<td><?php echo $tr->translate("TEL")?></td>
 							<td><?php  echo $frm->getElement('relate_tel');?></td>	
-							<td></td>
-							<td></td>	
+							<td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_join_acc');?></td>	
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>Guarantor Info</strong></td>
@@ -131,28 +123,28 @@ dojo.require("dijit.form.Textarea");
 							<td></td>
 							<td><?php echo $frm->getElement('spouse_nationid');?></td>						
 						</tr>
-						<tr><td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_guarantor');?></td>
-						</tr>
 						<tr>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php  echo $frm->getElement('guarantor_with');?></td>
 							<td><?php echo $tr->translate("TEL")?></td>
 							<td><?php  echo $frm->getElement('guarantor_tel');?></td>
-							<td><?php echo $tr->translate("ADDRESS")?></td>
-							<td><?php  echo $frm->getElement('guarantor_address');?></td>
+							<td><?php echo $tr->translate("DOB")?></td>
+							<td><?php  echo $frm->getElement('dob_guarantor');?></td>
 							
 						</tr>
 						<tr>
+							<td valign="top"><?php echo $tr->translate("ADDRESS")?></td>
+							<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
 							<td valign="top"><?php echo $tr->translate("STATUS")?></td>
 							<td valign="top"><?php  echo $frm->getElement('status');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
+							<td valign="top"><?php echo $tr->translate("NOTE")?></td>
 							<td><?php  echo $frm->getElement('desc');?></td>
-							<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
-							<td valign="top"><?php  echo $frm->getElement('chackcall');?></td>	
 						</tr>
 						<tr>
-							
+							<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
+							<td valign="top"><?php  echo $frm->getElement('chackcall');?></td>	
+							<td colspan="4"></td>
+						
 						</tr>
 						<tr>
 							<td colspan="6" align="center">
