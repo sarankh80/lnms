@@ -10,15 +10,27 @@
   background: #E5F2F5;
 }}
 </style>
-<table cellspacing="10" width="100%" style="margin: 0 auto;">
+<div class="menureport">
+	<ul>
+		<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
+		<li class="print"><a href="#" title="Print" onclick="doPrint();" ></a></li>
+	</ul>
+</div>
+<input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'group','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
+<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'group','controller'=>"index",'action'=>'edit','id'=>$rs['client_id']),null,true); ?>';"/>
+</p>
+
+<table  cellspacing="10" class='fullside' style="font-size:12px;font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;">
 	<tr>
-		<td>
-		<fieldset>
-					<legend align="center" ><strong><?php echo $tr->translate("VIEW_CLIENT");?></strong></legend>
-					<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<div id="divPrint" style="width: 100%;">
-					<table style="margin: 0 auto; width:100%;" cellspacing="10">
+		<td>			<div style="text-align:center !important;"><?php echo $tr->translate("VIEW_CLIENT");?></div>
+					<div style=" width:22cm;min-height:28cm; margin:0 auto;">
+						
+					<div id="divPrint" style="width: 100%;">
+					
+					<table cellspacing="10" class='fullside' style="font-size:12px;font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;border: 1px dotted #ccc; padding:0px 0.5cm">
+					<tr><td><img width="70px" src="<?php echo $this->baseUrl().'/images/'.(empty($rs['photo_name'])?"no-profile.gif":$rs['photo_name']);?>" /></td></tr>
 						<tr>
+							
 							<td><?php echo $tr->translate("BRANCH_NAME");?>*</td>
 							<td class="border-cover "><?php echo $rs['branch_name'];?></td>
 							<td><?php echo $tr->translate("IS_GROUP")?></td>
@@ -111,7 +123,7 @@
 					</table>	
 				</div>
 				</div>
-		</fieldset>		
+			
 		</td>
 	</tr>
 </table>	
@@ -120,3 +132,29 @@
 <tr>
 </tr>
 </table>
+<iframe style="font-size: 10px; !important;" name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<script>
+function preview()
+{ 
+  var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
+      disp_setting+="scrollbars=no,width=1100, height=700, left=100, top=25"; 
+  var content_vlue = document.getElementById("divPrint").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head>'); 
+   docprint.document.write('</head><div style=" font-size:16px !important; margin:0px; font-family:Verdana;"><style>table th {font-size:14px !important;} table td{font-size:12px !important;}</style><center>');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</center></div></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+
+</script>
