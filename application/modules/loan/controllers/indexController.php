@@ -116,6 +116,11 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
+		$this->view->datarow = $row;
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
 // 		$frmpopup = new Application_Form_FrmPopupGlobal();
 // 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
 // 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();

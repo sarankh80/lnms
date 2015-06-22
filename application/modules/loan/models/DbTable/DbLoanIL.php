@@ -79,20 +79,20 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$where.= " AND lg.pay_term=".$search['pay_every'];
     	}
     	if($reschedule!=null){
-    		$where = ' AND lg.is_reschedule=2 ';
+    		$where.= ' AND lg.is_reschedule=2 ';
     	}else{
     		$where.= ' AND lg.is_reschedule !=2 ';
     	}
     		
     	$order = " ORDER BY lg.g_id DESC";
     	$db = $this->getAdapter();    
-//     	echo $sql.$where.$order;	
+//      	echo $sql.$where.$order;	
     	return $db->fetchAll($sql.$where.$order);
     	//`stGetAllIndividuleLoan`(IN txt_search VARCHAR(30),IN client_id INT,IN method INT,IN branch INT,IN co INT,IN s_status INT,IN from_d VARCHAR(70),IN to_d VARCHAR(70))
     }
     function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id
     	$sql = "SELECT 
-    		lg.g_id,lg.branch_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lg.date_release,
+    		lg.g_id,lg.branch_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lg.date_release,lg.status,
     		lg.total_duration,lg.first_payment,lg.time_collect,lg.holiday,lg.date_line,
     		lm.other_fee,lm.pay_after,lm.pay_before,lm.collect_typeterm,lm.currency_type,lm.graice_period,
     		lm.loan_number,lm.interest_rate,lm.amount_collect_principal,lm.semi,
@@ -210,10 +210,12 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$g_id = $this->insert($datagroup);//add group loan
     		
     		unset($datagroup);
+    		$dbtable = new Application_Model_DbTable_DbGlobal();
+    		$loan_number = $dbtable->getLoanNumber($data);
     		
     			$datamember = array(
     					'group_id'=>$g_id,
-    					'loan_number'=>$data['loan_code'],
+    					'loan_number'=>$loan_number,//$data['loan_code'],
     					'client_id'=>$data['member'],
     					'payment_method'=>$data['repayment_method'],
     					'currency_type'=>$data['currency_type'],
@@ -229,7 +231,6 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					'graice_period'=>$data['graice_pariod'],
     					'amount_collect_principal'=>$data['amount_collect'],
     					'collect_typeterm'=>$data['collect_termtype'],
-    					'loan_number'=>$data['loan_code'],
     					'semi'=>$data['amount_collect_pricipal']
     			);
     			$this->_name='ln_loan_member';
@@ -279,7 +280,6 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     			//end IRR method
     			
     			$this->_name='ln_loanmember_funddetail';
-    			$dbtable = new Application_Model_DbTable_DbGlobal();
     			$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['pay_every'],null);//return amount day for payterm
     			$amount_borrow_term = $borrow_term*$data['period'];//amount of borrow
     			
@@ -553,7 +553,23 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     			$this->_name = 'ln_loan_member';
     			$where = ' is_completed = 0 AND status = 1 AND group_id = '.$data['id'].' AND client_id = '.$data["member"];
     			$this->update($arr_update, $where);
-    			$this->_name='ln_loan_group';
+    			
+    			
+    			$rows= $this->getAllMemberLoanById($data['id']);
+    			$s_where = array();
+    			$where = '';
+    			foreach ($rows as $id => $row){
+    				$s_where[] = "`member_id` = ".$row['member_id'];
+    			}
+    			$where .= implode(' OR ',$s_where);
+    			$where.=" AND status=1 AND is_completed=0 ";
+    			
+    			$arr = array(
+    					'status'=>0
+    			);
+    			$this->_name='ln_loanmember_funddetail';
+    			
+    			$db->commit();
     			return 1;
     		}
     		
@@ -621,7 +637,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				'status'=>0
     				);
     		$this->_name='ln_loanmember_funddetail';
-    		$where = $db->quoteInto('member_id=?', $data['id']);
+//     		$where = $db->quoteInto('member_id=?', $data['id']);
     		$this->update($arr, $where);
     		 
 //     		$arr =array(

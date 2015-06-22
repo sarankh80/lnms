@@ -24,13 +24,14 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		
 		try{
+		$client_code = $this->getClientCode($_data['branch_id']);
 		$_arr=array(
 				'is_group'	  => $_data['is_group'],
 				//'parent_id'	  =>$parent,
 				'branch_id'	  => $_data['branch_id'],
 				'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
 				'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
-				'client_number'=> $_data['client_no'],
+				'client_number'=> $client_code,//$_data['client_no'],
 				'name_kh'	  => $_data['name_kh'],
 				'name_en'	  => $_data['name_en'],
 				'join_with'	  => $_data['join_with'],
@@ -61,7 +62,10 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'join_d_type'      => $_data['join_d_type'],
 				'guarantor_d_type'      => $_data['guarantor_d_type'],
 				'guarantor_address'      => $_data['guarantor_address'],
-				'user_id'	  => $this->getUserId()
+				'user_id'	  => $this->getUserId(),
+				'dob_guarantor'  => $_data['dob_guarantor'],
+				'dob_join_acc'  => $_data['dob_join_acc'],
+				
 		);
 		if(!empty($_data['id'])){
 			$where = 'client_id = '.$_data['id'];

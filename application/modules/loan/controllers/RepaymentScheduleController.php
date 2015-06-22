@@ -12,8 +12,8 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		try{
 		    if($this->getRequest()->isPost()){
  				$search = $this->getRequest()->getPost();
- 			}
-			else{
+ 				
+ 			}else{
 				$search = array(
 						'txt_search'=>'',
 						'customer_code'=> -1,
@@ -27,6 +27,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 						'end_date'=>date('Y-m-d'),
 						 );
 			}
+// 			print_r($search);
 			$db = new Loan_Model_DbTable_DbLoanIL();
 			$rs_rows= $db->getAllIndividuleLoan($search,1);
 			$glClass = new Application_Model_GlobalClass();
@@ -54,6 +55,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Loan_Model_DbTable_DbRepaymentSchedule();
+				
 				$_dbmodel->addRepayMentSchedule($_data);
 				if(empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
@@ -63,7 +65,6 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
-				echo $e->getMessage();exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
@@ -131,6 +132,11 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
+		$this->view->datarow = $row;
 	}
 }
 

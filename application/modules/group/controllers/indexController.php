@@ -156,13 +156,13 @@ class Group_indexController extends Zend_Controller_Action {
 				$id= $db->addClient($data);
 				if($data['chackcall']==1){
 					Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-					Application_Form_FrmMessage::redirectUrl("/group/Callteral/add/id/".$id);
+				//	Application_Form_FrmMessage::redirectUrl("/group/Callteral/add/id/".$id);
 				}
-				Application_Form_FrmMessage::redirectUrl("/group/index");
+				//Application_Form_FrmMessage::redirectUrl("/group/index");
 				//$db->addClient($data);
 				//Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
 			}catch (Exception $e){
-				Application_Form_FrmMessage::message("INSERT_FAILE");
+				Application_Form_FrmMessage::message("EDIT_FAILE");
 				echo $e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}

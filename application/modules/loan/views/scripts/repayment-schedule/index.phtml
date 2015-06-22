@@ -3,9 +3,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("VIEW_LOAN_RESCHEDULE"));
 $frm = $this->frm_search;
 ?>
-<style>
-.input-search .dijitTextBox{ width:190px; height: 25px;}
-</style>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'RepaymentSchedule','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
    <table width="100%"​​>
    		<tr>
@@ -33,7 +30,6 @@ $frm = $this->frm_search;
    			<td colspan="5"><?php echo $this->list;?></td>
    		</tr>
    </table>
-   
 </form>
 <script>
 function getmemberIdGroup(){

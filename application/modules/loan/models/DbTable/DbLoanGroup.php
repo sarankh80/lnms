@@ -544,7 +544,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     		$dbtable = new Application_Model_DbTable_DbGlobal();
     		foreach ($tranlist as $i) {
     			$this->_name='ln_loan_member';//update member
-    			$loan_number = $dbtable->getLoanNumber();
+    			$loan_number = $dbtable->getLoanNumber($data);
     			$datamember = array(
     					'group_id'=>$g_id,
     					'loan_number'=>$loan_number,//can have problem

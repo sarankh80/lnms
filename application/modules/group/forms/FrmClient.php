@@ -142,6 +142,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 // 		$opt = array(1=>"Male",2=>"Femail");
 		$opt_status = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_status[-1]);
 		$_sex->setMultiOptions($opt_status);
 		
 		
@@ -321,6 +322,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		
 // 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
+// 			print_r($data);
 			$_branch_id->setValue($data['branch_id']);
 			$_member->setValue($data['parent_id']);
 			$_group->setValue($data['is_group']);
@@ -353,13 +355,14 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 			$_releted->setValue($data['relate_with']);
 			$_guarantor_with->setValue($data['guarantor_with']);
 			$_guarantor_tel->setValue($data['guarantor_tel']);
-			$client_d_type->setValue($data['client_d_type']);
+            $client_d_type->setValue($data['client_d_type']);
 			$join_d_type->setValue($data['join_d_type']);
 			$guarantor_d_type->setValue($data['guarantor_d_type']);
 			$guarantor_address->setValue($data['guarantor_address']);
-			$clienttype_nameen->setValue($data['clienttype_nameen']);
-			$clienttype_namekh->setValue($data['clienttype_namekh']);
-			//$_dob_client->setValue($data[]);
+
+			$_dob_Guarantor->setValue($data['dob_guarantor']);
+			$dob_join_acc->setValue($data['dob_join_acc']);
+			$_dob->setValue($data['dob']);
 // 			print_r($data);
 		}
 		$this->addElements(array($client_d_type,$join_d_type,$guarantor_d_type,$guarantor_address,$_relate_tel,$_guarantor_tel,$_guarantor_with,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$chackcall,$_group_code,$_branch_id,$_member,$_group,$_namekh,$_nameen,$_sex,$_situ_status,

@@ -375,6 +375,8 @@ public function init()
 			
 			$_group_code->setValue($data['client_id']);
 			$_groupid->setValue($data['client_id']);
+			$get_laonnumber->setvalue($data['g_id']);
+			$_status->setValue($data['status']);
 			
 // 			print_r($data);
 		}

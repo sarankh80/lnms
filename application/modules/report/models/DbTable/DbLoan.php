@@ -605,9 +605,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND branch_id`= ".$search['branch_id'];
       	}
-      	//$where='';
-      	$order = " ORDER BY currency_type";
-      	//echo $sql.$where.$order;
+      	$order = " ORDER BY currency_type ";
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLBadloan($search=null){

@@ -52,7 +52,8 @@ th.tdheader {
     background: url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;
     border: 1px solid #CCCCCC;
     color: #333333;
-    font-family: Arial,Helvetica,sans-serif;
+    /*font-family: Arial,Helvetica,sans-serif;*/
+	font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;;
     font-size: 12px;
     font-weight: bold;
     line-height: 30px;
