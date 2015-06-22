@@ -64,6 +64,7 @@ $frm = $this->frm_search;
                     <th style="font-size: 12px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>                   
                     <th style="font-size: 12px;"><?php echo $tr->translate("PRINCIPLE");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("INTEREST");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("PAYMENT");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("DAY_PAYMENT");?></th>
                 </tr>
@@ -73,18 +74,22 @@ $frm = $this->frm_search;
                 	 $p_r = 0;
                 	 $p_d = 0;
                 	 $p_b = 0;
+                	 $penelize_r= 0;$penelize_d= 0;$penelize_b= 0;
                 ?>
                 <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php 
 		               if($rs['currency_type']==1){
 			               	$p_r = $p_r+$rs['principle_permonth'];
 			               	$amt_r1 = $amt_r1+$rs['total_interest'];
+			               	$penelize_r = $penelize_r+$rs["penelize"];
 		               }elseif($rs['currency_type']==2){
 		               		$p_d = $p_d+$rs['principle_permonth'];
 							$amt_d1 = $amt_d1+$rs['total_interest'];
+							$penelize_d = $penelize_d+$rs["penelize"];
 		               }else{
 		               		$p_b = $p_b+$rs['principle_permonth'];
 		               		$amt_d1 = $amt_d1+$rs['total_interest'];
+		               		$penelize_b = $penelize_b+$rs["penelize"];
 		               }
 		               //print_r($rs);exit();
                ?>
@@ -93,9 +98,10 @@ $frm = $this->frm_search;
                		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["branch"];?></td>
                		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["loan_number"];?></td>
                		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["client_name"];?></td>
-               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo number_format($rs["principle_permonth"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo number_format($rs["principle_permonth"]+$rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo number_format($rs["principle_permonth"],2).''.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo number_format($rs["total_interest"],2).''.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo number_format($rs["penelize"],2).''.$rs['currency_typeshow'];?></td>
+               		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo number_format($rs["principle_permonth"]+$rs["total_interest"]+$rs["penelize"],2).''.$rs['currency_typeshow'];?></td>
                		<td style="font-size: 11px;text-align: center;"><?php echo date("d-m-Y",strtotime($rs["date_payment"]));?></td>
                 </tr>
                 <?php }?>
@@ -104,27 +110,31 @@ $frm = $this->frm_search;
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <tr class="style" style="font-weight:bold; line-height: 24px; text-align: left; font-size:12px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>                 
-                    <th>&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</th>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?>(Riel)&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;R</td>
-                    <td>&nbsp;<?php echo number_format($p_r,2);?>&nbsp;R</td>
-                    <td>&nbsp;<?php echo number_format($amt_r1+$p_r,2);?>&nbsp;R</td>
+                    <td>&nbsp;<?php echo number_format($p_r,2);?>R&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($amt_r1,2);?>R&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_r,2);?>R&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_r+$amt_r1+$p_r,2);?>R&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?>(Dollar)&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;$</td>
-                    <td>&nbsp;<?php echo number_format($p_d,2);?>&nbsp;$</td>
-                    <td>&nbsp;<?php echo number_format($amt_d1+$p_d,2);?>&nbsp;$</td>
+                    <td>&nbsp;<?php echo number_format($p_d,2);?>$&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($amt_d1,2);?>$&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_d,2);?>$&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_d+$amt_d1+$p_d,2);?>$&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("BATH");?>(Bath)&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;B</td>
-                    <td>&nbsp;<?php echo number_format($p_b,2);?>&nbsp;B</td>
-                    <td>&nbsp;<?php echo number_format($amn_b1+$p_b,2);?>&nbsp;B</td>
+                    <td>&nbsp;<?php echo number_format($p_b,2);?>B&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($amn_b1,2);?>B&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_b,2);?>B&nbsp;</td>
+                    <td>&nbsp;<?php echo number_format($penelize_b+$amn_b1+$p_b,2);?>B&nbsp;</td>
                 </tr>
               </table>
                <table align="center" width="100%">

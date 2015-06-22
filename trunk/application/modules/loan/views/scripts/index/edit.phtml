@@ -140,9 +140,7 @@
 		<td align="center">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
-				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("GO_EDIT");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
@@ -260,13 +258,14 @@ require(["dojo/ready"], function(ready){
 	store: dojo.data.ObjectStore({objectStore: client_data}),
 	autoComplete: true,
 	query: {
-		branch_id: "-1"
+		branch_id: "<?php echo $this->datarow['branch_id'];?>"
 	},            
 	required: false,		           
 	name: "member",
 	id: "member",
 	searchAttr: "name",
 	class: 'fullside',
+	value:"<?php echo $this->datarow['client_id'];?>",	     
 	onChange: function() {
 		getClientInfo(2);
 }
@@ -279,9 +278,10 @@ require(["dojo/ready"], function(ready){
 	store: dojo.data.ObjectStore({objectStore: client_number}),
 	autoComplete: true,
 	query: {
-		branch_id: "-1"
+		branch_id: "<?php echo $this->datarow['branch_id'];?>"
 	},            
-	required: false,		           
+	required: false,	
+	value:"<?php echo $this->datarow['client_id'];?>",	           
 	name: "customer_code",
 	id: "customer_code",
 	searchAttr: "name",

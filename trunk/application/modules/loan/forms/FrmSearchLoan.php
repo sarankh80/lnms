@@ -167,6 +167,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
+		unset($term_opt[-1]);
 		$_pay_every->setMultiOptions($term_opt);
 // 		$_pay_every->setValue(3);
 		$_pay_every->setValue($request->getParam('pay_every'));

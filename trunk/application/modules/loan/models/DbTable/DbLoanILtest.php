@@ -54,7 +54,9 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		$g_id = $this->insert($datagroup);//add group loan
     		
     		unset($datagroup);
-    		
+    		if(empty($data['loan_code'])){
+    			$data['loan_code']=$data['get_laonnumber'];
+    		}
     		$datamember = array(
     				'group_id'=>$g_id,
     				'loan_number'=>$data['loan_code'],
