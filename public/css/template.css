@@ -6,6 +6,10 @@
     font-family: 'Khmer MEF2';
     src: url("../font/KHMERMEF2.ttf");
 }
+@font-face {
+    font-family: 'Kh Battambang';
+    src: url("../font/KH-BATTAMBANG.TTF");
+}
 /*style list data*/
 table tr td input{
 	height: 28px;	

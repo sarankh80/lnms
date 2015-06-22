@@ -116,7 +116,8 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$sql = "SELECT
     	lg.g_id
     	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch_name
-    	,lg.level
+    	,lg.level,
+    	(SELECT name_en FROM `ln_view` WHERE status =1 and type=24 and key_code=lg.for_loantype) AS for_loantype
     	,(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_firstname
     	,(select concat(zone_name,'-',zone_num)as dd from `ln_zone` where zone_id = lg.zone_id ) AS zone_name
     	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=14 and key_code=lg.pay_term) AS pay_term
@@ -133,7 +134,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	,lm.graice_period,
     	lm.loan_number,lm.interest_rate,lm.amount_collect_principal,lm.semi,
     	lm.client_id,lm.admin_fee,
-    	lm.pay_after,lm.pay_before
+    	lm.pay_after,lm.pay_before,lm.other_fee
     	,(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
     	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
     	(SELECT group_code FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS group_code,
