@@ -230,7 +230,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				FROM
 				  `ln_loan_group` AS lg,
 				  `ln_loan_member` AS lm 
-				WHERE lg.`g_id` = lm.`group_id` 
+				WHERE lg.`g_id` = lm.`group_id` AND lg.`status`=1 
 				";
       	$codition = " AND lm.`group_id`=$id";
       	if(empty($id)){
@@ -398,7 +398,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 					lcrm.`date_input`,
 				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch
-				FROM `ln_client_receipt_money` AS lcrm WHERE lcrm.is_group=0";
+				FROM `ln_client_receipt_money` AS lcrm WHERE lcrm.is_group=0 AND lcrm.`status`=1";
     	$where ='';
     	if(!empty($search['advance_search'])){
     		//print_r($search);
@@ -496,7 +496,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$sql = "SELECT m.member_id,(SELECT branch_namekh FROM ln_branch WHERE br_id = m.branch_id LIMIT 1) AS branch,
 				m.loan_number,m.admin_fee,m.other_fee,m.currency_type,(SELECT symbol FROM `ln_currency` WHERE id =m.currency_type) AS currency_typeshow,
 				g.date_release
-				FROM ln_loan_member AS m, `ln_loan_group` AS g WHERE m.group_id = g.g_id ";
+				FROM ln_loan_member AS m, `ln_loan_group` AS g WHERE m.group_id = g.g_id AND m.`status`=1";
 		$where ='';
       	if(!empty($search['advance_search'])){
       		//print_r($search);
