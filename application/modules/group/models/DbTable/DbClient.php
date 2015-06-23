@@ -225,5 +225,78 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 // 		$row= $this->insert($document_type);
 // 		return $row;
 // 	}
+	public function addIndividaulClient($_data){
+		$photoname = str_replace(" ", "_", $_data['name_en']) . '.jpg';
+		$upload = new Zend_File_Transfer();
+		$upload->addFilter('Rename',
+				array('target' => PUBLIC_PATH . '/images/'. $photoname, 'overwrite' => true) ,'photo');
+		$receive = $upload->receive();
+		if($receive)
+		{
+			$_data['photo'] = $photoname;
+		}
+		else{
+			$_data['photo']="";
+		}
+		
+		try{
+			$client_code = $this->getClientCode($_data['branch_id']);
+			$_arr=array(
+					
+					'client_number'=> $client_code,//$_data['client_no'],
+					'name_kh'	  => $_data['name_kh'],
+					'name_en'	  => $_data['name_en'],
+					'sex'	      => $_data['sex'],
+					'sit_status'  => $_data['situ_status'],
+					'dis_id'      => $_data['district'],
+					'village_id'  => $_data['village'],
+					'street'	  => $_data['street'],
+					'house'	      => $_data['house'],
+					//'photo_name'  =>$_data['photo'],
+					'job'        =>$_data['job'],
+					'phone'	      => $_data['phone'],
+					'create_date' => date("Y-m-d"),
+					'client_d_type'      => $_data['client_d_type'],
+					'user_id'	  => $this->getUserId(),
+					'dob'			=>$_data['dob_client'],	
+					'pro_id'      => $_data['province'],
+					'com_id'      => $_data['commune'],
+					//'is_group'	  => $_data['is_group'],
+					//'parent_id'	  =>$parent,
+					//'branch_id'	  => $_data['branch_id'],
+					//'parent_id'	  =>($_data['group_id']!=-1)?$_data['group_id']:"",
+					//'group_code' => ($_data['is_group']==1)?$_data['group_code']:"",
+					//'join_with'	  => $_data['join_with'],
+					//'join_nation_id'=> $_data['join_nation_id'],
+					//'relate_with'	  => $_data['relate_with'],
+					//'join_tel'	  => $_data['relate_tel'],
+					//'nation_id'=>$_data['national_id'],
+					//'spouse_name' => $_data['spouse'],
+					//'spouse_nationid'=>$_data['spouse_nationid'],
+					//'guarantor_with'=>$_data['guarantor_with'],
+					//'guarantor_tel'=>$_data['guarantor_tel'],
+					//'remark'	  => $_data['desc'],
+					//'status'      => $_data['status'],
+					//'join_d_type'      => $_data['join_d_type'],
+					//'guarantor_d_type'      => $_data['guarantor_d_type'],
+					//'guarantor_address'      => $_data['guarantor_address'],
+					//'dob_guarantor'  => $_data['dob_guarantor'],
+					//'dob_join_acc'  => $_data['dob_join_acc'],
+			
+			);
+			if(!empty($_data['id'])){
+				$where = 'client_id = '.$_data['id'];
+				$this->update($_arr, $where);
+				return $_data['id'];
+			
+			}else{
+				//echo $this->insert($_arr);exit();
+				return  $this->insert($_arr);
+			}
+			
+		}catch(Exception $e){
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		}
+	}
 }
 

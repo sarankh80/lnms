@@ -428,6 +428,74 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</div>';
 		return $str;
 	}
-
+	public function frmPopupindividualclient(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$fm = new Group_Form_FrmClient();
+		$frms = $fm->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frms);
+		
+		$str="<div class='dijitHidden'>
+				<div data-dojo-type='dijit.Dialog'   id='frm_info' >
+					<form id='form_info' >";
+		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+					<tr>
+						<td>client_no</td>
+						<td>'.$frms->getElement('client_no').'</td>
+						<td>name_kh</td>
+						<td>'.$frms->getElement('name_kh').'</td>	
+						<td>name_en</td>
+						<td>'.$frms->getElement('name_en').'</td>		
+					</tr>
+					<tr>
+						<td>sex</td>
+						<td>'.$frms->getElement('sex').'</td>
+						<td>situ_status</td>
+						<td>'.$frms->getElement('situ_status').'</td>	
+						<td>client_d_type</td>
+						<td>'.$frms->getElement('client_d_type').'</td>		
+					</tr>
+								
+					<tr>
+						<td>national_id</td>
+						<td>'.$frms->getElement('national_id').'</td>
+						<td>job</td>
+						<td>'.$frms->getElement('job').'</td>	
+						<td>phone</td>
+						<td>'.$frms->getElement('phone').'</td>		
+					</tr>
+					<tr>
+						<td>dob_client</td>
+						<td>'.$frms->getElement('dob_client').'</td>
+						<td>province</td>
+						<td>'.$frms->getElement('province').'</td>	
+						<td>district</td>
+						<td>'.$frms->getElement('district').'</td>		
+					</tr>
+					<tr>
+						<td>commune</td>
+						<td>'.$frms->getElement('commune').'</td>
+						<td>village</td>
+						<td>'.$frms->getElement('village').'</td>	
+						<td>street</td>
+						<td>'.$frms->getElement('street').'</td>		
+					</tr>
+					<tr>
+						<td>house</td>
+						<td>'.$frms->getElement('house').'</td>
+						<td>photo</td>
+						<td>'.$frms->getElement('photo').'</td>	
+					</tr>																	
+					<tr>
+						<td colspan="2" align="center" colspan="3">
+						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewindividual();"/>
+						</td>
+					</tr>
+				</table>';
+		$str.='</form></div>
+			</div>';
+		return $str;
+	}
+	
 }
 
