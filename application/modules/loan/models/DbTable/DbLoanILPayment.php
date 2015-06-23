@@ -118,19 +118,22 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	function getIlPaymentByID($id){
 		$db = $this->getAdapter();
 		$sql="SELECT 
+				  (SELECT crmd.`loan_number` FROM `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id`) AS loan_numbers,
 				  crm.*,
-				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS amount_term,
-				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS collect_typeterm,
-				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `interest_rate`,
-				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crm.`loan_number`) AS `total_capital`,
-				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS date_release,
-				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS level,
-				  (SELECT g.`total_duration` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS total_duration,
-				  (SELECT g.`payment_method` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crm.`loan_number`) AS payment_method
+				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS amount_term,
+				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS collect_typeterm,
+				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS `interest_rate`,
+				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS `total_capital`,
+				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS date_release,
+				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS level,
+				  (SELECT g.`total_duration` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS total_duration,
+				  (SELECT g.`payment_method` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS payment_method
 				FROM
-				  `ln_client_receipt_money` AS crm 
+				  `ln_client_receipt_money` AS crm ,
+				  `ln_client_receipt_money_detail` AS crmd
 				  
-				WHERE id = $id";
+				WHERE crm.id =$id
+				AND crm.id=crmd.`crm_id`";
 		return $db->fetchRow($sql);
 	}
 	public function getIlDetail($id){
@@ -742,7 +745,7 @@ public function addILPayment($data){
     	}elseif($data['type']==1){
     		$where = 'lm.`loan_number`='."'".$loan_number."'";
     		$sql ="SELECT 
-    				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crm.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
+    				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
 					  lc.`client_id`,
 					  lc.`client_number`,
 					  lc.`name_kh`,
@@ -824,7 +827,8 @@ public function addILPayment($data){
    					  lm.`collect_typeterm`,
    					  lg.`co_id`,
    					  lg.`payment_method`,
-   					  lf.*
+   					  lf.*,
+   					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
    					  FROM
    					  `ln_client` AS lc,
    					  `ln_loan_member` AS lm ,
@@ -898,8 +902,8 @@ public function addILPayment($data){
    public function getLaonHasPayByLoanNumber($loan_number){
    	$db= $this->getAdapter();
    	$sql="SELECT 
-			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_name,
-			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`group_id`) AS client_code,
+			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crmd.`client_id`) AS client_name,
+			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crmd.`client_id`) AS client_code,
 			  crm.`receipt_no`,
 			  crm.`loan_number`,
 			  DATE_FORMAT(crm.date_input, '%d-%m-%Y') AS `date_input`,
@@ -922,7 +926,7 @@ public function addILPayment($data){
 			  `ln_client_receipt_money` AS crm,
 			  `ln_client_receipt_money_detail` AS crmd 
 			WHERE crm.`id` = crmd.`crm_id` 
-			  AND crm.`loan_number` = '$loan_number'";
+			  AND crmd.`loan_number` = '$loan_number' ORDER BY crmd.`crm_id` DESC ";
    	return $db->fetchAll($sql);
    }
    
