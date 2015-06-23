@@ -66,7 +66,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLaonPayment(2);getAllLaonPayment(2);',
+				'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
 				'required'=>true
 		));
 		
@@ -92,7 +92,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_loan_number->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				//'onKeyUp'=>'getLaonPayment(1);getAllLaonPayment(1);'
+				'onChange'=>'getLaonHasPayByLoanNumber(1);getLaonPayment(1);getAllLaonPayment(1);',
 				'required'=>true
 		));
 		$_loan_number->setMultiOptions($options);
@@ -289,7 +289,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
-		$old_tota_pay = new Zend_Form_Element_Hidden("oldTotalPay");
+		$old_tota_pay = new Zend_Form_Element_Text("oldTotalPay");
 		$old_tota_pay->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',));
 		
 		$release_date = new Zend_Dojo_Form_Element_TextBox("release_date");
