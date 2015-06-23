@@ -97,10 +97,7 @@ class Group_indexController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
-		$fm = new Group_Form_FrmClient();
 		$db = new Application_Model_DbTable_DbGlobal();
-		$frm = $fm->FrmAddClient();
-		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->allclient = $db->getAllClient();// for filter
 		$this->view->allclient_number = $db->getAllClientNumber();//for filter
 		
@@ -134,13 +131,18 @@ class Group_indexController extends Zend_Controller_Action {
 				'commune_id' => -1 ) );
 		$this->view->village_name =$village;
 		
-		$db = new Application_Form_FrmPopupGlobal();
+		$fm = new Group_Form_FrmClient();
 		
-		$this->view->frm_popup_village = $db->frmPopupVillage();
-		$this->view->frm_popup_comm = $db->frmPopupCommune();
-		$this->view->frm_popup_district = $db->frmPopupDistrict();
-		$this->view->frm_popup_clienttype = $db->frmPopupclienttype();
+		$frm = $fm->FrmAddClient();
+		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
+		
+		$dbpop = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_village = $dbpop->frmPopupVillage();
+		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
+		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
+		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
+		
 		
 		
 		

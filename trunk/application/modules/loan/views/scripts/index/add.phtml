@@ -6,6 +6,8 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupoploantype;
 	echo $this->frmPopupZone;
+	echo $this->frmPopupClient;
+	echo $this->frmpupopinfoclient;
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
@@ -274,7 +276,11 @@ require(["dojo/ready"], function(ready){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		getClientInfo(2);
+		member = dijit.byId('member').get('value');
+		if(member==-1){
+			showPopupclient();
+		}
+		
 }
 	}, "member");
 
@@ -293,7 +299,11 @@ require(["dojo/ready"], function(ready){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		getClientInfo(1);
+		customer_code = dijit.byId('customer_code').get('value');
+		//alert(customer_code);
+		if(customer_code==-1){
+			showPopupclient();
+		}
 }
 	}, "customer_code");
 	 
@@ -815,4 +825,59 @@ function addNewZone(){
 		}
 	});
 }
+function showPopupclient(){
+	
+	dijit.byId("frm_info").show();
+
+}
+var individual_client_url = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'insert-individual-client'));?>';
+function addNewindividual(){
+//alert('hhh');
+	dojo.xhrPost({
+		url:individual_client_url,	
+		//form:dojo.byId('form_clienttype'),
+		content:{ 
+		    'client_no':dijit.byId('client_no').get('value'),
+		    'name_kh':dijit.byId('name_kh').get('value'),
+		    'name_en':dijit.byId('name_en').get('value'),
+		    'sex':dijit.byId('sex').get('value'),
+		    'situ_status':dijit.byId('situ_status').get('value'),
+		    'district':dijit.byId('district').get('value'),
+		    'village':dijit.byId('village').get('value'),
+		    'street':dijit.byId('street').get('value'),
+		   // 'photo_name':dijit.byId('photo').get('value'),
+		    'job':dijit.byId('job').get('value'),
+		    'phone':dijit.byId('phone').get('value'),
+		    'client_d_type':dijit.byId('client_d_type').get('value'),
+		    'national_id':dijit.byId('national_id').get('value'),
+		    'dob_client':dijit.byId('dob_client').get('value'),
+		    'province':dijit.byId('province').get('value'),
+		    'district':dijit.byId('district').get('value'),
+		    'commune':dijit.byId('commune').get('value'),
+		    'house':dijit.byId('house').get('value'),
+		    //'photo':dijit.byId('photo').get('value'),
+		},
+		handleAs:"json",
+		load: function(content) {	
+			alert(content);
+			client_no = dijit.byId('client_no').get('value');
+			name_kh = dijit.byId('name_kh').get('value');
+			name_en = dijit.byId('name_en').get('value');
+			sex = dijit.byId('sex').get('value');
+			situ_status = dijit.byId('situ_status').get('value');
+			district = dijit.byId('district').get('value');
+			village = dijit.byId('village').get('value');
+			street = dijit.byId('street').get('value');
+			$('#member').val(name_kh+'-'+name_en);
+			 $('input[name="member"]').val(data);
+			dijit.byId('frm_info').reset();
+			dijit.byId('frm_info').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});	
+}
+
 </script>

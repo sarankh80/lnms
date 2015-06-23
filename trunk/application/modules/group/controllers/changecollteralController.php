@@ -78,6 +78,8 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 				 $db->addChangeCollteral($data);
 				if(!empty($data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				}elseif(!empty($data['save_close'])){
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
 				}else{
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/changecollteral/index');
 				}

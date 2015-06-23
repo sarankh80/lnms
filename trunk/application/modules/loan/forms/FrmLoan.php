@@ -26,7 +26,16 @@ public function init()
 		$loan_number = $db->getLoanNumber();
 		$_loan_code->setValue($loan_number);
 		
-		
+		$_loan_codes = new Zend_Dojo_Form_Element_TextBox('loan_codes');
+		$_loan_codes->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'readonly'=>true,
+				'style'=>'color:red; font-weight: bold;'
+		));
+		$dbd = new Application_Model_DbTable_DbGlobal();
+		$loan_numbers = $dbd->getLoanNumber();
+		$_loan_codes->setValue($loan_numbers);
 		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
@@ -35,6 +44,12 @@ public function init()
 				
 		));
 
+		$_client_codes = new Zend_Dojo_Form_Element_TextBox('client_codes');
+		$_client_codes->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		
+		));
 		
 		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
 		$_group_code->setAttribs(array(
@@ -61,25 +76,42 @@ public function init()
 		$_customer_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo(1);'
+				'onchange'=>'showPopupclient;'
 		));
 // 		$group_opt = $dbs ->getClient(1);//code,individual,option
 		$group_opt = $db->getGroupCodeById(1,0,1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
-// 		$_opt_client_Code=array(''=>'Select Cient No','-1'=>"Add New");
-// 		$_client_code->setMultiOptions($_opt_client_Code);
 		
+		$_customer_codes = new Zend_Dojo_Form_Element_TextBox('customer_codes');
+		$_customer_codes->setAttribs(array(
+				'dojoType'=>'dijit.form.textbox',
+				'class'=>'fullside',
+				'onchange'=>'showPopupclient;'
+		));
+		// 		$group_opt = $dbs ->getClient(1);//code,individual,option
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo(2);'
+				'onchange'=>'showPopupclient();'
 		));
-// 		$options = $dbs->getClient(2);
+		// 		$options = $dbs->getClient(2);
 		
-		$db = new Application_Model_DbTable_DbGlobal();
-		$options = $db->getGroupCodeById(2,0,1);
+		$dbs = new Application_Model_DbTable_DbGlobal();
+		$options = $dbs->getGroupCodeById(2,0,1);
 		$_member->setMultiOptions($options);
+		
+		
+		
+		$_members = new Zend_Dojo_Form_Element_TextBox('members');
+		$_members->setAttribs(array(
+				'dojoType'=>'dijit.form.textbox',
+				'class'=>'fullside',
+				//'onchange'=>'showPopupclient();'
+		));
+		// 		$options = $dbs->getClient(2);
+		
+		
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
@@ -99,6 +131,15 @@ public function init()
 		));
 		$options = $db ->getAllCOName(1);
 		$_coid->setMultiOptions($options);
+		
+		$_coids = new Zend_Dojo_Form_Element_FilteringSelect('co_ids');
+		$_coids->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'popupCheckCO();'
+		));
+		$optionss = $db ->getAllCOName(1);
+		$_coids->setMultiOptions($optionss);
 		
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
@@ -120,6 +161,16 @@ public function init()
 		$opt[-1]="--- Add New---";
 		$_loan_type->setMultiOptions($opt);
 		
+		$_loan_types = new Zend_Dojo_Form_Element_FilteringSelect('loan_types');
+		$_loan_types->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onChange'=>'loantype();'
+		));
+		$opts = $db->getVewOptoinTypeByType(24,1,null,1);
+		$opt[-1]="--- Add New---";
+		$_loan_types->setMultiOptions($opts);
+		
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -130,6 +181,16 @@ public function init()
 		$options[-1]="--- Add New---";
 		$_zone->setMultiOptions($options);
 		
+		$_zones = new Zend_Dojo_Form_Element_FilteringSelect('zones');
+		$_zones->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'zone();'
+		));
+		$optionsf = $db ->getZoneList(1);
+		$optionsf[-1]="--- Add New---";
+		$_zones->setMultiOptions($optionsf);
+		
 		$_loan_fee = new Zend_Dojo_Form_Element_NumberTextBox('loan_fee');
 		$_loan_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -138,6 +199,14 @@ public function init()
 		));
 		$_loan_fee->setValue(0);
 		
+		$_loan_fees = new Zend_Dojo_Form_Element_NumberTextBox('loan_fees');
+		$_loan_fees->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>true
+		));
+		$_loan_fees->setValue(0);
+		
 		$_other_fee = new Zend_Dojo_Form_Element_NumberTextBox('other_fee');
 		$_other_fee->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -145,6 +214,14 @@ public function init()
 				'required'=>true,
 		));
 		$_other_fee->setValue(0);
+		
+		$_other_fees = new Zend_Dojo_Form_Element_NumberTextBox('other_fees');
+		$_other_fees->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>true,
+		));
+		$_other_fees->setValue(0);
 		
 		$_time_collect = new Zend_Dojo_Form_Element_NumberTextBox('amount_collect');
 		$_time_collect->setAttribs(array(
@@ -179,7 +256,13 @@ public function init()
 				'required' =>'true'
 		));
 		$_level->setValue(1);
-		
+		$_levels = new Zend_Dojo_Form_Element_NumberTextBox('levels');
+		$_levels->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		$_levels->setValue(1);
 
 
 		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
@@ -321,6 +404,21 @@ public function init()
 			}
 		$_branch_id->setMultiOptions($options);
 		
+		$_branch_ids = new Zend_Dojo_Form_Element_FilteringSelect('branch_ids');
+		$_branch_ids->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'required' =>'true',
+				'onchange'=>'filterClient();'
+		));
+		
+		$rows = $db->getAllBranchName();
+		$optionsa=array(''=>'---Select Branch---');
+		if(!empty($rows))foreach($rows AS $row){
+			$optionsa[$row['br_id']]=$row['branch_namekh'];
+		}
+		$_branch_ids->setMultiOptions($optionsa);
+		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -382,7 +480,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_loan_types,$_loan_fees,$_other_fees,$_zones,$_branch_ids,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_status,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));
