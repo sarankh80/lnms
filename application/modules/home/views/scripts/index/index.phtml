@@ -93,13 +93,13 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                     <div class="metro-nav-block nav-block-orange">
                         <a href="<?php echo $repay_schedule;?>" data-original-title="" class="text-center">
                             <i class="icon-star-empty"></i>
-                            <div class="status">កាលវិភាគថ្មី</div>
+                            <div class="status"><?php echo $tr->translate('LOAN_RESCHEDULE');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-red double">
                         <a href="<?php echo $group_payment;?>" data-original-title="">
                             <i class="icon-bar-chart"></i>
-                            <div class="status">សងប្រាក់ជាក្រុម</div>
+                            <div class="status"><?php echo $tr->translate('GROUP_PAYMENT');?></div>
                         </a>
                     </div>
                     
@@ -107,7 +107,7 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                         <a href="<?php echo $quickpayment;?>" data-original-title="">
                             <i class="icon-eye-open"></i>
                             <div class="info"></div>
-                            <div class="status">សងប្រាក់តាមមន្ត្រីឥនទាន </div>
+                            <div class="status"><?php echo $tr->translate('QUICK_PAYMENT');?> </div>
                         </a>
                     </div>
 
@@ -115,20 +115,20 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                         <a href="<?php echo $co;?>" data-original-title="">
                             <i class="icon-shopping-cart"></i>
                             <div class="info"></div>
-                            <div class="status">មន្ត្រីឥនទាន</div>
+                            <div class="status"><?php echo $tr->translate('CO_NAME');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">
                         <a href="<?php echo $bad_loan;?>" data-original-title="">
                             <i class="icon-remove-sign"></i>
                             <div class="info"></div>
-                            <div class="status">កម្ចីខូច</div>
+                            <div class="status"><?php echo $tr->translate('BAD_LOAN');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-purple">
                         <a href="#" data-original-title="" class="text-center">
                             <i class="icon-cogs"></i>
-                            <div class="status">បញ្ជីកម្ចីបុគ្គល</div>
+                            <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
                         </a>
                     </div>
 
@@ -136,28 +136,27 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                         <a href="#" data-original-title="">
                             <i class="icon-shopping-cart"></i>
                             <div class="info"></div>
-                            <div class="status">បញ្ជីកម្ចីជាក្រុម</div>
+                            <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
                         </a>
                     </div>
-
                     <div class="metro-nav-block nav-block-green double">
                         <a href="#" data-original-title="">
                             <i class="icon-external-link"></i>
                             <div class="info">$53412</div>
-                            <div class="status">បញ្ជីឈ្មោះត្រូវសង</div>
+                            <div class="status"><?php echo $tr->translate('INFO_LOANGROUP');?></div>
                         </a>
                     </div>
                      <div class="metro-nav-block nav-block-blue double">
                         <a href="#" data-original-title="">
                             <i class="icon-external-link"></i>
                             <div class="info">$53412</div>
-                            <div class="status">ចំណូលពីសេវារដ្ឋបាល</div>
+                            <div class="status"><?php echo $tr->translate('LIST_LOAN_INCOME');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">
                         <a href="#" class="text-center" data-original-title="">
                             <i class="icon-dashboard"></i>
-                            <div class="status">អតិជនសងរួច</div>
+                            <div class="status"><?php echo $tr->translate('PAY_OFF');?></div>
                         </a>
                     </div>
                      <div class="metro-nav-block nav-block-yellow">
