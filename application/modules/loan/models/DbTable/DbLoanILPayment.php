@@ -139,13 +139,14 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	public function getIlDetail($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT 
-				  (SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id LIMIT 1) AS `currency_type`,
-				  (SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
-				  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
-				  crmd.* 
+					(SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm,`ln_client_receipt_money_detail` AS crmd WHERE crm.`id`!=$id AND crm.`id`=(SELECT crl.`crm_id` FROM `ln_client_receipt_money_detail` AS crl WHERE crl.`crm_id`=crm.`id` AND crl.`loan_number`=(SELECT c.loan_number FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id`=crmd.id AND c.`crm_id`=$id) )  ORDER BY crm.`date_input` DESC LIMIT 1) AS last_pay_date,
+					(SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id LIMIT 1) AS `currency_type`,
+					(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
+					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
+					crmd.* 
 				FROM
-				  `ln_client_receipt_money_detail` AS crmd 
-				WHERE crmd.`crm_id` = $id ";
+					`ln_client_receipt_money_detail` AS crmd 
+				WHERE crmd.`crm_id` =$id";
 		return $db->fetchAll($sql);
 	}
 	
@@ -232,10 +233,12 @@ public function addILPayment($data){
     	if($amount_receive<=$service_charge){
     		$new_amount = $service_charge-$amount_receive;
     		$service_charge = $new_amount;
+    		//print_r("re<ser".$service_charge);
     		$interest_fun=$interest;
     	}else{
     		$new_amount = $amount_receive-$service_charge;
-    		$service_charge=$new_amount;
+    		$service_charge=0;
+    		//print_r("re>ser".$service_charge);
     		if($new_amount<=$penalize){
     			$new_penelize = $new_amount-$penalize;
     			$penalize = $new_penelize;
@@ -274,7 +277,6 @@ public function addILPayment($data){
     			'penalize_amount'				=>		$data['penalize_amount'],
     			'return_amount'					=>		$return,
     			'service_charge'				=>		$data["service_charge"],
-    			//'total_discount'				=>		$data["discount"],
     			'note'							=>		$data['note'],
     			'user_id'						=>		$user_id,
     			'is_group'						=>		0,
@@ -764,6 +766,7 @@ public function addILPayment($data){
 					  lg.`payment_method`,
 					  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
 					  lg.`level`, 
+					  lg.`date_release` AS release_date,
 					  lf.*,
 					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
 					FROM
@@ -1065,11 +1068,9 @@ public function addILPayment($data){
 		   					$new_sub_principle = $data["sub_principal_permonth_".$i];
 			   				if($sub_recieve_amount>0){
 			   					$new_amount_after_service = $sub_recieve_amount-$sub_service_charge;
-			   					//print_r("<br />".$new_amount_after_service);
 			   					if($new_amount_after_service>=0){
 			   						$new_sub_service_charge = 0;
 			   						$new_amount_after_penelize = $new_amount_after_service - $sub_peneline_amount;
-			   						//print_r("<br />".$sub_peneline_amount."<br />".$new_amount_after_penelize);
 			   						if($new_amount_after_penelize>=0){
 			   							$new_sub_penelize = 0;
 			   							$new_amount_after_interest = $new_amount_after_penelize - $sub_interest_amount;
