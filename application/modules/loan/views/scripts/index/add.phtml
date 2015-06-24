@@ -835,8 +835,8 @@ function addNewindividual(){
 //alert('hhh');
 	dojo.xhrPost({
 		url:individual_client_url,	
-		//form:dojo.byId('form_clienttype'),
-		content:{ 
+		//form:dojo.byId('form_info'),
+		content:{ //'photo_name':$('#photo').attr('files'),
 		    'client_no':dijit.byId('client_no').get('value'),
 		    'name_kh':dijit.byId('name_kh').get('value'),
 		    'name_en':dijit.byId('name_en').get('value'),
@@ -852,24 +852,23 @@ function addNewindividual(){
 		    'national_id':dijit.byId('national_id').get('value'),
 		    'dob_client':dijit.byId('dob_client').get('value'),
 		    'province':dijit.byId('province').get('value'),
-		    'district':dijit.byId('district').get('value'),
+		   // 'district':dijit.byId('district').get('value'),
 		    'commune':dijit.byId('commune').get('value'),
 		    'house':dijit.byId('house').get('value'),
 		    //'photo':dijit.byId('photo').get('value'),
 		},
+		//contentType: 'multipart/form-data',
 		handleAs:"json",
 		load: function(content) {	
-			alert(content);
-			client_no = dijit.byId('client_no').get('value');
+			//alert(content);
+			client_no=dijit.byId('client_no').get('value');
 			name_kh = dijit.byId('name_kh').get('value');
 			name_en = dijit.byId('name_en').get('value');
-			sex = dijit.byId('sex').get('value');
-			situ_status = dijit.byId('situ_status').get('value');
-			district = dijit.byId('district').get('value');
-			village = dijit.byId('village').get('value');
-			street = dijit.byId('street').get('value');
+			$('#customer_code').val(client_no);
+			//photo = dijit.byId('photo').get('value');
 			$('#member').val(name_kh+'-'+name_en);
-			 $('input[name="member"]').val(data);
+			 $('input[name="customer_code"]').val(content);
+			 $('input[name="member"]').val(content);
 			dijit.byId('frm_info').reset();
 			dijit.byId('frm_info').hide();
 	

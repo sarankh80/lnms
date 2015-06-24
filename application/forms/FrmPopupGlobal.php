@@ -482,8 +482,8 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 					<tr>
 						<td>house</td>
 						<td>'.$frms->getElement('house').'</td>
-						<td>photo</td>
-						<td>'.$frms->getElement('photo').'</td>	
+						
+ 						
 					</tr>																	
 					<tr>
 						<td colspan="2" align="center" colspan="3">
