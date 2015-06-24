@@ -88,7 +88,7 @@
 							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
 							<td><?php echo $frm->getElement('loan_number');?></td>
 							<td><?php echo $tr->translate("កាលបរិច្ឆេទខ្ចីប្រាក់")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
+							<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ឈ្មោះអតិថិជន")?></td>
@@ -197,8 +197,8 @@
 	</tr>		
 </table>
 
-<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -934,8 +934,8 @@ function calculateTotal(index){
 					}
 						totalPay =  parseFloat(principlePerMonth) + parseFloat(interest);
 					if(total_late_day>0){
-						dijit.byId('option_pay').attr('value',1);
-						dijit.byId('option_pay').attr('readOnly',true);
+						//dijit.byId('option_pay').attr('value',1);
+						//dijit.byId('option_pay').attr('readOnly',true);
 						if(payment_term==1){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day);
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
@@ -1020,7 +1020,7 @@ function calculateTotal(index){
 						  	  		totalAmount = os_amount+total_interest+penelize+service_charge;
 			  	  	  			}
 		  	  			}else if(payment_term==3){
-				  				dijit.byId('option_pay').attr('readOnly',false);
+				  				//dijit.byId('option_pay').attr('readOnly',false);
 				  				if(payOption==1){
 				  	  	  			total_interest_late = total_interest_late + 0;
 			  	  	  				totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
@@ -1033,17 +1033,47 @@ function calculateTotal(index){
 			  	  	  				totalAmount = totalAmount + parseFloat(principlePerMonth)+parseFloat(total_interest_late)+penelize+service_charge;
 			  	  	  			}else if(payOption==4){
 			  	  	  				os_amount=0;
+				  	  	  			total_interest_late=0;
 				  	  	  			var ids =dijit.byId('record_id').get('value');
 					  	  	  		dijit.byId('identity').attr('value',ids);
 					  	  	  		var arrays = ids.split(',');
+						  	  	  	release_date=$('#old_release_date').val();
 					  	  	  		for(var j=0;j<arrays.length;j++){
-						  	  	  		installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
-						  	  	  	
+
+						  	  	  		last_payment_date= $('#last_date_payment_'+arrays[j]).val();
+							          	
+							          	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[j]).val()):new Date(last_payment_date);
+							          	//alert(pay_date);
+										var late_day = Math.round((date_collect - pay_date)/(oneDay));
+										if(late_day>0){
+											if(last_payment_date!="null"){
+												total_late_day = late_day;
+											}else{
+												total_late_day = late_day - graice_period;
+											}
+										}else{
+											total_late_day = late_day;
+										}
+										
+										var ps = $('#multiplier_'+arrays[j]).val();
+										principlePerMonth = $('#principal_permonth_'+arrays[j]).val();
+										interest = $('#interest_'+arrays[j]).val();
+										totalPay =  parseFloat(principlePerMonth) + parseFloat(interest);
+
+										if(total_late_day<=0){
+											total_interest_late = total_interest_late + 0;
+										}else{
+							  	  	  		total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day);
+							  	  	  		alert(total_interest_late+"+"+total_interest_late+"+"+totalPay+"*("+ps+"(*("+interest_rate+"/100))/30)*"+total_late_day);
+										}
+						  	  	  		installment_date=old_installment_date==""?new Date($('#old_release_date').val()):installment_date;
+							  	  	  	//alert(installment_date);
 					  	  	  			priciple_amount = 0;
-					  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[j]).val();
+					  	  	  			
 					  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
-					  	  	  			practical_date  = Math.round((date_collect - installment_date)/(oneDay));
+					  	  	  			
 					  	  	  		}
+						  	  	  	practical_date  = Math.round((date_collect - installment_date)/(oneDay));
 						  	  	  	total_interest = ((os_amount*interest_rate/100)/30)*practical_date;
 						  	  		totalAmount = os_amount+total_interest+penelize+service_charge;
 			  	  	  			}
@@ -1236,7 +1266,6 @@ function checkAll(index){
     				  	  	  		var arrays = ids.split(',');
     				  	  	  		for(var j=0;j<arrays.length;j++){
     					  	  	  		installment_date=old_installment_date==""?new Date($('#release_date').val()):installment_date;
-    					  	  	  	
     				  	  	  			priciple_amount = 0;
     				  	  	  			principlePerMonth = $('#principal_permonth_'+arrays[j]).val();
     				  	  	  			os_amount = parseFloat(os_amount) + parseFloat(principlePerMonth);
@@ -1288,6 +1317,7 @@ function getdataPaymentToForm(data){//use
 	dijit.byId('reciever').attr('value',data.collect_by);
 	dijit.byId('amount_payment_term').attr('value',data.amount_collect_principal);
 	dijit.byId('release_date').attr('value',data.date_release);
+	dijit.byId('old_release_date').attr('value',data.release_date);
 	dijit.byId('load_level').attr('value',data.level);
 	dijit.byId('total_amount_loan').attr('value',data.total_capital);
 	dijit.byId('loan_period').attr('value',data.total_duration);
