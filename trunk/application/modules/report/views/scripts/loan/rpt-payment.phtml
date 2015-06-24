@@ -98,26 +98,24 @@ th{padding: 5px;}
 		               		$amn_r2 = $amt_r2+$rs['total_interest'];
 		               		$amn_r3 = $amt_r3+$rs['penalize_amount'];
 		               		$amn_r5 = $amt_r5+$rs['service_charge'];
-		               		//$amn_r4 = $amt_r4+$rs['penalize_amount'];
-		               		//$amn_r6 = $amt_r4+$rs['amount_payment'];
 		               		$total_r=$amt_r1+$amn_r2+$amn_r3+$amn_r5;
-		               		//$total_penilize_amount_r=$total_penilize_amount_r+$rs['penalize_amount'];
+		               		
 		               }elseif($rs['currency_type']==2){
 							$amt_d1 = $amt_d1+$rs['total_principal_permonth'];
 							$amt_d2 = $amt_d2+$rs['total_interest'];
 							$amt_d3 = $amt_d3+$rs['penalize_amount'];
-							//$amt_d4 = $amt_d4+$rs['amount_payment'];
+							
 							$amt_d5 = $amt_d5+$rs['service_charge'];
 							$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
-							//$total_penilize_amount_d=$total_penilize_amount_d+$rs['penalize_amount'];
+							
 		               }else{
 		               		$amn_b1 = $amn_b1+$rs['total_principal_permonth'];
 							$amn_b2 = $amn_b2+$rs['total_interest'];
 							$amn_b3 = $amn_b3+$rs['penalize_amount'];
-							//$amn_b4 = $amn_b4+$rs['amount_payment'];
+							
 							$amn_b5 = $amn_b5+$rs['service_charge'];
 							$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
-							//$total_penilize_amount_b=$total_penilize_amount_b+$rs['penalize_amount'];
+						
 		               }
                ?>
                 <tr class="style" style="font-family: 'Khmer OS Content';">
@@ -134,8 +132,10 @@ th{padding: 5px;}
                		<td>&nbsp;&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_typeshow'];?></td>
                		<td>&nbsp;&nbsp;<?php echo $rs["date_pay"];?></td>
                		<td>&nbsp;&nbsp;<?php echo $rs["receipt_no"];?></td>
-               		<td>&nbsp;&nbsp;<?php $total=number_format( ($rs["total_principal_permonth"]+$rs["total_interest"]+$rs["amount_payment"]+$rs["penalize_amount"]+$rs["service_charge"]),0).' '.$rs['currency_typeshow'];
+               		<td>&nbsp;&nbsp;<?php $total=number_format( ($rs["total_principal_permonth"]+$rs["total_interest"]+$rs["penalize_amount"]+$rs["service_charge"]),0).' '.$rs['currency_typeshow'];
                		echo $total;?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["amount_payment"],2);?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["return_amount"],2);?></td>
                 </tr>
                 <?php }?>
             </table>
