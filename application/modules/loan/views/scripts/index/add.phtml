@@ -8,6 +8,14 @@
 	echo $this->frmPopupZone;
 	echo $this->frmPopupClient;
 	echo $this->frmpupopinfoclient;
+	$m = 1;//(integer) date('n');
+	//print_r($m);
+	$end   = date('d-m-Y',mktime(1,1,1,++$m,0,date('Y')));
+	
+	//Considering today is 2014-02-05
+	//echo $start; //2014-02-01
+	echo "<br />".$end;   //2014-02-28
+	
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>" 
@@ -250,22 +258,25 @@
 	
 </script>
 <script type="text/javascript">
+dojo.require("dojo.data.ItemFileWriteStore"); 
+dojo.require("dojo.date.locale");
+
+
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
+
+var client_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
+var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
+
 
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
 		changeCollectType();
 	  });
-
-	  
-	 var client_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
-	});
 	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_data}),
+	store: client_store,//dojo.data.ObjectStore({objectStore: client_data}),
 	autoComplete: true,
 	query: {
 		branch_id: "-1"
@@ -279,16 +290,17 @@ require(["dojo/ready"], function(ready){
 		member = dijit.byId('member').get('value');
 		if(member==-1){
 			showPopupclient();
+		}else{
+			dijit.byId('customer_code').attr('value',member);
 		}
-		
 }
 	}, "member");
 
-	 var client_number = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
-	});
+	// var client_number = new dojo.store.Memory({
+	       //data: <?php //print_r(Zend_Json::encode($this->allclient_number));?>
+	//});
 	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_number}),
+	store: client_number_store,//dojo.data.ObjectStore({objectStore: client_number}),
 	autoComplete: true,
 	query: {
 		branch_id: "-1"
@@ -300,11 +312,12 @@ require(["dojo/ready"], function(ready){
 	class: 'fullside',
 	onChange: function() {
 		customer_code = dijit.byId('customer_code').get('value');
-		//alert(customer_code);
 		if(customer_code==-1){
 			showPopupclient();
+		}else{
+			dijit.byId('member').attr('value',customer_code);
 		}
-}
+    }
 	}, "customer_code");
 	 
 	});
@@ -316,6 +329,42 @@ function filterClient(){
 		dijit.byId('customer_code').query.branch_id = branch_id;
 		dijit.byId('customer_code').reset();
 		getLoanByBranch();
+		getAllClientByBranch(branch_id);
+		getAllClientNumberByBranch(branch_id);
+}
+var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
+function getAllClientByBranch(branch_id){
+	dojo.xhrPost({
+		url:url_getclient,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			client_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('member').set('store', client_store);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+	
+}
+var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientnumberbybranch')); ?>';
+function getAllClientNumberByBranch(branch_id){
+	dojo.xhrPost({
+		url:url_getclientnum,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			client_number_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('customer_code').set('store', client_number_store);
+		},
+		error: function(err) {
+		}
+	});
 }
 var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 
@@ -415,38 +464,6 @@ function clearTextBox(){
 	dijit.byId('member').set('value','');
 	dijit.byId('total_amount').set('value',0);
 }
-
-/*
-   function popupCheckClient(){
-		if(dijit.byId('group_id').get('value')==-1){
-			 dijit.byId('frm_client').show();
-		}
-	}
-	function popupCheckCO(){
-		if(dijit.byId('co_id').get('value')==-1){
-			 dijit.byId('frm_co').show();
-		}
-	}
-	function popupCheckZone(){
-		if(dijit.byId('zone').get('value')==-1){
-			 dijit.byId('frm_zone').show();
-		}
-	}
-	function popupCheckDistrict(){
-	if(dijit.byId('district').get('value')==-1){
-		 dijit.byId('frm_district').show();
-	}
-}
-function popupCheckCommune(){
-	if(dijit.byId('commune').get('value')==-1){
-		 dijit.byId('frm_commune').show();
-	}
-}
-function popupCheckVillage(){
-	if(dijit.byId('village').get('value')==-1){
-		 dijit.byId('frm_village').show();
-	}
-}*/
 function getClientInfo(type){
 	if(type==1){
 		customer_code= dijit.byId('customer_code').get('value');
@@ -724,6 +741,7 @@ function addPreviewLoan(){
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
+				alert(33);
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px;" id="table" width="100%">'
 						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
@@ -752,7 +770,6 @@ function addPreviewLoan(){
 				dijit.byId("frm_client").show();
 			},
 			error: function(err) {
-				alert(err);
 			alert("You can not preview this loan number!");
 			}
 	   });
@@ -765,15 +782,18 @@ function loantype(){
 	var data=dijit.byId("loan_type").get('value');
 	if(data==-1){
 		dijit.byId("frm_loantype").show();
-		}
+	}
 }
 function zone(){
-	
-		dijit.byId("frm_zone").show();
+	    if(dijit.byId('zone').get('value')==-1){
+	    	dijit.byId("frm_zone").show();
+		}
+		
 	
 }
 var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
 function addNewloanType(){
+	if(dijit.byId('form_loantype').validate()){
 	dojo.xhrPost({
 		url:url_loantype,	
 		content:{ 
@@ -784,23 +804,23 @@ function addNewloanType(){
 		},
 		handleAs:"json",
 		load: function(data) {
-			//alert(data);
 			labelen = dijit.byId('title_en').get('value');
 			labelkh = dijit.byId('title_kh').get('value');
 			$('#loan_type').val(labelkh+'-'+labelen);
-			 //$('input[name="loan_type"]').val(data);
+			$('input[name="loan_type"]').val(data);
 			 	
 			dijit.byId('frm_loantype').reset();
 			dijit.byId('frm_loantype').hide();
-	
 		},
 		error: function(err) {
 			alert(err);
 		}
 	});
+  }
 }
 var url_zone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
 function addNewZone(){
+	if(dijit.byId('form_zone').validate()){
 	dojo.xhrPost({
 		url:url_zone,	
 		content:{ 
@@ -810,11 +830,10 @@ function addNewZone(){
 		},
 		handleAs:"json",
 		load: function(data) {
-			//alert(data);
 			labelen = dijit.byId('zone_name').get('value');
 			labelkh = dijit.byId('zone_number').get('value');
 			$('#zone').val(labelkh+'-'+labelen);
-			 //$('input[name="loan_type"]').val(data);
+			 $('input[name="zone"]').val(data);
 			 	
 			dijit.byId('frm_zone').reset();
 			dijit.byId('frm_zone').hide();
@@ -824,59 +843,50 @@ function addNewZone(){
 			alert(err);
 		}
 	});
+  }
 }
 function showPopupclient(){
-	
-	dijit.byId("frm_info").show();
-
+	if(dijit.byId('branch_id')!=''){
+		dijit.byId("frmpop_client").show();
+	}else{
+		alert('Please Select Branch First!');
+		dijit.byId('branch_id').focus();
+		}
 }
-var individual_client_url = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'insert-individual-client'));?>';
+var individual_client_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-client'));?>';
 function addNewindividual(){
-//alert('hhh');
+	if(dijit.byId('addclient').validate()){
 	dojo.xhrPost({
 		url:individual_client_url,	
-		//form:dojo.byId('form_info'),
-		content:{ //'photo_name':$('#photo').attr('files'),
-		    'client_no':dijit.byId('client_no').get('value'),
-		    'name_kh':dijit.byId('name_kh').get('value'),
-		    'name_en':dijit.byId('name_en').get('value'),
-		    'sex':dijit.byId('sex').get('value'),
-		    'situ_status':dijit.byId('situ_status').get('value'),
-		    'district':dijit.byId('district').get('value'),
-		    'village':dijit.byId('village').get('value'),
-		    'street':dijit.byId('street').get('value'),
-		   // 'photo_name':dijit.byId('photo').get('value'),
-		    'job':dijit.byId('job').get('value'),
-		    'phone':dijit.byId('phone').get('value'),
-		    'client_d_type':dijit.byId('client_d_type').get('value'),
-		    'national_id':dijit.byId('national_id').get('value'),
-		    'dob_client':dijit.byId('dob_client').get('value'),
-		    'province':dijit.byId('province').get('value'),
-		   // 'district':dijit.byId('district').get('value'),
-		    'commune':dijit.byId('commune').get('value'),
-		    'house':dijit.byId('house').get('value'),
-		    //'photo':dijit.byId('photo').get('value'),
-		},
-		//contentType: 'multipart/form-data',
+		form:dojo.byId('addclient'),
+		content:{
+			'branch_id':dijit.byId('branch_id').get('value')
+			},
 		handleAs:"json",
-		load: function(content) {	
-			//alert(content);
-			client_no=dijit.byId('client_no').get('value');
-			name_kh = dijit.byId('name_kh').get('value');
-			name_en = dijit.byId('name_en').get('value');
-			$('#customer_code').val(client_no);
-			//photo = dijit.byId('photo').get('value');
-			$('#member').val(name_kh+'-'+name_en);
-			 $('input[name="customer_code"]').val(content);
-			 $('input[name="member"]').val(content);
-			dijit.byId('frm_info').reset();
-			dijit.byId('frm_info').hide();
+		load: function(response) {
+			dijit.byId('frmpop_client').hide();	
+			var myNewItem = {					
+					id: response.id,
+					name: dijit.byId('name_en').get('value')+' - '+dijit.byId('name_kh').get('value'),
+					branch_id: dijit.byId('branch_id').get('value'),
+			};			
+			addDataToSelectbox(dijit.byId('member'), client_store, myNewItem, response.id);
+
+			var myNewItem1 = {					
+					id: response.id,
+					name: response.client_code,
+					branch_id: dijit.byId('branch_id').get('value'),
+			};			
+			addDataToSelectbox(dijit.byId('customer_code'), client_number_store, myNewItem1, response.id);		
+			dijit.byId('addclient').reset();
 	
 		},
 		error: function(err) {
-			alert(err);
 		}
-	});	
+	});
+ }	
 }
-
+function popupCheckCO(){
+  
+}
 </script>

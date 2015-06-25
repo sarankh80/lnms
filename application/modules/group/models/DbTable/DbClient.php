@@ -227,12 +227,12 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 // 	}
 	public function addIndividaulClient($_data){
 		
-		//$client_code = $this->getClientCode($_data['branch_id']);
+		$client_code = $this->getClientCode($_data['branch_id']);
 			$_arr=array(
 					'is_group'=>0,
 					'group_code'=>'',
 					'parent_id'=>0,
-					'client_number'=> $_data['client_no'],//$_data['client_no'],
+					'client_number'=>$client_code,
 					'name_kh'	  => $_data['name_kh'],
 					'name_en'	  => $_data['name_en'],
 					'sex'	      => $_data['sex'],
@@ -241,7 +241,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 					'village_id'  => $_data['village'],
 					'street'	  => $_data['street'],
 					'house'	      => $_data['house'],
-					//'photo_name'  =>$_data['photo'],
+					'branch_id'  => $_data['branch_id'],
 					'job'        =>$_data['job'],
 					'phone'	      => $_data['phone'],
 					'create_date' => date("Y-m-d"),
@@ -256,7 +256,8 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			
 				//echo $this->insert($_arr);exit();
 				$this->_name = "ln_client";
-				return  $this->insert($_arr);
+				$id =$this->insert($_arr);
+				return array('id'=>$id,'client_code'=>$client_code);
 	}
 }
 

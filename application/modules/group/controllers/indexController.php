@@ -277,6 +277,37 @@ class Group_indexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	function insertClientAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db=new Group_Model_DbTable_DbClient();
+			$row=$db->addIndividaulClient($data);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	
+	}
+	function getclientnumberbybranchAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$dataclient=$db->getAllClientNumber($data['branch_id']);
+			//array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			print_r(Zend_Json::encode($dataclient));
+			exit();
+		}
+	}
+	function getclientbybranchAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			 $data = $this->getRequest()->getPost();
+			 $db = new Application_Model_DbTable_DbGlobal();
+             $dataclient=$db->getAllClient($data['branch_id']);
+             array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			 print_r(Zend_Json::encode($dataclient));
+			exit();
+		}
+	
+	}
 	
 }
 
