@@ -558,5 +558,33 @@ function rptPaymentschedulesAction(){
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_search = $frm;
  }
+ 
+ function rptPaymentHistoryAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	if($this->getRequest()->isPost()){
+ 		$search = $this->getRequest()->getPost();
+ 		if(isset($search['btn_search'])){
+ 			$this->view->loantotalcollect_list=$db->getALLLoanPayment($search);
+ 		}
+ 	}else {
+ 		$search = array(
+ 				'adv_search' => '',
+ 				'status_search' => -1,
+ 				'status' => -1,
+ 				'branch_id' => "",
+ 				'client_name' => "",
+ 				'co_id' => "",
+ 				'start_date' =>date('Y-m-d'),
+ 				'end_date' => date('Y-m-d'),
+ 		);
+ 		$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+ 	}
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frm = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_search = $frm;
+ }
 }
 

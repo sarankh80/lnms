@@ -356,9 +356,12 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['client_name']>0){
       		$where.=" AND client_id = ".$search['client_name'];
       	}
-      	if($search['co_id']>0){
-      		$where.=" AND co_id = ".$search['co_id'];
+      	else {
+      		$where.=" AND client_id=-1";
       	}
+//       	if($search['co_id']>0){
+//       		$where.=" AND co_id = ".$search['co_id'];
+//       	}
       	if(!empty($search['adv_search'])){
       		//print_r($search);
       		$s_where = array();
