@@ -79,15 +79,19 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     				'loan_type'=>1,
     				'collect_typeterm'=>$data['collect_termtype'],
     				'for_loantype'=>$data['loan_type'],
-    				'is_reschedule'=>2
+    				'is_reschedule'=>2,
+    				'reschedule_opt'=>$data['reschedule_opt']
     		);
     		
     		$g_id = $this->insert($datagroup);//add group loan
     		unset($datagroup);
+    		//reschedule_postfix
+    		$dbsetting = new Setting_Model_DbTable_DbLabel();
+    		$array = $dbsetting->getAllSystemSetting();
     		
     		$datamember = array(
     				'group_id'=>$g_id,
-    				'loan_number'=>$data['loan_code'],
+    				'loan_number'=>$data['loan_code'].$array['reschedule_postfix'],
     				'client_id'=>$data['member'],
     				'payment_method'=>$data['repayment_method'],
     				'currency_type'=>$data['currency_type'],
@@ -103,12 +107,11 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     				'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
     				'collect_typeterm'=>$data['collect_termtype'],
-    				'loan_number'=>$data['loan_code'],
     				'semi'=>$data['amount_collect_pricipal'],
-    				'is_reschedule'=>2
+    				'is_reschedule'=>2,
+    				
     		);
     		
-    			
     			$this->_name='ln_loan_member';
     			$member_id = $this->insert($datamember);//add member loan
     			unset($datamember);

@@ -625,12 +625,31 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	if($holiday_status==3){
   		return $next_payment;//if normal day
+  		// normal day but must can not over day of the month
   	}else{//check for sat and sunday
 //   		$this->getSystemSetting('work_saturday');
   		while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
   			$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
   		}
+  		
+  		
+  		//$end = date('d',$next_payment);
+  		$end = date('d',strtotime($next_payment));
+  		if($end>28){//date collect >date 28
+  			return $this->checkEndOfMonth($default_day,$next_payment);	
+  		}
   		return $next_payment;
+  	}
+  	
+  }
+  function checkEndOfMonth($default_day,$payment_date){//default = 31 , 
+  	$m = date('m',strtotime($payment_date));
+  	$end_date   = date('Y-m-d',mktime(1,1,1,++$m,0,date('Y',strtotime($payment_date))));
+  	if($default_day>=date("d",strtotime($end_date))){
+  		return $end_date;
+  	}else{
+  		$next_payment = date("Y-m-$default_day", strtotime($payment_date));
+  		return $next_payment; 
   	}
   	
   }
@@ -802,7 +821,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	else{ 
   		return false;}
   }
-  function getAllClient(){
+  function getAllClient($branch_id=null){
   	$db = $this->getAdapter();
 //   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
 // 	CONCAT(c.`name_en` ,',',(SELECT village_name FROM `ln_village` WHERE vill_id = village_id  LIMIT 1) ,',',
@@ -811,14 +830,21 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 // 	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) ) AS name		
 //   	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
-  	CONCAT(c.`name_en`,'-',c.`name_kh`) AS name
+  	CONCAT(c.`name_en`,'-',c.`name_kh`) AS name , client_number
   	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
+  	if($branch_id!=null){
+  		$sql.=" AND c.`branch_id`= $branch_id ";
+  		
+  	}
   	return $db->fetchAll($sql);
   }
-  function getAllClientNumber(){
+  function getAllClientNumber($branch_id=null){
   	$db = $this->getAdapter();
   	$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
   	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1 " ;
+  	if($branch_id!=null){
+  		$sql.=" AND c.`branch_id`= $branch_id ";
+  	}
   	return $db->fetchAll($sql);
   }
   function getClientIdBYMemberId($member_id){
@@ -864,6 +890,7 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   		return $result;
   	}
   }
+  
   
   
 }

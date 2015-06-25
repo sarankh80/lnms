@@ -68,25 +68,29 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_loan = $frm_loan;
 		
-        $db = new Application_Model_DbTable_DbGlobal();
-       $client=$db->getAllClient();
-       // $client_type = $db->getclientdtype();
-        array_unshift($client,array(
-        'id' => -1,
-        'name' => '---Add New ---',
-        'branch_id' => -1
-        ) );
-        $this->view->allclient = $client;
-        $this->view->frm_loan = $frm_loan;
+//         $db = new Application_Model_DbTable_DbGlobal();
+//        $client=$db->getAllClient();
+//        // $client_type = $db->getclientdtype();
+//         array_unshift($client,array(
+//         'id' => -1,
+//         'name' => '---Add New ---',
+//         'branch_id' => -1
+//         ) );
+//         $this->view->allclient = $client;
+
+//         $client_number= $db->getAllClientNumber();
+//         array_unshift($client_number,array(
+//         'id' => -1,
+//         'name' => '---Add New ---',
+//         'branch_id' => -1
+//         ) );
+//         $this->view->allclient_number=$client_number;
         
-        $client_number= $db->getAllClientNumber();
-        array_unshift($client_number,array(
-        'id' => -1,
-        'name' => '---Add New ---',
-        'branch_id' => -1
-        ) );
-        $this->view->allclient_number=$client_number;
+        
+        
+
         
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
@@ -210,9 +214,10 @@ class Loan_IndexController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 				$_dbmodel = new Loan_Model_DbTable_DbLoanILtest();
 				$rows_return=$_dbmodel->addNewLoanILTest($_data);
+				print_r(Zend_Json::encode($rows_return));
+				exit();
 		}
-		print_r(Zend_Json::encode($rows_return));
-		exit();
+		
 	}
 function addNewloantypeAction(){
 	if($this->getRequest()->isPost()){
@@ -224,16 +229,6 @@ function addNewloantypeAction(){
 			print_r(Zend_Json::encode($id));
 			exit();
 		}
-	}
-	function insertIndividualClientAction(){//At callecteral when click client
-		if($this->getRequest()->isPost()){
-			$data = $this->getRequest()->getPost();
-			$db=new Group_Model_DbTable_DbClient();
-			$id=$db->addIndividaulClient($data);
-			print_r(Zend_Json::encode($id));
-			exit();
-		}
-		
 	}
 	
 }

@@ -207,7 +207,14 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$str='<div class="dijitHidden">
 				<div data-dojo-type="dijit.Dialog"  id="frm_zone" >
-					<form id="form_zone" name="form_zone" >';
+			<form id="form_zone" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				<script type="dojo/method" event="onSubmit">
+					if(this.validate()) {
+						return true;
+					}else {
+						return false;
+					}
+		      </script>';
 			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
 						<td>Zone Name</td>
@@ -435,58 +442,58 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		Application_Model_Decorator::removeAllDecorator($frms);
 		
 		$str="<div class='dijitHidden'>
-				<div data-dojo-type='dijit.Dialog'   id='frm_info' >
-					<form id='form_info' >";
+				<div data-dojo-type='dijit.Dialog'   id='frmpop_client' >
+					<form id='addclient' dojoType='dijit.form.Form' method='post' enctype='application/x-www-form-urlencoded'>
+		<script type='dojo/method' event='onSubmit'>
+		if(this.validate()) {
+		  return true;
+	    } else {
+	    return false;
+	    }
+	   </script>";
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>client_no</td>
-						<td>'.$frms->getElement('client_no').'</td>
-						<td>name_kh</td>
-						<td>'.$frms->getElement('name_kh').'</td>	
-						<td>name_en</td>
+						<td>'.$tr->translate("NAME_KHMER").'</td>
+						<td>'.$frms->getElement('name_kh').'</td>
+						<td>'.$tr->translate("NAME_ENG").'</td>
 						<td>'.$frms->getElement('name_en').'</td>		
-					</tr>
-					<tr>
-						<td>sex</td>
+						<td>'.$tr->translate("SEX").'</td>
 						<td>'.$frms->getElement('sex').'</td>
-						<td>situ_status</td>
+					</tr>
+					<tr>
+						<td>'.$tr->translate("SITU_STATUS").'</td>
 						<td>'.$frms->getElement('situ_status').'</td>	
-						<td>client_d_type</td>
-						<td>'.$frms->getElement('client_d_type').'</td>		
+						<td>'.$tr->translate("NATIONAL_ID").'</td>
+						<td>'.$frms->getElement('client_d_type').'</td>	
+						<td>'.$tr->translate("NUMBER").'</td>
+						<td>'.$frms->getElement('national_id').'</td>	
 					</tr>
-								
 					<tr>
-						<td>national_id</td>
-						<td>'.$frms->getElement('national_id').'</td>
-						<td>job</td>
+						<td>'.$tr->translate("JOB_TYPE").'</td>
 						<td>'.$frms->getElement('job').'</td>	
-						<td>phone</td>
-						<td>'.$frms->getElement('phone').'</td>		
+						<td>'.$tr->translate("PHONE").'</td>
+						<td>'.$frms->getElement('phone').'</td>	
+						<td>'.$tr->translate("DOB").'</td>
+						<td>'.$frms->getElement('dob_client').'</td>	
 					</tr>
 					<tr>
-						<td>dob_client</td>
-						<td>'.$frms->getElement('dob_client').'</td>
-						<td>province</td>
+						<td>'.$tr->translate("PROVINCE").'</td>
 						<td>'.$frms->getElement('province').'</td>	
-						<td>district</td>
-						<td>'.$frms->getElement('district').'</td>		
+						<td>'.$tr->translate("DISTRICT").'</td>
+						<td>'.$frms->getElement('district').'</td>
+						<td>'.$frms->getElement('COMMUNE').'</td>
+						<td>'.$frms->getElement('commune').'</td>		
 					</tr>
 					<tr>
-						<td>commune</td>
-						<td>'.$frms->getElement('commune').'</td>
-						<td>village</td>
+						<td>'.$tr->translate('VILLAGE').'</td>
 						<td>'.$frms->getElement('village').'</td>	
-						<td>street</td>
-						<td>'.$frms->getElement('street').'</td>		
+						<td>'.$tr->translate('STREET').'</td>
+						<td>'.$frms->getElement('street').'</td>	
+						<td>'.$tr->translate('HOUSE').'</td>
+						<td>'.$frms->getElement('house').'</td>	
 					</tr>
 					<tr>
-						<td>house</td>
-						<td>'.$frms->getElement('house').'</td>
-						
- 						
-					</tr>																	
-					<tr>
-						<td colspan="2" align="center" colspan="3">
+						<td colspan="6" align="center" colspan="3">
 						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
 						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewindividual();"/>
 						</td>

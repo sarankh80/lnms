@@ -388,6 +388,8 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		return $rows;
     	}catch (Exception $e){
     		$db->rollBack();
+    		Application_Form_FrmMessage::message("INSERT_FAIL");
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     } 
     function calCulateIRR($total_loan_amount,$loan_amount,$term,$curr){
