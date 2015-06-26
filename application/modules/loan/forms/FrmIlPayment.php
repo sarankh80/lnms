@@ -119,8 +119,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$_service_charge = new Zend_Dojo_Form_Element_NumberTextBox('service_charge');
 		$_service_charge->setAttribs(array(
-				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
+				'dojoType'	=>'dijit.form.NumberTextBox',
+				'class'		=>'fullside',
 				//'onkeyUp'=>'totalReturn();'
 				'onBlur'	=>	'doTotal(2);'
 		));
@@ -149,7 +149,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-								'class'=>'fullside',
+				'class'=>'fullside',
 		 						//'onchange'=>'getLoan(1);'
 		));
 		$_coid->setMultiOptions($options);
@@ -235,7 +235,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'Onchange'	=>	'calculateTotal();payOption();'
+				'Onchange'	=>	'calculateTotal();'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
@@ -287,7 +287,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 		$id = new Zend_Form_Element_Text('id');
 // 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
 		
-		$installment_date = new Zend_Form_Element_Text("installment_date");
+		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
 		$old_tota_pay = new Zend_Form_Element_Text("oldTotalPay");
 		$old_tota_pay->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',));
@@ -295,7 +295,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$release_date = new Zend_Dojo_Form_Element_TextBox("release_date");
 		$release_date->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
 		
-		$old_release_date = new Zend_Dojo_Form_Element_TextBox("old_release_date");
+		$old_release_date = new Zend_Form_Element_Hidden("old_release_date");
 		$old_release_date->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
 		
 		$loan_level= new Zend_Dojo_Form_Element_TextBox("load_level");
