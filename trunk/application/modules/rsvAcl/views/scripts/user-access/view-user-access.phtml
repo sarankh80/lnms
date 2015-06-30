@@ -1,4 +1,4 @@
-<title>SRMS System | View Module Assignment</title>
+<title>User Access</title>
 <style>
 fieldset.fifthy {	
 	border-right: 0px;
@@ -12,28 +12,27 @@ table.user td{
 }
 </style>       
 
-<?php
+<?php $rs=$this->rs;
 $cancel_url=$this->url(array(
 		'module'=>'rsvAcl',
 		'controller'=>'user-access',
 		'action'=>'index',
-	));	
+	));
+	
 	
 	  $acl=($this->acl=='')? array():$this->acl;
 	  $acl_name=($this->acl_name=='')? array(): $this->acl_name;
+	  $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	  $df=$this->data;
 ?>
-<br/>
-<div class="btn" align="right">
-	<input  type="button" value="ត្រលប់​ក្រោយ" label="ត្រលប់​ក្រោយ" id="btadd" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $cancel_url; ?>';"/>
-</div>
-<table cellspacing="20" style="margin: 0 auto; width: 100%">
+<table style="margin: 0 auto; width: 100%">
 	<tr>
 		<td>
 			<fieldset>
 				<legend>Module Assignment</legend>
 				<table cellspacing="20" align="center">
 					<tr>
-						<td class="field-member">User type</td>
+						<td>User type</td>
 						<td class="add-edit">
 							<input type="text" required="true" name="user_type" id="user_type" placeholder="User Type" 
 										dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->rs[0]['user_type'];?>"
@@ -83,55 +82,37 @@ $cancel_url=$this->url(array(
 		</td>
 	</tr>
 </table>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/tundraGrid.css"/>
+		
 <style>
-<!--
 	.pointer{
 		cursor: pointer;	
 	}
-	#grid{
-	    margin-top: 10px;		
-	}
-	.dojoxGridSortNode{
-		text-align: center;	
-		height: 24px;		
-	}
--->
 </style>
-<script type="text/javascript">	
-	dojo.require("dijit.form.ValidationTextBox");
-	dojo.require('dijit.form.Form');
-	dojo.require('dijit.form.FilteringSelect');	
-	dojo.require('dijit.form.Button');
-	dojo.require("dojo.store.Memory");
-	dojo.require("dojo.data.ObjectStore");
-	
-
-
-	function changeStatus(id, status_val){
+<script>
+$(function(){		
+	$('#fmod').val('<?php echo $df['fmod']?>');
+	$('#fcon').val('<?php echo $df['fcon']?>');
+	$('#fact').val('<?php echo $df['fact']?>');
+	$('#fstatus').val('<?php echo $df['fstatus']?>');
+});
+	function changeStatus(id, user_type){
 		url = "<?php echo BASE_URL;?>/rsvAcl/user-access/update-status";
 		status = "no";
 		none_src = "<?php echo BASE_URL?>/images/icon/none.png";
 		tick_src = "<?php echo BASE_URL?>/images/icon/tick.png";
-		user_type = "<?php echo $this->rs[0]['user_type_id'];?>"
 
-		if( status_val == 1){
+		if( $("#img_" + id).attr("src") == tick_src){
 			status = "yes";
 		}
 		
-		dojo.xhrPost({
-		      url: url,
-		      content:{'acl_id': id, 'status': status, 'user_type_id':user_type},		     
-		      load: function(data){
-		    	  	img_src = none_src;
-			         if(data == "yes"){
-						img_src = tick_src;
-			         }	     
-			         dojo.attr(dojo.byId("img_" + id),"src", img_src);
-		      },
-		      error: function(error){	        
-		        alert("Error, please reload page, Try it again.");
-		      }
-	    });
-	}	
+		$.post( url, { 'acl_id': id, 'status': status, 'user_type_id':user_type},
+	      function( data ) {
+			 img_src = none_src;
+	         if(data == "yes"){
+				img_src = tick_src;
+	         }	         
+	         $("#img_" + id).attr("src", img_src);
+	      }
+	    );
+	}
 </script>
