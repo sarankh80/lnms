@@ -621,36 +621,45 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 //   		echo $str_next;exit();
 //   		echo $d->format('Y-m-d');exit();
 //   		$next_payment =  $d->format('Y-m-d');
-  		$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
+		if($default_day>28){
+			$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+			$next_payment = $this->checkEndOfMonth($default_day,$next_payment , $str_next);
+// 			echo $next_payment;exit();
+		}else{
+	  		$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
+		}
   	}
+  	
   	if($holiday_status==3){
   		return $next_payment;//if normal day
-  		// normal day but must can not over day of the month
   	}else{//check for sat and sunday
-//   		$this->getSystemSetting('work_saturday');
   		while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
   			$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
   		}
-  		
-  		
-  		//$end = date('d',$next_payment);
-  		$end = date('d',strtotime($next_payment));
-  		if($end>28){//date collect >date 28
-  			return $this->checkEndOfMonth($default_day,$next_payment);	
-  		}
+//   		echo $next_payment;exit();
   		return $next_payment;
   	}
   	
   }
-  function checkEndOfMonth($default_day,$payment_date){//default = 31 , 
-  	$m = date('m',strtotime($payment_date));
-  	$end_date   = date('Y-m-d',mktime(1,1,1,++$m,0,date('Y',strtotime($payment_date))));
-  	if($default_day>=date("d",strtotime($end_date))){
-  		return $end_date;
+  function checkEndOfMonth($default_day,$next_payment,$str_next){//default = 31 ,
+  	if($str_next=='+1 month'){
+  		$str_next='-1 month';
+  	}else if($str_next=='+1 week'){
+  		$str_next='-1 week';
   	}else{
-  		$next_payment = date("Y-m-$default_day", strtotime($payment_date));
-  		return $next_payment; 
+  		$str_next='-1 day';
   	}
+  	
+  	$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+  	$m = (integer) date('m',strtotime($next_payment));
+  	$end_date   = date('Y-m-d',mktime(1,1,1,++$m,0,date('Y',strtotime($next_payment))));
+  	return $end_date;
+//   	if($default_day>=date("d",strtotime($end_date))){
+//   		return $end_date;
+//   	}else{
+//   		$next_payment = date("Y-m-$default_day", strtotime($payment_date));
+//   		return $next_payment; 
+//   	}
   	
   }
   public function getNextDateById($pay_term,$amount_next_day){

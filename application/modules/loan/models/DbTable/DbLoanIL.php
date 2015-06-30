@@ -292,7 +292,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 //     			for($i=1;$i<=($data['period']/$data['amount_collect']);$i++){
     			for($i=1;$i<=$loop_payment;$i++){
     				$amount_collect = $data['amount_collect'];
-    				$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
+//     				$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
     			    $str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
     				
     				if($payment_method==1){//decline//completed
@@ -693,7 +693,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		//     			for($i=1;$i<=($data['period']/$data['amount_collect']);$i++){
     		for($i=1;$i<=$loop_payment;$i++){
     			$amount_collect = $data['amount_collect'];
-    			$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
+    			//$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],$amount_collect);//return amount day for payterm
     	
     			//$day_perterm = $dbtable->getSubDaysByPaymentTerm($data['pay_every'],$amount_collect);//return amount day for payterm
     			$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
