@@ -64,7 +64,7 @@ public function init()
 		$get_laonnumber->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getInfoByLoanNumber();'
+				'onchange'=>'getInfoByLoanNumber();getLoanInfoByLoanNumber();'
 		));
 		$group_opt = $db->getLoanAllLoanNumber(1,1);
 		$get_laonnumber->setMultiOptions($group_opt);
@@ -447,6 +447,35 @@ public function init()
 		$options= array(1=>"Active",0=>"Cancel");
 		$_status->setMultiOptions($options);
 		
+		$_interest = new Zend_Dojo_Form_Element_TextBox("interest");
+		$_interest->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$penalize = new Zend_Dojo_Form_Element_TextBox("penalize");
+		$penalize->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$_service_charge = new Zend_Dojo_Form_Element_TextBox("service_charge");
+		$_service_charge->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'required' =>'true'
+		));
+		
+		$_instalment_date = new Zend_Form_Element_Hidden("instalment_date");
+		
+		$_release_date = new Zend_Form_Element_Hidden("old_release_date");
+		
+		$_interest_rate = new Zend_Form_Element_Hidden("old_rate");
+		
+		$_old_payterm = new Zend_Form_Element_Hidden("old_payterm");
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 // 			print_r($data);
@@ -488,7 +517,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones,$_branch_ids,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones,$_branch_ids,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_status,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));
