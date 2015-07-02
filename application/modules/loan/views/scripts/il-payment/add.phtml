@@ -827,18 +827,7 @@ function getLaonHasPayByLoanNumber(){
 							statuss='<label style="color:red;">នៅឡើយ</lable>';
 							++nums;
 							var is_apprs="";
-							date_pay = new Date(data_loan[k].date_payment);
-							str_day_pay = getDayString(date_pay.getDay());
-
-							date_get = new Date(data_loan[k].date_input);
-							str_day_get = getDayString(date_get.getDay());
-
-							datePayment = new Date(date_pay);
-							//var dateString = datePayment.toLocaleFormat('%d-%m-%Y');
-
-							date_input = new Date(date_get);
-							//var dateStringInput = date_input.toLocaleFormat('%d-%m-%Y');
-							
+							total_pay = parseFloat(data_loan[k].total_principal_permonth)+parseFloat(data_loan[k].total_interest)+parseFloat(data_loan[k].service_charge)+parseFloat(data_loan[k].penalize_amount);
 							currs =getCurrencyType(data_loan[k].currency_type);
 							temp+= '<tr>';
 								temp += '<td>&nbsp;'+nums+'</td>';
@@ -852,7 +841,7 @@ function getLaonHasPayByLoanNumber(){
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_interest)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].service_charge)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].penalize_amount)+' '+currs+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_payment)+' '+currs+'&nbsp;</td>';
+								temp += '<td>&nbsp;'+dojo.number.format(total_pay)+' '+currs+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].recieve_amount)+' '+currs+'&nbsp;</td>';
 								if(data_loan[k].is_completed==1){
 									statuss = '<label style="color:blue;">បង់រួច</label>';
@@ -931,7 +920,7 @@ function calculateTotal(index){
 				last_payment_date=0;
 				var oneDay = 24*60*60*1000;
 				if($('#mfdid_'+arrays[i]).attr('checked')){
-					alert(arrays[i]);
+					//alert(arrays[i]);
 					//getLastPaymentDate(arrays[i]);
 					var ps = $('#multiplier_'+arrays[i]).val();
 		          	var os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
@@ -944,11 +933,16 @@ function calculateTotal(index){
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
-		          	
-		          	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
+
+		          	if(last_payment_date!="null" || last_payment_date==null || last_payment_date=="" ){
+						pay_date= new Date($('#date_payment_'+arrays[i]).val());
+					}else{
+						pay_date = new Date(last_payment_date);
+					}
+		          	//pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
 					var late_day = Math.round((date_collect - pay_date)/(oneDay));
 					if(late_day>0){
-						if(last_payment_date!="null"){
+						if(last_payment_date!="null" || last_payment_date!=null || last_payment_date!=""){
 							total_late_day = late_day;
 						}else{
 							total_late_day = late_day - graice_period;
@@ -1071,15 +1065,15 @@ function calculateTotal(index){
 				total_interest=0;
 				priciple_amount=0;
 			}
-		dijit.byId('oldTotalPay').attr('value',totalAmount);
-		dijit.byId('amount_receive').attr('value',totalAmount);
+		dijit.byId('oldTotalPay').attr('value',totalAmount.toFixed(2));
+		dijit.byId('amount_receive').attr('value',totalAmount.toFixed(2));
 		dijit.byId('amount_return').attr('value',0);
-		dijit.byId('penalize_amount').attr('value',total_interest_late);
-		dijit.byId('old_penelize').attr('value',total_interest_late);
-		dijit.byId('total_payment').attr('value',totalAmount);
-		dijit.byId('os_amount').attr('value',os_amount);
-		dijit.byId('total_interest').attr('value',total_interest);
-		dijit.byId('priciple_amount').attr('value',priciple_amount);
+		dijit.byId('penalize_amount').attr('value',total_interest_late.toFixed(2));
+		dijit.byId('old_penelize').attr('value',total_interest_late.toFixed(2));
+		dijit.byId('total_payment').attr('value',totalAmount.toFixed(2));
+		dijit.byId('os_amount').attr('value',os_amount.toFixed(2));
+		dijit.byId('total_interest').attr('value',total_interest.toFixed(2));
+		dijit.byId('priciple_amount').attr('value',priciple_amount.toFixed(2));
 		var identity = dijit.byId('identity').get('value');
 		var recored = dijit.byId('record_id').get('value');
 		if(identity==recored){

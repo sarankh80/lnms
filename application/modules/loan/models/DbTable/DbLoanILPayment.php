@@ -240,7 +240,7 @@ public function addILPayment($data){
     		$service_charge=0;
     		//print_r("re>ser".$service_charge);
     		if($new_amount<=$penalize){
-    			$new_penelize = $new_amount-$penalize;
+    			$new_penelize = $penalize-$new_amount;
     			$penalize = $new_penelize;
     			$total_os = $data["os_amount"];
     			$interest_fun=$interest;

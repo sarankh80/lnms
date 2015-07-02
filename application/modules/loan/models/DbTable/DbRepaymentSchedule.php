@@ -1220,7 +1220,26 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql);
     }
     
+    public function getLaoForRepaymentSchedule($member_id){
+    	$db = $this->getAdapter();
+    	$sql = "SELECT
+			    	lf.`date_payment`,
+			    	lf.`principle_after`,
+			    	lf.`total_interest_after`,
+			    	lf.`service_charge`,
+			    	lf.`penelize`,
+			    	lf.`total_payment_after`,
+			    	(SELECT lg.`date_release` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=l.`group_id`) AS release_date,
+			    	(SELECT lc.`date_input` FROM `ln_client_receipt_money` AS lc,`ln_client_receipt_money_detail` AS lcd WHERE lc.`id`=lcd.`crm_id` AND lcd.`loan_number`=l.`loan_number` AND lcd.`lfd_id`=lf.`id` ORDER BY lc.`date_input` DESC LIMIT 1) AS last_pay_date,
+			    	l.client_id,l.currency_type ,l.interest_rate , l.loan_number,l.payment_method, l.group_id,l.branch_id,l.`pay_after`,l.`collect_typeterm`,
+			    	(SELECT co_id FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1 ) AS co_id ,
+			    	(SELECT zone_id FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1) AS zone_id,
+			    	(SELECT LEVEL FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1) AS LEVEL
+			    FROM `ln_loan_member` AS l,`ln_loanmember_funddetail` AS lf WHERE lf.`member_id`=l.`member_id` AND lf.`is_completed`=0 AND l.member_id=$member_id AND l.`status`=1 AND l.is_completed=0";
+    	return $db->fetchAll($sql);
     }
+    
+}
   
 
 
