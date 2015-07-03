@@ -836,7 +836,7 @@ function getLoanInfoByLoanNumber(){
 			}
 			last_payment_date = new Date($('#instalment_date').val());
 			installment_date=last_payment_date==""?new Date($('#old_release_date').val()):last_payment_date;
-		  	practical_date  = Math.round((date_collect - installment_date)/(oneDay));
+		  	practical_date = Math.round((date_collect - installment_date)/(oneDay));
 		  	//alert(practical_date);
 		  	if(practical_date>=0){
 		  		total_interest = ((os_amount*interest_rate/100)/30)*practical_date;

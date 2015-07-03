@@ -572,12 +572,11 @@ dojo.ready(function(){
 
 });
 function getPayment(){
-	alert(1);
-	total_payment = '<?php echo $ilPaymentById["total_payment"];?>';
 	amount_receive = '<?php echo $ilPaymentById["recieve_amount"];?>';
 	amount_return = '<?php echo $ilPaymentById["return_amount"];?>';
 	//alert(total_payment+"-"+amount_receive+"-"+amount_return);
 	try{
+		dijit.byId('last_payment_date').attr('value','<?php echo $ilPaymentById["interest_rate"];?>');
 		dijit.byId('interest_rate').attr('value','<?php echo $ilPaymentById["interest_rate"];?>');
 		dijit.byId('branch_id').attr('value','<?php echo $ilPaymentById["branch_id"];?>');
 		dijit.byId('loan_number').attr('value','<?php echo $ilPaymentById["loan_numbers"];?>');
@@ -665,7 +664,6 @@ function getPayment(){
     <?php }?>
     tem+='</table>';
 	dojo.byId('data_table').innerHTML = tem;
-	//checkAll();
     <?php }?>
 	}catch(e){
 		alert(e);
