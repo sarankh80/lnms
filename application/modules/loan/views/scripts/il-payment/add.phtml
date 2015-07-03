@@ -6,7 +6,6 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;
-	//print_r($graiceperiod);
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -31,13 +30,6 @@
 						return false;
 					}
 				}
-				//if(option_pay==1){
- 				//	if(receive_amount<service_charge){
-				//		alert('Recieve Amount Can not less than Service charge!!');
-				//		dijit.byId('amount_receive').focus();
-				//		return false;
- 				//	}
-				//}
 				if(receive_amount==""){
 					alert('Please fill Recieve Amount');
 					dijit.byId('amount_receive').focus();
@@ -148,7 +140,6 @@
 							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
-							
 						</tr>
 						<tr>
 							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
@@ -180,8 +171,6 @@
 		</tr>
 		<tr>
 			<td>
-<!-- 			<div id='data_table' name='data_table'></div> -->
-			
 				<div id="mainTabContainer" style=" max-width:1135px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="ការវិភាគបង់ប្រាក់" selected="true">
 								 <div id='data_table' name='data_table'></div>
@@ -239,7 +228,6 @@
 							 <?php echo date('d-m-Y H:i:s');?><br/>
 						</td>
 				   </tr>
-				  
 			<tr class="fontsize">
 					<td></td>
 					<td></td>
@@ -249,7 +237,6 @@
 					<td class="border">
 						<strong class="fonttel" style="font-size:12px;"><label id="lblinvioice"><?php print($this->user_name);?></label></strong>
 					</td>
-					
 			</tr>
 			<tr class="fontsize">
 					<td></td>
@@ -347,9 +334,7 @@ function showReciept(){
 		for(var i=0;i<1;i++){
 			document.getElementById('lbl_group_member').innerHTML = arrays[0];
 		}
-		
 		document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-		//document.getElementById('lbl_group_member').innerHTML = dijit.byId('client_id').attr('displayedValue');
 		document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
 		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
 		document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
@@ -369,8 +354,6 @@ function showReciept(){
 		//submitData();
 	}
 }
-
-
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 dojo.require("dojo.data.ItemFileWriteStore"); 
@@ -432,15 +415,12 @@ dojo.ready(function(){
 			getLaonHasPayByLoanNumber();
 			getLaonPayment(1);
 			getAllLaonPayment(1);
-			
-			
 		}
 	});	
 });
 
 is_change=0;
 function filterClient(){
-	
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_id').query.branch_id = branch_id;
 	dijit.byId('client_code').query.branch_id = branch_id;
@@ -448,7 +428,6 @@ function filterClient(){
 		dijit.byId('client_id').reset();
 		dijit.byId('client_code').reset();
 	}
-	
 }
     var tran_store  = getDataStorefromJSON('','name',null);
 	var tran_status = {};
@@ -463,7 +442,6 @@ function filterClient(){
 		submitData()
 		window.location.href ="<?php echo $this->baseUrl();?>/loan/il-payment";
 	}
-
 	// Force them to provide an answer
 	function doPrint() {
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
@@ -471,19 +449,15 @@ function filterClient(){
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
 	}
-	
 </script>
 <script type="text/javascript">
 function submitData(){
-	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'IlPayment','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
 			load: function(data) {	
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-				//alert(data);
-				
 			},
 			error: function(e) {
 				//alert("Your message could not be sent, please try again!.");
@@ -507,8 +481,6 @@ function AddNewCo(){
 		},
 		error: function(err) {
 			//alert(err);
-		//alert("Your message could not be sent, please try again!.");
-				        
 		}
 	});
 }
@@ -535,12 +507,10 @@ function trRow(x){
 			document.getElementById('tr_'+x).style.background='none';
 			$('#mfdid_'+x).attr('checked',true);
 			$('#mfdid_'+x).attr('onclick',"return true", 'onkeydown',"return true");
-			
 		}else{
 			document.getElementById('tr_'+x).style.background='#eee';
 			$('#mfdid_'+x).attr('checked',false);
 			$('#mfdid_'+x).attr('onclick',"return false", 'onkeydown',"return false");
-			
 		}
 		$('#check_all').attr('onclick',"return true", 'onkeydown',"return false");
 	}else if(pay_option==4){
@@ -555,8 +525,6 @@ function trRow(x){
 		$('#check_all').attr('checked',false);
 		if(x==1){
 			$('#mfdid_'+x).attr('checked',true);
-		}else{
-			//dijit.byId('identity').attr('value',1);
 		}
 	}
 	calculateTotal();
@@ -566,7 +534,6 @@ var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'il
 function getLaonPayment(type){
 	try{
 	tem='';	is_set=0;
-	
 	if(type==1){
 		var loan_number = dijit.byId('loan_number').get('value');
 	}else if(type==2){
@@ -582,7 +549,6 @@ function getLaonPayment(type){
 			},	
 			handleAs:"json",
 			load: function(respone) {
-				
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
 					+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" /></th>'
@@ -599,7 +565,6 @@ function getLaonPayment(type){
 					+'<th class="tdheader">ស្ថានភាព</th>'
 					+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
 				+'</thead>';
-				
 				if(respone!=""){
 					num=0;
 					for(i=0;i<respone.length;i++){
@@ -642,7 +607,7 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="text" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
@@ -714,10 +679,8 @@ function getLaonPayment(type){
 	}	
 }
 function getLoan(){
-	
 }
 function getAllLaonPayment(types){
-	
 	if(types==1){
 		var loan_numbers = dijit.byId('loan_number').get('value');
 	}else if(types==2){
@@ -725,7 +688,6 @@ function getAllLaonPayment(types){
 	}else if(types==3){
 		var loan_numbers = dijit.byId('client_id').get('value');
 	}
-	
 	var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-all-il-loan-Detail')); ?>';
 		dojo.xhrPost({
 		    url: url_submits,
@@ -735,7 +697,6 @@ function getAllLaonPayment(types){
 			},	
 			handleAs:"json",
 			load: function(data) {
-				//statuss='<label style="color:red;">នៅឡើយ</lable>';
 				tmp='';	is_sets=0;
 				tmp='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
 					+'<thead><tr><th style="width:4%" class="tdheader">ល.រ</th>'
@@ -760,14 +721,11 @@ function getAllLaonPayment(types){
 						ds = new Date(data[j].date_payment);
 						str_days = getDayString(ds.getDay());
 						currs =getCurrencyType(data[j].currency_type);
-
 						datePayment = new Date(ds);
-						//var dateString = datePayment.toLocaleFormat('%d-%m-%Y');
 						 tmp+= '<tr>';
 						    tmp += '<td>&nbsp;'+nums+'</td>';
 						    tmp += '<td>&nbsp;'+data[j].client_number+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+data[j].name_kh+'&nbsp;</td>';
-						   // tmp += '<td style="white-space: nowrap;">&nbsp;'+str_days+'&nbsp;</td>';
 						    tmp += '<td style="white-space: nowrap;">&nbsp;'+data[j].date_payments+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_principal)+' '+currs+'&nbsp;</td>';
 						    tmp += '<td>&nbsp;'+dojo.number.format(data[j].principal_permonth)+' '+currs+'&nbsp;</td>';
@@ -864,7 +822,6 @@ function getLaonHasPayByLoanNumber(){
 }
 function popupCheckCO(){
 }
-
 function calculateTotal(index){
 	try{
 		var total_payment = 0;
@@ -875,9 +832,7 @@ function calculateTotal(index){
 		var after_discount = 0;
 		var totalAmount = 0;
 		var payOption = dijit.byId('option_pay').get('value');
-		
 		var payment_term = dijit.byId('payment_term').get('value');
-		
 		var interest_rate = dijit.byId('interest_rate').get('value');
 		var date_collect = dijit.byId('collect_date').get('value');
 		var amount_collect_term = dijit.byId('amount_payment_term').get('value');
@@ -891,7 +846,6 @@ function calculateTotal(index){
 			var ids =dijit.byId('identity').get('value');
 		}
 		var arrays = ids.split(',');
-		
 		for(var i=0;i<arrays.length;i++) {//calculate record row
 			if(arrays[i] == index) arrays.splice(i,1);
 			if($('#mfdid_'+index).attr('checked')){
@@ -920,8 +874,6 @@ function calculateTotal(index){
 				last_payment_date=0;
 				var oneDay = 24*60*60*1000;
 				if($('#mfdid_'+arrays[i]).attr('checked')){
-					//alert(arrays[i]);
-					//getLastPaymentDate(arrays[i]);
 					var ps = $('#multiplier_'+arrays[i]).val();
 		          	var os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
 		          	var priciple_amount = parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
@@ -933,24 +885,17 @@ function calculateTotal(index){
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
-		          	//alert(last_payment_date);
 		          	if(last_payment_date=="null" || last_payment_date==null || last_payment_date=="" ){
 						pay_date= new Date($('#date_payment_'+arrays[i]).val());
-						
 					}else{
 						pay_date = new Date(last_payment_date);
-						//alert(+"sdsfdsf"+pay_date);
 					}
-		          	//pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
 					var late_day = Math.round((date_collect - pay_date)/(oneDay));
-					//alert(date_collect+"-"+pay_date+"/"+oneDay);
 					if(late_day>0){
 						if(last_payment_date=="null" || last_payment_date==null || last_payment_date==""){
 							total_late_day = late_day - graice_period;
-							//alert("a"+total_late_day);
 						}else{
 							total_late_day = late_day;
-							//alert("b"+total_late_day);
 						}
 					}else{
 						total_late_day = late_day;
@@ -968,7 +913,6 @@ function calculateTotal(index){
 						}
 						if(payment_term==3){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day);
-							//alert(total_interest_late+"+"+totalPay+"*("+ps+"*("+interest_rate+"/100/30)*"+total_late_day);
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
 						}
 					}else if(total_late_day==0){
@@ -1129,14 +1073,17 @@ function checkAll(index){
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
-		          	
-		          	pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
+		          	if(last_payment_date=="null" || last_payment_date==null || last_payment_date=="" ){
+						pay_date= new Date($('#date_payment_'+arrays[i]).val());
+					}else{
+						pay_date = new Date(last_payment_date);
+					}
 					var late_day = Math.round((date_collect - pay_date)/(oneDay));
 					if(late_day>0){
-						if(last_payment_date!="null"){
-							total_late_day = late_day;
-						}else{
+						if(last_payment_date=="null" || last_payment_date==null || last_payment_date==""){
 							total_late_day = late_day - graice_period;
+						}else{
+							total_late_day = late_day;
 						}
 					}else{
 						total_late_day = late_day;
@@ -1153,14 +1100,12 @@ function checkAll(index){
 						}
 						if(payment_term==3){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day);
-							//alert(total_interest_late+"+"+totalPay+"*("+ps+"*("+interest_rate+"/100/30)*"+total_late_day);
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
 						}
 					}else if(total_late_day==0){
 						total_interest_late = total_interest_late +0;
 						totalAmount = totalAmount + parseFloat(totalPay)+penelize+service_charge;
 					}else{
-						//alert();
 						dijit.byId('option_pay').attr('readOnly',false);
 						if(payment_term==1){
 			  	  	  			if(payOption==1){
@@ -1340,11 +1285,8 @@ function totalReturn(){
 	receive_amount = dijit.byId('amount_receive').get('value');
 	total_payment = dijit.byId('oldTotalPay').get('value');
 	option_pay = dijit.byId('option_pay').get('value');
-
 	service_charge=isNaN(service_charge)?0:service_charge;
 	total_amount = parseFloat(service_charge) + parseFloat(total_payment);
-	
-	//dijit.byId('total_payment').attr('value',total_amount);
 	total_payments = dijit.byId('total_payment').get('value');
 	amonut_return = parseFloat(receive_amount)-parseFloat(total_payments);
 	remain_amount = parseFloat(total_payments)-parseFloat(receive_amount);
@@ -1358,6 +1300,5 @@ function totalReturn(){
 	}else{
 		dijit.byId('remain').attr('value',0);
 	}
-	//alert(receive_amount);
 }
 </script>

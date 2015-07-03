@@ -251,7 +251,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$date_input = new Zend_Form_Element_Hidden("date_input");
 		$date_input->setValue($c_date);
 		
-		$reciever = new Zend_Form_Element_Text("reciever");
+		$reciever = new Zend_Form_Element_Hidden("reciever");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 		
 		$discount = new Zend_Dojo_Form_Element_TextBox("discount");
