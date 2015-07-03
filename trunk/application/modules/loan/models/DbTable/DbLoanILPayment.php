@@ -118,31 +118,30 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	function getIlPaymentByID($id){
 		$db = $this->getAdapter();
 		$sql="SELECT 
-				  (SELECT crmd.`loan_number` FROM `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id`) AS loan_numbers,
+				(SELECT lcrm.`date_input` FROM `ln_client_receipt_money` AS lcrm,`ln_client_receipt_money_detail` AS lcrmd WHERE lcrm.`id`!=15 AND lcrmd.`crm_id`=lcrm.`id` AND lcrm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) ORDER BY lcrm.`date_input` DESC LIMIT 1) AS last_paydate ,
+				  (SELECT crmd.`loan_number` FROM `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` LIMIT 1) AS loan_numbers,
 				  crm.*,
-				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS amount_term,
-				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS collect_typeterm,
-				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS `interest_rate`,
-				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=crmd.`loan_number`) AS `total_capital`,
-				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS date_release,
-				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS level,
-				  (SELECT g.`total_duration` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS total_duration,
-				  (SELECT g.`payment_method` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = crmd.`loan_number`) AS payment_method
+				  (SELECT lm.amount_collect_principal FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS amount_term,
+				  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS collect_typeterm,
+				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS `interest_rate`,
+				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS `total_capital`,
+				  (SELECT g.`date_release` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = (SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS date_release,
+				  (SELECT g.`level` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = (SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS LEVEL,
+				  (SELECT g.`total_duration` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = (SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS total_duration,
+				  (SELECT g.`payment_method` FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE g.`g_id`=lm.`group_id` AND lm.`loan_number` = (SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=15 LIMIT 1) LIMIT 1) AS payment_method
 				FROM
-				  `ln_client_receipt_money` AS crm ,
-				  `ln_client_receipt_money_detail` AS crmd
+				  `ln_client_receipt_money` AS crm
 				  
-				WHERE crm.id =$id
-				AND crm.id=crmd.`crm_id`";
+				WHERE crm.id =$id";
 		return $db->fetchRow($sql);
 	}
 	public function getIlDetail($id){
 		$db = $this->getAdapter();
 		$sql=" SELECT 
-					(SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm,`ln_client_receipt_money_detail` AS crmd WHERE crm.`id`!=$id AND crm.`id`=(SELECT crl.`crm_id` FROM `ln_client_receipt_money_detail` AS crl WHERE crl.`crm_id`=crm.`id` AND crl.`loan_number`=(SELECT c.loan_number FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id`=crmd.id AND c.`crm_id`=$id) )  ORDER BY crm.`date_input` DESC LIMIT 1) AS last_pay_date,
+					(SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm,`ln_client_receipt_money_detail` AS crmd WHERE crm.`id`!=$id AND crm.`id`=(SELECT crl.`crm_id` FROM `ln_client_receipt_money_detail` AS crl WHERE crl.`crm_id`=crm.`id` AND crl.`loan_number`=(SELECT c.loan_number FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id`=crmd.id AND c.`crm_id`=$id LIMIT 1) LIMIT 1)  ORDER BY crm.`date_input` DESC LIMIT 1) AS last_pay_date,
 					(SELECT `currency_id` FROM `ln_client_receipt_money_detail` WHERE crm_id = $id LIMIT 1) AS `currency_type`,
-					(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS client_number,
-					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id`) AS name_kh,
+					(SELECT c.`client_number` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id` LIMIT 1) AS client_number,
+					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE crmd.`client_id`=c.`client_id` LIMIT 1) AS name_kh,
 					crmd.* 
 				FROM
 					`ln_client_receipt_money_detail` AS crmd 

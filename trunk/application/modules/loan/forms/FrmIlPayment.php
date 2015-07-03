@@ -218,7 +218,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'readOnly'=>'readOnly'
 		));
 		
-		$_hide_total_payment = new Zend_Form_Element_Hidden('hide_total_payment');
+		$_hide_total_payment = new Zend_Form_Element_Text('hide_total_payment');
 		$_hide_total_payment->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 		));
@@ -251,7 +251,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$date_input = new Zend_Form_Element_Hidden("date_input");
 		$date_input->setValue($c_date);
 		
-		$reciever = new Zend_Form_Element_Hidden("reciever");
+		$reciever = new Zend_Form_Element_Text("reciever");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 		
 		$discount = new Zend_Dojo_Form_Element_TextBox("discount");
@@ -289,7 +289,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
-		$old_tota_pay = new Zend_Form_Element_Text("oldTotalPay");
+		$old_tota_pay = new Zend_Form_Element_Hidden("oldTotalPay");
 		$old_tota_pay->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',));
 		
 		$release_date = new Zend_Dojo_Form_Element_TextBox("release_date");
