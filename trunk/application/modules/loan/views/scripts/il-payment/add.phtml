@@ -642,7 +642,7 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="text" name="last_date_payment_'+inx+'" id="last_date_payment_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
@@ -933,24 +933,30 @@ function calculateTotal(index){
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
-
-		          	if(last_payment_date!="null" || last_payment_date==null || last_payment_date=="" ){
+		          	//alert(last_payment_date);
+		          	if(last_payment_date="null" || last_payment_date==null || last_payment_date=="" ){
 						pay_date= new Date($('#date_payment_'+arrays[i]).val());
+						
 					}else{
 						pay_date = new Date(last_payment_date);
+						//alert(+"sdsfdsf"+pay_date);
 					}
 		          	//pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
 					var late_day = Math.round((date_collect - pay_date)/(oneDay));
+					//alert(date_collect+"-"+pay_date+"/"+oneDay);
 					if(late_day>0){
-						if(last_payment_date!="null" || last_payment_date!=null || last_payment_date!=""){
-							total_late_day = late_day;
-						}else{
+						if(last_payment_date=="null" || last_payment_date==null || last_payment_date==""){
 							total_late_day = late_day - graice_period;
+							//alert("a"+total_late_day);
+						}else{
+							total_late_day = late_day;
+							//alert("b"+total_late_day);
 						}
 					}else{
 						total_late_day = late_day;
 					}
 						totalPay =  parseFloat(principlePerMonth) + parseFloat(interest);
+						
 					if(total_late_day>0){
 						if(payment_term==1){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day);
