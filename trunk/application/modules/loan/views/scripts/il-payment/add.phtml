@@ -934,7 +934,7 @@ function calculateTotal(index){
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
 		          	//alert(last_payment_date);
-		          	if(last_payment_date="null" || last_payment_date==null || last_payment_date=="" ){
+		          	if(last_payment_date=="null" || last_payment_date==null || last_payment_date=="" ){
 						pay_date= new Date($('#date_payment_'+arrays[i]).val());
 						
 					}else{
@@ -943,7 +943,7 @@ function calculateTotal(index){
 					}
 		          	//pay_date=last_payment_date=="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_payment_date);
 					var late_day = Math.round((date_collect - pay_date)/(oneDay));
-					//alert(date_collect+"-"+pay_date+"/"+oneDay);
+					alert(date_collect+"-"+pay_date+"/"+oneDay);
 					if(late_day>0){
 						if(last_payment_date=="null" || last_payment_date==null || last_payment_date==""){
 							total_late_day = late_day - graice_period;
