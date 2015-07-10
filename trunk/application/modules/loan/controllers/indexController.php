@@ -87,22 +87,26 @@ class Loan_IndexController extends Zend_Controller_Action {
 //         'branch_id' => -1
 //         ) );
 //         $this->view->allclient_number=$client_number;
-        
-        
-        
 
-        
 		$frmpopup = new Application_Form_FrmPopupGlobal();
 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
-// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 		
 // 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$co_name = $db->getAllCoNameOnly();
+		array_unshift($co_name,array(
+		        'id' => -1,
+		        'name' => '---Add New ---',
+		) );
+	    $this->view->co_name=$co_name;
 	}	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){

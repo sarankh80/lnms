@@ -2,7 +2,7 @@
 	$this->headTitle('Edit Exchange Money'); 
 	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
-	echo $this->dataedit['status_in'];	
+	//echo $this->dataedit['status_in'];	
 ?>	
 <style>
 <!--
@@ -21,18 +21,18 @@
 		height: 60px; 
 		color: #000;
 	}
-	.tbtable .first{
-		background-color: #012a15; 
+   .tbtable .first{
+		background-color: #008 ; 
 	}
 	.tbtable .second{
-		background-color: #016315; 
+		background-color: #E5A909 ; 
 	}
 	.special_cus{
 		color: RED;
 	}
 -->
 </style>
-<form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'exchange','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('recieve_money').get('value') < dijit.byId('from_amount').get('value') || dijit.byId('return_money').get('value') < 0){
@@ -182,7 +182,7 @@
 	<input type="hidden" name="id" value="<?php echo $this->dataedit['id'];?>">
 </form>
 <div class="dijitHidden">
-	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'របាយការណ៍ ប្តូរ', onCancel:hideDialog" id="terms" >
+	<div data-dojo-type="dijit.Dialog" style="width:8cm;" data-dojo-props="title:'របាយការណ៍ ប្តូរ', onCancel:hideDialog" id="terms" >
 		<div id="divPrint" style="width: 7cm; padding: 0px; margin: 0px;">
 			<style>
 				.fontbig{
@@ -201,12 +201,8 @@
 					   	<table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
 					   			<td width="36%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td width="35%" align="center"><strong style="font-size:16px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['rpt-transfer-title-kh'];?></strong></td>
-								<td width="32%" rowspan="2" style="valign:top;"><img style="align:top; float:right;" src="<?php echo $base_url;?>images/logo-right.png" height="34px;"/></td>
+						   		<td colspan="2" align="right"><strong style="font-size:12px;font-family:'KH Koulen';text-align:right;"><?php echo $this->keycode['client_company_name_kh'];?></strong></td>
 							</tr>
-							<tr>
-								<td align="center" style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><b><?php echo $this->keycode['rpt-transfer-title-eng'];?></td>
-					   		</tr>
 					   	</table>
 			            </td>	   	        
 				   </tr> 
@@ -216,15 +212,19 @@
 				   <tr>
 						<td align="center" colspan="3" style="font-size: 8pt;">
 							<?php echo $this->keycode['rpt-transfer-business-meaning-eng'];?><br/>
-							<?php echo $this->keycode['rpt-transfer-location-adr-kh'];?><br/>
-							<strong class="fontbig"><?php echo $this->keycode['rpt-transfer-tel-eng'];?></strong>
+							<strong class="fontbig"><?php echo $this->keycode['tel-client'];?></strong>
 						</td>
 				   </tr>
+				   <tr>
+					   <td align="right" colspan="3" style="font-size: 8pt;">
+								<?php echo'Date: '. date("d/m/Y");?>
+					  </td>
+				  </tr>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
 						<td class="pleft" style="border-bottom:1px solid #000;">
-							<strong class="fonttel" style="font-size:10px;"><label id="lblinvioice">ប័ណ្ណ​ប្តូរប្រាក់</label></strong>
+							<label id="lblinvioice" style="font-size:10px;font-family:'KH Koulen';"><?php echo $this->keycode['exchange_reciept']; ?>​</label>
 						</td>
-						<td align="right" colspan="2" style="border-bottom:1px solid #000;">
+						<td align="right" colspan="2" style="font-size: 8pt;border-bottom:1px solid #000;">
 							ឈ្មោះបុគ្គលិក៖ <?php print($this->user_name);?>
 						</td>
 				   </tr>
@@ -233,7 +233,7 @@
 							ចំនួន​ទឹក​ប្រាក់ប្តូរ
 						</td>
 						<td>:</td>
-						<td align="right">
+						<td align="right" style="white-space: nowrap;">
 							<strong ><label id="rpt_from_amount"></label></strong>
 						</td>
 				   </tr>
@@ -242,7 +242,7 @@
 							អត្រាប្តូរប្រាក់
 						</td>
 						<td>:</td>
-						<td align="right">
+						<td align="right" style="white-space: nowrap;">
 							<strong ><label id="rpt_rate"></label></strong>
 						</td>
 				   </tr>
@@ -251,7 +251,7 @@
 							ចំនួន​ទឹក​ប្រាក់សរុប
 						</td>
 						<td>:</td>
-						<td align="right">
+						<td align="right" style="white-space: nowrap;">
 							<strong style="font-size:10px;"><label id="rpt_to_amount"></label></strong>
 						</td>
 				   </tr>
@@ -273,30 +273,19 @@
 							<strong style="font-size:10px;"><label id="rpt_change"></label></strong>
 						</td>
 				   </tr>
-				   <tr>
-						<td colspan="3" align="center" style="border-top:1px solid #000;">
-							<label>
-								<?php echo $this->keycode['rpt-transfer-warnning-kh'];?>
-							</label>
-						</td>			
-				   </tr>
 				   <tr style="border:1px solid #000;">
-						<td colspan="3" align="center" style="border-top: 2px dashed #000;padding-top:5px">
+						<td colspan="3" align="center" style="border-top: 2px dashed #000;padding-top:5px;">
 								<?php echo $this->keycode['comment'];?>
 						</td>			
 				   </tr>
 				   <tr>
-						<td colspan="3">
-							<hr style="background: transparent;border-bottom: 2px dashed #000;" />
+						<td colspan="3" style="border-bottom: 1px solid #000;">
 						</td>			
 				   </tr>
 				   <tr>
-						<td>
-							<img src="<?php echo $base_url.$this->keycode['imgPath'];?>" width="50%"/>
+						<td colspan="3">
+							<label style="font-weight:bold; font-size:9px; ">Powered By: VSS Consultancy | Tel 023 51 37 999</label>
 						</td>	
-						<td align='right'  valign="top" colspan="2">
-							<?php //echo date("d/m/Y H:i:s");?>
-						</td>
 				   </tr>
 			</table>
 		</div>

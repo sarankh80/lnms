@@ -334,12 +334,12 @@ public function init()
 		$_graice_pariod->setValue(0);
 		
 		$_collect_term = new Zend_Dojo_Form_Element_FilteringSelect('collect_termtype');
-		$_collect_term->setAttribs(array(
+ 		$_collect_term->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'onchange'=>'changeGraicePeroid();'
 		));
-		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
+		$term_opt = $db->getVewOptoinTypeByType(14,1,3,1);
 		$_collect_term->setMultiOptions($term_opt);
 	
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
