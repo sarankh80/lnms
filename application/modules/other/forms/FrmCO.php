@@ -81,7 +81,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_sex->setMultiOptions($opt);
 		
 		$_tel = new Zend_Dojo_Form_Element_TextBox('tel');
-		$_tel->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		$_tel->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside',));
 		
 		$_position = new Zend_Dojo_Form_Element_FilteringSelect('position');
 		$_position->setAttribs(array('dojoType'=>$this->filter,

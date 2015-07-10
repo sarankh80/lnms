@@ -159,7 +159,14 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$str='<div class="dijitHidden">
 				<div data-dojo-type="dijit.Dialog"  id="frm_co" >
-					<form id="form_co" name="form_co" >';
+					<form id="form_co" name="form_co" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded" >
+		          <script type="dojo/method" event="onSubmit">
+					if(this.validate()) {
+						return true;
+					}else {
+						return false;
+					}
+		      </script>';
 			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
 						<td>Name Khmer</td>

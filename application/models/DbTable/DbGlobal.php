@@ -162,6 +162,12 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $rows;
    }
+   public function getAllCoNameOnly(){
+   	$db= $this->getAdapter();
+   	$sql = " SELECT co_id AS id, CONCAT(co_firstname,' - ',co_khname,' - ',co_code) AS name
+   	  FROM ln_co WHERE STATUS=1 AND co_khname!='' AND `position_id`=1 ";
+   	return $db->fetchAll($sql);
+   }
    public function getAllCurrency($id,$opt = null){
 	   	$sql = "SELECT * FROM ln_currency WHERE status = 1 ";
 	   	if($id!=null){
@@ -654,12 +660,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$m = (integer) date('m',strtotime($next_payment));
   	$end_date   = date('Y-m-d',mktime(1,1,1,++$m,0,date('Y',strtotime($next_payment))));
   	return $end_date;
-//   	if($default_day>=date("d",strtotime($end_date))){
-//   		return $end_date;
-//   	}else{
-//   		$next_payment = date("Y-m-$default_day", strtotime($payment_date));
-//   		return $next_payment; 
-//   	}
   	
   }
   public function getNextDateById($pay_term,$amount_next_day){

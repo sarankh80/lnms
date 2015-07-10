@@ -91,7 +91,7 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
 	    					"rate_out"		=>$data['RD'],
 	    					"create_date"	=>$date
     			);
-    			$where = "in_cur_id= 2 AND out_cur_id = 1";
+    			$where = "in_cur_id= 1 AND out_cur_id = 2";
     			$this->update($_data, $where);
     			
     			$_data=array(
@@ -139,7 +139,6 @@ class Tellerandexchange_Model_DbTable_DbSpread extends Zend_Db_Table_Abstract
     		return  $db->commit();
     	} catch (Exception $e) {
     		$db->rollBack();
-    		echo $e->getMessage(); exit;
     	}
     }
 }

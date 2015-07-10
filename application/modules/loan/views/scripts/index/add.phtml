@@ -8,6 +8,7 @@
 	echo $this->frmPopupZone;
 	echo $this->frmPopupClient;
 	echo $this->frmpupopinfoclient;
+	echo $this->frmPopupCO;
 // 	$m = 1;//(integer) date('n');
 // 	//print_r($m);
 // 	$end   = date('d-m-Y',mktime(1,1,1,++$m,0,date('Y')));
@@ -81,7 +82,7 @@
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
 							<td><?php echo $tr->translate("CO_NAME")?></td>
-							<td><?php echo $frm->getElement('co_id');?></td>
+							<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ZONE_NAME")?></td>
@@ -268,6 +269,7 @@ dojo.require("dojo.html");
 
 var client_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
 var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
+var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->co_name));?> );
 
 
 require(["dojo/ready"], function(ready){
@@ -319,6 +321,23 @@ require(["dojo/ready"], function(ready){
 		}
     }
 	}, "customer_code");
+
+	new dijit.form.FilteringSelect({
+		store: co_store,//dojo.data.ObjectStore({objectStore: client_number}),
+		autoComplete: true,            
+		required: false,		           
+		name: "co_id",
+		id: "co_id",
+		searchAttr: "name",
+		class: 'fullside',
+		onChange: function() {
+			co_id = dijit.byId('co_id').get('value');
+			if(co_id==-1){
+				popupcreditofficer();
+			}else{
+			}
+	    }
+		}, "co_id");
 	 
 	});
 </script>
@@ -506,20 +525,27 @@ function addNewClient(){
 		}
 	});
 }
-var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
+var url_submitco = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){
+	if(dijit.byId('form_co').validate()){
 		dojo.xhrPost({
 	    url: url_submitco,	
 		form: dojo.byId("form_co"),		    
 		handleAs:"json",
 		load: function(data) {	
+			var myNewItem1 = {					
+					id: data,
+					name: dijit.byId('first_name').get('value')+' - '+dijit.byId('last_name').get('value'),
+			};			
+			addDataToSelectbox(dijit.byId('co_id'), co_store, myNewItem1, data);		
 			dojo.byId('form_co').reset(); 
 			dijit.byId('frm_co').hide();
 		},
 		error: function(err) {
-		     alert("Your message could not be sent, please try again!.");
+		    alert("Can not insert credit officer");
 		}
-	});
+	 });
+  }
 }
 var url_submitzone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
 function addNewZone(){
@@ -564,7 +590,6 @@ function addNewCommune(){
 		form: dojo.byId("form_commune"),		    
 		handleAs:"json",
 		load: function(data) {	
-			alert(data);
 			dojo.byId('form_commune').reset(); 
 			dijit.byId('frm_commune').hide();
 		},
@@ -596,12 +621,11 @@ function addNewVillage(){
 </script>
 <?php 
 // echo $this->frmpupopclient;
-// echo $this->frmPopupCO;
  //echo $this->frmPopupZone;
  //echo $this->frmPopupCommune;
  //echo $this->frmPopupDistrict;
  //echo $this->frmPopupVillage;
- echo $this->frmpupoploantype;
+echo $this->frmpupoploantype;
 ?>
 <script>
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
@@ -787,7 +811,8 @@ function loantype(){
 function zone(){
 	    if(dijit.byId('zone').get('value')==-1){
 	    	dijit.byId("frm_zone").show();
-		}
+}
+ 
 		
 	
 }
@@ -852,6 +877,15 @@ function showPopupclient(){
 		alert('Please Select Branch First!');
 		dijit.byId('branch_id').focus();
 		}
+}
+function popupcreditofficer(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please select branch first');
+		dijit.byId('branch_id').focus();
+	}else{
+		dijit.byId('frm_co').show();
+    }
 }
 var individual_client_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-client'));?>';
 function addNewindividual(){

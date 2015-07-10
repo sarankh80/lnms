@@ -184,10 +184,11 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     				$status = "out";
     		}
     		 
+    		
     		$user_id = $session_user->user_id;
     		$_data=array(
     				"changedAmount"=>$data["return_money"],
-    				"recieptNo"=>$data["inv_no"],
+//     				"recieptNo"=>$data["inv_no"],
     				"toAmount"=>$data["to_amount"],
     				"toAmountType"=>$to_type["symbol"],
     				"rate"=>$data["rate"],

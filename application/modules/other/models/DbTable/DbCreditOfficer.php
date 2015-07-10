@@ -61,6 +61,26 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 		}
 		
 	}
+	public function addCoByAjax($data){
+		$arr = array(
+		        //'co_code'	  => $_data['co_id'],
+				'co_khname'	  => $data['last_name'],
+				'co_firstname'=> $data['first_name'],
+				'co_lastname' => $data['last_name'],
+				'displayby'	  => 1,
+				'position_id' =>1,
+				'sex'		  => $data['co_sex'],
+				'tel'	  	  => $data['tel'],
+				'email'	      => $data['email'],
+				'create_date' => Zend_Date::now(),
+				'status'      => 1,
+				'user_id'	  => $this->getUserId(),
+				'basic_salary'=> 0,
+// 				'note'		  => $data['note']
+		);
+		return $this->insert($arr);
+		
+	}
 	public function getCOById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM $this->_name WHERE co_id = ".$db->quote($id);

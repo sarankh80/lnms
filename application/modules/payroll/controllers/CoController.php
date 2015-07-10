@@ -153,7 +153,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    		$data['co_id']='';
    		$data['name_kh']='';
    		$db_co = new Other_Model_DbTable_DbCreditOfficer();
-   		$id = $db_co->addCreditOfficer($data);
+   		$id = $db_co->addCoByAjax($data);
    		print_r(Zend_Json::encode($id));
    		exit();
    	}

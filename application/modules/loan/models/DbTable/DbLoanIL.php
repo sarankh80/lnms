@@ -534,6 +534,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				$this->insert($datapayment);
     				
     			}
+    			exit();
     		$db->commit();
     		return 1;
     	}catch (Exception $e){
