@@ -146,8 +146,8 @@
 	</tr>		
 </table>
 
-<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -264,7 +264,6 @@ function getLoan(type){
 			},	
 			handleAs:"json",
 			load: function(respone) {
-				alert(respone);
 				dijit.byId('identity').attr('value',"");
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%" height="100%">'
 					+'<thead><tr><th class="tdheader">ល.រ</th>'
@@ -300,7 +299,7 @@ function getLoan(type){
 						
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 							tem += '<td style="width:3%;">&nbsp;'+num+'<input type="hidden" name="paymentTerm_'+inx+'" id="paymentTerm_'+inx+'" value="'+respone[i].collect_typeterm+'" /><input type="hidden" name="interestRate_'+inx+'" id="interestRate_'+inx+'" value="'+respone[i].interest_rate+'" /></td>';
-							tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnClick="calculateTotal('+inx+')" /><input type="hidden" name="cu_id_'+inx+'" id="cu_id_'+inx+'" value="'+respone[i].currency_type+'" /></td>';
+							tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnClick="calculateTotal('+inx+')" checked="checked"/><input type="hidden" name="cu_id_'+inx+'" id="cu_id_'+inx+'" value="'+respone[i].currency_type+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /><input type="hidden" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap; width:3%;">&nbsp;'+str_day+'&nbsp;</td>';
@@ -314,14 +313,13 @@ function getLoan(type){
 							tem += '<td>&nbsp;<label id="lb_subpayment_'+inx+'">'+payment+'</label><input type="hidden" name="sub_payment_'+inx+'" id="sub_payment_'+inx+'" value="'+payment+'" style="width:93%;margin:3px 0"/><input type="hidden" name="old_sub_payment_'+inx+'" id="old_sub_payment_'+inx+'" value="'+payment+'" /></td>';
 							tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+inx+'" name="sub_recive_amount_'+inx+'" style="width:93%;" onKeyUp="totalReturn(3,'+inx+');"/></td>';
 						    tem += '</tr>';
-						    //dijit.byId('identity').attr('value',1);
 	 					    if(inx!=1) {
 	 							var identity = dijit.byId('record_id').get('value');
 	 							dijit.byId('record_id').attr('value',identity+','+inx);
-	 							//dijit.byId('identity').attr('value',identity+','+inx);
+	 							dijit.byId('identity').attr('value',identity+','+inx);
 	 						} else {
 	 							dijit.byId('record_id').attr('value',inx);
-	 							//dijit.byId('identity').attr('value',inx);
+	 							dijit.byId('identity').attr('value',inx);
 	 						}
 					}
 					
@@ -330,9 +328,8 @@ function getLoan(type){
 				}
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
-				
-				//calculateTotal();
-				//checkAll();
+				$('#check_all').attr('checked',true);
+				calculateTotal();
 			},
 			error: function(e) {
 				alert(e);
@@ -375,7 +372,7 @@ function calculateTotal(index){
 				var oneDay = 24*60*60*1000;
 				var mfdid = $('#mfdid_'+arrays[i]);
 				if(mfdid.checked=true){
-					checkRow(arrays[i]);
+					//checkRow(arrays[i]);
 					var ps = $('#multiplier_'+arrays[i]).val();
 		          	var priciple_amount = parseFloat($('#sub_total_priciple_'+arrays[i]).val());
 		          	var interest_amount = parseFloat($('#sub_interest_'+arrays[i]).val());
@@ -623,7 +620,7 @@ function totalReturn(type,index){
 			old_service_charge = $('#old_sub_service_charge_'+index).val();
 			service_charge = $('#sub_service_charge_'+index).val();
 			new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_penelize))+parseFloat(new_penelize)+parseFloat(service_charge)-parseFloat(old_service_charge);
-			document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+			//document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
 			sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
 			$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
 			netTotal();
@@ -639,7 +636,7 @@ function totalReturn(type,index){
 			sub_total_payment = $('#sub_payment_'+index).val();
 			penelize = $('#sub_penelize_'+index).val();
 			new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_service_charge))+parseFloat(new_service_charge)+parseFloat(penelize)-parseFloat(old_penelize);
-			document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+			//document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
 			sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
 			$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
 			dijit.byId('service_charge').attr('value',new_total_service_charge.toFixed(2));
@@ -690,12 +687,12 @@ function checkRow(index){
 	
 	control = document.getElementById('mfdid_'+index);
 	if(control.checked){
-		alert(1);
+		//alert(1);
 		$('#sub_penelize_'+index).removeAttr('disabled','disabled');
 		$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
 		totalReturn(2,index);
 	}else{
-		alert(index);
+		//alert(index);
 		$('#sub_penelize_'+index).attr('disabled','disabled');
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
 		totalReturn(2,index);
