@@ -954,7 +954,7 @@ public function addILPayment($data){
    	$db = $this->getAdapter();
    	$co_id = $data["co_id"];
    	$cu_id = $data["currency"];
-   	$date = $data["collect_date"];
+   //	$date = $data["collect_date"];
    	$sql = "SELECT 
 			  (SELECT CONCAT(co.`co_firstname`,`co_lastname`,',',`co_khname`) FROM `ln_co` AS co WHERE co.`co_id`=lg.`co_id`) AS co_name,
 			  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lm.`branch_id`) AS branch,

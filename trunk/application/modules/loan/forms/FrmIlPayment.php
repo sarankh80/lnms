@@ -287,7 +287,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 		$id = new Zend_Form_Element_Text('id');
 // 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
 		
-		$installment_date = new Zend_Form_Element_Text("installment_date");
+		$installment_date = new Zend_Form_Element_Hidden("installment_date");
 		
 		$old_tota_pay = new Zend_Form_Element_Text("oldTotalPay");
 		$old_tota_pay->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',));
