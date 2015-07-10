@@ -1256,8 +1256,7 @@ function adminfee(){
 	var admin_fee = dijit.byId().get('value');
 	payment = dijit.byId('total_payment').get('value');
 }
-function doTotal(type){
-	if(type==1){
+function doTotalBypene(){
 		old_penelize = dijit.byId('old_penelize').get('value');
 		penelize = dijit.byId('penalize_amount').get('value');
 		old_total_pay = dijit.byId('total_payment').get('value');
@@ -1267,7 +1266,8 @@ function doTotal(type){
 		dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
 		dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
 		dijit.byId('old_penelize').attr('value',penelize);
-	}else if(type==2){
+}
+function doTotalByServ(){
 		old_service_charge = dijit.byId('old_service_charge').get('value');
 		service_charge = dijit.byId('service_charge').get('value');
 		old_total_pay = dijit.byId('total_payment').get('value');
@@ -1277,7 +1277,6 @@ function doTotal(type){
 		dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
 		dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
 		dijit.byId('old_service_charge').attr('value',service_charge);
-	}
 }
 
 function totalReturn(){

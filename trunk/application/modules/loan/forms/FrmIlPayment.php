@@ -52,7 +52,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
- 				'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);',
+ 				//'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);',
 				'required'=>true
 				));
 		$rows = $db ->getClientByType();
@@ -66,7 +66,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
+				//'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
 				'required'=>true
 		));
 		
@@ -104,7 +104,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'		=>	'fullside',
 				'onChange'	=>	'totalReturn();',
 				'style'		=>	'color:red;',
-				'required'	=>	true,
+				//'required'	=>	true,
 				
 		));
 		
@@ -113,7 +113,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'style'=>'color:red;',
-				'required'=>true,
+				//'required'=>true,
 				'readonly'=>true
 		));
 		
@@ -122,7 +122,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'	=>'dijit.form.NumberTextBox',
 				'class'		=>'fullside',
 				//'onkeyUp'=>'totalReturn();'
-				'onBlur'	=>	'doTotal(2);'
+				'onBlur'	=>	'doTotalByServ();'
 		));
 		$_service_charge->setValue(0);
 		
@@ -204,7 +204,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true,
-				'onChange'=>'doTotal(1);'
+				'onBlur'=>'doTotalBypene();'
 		));
 		$_penalize_amount->setValue(0);
 		
@@ -287,9 +287,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 		$id = new Zend_Form_Element_Text('id');
 // 		$id->setAttrib('dojoType', 'dijit.form.TextBox');
 		
-		$installment_date = new Zend_Form_Element_Hidden("installment_date");
+		$installment_date = new Zend_Form_Element_Text("installment_date");
 		
-		$old_tota_pay = new Zend_Form_Element_Hidden("oldTotalPay");
+		$old_tota_pay = new Zend_Form_Element_Text("oldTotalPay");
 		$old_tota_pay->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',));
 		
 		$release_date = new Zend_Dojo_Form_Element_TextBox("release_date");
