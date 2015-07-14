@@ -41,7 +41,9 @@ th{padding: 5px;}
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING") ;echo "  (".date('d-m-Y',strtotime($this->fordate)).")";?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING") ;?></h2>
+                	<h2 style="text-align:center; font-size:13px;"><?php echo date('D-d-m-Y',strtotime($this->fordate));?></h2>
+                	</td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>

@@ -3,6 +3,11 @@
     font-family: 'NiDA Khmer Empire';
     src: url("../font/NiDAKhmerEmpire.ttf");
 }
+@font-face {
+    font-family: 'Khmer MEF2';
+    src: url("../font/KHMERMEF2.ttf");
+}
+
 body{
 	margin: 0;
 	padding: 0;

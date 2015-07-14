@@ -40,8 +40,9 @@ th{padding: 5px;}
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_LATE");?></h2></td>
-                	
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_LATE");?></h2>
+                	 <h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("D-d-m-Y",strtotime($this->list_end_date['end_date']));?></h2>
+                	</td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -74,9 +75,8 @@ th{padding: 5px;}
                     <td><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></td>
                     <td><?php echo $tr->translate("INTEREST");?></td>
                     <td><?php echo $tr->translate("PAYMENT");?></td>
+                    <td><?php echo $tr->translate("PAY_DATE");?></td>
                     <td><?php echo $tr->translate("LATE_DAY");?></td>
-                    <td><?php echo $tr->translate("DAY_PAYMENT");?></td>
-                    
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
@@ -101,6 +101,9 @@ th{padding: 5px;}
 							$amn_b3 = $amn_b3+$rs['total_interest'];
 							$amn_b4 = $amn_b4+$rs['total_payment'];
 		               }
+		               $amount_days = strtotime($this->list_end_date['end_date'])-strtotime($rs["date_payment"]);
+		               $amount_days =  floor($amount_days/(60*60*24));
+		               //echo $this->list_end_date['end_date'];
                ?>
                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
                		<td style="text-align: center;"><?php echo $i++;?></td>
@@ -110,9 +113,8 @@ th{padding: 5px;}
                		<td>&nbsp;&nbsp;<?php echo number_format($rs["principal_permonth"],2).' '.$rs['currency_typeshow'];?></td>
                		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
                		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo $rs["amount_day"];?> Days</td>
-               		<td>&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
-               		
+               		<td align="center">&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
+               		<td align="center">&nbsp;&nbsp;<?php echo ($amount_days>0)?$amount_days." Days":"-";?> </td>
                 </tr>
                 <?php }?>
                
@@ -120,7 +122,7 @@ th{padding: 5px;}
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
                  <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
-                    <td></td>
+                    <td><?php echo $tr->translate('CURRENT_TYPE');?></td>
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>                    
                     <th><?php echo $tr->translate("TOTAL_PRINCIPLE_PERMONTH");?></th>
                     <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>

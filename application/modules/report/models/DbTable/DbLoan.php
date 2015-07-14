@@ -272,7 +272,6 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " principal_permonth LIKE '%{$s_search}%'";
       		$s_where[] = " total_payment LIKE '%{$s_search}%'";
       		$s_where[] = " total_interest LIKE '%{$s_search}%'";
-      		$s_where[] = " amount_day LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if(($search['status']>0)){
@@ -284,7 +283,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND branch_id = ".$search['branch_id'];
       	}
-      	$order = " ORDER BY currency_type";
+      	$order = " ORDER BY currency_type ,date_payment ASC ";
       	//echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);
       }

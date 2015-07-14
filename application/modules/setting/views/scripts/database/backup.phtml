@@ -82,10 +82,10 @@
 	fwrite($handle,$return);
 	fclose($handle);
 	
-	$url = $_SERVER['REQUEST_URI'];
-	$new_url =  str_replace("add","backup",$url);
-	$redirect = 'http://' . $_SERVER['HTTP_HOST'].$new_url;
-	header("Location:$redirect");
+// 	$url = $_SERVER['REQUEST_URI'];
+// 	$new_url =  str_replace("add","backup",$url);
+// 	$redirect = 'http://' . $_SERVER['HTTP_HOST'].$new_url;
+// 	header("Location:$redirect");
 	die();			
 }
 ?>
@@ -97,7 +97,9 @@
 	dojo.require('dijit.form.Button');	
 	require(["dojo/ready"], function(ready){
 		 ready(function(){
-			<?php backup_tables($servername,$dbuser,$dbpassword,$dbname); ?>
+			 alert(22);
+			<?php //backup_tables($servername,$dbuser,$dbpassword,$dbname); ?>
+			
 			dijit.byId('frm_backup').submit();
 		  });
 		});
