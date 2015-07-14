@@ -31,7 +31,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/form/ValidationTextBox"]);
 </script>
 </head>
-<body class="tundra" style="overflow: hidden;" >
+<body class="tundra" style="overflow: hidden;background: white;" id="body" >
 <div id="header" style="position:absolute;left: 0;top: 0;">
 	<table>
 		<tr align="center">
@@ -156,13 +156,18 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 		</tr>
 	</table>
 </div>
+<div style="clear: both;"></div>
 </body>
 </html>
-<script type="text/javascript"> 
-//require(["dojo/ready"], function(ready){
-	 //ready(function(){
-		//onload="window.open('WebForm1.aspx','_blank','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1024,height=768');"
-	//	  });
-//});
+<style>
+</style>
+<script type="text/javascript">
+var elem = document.getElementById("body");
+elem.onclick = function() {
+    req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+    req.call(elem);
+}
+</script>
+	
 </script>
 		

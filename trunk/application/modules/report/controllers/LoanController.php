@@ -10,17 +10,12 @@ class Report_LoanController extends Zend_Controller_Action {
   function indexAction(){
   	
   }
-  
-  function rptLoanDisburseAction(){//release all loan
+function rptLoanDisburseAction(){//release all loan
   	$db  = new Report_Model_DbTable_DbLoan();
-
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		if(isset($search['btn_search'])){
-  			$this->view->loanrelease_list=$db->getAllLoan($search);
-  		}
   	}
   	else{
   		$search = array(
@@ -30,9 +25,9 @@ class Report_LoanController extends Zend_Controller_Action {
   				'co_id'=>'',
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
-  			
-  		$this->view->loanrelease_list=$db->getAllLoan($search);
   	}
+  	$this->view->loanrelease_list=$db->getAllLoan($search);
+  	$this->view->list_end_date=$search;
   	
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
@@ -48,9 +43,6 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		if(isset($search['btn_search'])){
-  			$this->view->loanrelease_list=$db->getAllLoanCo($search);
-  		}
   	}
   	else{
   		$search = array(
@@ -59,8 +51,9 @@ class Report_LoanController extends Zend_Controller_Action {
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   			
-  		$this->view->loanrelease_list=$db->getAllLoanCo($search);
   	}
+  	$this->view->list_end_date=$search;
+  	$this->view->loanrelease_list=$db->getAllLoanCo($search);
   	 
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
@@ -84,6 +77,7 @@ class Report_LoanController extends Zend_Controller_Action {
   			
   		}	
   		$this->view->date_show=$search['end_date'];
+  		$this->view->list_end_date=$search;
   		$row = $dbs->getAllLnClient($search);
   		$this->view->tran_schedule=$row;
   		
@@ -148,25 +142,20 @@ class Report_LoanController extends Zend_Controller_Action {
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		if(@$search["exportexcel"]== 1){
-  			$collumn = array("id","branch_name","name_kh","total_principal","principal_permonth","total_interest","total_payment",
-      		"amount_day","date_payment");
-  			$this->exportFileToExcel('ln_staff',$db->getALLLoanlate(),$collumn);
-  		}elseif(!empty($search['btn_search'])){
-  			//print_r($search);exit();
-  			$this->view->loanlate_list =$db->getALLLoanlate($search);
-  		}
+//   			$collumn = array("id","branch_name","name_kh","total_principal","principal_permonth","total_interest","total_payment",
+//       		"amount_day","date_payment");
+//   			$this->exportFileToExcel('ln_staff',$db->getALLLoanlate(),$collumn);
   		
   	}else {
   		$search = array(
   				'adv_search'		=>	"",
-  				//'start_date' => date('Y-m-d'),
   				'end_date' => date('Y-m-d'),
   				'status' => "",
   				'branch_id'		=>	0,
   		);
-  		$this->view->loanlate_list =$db->getALLLoanlate($search);
   	}
+  	$this->view->list_end_date = $search;
+  	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($frm);
@@ -229,21 +218,17 @@ class Report_LoanController extends Zend_Controller_Action {
 				'status'=>"",);
 			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
 	}
+	$this->view->list_end_date=$search;
   	$frm = new Loan_Form_FrmSearchGroupPayment();
   	$fm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($fm);
   	$this->view->frm_search = $fm;
   }
-  function activeAction(){
-  }
-  function coletionSheetAction(){
-  }
+  
   public function customerpaymentAction(){
   }
   function disbursementAction(){
   }
-  function repaymentAction(){
-}
 function rptLoanDatelineAction(){
 	$db  = new Report_Model_DbTable_DbLoan();
 	$rs=$db->getALLLoandateline();
@@ -284,6 +269,7 @@ function rptLoanTotalCollectAction(){
 	);
 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanTotalcollect($search);
 	}
+	$this->view->list_end_date=$search;
 	$frm = new Loan_Form_FrmSearchLoan();
 	$frm = $frm->AdvanceSearch();
 	Application_Model_Decorator::removeAllDecorator($frm);
@@ -412,6 +398,7 @@ function rptPaymentschedulesAction(){
 			$this->view->LoanCollectionco_list =$db->getALLLoanIcome($search);
 			$this->view->LoanFee_list =$db->getALLLFee($search);
  	}
+ 	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
@@ -444,6 +431,7 @@ function rptPaymentschedulesAction(){
  			'status'=>"",);
 			$this->view->LoanCollectionco_list =$db->getALLLoanPayoff($search);
  	}
+ 	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
@@ -470,6 +458,7 @@ function rptPaymentschedulesAction(){
  				'status'=>"",);
  		
  	}
+ 	$this->view->list_end_date=$search;
  	$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
@@ -483,10 +472,9 @@ function rptPaymentschedulesAction(){
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  		if(isset($search['btn_search'])){
- 			$this->view->LoanCollectionco_list =$db->getALLBadloan($search);
  		}else {
- 			$collumn = array("id","branch_namekh","client_name_en","loss_date","cash_type","currency_typeshow","total_amount","intrest_amount","tem","note","date");
- 			$this->exportFileToExcel('ln_loanmember_funddetail',$db->getALLBadloan(),$collumn);
+//  			$collumn = array("id","branch_namekh","client_name_en","loss_date","cash_type","currency_typeshow","total_amount","intrest_amount","tem","note","date");
+//  			$this->exportFileToExcel('ln_loanmember_funddetail',$db->getALLBadloan(),$collumn);
  		}
  	}else{
  		$search = array(
@@ -499,8 +487,9 @@ function rptPaymentschedulesAction(){
 				'cash_type'=>'',
 				'start_date'=> date('Y-m-01'),
 				'end_date'=>date('Y-m-d'));
- 		$this->view->LoanCollectionco_list =$db->getALLBadloan($search);
  	}
+ 	$this->view->LoanCollectionco_list =$db->getALLBadloan($search);
+ 	$this->view->list_end_date=$search;
  	$fm = new Loan_Form_Frmbadloan();
 	$frm = $fm->FrmBadLoan();
 	Application_Model_Decorator::removeAllDecorator($frm);
@@ -528,6 +517,7 @@ function rptPaymentschedulesAction(){
  				'end_date'=>date('Y-m-d'));
  		$this->view->LoanCollectionco_list =$db->getALLWritoff($search);
  	}
+ 	$this->view->list_end_date=$search;
  	$fm = new Loan_Form_Frmbadloan();
  	$frm = $fm->FrmBadLoan();
  	Application_Model_Decorator::removeAllDecorator($frm);
@@ -581,6 +571,7 @@ function rptPaymentschedulesAction(){
  		);
  		$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
  	}
+ 	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchLoan();
  	$frm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($frm);
