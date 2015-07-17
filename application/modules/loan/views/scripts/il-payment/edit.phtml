@@ -586,7 +586,7 @@ function getLoanPaymentbyId(){
 	dijit.byId('priciple_amount').attr('value','<?php echo number_format($ilPaymentById["principal_amount"],2);?>');
 	dijit.byId('os_amount').attr('value','<?php echo number_format($ilPaymentById["total_principal_permonth"],2);?>');
 	dijit.byId('total_payment').attr('value','<?php echo number_format($ilPaymentById["total_payment"],2);?>');
-	//dijit.byId('amount_receive').attr('value',parseFloat(recieve_amount));
+	dijit.byId('amount_receive').attr('value',parseFloat(recieve_amount));
 	dijit.byId('total_interest').attr('value','<?php echo number_format($ilPaymentById["total_interest"],2);?>');
 	dijit.byId('amount_return').attr('value',parseFloat(return_amount));
 	dijit.byId('currency_type').attr('value','<?php echo $ilPaymentById["currency_type"];?>');
@@ -637,6 +637,11 @@ function getPayment(){
 		foreach($ilPayent AS $i=>$r){
 			$inx = $i+1;
 	?>
+	is_set =0;
+	if(is_set==0){
+		dijit.byId('reciever').attr('value',<?php echo $r["receiver_id"]?>);
+		is_set=1;
+	}
 	d = new Date(<?php echo $r["date_payment"];?>);
 	str_day = getDayString(d.getDay());
 	curr =getCurrencyType(<?php echo $r["currency_type"]?>);

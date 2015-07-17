@@ -251,7 +251,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$date_input = new Zend_Form_Element_Hidden("date_input");
 		$date_input->setValue($c_date);
 		
-		$reciever = new Zend_Form_Element_Hidden("reciever");
+		$reciever = new Zend_Form_Element_Text("reciever");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 		
 		$discount = new Zend_Dojo_Form_Element_TextBox("discount");
@@ -611,7 +611,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLoan();'
+				//'onchange'=>'getLoan();'
 		));
 		$_coid->setMultiOptions($options);
 		
@@ -697,7 +697,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'Onchange'	=>	'getLoan();calculateTotal();'
+				//'Onchange'	=>	'getLoan();calculateTotal();'
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
@@ -722,7 +722,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'readOnly'=>'readOnly',
-				'onkeyUp'=>'totalReturn();'
+				//'onkeyUp'=>'totalReturn();'
 		));
 		$_service_charge->setValue(0);
 		
@@ -737,7 +737,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'readOnly'=>'readOnly',
-				'onkeyup'	=>	'netReturn();'
+				//'onkeyup'	=>	'netReturn();'
 		));
 		$_rate = new Zend_Dojo_Form_Element_NumberTextBox('total_interest');
 		$_rate->setAttribs(array(
@@ -753,7 +753,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_amount_receive->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onChange'=>'totalReturn();',
+				'onChange'=>'netReturn();',
 				'style'=>'color:red;',
 				'required'=>true
 		));
@@ -762,13 +762,16 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLoan();'
+				//'onchange'=>'getLoan();'
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue(2);
 		
-		$this->addElements(array($_currency_type,$date_input,$_note,$_amount_receive,$_rate,$_amount_return,$_service_charge,$branch_id,$_cocode,$_coid,$_collect_date,$_os_amount,$_penalize_amount,$_priciple_amount,$_total_payment));
+		$reciever = new Zend_Form_Element_Text("reciever");
+		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
+		
+		$this->addElements(array($reciever,$_currency_type,$date_input,$_note,$_amount_receive,$_rate,$_amount_return,$_service_charge,$branch_id,$_cocode,$_coid,$_collect_date,$_os_amount,$_penalize_amount,$_priciple_amount,$_total_payment));
 		return $this;
 	}
 }
