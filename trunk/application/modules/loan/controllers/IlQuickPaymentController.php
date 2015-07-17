@@ -39,7 +39,7 @@ class Loan_IlQuickPaymentController extends Zend_Controller_Action {
 			$collumns = array("BRANCH_NAME","CO_NAME","RECIEPT_NO","TOTAL_PRINCEPLE_PAYMENT","TOTAL_PAYMENT","RECEIVE_AMOUNT","TOTAL_INTEREST","PENALIZE AMOUNT","DATE_PAYMENT"
 				);
 			$link=array(
-					'module'=>'loan','controller'=>'il-payment','action'=>'edit',
+					'module'=>'loan','controller'=>'IlQuickPayment','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('co_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
@@ -57,8 +57,12 @@ class Loan_IlQuickPaymentController extends Zend_Controller_Action {
   	$db = new Loan_Model_DbTable_DbLoanILPayment();
   	if($this->getRequest()->isPost()){
   		$data = $this->getRequest()->getPost();
-  		//print_r($data);
   		$db->quickPayment($data);
+  		if(isset($data["save_new"])){
+  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/il-quick-payment/add");
+  		}elseif(isset($data["save_close"])){
+  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/IlQuickPayment");
+  		}
   	}
   	$frm = new Loan_Form_FrmIlPayment();
   	$frm_loan=$frm->quickPayment();
@@ -71,5 +75,38 @@ class Loan_IlQuickPaymentController extends Zend_Controller_Action {
   	
   	$this->view->co = $db->getAllCo();
   }	
+  
+  function editAction()
+  {
+  	$id = $this->getRequest()->getParam("id");
+  	$db = new Loan_Model_DbTable_DbLoanILPayment();
+  	if($this->getRequest()->isPost()){
+  		$data = $this->getRequest()->getPost();
+  		//print_r($data);exit();
+  		$db->editQuickPayment($id,$data);
+  		if(isset($data["save_new"])){
+  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/il-quick-payment/add");
+  		}elseif(isset($data["save_close"])){
+  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/IlQuickPayment");
+  		}
+  	}
+  	
+  	$quickPayment = $db->getIlQuickPaymentById($id);
+  	$this->view->quickPayment = $quickPayment;
+  	
+  	$quickPaymentDetail = $db->getIlQuickPaymentDetailById($id);
+  	$this->view->quickPaymentDetail = $quickPaymentDetail;
+  	
+  	$frm = new Loan_Form_FrmIlPayment();
+  	$frm_loan=$frm->quickPayment();
+  	Application_Model_Decorator::removeAllDecorator($frm_loan);
+  	$db_keycode = new Application_Model_DbTable_DbKeycode();
+  	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+  	 
+  	$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
+  	$this->view->frm_ilpayment = $frm_loan;
+  	 
+  	$this->view->co = $db->getAllCo();
+  }
 }
 

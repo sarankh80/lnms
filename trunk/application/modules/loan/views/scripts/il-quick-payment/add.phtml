@@ -15,7 +15,7 @@
 </style>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'il-quick-payment','action'=>'add')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded" >
 <script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
 				ids = dijit.byId('identity').get('value');
@@ -129,10 +129,12 @@
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="button" value="រក្សាទុក​​ & ថ្មី" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitNew();" />
-			   <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="saveCLOSE" dojoType="dijit.form.Button" 
-			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="submitCloase();"/>
+			   <input type="submit" value="រក្សាទុក​​ & ថ្មី" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" name="save_new" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" />
+			   <input type="submit" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="saveCLOSE" name="save_close" dojoType="dijit.form.Button" 
+			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
+			   <input type="button" value="បិទ" label="<?php echo $tr->translate('CLOSE');?>" id="close" name="close" dojoType="dijit.form.Button" 
+			   iconClass="dijitEditorIcon dijitEditorIconPrint" Onclick="close()" />
 			</td>
 		</tr>
 		<tr>
@@ -164,6 +166,9 @@ function submitCloase(){
 	dijit.byId('frm_add_group_pay').submit();
 	window.location.assign("<?php echo $this->url(array('module'=>'loan','controller'=>'IlQuickPayment','action'=>'il-quick-payment')); ?>");
 }
+function close(){
+	window.location.assign("<?php echo $this->url(array('module'=>'loan','controller'=>'IlQuickPayment','action'=>'')); ?>");
+}
 
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
@@ -191,8 +196,16 @@ dojo.ready(function(){
 			getLoan();
 		}
 	}, "co_id");
-	
+
+	dojo.connect(dijit.byId("collect_date"), "onChange", function(value){
+		 getLoan();
+	});
+
+	dojo.connect(dijit.byId("currency_type"), "onChange", function(value){
+		 getLoan();
+	});
 });
+
 function filterCo(){
 	 dijit.byId('co_id').query.branch_id = dijit.byId('branch_id').get('value');
 }
@@ -244,7 +257,17 @@ function AddNewCo(){
 		}
 	});
 }
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'il-payment','action'=>'get-all-loan-by-co-id')); ?>';
 function getLoan(type){
 	try{
@@ -252,6 +275,8 @@ function getLoan(type){
 	num=0;
 	var co_id = dijit.byId('co_id').get('value');
 	var currency = dijit.byId('currency_type').get('value');
+	var new_date_collect = dijit.byId('collect_date').get('value');
+	date_collect = formatDate(new_date_collect);
 	if(co_id==""){
 		alert("Please Select CO first!");
 		dijit.byId('co_id').focus();
@@ -261,6 +286,7 @@ function getLoan(type){
 		    content : { 
 			    'co_id':co_id,
 			    'currency':currency,
+			    'date_collect':date_collect
 			},	
 			handleAs:"json",
 			load: function(respone) {
@@ -281,6 +307,7 @@ function getLoan(type){
 					+'<th class="tdheader">ប្រាក់ទទួល បាន</th></tr>'
 				+'</thead>';
 				if(respone!=""){
+					is_set =0;
 					for(i=0;i<respone.length;i++){
 						inx = i+1;
 						++num;
@@ -289,29 +316,33 @@ function getLoan(type){
 						curr =getCurrencyType(respone[i].currency_type);
 						client_id = respone[i].client_id;
 						total_principal = respone[i].total_principal;
-						principal_permonth = respone[i].principal_permonth;
-						interest = respone[i].total_interest;
-						payment = respone[i].total_payment;
+						principal_permonth = respone[i].principle_after;
+						interest = respone[i].total_interest_after;
+						payment = respone[i].total_payment_after;
 						multiplier = respone[i].pay_after;
 						pay_before = respone[i].pay_before;
 						date_pay = respone[i].date_payment;
 						id = respone[i].id;
+						if(is_set==0){
+							dijit.byId('reciever').attr('value',respone[i].collect_by);
+							is_set=1;
+						}
 						
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 							tem += '<td style="width:3%;">&nbsp;'+num+'<input type="hidden" name="paymentTerm_'+inx+'" id="paymentTerm_'+inx+'" value="'+respone[i].collect_typeterm+'" /><input type="hidden" name="interestRate_'+inx+'" id="interestRate_'+inx+'" value="'+respone[i].interest_rate+'" /></td>';
-							tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnClick="calculateTotal('+inx+')" checked="checked"/><input type="hidden" name="cu_id_'+inx+'" id="cu_id_'+inx+'" value="'+respone[i].currency_type+'" /></td>';
+							tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnClick="calculateTotal('+inx+');checkRow('+inx+');" checked="checked"/><input type="hidden" name="cu_id_'+inx+'" id="cu_id_'+inx+'" value="'+respone[i].currency_type+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /><input type="hidden" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap; width:3%;">&nbsp;'+str_day+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap; width:4%;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /><input type="hidden" name="last_paydate_'+inx+'" id="last_paydate_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td style="width:3%;">&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="sub_total_priciple_'+inx+'" id="sub_total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
-						    tem += '<td style="width:3%;">&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="sub_principal_permonth_'+inx+'" id="sub_principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
-						    tem += '<td style="width:3%;">&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="sub_interest_'+inx+'" id="sub_interest_'+inx+'" value="'+interest+'" /></td>';
+						    tem += '<td style="width:3%;">&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="sub_principal_permonth_'+inx+'" id="sub_principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
+						    tem += '<td style="width:3%;">&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="sub_interest_'+inx+'" id="sub_interest_'+inx+'" value="'+interest+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="multiplier_'+inx+'" id="multiplier_'+inx+'" value="'+multiplier+'" /></td>';
-							tem += '<td>&nbsp;<input required ="true" class="fullside" type="text" id="sub_penelize_'+inx+'" name="sub_penelize_'+inx+'" value="'+respone[i].penelize+'" style="width:93%;margin:3px 0" onKeyUp="totalReturn(1,'+inx+');"/><input type="hidden" id="old_sub_penelize_'+inx+'" name="old_sub_penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
-							tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_service_charge_'+inx+'" name="sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" style="width:93%;" onKeyUp="totalReturn(2,'+inx+');"/><input type="hidden" id="old_sub_service_charge_'+inx+'" name="old_sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'"/></td>';
+							tem += '<td>&nbsp;<input required ="true" class="fullside" type="text" id="sub_penelize_'+inx+'" name="sub_penelize_'+inx+'" value="'+respone[i].penelize+'" style="width:93%;margin:3px 0" onKeyUp="doPenelizeAmount('+inx+');"/><input type="hidden" id="old_sub_penelize_'+inx+'" name="old_sub_penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
+							tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_service_charge_'+inx+'" name="sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" style="width:93%;" onKeyUp="doServiceChargeAmount('+inx+');"/><input type="hidden" id="old_sub_service_charge_'+inx+'" name="old_sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'"/></td>';
 							tem += '<td>&nbsp;<label id="lb_subpayment_'+inx+'">'+payment+'</label><input type="hidden" name="sub_payment_'+inx+'" id="sub_payment_'+inx+'" value="'+payment+'" style="width:93%;margin:3px 0"/><input type="hidden" name="old_sub_payment_'+inx+'" id="old_sub_payment_'+inx+'" value="'+payment+'" /></td>';
-							tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+inx+'" name="sub_recive_amount_'+inx+'" style="width:93%;" onKeyUp="totalReturn(3,'+inx+');"/></td>';
+							tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+inx+'" name="sub_recive_amount_'+inx+'" style="width:93%;" OnChange="netRecieveAmount('+inx+');"/><input type="hidden" name="old_recieve_amount_'+inx+'" id="old_recieve_amount_'+inx+'" /></td>';
 						    tem += '</tr>';
 	 					    if(inx!=1) {
 	 							var identity = dijit.byId('record_id').get('value');
@@ -372,11 +403,11 @@ function calculateTotal(index){
 				var oneDay = 24*60*60*1000;
 				var mfdid = $('#mfdid_'+arrays[i]);
 				if(mfdid.checked=true){
-					//checkRow(arrays[i]);
 					var ps = $('#multiplier_'+arrays[i]).val();
 		          	var priciple_amount = parseFloat($('#sub_total_priciple_'+arrays[i]).val());
+		          	var principle_permonth =$('#sub_principal_permonth_'+arrays[i]).val();
 		          	var interest_amount = parseFloat($('#sub_interest_'+arrays[i]).val());
-		          	var totalPay = $('#sub_payment_'+arrays[i]).val();
+		          	var totalPay = parseFloat(principle_permonth)+parseFloat(interest_amount);
 		          	var oldtotalPay = $('#old_sub_payment_'+arrays[i]).val();
 		          	var principlePerMonth = $('#sub_principal_permonth_'+arrays[i]).val();
 		          	var last_paydate = $('#last_paydate_'+arrays[i]).val();
@@ -400,10 +431,11 @@ function calculateTotal(index){
 						if(payment_term==1){
 							$('#sub_service_charge_'+arrays[i]).val(0);
 							$('#old_sub_service_charge_'+arrays[i]).val(0);
-							sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
-							sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
 							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
 							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -411,9 +443,10 @@ function calculateTotal(index){
 						}else if(payment_term==2){
 							$('#sub_service_charge_'+arrays[i]).val(0);
 							$('#old_sub_service_charge_'+arrays[i]).val(0);
-							sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
-							sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
 							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
 							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -422,10 +455,11 @@ function calculateTotal(index){
 						}else if((payment_term==3)){
 							$('#sub_service_charge_'+arrays[i]).val(0);
 							$('#old_sub_service_charge_'+arrays[i]).val(0);
-							sub_total_penelize = ((parseFloat(oldtotalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
-							sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
 							sub_total_recieve = sub_total_amount;
 							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -433,9 +467,10 @@ function calculateTotal(index){
 						}
 					}else{
 						sub_total_penelize = old_penelize-0;
-						sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
+						sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
 						sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
 						$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+						$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 						$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 						$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 						$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -449,7 +484,10 @@ function calculateTotal(index){
 					total_penalize_amount = parseFloat(total_penalize_amount)+parseFloat(penalize_amount);
 					total_service_charge = parseFloat(total_service_charge)+parseFloat(service_charge);
 					total_priciple_amount = parseFloat(total_priciple_amount)+parseFloat(priciple_amount);
-					totalReturn(2,arrays[i]);
+			}else{
+				$('#sub_penelize_'+index).removeAttr('disabled','disabled');
+				$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
+				$('#sub_payment_'+arrays[i]).removeAttr('disabled','disabled');
 			}
 		}
 		}
@@ -490,7 +528,6 @@ function checkAll(){
 					var oneDay = 24*60*60*1000;
 					var mfdid = $('#mfdid_'+arrays[i]);
 					if(mfdid.checked=true){
-						checkRow(arrays[i]);
 						var ps = $('#multiplier_'+arrays[i]).val();
 			          	var priciple_amount = parseFloat($('#sub_total_priciple_'+arrays[i]).val());
 			          	var interest_amount = parseFloat($('#sub_interest_'+arrays[i]).val());
@@ -522,6 +559,7 @@ function checkAll(){
 								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
 								sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
 								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+								$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -533,6 +571,7 @@ function checkAll(){
 								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
 								sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
 								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+								$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -544,6 +583,7 @@ function checkAll(){
 								sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
 								sub_total_recieve = sub_total_amount;
 								$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+								$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 								$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 								$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 								$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -554,6 +594,7 @@ function checkAll(){
 							sub_total_amount =parseFloat(oldtotalPay)+parseFloat(sub_total_penelize);
 							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
 							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
 							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
 							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
 							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
@@ -567,7 +608,6 @@ function checkAll(){
 						total_penalize_amount = parseFloat(total_penalize_amount)+parseFloat(penalize_amount);
 						total_service_charge = parseFloat(total_service_charge)+parseFloat(service_charge);
 						total_priciple_amount = parseFloat(total_priciple_amount)+parseFloat(priciple_amount);
-						totalReturn(2,arrays[i]);
 					}
 				}
 			}
@@ -607,44 +647,41 @@ function adminfee(){
 	var admin_fee = dijit.byId().get('value');
 	payment = dijit.byId('total_payment').get('value');
 }
-function totalReturn(type,index){
-		if(type==1){ // change on penelize 
-			total_penalize = dijit.byId('penalize_amount').get('value');
-			old_penelize = $('#old_sub_penelize_'+index).val();
-			new_penelize = $('#sub_penelize_'+index).val();
-			new_penelize =new_penelize==""?0:new_penelize;
-			new_total_penelize = (parseFloat(total_penalize) - parseFloat(old_penelize))+parseFloat(new_penelize);
-			$('#old_sub_penelize_'+index).val(new_total_penelize);
-			dijit.byId('penalize_amount').attr('value',new_total_penelize);
-			sub_total_payment = $('#sub_payment_'+index).val();
-			old_service_charge = $('#old_sub_service_charge_'+index).val();
-			service_charge = $('#sub_service_charge_'+index).val();
-			new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_penelize))+parseFloat(new_penelize)+parseFloat(service_charge)-parseFloat(old_service_charge);
-			//document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
-			sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
-			$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
-			netTotal();
-		}else if(type==2){ // change on service charge
-			total_service_charge = dijit.byId('service_charge').get('value');
-			old_penelize = $('#old_sub_penelize_'+index).val();
-			old_service_charge = $('#old_sub_service_charge_'+index).val();
-			new_service_charge = $('#sub_service_charge_'+index).val();
-			
-			new_service_charge =new_service_charge==""?0:new_service_charge;
-			new_total_service_charge = (parseFloat(total_service_charge) - parseFloat(old_service_charge))+parseFloat(new_service_charge);
-			$('#old_sub_service_charge_'+index).val(new_total_service_charge);
-			sub_total_payment = $('#sub_payment_'+index).val();
-			penelize = $('#sub_penelize_'+index).val();
-			new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_service_charge))+parseFloat(new_service_charge)+parseFloat(penelize)-parseFloat(old_penelize);
-			//document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
-			sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
-			$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
-			dijit.byId('service_charge').attr('value',new_total_service_charge.toFixed(2));
-			netTotal();
-		}else if(type==3){
-			netRecieveAmount();
-			netTotal();
-		}
+
+function doPenelizeAmount(index){
+	service_charge = $('#sub_service_charge_'+index).val();
+	sub_total_payment = $('#old_sub_payment_'+index).val();
+	old_penelize = $('#old_sub_penelize_'+index).val();
+	penelize = $('#sub_penelize_'+index).val();
+	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_penelize))+parseFloat(penelize)+parseFloat(service_charge);
+	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+	sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
+	netTotal();
+}
+
+function doServiceChargeAmount(index){
+	penelize = $('#sub_penelize_'+index).val();
+	sub_total_payment = $('#old_sub_payment_'+index).val();
+	old_service_charge = $('#old_sub_service_charge_'+index).val();
+	service_charge = $('#sub_service_charge_'+index).val();
+	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_service_charge))+parseFloat(penelize)+parseFloat(service_charge);
+	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+	sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
+	netTotal();
+}
+
+function doServiceChargeAmount(index){
+	penelize = $('#sub_penelize_'+index).val();
+	sub_total_payment = $('#old_sub_payment_'+index).val();
+	old_service_charge = $('#old_sub_service_charge_'+index).val();
+	service_charge = $('#sub_service_charge_'+index).val();
+	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_service_charge))+parseFloat(penelize)+parseFloat(service_charge);
+	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+	sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
+	netTotal();
 }
 
 function netTotal() {
@@ -656,25 +693,24 @@ function netTotal() {
 	}
 	netTotal=(netTotal).toFixed(2);
 	total_recieve = dijit.byId('amount_receive').get('value');
+	dijit.byId('amount_receive').attr('value',netTotal);
 	returnAmount = total_recieve - netTotal;
 	returnAmount = returnAmount<0?0:returnAmount;
 	dijit.byId('amount_return').attr('value',returnAmount);
 	dijit.byId('total_payment').attr('value',netTotal);
 }
 
-function netRecieveAmount(){
-	var netRecieve=0;
-	var rowId = dijit.byId('identity').get('value');
-	var rowIDArray = rowId.split(',');
-	for(var n = 0; n < rowIDArray.length; n++) {
-		netRecieve += Number($('#sub_recive_amount_'+rowIDArray[n]).val());
-	}
-	netRecieve=(netRecieve).toFixed(2);
-	total_payment = dijit.byId('total_payment').get('value');
-	returnAmount = netRecieve - total_payment;
-	returnAmount = returnAmount<0?0:returnAmount;
-	dijit.byId('amount_return').attr('value',returnAmount);
-	dijit.byId('amount_receive').attr('value',netRecieve);
+function netRecieveAmount(index){
+	var old_sub_recieve_amount = $('#old_recieve_amount_'+index).val();
+	var sub_recieve_amount = $('#sub_recive_amount_'+index).val();
+	var total_pay = dijit.byId('total_payment').get('value');
+
+	new_total_pay = (parseFloat(total_pay)-parseFloat(old_sub_recieve_amount))+parseFloat(sub_recieve_amount);
+	dijit.byId('total_payment').attr('value',new_total_pay);
+
+	$('#old_recieve_amount_'+index).val(sub_recieve_amount);
+	//dijit.byId('amount_return').attr('value',returnAmount);
+	dijit.byId('amount_receive').attr('value',new_total_pay);
 }
 function netReturn(){
 	var total_pay = dijit.byId('total_payment').get('value');
@@ -684,18 +720,17 @@ function netReturn(){
 	dijit.byId('amount_return').attr('value',total_return.toFixed(2));
 }
 function checkRow(index){
-	
 	control = document.getElementById('mfdid_'+index);
 	if(control.checked){
-		//alert(1);
+		alert(1);
 		$('#sub_penelize_'+index).removeAttr('disabled','disabled');
 		$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
-		totalReturn(2,index);
+		$('#sub_recive_amount_'+index).removeAttr('disabled','disabled');
 	}else{
-		//alert(index);
+		alert("ssds");
 		$('#sub_penelize_'+index).attr('disabled','disabled');
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
-		totalReturn(2,index);
+		$('#sub_recive_amount_'+index).attr('disabled','disabled');
 	}
 }
 </script>
