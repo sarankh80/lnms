@@ -143,9 +143,6 @@ class Group_indexController extends Zend_Controller_Action {
 		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
 		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
 		
-		
-		
-		
 	}
 	public function editAction(){
 		
