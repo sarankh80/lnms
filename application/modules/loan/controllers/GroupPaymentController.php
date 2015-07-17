@@ -59,7 +59,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			$identify = $_data["identity"];
 			try {
-				if($identify=""){
+				if($identify==""){
 					Application_Form_FrmMessage::Sucessfull("Client is no loan to pay", "/loan/GroupPayment");
 				}else{
 					$db->addGroupPayment($_data);
