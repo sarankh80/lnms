@@ -768,7 +768,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue(2);
 		
-		$reciever = new Zend_Form_Element_Text("reciever");
+		$reciever = new Zend_Form_Element_Hidden("reciever");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox'));
 		
 		$this->addElements(array($reciever,$_currency_type,$date_input,$_note,$_amount_receive,$_rate,$_amount_return,$_service_charge,$branch_id,$_cocode,$_coid,$_collect_date,$_os_amount,$_penalize_amount,$_priciple_amount,$_total_payment));
