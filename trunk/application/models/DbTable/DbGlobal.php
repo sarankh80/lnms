@@ -864,11 +864,23 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   	return $db->fetchRow($sql);
   }
 
-  function getAllLoanNumber(){
+  function getAllLoanNumber($type){//type ==1 is ilPayment, type==2 is group payment
   	$db = $this->getAdapter();
-  	$sql ="SELECT lm.`loan_number` FROM `ln_loan_member` AS lm WHERE lm.`is_completed`=0";
+  	$sql ="SELECT 
+			  lm.`loan_number` 
+			FROM
+			  `ln_loan_member` AS lm,
+			  `ln_loan_group` AS lg 
+			WHERE lm.`is_completed` = 0 
+			  AND lm.`group_id` = lg.`g_id`";
+  	if($type==1){
+  		$sql.=" AND lg.`loan_group` = 0";
+  	}else{
+  		$sql.=" AND lg.`loan_group` = 1";
+  	}
   	return $db->fetchAll($sql);
   }
+  
   function getAllViewType($opt=null){
   		$db = $this->getAdapter();
   	$sql ="SELECT * FROM `ln_view_type`";
