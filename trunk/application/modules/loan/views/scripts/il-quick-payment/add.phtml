@@ -672,18 +672,6 @@ function doServiceChargeAmount(index){
 	netTotal();
 }
 
-function doServiceChargeAmount(index){
-	penelize = $('#sub_penelize_'+index).val();
-	sub_total_payment = $('#old_sub_payment_'+index).val();
-	old_service_charge = $('#old_sub_service_charge_'+index).val();
-	service_charge = $('#sub_service_charge_'+index).val();
-	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_service_charge))+parseFloat(penelize)+parseFloat(service_charge);
-	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
-	sub_total_payment = $('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
-	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
-	netTotal();
-}
-
 function netTotal() {
 	var netTotal=0;
 	var rowId = dijit.byId('identity').get('value');
