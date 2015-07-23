@@ -6,7 +6,7 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-disburse','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -32,6 +32,7 @@
 				return false;
 			}
 			rs = checkValidateDate();
+alert(rs);
 			if(rs==false){
               return false;			
             }
@@ -40,10 +41,7 @@
 				return false;
 			}
 </script>
-<?php 
-	echo $this->frmPopupZone;
-	echo $this->frmpupoploantype;
-?>
+
 <table cellspacing="10" class='fullside' >
 	<tr>
 		<td>
@@ -137,22 +135,27 @@
 	<tr>
 		<td align="center">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
-				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+				<div id="group_disbuse"></div>
+<!-- 				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
 							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-				</table>		
+				</table>		 -->
 		</td>
 	<tr>
 		<td align="center">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE")?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
-				 iconClass="dijitIconDelete"/>
+				 />
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		</td>
 	</tr>	
 </table>
 </form>
+<?php 
+	echo $this->frmPopupZone;
+	echo $this->frmpupoploantype;
+?>
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
@@ -162,6 +165,14 @@
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
 		changeCollectType();
 	});  
+	function calCulateEndDate(){
+	}
+	function checkSelectOption(){
+	}
+
+	function filterClient(){
+	}
+	
 	    
 </script>
 <script type="text/javascript">	
@@ -188,16 +199,11 @@ r = 0;
 fund_title=0;
 function addAmountTypeMoney(){
 		r++;
-		if(fund_title!=1){
-			thead='<th><?php echo $tr->translate("DEL");?></th>';
-			thead+='<th><?php echo $tr->translate("CUSTOMER_CODE");?></th>';
-			thead+='<th><?php echo $tr->translate("CUSTOMER_NAME");?></th>';
-			thead+='<th><?php echo $tr->translate("LOAN_AMOUNT");?></th>';
-			thead+='<th><?php echo $tr->translate("AMIN_FEE");?></th>';
-			thead+='<th><?php echo $tr->translate("NOTE");?> </th>';
-			fund_title=1;
-			dojo.query("#head_title").append(thead);
-        }
+// 		if(fund_title!=1){
+			
+// 			fund_title=1;
+// 			dojo.query("#head_title").append(thead);
+//         }
 		temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 		temp+='<td><select readonly="true" style=" width:90%;background:#fff; padding-left:5px;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+code_option+'</select></td>';
 		temp+='<td><select readonly="true" style=" width:90%; background:#fff; padding-left:5px;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
@@ -389,6 +395,7 @@ function getmemberIdGroup(){
 	dijit.byId('group_id').attr('value',group_id);
 }
 function getAllMemberByGroup(group_id){
+	//dojo.byId("t_amountmoneytype").innerHTML='';
 	dojo.xhrPost({
 	    url: url_getmember,	
 	    content: { 
@@ -396,6 +403,20 @@ function getAllMemberByGroup(group_id){
 		},		    
 		handleAs:"json", 
 		load: function(data) {
+			fund_title=0;
+			dojo.query("#group_disbuse").append('');
+			tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
+			tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
+			tmp+='</table>';
+			dojo.query("#group_disbuse").append(tmp);
+			thead='<th><?php echo $tr->translate("DEL");?></th>';
+			thead+='<th><?php echo $tr->translate("CUSTOMER_CODE");?></th>';
+			thead+='<th><?php echo $tr->translate("CUSTOMER_NAME");?></th>';
+			thead+='<th><?php echo $tr->translate("LOAN_AMOUNT");?></th>';
+			thead+='<th><?php echo $tr->translate("AMIN_FEE");?></th>';
+			thead+='<th><?php echo $tr->translate("NOTE");?> </th>';
+			fund_title=1;
+			dojo.query("#head_title").append(thead);
 			for(i=0;i<data.length;i++){
 				addAmountTypeMoney();
 				dijit.byId('member_id'+r).attr('value',data[i].client_id);
