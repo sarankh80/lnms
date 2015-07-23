@@ -478,7 +478,7 @@ function getLaonPayment(){
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="sub_total_priciple_'+inx+'" id="sub_total_priciple_'+inx+'" value="'+respone[i].total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="sub_principal_permonth_'+inx+'" id="sub_principal_permonth_'+inx+'" value="'+respone[i].principle_after+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="sub_interest_'+inx+'" id="sub_interest_'+inx+'" value="'+respone[i].total_interest_after+'" /></td>';
-						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="pay_after_'+inx+'" id="pay_after_'+inx+'" value="'+respone[i].pay_after+'" /></td>';
+						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="multiplier_'+inx+'" id="multiplier_'+inx+'" value="'+respone[i].pay_after+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].penelize+'&nbsp;<input type="text" name="sub_penelize_'+inx+'" id="sub_penelize_'+inx+'" value="'+respone[i].penelize+'" onKeyUp="doPenelizeAmount('+inx+');"/><input type="hidden" name="old_sub_penelize_'+inx+'" id="old_sub_penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].service_charge+'&nbsp;<input type="text" name="sub_service_charge_'+inx+'" id="sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" onKeyUp="doServiceChargeAmount('+inx+');"/><input type="hidden" name="old_sub_service_charge_'+inx+'" id="old_sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" /></td>';
 						    tem += '<td>&nbsp;<label id="lb_subpayment_'+inx+'">'+total_pay+'</label>&nbsp;<input type="hidden" name="sub_payment_'+inx+'" id="sub_payment_'+inx+'" value="'+total_pay+'" /><input type="hidden" name="old_sub_payment_'+inx+'" id="old_sub_payment_'+inx+'" value="'+total_pay+'" /></td>';
@@ -631,6 +631,8 @@ function calculateTotal(index){
 		var recored = dijit.byId('record_id').get('value');
 		var ids =dijit.byId('identity').get('value');
 		var arrays = ids.split(',');
+		var payment_term = dijit.byId('payment_term').get('value');
+		var interest_rate = dijit.byId('interest_rate').get('value');
 		for(var i=0;i<arrays.length;i++) {//calculate record row
 			if(arrays[i] == index) arrays.splice(i,1);
 			if($('#mfdid_'+index).attr('checked')){
@@ -659,8 +661,8 @@ function calculateTotal(index){
 		          	var oldtotalPay = $('#old_sub_payment_'+arrays[i]).val();
 		          	var principlePerMonth = $('#sub_principal_permonth_'+arrays[i]).val();
 		          	var last_paydate = $('#last_paydate_'+arrays[i]).val();
-		          	var payment_term = $('#paymentTerm_'+arrays[i]).val();
-		          	var interest_rate = $('#interestRate_'+arrays[i]).val();
+		          	//var payment_term = $('#paymentTerm_'+arrays[i]).val();
+		          	
 		          	var penelize = $('#sub_penelize_'+arrays[i]).val();
 		          	var old_penelize = $('#sub_penelize_'+arrays[i]).val();
 
@@ -677,7 +679,6 @@ function calculateTotal(index){
 					}else{
 						total_late_day = late_day;
 					}
-					alert(total_late_day);
 					if(total_late_day>0){
 						if(payment_term==1){
 							$('#sub_service_charge_'+arrays[i]).val(0);
@@ -707,7 +708,7 @@ function calculateTotal(index){
 							$('#sub_service_charge_'+arrays[i]).val(0);
 							$('#old_sub_service_charge_'+arrays[i]).val(0);
 							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
-							alert(sub_total_penelize);
+							//alert(totalPay+'*'+);
 							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
 							sub_total_recieve = sub_total_amount;
 							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
