@@ -162,6 +162,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     				'total_duration'=>$data['period'],
     				'first_payment'=>$data['first_payment'],
     				'time_collect'=>$data['time'],
+    				'loan_group'	=>	1,
     				'pay_term'=>$data['pay_every'],
     				'payment_method'=>$data['repayment_method'],
     				'holiday'=>$data['every_payamount'],
@@ -478,7 +479,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'branch_id'=>$data['branch_id'],
     						'collect_by'=>$data['co_id']
     				);
-    				
     				$this->insert($datapayment);
     			}
     		}

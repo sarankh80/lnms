@@ -1049,7 +1049,6 @@ public function addILPayment($data){
 	   				$sub_interest_amount = $data["sub_interest_".$i];
 	   				$sub_principle= $data["sub_principal_permonth_".$i];
 	   				$sub_total_payment = $data["sub_payment_".$i];
-	   				//print_r($sub_recieve_amount."<br/>".$sub_total_payment);
 	   				if($client_detail!=""){
 	   					$reciept_no=$this->getIlPaymentNumber();
 		   				if($sub_recieve_amount>=$sub_total_payment){
