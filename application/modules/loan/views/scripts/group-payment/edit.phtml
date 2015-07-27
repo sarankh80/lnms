@@ -2,14 +2,13 @@
 	$this->headTitle('Add IL Payment'); 
 	echo $this->headTitle();
 	$frm = $this->frm_ilpayment;
+	$client = $this->client;
+	$reciept_money = $this->reciept_money;
+	$reciept_moneyDetail = $this->reciept_moneyDetail;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
-	$reciept_detail = $this->reciept_detail;
-	$group_id = $this->group_id;
-	$client_code = $this->group_id;
-	$loan_number = $this->loan_number;
 	$base_url = Application_Form_FrmMessage::getUrl("/");
-	//print_r($this->row["group_id"]);
+	print_r($reciept_moneyDetail);
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -17,76 +16,113 @@
 		height: 30px;		
 	}
 </style>
-
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'edit')); ?>" 
+
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			}else {
+				return false;
+			}
+</script>
 <table cellspacing="10" class='fullside'>
-<?php echo $frm->getElement('id');?>
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
-					<table class="center" cellspacing="10">
+					<legend><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានជាក្រុម</strong></legend>
+					<table class="center" cellspacing="10" >
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><?php echo $tr->translate("កម្រិតកម្ខី")?></td>
+							<td><?php echo $frm->getElement('load_level');?></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><?php echo $tr->translate("កាលបរិច្ឆេទខ្ចីប្រាក់")?></td>
+							<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
+						</tr>
 						<tr>
 							<td><?php echo $tr->translate("សាខា")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("ស្គែន/បញ្ចូលលេខកូដកម្ចី")?></td>
-							<td><?php echo $frm->getElement('loan_number');?></td>
+							<td><?php echo $tr->translate("លេខកូដប្រធានក្រុម")?></td>
+							<td><?php //echo $frm->getElement('loan_number');?><input id="client_code"></td>
+							<td><?php echo $tr->translate("ឈ្មោះ មន្ត្រីឥណទាន")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចីសរុប")?></td>
+							<td><?php echo $frm->getElement('total_amount_loan');?></td>
+							<td><?php echo $tr->translate("រយៈពេលខ្ចី")?></td>
+							<td><?php echo $frm->getElement('loan_period');?></td>
+							<td><?php echo $tr->translate("លក្ខខណ្ឌបង់ប្រាក់")?></td>
+							<td><?php echo $frm->getElement('payment_term');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>
+							<td><?php echo $tr->translate("វិធីសាស្រ្តបង់ប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('payment_method');?></td>
+							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
+							<td><?php echo $frm->getElement('currency_type');?></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom:1px solid #ccc; text-align:left;"><strong><?php echo $tr->translate("AMOUNT BEFORE CACULATE")?></strong></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 							<td><?php echo $tr->translate("វិក័យបត្រ")?></td>
 							<td><?php echo $frm->getElement('reciept_no');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ឈ្មោះប្រធានក្រុម")?></td>
-							<td><?php //echo $frm->getElement('group_id');?>
-								<input id="group_id">
-							</td>
-							<td><?php echo $tr->translate("លេខកូដអតិថិជន")?></td>
-							<td><?php  //echo $frm->getElement('client_code');?> <input id="client_code"></td>
-							<td><?php echo $tr->translate("ឈ្មោះ CO")?></td>
-							<td><?php echo $frm->getElement('co_id');?></td>
-							
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមនៅសល់")?></td>
 							<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ដើមត្រូវសង")?></td>
 							<td><?php echo $frm->getElement('os_amount');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("អាត្រាការប្រាក់")?></td>
+							<td><?php echo $tr->translate("ការប្រាក់ត្រូវសង")?></td>
 							<td><?php echo $frm->getElement('total_interest');?></td>
-							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
-							<td><?php echo $frm->getElement('total_payment');?></td>
-							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
-							<td><?php echo $frm->getElement('penalize_amount');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("ប្រភេទបង់ប្រាក់")?></td>
+							<td><?php  echo $frm->getElement('option_pay');?></td>
 							<td><?php echo $tr->translate("បង់ថ្លៃសេវា")?></td>
-							<td><?php echo $frm->getElement('service_charge');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់")?></td>
-							<td><?php  echo $frm->getElement('date_input');?></td>
-							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
-							<td><?php echo $frm->getElement('note');?></td>
-							
+							<td><?php echo $frm->getElement('service_charge');echo $frm->getElement('old_service_charge');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ផាកពិន័យ")?></td>
+							<td><?php echo $frm->getElement('penalize_amount');?><?php echo $frm->getElement('old_penelize');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("បញ្ចុះតម្លៃ")?></td>
-							<td><?php  echo $frm->getElement('discount');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់");//echo $tr->translate("ថ្ងៃបង់ជាក់ស្តែង")?></td>
+							<td><?php echo $frm->getElement('collect_date');//echo $frm->getElement('using_date');?></td>
+							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
+							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
 							<td><?php echo $frm->getElement('amount_receive');?></td>
-							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
-							<td><?php  echo $frm->getElement('amount_return');?></td>
 						</tr>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
-							<td><?php echo $frm->getElement('currency_type');?></td>
+							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់")?></td>
+							<td><?php echo $frm->getElement('date_input'); //echo $frm->getElement('collect_date');?></td>
+							<td><?php echo $tr->translate("ប្រាក់អាប់")?></td>
+							<td><?php  echo $frm->getElement('amount_return');?></td>
+							<td><?php echo $tr->translate("ប្រាក់នៅសល់")?></td>
+							<td><?php echo $frm->getElement('remain');?></td>
+						</tr>
+						<tr>
+							<td><?php //echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
+							<td><?php echo $frm->getElement('last_payment_date'); ?></td>
+							<td><?php echo $frm->getElement('installment_date');?></td>
+							<td><?php echo $frm->getElement('amount_payment_term');?></td>
+							<td><?php echo $tr->translate("កំណត់សម្គាល់")?></td>
+							<td><?php echo $frm->getElement('note');?></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -94,9 +130,9 @@
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="button" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"
+			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
-			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="saveprint" dojoType="dijit.form.Button" 
+			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
 		</tr>
@@ -105,22 +141,21 @@
 				<div id="mainTabContainer" style=" max-width:1135px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="ការវិភាគបង់ប្រាក់" selected="true">
 								 <div id='data_table' name='data_table'></div>
-								<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-										<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-								</table>
 						</div>
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane"  title="ប្រវត្តិនៃការបង់ប្រាក់" selected="false">
 							 <div id='data_table1' name='data_table1'></div>
-								<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
-										<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
-								</table>
+						</div>
+						<div class="tabContentSection" dojoType="dijit.layout.ContentPane"  title="ប្រវត្តិនៃការបង់ប្រាក់លម្អិត" selected="false">
+							 <div id='data_table_loan_haspay' name='data_table_loan_haspay'></div>
 						</div>
 				 </div>
 		 </td>
 	</tr>		
 </table>
-<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+
+<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
 <div class="dijitHidden">
@@ -137,17 +172,17 @@
 	</style>
 		<table cellspacing="10" class='fullside fontsize'>
 				   <tr>
-					   	<td align="center" colspan="6">	
+					   	<td align="center" colspan="3">	
 					   <table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
-					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="60px;"/></td>
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
 						   		<td colspan="2" align="right"><strong style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><?php echo $this->keycode['group_payment_title'];?></strong></td>
 							</tr>
 					   	</table>
 			            </td>	   	        
 				   </tr> 
 				   <tr>
-					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; font-size:14px; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
+					   	<td align="center" colspan="6" style="font-family:'KH Koulen'; border-bottom:1px solid #000"><?php echo $this->keycode['group_payment_recipt'];?></td>	   	        
 					</tr> 
 				   <tr>
 					    <td></td>
@@ -187,7 +222,7 @@
 					<td class="border"><lable id="lbl_group_member"></lable></td>
 					<td>លេខកូដអតិថិជន :</td>
 					<td class="border"><lable id="lbl_group_code"></lable></td>
-					<td>លេខកូដកម្ចី :</td>
+					<td>ស្គែន/បញ្ចូលលេខកូដកម្ចី :</td>
 					<td class="border"><lable id="lbl_laon_nomber"></lable></td>
 					
 			</tr>
@@ -247,35 +282,45 @@
 		</table>
 		</div>
 		<input type="button" value="បោះពុម្ព" label="បោះពុម្ព" id="print" dojoType="dijit.form.Button" 
-				   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="submitData(); print();"/>
+				   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="print();"/>
 	</div>
 </div>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 function showReciept(){
-	document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-	document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
-	document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
-	document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
-	document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
-	document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
-	document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
-	document.getElementById('lbl_priciple_amount').innerHTML = dijit.byId('priciple_amount').attr('displayedValue');
-	document.getElementById('lbl_os_amount').innerHTML = dijit.byId('os_amount').attr('displayedValue');
-	document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue');
- 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
- 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
- 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
- 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
- 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
- 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
- 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
- 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
-	dijit.byId('frm_client').show();
-	
+	var client_id = dijit.byId('group_id').get('value');
+	if(client_id==""){
+		alert("No Result To Show! Please Choose Client and Try again");
+		dijit.byId('group_id').focus();
+		dijit.byId('branch_id').focus();
+		dijit.byId('loan_number').focus();
+	}else{
+		document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
+		document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
+		document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
+		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
+		document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
+		document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
+		document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
+		document.getElementById('lbl_priciple_amount').innerHTML = dijit.byId('priciple_amount').attr('displayedValue');
+		document.getElementById('lbl_os_amount').innerHTML = dijit.byId('os_amount').attr('displayedValue');
+		document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue');
+	 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
+	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
+	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
+	 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
+	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
+	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
+	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
+	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
+		dijit.byId('frm_client').show();
+		
+	}
 }
+
 
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
@@ -283,6 +328,7 @@ dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dijit.form.Textarea");
 dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
+
     var tran_store  = getDataStorefromJSON('','name',null);
 	var tran_status = {};
 	function print(){
@@ -296,17 +342,20 @@ dojo.require("dojo.data.ObjectStore");
 		submitData();
 		window.location.href ="<?php echo $this->baseUrl();?>/loan/group-payment";
 	}
+
+	// Force them to provide an answer
 	function doPrint() {
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
 	}
+	
 </script>
 <script type="text/javascript">
 function submitData(){
 	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'edit')); ?>';
+	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
@@ -335,35 +384,17 @@ function AddNewCo(){
 			dijit.byId('frm_co').hide();
 		},
 		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
+			//alert(err);
+		//alert("Your message could not be sent, please try again!.");
 				        
 		}
 	});
 }
 dojo.ready(function(){	
-	dijit.byId('currency_type').attr('readOnly','readOnly');
-	var client_data = new dojo.store.Memory({
-	       data: <?php print_r(Zend_Json::encode($this->client));?>
-	});
-	new dijit.form.FilteringSelect({
-	store: dojo.data.ObjectStore({objectStore: client_data}),
-	autoComplete: true,
-	query: {
-		branch_id: "<?php echo $this->row['branch_id'];?>"
-	},            
-	required: false,		           
-	name: "group_id",
-	id: "group_id",
-	searchAttr: "name",
-	value: "<?php echo $this->row['group_id'];?>",
-	class: 'fullside',
-	onChange: function() {
-		getLaonPayment(3);
-		getAllLaonPaymenst(3);
-}
-	}, "group_id");
-
+	var old_group_id = '<?php echo $reciept_money["group_id"];?>';
+	alert(old_group_id);
+	var old_currency_type = '<?php echo $reciept_money["currency_type"];?>';
+	var old_collect_date = '<?php echo $reciept_money["date_input"];?>';
 	var clientCode_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->clientCode));?>
 	});
@@ -371,45 +402,73 @@ dojo.ready(function(){
 	store: dojo.data.ObjectStore({objectStore: clientCode_data}),
 	autoComplete: true,
 	query: {
-		branch_id: "<?php echo $this->row['branch_id'];?>"
+		branch_id: "-1"
 	},            
 	required: false,		           
 	name: "client_code",
 	id: "client_code",
+	value: "<?php echo $reciept_money["group_id"];?>",
 	searchAttr: "name",
-	value: "<?php echo $this->row['group_id'];?>",
 	class: 'fullside',
 	onChange: function() {
-		getLaonPayment(2);
-		getAllLaonPayment(2);
+		var group_id = dijit.byId('client_code').get('value');
+		if(group_id==old_group_id){
+			getGroupPayment();
+		}else{
+			getLaonPayment();
+		}
 	}
 	}, "client_code");
-
-	getPayment();
-	getAllLaonPayment(1);
-
-	document = dojo.byId("loan_number");
-	dojo.connect(document, "onkeyup", function(event) {
-		key_number = (event.keyCode);
-		if(key_number==13){
-			getLaonPayment(1);
-			getAllLaonPayment(1);
-		}
-	});
+	getGroupPayment();
 });
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
-	dijit.byId('group_id').query.branch_id = branch_id;
 	dijit.byId('client_code').query.branch_id = branch_id;
+	//dijit.byId('client_code').query.branch_id = branch_id;
 	//alert(dijit.byId('branch_id').get('value'));
-	dijit.byId('group_id').reset();
+	//dijit.byId('group_id').reset();
 	dijit.byId('client_code').reset();
 }
-
-function getPayment(){
-	status='<label style="color:red;">នៅឡើយ</lable>';
+function getGroupPayment(){
+	var total_pay = <?php echo $reciept_money["total_payment"];?>;
+	var recieve_amount =<?php echo $reciept_money["recieve_amount"];?>;
+	var return_amount = <?php echo $reciept_money["return_amount"];?>;
+	dijit.byId('branch_id').attr('value','<?php echo $reciept_money["branch_id"];?>');
+	dijit.byId('client_code').attr('value','<?php echo $reciept_money["group_id"];?>');
+	dijit.byId('old_penelize').attr('value','<?php echo $reciept_money["penalize_amount"];?>');
+	dijit.byId('old_service_charge').attr('value','<?php echo $reciept_money["service_charge"];?>');
+	$('#installment_date').val('<?php echo $reciept_money["last_paydate"];?>');
+	dijit.byId('interest_rate').attr('value','<?php echo $reciept_money["interest_rate"];?>');
+	
+	dijit.byId('priciple_amount').attr('value','<?php echo number_format($reciept_money["principal_amount"],2);?>');
+	dijit.byId('os_amount').attr('value','<?php echo number_format($reciept_money["total_principal_permonth"],2);?>');
+	dijit.byId('total_payment').attr('value','<?php echo number_format($reciept_money["total_payment"],2);?>');
+	dijit.byId('amount_receive').attr('value',parseFloat(recieve_amount));
+	dijit.byId('total_interest').attr('value','<?php echo number_format($reciept_money["total_interest"],2);?>');
+	dijit.byId('amount_return').attr('value',parseFloat(return_amount));
+	dijit.byId('currency_type').attr('value','<?php echo $reciept_money["currency_type"];?>');
+	dijit.byId('oldTotalPay').attr('value','<?php echo $reciept_money["total_payment"]-$reciept_money["penalize_amount"]-$reciept_money["service_charge"];?>');
+	dijit.byId('option_pay').attr('value','<?php echo $reciept_money["payment_option"];?>');
+	dijit.byId('payment_term').attr('value','<?php echo $reciept_money["collect_typeterm"];?>');
+	dijit.byId('amount_payment_term').attr('value','<?php echo $reciept_money["amount_term"];?>');
+	dijit.byId('collect_date').attr('value','<?php echo $reciept_money["date_input"];?>');
+	dijit.byId('penalize_amount').attr('value','<?php echo number_format($reciept_money["penalize_amount"],2);?>');
+	dijit.byId('service_charge').attr('value','<?php echo number_format($reciept_money["service_charge"],2);?>');
+	dijit.byId('load_level').attr('value','<?php echo $reciept_money["level"];?>');
+	dijit.byId('release_date').attr('value','<?php echo $reciept_money["date_release"];?>');
+	dijit.byId('total_amount_loan').attr('value','<?php echo $reciept_money["total_capital"];?>');
+	dijit.byId('loan_period').attr('value','<?php echo $reciept_money["total_duration"];?>');
+	dijit.byId('payment_method').attr('value','<?php echo $reciept_money["payment_method"];?>');
+	dijit.byId('co_id').attr('value','<?php echo $reciept_money["co_id"];?>');
+	dijit.byId('note').attr('value','<?php echo $reciept_money["note"];?>');
+	dijit.byId('reciept_no').attr('value','<?php echo $reciept_money["receipt_no"];?>');
+	getGroupPaymentDetail();
+	doTotalBypene();
+	doTotalByServ();
+}
+function getGroupPaymentDetail(){
 	tem='';	is_set=0;
-	tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
+	tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%" height="100%">'
 		+'<thead><tr><th class="tdheader">ល.រ</th>'
 		+'<th class="tdheader"><input type="checkbox" OnChange="checkAll();" name="check_all" id="check_all" checked="checked" /></th>'
 		+'<th class="tdheader">កូដអតិថិជន</th>'
@@ -418,119 +477,69 @@ function getPayment(){
 		+'<th class="tdheader">ប្រាក់ដើមគ្រា</th>'
 		+'<th class="tdheader">ប្រាក់ដើមត្រូវបង់</th>'
 		+'<th class="tdheader">ប្រាក់ការ</th>'
-		+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
+		+'<th class="tdheader">មេគុណផាកពិន័យ</th>'
 		+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
-		+'<th class="tdheader">បញ្ចុះតម្លៃ</th>'
+		+'<th class="tdheader">សេវាកម្ម</th>'
+		+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
+		+'<th class="tdheader">ប្រាក់ទទួលបាន</th>'
 		+'<th class="tdheader">ស្ថានភាព</th>'
-		+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
+// 		+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
 	+'</thead>';
-	num=0;
-	total_payment=0;
-	totalos_amount=0;
-	total_interest=0;
-	<?php if(!empty($reciept_detail)) {
-		foreach($reciept_detail AS $i=>$r){
+	<?php if(!empty($reciept_moneyDetail)) {
+		foreach($reciept_moneyDetail AS $i=>$r){
 			$inx = $i+1;
 	?>
 	d = new Date(<?php echo $r["date_payment"];?>);
 	str_day = getDayString(d.getDay());
-	curr =getCurrencyType(<?php echo $r["currency_id"];?>);
-	tem+= '<tr>';
-    tem += '<td><?php echo $inx;?><input type="hidden" name="curr" id="curr" value="<?php echo $r["currency_id"]?>" /></td>';
-    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["lfd_id"];?>+'" OnChange="calculateTotal('+<?php echo $inx;?>+')" /></td>';
-    tem += '<td>&nbsp;'+<?php echo $r["client_number"];?>+'&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /></td>';
-    tem += '<td>&nbsp;<?php echo $r["client_name"];?>&nbsp;</td>';
-    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-    
-    tem += '<td style="white-space: nowrap;">&nbsp;<?php echo $r["date_payment"];?><input type="hidden" name ="date_payment_'+<?php echo $inx;?>+'" id ="date_payment_'+<?php echo $inx;?>+'" value ="<?php echo $r["date_payment"];?>" </td>';
-    
-    tem += '<td>&nbsp;'+<?php echo $r["capital"];?>+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+<?php echo $inx;?>+'" id="total_priciple_'+<?php echo $inx;?>+'" value="'+<?php echo $r["capital"];?>+'" /></td>';
-    tem += '<td>&nbsp;'+<?php echo $r["principal_permonth"];?>+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+<?php echo $inx;?>+'" id="principal_permonth_'+<?php echo $inx;?>+'" value="'+<?php echo $r["principal_permonth"];?>+'" /></td>';
-    tem += '<td>&nbsp;'+<?php echo $r["total_interest"];?>+' '+curr+'&nbsp;<input type="hidden" name="interest_'+<?php echo $inx;?>+'" id="interest_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_interest"];?>+'" /></td>';
-    tem += '<td>&nbsp;'+<?php echo $r["total_payment"];?>+' '+curr+'&nbsp;<input type="hidden" name="payment_'+<?php echo $inx;?>+'" id="payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
-    tem += '<td>&nbsp;<?php echo $r["pay_after"];?><input type="hidden" name="pay_after_'+<?php echo $inx;?>+'" id="pay_after_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_after"];?>" /></td>';
-    tem += '<td>&nbsp;<?php echo $r["pay_before"];?><input type="hidden" name="pay_before_'+<?php echo $inx;?>+'" id="pay_before_'+<?php echo $inx;?>+'" value="<?php echo $r["pay_before"];?>" /></td>';
-    if(<?php echo $r["is_completed"];?> == 1){
-		status = '<label style="color:blue;">បង់រួច</label>';
-		if(<?php echo $r["is_completed"];?>==1){is_appr='<label style="color:blue;">Approved</label>';}
-	}else{
-		if(is_set!=1){
-			getdataPaymentToForm(<?php echo $inx;?>);
-			is_set=1;
-		}
-		is_appr='';
-	}
-	tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
-	tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
-    tem += '</tr>';
-    if(<?php echo $inx;?>!=1) {
-			var identity = dijit.byId('identity').get('value');
-			dijit.byId('identity').attr('value',identity+','+<?php echo $inx;?>);
-			dijit.byId('record_id').attr('value',identity+','+<?php echo $inx;?>);
-		} else {
-			dijit.byId('identity').attr('value',<?php echo $inx;?>);
-			dijit.byId('record_id').attr('value',<?php echo $inx;?>);
-		}
-    <?php }?>
-    tem+='</table>';
-	dojo.byId('data_table').innerHTML = tem;
-	checkAll();
-    <?php }?>
-}
-temp='';
-r = 0;
-fund_title=0;
-function getLaonPayment(type){
-	if(type==1){
-		var loan_number = dijit.byId('loan_number').get('value');
-	}else if(type==2){
-		var loan_number = dijit.byId('client_code').get('value');
-	}else if(type==3){
-		var loan_number = dijit.byId('group_id').get('value');
-	}
-	var teamGroup = dijit.byId('group_id').get('value');
-	var clientCode = dijit.byId('client_code').get('value');
-	var loanNumber = dijit.byId('loan_number').get('value');
-	var group_id = '<?php echo $group_id?>';
-	var client_code = '<?php echo $client_code?>';
-	var loan_number = '<?php echo $loan_number?>';  
-	if(type==3 && group_id == teamGroup){
-		getPayment();
-		dijit.byId('client_code').attr('value',teamGroup);
-		dijit.byId('loan_number').attr('value',loan_number);
-	}else if(type==2 && client_code == clientCode){
-		getPayment();
-		dijit.byId('group_id').attr('value',clientCode);
-		dijit.byId('loan_number').attr('value',loan_number);
-	}else if(type==1 && loanNumber==loan_number){
-		getPayment();
-		dijit.byId('group_id').attr('value',group_id);
-		dijit.byId('client_code').attr('value',client_code);
-	}else{
-		getLoanById(type);
-	}
-}
-function getLoanById(type){
-	if(type==1){
-		var loan_number = dijit.byId('loan_number').get('value');
-	}else if(type==2){
-		var loan_number = dijit.byId('client_code').get('value');
-	}else if(type==3){
-		var loan_number = dijit.byId('group_id').get('value');
-	}
-	var teamGroup = dijit.byId('group_id').get('value');
-	var clientCode = dijit.byId('client_code').get('value');
-	var loanNumber = dijit.byId('loan_number').get('value');
+	curr =getCurrencyType(<?php echo $r["currency_type"]?>);
 	
+		tem+= '<tr id=tr_'+<?php echo $inx;?>+' style="background-color:none">';
+		tem += '<td style="width:3%;">&nbsp;<?php echo $inx;?><input type="hidden" name="paymentTerm_'+<?php echo $inx;?>+'" id="paymentTerm_'+<?php echo $inx;?>+'" value="'+<?php echo $r["payTearm"];?>+'" /><input type="hidden" name="interestRate_'+<?php echo $inx;?>+'" id="interestRate_'+<?php echo $inx;?>+'" value="'+<?php echo $r["interest_rate"];?>+'" /></td>';
+		tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["lfd_id"];?>+'" OnClick="calculateTotal('+<?php echo $inx;?>+');checkRow('+<?php echo $inx;?>+');" checked="checked"/><input type="hidden" name="cu_id_'+<?php echo $inx;?>+'" id="cu_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["currency_type"];?>+'" /></td>';
+	    tem += '<td style="width:4%;">&nbsp;<?php echo $r["client_code"];?>&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /><input type="hidden" name="loan_number_<?php echo $inx;?>" id="loan_number_<?php echo $inx;?>" value="<?php echo $r["loan_number"];?>" /></td>';
+	    tem += '<td style="width:4%;">&nbsp;<?php echo $r["client_name"];?>&nbsp;</td>';
+	    tem += '<td style="white-space: nowrap; width:3%;">&nbsp;'+str_day+'&nbsp;</td>';
+	    tem += '<td style="white-space: nowrap;">&nbsp;<?php echo $r["date_payment"];?><input type="hidden" name ="date_payment_'+<?php echo $inx;?>+'" id ="date_payment_'+<?php echo $inx;?>+'" value ="<?php echo $r["date_payment"];?>"/><input type="hidden" name="last_paydate_'+<?php echo $inx;?>+'" id="last_paydate_'+<?php echo $inx;?>+'" value="<?php echo $r["last_paydate"];?>" /></td>';
+	    tem += '<td style="width:3%;">&nbsp;'+curr+' '+dojo.number.format(<?php echo $r["capital"];?>)+' &nbsp;<input type="hidden" name="sub_total_priciple_'+<?php echo $inx;?>+'" id="sub_total_priciple_'+<?php echo $inx;?>+'" value="'+<?php echo $r["capital"];?>+'" /></td>';
+	    tem += '<td style="width:3%;">&nbsp;'+curr+' '+dojo.number.format(<?php echo $r["principal_permonth"];?>)+' &nbsp;<input type="hidden" name="sub_principal_permonth_'+<?php echo $inx;?>+'" id="sub_principal_permonth_'+<?php echo $inx;?>+'" value="'+<?php echo $r["principal_permonth"];?>+'" /></td>';
+	    tem += '<td style="width:3%;">&nbsp;'+curr+' '+dojo.number.format(<?php echo $r["total_interest"];?>)+' &nbsp;<input type="hidden" name="sub_interest_'+<?php echo $inx;?>+'" id="sub_interest_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_interest"];?>+'" /></td>';
+	    tem += '<td style="width:4%;">&nbsp;<?php echo $r["pay_after"];?>&nbsp;<input type="hidden" name="multiplier_'+<?php echo $inx;?>+'" id="multiplier_'+<?php echo $inx;?>+'" value="'+<?php echo $r["pay_after"];?>+'" /></td>';
+		tem += '<td><label id="lb_sub_penelize_'+<?php echo $inx;?>+'">'+<?php echo $r["penelize_amount"];?>+'</label>&nbsp;<input required ="true" class="fullside" type="hidden" id="sub_penelize_'+<?php echo $inx;?>+'" name="sub_penelize_'+<?php echo $inx;?>+'" value="'+<?php echo $r["penelize_amount"];?>+'" style="width:93%;margin:3px 0" onKeyUp="doPenelizeAmount('+<?php echo $inx;?>+');"/><input type="hidden" id="old_sub_penelize_'+<?php echo $inx;?>+'" name="old_sub_penelize_'+<?php echo $inx;?>+'" value="'+<?php echo $r["penelize_amount"];?>+'" /></td>';
+		tem += '<td><label id="lb_sub_service_charge_'+<?php echo $inx;?>+'">'+<?php echo $r["service_charge"];?>+'</label>&nbsp;<input class="fullside" type="hidden" id="sub_service_charge_'+<?php echo $inx;?>+'" name="sub_service_charge_'+<?php echo $inx;?>+'" value="'+<?php echo $r["service_charge"];?>+'" style="width:93%;" onKeyUp="doServiceChargeAmount('+<?php echo $inx;?>+');"/><input type="hidden" id="old_sub_service_charge_'+<?php echo $inx;?>+'" name="old_sub_service_charge_'+<?php echo $inx;?>+'" value="'+<?php echo $r["service_charge"];?>+'"/></td>';
+		tem += '<td>&nbsp;<label id="lb_subpayment_'+<?php echo $inx;?>+'">'+<?php echo $r["total_payment"];?>+'</label><input type="hidden" name="sub_payment_'+<?php echo $inx;?>+'" id="sub_payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" style="width:93%;margin:3px 0"/><input type="hidden" name="old_sub_payment_'+<?php echo $inx;?>+'" id="old_sub_payment_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_payment"];?>+'" /></td>';
+		tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+<?php echo $inx;?>+'" name="sub_recive_amount_'+<?php echo $inx;?>+'" style="width:93%;" OnChange="netRecieveAmount('+<?php echo $inx;?>+');" value="'+<?php echo $r["total_recieve"];?>+'"/><input type="hidden" name="old_recieve_amount_'+<?php echo $inx;?>+'" id="old_recieve_amount_'+<?php echo $inx;?>+'" value="'+<?php echo $r["total_recieve"];?>+'"/></td>';
+			status = '<label style="color:blue;">បង់រួច</label>';
+		tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
+	    tem += '</tr>';
+		    if(<?php echo $inx;?>!=1) {
+				var identity = dijit.byId('record_id').get('value');
+				dijit.byId('record_id').attr('value',identity+','+<?php echo $inx;?>);
+				dijit.byId('identity').attr('value',identity+','+<?php echo $inx;?>);
+			} else {
+				dijit.byId('record_id').attr('value',<?php echo $inx;?>);
+				dijit.byId('identity').attr('value',<?php echo $inx;?>);
+			}
+	
+	<?php 
+		}
+	}
+	?>		
+	
+	tem+='</table>';
+	dojo.byId('data_table').innerHTML = tem;
+}
+
+function getLaonPayment(){
+	var client_code = dijit.byId('client_code').get('value');
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'get-loannumber')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,
 		    content : { 
-			    'loan_number':loan_number,
-			    'type':type,
+			    'client_code':client_code,
 			},	
 			handleAs:"json",
 			load: function(respone) {
+				alert(respone);
 				status='<label style="color:red;">នៅឡើយ</lable>';
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
@@ -540,118 +549,77 @@ function getLoanById(type){
 					+'<th class="tdheader">ឈ្មោះអតិថិជន</th>'
 					+'<th class="tdheader" colspan="2">ថ្ងៃបង់ប្រាក់</th>'
 					+'<th class="tdheader">ប្រាក់ដើមគ្រា</th>'
-					+'<th class="tdheader">ប្រាក់ដើមត្រូវបង់</th>'
-					+'<th class="tdheader">ប្រាក់ការ</th>'
+					+'<th class="tdheader">ប្រាក់ ដើមត្រូវបង់</th>'
+					+'<th width="8%" class="tdheader">ប្រាក់ការ</th>'
+					+'<th class="tdheader">មេគុណ ផាកពិន័យ</th>'
+					+'<th class="tdheader">ប្រាក់ ផាកពិន័យ</th>'
+					+'<th class="tdheader">សេវាកម្ម</th>'
 					+'<th class="tdheader">ប្រាក់ត្រូវបង់សរុប</th>'
-					+'<th class="tdheader">ប្រាក់ផាកពិន័យ</th>'
-					+'<th class="tdheader">បញ្ចុះតម្លៃ</th>'
+					+'<th class="tdheader">ប្រាក់ទទួលបាន</th>'
 					+'<th class="tdheader">ស្ថានភាព</th>'
-					+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
+// 					+'<th class="tdheader">កំណត់សម្គាល់</th></tr>'
 				+'</thead>';
 				num=0;
-				total_payment=0;
-				totalos_amount=0;
-				total_interest=0;
-				
-			    if(respone!=""){
-			    	dijit.byId('currency_type').attr('readOnly','readOnly');
-				for(i=0;i<respone.length;i++){
-					inx = i+1;
-					status='<label style="color:red;">នៅឡើយ</lable>';
-					++num;
-					d = new Date(respone[i].date_payment);
-					str_day = getDayString(d.getDay());
-					curr =getCurrencyType(respone[i].currency_type);
-					//date_collect = d.getDate()+'/'+d.getFullMonth()+'/'+d.getFullYear()
-					total_payment = total_payment + parseFloat(respone[i].total_payment);
-					totalos_amount = totalos_amount + parseFloat(respone[i].principal_permonth);
-					total_interest = total_interest + parseFloat(respone[i].total_interest);
-					client_id = respone[i].client_id;
-					total_principal = respone[i].total_principal;
-					principal_permonth = respone[i].principal_permonth;
-					interest = respone[i].total_interest;
-					payment = respone[i].total_payment;
-					pay_after = respone[i].pay_after;
-					pay_before = respone[i].pay_before;
-					date_pay = respone[i].date_payment;
-					id = respone[i].id;
-					total = total_payment + total_interest;
-					
-					 tem+= '<tr>';
-					    tem += '<td>&nbsp;'+num+'</td>';
-					    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;<input type="text" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].name_kh+'&nbsp;</td>';
-					    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
-					    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].date_payment+'&nbsp;<input type="text" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+date_pay+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principal_permonth)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
-					    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment)+' '+curr+'&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="pay_after_'+inx+'" id="pay_after_'+inx+'" value="'+pay_after+'" /></td>';
-					    tem += '<td>&nbsp;'+respone[i].pay_before+'&nbsp;<input type="hidden" name="pay_before_'+inx+'" id="pay_before_'+inx+'" value="'+pay_before+'" /></td>';
-						if(respone[i].is_completed==1){
-							status = '<label style="color:blue;">បង់រួច</label>';
-							if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
-						}else{
-							if(is_set!=1){
-								getdataPaymentToForm(respone[i]);
-								is_set=1;
-							}
-							is_appr='';
+				if(respone!="" || respone!=null){
+					alert(1);
+					//dijit.byId('currency_type').attr('readOnly','readOnly');
+					for(i=0;i<respone.length;i++){
+						inx = i+1;
+						++num;
+						if(is_set!=1){
+							getdataPaymentToForm(respone[i]);
+							is_set=1;
 						}
-						tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
-						tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
-					    tem += '</tr>';
-					
- 					    if(inx!=1) {
- 							var identity = dijit.byId('identity').get('value');
- 							dijit.byId('identity').attr('value',identity+','+inx);
- 							dijit.byId('record_id').attr('value',identity+','+inx);
- 						} else {
- 							dijit.byId('identity').attr('value',inx);
- 							dijit.byId('record_id').attr('value',inx);
- 						}
+						status='<label style="color:red;">នៅឡើយ</lable>';
+						var total_pay =parseFloat(respone[i].principle_after)+parseFloat(respone[i].total_interest_after)+parseFloat(respone[i].penelize)+parseFloat(respone[i].service_charge)
+						
+						d = new Date(respone[i].date_payment);
+						str_day = getDayString(d.getDay());
+						curr =getCurrencyType(respone[i].currency_type);
+						 tem+= '<tr>';
+						    tem += '<td>&nbsp;'+num+'</td>';
+						    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+respone[i].id+'" OnChange="calculateTotal('+inx+')" /></td>';
+						    tem += '<td>&nbsp;'+respone[i].client_code+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+respone[i].client_id+'" /></td>';
+						    tem += '<td>&nbsp;'+respone[i].client_name+'&nbsp;<input type="hidden" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
+						    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].payment_date+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_paydate_'+inx+'" id="last_paydate_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
+						    tem += '<td>&nbsp;'+curr+' '+dojo.number.format(respone[i].total_principal)+'&nbsp;<input type="hidden" name="sub_total_priciple_'+inx+'" id="sub_total_priciple_'+inx+'" value="'+respone[i].total_principal+'" /></td>';
+						    tem += '<td>&nbsp;'+curr+' '+dojo.number.format(respone[i].principle_after)+'&nbsp;<input type="hidden" name="sub_principal_permonth_'+inx+'" id="sub_principal_permonth_'+inx+'" value="'+respone[i].principle_after+'" /></td>';
+						    tem += '<td>&nbsp;'+curr+' '+dojo.number.format(respone[i].total_interest_after)+'&nbsp;<input type="hidden" name="sub_interest_'+inx+'" id="sub_interest_'+inx+'" value="'+respone[i].total_interest_after+'" /></td>';
+						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="multiplier_'+inx+'" id="multiplier_'+inx+'" value="'+respone[i].pay_after+'" /></td>';
+						    tem += '<td>&nbsp;<label id="lb_sub_penelize_'+inx+'">'+respone[i].penelize+'</label>&nbsp;<input type="hidden" name="sub_penelize_'+inx+'" id="sub_penelize_'+inx+'" value="'+respone[i].penelize+'" onKeyUp="doPenelizeAmount('+inx+');"/><input type="hidden" name="old_sub_penelize_'+inx+'" id="old_sub_penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
+						    tem += '<td>&nbsp;<label id="lb_sub_service_charge_'+inx+'">'+respone[i].service_charge+'</label>&nbsp;<input type="hidden" name="sub_service_charge_'+inx+'" id="sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" onKeyUp="doServiceChargeAmount('+inx+');"/><input type="hidden" name="old_sub_service_charge_'+inx+'" id="old_sub_service_charge_'+inx+'" value="'+respone[i].service_charge+'" /></td>';
+						    tem += '<td>&nbsp;<label id="lb_subpayment_'+inx+'">'+total_pay+'</label>&nbsp;<input type="hidden" name="sub_payment_'+inx+'" id="sub_payment_'+inx+'" value="'+total_pay+'" /><input type="hidden" name="old_sub_payment_'+inx+'" id="old_sub_payment_'+inx+'" value="'+total_pay+'" /></td>';
+						    tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+inx+'" name="sub_recive_amount_'+inx+'" style="width:93%;" OnChange="netRecieveAmount('+inx+');"/><input type="hidden" name="old_recieve_amount_'+inx+'" id="old_recieve_amount_'+inx+'" /></td>';
+							if(respone[i].is_completed==1){
+								status = '<label style="color:blue;">បង់រួច</label>';
+// 								if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
+							}else{
+								is_appr='';
+							}
+							tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
+// 							tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
+						    tem += '</tr>';
+	 					    if(inx!=1) {
+	 							var identity = dijit.byId('identity').get('value');
+	 							dijit.byId('identity').attr('value',identity+','+inx);
+	 							dijit.byId('record_id').attr('value',identity+','+inx);
+	 						} else {
+	 							dijit.byId('identity').attr('value',inx);
+	 							dijit.byId('record_id').attr('value',inx);
+	 						}
+					}
 				}
-			}else{
-				var clientId = dijit.byId('group_id').get('value');
-				var clientCode = dijit.byId('client_code').get('value');
-				var loanNumber = dijit.byId('loan_number').get('value');
-				if(type==1){
-					dijit.byId('group_id').attr('value','');
-					dijit.byId('client_code').attr('value','');
-				}else if(type==2){
-					dijit.byId('loan_number').attr('value','');
-					dijit.byId('group_id').attr('value',clientCode);
-				}else{
-					dijit.byId('loan_number').attr('value','');
-					dijit.byId('client_code').attr('value',clientId);
-				}
-				//alert("No Result!");
-				dijit.byId('identity').attr('value',"");
-				dijit.byId('priciple_amount').attr('value',0);
-				dijit.byId('os_amount').attr('value',0);
-				dijit.byId('total_payment').attr('value',0);
-				dijit.byId('amount_receive').attr('value',0);
-				dijit.byId('discount').attr('value',0);
-				dijit.byId('service_charge').attr('value',0);
-				dijit.byId('penalize_amount').attr('value',0);
-				dijit.byId('total_interest').attr('value',"");
-				dijit.byId('amount_return').attr('value',"");
-			}
-				
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
-				checkAll();
-				//calculateDatePay();
+				$('.checkbox').attr('checked',true);
+				calculateTotal();
 			},
 			error: function(e) {
 				alert(e);
 			}
 		});
-	
 }
-
 function getAllLaonPayment(type){
 	
 	if(type==1){
@@ -661,7 +629,6 @@ function getAllLaonPayment(type){
 	}else if(type==3){
 		var loan_number = dijit.byId('group_id').get('value');
 	}
-	
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'get-all-loannumber')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,
@@ -698,7 +665,6 @@ function getAllLaonPayment(type){
 						str_day = getDayString(d.getDay());
 						curr =getCurrencyType(respone[i].currency_type);
 						//date_collect = d.getDate()+'/'+d.getFullMonth()+'/'+d.getFullYear()
-						
 						//alert(total);
 						 tem+= '<tr>';
 						    tem += '<td>&nbsp;'+num+'</td>';
@@ -716,10 +682,6 @@ function getAllLaonPayment(type){
 								status = '<label style="color:blue;">បង់រួច</label>';
 								if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
 							}else{
-								if(is_set!=1){
-									getdataPaymentToForm(respone[i]);
-									is_set=1;
-								}
 								is_appr='';
 							}
 							tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
@@ -736,128 +698,176 @@ function getAllLaonPayment(type){
 			}
 		});
 }
+
+function getdataPaymentToForm(data){//use
+	is_change = 1;
+	//dijit.byId('branch_id').attr('value',data.branch_id);
+	//dijit.byId('client_id').attr('value',data.client_id);
+	dijit.byId('client_code').attr('value',data.client_id);
+	dijit.byId('co_id').attr('value',data.co_id);
+	dijit.byId('interest_rate').attr('value',data.interest_rate);
+	dijit.byId('payment_term').attr('value',data.collect_typeterm);
+	dijit.byId('currency_type').attr('value',data.currency_type);
+	dijit.byId('reciever').attr('value',data.collect_by);
+	dijit.byId('amount_payment_term').attr('value',data.amount_collect_principal);
+	dijit.byId('release_date').attr('value',data.date_release);
+	dijit.byId('old_release_date').attr('value',data.release_date);
+	dijit.byId('load_level').attr('value',data.level);
+	dijit.byId('total_amount_loan').attr('value',data.total_capital);
+	dijit.byId('loan_period').attr('value',data.total_duration);
+	dijit.byId('payment_method').attr('value',data.payment_method);
+	dijit.byId('load_level').attr('value',data.level);
+	var today = new Date();
+	dijit.byId('collect_date').attr('value',today);
+	//totalReturn();
+}
 function popupCheckCO(){
 }
 
 function calculateTotal(index){
-	total_payment = 0;
-	os_amount = 0;
-	total_interest = 0;
-	priciple_amount = 0;
-	penalize_amount = dijit.byId('penalize_amount').get('value');
-	discount = dijit.byId('discount').get('value');
-	var after_penalize_amount = 0;
-	var after_discount = 0;
-	var totalAmount = 0;
-	
-	var ids =dijit.byId('identity').get('value');
-	var arrays = ids.split(',');
-	for(var i=0;i<arrays.length;i++) {
-		if(arrays[i] == index) arrays.splice(i,1);
-		if($('#mfdid_'+index).attr('checked')){
-			if(dijit.byId("identity").get('value')!="") {
-				var ids = dijit.byId("identity").value;
-				dijit.byId("identity").attr('value',ids+','+index);
-			} else { 
-				dijit.byId("identity").attr('value',index);
-				}
-		 }else{
-			 var strings = arrays.join(',');
-			dijit.byId('identity').attr('value',strings);
-		}
-    }
-	var ids =dijit.byId('identity').get('value');
-	var arrays = ids.split(',');
-	for(var i=0;i<arrays.length;i++) {
- 		var totalPay = $('#payment_'+arrays[i]).val();
+	try{
+		var total_payment = 0;
+		var os_amount=0;
+		var total_penalize_amount=0;
+		var total_interest = 0;
+		var total_service_charge = 0;
+		var total_priciple_amount = 0;
 		var date_collect = dijit.byId('collect_date').get('value');
-		var oneDay = 24*60*60*1000;
-		
-		
-		if($('#mfdid_'+arrays[i]).attr('checked')){
-          total_payment = total_payment+parseFloat($('#payment_'+arrays[i]).val());
-          os_amount = os_amount+parseFloat($('#principal_permonth_'+arrays[i]).val());
-          total_interest = total_interest+parseFloat($('#interest_'+arrays[i]).val());
-          priciple_amount =  priciple_amount+parseFloat($('#total_priciple_'+arrays[i]).val()) - parseFloat($('#principal_permonth_'+arrays[i]).val());
-
-          var totalPay = $('#payment_'+arrays[i]).val();
-
-          pay_date = new Date($('#date_payment_'+arrays[i]).val());
-    		month = pay_date.getMonth()+1;
-    		var datePay = month+'/'+pay_date.getDate()+'/'+pay_date.getFullYear();
-			total_date = Math.round((date_collect - pay_date)/(oneDay));
-			//alert(total_date);
-			if(total_date>0){
-				var ps = $('#pay_after_'+arrays[i]).val();
-				
-				if(ps.length!=0){
-				 	if(ps.indexOf("%")!==-1){
-				 	   var pps=ps.split("%");
-				 	   if(!isNaN(pps[0])){
-					 	   //alert(totalPay);
-				 		  var rate_day = parseFloat(pps[0])/30;
-					 	    var penalize_amount=(totalPay*(rate_day*total_date))/100;
-					 	   after_penalize_amount = after_penalize_amount + parseFloat(penalize_amount);
-					 	    //alert('penalize:'+after_penalize_amount);
-					 	   totalAmount = totalAmount + (parseFloat(totalPay) + parseFloat(penalize_amount));
-							//alert(totalAmount);
-				 	   }else{
-				 		  after_penalize_amount = after_penalize_amount + ps;
-				 		 totalAmount = totalAmount + ps;
-				 	   }
-				 	  }else{
-					 	   if(!isNaN(ps)&&ps!=0){
-					 		  penalize_amount = parseFloat(ps).toFixed(2);
-						 	    after_penalize_amount = after_penalize_amount + ((penalize_amount/30)*total_date);
-						 	   totalAmount = totalAmount + (totalPay + penalize_amount);
-					 	   }else{
-						 	    batch
-						 	    after_penalize_amount = after_penalize_amount + ps;
-						 	   totalAmount = totalAmount + totalPay;
-					 	   }
-				 	  }
+		var recored = dijit.byId('record_id').get('value');
+		var ids =dijit.byId('identity').get('value');
+		var arrays = ids.split(',');
+		var payment_term = dijit.byId('payment_term').get('value');
+		var interest_rate = dijit.byId('interest_rate').get('value');
+		for(var i=0;i<arrays.length;i++) {//calculate record row
+			if(arrays[i] == index) arrays.splice(i,1);
+			if($('#mfdid_'+index).attr('checked')){
+				if(dijit.byId("identity").get('value')!="") {
+					dijit.byId("identity").attr('value',ids+','+index);
+				}else { 
+					dijit.byId("identity").attr('value',index);
 				}
-				
-			}else{
-				var ds = $('#pay_before_'+arrays[i]).val();
-
-				if(ds.length!=0){
-				 	if(ds.indexOf("%")!==-1){
-				 	   var pds=ds.split("%");
-				 	   if(!isNaN(pds[0])){
-				 		  var rate_day = parseFloat(pds[0])/30;
-					 	   var discount=(totalPay*(rate_day*(Math.abs(total_date))))/100;
-					 	  after_discount = after_discount + parseFloat(discount);
-					 	 // alert("dicount"+after_discount);
-					 	 totalAmount = totalAmount + (parseFloat(totalPay) - parseFloat(discount));
-
-				 	   }else{
-					 	    after_discount = after_discount + ds;
-					 	   totalAmount = totalAmount + (totalPay - ds);
-				 	   }
-				 	  }else{
-					 	   if(!isNaN(ds)&&ds!=0){
-						 	    discount = parseFloat(ds).toFixed(2);
-						 	    after_discount = after_discount + (discount/30)*(Math.abs(total_date));
-						 	   totalAmount = totalAmount + (totalPay - ((discount/30)*(Math.abs(total_date))));
-					 	   }else{
-						 	    batch
-						 	    after_discount = after_discount+ds;
-						 	   totalAmount = totalAmount + totalPay;
-					 	   }
-				 	  }
-				}
+			 }else{
+				var strings = arrays.join(',');
+				dijit.byId('identity').attr('value',strings);
 			}
-		}else{
 		}
+	   var ids =dijit.byId('identity').get('value');
+	   var arrays = ids.split(',');
+		if(arrays!=""){
+			for(var i=0;i<arrays.length;i++) {
+				var oneDay = 24*60*60*1000;
+				var mfdid = $('#mfdid_'+arrays[i]);
+				if(mfdid.checked=true){
+					var ps = $('#multiplier_'+arrays[i]).val();
+		          	var priciple_amount = parseFloat($('#sub_total_priciple_'+arrays[i]).val());
+		          	var principle_permonth =$('#sub_principal_permonth_'+arrays[i]).val();
+		          	var interest_amount = parseFloat($('#sub_interest_'+arrays[i]).val());
+		          	var totalPay = parseFloat(principle_permonth)+parseFloat(interest_amount);
+		          	var oldtotalPay = $('#old_sub_payment_'+arrays[i]).val();
+		          	var principlePerMonth = $('#sub_principal_permonth_'+arrays[i]).val();
+		          	var last_paydate = $('#last_paydate_'+arrays[i]).val();
+		          	//var payment_term = $('#paymentTerm_'+arrays[i]).val();
+		          	
+		          	var penelize = $('#sub_penelize_'+arrays[i]).val();
+		          	var old_penelize = $('#sub_penelize_'+arrays[i]).val();
+
+		          	pay_date=last_paydate="null"?new Date($('#date_payment_'+arrays[i]).val()):new Date(last_paydate);
+		          	
+					var late_day = Math.round((date_collect - pay_date)/(oneDay));
+					
+					if(late_day>0){
+						if(last_paydate!="null" || last_paydate!=null || last_paydate!=""){
+							total_late_day = late_day;
+						}else{
+							total_late_day = late_day - graice_period;
+						}
+					}else{
+						total_late_day = late_day;
+					}
+					if(total_late_day>0){
+						if(payment_term==1){
+							$('#sub_service_charge_'+arrays[i]).val(0);
+							$('#old_sub_service_charge_'+arrays[i]).val(0);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
+							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							document.getElementById('lb_sub_penelize_'+arrays[i]).innerHTML = sub_total_penelize.toFixed(2);
+							document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+						}else if(payment_term==2){
+							$('#sub_service_charge_'+arrays[i]).val(0);
+							$('#old_sub_service_charge_'+arrays[i]).val(0);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
+							sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							document.getElementById('lb_sub_penelize_'+arrays[i]).innerHTML = sub_total_penelize.toFixed(2);
+							document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+						}else if((payment_term==3)){
+							$('#sub_service_charge_'+arrays[i]).val(0);
+							$('#old_sub_service_charge_'+arrays[i]).val(0);
+							sub_total_penelize = ((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize))-old_penelize;
+							//alert(totalPay+'*'+);
+							sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
+							sub_total_recieve = sub_total_amount;
+							$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+							$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+							$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+							$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+							document.getElementById('lb_sub_penelize_'+arrays[i]).innerHTML = sub_total_penelize.toFixed(2);
+							document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+						}
+					}else{
+						sub_total_penelize = old_penelize-0;
+						sub_total_amount =parseFloat(totalPay)+parseFloat(sub_total_penelize);
+						sub_total_recieve = parseFloat(sub_total_amount.toFixed(2));
+						$('#sub_recive_amount_'+arrays[i]).val(sub_total_recieve);
+						$('#old_recieve_amount_'+arrays[i]).val(sub_total_recieve.toFixed(2));
+						$('#sub_payment_'+arrays[i]).val(sub_total_amount.toFixed(2));
+						$('#sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+						$('#old_sub_penelize_'+arrays[i]).val(sub_total_penelize.toFixed(2));
+						document.getElementById('lb_sub_penelize_'+arrays[i]).innerHTML = sub_total_penelize.toFixed(2);
+						document.getElementById('lb_subpayment_'+arrays[i]).innerHTML = sub_total_amount.toFixed(2);
+					}
+					penalize_amount = $('#sub_penelize_'+arrays[i]).val();
+					service_charge = $('#sub_service_charge_'+arrays[i]).val();
+					total_payment = parseFloat(total_payment)+parseFloat(sub_total_amount);
+					os_amount = parseFloat(os_amount)+parseFloat(principlePerMonth);
+					total_interest = parseFloat(total_interest)+parseFloat(interest_amount);
+					total_penalize_amount = parseFloat(total_penalize_amount)+parseFloat(penalize_amount);
+					total_service_charge = parseFloat(total_service_charge)+parseFloat(service_charge);
+					total_priciple_amount = parseFloat(total_priciple_amount)+parseFloat(priciple_amount);
+			}else{
+				$('#sub_penelize_'+index).removeAttr('disabled','disabled');
+				$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
+				$('#sub_payment_'+arrays[i]).removeAttr('disabled','disabled');
+			}
+		}
+		}
+		if(identity==recored){
+			$('#check_all').attr('checked');
+		}
+		total_os_amount = total_priciple_amount - os_amount;
+		dijit.byId('total_payment').attr('value',total_payment.toFixed(2));
+		dijit.byId('os_amount').attr('value',os_amount.toFixed(2));
+		dijit.byId('total_interest').attr('value',total_interest.toFixed(2));
+		dijit.byId('penalize_amount').attr('value',total_penalize_amount.toFixed(2));
+		dijit.byId('service_charge').attr('value',total_service_charge.toFixed(2));
+		dijit.byId('priciple_amount').attr('value',total_os_amount.toFixed(2));
+		dijit.byId('amount_receive').attr('value',total_payment.toFixed(2));
+		dijit.byId('amount_return').attr('value',0);
+	}catch(err){
+		alert(err);
 	}
-	 dijit.byId('amount_receive').attr('value',totalAmount.toFixed(2));
-	dijit.byId('penalize_amount').attr('value',after_penalize_amount.toFixed(2));
-    dijit.byId('discount').attr('value',after_discount.toFixed(2));
-	dijit.byId('total_payment').attr('value',totalAmount);
-	dijit.byId('os_amount').attr('value',os_amount);
-	dijit.byId('total_interest').attr('value',total_interest);
-	dijit.byId('priciple_amount').attr('value',priciple_amount);
 }
 
 function checkAll(index){
@@ -912,7 +922,7 @@ function checkAll(index){
   							 	    after_penalize_amount = after_penalize_amount + penalize_amount;
   							 	   totalAmount = totalAmount + (totalPay + penalize_amount);
   						 	   }else{
-  							 	    batch
+  							 	   // batch
   							 	    after_penalize_amount = after_penalize_amount + ps;
   							 	   totalAmount = totalAmount + totalPay;
   						 	   }
@@ -942,7 +952,7 @@ function checkAll(index){
   							 	    after_discount = after_discount + discount;
   							 	   totalAmount = totalAmount + (totalPay - discount);
   						 	   }else{
-  							 	    batch
+  							 	   // batch
   							 	    after_discount = after_discount+ds;
   							 	   totalAmount = totalAmount + totalPay;
   						 	   }
@@ -952,7 +962,6 @@ function checkAll(index){
     		}
         }
         //dijit.byId('hide_total_payment').attr('value',parseFloat(total_payment.toFixed(2)));
-        dijit.byId('amount_receive').attr('value',totalAmount.toFixed(2));
     	dijit.byId('penalize_amount').attr('value',after_penalize_amount.toFixed(2));
         dijit.byId('discount').attr('value',after_discount.toFixed(2));
         dijit.byId('total_payment').attr('value',totalAmount.toFixed(2));
@@ -976,17 +985,7 @@ function checkAll(index){
 	}
 }
 
-function getdataPaymentToForm(data){//use
-	dijit.byId('currency_type').attr('value',data.currency_type);
-	dijit.byId('group_id').attr('value',data.group_id);
-	dijit.byId('co_id').attr('value',data.co_id);
-// 	dijit.byId('branch_id').attr('value',data.branch_id);
-	dijit.byId('total_interest').attr('value',data.total_interest);
-	dijit.byId('loan_number').attr('value',data.loan_number);
-	dijit.byId('client_code').attr('value',data.group_number);
-	dijit.byId('reciever').attr('value',data.collect_by);
-	totalReturn();
-}
+
 function getDayString(num){
 	var days= ["ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហ","សុក្រ","សៅរ៏","អាទិត្យ"];
 	return days[num];
@@ -995,10 +994,105 @@ function getCurrencyType(type){
 	var option=["៛","$","B"];
 	return option[type-1];
 }
+
+function doPenelizeAmount(index){
+	var penalize_amount = dijit.byId('penalize_amount').get('value');
+	sub_service_charge = $('#sub_service_charge_'+index).val();
+	sub_total_payment = $('#old_sub_payment_'+index).val();
+	old_sub_penelize = $('#old_sub_penelize_'+index).val();
+	sub_penelize = $('#sub_penelize_'+index).val();
+	new_penelize = parseFloat(penalize_amount)-parseFloat(old_sub_penelize)+parseFloat(sub_penelize);
+	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_sub_penelize))+parseFloat(sub_penelize)+parseFloat(sub_service_charge);
+	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+	$('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#old_sub_penelize_'+index).val(sub_penelize);
+	dijit.byId('penalize_amount').attr('value',new_penelize);
+	netTotal();
+}
+
+function doServiceChargeAmount(index){
+	var service_charge = dijit.byId('service_charge').get('value');
+	sub_penelize = $('#sub_penelize_'+index).val();
+	sub_total_payment = $('#old_sub_payment_'+index).val();
+	old_sub_service_charge = $('#old_sub_service_charge_'+index).val();
+	sub_service_charge = $('#sub_service_charge_'+index).val();
+
+	new_service_charge = parseFloat(service_charge)-parseFloat(old_sub_service_charge)+parseFloat(sub_service_charge);
+	
+	new_sub_total_payment = (parseFloat(sub_total_payment)-parseFloat(old_sub_service_charge))+parseFloat(sub_penelize)+parseFloat(sub_service_charge);
+	document.getElementById('lb_subpayment_'+index).innerHTML = new_sub_total_payment.toFixed(2);
+	$('#sub_payment_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#sub_recive_amount_'+index).val(new_sub_total_payment.toFixed(2));
+	$('#old_sub_service_charge_'+index).val(sub_service_charge);
+	dijit.byId('service_charge').attr('value',new_service_charge);
+	netTotal();
+}
+
+function doTotalBypene(){
+	old_penelize = dijit.byId('old_penelize').get('value');
+	penelize = dijit.byId('penalize_amount').get('value');
+	old_total_pay = dijit.byId('total_payment').get('value');
+	penelize = penelize==""?0:penelize;
+	service_charge = dijit.byId('service_charge').get('value');
+	total_pay = parseFloat(old_total_pay - old_penelize)+parseFloat(penelize);
+	dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
+	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
+	dijit.byId('old_penelize').attr('value',penelize);
+}
+function doTotalByServ(){
+	old_service_charge = dijit.byId('old_service_charge').get('value');
+	service_charge = dijit.byId('service_charge').get('value');
+	old_total_pay = dijit.byId('total_payment').get('value');
+	service_charge = service_charge==""?0:service_charge;
+	penelize = dijit.byId('penalize_amount').get('value');
+	total_pay = parseFloat(old_total_pay - old_service_charge)+parseFloat(service_charge);
+	dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
+	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
+	dijit.byId('old_service_charge').attr('value',service_charge);
+}
+
+function netTotal() {
+	var netTotal=0;
+	var rowId = dijit.byId('identity').get('value');
+	var rowIDArray = rowId.split(',');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		netTotal += Number($('#sub_payment_'+rowIDArray[n]).val());
+	}
+	netTotal=(netTotal).toFixed(2);
+	total_recieve = dijit.byId('amount_receive').get('value');
+	dijit.byId('amount_receive').attr('value',netTotal);
+	returnAmount = total_recieve - netTotal;
+	returnAmount = returnAmount<0?0:returnAmount;
+	dijit.byId('amount_return').attr('value',returnAmount);
+	dijit.byId('total_payment').attr('value',netTotal);
+}
+
+function netRecieveAmount(index){
+	var old_sub_recieve_amount = $('#old_recieve_amount_'+index).val();
+	var sub_recieve_amount = $('#sub_recive_amount_'+index).val();
+	var total_pay = dijit.byId('total_payment').get('value');
+
+	new_total_pay = (parseFloat(total_pay)-parseFloat(old_sub_recieve_amount))+parseFloat(sub_recieve_amount);
+	dijit.byId('total_payment').attr('value',new_total_pay);
+
+	$('#old_recieve_amount_'+index).val(sub_recieve_amount);
+	//dijit.byId('amount_return').attr('value',returnAmount);
+	dijit.byId('amount_receive').attr('value',new_total_pay);
+}
+function netReturn(){
+	var total_pay = dijit.byId('total_payment').get('value');
+	var total_recieve = dijit.byId('amount_receive').get('value');
+	total_return = parseFloat(total_recieve)-parseFloat(total_pay);
+	total_return = total_return<0?0:total_return;
+	dijit.byId('amount_return').attr('value',total_return.toFixed(2));
+}
 function totalReturn(){
 	receive_amount = dijit.byId('amount_receive').get('value');
 	total_payment = dijit.byId('total_payment').get('value');
 	amonut_return = receive_amount-total_payment;
 	dijit.byId('amount_return').attr('value',amonut_return);
 }
+
+
 </script>

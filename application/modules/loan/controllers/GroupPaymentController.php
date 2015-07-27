@@ -63,7 +63,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Client is no loan to pay", "/loan/GroupPayment");
 				}else{
 					$db->addGroupPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
+					//Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
@@ -116,7 +116,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
 		
-		$this->view->row = $rs;
+		$this->view->reciept_money = $rs;
 		$this->view->client = $db->getAllClient();
 		$this->view->clientCode = $db->getAllClientCode();
 		
@@ -127,17 +127,10 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 	
 		$list = new Application_Form_Frmtable();
-		$collumns = array("ឈ្មោះមន្ត្រីឥណទាន","ថ្ងៃបង់ប្រាក់","ប្រាក់ត្រូវបង់","ប្រាក់ដើមត្រូវបង់","អាត្រាការប្រាក់","ប្រាក់ផាកពិន័យ","ប្រាក់បានបង់សរុប","សមតុល្យ","កំណត់សម្គាល់");
-		$link=array(
-				'module'=>'group','controller'=>'Client','action'=>'edit',
-		);
-		$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 	
 		$rs_receipt_detail = $db->getGroupPaymentDetail($id);
-		$this->view->reciept_detail = $rs_receipt_detail;
+		$this->view->reciept_moneyDetail = $rs_receipt_detail;
 		$this->view->group_id = $rs["group_id"];
-		$this->view->client_code = $rs["client_code"];
-		$this->view->loan_number = $rs["loan_number"];
 	}
 	function getLoanDetailAction(){
 		if($this->getRequest()->isPost()){
