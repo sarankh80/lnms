@@ -6,6 +6,7 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$graiceperiod = $this->graiceperiod;
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -150,8 +151,8 @@
 	</tr>		
 </table>
 
-<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -350,8 +351,8 @@ dojo.require("dojo.data.ObjectStore");
 	
 </script>
 <script type="text/javascript">
+var graice_period = <?php echo $graiceperiod["value"] ?>;
 function submitData(){
-	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
@@ -413,9 +414,6 @@ dojo.ready(function(){
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_code').query.branch_id = branch_id;
-	//dijit.byId('client_code').query.branch_id = branch_id;
-	//alert(dijit.byId('branch_id').get('value'));
-	//dijit.byId('group_id').reset();
 	dijit.byId('client_code').reset();
 }
 temp='';
@@ -431,7 +429,6 @@ function getLaonPayment(){
 			},	
 			handleAs:"json",
 			load: function(respone) {
-				alert(respone);
 				status='<label style="color:red;">នៅឡើយ</lable>';
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
@@ -453,7 +450,6 @@ function getLaonPayment(){
 				+'</thead>';
 				num=0;
 				if(respone!="" || respone!=null){
-					alert(1);
 					//dijit.byId('currency_type').attr('readOnly','readOnly');
 					for(i=0;i<respone.length;i++){
 						inx = i+1;
@@ -472,7 +468,7 @@ function getLaonPayment(){
 						    tem += '<td>&nbsp;'+num+'</td>';
 						    tem += '<td>&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+respone[i].id+'" OnChange="calculateTotal('+inx+')" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].client_code+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+respone[i].client_id+'" /></td>';
-						    tem += '<td>&nbsp;'+respone[i].client_name+'&nbsp;<input type="text" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
+						    tem += '<td>&nbsp;'+respone[i].client_name+'&nbsp;<input type="hidden" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+respone[i].payment_date+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_paydate_'+inx+'" id="last_paydate_'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="sub_total_priciple_'+inx+'" id="sub_total_priciple_'+inx+'" value="'+respone[i].total_principal+'" /></td>';
@@ -924,10 +920,17 @@ function doServiceChargeAmount(index){
 
 function doTotalBypene(){
 	old_penelize = dijit.byId('old_penelize').get('value');
+	old_penelize = old_penelize==""?0:old_penelize;
+	
 	penelize = dijit.byId('penalize_amount').get('value');
-	old_total_pay = dijit.byId('total_payment').get('value');
 	penelize = penelize==""?0:penelize;
+	
+	old_total_pay = dijit.byId('total_payment').get('value');
+	old_total_pay = old_total_pay==""?0:old_total_pay;
+
 	service_charge = dijit.byId('service_charge').get('value');
+	service_charge = service_charge==""?0:service_charge;
+	
 	total_pay = parseFloat(old_total_pay - old_penelize)+parseFloat(penelize);
 	dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
 	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
@@ -935,10 +938,17 @@ function doTotalBypene(){
 }
 function doTotalByServ(){
 	old_service_charge = dijit.byId('old_service_charge').get('value');
+	old_service_charge = old_service_charge==""?0:old_service_charge;
+	
 	service_charge = dijit.byId('service_charge').get('value');
-	old_total_pay = dijit.byId('total_payment').get('value');
 	service_charge = service_charge==""?0:service_charge;
+
+	old_total_pay = dijit.byId('total_payment').get('value');
+	old_penelize = old_penelize==""?0:old_penelize;
+	
 	penelize = dijit.byId('penalize_amount').get('value');
+	penelize = penelize==""?0:penelize;
+	
 	total_pay = parseFloat(old_total_pay - old_service_charge)+parseFloat(service_charge);
 	dijit.byId('total_payment').attr('value',total_pay.toFixed(2));
 	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));

@@ -8,7 +8,8 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
-	print_r($reciept_moneyDetail);
+	$graiceperiod = $this->graiceperiod;
+	//print_r($reciept_money);
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -18,7 +19,7 @@
 </style>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 
-<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>" 
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
@@ -153,8 +154,8 @@
 	</tr>		
 </table>
 
-<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -353,6 +354,7 @@ dojo.require("dojo.data.ObjectStore");
 	
 </script>
 <script type="text/javascript">
+var graice_period = <?php echo $graiceperiod["value"] ?>;
 function submitData(){
 	//var json_data_t = itemToJSON(dijit.byId('tran_list'));
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>';
@@ -392,7 +394,6 @@ function AddNewCo(){
 }
 dojo.ready(function(){	
 	var old_group_id = '<?php echo $reciept_money["group_id"];?>';
-	alert(old_group_id);
 	var old_currency_type = '<?php echo $reciept_money["currency_type"];?>';
 	var old_collect_date = '<?php echo $reciept_money["date_input"];?>';
 	var clientCode_data = new dojo.store.Memory({
@@ -424,9 +425,6 @@ dojo.ready(function(){
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_code').query.branch_id = branch_id;
-	//dijit.byId('client_code').query.branch_id = branch_id;
-	//alert(dijit.byId('branch_id').get('value'));
-	//dijit.byId('group_id').reset();
 	dijit.byId('client_code').reset();
 }
 function getGroupPayment(){
@@ -462,6 +460,7 @@ function getGroupPayment(){
 	dijit.byId('co_id').attr('value','<?php echo $reciept_money["co_id"];?>');
 	dijit.byId('note').attr('value','<?php echo $reciept_money["note"];?>');
 	dijit.byId('reciept_no').attr('value','<?php echo $reciept_money["receipt_no"];?>');
+	dijit.byId('reciever').attr('value','<?php echo $reciept_money["receiver_id"];?>');
 	getGroupPaymentDetail();
 	doTotalBypene();
 	doTotalByServ();
@@ -561,8 +560,6 @@ function getLaonPayment(){
 				+'</thead>';
 				num=0;
 				if(respone!="" || respone!=null){
-					alert(1);
-					//dijit.byId('currency_type').attr('readOnly','readOnly');
 					for(i=0;i<respone.length;i++){
 						inx = i+1;
 						++num;
@@ -593,12 +590,8 @@ function getLaonPayment(){
 						    tem += '<td>&nbsp;<input class="fullside" type="text" id="sub_recive_amount_'+inx+'" name="sub_recive_amount_'+inx+'" style="width:93%;" OnChange="netRecieveAmount('+inx+');"/><input type="hidden" name="old_recieve_amount_'+inx+'" id="old_recieve_amount_'+inx+'" /></td>';
 							if(respone[i].is_completed==1){
 								status = '<label style="color:blue;">បង់រួច</label>';
-// 								if(respone[i].is_approved==1){is_appr='<label style="color:blue;">Approved</label>';}
-							}else{
-								is_appr='';
 							}
 							tem += '<td>&nbsp;<label style="font-size:10px;">'+status+'</label></td>';
-// 							tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
 						    tem += '</tr>';
 	 					    if(inx!=1) {
 	 							var identity = dijit.byId('identity').get('value');
@@ -664,8 +657,6 @@ function getAllLaonPayment(type){
 						d = new Date(respone[i].date_payment);
 						str_day = getDayString(d.getDay());
 						curr =getCurrencyType(respone[i].currency_type);
-						//date_collect = d.getDate()+'/'+d.getFullMonth()+'/'+d.getFullYear()
-						//alert(total);
 						 tem+= '<tr>';
 						    tem += '<td>&nbsp;'+num+'</td>';
 						    tem += '<td>&nbsp;'+respone[i].client_number+'&nbsp;</td>';
@@ -701,8 +692,6 @@ function getAllLaonPayment(type){
 
 function getdataPaymentToForm(data){//use
 	is_change = 1;
-	//dijit.byId('branch_id').attr('value',data.branch_id);
-	//dijit.byId('client_id').attr('value',data.client_id);
 	dijit.byId('client_code').attr('value',data.client_id);
 	dijit.byId('co_id').attr('value',data.co_id);
 	dijit.byId('interest_rate').attr('value',data.interest_rate);

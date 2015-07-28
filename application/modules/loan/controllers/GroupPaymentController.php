@@ -76,8 +76,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		$frm_loan=$frm->FrmGroupPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
+		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		
 		$this->view->client = $db->getAllClient();
 		$this->view->clientCode = $db->getAllClientCode();
@@ -103,8 +106,8 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 				if($identity==""){
 					Application_Form_FrmMessage::Sucessfull("Group Client no loan to pay!", "/loan/GroupPayment");
 				}else{
-					$db->updateGroupPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
+					$db->updateGroupPayment($_data,$id);
+					//Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
@@ -122,6 +125,8 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 		
 		$db_keycode = new Application_Model_DbTable_DbKeycode();
 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+		
+		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		
 		$session_user=new Zend_Session_Namespace('auth');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
