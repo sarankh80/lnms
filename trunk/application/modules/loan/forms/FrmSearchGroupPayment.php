@@ -30,7 +30,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$advnceSearch = new Zend_Dojo_Form_Element_TextBox("advance_search");
 		$advnceSearch->setAttribs(array('class'=>'fullside'
 				,'dojoType'=>'dijit.form.TextBox'
-				,'placeholder'=>$this->tr->translate("Reciept No or Loan Number")));
+				,'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")));
 		
 		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
 		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');

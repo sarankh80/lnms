@@ -130,13 +130,11 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		
 		$type_opt = array(
 				''=>$this->tr->translate("---Select Long Term---"),
-				15=>$this->tr->translate("15 Days"),
-				30=>$this->tr->translate("30 Days"),
-				45=>$this->tr->translate("45 Days"),
-				60=>$this->tr->translate("60 Days"),
-				75=>$this->tr->translate("75 Days"),
-				90=>$this->tr->translate("writeoff(90 Days)")
-				);
+				1=>$this->tr->translate("Standard ,<= 10 Days"),
+				2=>$this->tr->translate("Special Mention ,11-90 Days"),
+				3=>$this->tr->translate("Substandard ,91-180 Days"),
+				4=>$this->tr->translate("Doubtful ,181-360 Days"),
+				5=>$this->tr->translate("Loan Loss ,>360 days"));
 		 
 		$_term->setMultiOptions($type_opt);
 		$_term->setValue($request->getParam('Term'));

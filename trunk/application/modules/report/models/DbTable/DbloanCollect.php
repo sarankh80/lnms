@@ -37,7 +37,7 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     		$s_where[] = " amount_day LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).'';
     	}
-    	//echo $sql.$where;
+    	echo $sql.$where;
     	return $db->fetchAll($sql.$where);
     	
     }
