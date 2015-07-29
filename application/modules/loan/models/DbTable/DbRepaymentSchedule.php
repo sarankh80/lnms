@@ -54,6 +54,11 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     		$where = ' status = 1 AND g_id = '.$data['group_id'];
     		$this->update($arr_update, $where);
     		
+    		$session_transfer=new Zend_Session_Namespace();
+    		$session_user=new Zend_Session_Namespace('auth');
+    		$user_id = $session_user->user_id;
+    		
+    		
     		$this->_name = 'ln_loan_member';
     		$where = ' is_completed = 0 AND status = 1 AND group_id = '.$data['group_id'].' AND client_id = '.$data["member"];
     		
@@ -80,7 +85,8 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     				'collect_typeterm'=>$data['collect_termtype'],
     				'for_loantype'=>$data['loan_type'],
     				'is_reschedule'=>2,
-    				'reschedule_opt'=>$data['reschedule_opt']
+    				'reschedule_opt'=>$data['reschedule_opt'],
+    				'user_id'=>$user_id,
     		);
     		
     		$g_id = $this->insert($datagroup);//add group loan
@@ -88,6 +94,19 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     		//reschedule_postfix
     		$dbsetting = new Setting_Model_DbTable_DbLabel();
     		$array = $dbsetting->getAllSystemSetting();
+    		
+    		$arr = array(
+    				're_loan_number'=>$data['loan_code'].$array['reschedule_postfix'],
+    				'loan_number'=>$data['loan_code'],
+    				'reschedule_date'=>$data['release_date'],
+    				're_amount'=>$data['total_amount'],
+    				're_interest_rate'=>$data['interest_rate'],
+    				'maturity'=>$data['date_line'],
+    				're_payment_method'=>$data['repayment_method'],
+    				'user_id'=>$user_id,
+    		);
+    		$this->_name="ln_reschedule";
+    		$this->insert($arr);
     		
     		$datamember = array(
     				'group_id'=>$g_id,

@@ -179,7 +179,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}
 		$client_name->setMultiOptions($opt_client);
-		$client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',));
+		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',));
 		$client_name->setValue($request->getParam("client_name"));
 		
 		if($data!=null){
