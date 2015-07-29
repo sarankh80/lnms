@@ -182,9 +182,11 @@
 		</tr>
 		<tr>
 			<td align="center">
-			   <input type="button" name="save" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
-			   <input type="button" name="saveprint" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
+			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitNew();"/>
+			   <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submit_close" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitClose();"/>
+			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			   
 <!-- 			   <input type="submit" name="cancel" value="cancel" label="<?php //echo $tr->translate('CANCEL');?>" id="cancelButton" dojoType="dijit.form.Button"
@@ -236,14 +238,14 @@
 					   	<td align="center" colspan="6">	
 					   <table  width="100%" cellspacing="0" cellpadding="0">
 					   		<tr style="line-height:10px;">
-					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
-						   		<td align="right"><strong style="font-size:14px;font-family:'KH Koulen';text-align:center"><?php echo $this->keycode['il_payment_title'];?></strong></td>
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="60px;"/></td>
+						   		<td align="right"><strong style="font-family:'KH Koulen';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><?php echo $this->keycode['il_payment_title'];?></strong></td>
 							</tr>
 					   	</table>
 			            </td>	   	        
 				   </tr> 
 				   <tr>
-					   	<td align="center" colspan="6" style="font-family:'KH Koulen';font-size:12px; border-bottom:1px solid #000"><?php echo $this->keycode['il_payment'];?></td>	   	        
+					   	<td align="center" colspan="6" style="font-family:'KH Koulen';font-size:13px; border-bottom:1px solid #000"><?php echo $this->keycode['il_payment'];?></td>	   	        
 					</tr> 
 				   <tr>
 					    <td></td>
@@ -255,7 +257,6 @@
 							 <?php echo date('d-m-Y H:i:s');?><br/>
 						</td>
 				   </tr>
-				  
 			<tr class="fontsize">
 					<td></td>
 					<td></td>
@@ -265,7 +266,6 @@
 					<td class="border">
 						<strong class="fonttel" style="font-size:12px;"><label id="lblinvioice"><?php print($this->user_name);?></label></strong>
 					</td>
-					
 			</tr>
 			<tr class="fontsize">
 					<td></td>
@@ -292,8 +292,8 @@
 					<td class="border"><lable id="lbl_branch_id"></lable></td>
 					<td>ឈ្មោះ CO :</td>
 					<td class="border"><lable id="lbl_co_id"></lable></td>
-					<td>ថ្ងៃប្រមូលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_collect_date"></lable></td>
+					<td></td>
+					<td></td>
 					
 			</tr>
 			<tr class="fontsize">
@@ -309,24 +309,25 @@
 					<td class="border"><lable style="color:red" id="lbl_penalize_amount"></lable></td>
 					<td>ប្រាក់ត្រូវបង់សរុប :</td>
 					<td class="border"><lable id="lbl_total_payment"></lable></td>
-					<td>កំណត់សម្គាល់ :</td>
-					<td class="border"><lable id="lbl_note"></lable></td>
-			</tr>
-			<tr class="fontsize">
-					<td>បញ្ចុះតម្លៃ :</td>
-					<td class="border"><lable style="color:red" id="lbl_discount"></lable></td>
 					<td>បង់ថ្លៃសេវា :</td>
 					<td class="border"><lable id="lbl_service_charge"></lable></td>
-					<td>ថ្ងៃទទួលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_date_input"></lable></td>
+					
 			</tr>
 			<tr class="fontsize">
-					<td></td>
-					<td></td>
+					<td>ថ្ងៃទទួលប្រាក់ :</td>
+					<td class="border"><lable id="lbl_collect_date"></lable></td>
 					<td>ប្រាក់ទទួលបាន :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_receive"></lable></td>
 					<td>ប្រាក់អាប់ :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_return"></lable></td>
+			</tr>
+			<tr class="fontsize">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>កំណត់សម្គាល់ :</td>
+					<td class="border"><lable id="lbl_note"></lable></td>
 			</tr>
 			<tr class="fontsize" style="margin-top:20px;line-height: 60px">
 					<td></td>
@@ -352,6 +353,14 @@
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 var graice_period = <?php echo $graiceperiod["value"] ?>;
+function submitNew(){
+	dijit.byId("frm_add_group_pay").submit();
+}
+
+function submitClose(){
+	dijit.byId("frm_add_group_pay").submit();
+	window.location.href ="<?php echo $this->baseUrl();?>/loan/il-payment";
+}
 function showReciept(){
 	var client_id = dijit.byId('client_id').get('value');
 	if(client_id==""){
@@ -363,7 +372,6 @@ function showReciept(){
 		for(var i=0;i<1;i++){
 			document.getElementById('lbl_group_member').innerHTML = arrays[0];
 		}
-		
 		document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
 		document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
 		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
@@ -377,7 +385,6 @@ function showReciept(){
 	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
 	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
 	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
-	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
 	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
 	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
 		dijit.byId('frm_client').show();
@@ -493,11 +500,9 @@ function submitData(){
 			form: dojo.byId("frm_add_tran"),		    
 			load: function(data) {	
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-				//alert(data);
-				
 			},
 			error: function(e) {
-				//alert("Your message could not be sent, please try again!.");
+				alert("Your message could not be sent, please try again!.");
 			}
 		});
 }

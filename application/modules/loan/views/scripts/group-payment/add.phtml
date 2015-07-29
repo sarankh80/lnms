@@ -129,7 +129,9 @@
 		<tr>
 			<td align="center">
 			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitNew();"/>
+			   <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submit_close" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitClose();"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
@@ -216,21 +218,12 @@
 					
 			</tr>
 			<tr class="fontsize">
-					<td>ឈ្មោះប្រធានក្រុម :</td>
-					<td class="border"><lable id="lbl_group_member"></lable></td>
-					<td>លេខកូដអតិថិជន :</td>
-					<td class="border"><lable id="lbl_group_code"></lable></td>
-					<td>ស្គែន/បញ្ចូលលេខកូដកម្ចី :</td>
-					<td class="border"><lable id="lbl_laon_nomber"></lable></td>
-					
-			</tr>
-			<tr class="fontsize">
 					<td class="fontsize">សាខា :</td>
 					<td class="border"><lable id="lbl_branch_id"></lable></td>
+					<td>ឈ្មោះប្រធានក្រុម :</td>
+					<td class="border"><lable id="lbl_group_code"></lable></td>
 					<td>ឈ្មោះ CO :</td>
 					<td class="border"><lable id="lbl_co_id"></lable></td>
-					<td>ថ្ងៃប្រមូលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_collect_date"></lable></td>
 					
 			</tr>
 			<tr class="fontsize">
@@ -244,26 +237,27 @@
 			<tr class="fontsize">
 					<td>ប្រាក់ផាកពិន័យ :</td>
 					<td class="border"><lable style="color:red" id="lbl_penalize_amount"></lable></td>
-					<td>ប្រាក់ត្រូវបង់សរុប :</td>
-					<td class="border"><lable id="lbl_total_payment"></lable></td>
-					<td>កំណត់សម្គាល់ :</td>
-					<td class="border"><lable id="lbl_note"></lable></td>
-			</tr>
-			<tr class="fontsize">
-					<td>បញ្ចុះតម្លៃ :</td>
-					<td class="border"><lable style="color:red" id="lbl_discount"></lable></td>
 					<td>បង់ថ្លៃសេវា :</td>
 					<td class="border"><lable id="lbl_service_charge"></lable></td>
-					<td>ថ្ងៃទទួលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_date_input"></lable></td>
+					<td>ប្រាក់ត្រូវបង់សរុប :</td>
+					<td class="border"><lable id="lbl_total_payment"></lable></td>
 			</tr>
 			<tr class="fontsize">
-					<td></td>
-					<td></td>
+					
+					<td>ថ្ងៃទទួលប្រាក់ :</td>
+					<td class="border"><lable id="lbl_collect_date"></lable></td>					
 					<td>ប្រាក់ទទួលបាន :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_receive"></lable></td>
 					<td>ប្រាក់អាប់ :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_return"></lable></td>
+			</tr>
+			<tr class="fontsize">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>កំណត់សម្គាល់ :</td>
+					<td class="border"><lable id="lbl_note"></lable></td>
 			</tr>
 			<tr class="fontsize" style="margin-top:20px;line-height: 60px">
 					<td></td>
@@ -289,17 +283,17 @@
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
 function showReciept(){
-	var client_id = dijit.byId('group_id').get('value');
+	var client_id = dijit.byId('client_code').get('value');
 	if(client_id==""){
 		alert("No Result To Show! Please Choose Client and Try again");
-		dijit.byId('group_id').focus();
+		dijit.byId('client_code').focus();
 		dijit.byId('branch_id').focus();
-		dijit.byId('loan_number').focus();
+		//dijit.byId('loan_number').focus();
 	}else{
 		document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-		document.getElementById('lbl_group_member').innerHTML = dijit.byId('group_id').attr('displayedValue');
+		//document.getElementById('lbl_group_member').innerHTML = dijit.byId('client_code').attr('displayedValue');
 		document.getElementById('lbl_group_code').innerHTML = dijit.byId('client_code').attr('displayedValue');
-		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
+// 		document.getElementById('lbl_laon_nomber').innerHTML = dijit.byId('loan_number').attr('displayedValue');
 		document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
 		document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
 		document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
@@ -309,9 +303,8 @@ function showReciept(){
 	 	document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue');
 	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
 	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
-	 	document.getElementById('lbl_discount').innerHTML = dijit.byId('discount').attr('displayedValue');
 	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
-	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
+// 	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
 	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
 	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
 		dijit.byId('frm_client').show();
@@ -333,12 +326,13 @@ dojo.require("dojo.data.ObjectStore");
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
+	    submitData();
 	    hideDialog();
 	}
 	function hideDialog() {		
 		dijit.byId("frm_client").hide();
-		submitData();
-		window.location.href ="<?php echo $this->baseUrl();?>/loan/group-payment";
+		//submitData();
+		//window.location.href ="<?php //echo $this->baseUrl();?>/loan/group-payment";
 	}
 
 	// Force them to provide an answer
@@ -352,6 +346,14 @@ dojo.require("dojo.data.ObjectStore");
 </script>
 <script type="text/javascript">
 var graice_period = <?php echo $graiceperiod["value"] ?>;
+function submitNew(){
+	dijit.byId("frm_add_group_pay").submit();
+}
+
+function submitClose(){
+	dijit.byId("frm_add_group_pay").submit();
+	window.location.href ="<?php echo $this->baseUrl();?>/loan/group-payment";
+}
 function submitData(){
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'group-payment','action'=>'add')); ?>';
 		dojo.xhrPost({
@@ -362,7 +364,7 @@ function submitData(){
 				//alert(data);
 			},
 			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+				//alert("Your message could not be sent, please try again!.");
 			}
 		});
 }

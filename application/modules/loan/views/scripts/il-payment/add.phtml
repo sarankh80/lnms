@@ -164,7 +164,9 @@
 		<tr>
 			<td align="center">
 			   <input type="button" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"
-			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="dijit.byId('frm_add_group_pay').submit();"/>
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitNew();"/>
+			   <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVE_CLOSE');?>" id="submit_close" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" OnClick="submitClose();"/>
 			   <input type="button" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showReciept();"/>
 			</td>
@@ -263,8 +265,8 @@
 					<td class="border"><lable id="lbl_branch_id"></lable></td>
 					<td>ឈ្មោះ CO :</td>
 					<td class="border"><lable id="lbl_co_id"></lable></td>
-					<td>ថ្ងៃប្រមូលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_collect_date"></lable></td>
+					<td></td>
+					<td></td>
 					
 			</tr>
 			<tr class="fontsize">
@@ -280,24 +282,25 @@
 					<td class="border"><lable style="color:red" id="lbl_penalize_amount"></lable></td>
 					<td>ប្រាក់ត្រូវបង់សរុប :</td>
 					<td class="border"><lable id="lbl_total_payment"></lable></td>
-					<td>កំណត់សម្គាល់ :</td>
-					<td class="border"><lable id="lbl_note"></lable></td>
-			</tr>
-			<tr class="fontsize">
-					<td>បញ្ចុះតម្លៃ :</td>
-					<td class="border"><lable style="color:red" id="lbl_discount"></lable></td>
 					<td>បង់ថ្លៃសេវា :</td>
 					<td class="border"><lable id="lbl_service_charge"></lable></td>
-					<td>ថ្ងៃទទួលប្រាក់ :</td>
-					<td class="border"><lable id="lbl_date_input"></lable></td>
+					
 			</tr>
 			<tr class="fontsize">
-					<td></td>
-					<td></td>
+					<td>ថ្ងៃទទួលប្រាក់ :</td>
+					<td class="border"><lable id="lbl_collect_date"></lable></td>
 					<td>ប្រាក់ទទួលបាន :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_receive"></lable></td>
 					<td>ប្រាក់អាប់ :</td>
 					<td class="border"><lable style="color:red" id="lbl_amount_return"></lable></td>
+			</tr>
+			<tr class="fontsize">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>កំណត់សម្គាល់ :</td>
+					<td class="border"><lable id="lbl_note"></lable></td>
 			</tr>
 			<tr class="fontsize" style="margin-top:20px;line-height: 60px">
 					<td></td>
@@ -322,6 +325,14 @@
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
+function submitNew(){
+	dijit.byId("frm_add_group_pay").submit();
+}
+
+function submitClose(){
+	dijit.byId("frm_add_group_pay").submit();
+	window.location.href ="<?php echo $this->baseUrl();?>/loan/il-payment";
+}
 var graice_period = <?php echo $graiceperiod["value"] ?>;
 function showReciept(){
 	var client_id = dijit.byId('client_id').get('value');
@@ -347,7 +358,6 @@ function showReciept(){
 	 	document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue');
 	 	document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
 	 	document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue');
-	 	document.getElementById('lbl_date_input').innerHTML = dijit.byId('date_input').attr('displayedValue');
 	 	document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue');
 	 	document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue');
 		dijit.byId('frm_client').show();
@@ -435,12 +445,13 @@ function filterClient(){
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
+		dijit.byId("frm_add_group_pay").submit();
 	    hideDialog();
 	}
 	function hideDialog() {		
 		dijit.byId("frm_client").hide();
-		submitData()
-		window.location.href ="<?php echo $this->baseUrl();?>/loan/il-payment";
+		//submitData()
+		//window.location.href ="<?php //echo $this->baseUrl();?>/loan/il-payment";
 	}
 	// Force them to provide an answer
 	function doPrint() {
@@ -456,7 +467,7 @@ function submitData(){
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("frm_add_group_pay"),		    
-			load: function(data) {	
+			load: function(form) {	
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
 			},
 			error: function(e) {
