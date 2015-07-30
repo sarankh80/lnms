@@ -67,7 +67,6 @@ function rptLoanDisburseAction(){//release all loan
   	$frm = new Application_Form_FrmSearchGlobal();
   		if($this->getRequest()->isPost()){
   			$search = $this->getRequest()->getPost();
-  			
   		}
   		else{
   			$search = array(

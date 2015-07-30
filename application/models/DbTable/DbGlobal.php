@@ -874,9 +874,9 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
 			WHERE lm.`is_completed` = 0 
 			  AND lm.`group_id` = lg.`g_id`";
   	if($type==1){
-  		$sql.=" AND lg.`loan_group` = 0";
+  		$sql.=" AND lg.`loan_type` = 0";
   	}else{
-  		$sql.=" AND lg.`loan_group` = 1";
+  		$sql.=" AND lg.`loan_type` = 1";
   	}
   	return $db->fetchAll($sql);
   }
