@@ -140,7 +140,8 @@ function getLoanPaymentByLoanNumber($data){
 					  AND lg.`group_id` = lc.`client_id` 
 					  AND lc.`client_id` = $team_group_code 
 					  AND lf.`is_completed` = 0 
-					  AND lg.`loan_group`=1
+					  AND lg.`loan_type`=1
+					  AND lg.`is_reschedule`=0
 					GROUP BY lm.`client_id`
     				";
     	
