@@ -872,7 +872,9 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
 			  `ln_loan_member` AS lm,
 			  `ln_loan_group` AS lg 
 			WHERE lm.`is_completed` = 0 
-			  AND lm.`group_id` = lg.`g_id`";
+			  AND lm.`group_id` = lg.`g_id`
+  			  AND lg.`is_reschedule`=0
+  			";
   	if($type==1){
   		$sql.=" AND lg.`loan_type` = 1";
   	}else{

@@ -609,12 +609,11 @@ function getLaonPayment(){
 				calculateTotal();
 			},
 			error: function(e) {
-				alert(e);
+				///alert(e);
 			}
 		});
 }
 function getAllLaonPayment(type){
-	
 	if(type==1){
 		var loan_number = dijit.byId('loan_number').get('value');
 	}else if(type==2){
