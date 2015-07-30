@@ -30,7 +30,7 @@
 						return false;
 					}
 				}
-				if(receive_amount==""){
+				if(receive_amount<0 || receive_amount==""){
 					alert('Please fill Recieve Amount');
 					dijit.byId('amount_receive').focus();
 					return false;
