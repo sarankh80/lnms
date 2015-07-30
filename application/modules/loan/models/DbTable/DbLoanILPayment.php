@@ -271,7 +271,7 @@ public function addILPayment($data){
     			'date_input'					=>		$data['collect_date'],
     			'principal_amount'				=>		$data["priciple_amount"],
     			'total_principal_permonth'		=>		$data["os_amount"],
-    			'total_payment'					=>		$data["oldTotalPay"]+$data['penalize_amount']+$data["service_charge"],
+    			'total_payment'					=>		$data["total_payment"],
     			'total_interest'				=>		$data["total_interest"],
     			'recieve_amount'				=>		$data["amount_receive"],
     			'penalize_amount'				=>		$data['penalize_amount'],
