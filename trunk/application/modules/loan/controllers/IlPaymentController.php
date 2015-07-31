@@ -69,6 +69,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
+				exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
