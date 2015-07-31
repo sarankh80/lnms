@@ -22,7 +22,7 @@
 
  </div>
 </div>
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style=" width:24cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
@@ -67,7 +67,7 @@ th{padding: 5px;}
                 <tr class="style">
                 	<td colspan="6">&nbsp;<span><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-            	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+            	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 20px; font-size:12px; padding:5px 0px; ">
                     <th ><?php echo $tr->translate("NUM");?> </th>
                     <th ><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th  ><?php echo $tr->translate("COLLTERAL_CODE");?> </th>
@@ -90,14 +90,15 @@ th{padding: 5px;}
                 	
                 ?>
                 <?php if($key>0){?>
+                <br />
                 <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
                 
                 <?php } ?>
              <?php ?>
                 <tr class="style">
-                	<td colspan="6">&nbsp;<span style="text-align:center; font-size:9px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></td>
+                	<td colspan="6">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:9px; padding:5px 0px; ">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px; font-size:9px; padding:5px 0px; ">
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
@@ -108,6 +109,8 @@ th{padding: 5px;}
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?> </td>
+                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STATUS");?> </td>
+                    
                 </tr>
                 <?php }
                 $id = $row['client_id'];
@@ -118,11 +121,13 @@ th{padding: 5px;}
 						<td>&nbsp;<?php echo $row['collecteral_code']; ?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['co_id']; ?>&nbsp;</td>						
 						<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_type']; ?>&nbsp;</td>
-						<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_title_en']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
+						<td style="white-space:nowrap; text-align: left;">&nbsp;<?php echo $row['collecteral_title_en']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['join_with']; ?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['number_collecteral']; ?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['note']; ?>&nbsp;</td>
 						<td>&nbsp;<?php echo date('d-M-Y',strtotime($row['date']));?>&nbsp;</td>
+						<td>&nbsp;<?php echo ($row['is_return']==1)?"Return":"Keeping";?>&nbsp;</td>
+						
 					</tr>
 				<?php }?>
             <br />

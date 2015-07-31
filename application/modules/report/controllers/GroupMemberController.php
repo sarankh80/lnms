@@ -27,30 +27,24 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	}
   }
   function rptCalleteralAction(){
-  	$db  = new Report_Model_DbTable_DbLnClient();  	
-  	$key = new Application_Model_DbTable_DbKeycode();
-  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	if($this->getRequest()->isPost()){
-  		$search = $this->getRequest()->getPost();
-  		if(isset($search['btn_search'])){
-  			//print_r($data);exit();
-  			$this->view->calleteral_list = $db->getAllCalleteral($search);
-  		}else {
-  		$collumn = array('id' ,'branch_name' ,'co_id' ,'collecteral_code','client_code' ,'client_id','client_name','name_kh', 'join_with' , 'relative' , 
-		'date' ,'note');
-  		$this->exportFileToExcel('ln_callect',$db->getAllCalleteral(),$collumn);
-  		}
-  	}else{$search = array(
-		'adv_search' => '',
-		'status_search' => -1,
-		'start_date'=> date('Y-m-d'),
-		'end_date'=>date('Y-m-d'));
-  	$this->view->calleteral_list = $db->getAllCalleteral($search);
-	}
-  	$fm=new Group_Form_Frmcallterals();
-  	$frm=$fm->FrmCallTeral();
-  	Application_Model_Decorator::removeAllDecorator($frm);
-  	$this->view->frm_callteral=$frm;
+	  	$db  = new Report_Model_DbTable_DbLnClient();  	
+	  	if($this->getRequest()->isPost()){
+	  		$search = $this->getRequest()->getPost();
+	  	}else{
+	  		$search = array(
+			'adv_search' => '',
+			'status_search' => -1,
+			'start_date'=> date('Y-m-d'),
+			'end_date'=>date('Y-m-d'));
+		}
+		$this->view->loanrelease_list = $db->getAllCalleteral($search);
+	  	$fm=new Group_Form_Frmcallterals();
+	  	$frm=$fm->FrmCallTeral();
+	  	Application_Model_Decorator::removeAllDecorator($frm);
+	  	$this->view->frm_callteral=$frm;
+	  	
+	  	$key = new Application_Model_DbTable_DbKeycode();
+	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptGroupAction($table='rms_setting'){
   	$db  = new Report_Model_DbTable_DbLnClient();

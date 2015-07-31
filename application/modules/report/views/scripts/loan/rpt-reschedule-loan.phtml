@@ -108,7 +108,7 @@ th{padding: 5px;}
 					<td>&nbsp;<?php echo date('d/m/Y',strtotime($row['reschedule_date']));; ?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['maturity']));?>&nbsp;</td>
 					<td align="left" style="font-size:8px;">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
-					<td align="left">&nbsp;<?php echo $row['re_payment_method'];?>&nbsp;</td>				
+					<td align="left">&nbsp;<?php echo $row['from_paymentmethod'].'-'.$row['re_payment_method'];?>&nbsp;</td>				
 					</tr>
 				<?php }?>
             </table>
