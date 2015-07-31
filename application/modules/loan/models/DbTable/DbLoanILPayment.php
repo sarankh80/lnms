@@ -375,7 +375,7 @@ public function addILPayment($data){
     	}catch (Exception $e){
     		$db->rollBack();
     		echo $e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		//Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		exit();
     	}
     }
@@ -640,8 +640,8 @@ public function addILPayment($data){
     	}catch (Exception $e){
     		$db->rollBack();
     		echo $e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    		//exit();
+    		//Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		exit();
     	}
     }
    function cancelPayment($id){
