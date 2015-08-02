@@ -6,7 +6,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcode","loan_code"=>$client['loan_number']),null,true);											
 												
 ?>
-<title>តារាងបង់ប្រាក់​​ ប្រចាំអាទិត្យ</title>
+<title><?php echo $tr->translate('REPORT WEEK');?></title>
 <style>
 td p{ margin-top:0px !important;}
 </style>

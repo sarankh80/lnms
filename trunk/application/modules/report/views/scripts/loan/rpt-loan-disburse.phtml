@@ -1,11 +1,11 @@
 <?php $filter = $this->frm_search;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-group-disburse'));
+$url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
 ?>
 <meta charset="utf-8">
 <title><?php echo $tr->translate("LOAN_DISBURSE");?></title>
 <form method="post">
-	<table width="100%">
+	<table style="width:28.7cm; margin: 0 auto;">
 		<tr>
 			<td><?php echo $filter->getElement('adv_search');?></td>
 			<td><?php echo $filter->getElement('branch_id');?></td>
@@ -20,7 +20,7 @@ $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-g
 		</tr>
 	</table>
 	</form>
-<div style=" width:27cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
@@ -70,12 +70,14 @@ th{padding: 5px;}
                     <th><?php echo $tr->translate("LOAN_NO");?></th>
                     <th><?php echo $tr->translate("CLIENT_NO");?></th>
                     <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("LEVEL");?></th>
                     <th><?php echo $tr->translate("CO_NAME");?></th>
                     <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
                      <th><?php echo $tr->translate("ADMIN_FEE");?></th>
                     <th><?php echo $tr->translate("OTHER_FEE");?></th>
                     <th><?php echo $tr->translate("INTEREST RATE");?></th>
                     <th><?php echo $tr->translate("TERM_BORROW");?></th>
+                    <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
                     <th><?php echo $tr->translate("RELEASED_DATE");?></th>
                     <th><?php echo $tr->translate("LIFE_LOAN");?></th>
                     <th><?php echo $tr->translate("LOAN_TYPE");?></th>
@@ -109,18 +111,21 @@ th{padding: 5px;}
 					<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
+					
 					<td align="left" style="line-height:15px;">&nbsp;
 						<?php if ($row['loantype']==1){
 							echo $row['client_name'];
 					}else {?>
 					<a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;</td>	
 					<?php }?>
+					<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
 					<td align="left">&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>	
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo number_format($row['other_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['payment_name'];?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?>&nbsp;</td>
 					<td align="left" style="font-size:8px;">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
