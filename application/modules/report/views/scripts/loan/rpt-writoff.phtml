@@ -15,12 +15,11 @@ echo $this->headTitle($tr->translate('WRITE_OFF'));
 			<td><?php echo $frm->getElement('Term');?></td>
 	</tr>
 	<tr>
-		 	
 			<td><?php echo $frm->getElement('cash_type');?></td>
 			<td><?php echo $frm->getElement('start_date');?></td>
 			<td><?php echo $frm->getElement('end_date');?></td>
-			<td><?php echo $frm->getElement('status');?></td>
 			<td><?php echo $frm->getElement('btn_search');?></td>
+			<td><?php //echo $frm->getElement('status');?></td>
 			<td></td>
 	</tr>
 </table>
@@ -70,7 +69,7 @@ th{padding: 5px;}
     
     <tr>
     	<td>
-            <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;" cellspacing="0">
+            <table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border:1px solid #000;" cellspacing="0">
                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:10px 0px; ">
                     <th ><?php echo $tr->translate("NUM");?></th>
                     <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
@@ -86,9 +85,11 @@ th{padding: 5px;}
                     <th>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("LOAN_OUTSTADING");?></th> 
+                    <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_INTEREST");?></th> 
                     <th style="font-size: 12px;"><?php echo $tr->translate("INTEREST_RECEIVEABLE");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("LATE_DAY");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("STATUS");?></th>
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;
@@ -119,14 +120,16 @@ th{padding: 5px;}
                		<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["total_capital"],2).''.$rs['currency_type'];?></td>
                		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;%</td>
                		<td style="font-size: 11px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['termborrow'];//$rs['pay_term'];?>&nbsp;</td>
-               		<td style="font-size: 11px;text-align: center;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
-               		<td style="font-size: 11px;text-align: center;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
+               		<td style="font-size: 11px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
+               		<td style="font-size: 11px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
                		
                		
                		<td style="font:bolder 11px Arial ;text-align: center;"><?php echo number_format($rs["total_amount"],2).''.$rs['currency_type'];?></td>
                		<td style="font:bolder 11px Arial ;text-align: center;"><?php echo number_format($rs["interest_amount"],2).''.$rs['currency_type'];?></td>
+               		<td>&nbsp;</td>
                		<td style="font:bolder 11px Arial ;text-align: center;"><?php echo number_format($rs["interest_amount"]+$rs["total_amount"],2).''.$rs['currency_type'];?></td>
                		<td style="font-size: 11px;text-align: center;"><?php echo $rs["loan_type"];?></td>
+               		<td>&nbsp;</td>
                		<td style="font-size: 11px;text-align: center;"><?php echo $rs["condition_term"];?></td>
                 </tr>
                 <?php }?>

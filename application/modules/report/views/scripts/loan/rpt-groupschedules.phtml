@@ -99,11 +99,11 @@ td p{ margin-top:0px !important;}
 	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
 	                   <!--  <td><?php //echo $row['is_completed']?></td> -->
 	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-	                    <td ><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_principal_permonth'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest_permonth'],2));?></td>
+	                    <td ><?php echo str_replace('.00', '', number_format($row['total_payment_permonth'],2)); ?></td>
 	                    <?php 
-	                    $remain = $row['total_principal']-$row['principal_permonth']
+	                    $remain = $row['total_principal']-$row['total_principal_permonth']
 	                    ?>
 	                    <td><?php echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
 	                </tr>

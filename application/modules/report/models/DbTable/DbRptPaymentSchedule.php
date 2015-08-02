@@ -16,6 +16,18 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
 //     	branch_id from ln_loanmember_funddetail";
     	return $db->fetchAll($sql);
     }
+    public function getPaymentScheduleGroupById($id){//for group member total pay per month
+    	$db=$this->getAdapter();
+    	$sql = "SELECT f.*,SUM(total_interest) AS total_interest_permonth,SUM(f.principal_permonth) AS total_principal_permonth 
+    	             ,SUM(total_payment) AS total_payment_permonth FROM `ln_loan_member` AS m,`ln_loanmember_funddetail` AS f
+				   WHERE m.member_id = f.member_id AND m.group_id=$id AND f.status=1 
+    			AND m.status=1 GROUP BY m.group_id ,f.date_payment";
+    	//     	$sql = "SELECT id,member_id,total_principal,
+    	//     	principal_permonth,total_interest,total_payment,
+    	//     	amount_day,status,is_completed,is_approved,date_payment,
+    	//     	branch_id from ln_loanmember_funddetail";
+    	return $db->fetchAll($sql);
+    }
     public function getAllClientPaymentListRpt($search = null ){
     	$db = $this->getAdapter();
     	//$sql="select * FROM v_loanpaymentschedulelist";

@@ -100,14 +100,14 @@ th{padding: 5px;}
 					if(!empty($this->loanmember_list))if(count($this->loanmember_list)== $key+1){?>
 					<tr align="center">
 						<td>&nbsp;<?php echo $key+2;?>&nbsp;</td>
-						<td align="left" colspan="5"><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>">&nbsp;For Group &nbsp;</a></td>	
+						<td align="left" colspan="5"><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['group_id'];?>">&nbsp;For Group &nbsp;</a></td>	
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($amt_r,2).' '.$row['currency_type']; ?>&nbsp;</a></td>
-						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>"><?php echo number_format($amn_r,2).' '.$row['currency_type']; ?>&nbsp;</a></td>
-						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>"><?php echo number_format($other_fee_r,2).' '.$row['currency_type']; ?>&nbsp;</a></td>
-						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>"><?php echo $row['interest_rate'].'%'; ?>&nbsp;</a></td>
-						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>"><?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</a></td>
-						<td style="white-space:nowrap;" ><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>">&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?></a>&nbsp;</td>
-						<td style="white-space:nowrap;" ><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-memberschedules/id/<?php echo $row['member_id'];?>">&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?></a>&nbsp;</td>
+						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['group_id'];?>"><?php echo number_format($amn_r,2).' '.$row['currency_type']; ?>&nbsp;</a></td>
+						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['group_id'];?>"><?php echo number_format($other_fee_r,2).' '.$row['currency_type']; ?>&nbsp;</a></td>
+						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['group_id'];?>"><?php echo $row['interest_rate'].'%'; ?>&nbsp;</a></td>
+						<td>&nbsp;<a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['group_id'];?>"><?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</a></td>
+						<td style="white-space:nowrap;" ><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['member_id'];?>">&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?></a>&nbsp;</td>
+						<td style="white-space:nowrap;" ><a style="color:black;" target="_blank" href="<?php echo $this->baseUrl();?>/report/loan/rpt-groupschedules/id/<?php echo $row['member_id'];?>">&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?></a>&nbsp;</td>
 						<td align="left" style="font-size:8px;">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
 					</tr>
 					
