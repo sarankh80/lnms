@@ -622,9 +622,9 @@ function getLaonPayment(type){
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_principal)+' '+curr+'&nbsp;<input type="hidden" name="total_priciple_'+inx+'" id="total_priciple_'+inx+'" value="'+total_principal+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+principal_permonth+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+interest+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].penelize)+' '+curr+'&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
+						    tem += '<td>&nbsp;<label id="lb_penelize_'+inx+'">'+dojo.number.format(respone[i].penelize)+' '+curr+'</label>&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize+'" /><input type="hidden" name="old_penelize_'+inx+'" id="old_penelize_'+inx+'" value="'+respone[i].penelize+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].service_charge)+' '+curr+'&nbsp;<input type="hidden" name="service_'+inx+'" id="service_'+inx+'" value="'+respone[i].service_charge+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
+						    tem += '<td>&nbsp;<label id="lb_payment_'+inx+'">'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'</label>&nbsp;<input type="hidden" name="payment_'+inx+'" id="payment_'+inx+'" value="'+payment+'" /></td>';
 						    tem += '<td>&nbsp;'+respone[i].pay_after+'&nbsp;<input type="hidden" name="multiplier_'+inx+'" id="multiplier_'+inx+'" value="'+multiplier+'" /></td>';
 							if(respone[i].is_completed==1){
 								status = '<label style="color:blue;">បង់រួច</label>';
@@ -892,7 +892,7 @@ function calculateTotal(index){
 		          	var totalPayment = parseFloat($('#payment_'+arrays[i]).val());
 		          	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
 		          	var interest = parseFloat($('#interest_'+arrays[i]).val());
-		          	var penelize = parseFloat($('#penelize_'+arrays[i]).val());
+		          	var penelize = parseFloat($('#old_penelize_'+arrays[i]).val());
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
@@ -916,15 +916,32 @@ function calculateTotal(index){
 					if(total_late_day>0){
 						if(payment_term==1){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 						if(payment_term==2){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 						if(payment_term==3){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 					}else if(total_late_day==0){
 						total_interest_late = total_interest_late +0;
@@ -955,7 +972,7 @@ function calculateTotal(index){
 								  	  for(var j=0;j<arraysn.length;j++){
 						  	  	  			principlePerMonth = $('#principal_permonth_'+arraysn[j]).val();
 						  	  	  			os_amounts = parseFloat(os_amounts) + parseFloat(principlePerMonth);
-						  	  	  		}
+						  	  	  	  }
 									 total_interest = ((os_amounts*interest_rate/100)/30)*practical_date;
 						  	  		totalAmount = os_amounts+total_interest+penelize+service_charge+total_interest_late;
 					  	  	  		}
@@ -1080,7 +1097,7 @@ function checkAll(index){
 		          	var totalPayment = parseFloat($('#payment_'+arrays[i]).val());
 		          	var principlePerMonth = $('#principal_permonth_'+arrays[i]).val();
 		          	var interest = parseFloat($('#interest_'+arrays[i]).val());
-		          	var penelize = parseFloat($('#penelize_'+arrays[i]).val());
+		          	var penelize = parseFloat($('#old_penelize_'+arrays[i]).val());
 		          	var service_charge = parseFloat($('#service_'+arrays[i]).val());
 		          	
 		          	last_payment_date= $('#last_date_payment_'+arrays[i]).val();
@@ -1103,15 +1120,32 @@ function checkAll(index){
 					if(total_late_day>0){
 						if(payment_term==1){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 						if(payment_term==2){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 						if(payment_term==3){
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day);
+							total_penelize = parseFloat(total_interest_late)+parseFloat(penelize);
+							document.getElementById('lb_penelize_'+arrays[i]).innerHTML = total_penelize.toFixed(2);
+							$('#penelize_'+arrays[i]).val(total_penelize.toFixed(2));
 							totalAmount = totalAmount + parseFloat(totalPay)+parseFloat(total_interest_late)+penelize+service_charge;
+							document.getElementById('lb_payment_'+arrays[i]).innerHTML = totalAmount.toFixed(2);
+							$('#payment_'+arrays[i]).val(totalAmount.toFixed(2));
 						}
 					}else if(total_late_day==0){
 						total_interest_late = total_interest_late +0;
