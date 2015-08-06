@@ -47,6 +47,9 @@
   <br /><input type="button" label="<?php echo $tr->translate("REPORT_COLLECT_BY_CO");?>" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-collectionco')); ?>';"/>
   
+  <br /><input type="button" label="<?php echo $tr->translate("REPORT_UNPAID_COLLECT_BY_CO");?>" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-unpaid-loan-by-co')); ?>';"/>
+  
   <br /> <input type="button" label="<?php echo $tr->translate("LOAN_LATE");?>" dojoType="dijit.form.Button" 
   onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-late')); ?>';"/>
  
