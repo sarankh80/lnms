@@ -35,9 +35,31 @@ $repay_schedule=$this->url(array('module'=>'loan','controller'=>'RepaymentSchedu
 $quickpayment=$this->url(array('module'=>'loan','controller'=>'QuickPayment','action'=>'index'), null, true);
 $co=$this->url(array('module'=>'payroll','controller'=>'co','action'=>'index'), null, true);
 $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'index'), null, true);
+// report
+$rpt_loanrelease=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-disburse'), null, true);
+$rpt_loanoustading=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-outstanding'), null, true);
+$rpt_collectfromco=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-collectionco'), null, true);
+$rpt_loancollect=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loancollect'), null, true);
+$rpt_dailypayment=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-payment'), null, true);
+$rpt_loanincome=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-income'), null, true);
+$rpt_loan_late=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-late'), null, true);
+$rpt_total_collect=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-total-collect'), null, true);
+$rpt_writoff=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-writoff'), null, true);
+$rpt_paymenthistory=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-payment-history'), null, true);
+$rpt_reschedule=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-reschedule-loan'), null, true);
+$rpt_writeoff=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-payoff'), null, true);
+$rpt_expectincome=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-expect-income'), null, true);
+$rpt_exchangemoney=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-xchange'), null, true);
+
+
 ?>
- </head>
-<body class="fixed-top">
+<style type="text/css">
+.metro-nav {
+    font-family: 'Kh Battambang','Khmer Battambang' !important;
+}
+</style>
+</head>
+<body class="fixed-top" style="font-family:'Kh Battambang','Khmer Battambang' !important;">
    <div id="container" class="row-fluid">
       <!-- BEGIN PAGE -->  
       <div id="main-content">
@@ -84,16 +106,24 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                             <div class="status"><?php echo $tr->translate('INFO_LOANGROUP');?></div>
                         </a>
                     </div>
+                     <div class="metro-nav-block nav-block-red">
+                        <a href="<?php echo $co;?>" data-original-title="">
+                            <i class="icon-shopping-cart"></i>
+                            <div class="info"></div>
+                            <div class="status"><?php echo $tr->translate('CO_NAME');?></div>
+                        </a>
+                    </div>
+                   
+                    <div class="metro-nav-block nav-block-orange double">
+                        <a href="<?php echo $repay_schedule;?>" data-original-title="" class="text-center">
+                            <i class="icon-star-empty"></i>
+                            <div class="status"><?php echo $tr->translate('LOAN_RESCHEDULE');?></div>
+                        </a>
+                    </div>
                     <div class="metro-nav-block nav-block-blue double">
                         <a href="<?php echo $indi_payment;?>" class="text-center" data-original-title="">
                             <i class="icon-bar-chart"></i>
                             <div class="status"><?php echo $tr->translate('IL_PAYMENT');?></div>
-                        </a>
-                    </div>
-                    <div class="metro-nav-block nav-block-orange">
-                        <a href="<?php echo $repay_schedule;?>" data-original-title="" class="text-center">
-                            <i class="icon-star-empty"></i>
-                            <div class="status"><?php echo $tr->translate('LOAN_RESCHEDULE');?></div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-red double">
@@ -110,14 +140,6 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                             <div class="status"><?php echo $tr->translate('QUICK_PAYMENT');?> </div>
                         </a>
                     </div>
-
-                    <div class="metro-nav-block nav-block-red">
-                        <a href="<?php echo $co;?>" data-original-title="">
-                            <i class="icon-shopping-cart"></i>
-                            <div class="info"></div>
-                            <div class="status"><?php echo $tr->translate('CO_NAME');?></div>
-                        </a>
-                    </div>
                     <div class="metro-nav-block nav-block-grey">
                         <a href="<?php echo $bad_loan;?>" data-original-title="">
                             <i class="icon-remove-sign"></i>
@@ -125,53 +147,79 @@ $bad_loan=$this->url(array('module'=>'loan','controller'=>'BadLoan','action'=>'i
                             <div class="status"><?php echo $tr->translate('BAD_LOAN');?></div>
                         </a>
                     </div>
-                    <div class="metro-nav-block nav-block-purple">
-                        <a href="#" data-original-title="" class="text-center">
-                            <i class="icon-cogs"></i>
-                            <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
-                        </a>
-                    </div>
-
                     <div class="metro-nav-block nav-block-blue">
-                        <a href="#" data-original-title="">
-                            <i class="icon-shopping-cart"></i>
-                            <div class="info"></div>
-                            <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
-                        </a>
-                    </div>
-                    <div class="metro-nav-block nav-block-green double">
-                        <a href="#" data-original-title="">
-                            <i class="icon-external-link"></i>
-                            <div class="info">$53412</div>
-                            <div class="status"><?php echo $tr->translate('INFO_LOANGROUP');?></div>
+                        <a href="<?php echo $rpt_exchangemoney;?>" class="text-center" data-original-title="">
+                            <i class="icon-dashboard"></i>
+                            <div class="status"><?php echo $tr->translate('REPORT_LOAN_XCHANGE');?></div>
                         </a>
                     </div>
                      <div class="metro-nav-block nav-block-blue double">
-                        <a href="#" data-original-title="">
+                        <a href="<?php echo $rpt_loanrelease;?>" data-original-title="">
                             <i class="icon-external-link"></i>
                             <div class="info">$53412</div>
-                            <div class="status"><?php echo $tr->translate('LIST_LOAN_INCOME');?></div>
+                            <div class="status"><?php echo $tr->translate('LOAN_DISBURSE');?></div>
                         </a>
                     </div>
-                    <div class="metro-nav-block nav-block-grey">
-                        <a href="#" class="text-center" data-original-title="">
-                            <i class="icon-dashboard"></i>
-                            <div class="status"><?php echo $tr->translate('PAY_OFF');?></div>
+                    <div class="metro-nav-block nav-block-purple double">
+                        <a href="<?php echo $rpt_loancollect;?>" data-original-title="" class="text-center">
+                            <i class="icon-cogs"></i>
+                            <div class="status"><?php echo $tr->translate('REPORT_LOAN_COLLECT');?></div>
                         </a>
                     </div>
-                     <div class="metro-nav-block nav-block-yellow">
-                        <a href="#" class="text-center" data-original-title="">
-                            <i class=" icon-puzzle-piece"></i>
-                            <div class="status">Warning</div>
+
+                    <div class="metro-nav-block nav-block-blue double">
+                        <a href="<?php echo $rpt_dailypayment;?>" data-original-title="">
+                            <i class="icon-shopping-cart"></i>
+                            <div class="info"></div>
+                            <div class="status"><?php echo $tr->translate('LOAN_PAYMENT_COLLECTTION');?></div>
                         </a>
                     </div>
-                    <div class="metro-nav-block nav-block-orange">
-                        <a href="#" class="text-center" data-original-title="">
-                            <i class="icon-signout"></i>
-                            <div class="status">Other</div>
+                    <div class="metro-nav-block nav-block-green double">
+                        <a href="<?php echo $rpt_collectfromco;?>" data-original-title="">
+                            <i class="icon-external-link"></i>
+                            <div class="info">$53412</div>
+                            <div class="status"><?php echo $tr->translate('REPORT_COLLECT_BY_CO');?></div>
                         </a>
                     </div>
                    
+                    <div class="metro-nav-block nav-block-grey double">
+                        <a href="<?php echo $rpt_loan_late;?>" class="text-center" data-original-title="">
+                            <i class="icon-dashboard"></i>
+                            <div class="status"><?php echo $tr->translate('LOAN_LATE');?></div>
+                        </a>
+                    </div>
+                     <div class="metro-nav-block nav-block-yellow double">
+                        <a href="<?php echo $rpt_paymenthistory?>" class="text-center" data-original-title="">
+                            <i class=" icon-puzzle-piece"></i>
+                           <div class="status"><?php echo $tr->translate('REPORT_LOAN_PAYMENT');?></div>
+                        </a>
+                    </div>
+                    <div class="metro-nav-block nav-block-orange double">
+                        <a href="<?php echo $rpt_expectincome;?>" class="text-center" data-original-title="">
+                            <i class="icon-signout"></i>
+                            <div class="status"><?php echo $tr->translate('REPORT_EXPECT_INCOME');?></div>
+                        </a>
+                    </div>
+                     <div class="metro-nav-block nav-block-orange double">
+                        <a href="<?php echo $rpt_writoff;?>" data-original-title="">
+                            <i class="icon-external-link"></i>
+                            <div class="info">$53412</div>
+                            <div class="status"><?php echo $tr->translate('PAY_OFF');?></div>
+                        </a>
+                    </div>
+                    <div class="metro-nav-block nav-block-purple double">
+                        <a href="<?php echo $rpt_loanoustading;?>" data-original-title="" class="text-center">
+                            <i class="icon-cogs"></i>
+                            <div class="status"><?php echo $tr->translate('LOAN_OUTSTADING');?></div>
+                        </a>
+                    </div>
+                    <div class="metro-nav-block nav-block-blue double">
+                        <a href="<?php echo $rpt_loanincome;?>" data-original-title="">
+                            <i class="icon-shopping-cart"></i>
+                            <div class="info"></div>
+                            <div class="status"><?php echo $tr->translate('PROFIT');?></div>
+                        </a>
+                    </div>  
                 </div>
 
                 <div class="space10"></div>

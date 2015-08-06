@@ -3,8 +3,8 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <meta charset="utf-8">
 <title><?php echo $tr->translate("LOAN_OUTSTADING");?></title>
-<form method="post">
-<table style="font-family: 'Khmer OS Content'; margin: 0 auto;" >
+ <form method="post">
+<table style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;" >
 	<tr>
    		<td><?php echo $frm->getElement("adv_search");?></td>
    		<td><?php echo $frm->getElement('branch_id');?></td>
@@ -18,15 +18,11 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
    	</tr>
 </table>
 </form>
-<div dojoType="dijit.layout.BorderContainer" style="width: 100%; ">
- <div dojoType="dijit.layout.ContentPane" region="top" >
- </div>
-</div>
-<div style=" width:26.6cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 11px !important;
+	line-height: 20px;font-size: 10px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
@@ -79,6 +75,7 @@ th{padding: 5px;}
                     <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
                     <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
                     <th style="padding:5px 0px;font-size: 8px;">&nbsp;<?php echo $tr->translate("LOAN_TYPE");?>&nbsp;</th>
+                    <th style="padding:5px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
                     <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
                     <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
@@ -113,6 +110,13 @@ th{padding: 5px;}
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
 						<td style="font-size: 8px;">&nbsp;<?php echo $row['loan_type'];?>&nbsp;</td>
+						<td align="left">&nbsp;<?php 
+							if ($row['loantype']==1){echo 'indi';}
+							else {
+								echo 'group';
+							}
+							; ?>&nbsp;
+						</td>	
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_payment'],2).' '.$row['currency_type'];?>&nbsp;</td>
 						<td>&nbsp;<?php 
 								echo (round(($row['total_payment']/$row['total_capital']),2)*100).' %';

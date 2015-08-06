@@ -18,7 +18,9 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     }
     public function getPaymentScheduleGroupById($id){//for group member total pay per month
     	$db=$this->getAdapter();
-    	$sql = "SELECT f.*,SUM(total_interest) AS total_interest_permonth,SUM(f.principal_permonth) AS total_principal_permonth 
+    	$sql = "SELECT f.*,
+    	SUM(total_principal) AS total_principal,
+    	SUM(total_interest) AS total_interest_permonth,SUM(f.principal_permonth) AS total_principal_permonth 
     	             ,SUM(total_payment) AS total_payment_permonth FROM `ln_loan_member` AS m,`ln_loanmember_funddetail` AS f
 				   WHERE m.member_id = f.member_id AND m.group_id=$id AND f.status=1 
     			AND m.status=1 GROUP BY m.group_id ,f.date_payment";
@@ -44,18 +46,8 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     	    FROM `ln_loan_member` AS m,`ln_loan_group` AS lg,`ln_client` AS c 
     		WHERE lg.g_id = m.group_id AND c.client_id = m.client_id ";
     	$Other =" ORDER BY member_id DESC ";
-    	$where = '';
-    	//echo $search['adv_search'];
-    	if(!empty($search['adv_search'])){
-    		$s_where = array();
-    		$s_search = $search['adv_search'];
-    		$s_where[] = " c.name_en LIKE '%{$s_search}%'";
-    		$s_where[]=" total_capital LIKE '%{$s_search}%'";
-    		$where .=' AND '.implode(' OR ',$s_where).'';
-    		
-    	}
-    	//echo ($sql.$where.$Other)."<br /><br />";
-    	return $db->fetchAll($sql.$where.$Other); 
+    	
+    	return $db->fetchAll($sql.$Other); 
     }
 	
 }
