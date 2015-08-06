@@ -1,6 +1,8 @@
 <?php $filter = $this->frm_search;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
+$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
+
 ?>
 <meta charset="utf-8">
 <title><?php echo $tr->translate("LOAN_DISBURSE");?></title>
@@ -24,7 +26,7 @@ $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-g
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 11px !important;
+	line-height: 20px;font-size: 10px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
@@ -106,24 +108,24 @@ th{padding: 5px;}
                }
               
                ?>
-					<tr align="center">
+					<tr align="center" style="line-height: 18px;">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
-					
 					<td align="left" style="line-height:15px;">&nbsp;
-						<?php if ($row['loantype']==1){
-							echo $row['client_name'];
-					}else {?>
-					<a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;</td>	
+					<?php if ($row['loantype']==1){?>
+						<a href="<?php echo $url_client."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
+					<?php }else {?>
+						<a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
 					<?php }?>
+					</td>	
 					<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
-					<td align="left">&nbsp;<?php echo $row['co_name']; ?>&nbsp;</td>	
+					<td align="left"><span style="line-height:15px;">&nbsp;<?php echo $row['co_name']; ?></span>&nbsp;</td>	
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo number_format($row['other_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['other_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['interest_rate'].'%'; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['payment_name'];?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>

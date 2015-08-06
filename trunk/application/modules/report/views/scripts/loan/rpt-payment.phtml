@@ -7,7 +7,7 @@ $search = $this->$search;
 <title><?php echo $tr->translate("RPT_CLIENT_PAYMENT");?></title>
 
 <form method="post">
-<table style="font-family: 'Khmer OS Content';" >
+<table style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;" >
 	<tr>
    			<td><?php echo $frm->getElement("adv_search");?></td>
    			<td><?php echo $frm->getElement('branch_id');?></td>   			
@@ -27,7 +27,7 @@ $search = $this->$search;
 <div id="divPrint">
 <style type="text/css">
 .style{
-	line-height: 20px;font-size: 11px !important;
+	line-height: 20px;font-size: 10px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
@@ -132,9 +132,9 @@ th{padding: 5px;}
                		<td style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_pay"]));?>&nbsp;</td>
                		<td style="white-space:nowrap; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
-               		<td style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["amount_payment"],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>
+               		<td style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>
                		<!--<td>&nbsp;<?php //echo number_format($rs["return_amount"],2);?>&nbsp;</td>-->
-               		<td style="font:bolder 11px Arial;">&nbsp;<?php $balance=$rs["amount_payment"]-$rs["total_payment"]; if($balance<0){echo '('.abs($balance).')';}else {echo $balance=0;};echo $rs['currency_typeshow'];?>&nbsp;</td>
+               		<td style="font:bolder 11px Arial;">&nbsp;<?php $balance=$rs["total_payment"]-$rs["total_payment"]; if($balance<0){echo '('.abs($balance).')';}else {echo $balance=0;};echo $rs['currency_typeshow'];?>&nbsp;</td>
                 </tr>
                 <?php }?>
             </table>

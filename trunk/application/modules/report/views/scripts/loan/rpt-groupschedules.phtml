@@ -36,7 +36,9 @@ td p{ margin-top:0px !important;}
 	                	<td width="47%" valign="top">
 	                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?><?php //echo $this->data['brand_title'];?></label></h2>
 	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $client['branch_name'];?></label></h2>
-	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2></td>
+	                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?>
+	                	<br />សំរាប់មេក្រុម
+	                	</h2></td>
 	                    <td width="25%"><img src="<?php echo $url_barcode;?>" /></td>
 	                </tr>
 	                <?php $db = new Application_Model_DbTable_DbGlobal();

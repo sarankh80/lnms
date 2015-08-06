@@ -176,7 +176,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     		unset($datagroup);
     		
     		$next_payment = $data['first_payment'];
-    		$start_date = $data['release_date'];//loan release;
+    		
     		$curr_type = $data['currency_type'];
     		
     		$tranlist = explode(',',$data['record_row']);
@@ -216,6 +216,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     			$ispay_principal=2;//for payment type = 5;
     			$is_subremain = 2;
     			$remain_principal = $data['debt_amount'.$i];
+    			$start_date = $data['release_date'];//loan release;
     			
     			//for IRR method
     			if($data['repayment_method']==6){
@@ -245,7 +246,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     				$str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
     				
     				if($payment_method==1){//decline//completed
-//     					$pri_permonth = ($data['debt_amount'.$j]/($data['period']-$data['graice_pariod'])*$amount_collect);
     					$pri_permonth = $data['debt_amount'.$i]/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
     					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
     					
