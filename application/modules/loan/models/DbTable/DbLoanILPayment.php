@@ -293,7 +293,6 @@ public function addILPayment($data){
     		$identify = explode(',',$data['identity']);
     		foreach($identify as $i){
     			if($data["mfdid_".$i]){
-    				print_r($option_pay);
     				if($option_pay==1){
     					$total_recive_amount = $data["amount_receive"];
     				}else{
@@ -375,7 +374,7 @@ public function addILPayment($data){
     	}catch (Exception $e){
     		$db->rollBack();
     		echo $e->getMessage();
-    		//Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		exit();
     	}
     }
@@ -1066,6 +1065,8 @@ public function addILPayment($data){
 		   							'total_recieve'			=>		$data["sub_recive_amount_".$i],
 		   							'currency_id'			=>		$data["cu_id_".$i],
 		   							'pay_after'				=>		$data['multiplier_'.$i],
+		   							'penelize_amount'		=>		$data["sub_penelize_".$i],
+		   							'service_charge'		=>		$data["sub_service_charge_".$i],
 		   							'is_completed'			=>		0,
 		   							'is_verify'				=>		0,
 		   							'verify_by'				=>		0,
@@ -1125,6 +1126,8 @@ public function addILPayment($data){
 			   						'total_recieve'			=>		$data["sub_recive_amount_".$i],
 			   						'currency_id'			=>		$data["cu_id_".$i],
 			   						'pay_after'				=>		$data['multiplier_'.$i],
+			   						'penelize_amount'		=>		$data["sub_penelize_".$i],
+			   						'service_charge'		=>		$data["sub_service_charge_".$i],
 			   						'is_completed'			=>		0,
 			   						'is_verify'				=>		0,
 			   						'verify_by'				=>		0,

@@ -196,7 +196,7 @@ function rptLoanDisburseAction(){//release all loan
   		}else {
   			$collumn = array("id","branch","co_name","receipt_no","loan_number","team_group","total_principal_permonth"
   					,"total_interest","penalize_amount","amount_payment","service_charge","date_pay");
-  			$this->exportFileToExcel('ln_client_receipt_money',$db->getALLLoanCollectionco(),$collumn);
+  			$this->exportFileToExcel('ln_client_receipt_money',$db->getAllLoanByCo(),$collumn);
   		}
   	}else{
   		$search = array(
@@ -208,7 +208,7 @@ function rptLoanDisburseAction(){//release all loan
   				'co_id'		=> -1,
   				'paymnet_type'	=> -1,
   				'status'=>"",);
-  		$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+  		$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);
   	}
   	$this->view->date_show=$search['end_date'];
   	$frm = new Loan_Form_FrmSearchGroupPayment();
