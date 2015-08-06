@@ -129,7 +129,6 @@ th{padding: 5px;}
 	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest_after'],2));?>&nbsp;</td>
 	                    <td align="center">&nbsp;<?php 
 	                    $total_pay=($row['principle_after']+$row['total_interest_after']);
-	                    echo $row['last_pay_date'];
 	                    if ($row['last_pay_date']==null or $row['last_pay_date']==""){
 	                    	$total_day=strtotime($end_dat)-strtotime($row['date_payment']);
 	                    	$amount_lateday=$total_day/(60*60*24)-$free_day;

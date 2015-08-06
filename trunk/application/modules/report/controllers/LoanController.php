@@ -184,6 +184,38 @@ function rptLoanDisburseAction(){//release all loan
   }
   function rptLoanBereleaseAction(){
   }
+  function rptUnpaidLoanByCoAction(){
+  	$db  = new Report_Model_DbTable_DbLoan();
+  	
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$search = $this->getRequest()->getPost();
+  		if(isset($search['btn_submit'])){
+  			$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);
+  		}else {
+  			$collumn = array("id","branch","co_name","receipt_no","loan_number","team_group","total_principal_permonth"
+  					,"total_interest","penalize_amount","amount_payment","service_charge","date_pay");
+  			$this->exportFileToExcel('ln_client_receipt_money',$db->getALLLoanCollectionco(),$collumn);
+  		}
+  	}else{
+  		$search = array(
+  				'adv_search' => '',
+  				'client_name' => -1,
+  				'start_date'=> date('Y-m-d'),
+  				'end_date'=>date('Y-m-d'),
+  				'branch_id'		=>	-1,
+  				'co_id'		=> -1,
+  				'paymnet_type'	=> -1,
+  				'status'=>"",);
+  		$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+  	}
+  	$this->view->date_show=$search['end_date'];
+  	$frm = new Loan_Form_FrmSearchGroupPayment();
+  	$fm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($fm);
+  	$this->view->frm_search = $fm;
+  }
   function rptLoanCollectioncoAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
 //   
@@ -193,7 +225,7 @@ function rptLoanDisburseAction(){//release all loan
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(isset($search['btn_submit'])){
-  			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
+  			$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);
   		}else {
   		$collumn = array("id","branch","co_name","receipt_no","loan_number","team_group","total_principal_permonth"
   				,"total_interest","penalize_amount","amount_payment","service_charge","date_pay");
@@ -211,7 +243,7 @@ function rptLoanDisburseAction(){//release all loan
 				'status'=>"",);
 			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
 	}
-	$this->view->list_end_date=$search;
+	$this->view->date_show=$search['end_date'];
   	$frm = new Loan_Form_FrmSearchGroupPayment();
   	$fm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($fm);
