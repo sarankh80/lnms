@@ -1,7 +1,7 @@
 <?php $filter = $this->frm_search;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
-$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
+$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules'));
 
 ?>
 <meta charset="utf-8">
@@ -115,9 +115,9 @@ th{padding: 5px;}
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 					<td align="left" style="line-height:15px;">&nbsp;
 					<?php if ($row['loantype']==1){?>
-						<a href="<?php echo $url_client."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
+						<a target="_blank" href="<?php echo $url_client."/id/".$row['member_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
 					<?php }else {?>
-						<a href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
+						<a target="_blank" href="<?php echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_name']; ?></a>&nbsp;
 					<?php }?>
 					</td>	
 					<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>

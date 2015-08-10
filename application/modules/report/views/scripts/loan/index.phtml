@@ -17,7 +17,7 @@
   
   $rpt_loandisburseco=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-disburse-co'), null, true);
   $rpt_npl=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-npl'), null, true);
-//   $rpt_exchangemoney=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-xchange'), null, true);
+  $rpt_transferloan=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-trasfer'), null, true);
 //   $rpt_exchangemoney=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-xchange'), null, true);
   
   
@@ -33,11 +33,13 @@
     background: #D6D6D6;
   	font-family: 'Kh Battambang','Khmer Battambang' !important;
   	text-align: center;
+  	word-wrap: break-word;
   } 
     ul.link-rpt li {
 	float:left; margin:10px;
     list-style: none;
     border:1px solid #B1B0AF;
+    word-wrap: break-word;
     
   } 
   .dijitReset, .dijitInline  ,.dijitButton {
@@ -61,8 +63,8 @@
   		<li><a href="<?php echo $rpt_reschedule;?>"><?php echo $tr->translate('RESCHEDULE_RPT');?></a></li>
   		<li><a href="<?php echo $rpt_npl;?>"><?php echo $tr->translate('REPORT_NPL');?></a></li>
   		<li><a href="<?php echo $rpt_exchangemoney;?>"><?php echo $tr->translate('REPORT_LOAN_XCHANGE');?></a></li>
-  		<!--<li><a href="<?php //echo $rpt_loanrelease;?>"><?php //echo $tr->translate('LOAN_DISBURSE_BY_CO');?></a></li>
-  		<li><a href="#"><?php //echo $tr->translate('LOAN_DISBURSE');?></a></li> -->
+  		<li><a href="<?php echo $rpt_loanrelease;?>"><?php echo $tr->translate('RPT_TRASFER_LOAN');?></a></li>
+  		<!--<li><a href="#"><?php //echo $tr->translate('LOAN_DISBURSE');?></a></li> -->
   	</ul>
   </div>
   <div style="clear: both;"></div>

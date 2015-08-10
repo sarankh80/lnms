@@ -3,8 +3,6 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate('REPORT_LOAN_WRITE_OFF'));
  $frm = $this->frm_loan;
 ?>
-
-
 <form method="post">
 <table style=" width:29.2cm;margin:0 auto;" >
 	<tr>
@@ -84,7 +82,7 @@ th{padding: 5px;}
                     <th style="font-size: 12px;"><?php echo $tr->translate("LOAN_PERIOD");?></th>
                     <th>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
-                    <th style="font-size: 12px;"><?php echo $tr->translate("LOAN_OUTSTADING");?></th> 
+                    <th style="font-size: 12px;"><?php echo $tr->translate("LOAN_OUTSTADING_BALANCE");?></th> 
                     <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_INTEREST");?></th> 
                     <th style="font-size: 12px;"><?php echo $tr->translate("INTEREST_RECEIVEABLE");?></th>
                     <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></th>

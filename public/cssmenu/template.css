@@ -122,7 +122,8 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
     color: #333333;
     display: block;
 	border:0px solid #EDF7DF;
-    font-family: "Lucida Grande",Tahoma,"Bitstream Vera Sans",Arial,sans-serif;
+    /*font-family: "Lucida Grande",Tahoma,"Bitstream Vera Sans",Arial,sans-serif;*/
+    font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;
     font-size: 14px;
     font-weight: normal;
     line-height: 35px;
