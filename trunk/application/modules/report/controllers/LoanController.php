@@ -146,7 +146,7 @@ function rptLoanDisburseAction(){//release all loan
   				'branch_id'		=>	0,
   		);
   	}
-  	$this->view->list_end_date = $search;
+  	$this->view->list_end_date = $search["end_date"];
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
@@ -231,6 +231,7 @@ function rptLoanDisburseAction(){//release all loan
   		$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);
   	}
   	$this->view->date_show=$search['end_date'];
+	$this->view->start_date=$search['start_date'];
   	$frm = new Loan_Form_FrmSearchGroupPayment();
   	$fm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($fm);
@@ -245,7 +246,7 @@ function rptLoanDisburseAction(){//release all loan
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   		if(isset($search['btn_submit'])){
-  			$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);
+  			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
   		}else {
   		$collumn = array("id","branch","co_name","receipt_no","loan_number","team_group","total_principal_permonth"
   				,"total_interest","penalize_amount","amount_payment","service_charge","date_pay");
@@ -264,6 +265,7 @@ function rptLoanDisburseAction(){//release all loan
 			$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
 	}
 	$this->view->date_show=$search['end_date'];
+	$this->view->start_date=$search['start_date'];
   	$frm = new Loan_Form_FrmSearchGroupPayment();
   	$fm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($fm);

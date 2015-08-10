@@ -68,8 +68,8 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/il-payment/");
 				}
 			}catch (Exception $e) {
-				echo $e->getMessage();
-				exit();
+				//echo $e->getMessage();
+				//exit();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
@@ -119,7 +119,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 // 					}
 				}
 			}catch (Exception $e) {
-				echo $e->getMessage();
+				//echo $e->getMessage();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);

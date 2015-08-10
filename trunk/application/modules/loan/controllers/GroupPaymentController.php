@@ -11,7 +11,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 			$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 				$formdata=$this->getRequest()->getPost();
-				//print_r($formdata);
 				$search = array(
 						'advance_search' => $formdata['advance_search'],
 						'client_name'=>$formdata['client_name'],
@@ -21,7 +20,6 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 						'branch_id'		=>	$formdata['branch_id'],
 						'co_id'		=>	$formdata['co_id'],
 						);
-				//print_r($search);
 			}
 			else{
 				$search = array(
@@ -63,7 +61,7 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Client is no loan to pay", "/loan/GroupPayment");
 				}else{
 					$db->addGroupPayment($_data);
-					//Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
+					Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
@@ -107,10 +105,11 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Group Client no loan to pay!", "/loan/GroupPayment");
 				}else{
 					$db->updateGroupPayment($_data,$id);
-					//Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
+					Application_Form_FrmMessage::Sucessfull("Update Success!", "/loan/GroupPayment");
 				}
 			}catch (Exception $e) {
-				echo $e->getMessage();
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
 		$rs = $db->getGroupPaymentById($id);

@@ -258,7 +258,6 @@ public function addILPayment($data){
     			}
     		}
     	}
-    	//print_r($data["oldTotalPay"]);
     	
     		$arr_client_pay = array(
     			'co_id'							=>		$data['co_id'],
@@ -373,9 +372,8 @@ public function addILPayment($data){
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();
+//     		echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    		exit();
     	}
     }
     function updateIlPayment($data){
@@ -466,14 +464,7 @@ public function addILPayment($data){
     		$this->_name = "ln_client_receipt_money";
     		$where = $db->quoteInto("id=?", $data["id"]);
     		
-    		$db->getProfiler()->setEnabled(true);
-    		
     		$client_pay = $this->update($arr_client_pay, $where);
-    		
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    		$db->getProfiler()->setEnabled(false);
-    		
     		$loan_fun = $this->getIlDetail($id);
     		foreach ($loan_fun as $row){
     			$recive_amount = $row["recieve_amount"];
@@ -491,11 +482,7 @@ public function addILPayment($data){
     					);
     					$this->_name= "ln_loanmember_funddetail";
     					$where = $db->quoteInto("id=?", $row["lfd_id"]);
-    					$db->getProfiler()->setEnabled(true);
     					$this->update($array, $where);
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    					$db->getProfiler()->setEnabled(false);
     				}else{
     					$array = array(
     							'principle_after'		=>	$row["principal_permonth"],
@@ -508,23 +495,12 @@ public function addILPayment($data){
     					$this->_name= "ln_loanmember_funddetail";
     					$where = $db->quoteInto("id=?", $row["lfd_id"]);
     					
-    					$db->getProfiler()->setEnabled(true);
-    					
     					$this->update($array, $where);
-    					
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    					$db->getProfiler()->setEnabled(false);
     				}
     			}
-    			//exit();
     		}
     		$sql_delete = "DELETE FROM ln_client_receipt_money_detail WHERE crm_id =$id";
-    		$db->getProfiler()->setEnabled(true);
     		$db->query($sql_delete);
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    		Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    		$db->getProfiler()->setEnabled(false);
     	
     		$identify = explode(',',$data['identity']);
     	foreach($identify as $i){
@@ -556,13 +532,8 @@ public function addILPayment($data){
     						'is_closingentry'		=>		0,
     						'status'				=>		$data["option_pay"]
     				);
-    				$db->getProfiler()->setEnabled(true);
     				
     				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
-    				
-    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    				Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    				$db->getProfiler()->setEnabled(false);
     				
     				if($amount_receive>=$total_payment){
     					$arr_update_fun_detail = array(
@@ -572,13 +543,7 @@ public function addILPayment($data){
     					$this->_name="ln_loanmember_funddetail";
     					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
     					
-    					$db->getProfiler()->setEnabled(true);
-    					
     					$this->update($arr_update_fun_detail, $where);
-    					
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    					$db->getProfiler()->setEnabled(false);
     					
     				}else{
 	    					$arr_update_fun_detail = array(
@@ -593,13 +558,8 @@ public function addILPayment($data){
 	    					$this->_name="ln_loanmember_funddetail";
 	    					$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
 	    					
-	    					$db->getProfiler()->setEnabled(true);
-	    					
 	    					$this->update($arr_update_fun_detail, $where);
 	    					
-	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-	    					Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-	    					$db->getProfiler()->setEnabled(false);
     				}
     			}
     		}
@@ -621,26 +581,15 @@ public function addILPayment($data){
 						SET l.`status` = 2
 						WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1) 
     						AND l.`group_id`= $group_id AND l.`loan_type`=1";
-    			$db->getProfiler()->setEnabled(true);
     			$db->query($sql);
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    			$db->getProfiler()->setEnabled(false);
     			
     			$sql_loan_memeber ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
-    			$db->getProfiler()->setEnabled(true);
     			$db->query($sql_loan_memeber);
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQuery());
-    			Zend_Debug::dump($db->getProfiler()->getLastQueryProfile()->getQueryParams());
-    			$db->getProfiler()->setEnabled(false);
     		}
-    		//exit();
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();
-    		//Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    		exit();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
    function cancelPayment($id){
@@ -1156,9 +1105,7 @@ public function addILPayment($data){
    			$db->commit();
    		}catch (Exception $e){
    			$db->rollBack();
-   			//echo $e->getMessage();
    			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-   			//exit();
    		}
    }
    
@@ -1342,14 +1289,10 @@ public function addILPayment($data){
    				}
    			}
    		}
-   		//exit();
-   		//print_r($data);
    		$db->commit();
    	}catch (Exception $e){
    		$db->rollBack();
-   		//echo $e->getMessage();
    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-   		//exit();
    	}
    }
    

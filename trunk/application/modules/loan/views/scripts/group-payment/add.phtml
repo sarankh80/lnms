@@ -533,6 +533,8 @@ function getLaonPayment(){
 	 							dijit.byId('record_id').attr('value',inx);
 	 						}
 					}
+				}else{
+					alert("No Result To Show!");
 				}
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
@@ -791,7 +793,7 @@ function calculateTotal(index){
 		dijit.byId('amount_receive').attr('value',total_payment.toFixed(2));
 		dijit.byId('amount_return').attr('value',0);
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}
 }
 
