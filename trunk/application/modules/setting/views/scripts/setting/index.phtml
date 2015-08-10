@@ -66,6 +66,20 @@
 										
 									</tr>
 									<tr>
+										<td>
+											Theme Style
+										</td>
+										<td>
+										<select id="theme_setting" name="theme_setting" dojoType="dijit.form.FilteringSelect" class='fullside'>
+											<option value="1" <?php if($this->data['theme_setting']==1){echo "selected='selected'";} ?>><?php echo $this->data['claro']; ?></option>
+											<option value="2" <?php if($this->data['theme_setting']==2){echo "selected='selected'";}?>><?php echo $this->data['nihilo']; ?></option>
+											<option value="3" <?php if($this->data['theme_setting']==3){echo "selected='selected'";}?>><?php echo $this->data['soria']; ?></option>
+											<option value="4" <?php if($this->data['theme_setting']==4){echo "selected='selected'";}?>><?php echo $this->data['tundra']; ?></option>
+										</select>
+											
+										</td>
+									</tr>
+									<tr>
 										<td colspan="2" align="center">
 											<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
 										</td>

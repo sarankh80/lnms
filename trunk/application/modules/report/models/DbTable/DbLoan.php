@@ -37,7 +37,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 	$s_where[] = " loan_type LIKE '%{$s_search}%'";
       	 	$where .=' AND '.implode(' OR ',$s_where).'';
       	 }
-      	 return $db->fetchAll($sql.$where);
+      	 $order = " ORDER BY member_id DESC ";
+      	 return $db->fetchAll($sql.$where.$order);
       }
       public function getAllLoanCo($search = null){//rpt-loan-released
       	$db = $this->getAdapter();
@@ -634,6 +635,53 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 echo $sql.$where;
       	return $db->fetchAll($sql.$where);
       }
+      public function getALLNPLLoan($search=null){
+      	 
+      	$db = $this->getAdapter();
+      	$sql = " 	SELECT * FROM  v_getnplloan WHERE 1 ";
+
+      	$where='';
+      	$from_date =(empty($search['start_date']))? '1': " payof_date >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " payof_date <= '".$search['end_date']." 23:59:59'";
+      	 
+      	$where.= " AND ".$from_date." AND ".$to_date;
+      
+      	if(!empty($search['branch'])){
+      		$where.=" AND br_id = ".$search['branch'];
+      	}
+      	if(!empty($search['client_name'])){
+      		$where.=" AND client_code = ".$search['client_name'];
+      	}
+      	if(!empty($search['client_code'])){
+      		$where.=" AND client_code = ".$search['client_code'];
+      	}
+      	if(!empty($search['Term'])){
+      		$where.=" AND tem = ".$search['Term'];
+      	}
+      	if(!empty($search['cash_type'])){
+      		$where.=" AND `curr_type` = ".$search['cash_type'];
+      	}
+      	if(!empty($search['adv_search'])){
+      		$s_where=array();
+      		$s_search=trim($search['adv_search']);
+      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " co_name LIKE '%{$s_search}%'";
+      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+      		$s_where[] = " other_fee LIKE '%{$s_search}%'";
+      		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
+      		$s_where[] = " interest_rate LIKE '%{$s_search}%'";
+      		$s_where[] = " loan_type LIKE '%{$s_search}%'";
+      		$where .=' AND '.implode(' OR ',$s_where).'';
+      
+      		$where .=' AND ('.implode(' OR ',$s_where).' )';
+      	}
+      	//       	$order = ' ORDER BY `cash_type` ';
+      	echo $sql.$where;
+      	return $db->fetchAll($sql.$where);
+      }
       public function getAllxchange($search = null){
       	$db = $this->getAdapter();
       	$sql = "SELECT * FROM `v_xchange` WHERE 1";
@@ -774,6 +822,44 @@ echo $sql.$where;
       	}
       	echo $sql.$where.$group_by;
       	return $db->fetchAll($sql.$where.$group_by);
+      }
+      public function getAllTransferoan($search = null){//rpt-loan-released/
+      	$db = $this->getAdapter();
+      	$sql = "SELECT * FROM v_gettransferloan WHERE 1";
+      	$where ='';
+      
+      	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+      	$where.= " AND ".$from_date." AND ".$to_date;
+      
+      	if($search['branch_id']>0){
+      		$where.=" AND branch_id = ".$search['branch_id'];
+      	}
+      	if($search['client_name']>0){
+      		$where.=" AND client_id = ".$search['client_name'];
+      	}
+      	if($search['co_id']>0){
+      		$where.=" AND ( `from` = ".$search['co_id']." OR `to` = ".$search['co_id'].") ";
+      	}
+//       	if($search['pay_every']>0){
+//       		$where.=" AND pay_term_id = ".$search['pay_every'];
+//       	}
+      	if(!empty($search['adv_search'])){
+      		$s_where = array();
+      		$s_search = trim($search['adv_search']);
+      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " from_coname LIKE '%{$s_search}%'";
+      		$s_where[] = " to_coname LIKE '%{$s_search}%'";
+//       		$s_where[] = " other_fee LIKE '%{$s_search}%'";
+//       		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
+//       		$s_where[] = " interest_rate LIKE '%{$s_search}%'";
+//       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
+      		$where .=' AND '.implode(' OR ',$s_where).'';
+      	}
+      	return $db->fetchAll($sql.$where);
       }
  }
 

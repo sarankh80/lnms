@@ -22,8 +22,9 @@ class Setting_LabelController extends Zend_Controller_Action {
 			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
-		$db = new Setting_Model_DbTable_DbRestore();
-		$db->getAllTruncateTable();
+// 		$db = new Setting_Model_DbTable_DbRestore();
+// 		$db->getAllTruncateTable();
+		$this->_helper->flashMessenger->addMessage(array("err_message" => 'unable to comply'));
 	}
 	function addAction(){
 		$this->_redirect('/setting/index');

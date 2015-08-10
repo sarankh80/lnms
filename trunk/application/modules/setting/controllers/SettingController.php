@@ -11,10 +11,9 @@ public function init()
 	{
 		$db = new Setting_Model_DbTable_DbLabel();
 		$data = $db->getAllSystemSetting();
-		$this->view->data = $data;		 
+		$this->view->data = $data;	
 		if($this->getRequest()->isPost()){
 			$post=$this->getRequest()->getPost();
-			 
 			try {
 				$db = $db->updateKeyCode($post, $data);
 				Application_Form_FrmMessage::Sucessfull('ការកែប្រែ​​ជោគ​ជ័យ','/setting/setting');
