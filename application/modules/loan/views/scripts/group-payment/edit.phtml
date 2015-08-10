@@ -366,7 +366,7 @@ function submitData(){
 				//alert(data);
 			},
 			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+				//alert("Your message could not be sent, please try again!.");
 			}
 		});
 }
@@ -538,7 +538,7 @@ function getLaonPayment(){
 			},	
 			handleAs:"json",
 			load: function(respone) {
-				alert(respone);
+				//alert(respone);
 				status='<label style="color:red;">នៅឡើយ</lable>';
 				tem='';	is_set=0;
 				tem='<table class="collape tablesorter" style="font-size:12px;" id="table" width="100%">'
@@ -854,7 +854,7 @@ function calculateTotal(index){
 		dijit.byId('amount_receive').attr('value',total_payment.toFixed(2));
 		dijit.byId('amount_return').attr('value',0);
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}
 }
 

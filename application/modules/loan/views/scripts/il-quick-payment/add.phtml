@@ -363,12 +363,12 @@ function getLoan(type){
 				calculateTotal();
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 	}
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}	
 }
 function calculateTotal(index){
@@ -503,7 +503,7 @@ function calculateTotal(index){
 		dijit.byId('amount_receive').attr('value',total_payment.toFixed(2));
 		dijit.byId('amount_return').attr('value',0);
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}
 }
 function checkAll(){
@@ -632,7 +632,7 @@ function checkAll(){
 			dijit.byId('amount_receive').attr('value',0);
 		}
 	}catch (err){
-		alert(err);
+		//alert(err);
 	}
 }
 function getDayString(num){
@@ -710,12 +710,12 @@ function netReturn(){
 function checkRow(index){
 	control = document.getElementById('mfdid_'+index);
 	if(control.checked){
-		alert(1);
+		//alert(1);
 		$('#sub_penelize_'+index).removeAttr('disabled','disabled');
 		$('#sub_service_charge_'+index).removeAttr('disabled','disabled');
 		$('#sub_recive_amount_'+index).removeAttr('disabled','disabled');
 	}else{
-		alert("ssds");
+		//alert("ssds");
 		$('#sub_penelize_'+index).attr('disabled','disabled');
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
 		$('#sub_recive_amount_'+index).attr('disabled','disabled');

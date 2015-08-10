@@ -23,15 +23,20 @@ $frm = $this->frm_search;
 <div dojoType="dijit.layout.BorderContainer" style="width: 100%; height:50px;">
  
 </div>
-<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div style=" width:28.2cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 0.2cm;">
 <div id="divPrint">
 <style>
 .style{
-	line-height: 20px;font-size: 11px !important;
+	line-height: 20px;font-size: 10px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
 </style>
+<?php 
+$db_keycode = new Application_Model_DbTable_DbKeycode();
+$key_code= $db_keycode->getSystemSetting(9);
+$free_day=$key_code['value'];
+?>
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
@@ -41,7 +46,7 @@ th{padding: 5px;}
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_LATE");?></h2>
-                	 <h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("D-d-m-Y",strtotime($this->list_end_date['end_date']));?></h2>
+                	 <h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("D-d-m-Y",strtotime($this->list_end_date));?></h2>
                 	</td>
                     <td width="20%"></td>
                 </tr> 
@@ -68,15 +73,24 @@ th{padding: 5px;}
     	<td>
             <table id="exportExcel"  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px;font-size:9px; font-family: 'Khmer OS Content'">
-                    <td><?php echo $tr->translate("NUM");?></td>
-                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td><?php echo $tr->translate("CO_NAME");?></td>
-                    <td><?php echo $tr->translate("PRINCIPAL");?></td>
-                    <td><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></td>
-                    <td><?php echo $tr->translate("INTEREST");?></td>
-                    <td><?php echo $tr->translate("PAYMENT");?></td>
-                    <td><?php echo $tr->translate("PAY_DATE");?></td>
-                    <td><?php echo $tr->translate("LATE_DAY");?></td>
+                    <th><?php echo $tr->translate("NUM");?></th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th><?php echo $tr->translate("CLIENT_NUM");?></th>
+                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("CO_NAME");?></th>
+                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
+                    <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
+                    <th><?php echo $tr->translate("RELEASE_DATE");?></th>
+                    <th><?php echo $tr->translate("END_DATE");?></th>
+                    <th><?php echo $tr->translate("PRINCIPAL");?></th>
+                    <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
+                    <th><?php echo $tr->translate("INTEREST");?></th>
+                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
+                    <th><?php echo $tr->translate("SERVICE_CHARGE");?></th>
+                    <th><?php echo $tr->translate("PAYMENT");?></th>
+                    <th><?php echo $tr->translate("PAY_DATE");?></th>
+                    <th><?php echo $tr->translate("LATE_DAY");?></th>
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
@@ -101,20 +115,67 @@ th{padding: 5px;}
 							$amn_b3 = $amn_b3+$rs['total_interest'];
 							$amn_b4 = $amn_b4+$rs['total_payment'];
 		               }
-		               $amount_days = strtotime($this->list_end_date['end_date'])-strtotime($rs["date_payment"]);
+		               $amount_days = strtotime($this->list_end_date)-strtotime($rs["date_payment"]);
 		               $amount_days =  floor($amount_days/(60*60*24));
 		               //echo $this->list_end_date['end_date'];
                ?>
                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
                		<td style="text-align: center;"><?php echo $i++;?></td>
-               		<td> &nbsp;&nbsp; <?php echo $rs["branch_name"];?></td>
-               		<td>&nbsp;&nbsp;<?php echo $rs["name_kh"];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["principal_permonth"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td>&nbsp;<?php echo $rs["branch_name"];?></td>
+               		<td>&nbsp;<?php echo $rs["loan_number"];?></td>
+               		<td>&nbsp;<?php echo $rs["client_number"];?></td>
+               		<td>&nbsp;<?php echo $rs["client_name"];?></td>
+               		<td>&nbsp;<?php echo $rs["co_name"];?></td>
+               		<td>&nbsp;<?php echo $rs["interest_rate"];?></td>
+               		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?></td>
+               		<td>&nbsp;<?php echo $rs["date_release"];?></td>
+               		<td>&nbsp;<?php echo $rs["date_line"];?></td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principal_permonth"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td>
+               			<?php $end_dat = $this->list_end_date;
+	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
+	               			//echo $total_pay;
+	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
+	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
+// 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
+	               				$amount_lateday=$total_day/(60*60*24);
+	               			}else {
+	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
+	               				$amount_lateday=$total_day/(60*60*24);
+	               				echo $amount_lateday;
+	               			}
+	               			$pay_term=$rs['collect_typeterm'];
+	               			if($amount_lateday<0){
+	               				$amount_lateday=0;
+	               				$result=0;
+	               			}
+	               			else {
+	               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
+	               				if ($pay_term==1){
+	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/1)*($amount_lateday);
+	               				}
+	               				if ($pay_term==2){
+	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/7)*($amount_lateday);
+	               				}
+	               				if ($pay_term==3){
+	               					$result=$total_pay*($rs['pay_after']*(($rs['interest_rate']/100)/30))*($amount_lateday);
+	               				}
+	               			}
+	               			$penelize = $rs['penelize']+$result;
+	               			//echo $penelize;
+	               			//echo str_replace('.00', '', number_format($penelize,2));
+	               			$total_payment = $penelize+$rs['principle_after']+$rs['total_interest_after']+$rs['service_charge'];
+               				echo number_format($penelize,2).' '.$rs['currency_typeshow'];
+               			
+               			
+               			?>
+               		</td>
+               		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
                		<td align="center">&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
-               		<td align="center">&nbsp;&nbsp;<?php echo ($amount_days>0)?$amount_days." Days":"-";?> </td>
+               		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> </td>
                 </tr>
                 <?php }?>
                

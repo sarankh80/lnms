@@ -502,7 +502,7 @@ function submitData(){
 				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
 			},
 			error: function(e) {
-				alert("Your message could not be sent, please try again!.");
+				//alert("Your message could not be sent, please try again!.");
 			}
 		});
 }
@@ -690,7 +690,7 @@ function getPayment(){
 	//calculateTotal();
     <?php }?>
 	}catch(e){
-		alert(e);
+		//alert(e);
 	}
 }
 
@@ -790,7 +790,7 @@ function getAllLaonPayment(types){
 				dojo.byId('data_table1').innerHTML = temp;
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 }
@@ -937,7 +937,7 @@ function getLoanById(type){
 			totalReturn();
 		},
 		error: function(e) {
-			alert(e);
+			//alert(e);
 		}
 	});
 }
@@ -1001,7 +1001,7 @@ function getLaonHasPayByLoanNumber(){
 					dojo.byId('data_table_loan_haspay').innerHTML = tmp;
 				},
 				error: function(e) {
-					alert(e);
+					//alert(e);
 				}
 			});
 	}catch(err){
@@ -1225,7 +1225,7 @@ function calculateTotal(index){
 
 		//totalReturn();
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}
 }
 function checkAll(index){

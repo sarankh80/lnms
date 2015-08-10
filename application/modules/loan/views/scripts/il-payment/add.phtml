@@ -682,11 +682,11 @@ function getLaonPayment(type){
 				calculateTotal();
 			},
 			error: function(e) {
-				alert(e);
+				//alert(e);
 			}
 		});
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}	
 }
 function getLoan(){
@@ -825,7 +825,7 @@ function getLaonHasPayByLoanNumber(){
 					dojo.byId('data_table_loan_haspay').innerHTML = temp;
 				},
 				error: function(e) {
-					alert(e);
+					//alert(e);
 				}
 			});
 	}catch(err){
@@ -1058,7 +1058,7 @@ function calculateTotal(index){
 			$('#check_all').attr('checked');
 		}
 	}catch(err){
-		alert(err);
+		//alert(err);
 	}
 }
 
