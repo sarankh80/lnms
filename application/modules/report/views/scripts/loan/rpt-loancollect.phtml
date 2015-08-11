@@ -95,12 +95,13 @@ th{padding: 5px;}
 	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("LIFE_LOAN");?></th>
 	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></th>
 	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("DAY_PAYMENT");?></th>
+	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("TIME_COLLECT");?></th>
 	                    <th colspan="5" style="padding:5px 0px;"><?php echo $tr->translate("PAYMENT");?></th>
 	                    <th rowspan="2" style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("LATE_DAY");?></th>
 	                    <th rowspan="2" style="padding:5px 0px;"><?php echo $tr->translate("OTHER");?></th>
 	                </tr>
 	                <tr class="style" bgcolor="#ccc">
-	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PRINCIPLE");?></th>
+	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
 	                    <th style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("INTEREST");?></th>
 	                    <th  style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
 	                    <th  style="text-align:center ;padding:5px 0px;"><?php echo $tr->translate("SERVICE_CHARGE");?></th>
@@ -116,7 +117,7 @@ th{padding: 5px;}
 	                    <td align="left">&nbsp;<?php echo $row['branch_kh'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['client_name'];?>&nbsp;</td>
-	                     <td align="left">&nbsp;<?php echo $row['phone_number'];?>&nbsp;</td>
+	                     <td align="left" style="white-space: nowrap;">&nbsp;<?php echo $row['phone_number'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo date("d-M-Y",strtotime($row['date_release']));?>&nbsp;</td>
 	                     <td align="left">&nbsp;<?php echo date("d-M-Y",strtotime($row['date_line'])) ;?>&nbsp;</td>
@@ -125,6 +126,7 @@ th{padding: 5px;}
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
 	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));?>&nbsp;</td>
+	                    <td align="center"><?php echo str_replace(' ', '',$row['time_collect']);?>&nbsp;</td>
 	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['principle_after'],2));?>&nbsp;</td>
 	                    <td align="center">&nbsp;<?php echo str_replace('.00', '', number_format($row['total_interest_after'],2));?>&nbsp;</td>
 	                    <td align="center">&nbsp;<?php 

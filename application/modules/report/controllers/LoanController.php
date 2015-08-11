@@ -142,7 +142,7 @@ function rptLoanDisburseAction(){//release all loan
   		$search = array(
   				'adv_search'		=>	"",
   				'end_date' => date('Y-m-d'),
-  				'status' => "",
+  				'status' => -1,
   				'branch_id'		=>	0,
   		);
   	}
@@ -220,12 +220,12 @@ function rptLoanDisburseAction(){//release all loan
   		}
   	}else{
   		$search = array(
-  				'adv_search' => '',
-  				'client_name' => -1,
+  				'advance_search' => '',
+  				'client_name' => "",
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'),
   				'branch_id'		=>	-1,
-  				'co_id'		=> -1,
+  				'co_id'		=> "",
   				'paymnet_type'	=> -1,
   				'status'=>"",);
   		$this->view->LoanCollectionco_list =$db->getAllLoanByCo($search);

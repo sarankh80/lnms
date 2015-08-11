@@ -40,7 +40,7 @@ $free_day=$key_code['value'];
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
     	<td align="center">
-        	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
+        	<table width="100%" style="font-family:khmer;margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
@@ -82,43 +82,27 @@ $free_day=$key_code['value'];
                     <th><?php echo $tr->translate("INTEREST RATE");?></th>
                     <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
                     <th><?php echo $tr->translate("RELEASE_DATE");?></th>
-                    <th><?php echo $tr->translate("END_DATE");?></th>
+                    <th><?php echo $tr->translate("LIFE_LOAN");?></th>
                     <th><?php echo $tr->translate("PRINCIPAL");?></th>
                     <th><?php echo $tr->translate("PRINCIPAL_PERMONTH");?></th>
                     <th><?php echo $tr->translate("INTEREST");?></th>
                     <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
                     <th><?php echo $tr->translate("SERVICE_CHARGE");?></th>
                     <th><?php echo $tr->translate("PAYMENT");?></th>
-                    <th><?php echo $tr->translate("PAY_DATE");?></th>
                     <th><?php echo $tr->translate("LATE_DAY");?></th>
+                    <th><?php echo $tr->translate("PAY_DATE");?></th>
+                    <th><?php echo $tr->translate("TIME_COLLECT");?></th>
+                    
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
                 	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;
+                	 $pene_amr=0; $pene_amb=0;$pene_amd=0;
+                	 $serv_amr=0;$serv_amb=0;$serv_amd=0;
                 ?>
                 <?php $i=1;?>
                <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
-               <?php 
-		               if($rs['currency_type']==1){
-		               		$amt_r1 = $amt_r1+$rs['total_principal'];
-		               		$amt_r2 = $amt_r2+$rs['principal_permonth'];
-		               		$amt_r3 = $amt_r3+$rs['total_interest'];
-		               		$amt_r4 = $amt_r4+$rs['total_payment'];
-		               }elseif($rs['currency_type']==2){
-							$amt_d1 = $amt_d1+$rs['total_principal'];
-							$amt_d2 = $amt_d2+$rs['principal_permonth'];
-							$amt_d3 = $amt_d3+$rs['total_interest'];
-							$amt_d4 = $amt_d4+$rs['total_payment'];
-		               }else{
-		               		$amn_b1 = $amn_b1+$rs['total_principal'];
-							$amn_b2 = $amn_b2+$rs['principal_permonth'];
-							$amn_b3 = $amn_b3+$rs['total_interest'];
-							$amn_b4 = $amn_b4+$rs['total_payment'];
-		               }
-		               $amount_days = strtotime($this->list_end_date)-strtotime($rs["date_payment"]);
-		               $amount_days =  floor($amount_days/(60*60*24));
-		               //echo $this->list_end_date['end_date'];
-               ?>
+               
                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
                		<td style="text-align: center;"><?php echo $i++;?></td>
                		<td>&nbsp;<?php echo $rs["branch_name"];?></td>
@@ -174,9 +158,38 @@ $free_day=$key_code['value'];
                		</td>
                		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_typeshow'];?></td>
                		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td align="center">&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
                		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> </td>
+               		<td align="center">&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
+               		<td align="center" style="width:100px;">&nbsp;<?php echo  str_replace(' ', '', $rs["time_collect"]);?></td>
                 </tr>
+                
+                <?php 
+		               if($rs['currency_type']==1){
+		               		$amt_r1 = $amt_r1+$rs['total_principal'];
+		               		$amt_r2 = $amt_r2+$rs['principal_permonth'];
+		               		$amt_r3 = $amt_r3+$rs['total_interest'];
+		               		$amt_r4 = $amt_r4+$rs['total_payment'];
+		               		$pene_amr=$pene_amr+$penelize;
+		               		$serv_amr = $serv_amr+$rs["service_charge"];
+		               }elseif($rs['currency_type']==2){
+							$amt_d1 = $amt_d1+$rs['total_principal'];
+							$amt_d2 = $amt_d2+$rs['principal_permonth'];
+							$amt_d3 = $amt_d3+$rs['total_interest'];
+							$amt_d4 = $amt_d4+$rs['total_payment'];
+							$pene_amd=$pene_amd+$penelize;
+							$serv_amd = $serv_amd+$rs["service_charge"];
+		               }else{
+		               		$amn_b1 = $amn_b1+$rs['total_principal'];
+							$amn_b2 = $amn_b2+$rs['principal_permonth'];
+							$amn_b3 = $amn_b3+$rs['total_interest'];
+							$amn_b4 = $amn_b4+$rs['total_payment'];
+							$pene_amb= $pene_amb+$penelize;
+							$serv_amb = $serv_amb+$rs["service_charge"];
+		               }
+		               $amount_days = strtotime($this->list_end_date)-strtotime($rs["date_payment"]);
+		               $amount_days =  floor($amount_days/(60*60*24));
+		               //echo $this->list_end_date['end_date'];
+               ?>
                 <?php }?>
                
             </table>
@@ -187,6 +200,8 @@ $free_day=$key_code['value'];
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>                    
                     <th><?php echo $tr->translate("TOTAL_PRINCIPLE_PERMONTH");?></th>
                     <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
+                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
+                    <th><?php echo $tr->translate("SERVICE_CHARGE");?></th>
                     <th><?php echo $tr->translate("TOTAL_PAYMENT");?></th>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
@@ -194,6 +209,8 @@ $free_day=$key_code['value'];
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pene_amd,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($serv_amd,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d4,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
@@ -201,6 +218,8 @@ $free_day=$key_code['value'];
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pene_amr,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($serv_amr,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r4,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
@@ -208,6 +227,8 @@ $free_day=$key_code['value'];
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($pene_amb,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($serv_amb,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b4,2);?>&nbsp;</td>
                 </tr>
               </table>
