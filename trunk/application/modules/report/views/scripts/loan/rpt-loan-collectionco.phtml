@@ -88,13 +88,13 @@ $free_day=$key_code['value'];
 			      <th><?php echo $tr->translate("BRANCH_NAME");?></th>
 			      <th><?php echo $tr->translate("LOAN_NO");?></th>
 			      <th><?php echo $tr->translate("CLIENT_NO");?></th>
-			      <th><?php echo $tr->translate("CLIENT_NAMEKH");?></th>
+			      <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
 			      <th><?php echo $tr->translate("PHONE");?></th>
 			      <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
 			      <th><?php echo $tr->translate("INTEREST RATE");?></th>
 			      <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
 			      <th><?php echo $tr->translate("RELEASE_DATE");?></th>
-			      <th><?php echo $tr->translate("END_DATE");?></th>
+			      <th><?php echo $tr->translate("LIFE_LOAN");?></th>
 			      <th><?php echo $tr->translate("PRINCIPLE_PERMONTH");?></th>  
 			      <th><?php echo $tr->translate("INTEREST");?></th>  
 			      <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
@@ -116,7 +116,7 @@ $free_day=$key_code['value'];
                		<td style="font-size: 11px;"><?php echo $rs["loan_number"];?></td>
                		<td style="font-size: 11px;"><?php echo $rs["client_code"];?></td>
                		<td style="font-size: 11px;"><?php echo $rs["client_name"];?></td>
-               		<td style="font-size: 11px;"><?php echo $rs["phone"];?></td>
+               		<td style="font-size: 11px; white-space: nowrap;"><?php echo $rs["phone"];?></td>
                		<td style="font-size: 11px;"><?php echo number_format( $rs["capital"],2).' '.$rs['currency_type'];?></td>
                		<td style="font-size: 11px;"><?php echo $rs["interest_rate"]." %";?></td>
                		<td style="font-size: 11px;"><?php echo $rs["total_duration"]." ".$rs["name_en"];?></td>

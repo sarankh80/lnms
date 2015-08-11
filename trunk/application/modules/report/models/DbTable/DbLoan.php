@@ -207,13 +207,13 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     		$where.=" AND vl.status =".$search['status'];
     	}   	 
       	if(!empty($search['end_date'])){
-			$where.=" AND date_payment < '$end_date'";
+			$where.=" AND vl.date_payment < '$end_date'";
 		}
       	if($search['branch_id']>0){
       		$where.=" AND v.`branch_id` = ".$search['branch_id'];
       	}
       	//$order = " ORDER BY currency_type ,date_payment ASC ";
-//       	echo $sql.$where;
+//        	echo $sql.$where;
       	return $db->fetchAll($sql.$where);
       }
       public function getALLLoandateline(){
@@ -795,64 +795,77 @@ echo $sql.$where;
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
       	$db = $this->getAdapter();
-      	$sql = "SELECT v.*,
-				  CONCAT(c.`co_code`,',',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) AS co_name ,
-				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = v.`loan_number`)
-				          AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = f.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-				    f.`total_principal`,
-				    f.`principle_after`,
-				    f.`total_interest_after`,
-      				f.`total_payment_after`,
-				    f.`penelize`,
-				    f.`service_charge`,
-				    f.`date_payment`
+      	$sql="SELECT 
+				  CONCAT(co.`co_code`,',',co.`co_khname`,'-',co.`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+				  b.branch_namekh,
+				  co.`co_id`,
+				  lm.`loan_number`,
+				  c.`client_number`,
+				  c.`name_kh`,
+				  c.`phone`,
+				  lm.`total_capital`,
+				  lm.`interest_rate`,
+				  lg.`date_release`,
+				  lg.`date_line`,
+				  lg.`total_duration`,
+				  lm.`currency_type` AS curr_type,
+				  lm.`collect_typeterm`,
+				  lm.`pay_after`,
+				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = lm.`currency_type`)) AS `currency_type`,
+				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `lg`.`pay_term`))) AS `Term Borrow`,
+				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = lm.`loan_number`)
+								          AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = f.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+				  SUM(f.`total_principal`) AS total_principal,
+				  SUM(f.`principle_after`) AS principle_after,
+				  SUM(f.`total_interest_after`) AS total_interest_after,
+				  SUM(f.`total_payment_after`) AS total_payment_after,
+				  SUM(f.`penelize`) AS penelize,
+				  SUM(f.`service_charge`) AS service_charge,
+				  f.`date_payment` 
 				FROM
-				  v_default AS v,
-				  `ln_co` AS c,
-				  `ln_loanmember_funddetail` AS f
-				WHERE v.`co_id` = c.`co_id` 
-				  AND f.`member_id`=v.`member_id`
-				  AND f.`is_completed`=0
-				  ";
+				  `ln_loanmember_funddetail` AS f,
+				  `ln_loan_group` AS lg,
+				  `ln_loan_member` AS lm,
+				  `ln_co` AS co,
+				  `ln_client` AS c ,
+      			  `ln_branch` AS b 
+				WHERE f.`is_completed` = 0 
+				  AND lg.`g_id` = lm.`group_id` 
+				  AND lm.`member_id` = f.`member_id` 
+				  AND lg.`status` = 1 
+				  AND co.`co_id` = lg.`co_id` 
+				  AND c.`client_id` = lm.`client_id` 
+				  AND b.`br_id`=f.`branch_id`
+				";
       	$where ='';
-      	$group_by=" GROUP BY f.`member_id`";
-      	
-      	//$from_date =(empty($search['start_date']))? '1': " reschedule_date >= '".$search['start_date']." 00:00:00'";
-      	//$to_date = (empty($search['end_date']))? '1': " reschedule_date <= '".$search['end_date']." 23:59:59'";
-      	//$where.= " AND ".$from_date." AND ".$to_date;
-      	
+      	$group_by=" GROUP BY lm.`group_id`,f.`date_payment` ";
+      	$order = " ORDER BY lg.`group_id`";
       if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND f.`date_payment` BETWEEN '$start_date' AND '$end_date'";
       	}
-      	if($search['client_name']>0){
-      		$where.=" AND v.client_id= ".$search['client_name'];
+      	if($search['client_name']!=""){
+      		$where.=" AND lg.`group_id`= ".$search['client_name'];
       	}
-      	if($search['branch_id']>0){
-      		$where.=" AND v.`branch_id`= ".$search['branch_id'];
+      	if($search['branch_id']>-1){
+      		$where.=" AND f.`branch_id`= ".$search['branch_id'];
       	}
-      	if($search['co_id']>0){
-      		$where.=" AND c.`co_id` = ".$search['co_id'];
+      	if($search['co_id']!=""){
+      		$where.=" AND co.`co_id` = ".$search['co_id'];
       	}
-      	if($search['paymnet_type']>0){
-      		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
+      	if($search['status']!=""){
+      		$where.=" AND lm.`status`=".$search['status'];
       	}
-      	if(!empty($search['adv_search'])){
+      	if(!empty($search['advance_search'])){
       		$s_where = array();
-      		$s_search = trim($search['adv_search']);
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		//$s_where[] = " re_loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      	
-      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
-      		$s_where[] = " re_amount LIKE '%{$s_search}%'";
-      		//$s_where[] = " re_interest_rate LIKE '%{$s_search}%'";
-      	
-      		$s_where[] = " loan_type LIKE '%{$s_search}%'";
-      		$where .=' AND '.implode(' OR ',$s_where).'';
+      		$s_search = trim($search['advance_search']);
+      		$s_where[] = " b.branch_namekh LIKE '%{$s_search}%'";
+      		$s_where[] = " lm.`loan_number` LIKE '%{$s_search}%'";
+      		$s_where[] = " name_kh LIKE '%{$s_search}%'";
+      		$s_where[] = " lm.total_capital LIKE '%{$s_search}%'";
+      		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
-      	echo $sql.$where.$group_by;
-      	return $db->fetchAll($sql.$where.$group_by);
+       	echo $sql.$where.$group_by.$order;
+      	return $db->fetchAll($sql.$where.$group_by.$order);
       }
       public function getAllTransferoan($search = null){//rpt-loan-released/
       	$db = $this->getAdapter();
