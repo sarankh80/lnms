@@ -59,9 +59,9 @@ class Loan_IlQuickPaymentController extends Zend_Controller_Action {
   		$data = $this->getRequest()->getPost();
   		$db->quickPayment($data);
   		if(isset($data["save_new"])){
-  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/il-quick-payment/add");
+  			//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/il-quick-payment/add");
   		}elseif(isset($data["save_close"])){
-  			Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/IlQuickPayment");
+  			//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS!","/loan/IlQuickPayment");
   		}
   	}
   	$frm = new Loan_Form_FrmIlPayment();

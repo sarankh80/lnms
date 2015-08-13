@@ -112,8 +112,8 @@ $free_day=$key_code['value'];
                		<td>&nbsp;<?php echo $rs["co_name"];?></td>
                		<td>&nbsp;<?php echo $rs["interest_rate"];?></td>
                		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?></td>
-               		<td>&nbsp;<?php echo $rs["date_release"];?></td>
-               		<td>&nbsp;<?php echo $rs["date_line"];?></td>
+               		<td>&nbsp;<?php echo date_format(date_create($rs["date_release"]),'d-m-Y');?></td>
+               		<td>&nbsp;<?php echo date_format(date_create($rs["date_line"]),'d-m-Y');?></td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_typeshow'];?></td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principal_permonth"],2).' '.$rs['currency_typeshow'];?></td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
@@ -128,7 +128,6 @@ $free_day=$key_code['value'];
 	               			}else {
 	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
 	               				$amount_lateday=$total_day/(60*60*24);
-	               				echo $amount_lateday;
 	               			}
 	               			$pay_term=$rs['collect_typeterm'];
 	               			if($amount_lateday<0){
@@ -159,7 +158,7 @@ $free_day=$key_code['value'];
                		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_typeshow'];?></td>
                		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
                		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> </td>
-               		<td align="center">&nbsp;&nbsp;<?php echo $rs["date_payment"];?></td>
+               		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?></td>
                		<td align="center" style="width:100px;">&nbsp;<?php echo  str_replace(' ', '', $rs["time_collect"]);?></td>
                 </tr>
                 
