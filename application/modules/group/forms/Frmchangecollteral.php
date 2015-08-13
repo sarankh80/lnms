@@ -26,14 +26,13 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("SEARCH_CHANGE_COLLTERAL")
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'onchange'=>'getOwnerInfo();'
 		));
 		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
@@ -60,7 +59,6 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
     	$_branch_id->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
-    			'class'=>'fullside',
     			'required' =>'true',
     			'onchange'=>'filterClient();'
     	));
@@ -88,33 +86,28 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
-				'class'=>'fullside'
 				));
 		
 		$number_code = new Zend_Dojo_Form_Element_NumberTextBox('number_code');
 		$number_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
 				'required'=>true
 		));
 		$contract_code = new Zend_Dojo_Form_Element_NumberTextBox('contract_code');
 		$contract_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
 				'required'=>true
 		));
 		
 		$_code = new Zend_Dojo_Form_Element_NumberTextBox('code');
 		$_code ->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'class'=>'fullside',
 				'required'=>true
 		));
 
 		$clint_name = new Zend_Dojo_Form_Element_FilteringSelect('client_name');
 		$clint_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'onchange'=>'checkClientCode()'
 		));
 		$options = $db->getGroupCodeById(2,0,1);
@@ -123,14 +116,12 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$owner=new Zend_Dojo_Form_Element_ValidationTextBox('owner');
 		$owner->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside'
 		));
 		
         $db = new Application_Model_DbTable_DbGlobal();
 		$collteral_type=new Zend_Dojo_Form_Element_FilteringSelect('collteral_type');
 		$collteral_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
 				));
 		$opt= $db->getCollteralType(1);
 		$opt=array(''=>'------Select------',1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
@@ -141,26 +132,22 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
 		));
 		
 		$_note=new Zend_Dojo_Form_Element_TextBox('_note');
 		$_note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
 		));
 		$_note->setValue('return back to client');
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
-				'class'=>'fullside'
 		));
 		$Date->setValue(date('Y-m-d'));
 		$stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
 		$stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				));
 		$options= array(1=>"ប្រើប្រាស់",2=>"មិនប្រើប្រាស់");
 		$stutas->setMultiOptions($options);
@@ -169,7 +156,6 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$cod_cal ->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'readOnly'=>'readOnly',
-				'class'=>'fullside',
 				'style'=>'color:red'
 		));
 		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
@@ -179,7 +165,6 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$from = new Zend_Dojo_Form_Element_FilteringSelect('from');
 		$from->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'required'=>true
 		));
 		$from->setValue($request->getParam('from'));
@@ -189,7 +174,6 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$to = new Zend_Dojo_Form_Element_FilteringSelect('to');
 		$to->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'required'=>true
 		));
 		$opt= $db->getCollteralType(1);
@@ -199,27 +183,23 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$receiver_name=new Zend_Dojo_Form_Element_ValidationTextBox('receiver_name');
 		$receiver_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside',
 				'required'=>true
 				));
 		
 		$giver_name=new Zend_Dojo_Form_Element_ValidationTextBox('giver_name');
 		$giver_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
-				'class'=>'fullside',
 				'required'=>true
 		));
 		
 		$owner_name=new Zend_Dojo_Form_Element_TextBox('owner_name');
 		$owner_name->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside'
 				));
 		
 		$collteral_id=new Zend_Form_Element_Hidden('collteral_id');
 		$collteral_id->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside'
 				));
 		$changecollteral_id=new Zend_Form_Element_Text('changecollteral_id');
 		$changecollteral_id->setAttribs(array(
@@ -227,8 +207,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				));
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'class'=>'fullside',
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 		
@@ -239,7 +218,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		
 		
 		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
-		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true'
 		));
 		$_date = $request->getParam("end_date");
 		

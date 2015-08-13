@@ -436,6 +436,8 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
     			return 1;
     		}catch (Exception $e){
     			$db->rollBack();
+    			$err =$e->getMessage();
+    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
     		}
     }
     public function getNextDateById($pay_term){
