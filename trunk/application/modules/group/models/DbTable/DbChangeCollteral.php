@@ -36,7 +36,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	    $return_id = $this->insert($_arr);
 	    
 	    $ids =  explode(',', $data['record_row']);
-	   
+// 	   print_r($data);exit();
 	   foreach($ids as $i){
 	   	
 	     	$this->_name='ln_client_callecteral_detail';//what relationship

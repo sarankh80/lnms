@@ -99,13 +99,13 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		$status->setMultiOptions($opt);
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			$_date = date('Y-m-01');
+			$_date = date('Y-m-d');
 		}
 		$from_date->setValue($_date);
 		

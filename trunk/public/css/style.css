@@ -1609,7 +1609,7 @@ ul.item-list .pull-right span {
     float: left;
     font-weight: 300;
     height: 120px;
-    letter-spacing: 0.02em;
+    /*letter-spacing: 0.02em;*/
     line-height: 20px;
     margin: 0 1% 1% 0;
     overflow: hidden;
@@ -1631,7 +1631,7 @@ ul.item-list .pull-right span {
     float: left;
     font-weight: 300;
     height:114px;
-    letter-spacing: 0.02em;
+    /*letter-spacing: 0.02em;*/
     line-height: 20px;
     margin: 0 1% 1% 0;
     overflow: hidden;

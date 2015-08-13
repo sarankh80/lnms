@@ -46,7 +46,6 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$employee->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'onchange'=>'popupCheckCO();'
 		));
 		$employee->setMultiOptions($options);
@@ -63,7 +62,6 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'required' =>'true'
 		));
 		$rows = $db->getAllBranchName();
@@ -80,7 +78,6 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		if(!empty($rows))foreach($rows AS $row) $options_approve[$row['co_id']]=$row['co_khname'];
 		$approve_by->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'onchange'=>'popupCheckCO();'
 		));
 		$approve_by->setMultiOptions($options_approve);
@@ -91,7 +88,6 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>true,
-				'class'=>'fullside'
 		));
 		$type->setMultiOptions($opt_type);
 		$type->setValue($request->getParam("type"));
@@ -116,8 +112,8 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'class'=>'fullside',
+		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 		
@@ -128,7 +124,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		
 		
 		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
-		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true','class'=>'fullside',
+		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
 		));
 		$_date = $request->getParam("end_date");
 		
@@ -143,7 +139,6 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				'dojoType'=>'dijit.form.FilteringSelect',
 				//     			'dojoType'=>$this->filter,
 				'required'=>true,
-				'class'=>'fullside'
 		));
 		
 		$opt_position=$db->getAllStaffPosition(null,1);

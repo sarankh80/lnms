@@ -37,7 +37,8 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 			'start_date'=> date('Y-m-d'),
 			'end_date'=>date('Y-m-d'));
 		}
-		$this->view->loanrelease_list = $db->getAllCalleteral($search);
+		$this->view->result=$search;
+		$this->view->calleteral_list = $db->getAllCalleteral($search);
 	  	$fm=new Group_Form_Frmcallterals();
 	  	$frm=$fm->FrmCallTeral();
 	  	Application_Model_Decorator::removeAllDecorator($frm);
@@ -58,21 +59,12 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	}
   }
   function rptClientAction($table='ln_account_name'){
-  	header('Content-Type: text/html; charset=utf-8');
-    $db  = new Report_Model_DbTable_DbLnClient();
+   
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){  		
   		$search = $this->getRequest()->getPost();
-  		//print_r($search);exit();
-  		if(isset($search['btn_search'])){
-  			$this->view->client_list = $db->getAllLnClient($search);
-  		}else{
-  		$collumn = array("client_number","name_kh","name_en","sex","branch_name","pro_id","dis_id","com_id",
-  				"village_id");
-  		$this->exportFileToExcel($table,$db->getAllLnClient(),$collumn);
-  		}
-  	}else
+  	}else{
   		$search = array('adv_search' => '',
 						'status' => -1,
   						'branch_id' => 0,  				
@@ -80,24 +72,30 @@ class Report_GroupMemberController extends Zend_Controller_Action {
 						'district'=>'',
 						'commune'=>'',
 						'village'=>'',
-						'start_date'=> date('Y-m-01'),
+						'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'));
-  		$this->view->client_list =$db->getAllLnClient($search);	
-  		$frm = new Application_Form_FrmAdvanceSearch();
-		$frm = $frm->AdvanceSearch();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_search = $frm;
-		
-		$fm = new Group_Form_FrmClient();
-		$frm = $fm->FrmAddClient();
-		Application_Model_Decorator::removeAllDecorator($frm);
-		$this->view->frm_client = $frm;
-		$db= new Application_Model_DbTable_DbGlobal();		
-		$this->view->district = $db->getAllDistricts();
-		$this->view->commune = $db->getCommune();
-		$this->view->village = $db->getVillage();
-		
-		$this->view->result=$search;		
+  	}	
+  
+  	$this->view->result=$search;
+  	 
+  	$db  = new Report_Model_DbTable_DbLnClient();
+  	$this->view->client_list =$db->getAllLnClient($search);
+  	
+  	$frm = new Application_Form_FrmAdvanceSearch();
+  	$frm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_search = $frm;
+  	
+  	$fm = new Group_Form_FrmClient();
+  	$frm = $fm->FrmAddClient();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_client = $frm;
+  	$db= new Application_Model_DbTable_DbGlobal();
+  	$this->view->district = $db->getAllDistricts();
+  	$this->view->commune = $db->getCommune();
+  	$this->view->village = $db->getVillage();
+  	
+  	
   }
   
   public function exportFileToExcel($table,$data,$thead){
@@ -145,17 +143,16 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$db = new Report_Model_DbTable_DbLnClient(); 	
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
-  		if(isset($search['btn_search'])){
-  			//print_r($search);exit();
-  			$this->view->calleteral_list = $db->getAllChangeCollteral($search);
-  		}
   	}else{
 		$search = array(
-			'start_date' => date('Y-m-d'),
+			'start_date'=> date('Y-m-d'),
+		    'end_date'=>date('Y-m-d'),
 			'adv_search' => '',
 			'status_search' => -1);
-		$this->view->calleteral_list = $db->getAllChangeCollteral($search);//call frome model
+		
 	}
+	$this->view->calleteral_list = $db->getAllChangeCollteral($search);//call frome model
+	$this->view->result=$search;
   	$fm = new Group_Form_Frmchangecollteral();
   	$frm = $fm->FrmChangeCollteral();
   	Application_Model_Decorator::removeAllDecorator($frm);
@@ -181,6 +178,7 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   	}
+  	$this->view->result=$search;
   }
   function rptReturncollteralAction(){
   		$key = new Application_Model_DbTable_DbKeycode();
@@ -209,23 +207,19 @@ class Report_GroupMemberController extends Zend_Controller_Action {
  		$db = new Group_Model_DbTable_DbClientBlackList();
  		if($this->getRequest()->isPost()){
  			$search=$this->getRequest()->getPost();
- 			if(isset($search['btn_search'])){
- 				$this->view->calleteral_list = $db->getAllBlackList($search);
- 			}else {
- 				$collumns = array("client_id","branch_id","name_kh","name_en","client_number","sex","reasonblack_list","is_blacklist","date_blacklist");
- 				$this->exportFileToExcel('ln_client',$db->getAllBlackList(),$collumns);
- 			}
  		}else{
  			$search = array(
  					'adv_search' => '',
     				'status_search' => -1,
-    				'start_date'=> date('Y-m-01'),
-					'end_date'=>date('Y-m-d'));
- 			$this->view->calleteral_list = $db->getAllBlackList($search);//call frome model
+    				'start_date'=> date('Y-m-d'),
+  				    'end_date'=>date('Y-m-d'));
+ 			
  		}
+ 		$this->view->calleteral_list = $db->getAllBlackList($search);//call frome model
  		$frm = new Group_Form_FrmClientBlackList();
     	$frm = $frm->FrmClientBlackList();
     	Application_Model_Decorator::removeAllDecorator($frm);
     	$this->view->frm_search = $frm;
+    	$this->view->list_end_date =$search;
  	}
 }
