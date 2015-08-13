@@ -120,8 +120,8 @@ $free_day=$key_code['value'];
                		<td style="font-size: 11px;"><?php echo number_format( $rs["capital"],2).' '.$rs['currency_type'];?></td>
                		<td style="font-size: 11px;"><?php echo $rs["interest_rate"]." %";?></td>
                		<td style="font-size: 11px;"><?php echo $rs["total_duration"]." ".$rs["name_en"];?></td>
-               		<td style="font-size: 11px;">&nbsp;<?php echo $rs["date_release"];?>&nbsp;</td>
-               		<td style="font-size: 11px;">&nbsp;<?php echo $rs["date_line"];?>&nbsp;</td>
+               		<td style="font-size: 11px;">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
+               		<td style="font-size: 11px;">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
                		<td style="font-size: 11px;"><?php echo number_format( $rs["principal_permonth"],2).' '.$rs['currency_type'];?></td>  
                		<td style="font-size: 11px;"><?php echo number_format( $rs["total_interest"],2).' '.$rs['currency_type'];?></td>             		
                		<td style="font-size: 11px;"><?php echo number_format($rs["penelize_amount"],2).' '.$rs['currency_type'];?></td>
@@ -155,8 +155,8 @@ $free_day=$key_code['value'];
 		           // }
 		               ?>
                		
-               		<td style="font-size: 11px;text-align: center;"><?php echo $rs["date_input"];?></td>
-               		<td style="font-size: 11px;text-align: center;"><?php echo $rs["date_payment"];?></td>
+               		<td style="font-size: 11px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_input"]));?></td>
+               		<td style="font-size: 11px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
                 </tr>
 
 <?php  }?>
