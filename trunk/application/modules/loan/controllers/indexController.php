@@ -32,13 +32,13 @@ class Loan_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("LOAN_NO","CUSTOMER_NAME","COMUNE_NAME_EN","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"BRANCH_NAME","STATUS");
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","COMUNE_NAME_EN","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
+				"STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'index','action'=>'view',
 			);
 			$link_info=array('module'=>'loan','controller'=>'index','action'=>'edit',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_name'=>$link,'loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -94,9 +94,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 		
-// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
 		

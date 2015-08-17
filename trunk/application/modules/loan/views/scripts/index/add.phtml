@@ -54,7 +54,7 @@
 				return false;
 			}
 </script>
-<table width="100%">
+<table width="100%" style="margin-top:-10px;">
 	<tr>
 		<td>
 				<fieldset>
@@ -389,7 +389,8 @@ function getLoanByBranch(){
 	dojo.xhrPost({
 		url:url_getloan,	
 		content:{ 
-		    'branch_id':branch_id
+		    'branch_id':branch_id,
+		    'is_group':0
 		},		    
 		handleAs:"json",
 		load: function(data) {

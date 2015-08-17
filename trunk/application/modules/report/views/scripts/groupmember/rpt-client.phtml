@@ -95,7 +95,7 @@ $frm = $this->frm_search;
 $frms=$this->frm_client;
 ?>
 <meta charset="utf-8">
-<title><?php echo $tr->translate("LIST REPORT CLIENT");?></title>
+<title><?php echo $tr->translate("REPORT_CLIENT");?></title>
 <form method="post">
 <table style="font-family: 'Khmer OS Content';margin:0 auto ; width:28.5cm; " >
 	<tr>  
@@ -134,8 +134,7 @@ th{padding: 3px 5px;}
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
-                	<!--  <h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label>(សាខា ទី ២)</label></h2> -->
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("BRAND_CLIENT");?></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("REPORT_CLIENT");?></h2>
                 	<h2 style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));?></h2>
                 	</td>
                     <td width="20%"></td>

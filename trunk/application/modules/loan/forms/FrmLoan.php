@@ -33,9 +33,8 @@ public function init()
 				'readonly'=>true,
 				'style'=>'color:red; font-weight: bold;'
 		));
-		$dbd = new Application_Model_DbTable_DbGlobal();
-		$loan_numbers = $dbd->getLoanNumber();
-		$_loan_codes->setValue($loan_numbers);
+// 		$loan_numbers = $db->getLoanNumber();
+// 		$_loan_codes->setValue($loan_numbers);
 		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
@@ -105,8 +104,7 @@ public function init()
 		));
 		// 		$options = $dbs->getClient(2);
 		
-		$dbs = new Application_Model_DbTable_DbGlobal();
-		$options = $dbs->getGroupCodeById(2,0,1);
+		$options = $db->getGroupCodeById(2,0,1);
 		$_member->setMultiOptions($options);
 		
 		
@@ -121,14 +119,13 @@ public function init()
 		
 		
 		
-		$db = new Application_Model_DbTable_DbGlobal();
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
  				'onchange'=>'popupCheckClient();'
 				));
-		$options = $db ->getGroupCodeById(2,1,1);//show name,show group,show option
+		$options = $db->getGroupCodeById(2,1,1);//show name,show group,show option
 		$_groupid->setMultiOptions($options);
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
@@ -412,20 +409,20 @@ public function init()
 			}
 		$_branch_id->setMultiOptions($options);
 		
-		$_branch_ids = new Zend_Dojo_Form_Element_FilteringSelect('branch_ids');
-		$_branch_ids->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'required' =>'true',
-				'onchange'=>'filterClient();'
-		));
+// 		$_branch_ids = new Zend_Dojo_Form_Element_FilteringSelect('branch_ids');
+// 		$_branch_ids->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'required' =>'true',
+// 				'onchange'=>'filterClient();'
+// 		));
 		
-		$rows = $db->getAllBranchName();
-		$optionsa=array(''=>'---Select Branch---');
-		if(!empty($rows))foreach($rows AS $row){
-			$optionsa[$row['br_id']]=$row['branch_namekh'];
-		}
-		$_branch_ids->setMultiOptions($optionsa);
+// 		$rows = $db->getAllBranchName();
+// 		$optionsa=array(''=>'---Select Branch---');
+// 		if(!empty($rows))foreach($rows AS $row){
+// 			$optionsa[$row['br_id']]=$row['branch_namekh'];
+// 		}
+// 		$_branch_ids->setMultiOptions($optionsa);
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -517,7 +514,10 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones,$_branch_ids,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
+				,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
+				$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,
+				$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_status,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));

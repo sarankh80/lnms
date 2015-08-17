@@ -50,14 +50,14 @@ public function init()
     			$search = array(
     					'adv_search' => '',
     					'status_search' => -1,
-    					'start_date'=> date('Y-m-01'),
+    					'start_date'=> date('Y-m-d'),
 						'end_date'=>date('Y-m-d'));
     		}
-    		$rs_row= $db->getAllBlackList($search);//call frome model
+    		$rs_row= $db->getAllBlackListInList($search);//call frome model
     					$glClass = new Application_Model_GlobalClass();
     					$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("BRANCH_NAME","COMMUNE_NAME_KH","COMUNE_NAME_EN","CUSTOMER_CODE","SEX","REASON","IN_BLACKLIST","DATE","STATUS");
+    		$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","SEX","SITU_STATUS","NATIONAL_ID","NUMBER","REASON","DATE","STATUS");
     		$link=array(
     				'module'=>'group','controller'=>'Clientblacklist','action'=>'edit',
     		);

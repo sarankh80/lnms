@@ -25,23 +25,26 @@ class Report_Model_DbTable_DbRpt extends Zend_Db_Table_Abstract
 				
 			if(!empty($search['adv_search'])){
 				$s_where=array();
-				$s_search=$search['adv_search'];
+				$s_search=trim($search['adv_search']);
+				
+				$s_where[]=" client_code LIKE '%{$s_search}%'";
+				$s_where[]=" branch_name LIKE '%{$s_search}%'";
 				$s_where[]=" giver_name LIKE '%{$s_search}%'";
 				$s_where[]=" receiver_name LIKE '%{$s_search}%'";
-				$s_where[]=" client_code LIKE '%{$s_search}%'";
-				$s_where[]=" note LIKE '%{$s_search}%'";
+				$s_where[]=" collecteral_type LIKE '%{$s_search}%'";
+				$s_where[]=" re_owner_type LIKE '%{$s_search}%'";
 				$s_where[]=" number_collteral LIKE '%{$s_search}%'";
-	
+				$s_where[]=" note LIKE '%{$s_search}%'";
+				
 				$where .=' AND ('.implode(' OR ',$s_where).')';
 			}
 	
 			$order = " ORDER BY return_id DESC";
-			//echo $sql.$where.$order;
+			
 			return $db->fetchAll($sql.$where.$order);
 			$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
-			echo $e->getMessage();
 		}
 	}
 }

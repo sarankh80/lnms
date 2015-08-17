@@ -1750,6 +1750,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .dijitDisabled {
 	
 	cursor: default;
+    background: #F5F5F5;
 }
 .dojoDndItem {
     padding: 2px;  
@@ -2167,7 +2168,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
   width: 16px;
 }
 .claro .dijitComboBox .dijitArrowButtonInner {
-  border: 1px solid #ffffff;
+  /*border: 1px solid #ffffff;*/
 }
 .claro .dijitToolbar .dijitComboBox .dijitArrowButtonInner {
   border: none;

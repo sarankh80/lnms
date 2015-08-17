@@ -239,14 +239,23 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	}
    	return $pre.$new_acc_no;
    }
-   public function getLoanNumber($data=array('branch_id'=>1)){
+   public function getLoanNumber($data=array('branch_id'=>1,'is_group'=>0)){
    	$this->_name='ln_loan_member';
    	$db = $this->getAdapter();
-   	$sql=" SELECT COUNT(member_id)  FROM $this->_name WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
+   	
+   	if($data['is_group']!=0){
+   		$sql = "SELECT COUNT(g_id)  FROM `ln_loan_group` WHERE branch_id=".$data['branch_id']." AND loan_type=2 LIMIT 1 ";
+   		$pre = $this->getPrefixCode($data['branch_id'])."GL";
+   	}else{
+   		$sql=" SELECT COUNT(member_id)  FROM $this->_name WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
+   		$pre = $this->getPrefixCode($data['branch_id'])."L";
+   	}
+   
    	$acc_no = $db->fetchOne($sql);
+   	
    	$new_acc_no= (int)$acc_no+1;
    	$acc_no= strlen((int)$acc_no+1);
-   	$pre = $this->getPrefixCode($data['branch_id'])."L";
+   	
    	for($i = $acc_no;$i<5;$i++){
    		$pre.='0';
    	}
@@ -838,7 +847,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	if($opt!=null){
 		if(!empty($result))foreach($result AS $row){
 			if($group_type==1){
-				$label = ($diplayby==1)?$row['group_code']:$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];	
+				$label = ($diplayby==1)?$row['group_code']:$row['client_number'].','.$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];	
 			}else{
 				$label = ($diplayby==1)?$row['client_number']:$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];	
 			}

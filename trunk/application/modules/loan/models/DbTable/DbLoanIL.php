@@ -36,7 +36,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$where = " AND ".$from_date." AND ".$to_date;
     	
     	$db = $this->getAdapter();
-    	$sql=" SELECT lm.member_id,lm.loan_number,
+    	$sql=" SELECT lm.member_id,
+    	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
+    	lm.loan_number,
     	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
   		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
   		CONCAT((SELECT symbol FROM `ln_currency` WHERE id =lm.currency_type)  
@@ -46,7 +48,6 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
   	    CONCAT( lg.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =lg.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=lg.zone_id LIMIT 1) AS zone_name,
         (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
-        (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
          lg.status  FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
 				WHERE lg.g_id = lm.group_id AND loan_type =1 ";
     	if(!empty($search['adv_search'])){

@@ -41,7 +41,7 @@
 			}
 </script>
 
-<table cellspacing="10" class='fullside' >
+<table width="100%"  style="margin-top:-10px;">
 	<tr>
 		<td>
 				<fieldset>
@@ -50,63 +50,62 @@
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate('LOAN_NO')?></td>
+							<td><?php echo $frm->getElement('loan_codes');?></td>
 							<td><?php echo $tr->translate("GROUP_CODE")?></td>
 							<td><?php echo $frm->getElement('group_code');?></td>
-							<td><?php echo $tr->translate("GROUP_NAME")?></td>
-							<td><?php echo $frm->getElement('group_id');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("GROUP_NAME")?></td>
+							<td><?php echo $frm->getElement('group_id');?></td>
 							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
 							<td><?php echo $tr->translate("CO_NAME")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
-							<td><?php echo $tr->translate("ZONE_NAME")?></td>
-							<td><?php  echo $frm->getElement('zone');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php  echo $frm->getElement('zone');?></td>
 							<td><?php echo $tr->translate("LOAN_TYPE")?></td>
 							<td><?php echo $frm->getElement('loan_type');?></td>
 							<td><?php echo $tr->translate("OTHER_FEE")?></td>
 							<td><?php echo $frm->getElement('other_fee');?></td>
-							<td><?php //echo $tr->translate("ZONE_NAME")?></td>
-							<td><?php  //echo $frm->getElement('zone');?></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
 						    <td><?php echo $tr->translate("CURRENCY")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+							<td><?php echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
 							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
 							<td><?php echo $frm->getElement('pay_every');?></td>
-							
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-								<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>
 						</tr>
 						<tr>
+							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
 							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 							<td><?php echo $frm->getElement('date_line');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
-							
-						</tr>
-						<tr>
 							<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
 							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
-							<td><?php //echo $tr->translate("អាត្រាការប្រាក់")?></td>
-							<td><?php //echo $frm->getElement('interest_rate');?></td>
-							<td><?php //echo $tr->translate("អាត្រាការប្រាក់")?></td>
-							<td><?php //echo $frm->getElement('interest_rate');?></td>
+							
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
@@ -163,13 +162,36 @@
 	dojo.ready(function(){		
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
 		changeCollectType();
+		dijit.byId('total_amount').set("readOnly",true);
+		dijit.byId('loan_fee').set("readOnly",true);
+		
 	});  
 	function calCulateEndDate(){
 	}
 	function checkSelectOption(){
 	}
-
+	var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 	function filterClient(){
+			branch_id = dijit.byId('branch_id').get('value');
+			if(branch_id==''){
+				alert('Please Select Branch');
+				dijit.byId('branch_id').focus();
+				return false;
+			}
+			dojo.xhrPost({
+				url:url_getloan,	
+				content:{ 
+				    'branch_id':branch_id,
+				    'is_group':1
+				},		    
+				handleAs:"json",
+				load: function(data) {
+					dijit.byId('loan_codes').attr('value',data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
 	}
 	
 	    
@@ -229,6 +251,27 @@ function calCulateAminFee(index){
 	l_amount = dijit.byId('debt_amount'+index).get('value');
 	adminfee = l_amount*<?php echo $this->setting['adminfee']; ?>/100;
 	dijit.byId('admin_fee'+index).attr('value',adminfee);
+	calCulateDebtTotalAmount();
+}
+function calCulateDebtTotalAmount(){
+	var netTotal_d=0;
+	var netTotal_fee=0;
+	var rowId = $('#record_row').val();
+	var rowIDArray = rowId.split(',');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		debt_amount = (dijit.byId('debt_amount'+rowIDArray[n]).get('value'));
+		admin_fee = (dijit.byId('admin_fee'+rowIDArray[n]).get('value'));
+		if(isNaN(debt_amount)){
+			debt_amount = 0;
+			admin_fee=0;
+		}
+		netTotal_d += debt_amount;
+		netTotal_fee+=admin_fee;
+	}
+	dijit.byId('total_amount').attr('value',netTotal_d);
+	dijit.byId('loan_fee').attr('value',netTotal_fee);
+	
+	
 }
 
 function checkValidateDate(){
@@ -289,10 +332,6 @@ function checkValidateDate(){
 	
 </script>
 <script type="text/javascript">
-dojo.ready(function(){	
-	
-	//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
-});
     var tran_store  = getDataStorefromJSON('','name',null);
 	var url_submit = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'add')); ?>';
 	var tran_status = {};
@@ -390,11 +429,20 @@ function getLoanLevel(client_id){
 }
 function getmemberIdGroup(){
 	group_id=dijit.byId('group_code').get('value');
-	getAllMemberByGroup(group_id);
+	
+	if(group_id!="" && group_id!=-1){
+		getAllMemberByGroup(group_id);
+	}else{
+		dojo.query("#group_disbuse").append('');
+	}
+	
 	dijit.byId('group_id').attr('value',group_id);
 }
 function getAllMemberByGroup(group_id){
-	//dojo.byId("t_amountmoneytype").innerHTML='';
+	dojo.query("#group_disbuse").append('');
+	if(group_id==""){
+		return false;
+		}
 	dojo.xhrPost({
 	    url: url_getmember,	
 	    content: { 
@@ -403,7 +451,7 @@ function getAllMemberByGroup(group_id){
 		handleAs:"json", 
 		load: function(data) {
 			fund_title=0;
-			dojo.query("#group_disbuse").append('');
+			//dojo.query("#group_disbuse").append('');
 			tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
 			tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
 			tmp+='</table>';
@@ -424,7 +472,6 @@ function getAllMemberByGroup(group_id){
 			}
 		},
 		error: function(err){
-		alert(err);
 		}
 	});
 }
@@ -481,7 +528,6 @@ function AddNewCo(){
 			dijit.byId('frm_co').hide();
 		},
 		error: function(err) {
-			alert(err);
 		alert("Your message could not be sent, please try again!.");
 				        
 		}
@@ -494,12 +540,10 @@ function addNewZone(){
 		form: dojo.byId("form_zone"),		    
 		handleAs:"json",
 		load: function(data) {	
-			//alert(data);
 			dojo.byId('form_zone').reset(); 
 			dijit.byId('frm_zone').hide();
 		},
 		error: function(err) {
-			alert(err);
 		alert("Your message could not be sent, please try again!.");
 				        
 		}
@@ -517,7 +561,6 @@ function addNewDistrict(){
 			dijit.byId('frm_district').hide();
 		},
 		error: function(err) {
-			alert(err);
 		alert("Your message could not be sent, please try again!.");
 				        
 		}
@@ -553,7 +596,6 @@ function addNewVillage(){
 			dijit.byId('frm_village').hide();
 		},
 		error: function(err) {
-			alert(err);
 		alert("Your message could not be sent, please try again!.");
 				        
 		}

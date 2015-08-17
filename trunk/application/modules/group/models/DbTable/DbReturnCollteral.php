@@ -16,8 +16,8 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 //     				'change_id'=>$change_id,
     				'branch_id'=>$data['branch_id'],
     				'client_id'=>$data['client_name'],
-    				'giver_name'=>$data['giver_name'],
-    				'receiver_name'=>$data['receiver_name'],
+    				'giver_name'=>$data['receiver_name'],
+    				'receiver_name'=>$data['giver_name'],
     				'date'=>$data['date'],
     				'user_id'=>$this->getUserId(),
     				'note'=>$data['_note'],
@@ -35,7 +35,8 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 				 		'collect_type'=>$data['collect_type'.$i],
 				 		'owner_type'=>$data['owner_type'.$i],
 				 		'owner_name'=>$data['owner_name'.$i],
-				 		'number_collteral'=>$data['number_collteral'.$i]
+				 		'number_collteral'=>$data['number_collteral'.$i],
+				 		'note'=>$data['note'.$i]
 				 		);
 			  $this->insert($array);
     			
