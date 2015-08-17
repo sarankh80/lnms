@@ -323,10 +323,12 @@ function getLoan(type){
 						pay_before = respone[i].pay_before;
 						date_pay = respone[i].date_payment;
 						id = respone[i].id;
+						loan_type = respone[i].loan_type;
 						if(is_set==0){
 							dijit.byId('reciever').attr('value',respone[i].collect_by);
 							is_set=1;
 						}
+						
 						
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 							tem += '<td style="width:3%;">&nbsp;'+num+'<input type="hidden" name="paymentTerm_'+inx+'" id="paymentTerm_'+inx+'" value="'+respone[i].collect_typeterm+'" /><input type="hidden" name="interestRate_'+inx+'" id="interestRate_'+inx+'" value="'+respone[i].interest_rate+'" /><input type="hidden" id="group_id_'+inx+'" name="group_id_'+inx+'" value="'+respone[i].g_id+'"/><input type="hidden" id="loan_type_'+inx+'" name="loan_type_'+inx+'" value="'+respone[i].loan_type+'"/></td>';
@@ -361,9 +363,10 @@ function getLoan(type){
 				dojo.byId('data_table').innerHTML = tem;
 				$('#check_all').attr('checked',true);
 				calculateTotal();
+				disableLoan();
 			},
 			error: function(e) {
-				//alert(e);
+				alert(e);
 			}
 		});
 	}
@@ -720,5 +723,19 @@ function checkRow(index){
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
 		$('#sub_recive_amount_'+index).attr('disabled','disabled');
 	}
+}
+
+function disableLoan(){
+	var ids =dijit.byId('record_id').get('value');
+	   var arrays = ids.split(',');
+		if(arrays!=""){
+			for(var i=0;i<arrays.length;i++) {
+				var loan_type = $('#loan_type_'+arrays[i]).val();
+				if(loan_type==2){
+					$('#sub_penelize_'+arrays[i]).attr('readonly',true);
+					$('#sub_recive_amount_'+arrays[i]).attr('readonly',true);
+				}
+			}
+		}
 }
 </script>

@@ -180,16 +180,61 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
    		$end_date = $search['end_date'];
      	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
-      	$sql="SELECT 
-				  v.*,
-				  vl.* ,
-				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = v.`loan_number`)
-					 AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = vl.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`
+//       	$sql="SELECT 
+// 				  v.*,
+// 				  vl.* ,
+// 				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = v.`loan_number`)
+// 					 AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = vl.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`
+// 				FROM
+// 				  `v_default` AS v,
+// 				  `v_getloanlates` AS vl 
+// 				WHERE v.`member_id` = vl.`member_id` 
+// 				 ";
+		$sql="SELECT 
+				  CONCAT(co.`co_code`,',',co.`co_khname`,'-',co.`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+				  b.branch_namekh,
+				  co.`co_id`,
+				  lm.`loan_number`,
+				  c.`client_number`,
+				  c.`name_kh`,
+				  c.`phone`,
+				  lm.`total_capital`,
+				  lm.`interest_rate`,
+				  lg.`date_release`,
+				  lg.`date_line`,
+				  lg.`total_duration`,
+				lg.`time_collect`,
+				  lm.`currency_type` AS curr_type,
+				  lm.`collect_typeterm`,
+				  lm.`pay_after`,
+				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = lm.`currency_type`)) AS `currency_type`,
+				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `lg`.`pay_term`))) AS `Term Borrow`,
+				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = lm.`loan_number`)
+								          AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = f.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+				  SUM(f.`total_principal`) AS total_principal,
+				  SUM(f.`principle_after`) AS principle_after,
+				  SUM(f.`total_interest_after`) AS total_interest_after,
+				  SUM(f.`total_payment_after`) AS total_payment_after,
+				  SUM(f.`penelize`) AS penelize,
+				  SUM(f.`service_charge`) AS service_charge,
+				  f.`date_payment` ,
+				 f.`branch_id`
 				FROM
-				  `v_default` AS v,
-				  `v_getloanlates` AS vl 
-				WHERE v.`member_id` = vl.`member_id` 
-				 ";
+				  `ln_loanmember_funddetail` AS f,
+				  `ln_loan_group` AS lg,
+				  `ln_loan_member` AS lm,
+				  `ln_co` AS co,
+				  `ln_client` AS c ,
+      			  `ln_branch` AS b 
+				WHERE f.`is_completed` = 0 
+				  AND lg.`g_id` = lm.`group_id` 
+				  AND lm.`member_id` = f.`member_id` 
+				  AND lg.`status` = 1 
+				  AND co.`co_id` = lg.`co_id` 
+				  AND c.`client_id` = lm.`client_id` 
+				  AND b.`br_id`=f.`branch_id`
+				  
+				  ";
       	$where='';
       	if(!empty($search['adv_search'])){
       		//print_r($search);
@@ -203,18 +248,19 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " vl.total_payment_after LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
-      	if(($search['status']>-1)){
-    		$where.=" AND vl.status =".$search['status'];
-    	}   	 
+//       	if(($search['status']>-1)){
+//     		$where.=" AND vl.status =".$search['status'];
+//     	}   	 
       	if(!empty($search['end_date'])){
-			$where.=" AND vl.date_payment < '$end_date'";
+			$where.=" AND f.date_payment < '$end_date'";
 		}
       	if($search['branch_id']>0){
-      		$where.=" AND v.`branch_id` = ".$search['branch_id'];
+      		$where.=" AND f.`branch_id` = ".$search['branch_id'];
       	}
       	//$order = " ORDER BY currency_type ,date_payment ASC ";
 //        	echo $sql.$where;
-      	return $db->fetchAll($sql.$where);
+$group_by = "GROUP BY lm.`group_id`,f.`date_payment`";
+      	return $db->fetchAll($sql.$where.$group_by);
       }
       public function getALLLoandateline(){
       	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";

@@ -105,19 +105,19 @@ $free_day=$key_code['value'];
                
                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
                		<td style="text-align: center;"><?php echo $i++;?></td>
-               		<td>&nbsp;<?php echo $rs["branch_name"];?></td>
-               		<td>&nbsp;<?php echo $rs["loan_number"];?></td>
-               		<td>&nbsp;<?php echo $rs["client_number"];?></td>
-               		<td>&nbsp;<?php echo $rs["client_name"];?></td>
-               		<td>&nbsp;<?php echo $rs["co_name"];?></td>
-               		<td>&nbsp;<?php echo $rs["interest_rate"];?></td>
-               		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?></td>
-               		<td>&nbsp;<?php echo date_format(date_create($rs["date_release"]),'d-m-Y');?></td>
-               		<td>&nbsp;<?php echo date_format(date_create($rs["date_line"]),'d-m-Y');?></td>
-               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principal_permonth"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td>
+               		<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["co_name"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo date_format(date_create($rs["date_release"]),'d-m-Y');?>&nbsp;</td>
+               		<td>&nbsp;<?php echo date_format(date_create($rs["date_line"]),'d-m-Y');?>&nbsp;</td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_type'];?>&nbsp;</td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
+               		<td>&nbsp;
                			<?php $end_dat = $this->list_end_date;
 	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
 	               			//echo $total_pay;
@@ -150,38 +150,38 @@ $free_day=$key_code['value'];
 	               			//echo $penelize;
 	               			//echo str_replace('.00', '', number_format($penelize,2));
 	               			$total_payment = $penelize+$rs['principle_after']+$rs['total_interest_after']+$rs['service_charge'];
-               				echo number_format($penelize,2).' '.$rs['currency_typeshow'];
+               				echo number_format($penelize,2).' '.$rs['currency_type'];
                			
                			
-               			?>
+               			?>&nbsp;
                		</td>
-               		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td style="white-space: nowrap;">&nbsp;&nbsp;<?php echo number_format($rs["total_payment"],2).' '.$rs['currency_typeshow'];?></td>
-               		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> </td>
-               		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?></td>
-               		<td align="center" style="width:100px;">&nbsp;<?php echo  str_replace(' ', '', $rs["time_collect"]);?></td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["service_charge"],2).' '.$rs['currency_type'];?>&nbsp;</td>
+               		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_payment_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
+               		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> &nbsp;</td>
+               		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?>&nbsp;</td>
+               		<td align="center" style="width:100px;">&nbsp;<?php echo  str_replace(' ', '', $rs["time_collect"]);?>&nbsp;</td>
                 </tr>
                 
                 <?php 
-		               if($rs['currency_type']==1){
+		               if($rs['curr_type']==1){
 		               		$amt_r1 = $amt_r1+$rs['total_principal'];
-		               		$amt_r2 = $amt_r2+$rs['principal_permonth'];
-		               		$amt_r3 = $amt_r3+$rs['total_interest'];
-		               		$amt_r4 = $amt_r4+$rs['total_payment'];
+		               		$amt_r2 = $amt_r2+$rs['principle_after'];
+		               		$amt_r3 = $amt_r3+$rs['total_interest_after'];
+		               		$amt_r4 = $amt_r4+$rs['total_payment_after'];
 		               		$pene_amr=$pene_amr+$penelize;
 		               		$serv_amr = $serv_amr+$rs["service_charge"];
-		               }elseif($rs['currency_type']==2){
+		               }elseif($rs['curr_type']==2){
 							$amt_d1 = $amt_d1+$rs['total_principal'];
-							$amt_d2 = $amt_d2+$rs['principal_permonth'];
-							$amt_d3 = $amt_d3+$rs['total_interest'];
-							$amt_d4 = $amt_d4+$rs['total_payment'];
+							$amt_d2 = $amt_d2+$rs['principle_after'];
+							$amt_d3 = $amt_d3+$rs['total_interest_after'];
+							$amt_d4 = $amt_d4+$rs['total_payment_after'];
 							$pene_amd=$pene_amd+$penelize;
 							$serv_amd = $serv_amd+$rs["service_charge"];
 		               }else{
 		               		$amn_b1 = $amn_b1+$rs['total_principal'];
-							$amn_b2 = $amn_b2+$rs['principal_permonth'];
-							$amn_b3 = $amn_b3+$rs['total_interest'];
-							$amn_b4 = $amn_b4+$rs['total_payment'];
+							$amn_b2 = $amn_b2+$rs['principle_after'];
+							$amn_b3 = $amn_b3+$rs['total_interest_after'];
+							$amn_b4 = $amn_b4+$rs['total_payment_after'];
 							$pene_amb= $pene_amb+$penelize;
 							$serv_amb = $serv_amb+$rs["service_charge"];
 		               }
