@@ -410,81 +410,114 @@ $group_by = "GROUP BY lm.`group_id`,f.`date_payment`";
       	$end_date = $search['end_date'];
       	 
       	$db = $this->getAdapter();
-      	$sql = "SELECT 
-				  cm.`receipt_no`,
-      			  cm.`co_id`,
-      			  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS phone,
-				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=cm.`branch_id`) AS branch,
-				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=cm.`co_id`) AS co_name,
-				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS client_code,
-				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS client_name,
-				  cmd.`loan_number`,
-				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)) AS interest_rate,
-				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)) AS capital,
-				  (SELECT lg.`total_duration` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS total_duration,
-				  (SELECT lg.`date_release` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS date_release,
-				  (SELECT lg.`date_line` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS date_line,
-				  cm.`date_input`,
-      			cmd.`principal_permonth`,
-				  cmd.`total_payment`,
-				  cmd.`total_interest`,
-				  cmd.`penelize_amount`,
-				  cmd.`service_charge`,
-				  cmd.`total_recieve` ,
-      			cmd.`date_payment`,
-      			cmd.`currency_id` AS curr_type,
+//       	$sql = "SELECT 
+// 				  cm.`receipt_no`,
+//       			  cm.`co_id`,
+//       			  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS phone,
+// 				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=cm.`branch_id`) AS branch,
+// 				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=cm.`co_id`) AS co_name,
+// 				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS client_code,
+// 				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=cmd.`client_id`) AS client_name,
+// 				  cmd.`loan_number`,
+// 				  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)) AS interest_rate,
+// 				  (SELECT lm.`total_capital` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)) AS capital,
+// 				  (SELECT lg.`total_duration` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS total_duration,
+// 				  (SELECT lg.`date_release` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS date_release,
+// 				  (SELECT lg.`date_line` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`) ) ) AS date_line,
+// 				  cm.`date_input`,
+//       			cmd.`principal_permonth`,
+// 				  cmd.`total_payment`,
+// 				  cmd.`total_interest`,
+// 				  cmd.`penelize_amount`,
+// 				  cmd.`service_charge`,
+// 				  cmd.`total_recieve` ,
+//       			cmd.`date_payment`,
+//       			cmd.`currency_id` AS curr_type,
       			
-      			 (SELECT
-     `ln_currency`.`symbol`
-   FROM `ln_currency`
-   WHERE (`ln_currency`.`id` = cm.`currency_type`)) AS `currency_type`,
-      			(SELECT
-     `ln_view`.`name_en`
-   FROM `ln_view`
-   WHERE ((`ln_view`.`type` = 14)
-          AND (`ln_view`.`key_code` = (SELECT lg.`pay_term` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)))))) AS name_en
+//       			(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = cm.`currency_type`)) AS `currency_type`,
+//       			(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = (SELECT lg.`pay_term` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=cmd.`lfd_id`)))))) AS name_en
+// 				FROM
+// 				  `ln_client_receipt_money` AS cm,
+// 				  `ln_client_receipt_money_detail` cmd 
+// 				WHERE cm.`id` = cmd.`crm_id` 
+// 				";
+		$sql ="SELECT 
+				  crm.`receipt_no`,
+				  crm.`date_input`,
+				crm.`co_id`,
+				crmd.`loan_number`,
+				  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS phone,
+				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=crm.`branch_id`) AS branch,
+				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
+				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS client_code,
+				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS client_name,
+				  lg.`loan_type`,
+				  lg.`total_duration`,
+				  lg.`time_collect`,
+				  lg.`collect_typeterm`,
+				  lg.`date_release`,
+				  lg.`date_line`,
+				  lm.`interest_rate`,
+				  lm.`total_capital` as capital,
+				  SUM(crmd.`capital`) AS total_printciple,
+				  SUM(crmd.`principal_permonth`) AS principal_permonth,
+				  SUM(crmd.`total_interest`) AS total_interest,
+				  SUM(crmd.`penelize_amount`) AS penelize_amount,
+				  SUM(crmd.`service_charge`) AS service_charge,
+				  SUM(crmd.`total_payment`) AS total_payment,
+				  SUM(crmd.`total_recieve`) AS total_recieve,
+				crmd.`currency_id` AS curr_type,
+				crmd.`date_payment`,
+				(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = crm.`currency_type`)) AS `currency_type`,
+      			(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = (SELECT lg.`pay_term` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=crmd.`lfd_id`)))))) AS name_en
 				FROM
-				  `ln_client_receipt_money` AS cm,
-				  `ln_client_receipt_money_detail` cmd 
-				WHERE cm.`id` = cmd.`crm_id` 
-				";
+				  `ln_client_receipt_money` AS crm,
+				  `ln_client_receipt_money_detail` AS crmd,
+				  `ln_loan_member` AS lm,
+				  `ln_loan_group` AS lg,
+				  `ln_loanmember_funddetail` AS lf 
+				WHERE crmd.`lfd_id` = lf.`id` 
+				AND crmd.`crm_id`=crm.`id`
+				  AND lf.`member_id`=lm.`member_id`
+				  AND lm.`group_id`=lg.`g_id`
+				  ";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		//print_r($search);
       		$s_where = array();
       		$s_search = $search['advance_search'];
-      		$s_where[] = " cmd.`loan_number` LIKE '%{$s_search}%'";
-      		$s_where[] = " cm.`receipt_no` LIKE '%{$s_search}%'";
-      		$s_where[] = " cmd.`total_payment` LIKE '%{$s_search}%'";
-      		$s_where[] = " cmd.`total_interest` LIKE '%{$s_search}%'";
-      		$s_where[] = " cmd.`penelize_amount` LIKE '%{$s_search}%'";
-      		$s_where[] = " cmd.`service_charge` LIKE '%{$s_search}%'";
+      		$s_where[] = " crmd.`loan_number` LIKE '%{$s_search}%'";
+      		$s_where[] = " crm.`receipt_no` LIKE '%{$s_search}%'";
+      		$s_where[] = " crmd.`total_payment` LIKE '%{$s_search}%'";
+      		$s_where[] = " crmd.`total_interest` LIKE '%{$s_search}%'";
+      		$s_where[] = " crmd.`penelize_amount` LIKE '%{$s_search}%'";
+      		$s_where[] = " crmd.`service_charge` LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if($search['status']!=""){
-      		$where.= " AND cm.status = ".$search['status'];
+      		$where.= " AND crm.status = ".$search['status'];
       	}
       	 
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND cm.`date_input` BETWEEN '$start_date' AND '$end_date'";
+      		$where.=" AND crm.`date_input` BETWEEN '$start_date' AND '$end_date'";
       	}
 //       	if($search['client_name']>0){
 //       		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
 //       	}
       	if($search['branch_id']>0){
-      		$where.=" AND cm.`branch_id`= ".$search['branch_id'];
+      		$where.=" AND crm.`branch_id`= ".$search['branch_id'];
       	}
       	if($search['co_id']>0){
-      		$where.=" AND cm.`co_id`= ".$search['co_id'];
+      		$where.=" AND crm.`co_id`= ".$search['co_id'];
       	}
       	if($search['paymnet_type']>0){
-      		$where.=" AND cmd.`status`= ".$search['paymnet_type'];
+      		$where.=" AND crmd.`status`= ".$search['paymnet_type'];
       	}
       	 
-      	//$where='';
-      	//$order = " ORDER BY lcrm.currency_type";
+      	
+      	$groupby=" GROUP BY lm.`group_id`,crm.`date_input`";
       	//echo $sql.$where.$order;
-      	return $db->fetchAll($sql.$where);
+      	return $db->fetchAll($sql.$where.$groupby);
       }
       public function getALLLFee($search=null){
       	$start_date = $search['start_date'];

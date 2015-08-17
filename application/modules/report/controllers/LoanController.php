@@ -239,8 +239,6 @@ function rptLoanDisburseAction(){//release all loan
   }
   function rptLoanCollectioncoAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
-//   
-  	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
