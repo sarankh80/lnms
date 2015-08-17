@@ -390,7 +390,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_interest_rate->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'readOnly'=>'readOnly'
 		));
 		
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
@@ -398,7 +399,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'readOnly'=>'readOnly'
 		));
 		$_payterm->setMultiOptions($term_opt);
 		
@@ -406,6 +408,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
@@ -418,7 +421,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 //  				//'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);',
 // 				'required'=>true
 // 				));
-// 		$rows = $db ->getClientByType(1);
+		$rows = $db ->getClientByType(1);
 // 		$options=array(''=>'-----Select------');
 // 		if(!empty($rows))foreach($rows AS $row){
 // // 			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
@@ -426,19 +429,20 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 		}
 // 		$_groupid->setMultiOptions($options);
 		
-// 		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
-// 		$_client_code->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				//'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
-// 				'required'=>true
-// 		));
+		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
+		$_client_code->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly',
+				//'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
+				'required'=>true
+		));
 		
-// 		$option_client_number = array(''=>'-----Select------');
-// 		if(!empty($rows))foreach($rows AS $row){
-// 			$option_client_number[$row['client_id']]=$row['client_number'];
-// 		}
-// 		$_client_code->setMultiOptions($option_client_number);
+		$option_client_number = array(''=>'-----Select------');
+		if(!empty($rows))foreach($rows AS $row){
+			$option_client_number[$row['client_id']]=$row['client_number']."-".$row['name_en'];
+		}
+		$_client_code->setMultiOptions($option_client_number);
 		
 // 		$_loan_number = new Zend_Dojo_Form_Element_TextBox('loan_number');
 // 		$_loan_number->setAttribs(array(
@@ -447,19 +451,19 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 				//'onKeyUp'=>'getLaonPayment(1);getAllLaonPayment(1);'
 // 				'required'=>true
 // 		));
-// 		$row_loan_number = $db->getAllLoanNumber(2);
-// 		$options=array(''=>'');
-// 		if(!empty($row_loan_number))foreach($row_loan_number AS $row){
-// 			$options[$row['loan_number']]=$row['loan_number'];
-// 		}
-// 		$_loan_number = new Zend_Dojo_Form_Element_FilteringSelect('loan_number');
-// 		$_loan_number->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'onChange'=>'getLaonHasPayByLoanNumber(1);getLaonPayment(1);getAllLaonPayment(1);',
-// 				'required'=>true
-// 		));
-// 		$_loan_number->setMultiOptions($options);
+		$row_loan_number = $db->getAllLoanNumber(2);
+		$options=array(''=>'');
+		if(!empty($row_loan_number))foreach($row_loan_number AS $row){
+			$options[$row['loan_number']]=$row['loan_number'];
+		}
+		$_loan_number = new Zend_Dojo_Form_Element_FilteringSelect('loan_number');
+		$_loan_number->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onChange'=>'getLaonPayment(1);',
+				'required'=>true
+		));
+		$_loan_number->setMultiOptions($options);
 		
 		
 		$_amount_receive = new Zend_Dojo_Form_Element_NumberTextBox('amount_receive');
@@ -468,7 +472,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'		=>	'fullside',
 				'onChange'	=>	'totalReturn();',
 				'style'		=>	'color:red;',
-				//'required'	=>	true,
+				'required'	=>	true,
 				
 		));
 		
@@ -495,7 +499,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=>	'filterClient();'
+				//'OnChange'	=>	'filterClient();'
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -514,6 +518,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 		 						//'onchange'=>'getLoan(1);'
 		));
 		$_coid->setMultiOptions($options);
@@ -525,6 +530,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_cocode->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'readOnly'=>'readOnly'
 				//'onchange'=>'getLoan(2);'
 		));
 		$_cocode->setMultiOptions($options);
@@ -725,7 +731,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 			$_collect_date->setValue($data["date_pay"]);
 // 			$old_tota_pay->setValue($data["total_payment"]-$data["service_charge"]);
 		}
-		$this->addElements(array($old_release_date,$old_service_charge,$old_penelize,$_cocode,$_last_payment_date,$using_date,
+		$this->addElements(array($_client_code,$_loan_number,$old_release_date,$old_service_charge,$old_penelize,$_cocode,$_last_payment_date,$using_date,
 				$total_amount_loan,$loan_period,$candition_payment,$payment_method,$release_date,$loan_level,$remain,$old_tota_pay,
 				$installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,
 				$reciever,$discount,$id,$_coid,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
