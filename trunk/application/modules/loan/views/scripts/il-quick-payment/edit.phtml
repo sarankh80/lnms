@@ -4,11 +4,12 @@
 	$frm = $this->frm_ilpayment;
 	$quickPayment = $this->quickPayment;
 	$quickPaymentDetail = $this->quickPaymentDetail;
-	//print_r($quickPaymentDetail);
+// 	print_r($quickPaymentDetail);
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;
+	
 ?>
 <style>	
 	.dojoxGridSortNode{
@@ -152,7 +153,7 @@
 </table>
 
 <input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -216,8 +217,9 @@ dojo.ready(function(){
 		dojo.connect(dijit.byId("collect_date"), "onChange", function(value){
 			var currency_type = dijit.byId('currency_type').get('value');
 			var collect_date = formatDate(dijit.byId('collect_date').get('value'));
-			if(co_id==old_coid && currency_type==old_currency_type && collect_date==old_collect_date){
-				getIlQuickPayment();
+			if(co_id==old_coid && currency_type==old_currency_type){
+// 				getIlQuickPayment();
+				calculateTotal();
 			}else{
 				 getLoan();
 			}
@@ -308,7 +310,7 @@ function getIlQuickPaymentDetail(){
 	curr =getCurrencyType(<?php echo $r["currency_type"]?>);
 	
 		tem+= '<tr id=tr_'+<?php echo $inx;?>+' style="background-color:none">';
-		tem += '<td style="width:3%;">&nbsp;<?php echo $inx;?><input type="hidden" name="paymentTerm_'+<?php echo $inx;?>+'" id="paymentTerm_'+<?php echo $inx;?>+'" value="'+<?php echo $r["payTearm"];?>+'" /><input type="hidden" name="interestRate_'+<?php echo $inx;?>+'" id="interestRate_'+<?php echo $inx;?>+'" value="'+<?php echo $r["interest_rate"];?>+'" /></td>';
+		tem += '<td style="width:3%;">&nbsp;<?php echo $inx;?><input type="hidden" name="paymentTerm_'+<?php echo $inx;?>+'" id="paymentTerm_'+<?php echo $inx;?>+'" value="'+<?php echo $r["payTearm"];?>+'" /><input type="hidden" name="interestRate_'+<?php echo $inx;?>+'" id="interestRate_'+<?php echo $inx;?>+'" value="'+<?php echo $r["interest_rate"];?>+'" /><input type="hidden" id="group_id_<?php echo $inx;?>" name="group_id_<?php echo $inx;?>" value="<?php echo $r["group_id"]?>"/><input type="hidden" id="loan_type_<?php echo $inx?>" name="loan_type_<?php echo $inx?>" value="<?php echo $r["loan_type"]?>"/></td>';
 		tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+<?php echo $inx;?>+'" id="mfdid_'+<?php echo $inx;?>+'" value="'+<?php echo $r["lfd_id"];?>+'" OnClick="calculateTotal('+<?php echo $inx;?>+');checkRow('+<?php echo $inx;?>+');" checked="checked"/><input type="hidden" name="cu_id_'+<?php echo $inx;?>+'" id="cu_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["currency_type"];?>+'" /></td>';
 	    tem += '<td style="width:4%;">&nbsp;<?php echo $r["client_code"];?>&nbsp;<input type="hidden" name="client_id_'+<?php echo $inx;?>+'" id="client_id_'+<?php echo $inx;?>+'" value="'+<?php echo $r["client_id"];?>+'" /><input type="hidden" name="loan_number_<?php echo $inx;?>" id="loan_number_<?php echo $inx;?>" value="<?php echo $r["loan_number"];?>" /></td>';
 	    tem += '<td style="width:4%;">&nbsp;<?php echo $r["client_name"];?>&nbsp;</td>';
@@ -339,6 +341,7 @@ function getIlQuickPaymentDetail(){
 	
 	tem+='</table>';
 	dojo.byId('data_table').innerHTML = tem;
+	disableLoan();
 }
 function formatDate(date) {
     var d = new Date(date),
@@ -413,7 +416,7 @@ function getLoan(type){
 						}
 						
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
-							tem += '<td style="width:3%;">&nbsp;'+num+'<input type="hidden" name="paymentTerm_'+inx+'" id="paymentTerm_'+inx+'" value="'+respone[i].collect_typeterm+'" /><input type="hidden" name="interestRate_'+inx+'" id="interestRate_'+inx+'" value="'+respone[i].interest_rate+'" /></td>';
+							tem += '<td style="width:3%;">&nbsp;'+num+'<input type="hidden" name="paymentTerm_'+inx+'" id="paymentTerm_'+inx+'" value="'+respone[i].collect_typeterm+'" /><input type="hidden" name="interestRate_'+inx+'" id="interestRate_'+inx+'" value="'+respone[i].interest_rate+'" /><input type="hidden" id="group_id_'+inx+'" name="group_id_'+inx+'" value="'+respone[i].g_id+'"/><input type="hidden" id="loan_type_'+inx+'" name="loan_type_'+inx+'" value="'+respone[i].loan_type+'"/></td>';
 							tem += '<td style="width:3%;">&nbsp;<input type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnClick="calculateTotal('+inx+');checkRow('+inx+');" checked="checked"/><input type="hidden" name="cu_id_'+inx+'" id="cu_id_'+inx+'" value="'+respone[i].currency_type+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client_number+'&nbsp;<input type="hidden" name="client_id_'+inx+'" id="client_id_'+inx+'" value="'+client_id+'" /><input type="hidden" name="loan_number_'+inx+'" id="loan_number_'+inx+'" value="'+respone[i].loan_number+'" /></td>';
 						    tem += '<td style="width:4%;">&nbsp;'+respone[i].client+'&nbsp;</td>';
@@ -445,6 +448,7 @@ function getLoan(type){
 				dojo.byId('data_table').innerHTML = tem;
 				$('#check_all').attr('checked',true);
 				calculateTotal();
+				disableLoan();
 			},
 			error: function(e) {
 				//alert(e);
@@ -456,6 +460,7 @@ function getLoan(type){
 	}	
 }
 function calculateTotal(index){
+// 	alert(1);
 	try{
 		var total_payment = 0;
 		var os_amount=0;
@@ -816,5 +821,19 @@ function checkRow(index){
 		$('#sub_service_charge_'+index).attr('disabled','disabled');
 		$('#sub_recive_amount_'+index).attr('disabled','disabled');
 	}
+}
+
+function disableLoan(){
+	var ids =dijit.byId('record_id').get('value');
+	   var arrays = ids.split(',');
+		if(arrays!=""){
+			for(var i=0;i<arrays.length;i++) {
+				var loan_type = $('#loan_type_'+arrays[i]).val();
+				if(loan_type==2){
+					$('#sub_penelize_'+arrays[i]).attr('readonly',true);
+					$('#sub_recive_amount_'+arrays[i]).attr('readonly',true);
+				}
+			}
+		}
 }
 </script>
