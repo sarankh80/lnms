@@ -13,14 +13,13 @@ public function init()
 		$data = $db->getAllSystemSetting();
 		$this->view->data = $data;		 
 		if($this->getRequest()->isPost()){
-			$post=$this->getRequest()->getPost();
-			 
-			try {
-				$db = $db->updateKeyCode($post, $data);
-				Application_Form_FrmMessage::Sucessfull('ការកែប្រែ​​ជោគ​ជ័យ','/setting/Database');
-			} catch (Exception $e) {
-				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
-			}
+// 			$post=$this->getRequest()->getPost();
+// 			try{
+// 				$db = $db->updateKeyCode($post, $data);
+// 				Application_Form_FrmMessage::Sucessfull('ការកែប្រែ​​ជោគ​ជ័យ','/setting/Database');
+// 			} catch (Exception $e) {
+// 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
+// 			}
 		}
 	}
 	public function addAction(){
@@ -32,7 +31,7 @@ public function init()
 		$data = $db->getAllSystemSetting();
 		$this->view->data = $data;
 		
-			Application_Form_FrmMessage::Sucessfull('ទិន្នន័យត្រូវបានរក្សាទុក ដោយជោគជ័យ ','/setting/Database');
+			//Application_Form_FrmMessage::Sucessfull('ទិន្នន័យត្រូវបានរក្សាទុក ដោយជោគជ័យ ','/setting/Database');
 		
 	}
 	public function restoreAction(){

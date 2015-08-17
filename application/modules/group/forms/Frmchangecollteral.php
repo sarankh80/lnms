@@ -79,7 +79,6 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$co_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
 				'onchange'=>'popupCheckCO();'
 		));
 		

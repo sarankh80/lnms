@@ -181,25 +181,28 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$this->view->result=$search;
   }
   function rptReturncollteralAction(){
-  		$key = new Application_Model_DbTable_DbKeycode();
-  		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  		
   		$db = new Report_Model_DbTable_DbRpt();
   		if($this->getRequest()->isPost()){
-  		$search=$this->getRequest()->getPost();
-  			if(isset($search['btn_search'])){
-  			$this->view->calleteral_list = $db->getAllReturnCollteral($search);
-  			}
+  			$search=$this->getRequest()->getPost();
   		}else{
-  		$search = array(
+  			$search = array(
   				'start_date'=> date('Y-m-d'),
   				'adv_search' => '',
-  				'status_search' => -1);
-  		$this->view->calleteral_list = $db->getAllReturnCollteral($search);//call frome model
+  				'status_search' => -1,
+  				'start_date'=> date('Y-m-d'),
+  				'end_date'=>date('Y-m-d'));
+  		
   		}
+  	  $this->view->calleteral_list = $db->getAllReturnCollteral($search);//call frome model
+  	  $this->view->result = $search;
 	  $fm = new Group_Form_Frmreturncollteral();
 	  $frm = $fm->FrmReturnCollteral();
 	  Application_Model_Decorator::removeAllDecorator($frm);
 	  $this->view->frm_returnCollteral = $frm;
+	  
+	  $key = new Application_Model_DbTable_DbKeycode();
+	  $this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	}
  	function rptClientblacklistAction(){
  		$key = new Application_Model_DbTable_DbKeycode();

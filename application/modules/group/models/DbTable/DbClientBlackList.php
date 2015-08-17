@@ -57,6 +57,36 @@ class Group_Model_DbTable_DbClientBlackList extends Zend_Db_Table_Abstract
     	$order = " ORDER BY id DESC ";
     	return $db->fetchAll($sql.$where.$order);
     }
+    function getAllBlackListInList($search=null){
+    	$db=$this->getAdapter();
+    	 
+    	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+    	$where = " AND ".$from_date." AND ".$to_date;
+    	 
+    	$sql = " SELECT id,branch_name, client_number ,client_name ,sex,situation,doc_name,id_number,reason,`date`,status FROM v_getclientblacklist WHERE 1";
+    	if(!empty($search['adv_search'])){
+    		$s_where = array();
+    		$s_search = trim($search['adv_search']);
+    		$s_where[] = "branch_name LIKE '%{$s_search}%'";
+    		$s_where[] = "client_number LIKE '%{$s_search}%'";
+    		$s_where[] = "client_name LIKE '%{$s_search}%'";
+    		$s_where[] = "sex LIKE '%{$s_search}%'";
+    		$s_where[] = " situation LIKE '%{$s_search}%'";
+    		$s_where[] = " doc_name LIKE '%{$s_search}%'";
+    		$s_where[] = " id_number LIKE '%{$s_search}%'";
+    		$s_where[] = " note LIKE '%{$s_search}%'";
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
+    	}
+    	if(($search['status_search'])>-1){
+    		$where.= " AND status = ".$search['status_search'];
+    	}
+    	if(!empty($search['branch_id'])){
+    		$where.= " AND branch_id = ".$search['branch_id'];
+    	}
+    	$order = " ORDER BY id DESC ";
+    	return $db->fetchAll($sql.$where.$order);
+    }
     public function getBlackListById($id){
     	$db = $this->getAdapter();
     	$sql = "SELECT * FROM $this->_name WHERE client_id = ".$db->quote($id);
