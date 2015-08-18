@@ -882,6 +882,31 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		$sql.=" AND c.`branch_id`= $branch_id ";
   		
   	}
+  	$sql.=" ORDER BY id DESC";
+  	return $db->fetchAll($sql);
+  }
+  function getAllClientGroup($branch_id=null){
+  	$db = $this->getAdapter();
+  	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+  	CONCAT(c.client_number ,'-',c.`name_en`,'-',c.`name_kh`) AS name , client_number
+  	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1 AND c.is_group=1 " ;
+  	if($branch_id!=null){
+  		$sql.=" AND c.`branch_id`= $branch_id ";
+  
+  	}
+  	$sql.=" ORDER BY id DESC";
+  	return $db->fetchAll($sql);
+  }
+  function getAllClientGroupCode($branch_id=null){
+  	$db = $this->getAdapter();
+  	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+  	group_code AS name
+  	FROM `ln_client` AS c WHERE c.`name_en`!='' AND c.status=1 AND c.is_group=1 " ;
+  	if($branch_id!=null){
+  		$sql.=" AND c.`branch_id`= $branch_id ";
+  
+  	}
+  	$sql.=" ORDER BY id DESC";
   	return $db->fetchAll($sql);
   }
   function getAllClientNumber($branch_id=null){

@@ -154,25 +154,45 @@
 	echo $this->frmPopupZone;
 	echo $this->frmpupoploantype;
 ?>
-<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
-<script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">
-	dojo.require("dojo.NodeList-manipulate");
-	dojo.require("dojo.html");
-	dojo.ready(function(){		
-		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
-		changeCollectType();
-		dijit.byId('total_amount').set("readOnly",true);
-		dijit.byId('loan_fee').set("readOnly",true);
+
+dojo.require("dojo.data.ItemFileWriteStore"); 
+dojo.require("dojo.date.locale");
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+
+	var client_store  = getDataStorefromJSON('id','name', [] );
+	
+	require(["dojo/ready"], function(ready){
+		 ready(function(){	
+			setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+			changeCollectType();
+			dijit.byId('total_amount').set("readOnly",true);
+			dijit.byId('loan_fee').set("readOnly",true);
+		 });
+   });		
 		
-	});  
 	function calCulateEndDate(){
 	}
 	function checkSelectOption(){
 	}
-	var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 	function filterClient(){
-			branch_id = dijit.byId('branch_id').get('value');
+		branch_id = dijit.byId('branch_id').get('value');
+		if(branch_id==''){
+			alert('Please Select Branch');
+			dijit.byId('branch_id').focus();
+			return false;
+		}else{
+			getLoanNumberByBranch(branch_id);
+			getAllGroupClientByBranch(branch_id);
+			getGroupCodeByBranch(branch_id);
+		}
+		
+	}
+	var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
+	function getLoanNumberByBranch(branch_id){
+			//branch_id = dijit.byId('branch_id').get('value');
 			if(branch_id==''){
 				alert('Please Select Branch');
 				dijit.byId('branch_id').focus();
@@ -191,10 +211,44 @@
 				error: function(err) {
 					alert(err);
 				}
-			});
+		   });
 	}
-	
-	    
+	var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'get-groupclientbybranch')); ?>';
+	function getAllGroupClientByBranch(branch_id){
+		dojo.xhrPost({
+			url:url_getclient,	
+			content:{ 
+			    'branch_id':branch_id
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				client_store  = getDataStorefromJSON('id','name', data);		
+			    dijit.byId('group_id').set('store', client_store);
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+		
+	}
+	var url_getclientcode = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'get-goup-codebybranch')); ?>';
+	function getGroupCodeByBranch(branch_id){
+		dojo.xhrPost({
+			url:url_getclientcode,	
+			content:{ 
+			    'branch_id':branch_id
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				client_store  = getDataStorefromJSON('id','name', data);		
+			    dijit.byId('group_code').set('store', client_store);
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+		
+	}
 </script>
 <script type="text/javascript">	
 function deleteRecord(index){
