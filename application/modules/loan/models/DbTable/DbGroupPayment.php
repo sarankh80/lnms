@@ -151,7 +151,43 @@ function getLoanPaymentByLoanNumber($data){
    public function getLoanByLoanNimber($data){
    		$db = $this->getAdapter();
    		$loan_number = $data["loan_number"];
-   		$sql="SELECT 
+   		$option_pay = $data["option_pay"];
+   		if($option_pay==1){
+	   		$sql="SELECT 
+	    				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
+						  lm.`loan_number`,
+						  lm.`currency_type`,
+						  lm.`client_id`,
+						  lm.`interest_rate`,
+						  lm.`pay_after`,
+						  (SELECT SUM(lm.`total_capital`) FROM `ln_loan_member` AS lm WHERE lm.`group_id` = lg.`g_id` GROUP BY lm.`loan_number`) AS total_capital,
+						  (SELECT c.client_number FROM `ln_client` AS c WHERE c.client_id=lm.`client_id`) AS client_code,
+						  (SELECT c.name_kh FROM `ln_client` AS c WHERE c.client_id=lm.`client_id`) AS client_name,
+						  lg.`level`,
+						  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
+						  lg.`co_id`,
+						  lg.`total_duration`,
+						  lg.`collect_typeterm`,
+						  lg.`payment_method`,
+						  
+						  DATE_FORMAT(lf.`date_payment`, '%d-%m-%Y') AS `payment_date`,
+						  lf.* 
+						FROM
+						  `ln_loanmember_funddetail` AS lf,
+						  `ln_loan_member` AS lm,
+						  `ln_loan_group` AS lg,
+						  `ln_client` AS lc 
+						WHERE lf.`member_id` = lm.`member_id` 
+						  AND lm.`group_id` = lg.`g_id` 
+						  AND lg.`group_id` = lc.`client_id` 
+						  AND lf.`is_completed` = 0 
+						  AND lg.`loan_type`=2
+						  AND lg.`is_reschedule`!=1
+						  AND lm.`loan_number`='$loan_number'
+						  GROUP BY lm.`client_id`
+						";
+   		}else{
+   			$sql="SELECT 
     				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
 					  lm.`loan_number`,
 					  lm.`currency_type`,
@@ -167,9 +203,13 @@ function getLoanPaymentByLoanNumber($data){
 					  lg.`total_duration`,
 					  lg.`collect_typeterm`,
 					  lg.`payment_method`,
-					  
 					  DATE_FORMAT(lf.`date_payment`, '%d-%m-%Y') AS `payment_date`,
-					  lf.* 
+					   SUM(lf.`total_principal`) AS total_principal,
+					  SUM(lf.`principle_after`) AS principle_after,
+					  SUM(lf.`total_interest_after`) AS total_interest_after,
+					  SUM(lf.`penelize`) AS penelize,
+					  SUM(lf.`service_charge`) AS service_charge,
+					  lf.`date_payment`
 					FROM
 					  `ln_loanmember_funddetail` AS lf,
 					  `ln_loan_member` AS lm,
@@ -182,76 +222,71 @@ function getLoanPaymentByLoanNumber($data){
 					  AND lg.`loan_type`=2
 					  AND lg.`is_reschedule`!=1
 					  AND lm.`loan_number`='$loan_number'
-					  GROUP BY lm.`client_id`
-					";
+					  GROUP BY lm.`loan_number`,lf.`date_payment`
+		   			";
+   		}
    		return $db->fetchAll($sql);
    }
    
    function getAllLoanPaymentByLoanNumber($data){
    	$db = $this->getAdapter();
    	$loan_number= $data['loan_number'];
-   	if($data['type']!=1){
-   		$where =($data['type']==2)?'client_id = '.$loan_number:'client_id='.$loan_number;
-   		$sql ="SELECT
-			   		(SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
-			   		(SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
-			   		lc.`client_id`,
-			   		lc.`client_number`,
-			   		lc.`name_kh`,
-			   		lm.`loan_number`,
-			   		lm.`currency_type`,
-			   		lm.`pay_before`,
-			   		lm.`pay_after`,
-			   		lm.`branch_id`,
-			   		lg.`co_id`,
-			   		lg.`payment_method`,
-			   		lf.*
-			   		FROM
-			   		`ln_client` AS lc,
-			   		`ln_loan_member` AS lm ,
-			   		`ln_loan_group` AS lg,
-			   		`ln_loanmember_funddetail` AS lf
-			   		WHERE lc.`is_group` = 1
-			   		AND lc.`parent_id`=(SELECT client_id FROM `ln_client` WHERE $where LIMIT 1)
-			   		AND lg.`g_id`=lm.`group_id`
-			   		AND lf.`member_id`=lm.`member_id`
-			   		AND lm.`client_id`=lc.`client_id`
-			   		AND lg.`group_id`=lc.`parent_id`
-			   		AND lg.`loan_type`=2
-			   		";
-   	}elseif($data['type']==1){
+   	
    	$where = 'lm.`loan_number`='.$loan_number;
-   	$sql ="SELECT
-			   	(SELECT lc.`client_id` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_id,
-			   	(SELECT lc.`client_number` FROM `ln_client` AS lc WHERE lc.`parent_id`=lc.`client_id`) AS group_number,
-			   	lc.`client_id`,
-			   	lc.`client_number`,
-			   	lc.`name_kh`,
-			   	lm.`loan_number`,
-			   	lm.`currency_type`,
-			   	lm.`pay_before`,
-			   	lm.`pay_after`,
-			   	lm.`branch_id`,
-			   	lg.`co_id`,
-			   	lg.`payment_method`,
-			   	lf.*
-			   	FROM
-			   	`ln_client` AS lc,
-			   	`ln_loan_member` AS lm ,
-			   	`ln_loan_group` AS lg,
-			   	`ln_loanmember_funddetail` AS lf
-			   	WHERE lc.`is_group` = 1
-			   	AND lc.`parent_id`=(SELECT client_id FROM `ln_client` LIMIT 1)
-			   	AND lg.`g_id`=lm.`group_id`
-			   	AND lf.`member_id`=lm.`member_id`
-			   	AND lm.`client_id`=lc.`client_id`
-			   	AND lg.`group_id`=lc.`parent_id`
-			   	AND lg.`loan_type`=2
-			   	AND $where
+   	$sql ="SELECT 
+			  SUM(lf.`principle_after`) AS principle_after,
+			  SUM(lf.`total_interest_after`) AS total_interest_after,
+			  SUM(lf.`penelize`) AS penelize,
+			  SUM(lf.`service_charge`) AS service_charge,
+			  SUM(lf.`total_payment_after`) AS total_payment_after,
+			  lf.`date_payment`,
+			  lf.`is_completed`,
+			  lm.`pay_after`,
+			  c.`name_kh` AS client_name,
+			  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = lm.`currency_type`)) AS `currency_type`
+			FROM
+			  `ln_loanmember_funddetail` AS lf,
+			  `ln_loan_member` AS lm,
+			  `ln_loan_group` AS lg,
+			  `ln_client` AS c
+			WHERE lm.`member_id` = lf.`member_id` 
+			  AND lg.`g_id` = lm.`group_id` 
+			  AND lg.`loan_type` = 2
+			  AND lm.`client_id`=c.`client_id`
+			  AND lm.`loan_number`='$loan_number'
+			  GROUP BY lm.`group_id`,lf.`date_payment` 
 			   	";
-   
-   		}
+//    		return $sql;
    		return $db->fetchAll($sql);
+   		}
+   		function getAllLoanHasPayed($data){
+   			$db = $this->getAdapter();
+   			$loan_number= $data['loan_number'];
+   		
+   			$where = 'lm.`loan_number`='.$loan_number;
+   			$sql ="SELECT 
+					  lcm.`receipt_no`,
+					  lcm.`date_input`,
+					  lcmd.`loan_number`,
+					  lcmd.`remain_capital`,
+					  SUM(lcmd.`principal_permonth`) AS principal_permonth,
+					  SUM(lcmd.`total_interest`) AS total_interest,
+					  SUM(lcmd.`penelize_amount`) AS penelize_amount,
+					  SUM(lcmd.`service_charge`) AS service_charge,
+					  SUM(lcmd.`total_payment`) AS total_payment,
+					  SUM(lcmd.`total_recieve`) AS total_recieve,
+					  lcmd.`date_payment`,
+					  lcmd.`is_completed`,
+					  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = lcm.`currency_type`)) AS `currency_type`
+					FROM
+					  `ln_client_receipt_money` AS lcm,
+					  `ln_client_receipt_money_detail` AS lcmd 
+					WHERE lcm.id = lcmd.`crm_id` 
+					AND lcmd.`loan_number`='$loan_number'
+					GROUP BY lcmd.`loan_number`,lcmd.`date_payment`
+   				";
+   			//    		return $sql;
+   			return $db->fetchAll($sql);
    		}
     public function addGroupPayment($data){
     	$db = $this->getAdapter();

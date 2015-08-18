@@ -240,12 +240,12 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		//print_r($search);
       		$s_where = array();
       		$s_search = $search['adv_search'];
-      		$s_where[] = " v.branch_name LIKE '%{$s_search}%'";
-      		$s_where[] = " v.client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " vl.principle_after LIKE '%{$s_search}%'";
-      		$s_where[] = " vl.principal_permonth LIKE '%{$s_search}%'";
-      		$s_where[] = " vl.total_interest_after LIKE '%{$s_search}%'";
-      		$s_where[] = " vl.total_payment_after LIKE '%{$s_search}%'";
+      		$s_where[] = " b.branch_namekh LIKE '%{$s_search}%'";
+      		$s_where[] = " c.name_kh LIKE '%{$s_search}%'";
+      		$s_where[] = " f.principle_after LIKE '%{$s_search}%'";
+      		$s_where[] = " f.principal_permonth LIKE '%{$s_search}%'";
+      		$s_where[] = " f.total_interest_after LIKE '%{$s_search}%'";
+      		$s_where[] = " f.total_payment_after LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
 //       	if(($search['status']>-1)){
@@ -259,7 +259,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	}
       	//$order = " ORDER BY currency_type ,date_payment ASC ";
 //        	echo $sql.$where;
-$group_by = "GROUP BY lm.`group_id`,f.`date_payment`";
+$group_by = "GROUP BY lm.`group_id`,f.`date_payment` ORDER BY f.`date_payment` ASC";
       	return $db->fetchAll($sql.$where.$group_by);
       }
       public function getALLLoandateline(){
