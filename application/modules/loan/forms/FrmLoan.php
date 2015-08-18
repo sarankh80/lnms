@@ -56,8 +56,8 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'getmemberIdGroup();'
 		));
-		$group_opt = $db ->getGroupCodeById(1,1,1);
-		$_group_code->setMultiOptions($group_opt);
+// 		$group_opt = $db ->getGroupCodeById(1,1,1);
+// 		$_group_code->setMultiOptions($group_opt);
 		
 		$get_laonnumber = new Zend_Dojo_Form_Element_FilteringSelect('get_laonnumber');
 		$get_laonnumber->setAttribs(array(
@@ -96,16 +96,15 @@ public function init()
 				'onchange'=>'showPopupclient;'
 		));
 		// 		$group_opt = $dbs ->getClient(1);//code,individual,option
-		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
-		$_member->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'onchange'=>'showPopupclient();'
-		));
-		// 		$options = $dbs->getClient(2);
+// 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
+// 		$_member->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'onchange'=>'showPopupclient();'
+// 		));
 		
-		$options = $db->getGroupCodeById(2,0,1);
-		$_member->setMultiOptions($options);
+// 		$options = $db->getGroupCodeById(2,0,1);
+// 		$_member->setMultiOptions($options);
 		
 		
 		
@@ -118,15 +117,14 @@ public function init()
 		// 		$options = $dbs->getClient(2);
 		
 		
-		
 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
  				'onchange'=>'popupCheckClient();'
 				));
-		$options = $db->getGroupCodeById(2,1,1);//show name,show group,show option
-		$_groupid->setMultiOptions($options);
+// 		$options = $db->getGroupCodeById(2,1,1);//show name,show group,show option
+// 		$_groupid->setMultiOptions($options);
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid->setAttribs(array(
@@ -481,7 +479,7 @@ public function init()
 			$_level->setValue($data['level']);
 			$_loan_fee->setValue($data['admin_fee']);
 			$_other_fee->setValue($data['other_fee']);
-			$_member->setValue($data['client_id']);
+// 			$_member->setValue($data['client_id']);
 			$_customer_code->setValue($data['client_id']);
 			$_coid->setValue($data['co_id']);
 			$_zone->setValue($data['zone_id']);
@@ -508,16 +506,16 @@ public function init()
 			$_id->setValue($data['g_id']);
 			
 			$_group_code->setValue($data['client_id']);
-			$_groupid->setValue($data['client_id']);
+// 			$_groupid->setValue($data['client_id']);
 			$get_laonnumber->setvalue($data['g_id']);
 			$_status->setValue($data['status']);
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
-				,$_client_codes,$_loan_codes,$_member,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
-				$_other_fee,$_isgroup,$_groupid,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,
-				$_pay_late,$_branch_id,$_member,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
+		$this->addElements(array($_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
+				,$_client_codes,$_loan_codes,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
+				$_other_fee,$_isgroup,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,
+				$_pay_late,$_branch_id,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
 				,$_payterm,$_every_payamount,$_time,$_time_collect_pri,$_status,$_graice_pariod,$_period,
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));

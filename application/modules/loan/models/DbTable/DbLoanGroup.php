@@ -54,7 +54,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     	if(($search['pay_every'])>0){
     		$where.= " AND lg.pay_term=".$search['pay_every'];
     	}
-    	$order = " GROUP BY lg.group_id ORDER BY lg.g_id DESC";
+    	$order = " GROUP BY lm.group_id ORDER BY lg.g_id DESC";
     	$db = $this->getAdapter();    
 //     	echo $sql.$where.$order;	
     	return $db->fetchAll($sql.$where.$order);
@@ -487,8 +487,8 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     		return 1;
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();exit();
-    		return $e->getMessage();
+    		Application_Form_FrmMessage::message("INSERT_FAIL");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
     public function upDateLoanDisburse($data){
