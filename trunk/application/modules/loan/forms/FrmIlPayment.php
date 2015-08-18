@@ -643,7 +643,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$option_pay->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'OnChange'=>'payOption();'
+				'OnChange'=>'getLaonPayment();'
 		));
 		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
