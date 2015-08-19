@@ -243,7 +243,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$this->_name='ln_loan_member';
    	$db = $this->getAdapter();
    	
-   	if($data['is_group']!=0){
+   	if(empty($data['is_group'])!=0){
    		$sql = "SELECT COUNT(g_id)  FROM `ln_loan_group` WHERE branch_id=".$data['branch_id']." AND loan_type=2 LIMIT 1 ";
    		$pre = $this->getPrefixCode($data['branch_id'])."GL";
    	}else{

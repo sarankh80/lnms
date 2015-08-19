@@ -1,120 +1,13 @@
 <?php
 
-class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
+class Loan_Model_DbTable_DbLoanGroupTest extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'ln_loan_group';
-    public function getAllGroupLoan($search){
-    	
-    	$from_date =(empty($search['start_date']))? '1': "lg.date_release >= '".$search['start_date']." 00:00:00'";
-    	$to_date = (empty($search['end_date']))? '1': "lg.date_release <= '".$search['end_date']." 23:59:59'";
-    	$where = " AND ".$from_date." AND ".$to_date;
-    	 
-    	$db = $this->getAdapter();
-    	$sql=" SELECT lm.member_id,
-    	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch,
-    	lm.loan_number,
-    	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-  		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-  		CONCAT((SELECT symbol FROM `ln_currency` WHERE id =lm.currency_type)  
-  		,SUM(lm.total_capital)) AS total_capital ,
-  		lm.interest_rate,
-  	    (SELECT payment_nameen FROM `ln_payment_method` WHERE id = lm.payment_method LIMIT 1) AS payment_method,
-  	    CONCAT( lg.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =lg.pay_term )),
-        (SELECT zone_name FROM `ln_zone` WHERE zone_id=lg.zone_id LIMIT 1) AS zone_name,
-        (SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_name,
-         lg.status  FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
-				WHERE lg.g_id = lm.group_id AND loan_type =2  ";
-    	if(!empty($search['adv_search'])){
-    		$s_where = array();
-    		$s_search = $search['adv_search'];
-    		$s_where[] = "lm.loan_number LIKE '%{$s_search}%'";
-    		$s_where[] = " lm.total_capital LIKE '%{$s_search}%'";
-    		$s_where[] = " lm.interest_rate LIKE '%{$s_search}%'";
-    		$where .=' AND ('.implode(' OR ',$s_where).')';
-    	}
-    	if($search['status']>1){
-    		$where.= " lm.status = ".$search['status'];
-    	}
-    	if(($search['customer_code'])>0){
-    		$where.= " AND lm.client_id=".$search['customer_code'];
-    	}
-    	if(($search['repayment_method'])>0){
-    		$where.= " AND lm.payment_method = ".$search['repayment_method'];
-    	}
-    	if(($search['branch_id'])>0){
-    		$where.= " AND lg.branch_id = ".$search['branch_id'];
-    	}
-    	if(($search['co_id'])>0){
-    		$where.= " AND lg.co_id=".$search['co_id'];
-    	}
-    	if(($search['currency_type'])>0){
-    		$where.= " AND lm.currency_type=".$search['currency_type'];
-    	}
-    	if(($search['pay_every'])>0){
-    		$where.= " AND lg.pay_term=".$search['pay_every'];
-    	}
-    	$order = " GROUP BY lm.group_id ORDER BY lg.g_id DESC";
-    	$db = $this->getAdapter();    
-//     	echo $sql.$where.$order;	
-    	return $db->fetchAll($sql.$where.$order);
-    }
+    protected $_name = 'ln_test_loan_group';
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('auth');
     	return $session_user->user_id;
     	 
-    }
-//     public function getGroupLoadDetail($type){
-//     	$db = $this->getAdapter();
-//     	$loan_number= $data['loan_number'];
-//     	$sql="SELECT 
-// 				  lmf.`id`,
-// 				  lmf.`member_id`,
-// 				  lmf.`total_principal`,
-// 				  lmf.`principal_permonth`,
-// 				  lmf.`total_interest`,
-// 				  lmf.`total_payment`,
-// 				  lmf.`date_payment`,
-// 				  lmf.`branch_id`,
-// 				  lc.`name_kh`
-// 				FROM
-// 				  `ln_loanmember_funddetail` AS lmf ,
-// 				  ln_loan_member AS lm, 
-// 				  `ln_client` AS lc
-// 				WHERE lmf.`is_completed` = 0 
-// 				  AND lmf.`status` = 1 
-// 				  AND lmf.`member_id` = lm.`member_id`
-// 				  AND lm.`group_id`=1
-// 				  AND lm.`client_id`=lc.`client_id`";
-//     }
-    public function getGroupClient(){
-    	$db = $this->getAdapter();
-    	//$this->_name = "ln_client";
-    	$sql ="SELECT lc.`client_id`,lc.`name_kh`,lc.`name_en`,lc.`client_number` FROM `ln_client` AS lc WHERE lc.`is_group`=1";
-    	return $db->fetchAll($sql);
-    }
-    public function getGroupLoadDetail($type){
-    	$db = $this->getAdapter();
-    	$loan_number= $data['loan_number'];
-    	$sql="SELECT 
-				  lmf.`id`,
-				  lmf.`member_id`,
-				  lmf.`total_principal`,
-				  lmf.`principal_permonth`,
-				  lmf.`total_interest`,
-				  lmf.`total_payment`,
-				  lmf.`date_payment`,
-				  lmf.`branch_id`,
-				  lc.`name_kh`
-				FROM
-				  `ln_loanmember_funddetail` AS lmf ,
-				  ln_loan_member AS lm, 
-				  `ln_client` AS lc
-				WHERE lmf.`is_completed` = 0 
-				  AND lmf.`status` = 1 
-				  AND lmf.`member_id` = lm.`member_id`
-				  AND lm.`group_id`=1
-				  AND lm.`client_id`=lc.`client_id`";
     }
 
     function round_up($value, $places)
@@ -146,7 +39,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     	$array = array_values($array);
     	return Loan_Model_DbTable_DbIRRFunction::IRR($array);
     }
-    public function addNewLoanGroup($data){
+    public function addNewLoanGroupTest($data){
     	
     	$db = $this->getAdapter();
     	$db->beginTransaction();
@@ -163,7 +56,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     				'total_duration'=>$data['period'],
     				'first_payment'=>$data['first_payment'],
     				'time_collect'=>$data['time'],
-//     				'loan_group'	=>	1,
     				'pay_term'=>$data['pay_every'],
     				'payment_method'=>$data['repayment_method'],
     				'holiday'=>$data['every_payamount'],
@@ -205,7 +97,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     					'semi'=>$data['amount_collect_pricipal']
     			);
     			
-    			$this->_name='ln_loan_member';
+    			$this->_name='ln_test_loan_member';
     			$member_id = $this->insert($datamember);//add member loan
     			unset($datamember);
     			
@@ -228,7 +120,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     			}
     			//end IRR method
     			
-    			$this->_name='ln_loanmember_funddetail';
+    			$this->_name='ln_test_loanmember_funddetail';
     			
     			$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['pay_every'],null);//return amount day for payterm
     			$amount_borrow_term = $borrow_term*$data['period'];//amount of borrow
@@ -265,7 +157,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						}
     						if($j==$loop_payment){//check condition here//for end of record only
     							$pri_permonth = $data['debt_amount'.$i]-$pri_permonth*($j-(($data['graice_pariod']/$amount_collect)+1));//code error here
-    						    echo $pri_permonth;exit();
     						}
     						$start_date = $next_payment;
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
@@ -404,11 +295,9 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     							'member_id'=>$member_id,
     							'total_principal'=>$remain_principal,//good
     							'principal_permonth'=> $old_pri_permonth,//good
-    							'principle_after'=> $pri_permonth,//good
+//     							'principle_after'=> $pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
-    							'total_interest_after'=>$old_interest_paymonth,//good
     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
-    							'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth,//good
     							'date_payment'=>$next_payment,//good
     							'is_completed'=>0,
     							'branch_id'=>$data['branch_id'],
@@ -426,7 +315,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     					$old_amount_day = 0;
     					
     				}else{
-    					
     				}
     				$amount_collect++;
     			}
@@ -469,7 +357,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'member_id'=>$member_id,
     						'total_principal'=>$pri_permonth,//good
     						'principal_permonth'=> $pri_permonth,//good
-    						'principle_after'=> $pri_permonth,//good
+    						'principle_after'=>$pri_permonth,//good
     						'total_interest'=>$interest_paymonth,//good
     						'total_payment_after'=>$interest_paymonth,//good
     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
@@ -484,8 +372,15 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     				$this->insert($datapayment);
     			}
     		}
-    		$db->commit();
-    		return 1;
+    		$sql = " SELECT f.id,f.member_id,SUM(f.total_principal) AS total_principal ,SUM(f.principal_permonth) AS principal_permonth,
+						SUM(f.total_interest)AS total_interest,
+						SUM(f.total_payment)AS total_payment ,f.amount_day,f.status,DATE_FORMAT(f.date_payment, '%d-%m-%Y') AS date_payments
+						FROM `ln_test_loanmember_funddetail` AS f,`ln_test_loan_member` AS m
+						WHERE m.member_id=f.member_id AND m.group_id= $g_id
+						GROUP BY m.group_id,f.date_payment ";
+    		$rows =  $db->fetchAll($sql);
+    		 $db->commit();
+    		return $rows;
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -749,9 +644,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     							'principal_permonth'=> $old_pri_permonth,//good
     							'principle_after'=> $old_pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
-    							'total_interest_after'=>$old_interest_paymonth,//good
     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
-    							'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth,
     							'date_payment'=>$next_payment,//good
     							'is_completed'=>0,
     							'branch_id'=>1,
@@ -818,9 +711,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						'principal_permonth'=> $pri_permonth,//good
     						'principle_after'=>$pri_permonth,
     						'total_interest'=>$interest_paymonth,//good
-    						'total_interest_after'=>$interest_paymonth,//good
     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
-    						'total_payment_after'=>$interest_paymonth+$pri_permonth,//good
     						'date_payment'=>$data['date_line'],//good
     						'is_completed'=>0,
     						'branch_id'=>1,
