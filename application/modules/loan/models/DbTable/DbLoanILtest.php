@@ -98,11 +98,13 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     		$curr_type = $data['currency_type'];
     		
     		//for IRR method
+    		if($data['repayment_method']==6){
     		$term_install = $data['period'];
     		$loan_amount = $data['total_amount'];
     		$total_loan_amount = $loan_amount+($loan_amount*$data['interest_rate']/100*$term_install);
     		$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,$term_install,$curr_type);
     		//end of IRR
+    		}
     		
     		$this->_name='ln_test_loanmember_funddetail';
     		$dbtable = new Application_Model_DbTable_DbGlobal();
@@ -243,19 +245,20 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					
     					$remain_principal = $remain_principal-$pri_permonth;
     					$interest_paymonth = $this->round_up_currency($curr_type,$remain_principal*$irr_interest);
-    					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    					$fixed_principal = intval($total_loan_amount/$term_install);
     					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     					$pri_permonth = $fixed_principal-$interest_paymonth;
     					if($i==$loop_payment){//for end of record only
     						   $pri_permonth = $remain_principal;
-    						   $fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    						   $fixed_principal = intval($total_loan_amount/$term_install);
     						   $fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     						   $interest_paymonth = $fixed_principal-$remain_principal;
     						   	
     					}
     					
     				}else{
-    					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed '
+    					//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed '
+    					$fixed_principal = intval($total_loan_amount/$term_install);//fixed 'ex: 100.70=>100
     					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     					$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
     					$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
@@ -265,35 +268,6 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     					$interest_paymonth = $this->round_up_currency($curr_type,$loan_amount*($irr_interest));
     					$pri_permonth = ($fixed_principal+$total_payment_first)-$interest_paymonth;
     				}
-    				
-//     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-//     				$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     				$interest_paymonth = $this->round_up_currency($curr_type, $interest_paymonth);
-//     				$pri_permonth = $data['amount_collect_pricipal']-$interest_paymonth;
-//     				if($i==$loop_payment){//for end of record only
-//     					$pri_permonth = $remain_principal;
-//     				}
-    				
-//     				$term_install = $data['period'];
-//     				$loan_amount = $data['total_amount'];
-//     				$total_amount = $loan_amount+($loan_amount*$data['interest_rate']*$term_install);
-//     				$this->calCulateIRR($array);
-//     				$pri_permonth = $data['total_amount']/$data['period']*$amount_collect;
-//     				$pri_permonth =$this->round_up_currency($curr_type, $pri_permonth);
-//     				if($i!=1){
-//     					$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     					$start_date = $next_payment;
-//     					if($i==$loop_payment){//check condition here//for end of record only
-//     						$pri_permonth = $remain_principal;
-//     					}
-//     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
-    		
-//     				}else{
-//     					$next_payment = $data['first_payment'];
-//     				}
-//     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
-//     				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-    		
     			}
     			$old_remain_principal =$old_remain_principal+$remain_principal;
     			$old_pri_permonth = $old_pri_permonth+$pri_permonth;

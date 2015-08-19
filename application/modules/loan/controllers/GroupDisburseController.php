@@ -158,6 +158,16 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		$this->view->code_option = $db_option->getAllClientCodeOption();
 	
 	}	
+	function veiwloangroupAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$_dbmodel = new Loan_Model_DbTable_DbLoanGroupTest();
+			$rows_return=$_dbmodel->addNewLoanGroupTest($_data);
+			print_r(Zend_Json::encode($rows_return));
+			exit();
+		}
+	
+	}
 // 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){
 // 			$data=$this->getRequest()->getPost();
