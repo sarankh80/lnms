@@ -79,8 +79,6 @@ $free_day=$key_code['value'];
                     <th><?php echo $tr->translate("CLIENT_NUM");?></th>
                     <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
                     <th><?php echo $tr->translate("CO_NAME");?></th>
-                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
-                    <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
                     <th><?php echo $tr->translate("RELEASE_DATE");?></th>
                     <th><?php echo $tr->translate("LIFE_LOAN");?></th>
                     <th><?php echo $tr->translate("PRINCIPAL");?></th>
@@ -91,7 +89,6 @@ $free_day=$key_code['value'];
                     <th><?php echo $tr->translate("PAYMENT");?></th>
                     <th><?php echo $tr->translate("LATE_DAY");?></th>
                     <th><?php echo $tr->translate("PAY_DATE");?></th>
-                    <th><?php echo $tr->translate("TIME_COLLECT");?></th>
                     
                 </tr>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
@@ -110,8 +107,6 @@ $free_day=$key_code['value'];
                		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["co_name"];?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
-               		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo date_format(date_create($rs["date_release"]),'d-m-Y');?>&nbsp;</td>
                		<td>&nbsp;<?php echo date_format(date_create($rs["date_line"]),'d-m-Y');?>&nbsp;</td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_principal"],2).' '.$rs['currency_type'];?>&nbsp;</td>
@@ -159,7 +154,6 @@ $free_day=$key_code['value'];
                		<td style="white-space: nowrap;">&nbsp;<?php echo number_format($total_payment,2).' '.$rs['currency_type'];?>&nbsp;</td>
                		<td align="center">&nbsp;&nbsp;<?php echo ($amount_lateday>0)?$amount_lateday." Days":"-";?> &nbsp;</td>
                		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?>&nbsp;</td>
-               		<td align="center" style="width:100px;">&nbsp;<?php echo  str_replace(' ', '', $rs["time_collect"]);?>&nbsp;</td>
                 </tr>
                 
                 <?php 
