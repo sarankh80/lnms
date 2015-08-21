@@ -5,6 +5,7 @@
 	$client = $this->client;
 	$reciept_money = $this->reciept_money;
 	$reciept_moneyDetail = $this->reciept_moneyDetail;
+	print_r($reciept_moneyDetail);
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
