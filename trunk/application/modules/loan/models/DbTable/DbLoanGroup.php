@@ -64,6 +64,42 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     	return $session_user->user_id;
     	 
     }
+    public function getLoanGroupviewById($id){
+    	$sql = "SELECT
+    	lg.g_id
+    	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch_name
+    	,lg.level,
+    	(SELECT name_en FROM `ln_view` WHERE status =1 and type=24 and key_code=lg.for_loantype) AS for_loantype
+    	,(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_firstname
+    	,(select concat(zone_name,'-',zone_num)as dd from `ln_zone` where zone_id = lg.zone_id ) AS zone_name
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=14 and key_code=lg.pay_term) AS pay_term
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=14 and key_code=lg.collect_typeterm) AS collect_typeterm
+    	,lg.date_release
+    	,lg.total_duration
+    	,lg.first_payment
+    	,lg.time_collect
+    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=2 and key_code=lg.holiday) AS holiday
+    	,lg.date_line
+    	,lm.pay_after, lm.pay_before
+    	,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =lm.payment_method ) AS payment_nameen
+    	,(SELECT curr_nameen FROM `ln_currency` WHERE id=lm.currency_type) AS currency_type
+    	,lm.graice_period,
+    	lm.loan_number,lm.interest_rate,lm.amount_collect_principal,lm.semi,
+    	lm.client_id,SUM(lm.admin_fee) AS admin_fee,
+    	lm.pay_after,lm.pay_before,lm.other_fee
+    	,(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
+    	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
+    	(SELECT group_code FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS group_code,
+    	(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
+    	SUM(lm.total_capital) AS total_capital,lm.interest_rate,lm.payment_method,
+    	lg.time_collect,
+    	lg.zone_id,
+    	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
+    	lg.status AS str ,lg.status FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
+    	WHERE lg.g_id = lm.group_id AND lm.group_id = $id
+    	GROUP BY lm.group_id LIMIT 1 ";
+    	return $this->getAdapter()->fetchRow($sql);
+    }
 //     public function getGroupLoadDetail($type){
 //     	$db = $this->getAdapter();
 //     	$loan_number= $data['loan_number'];
@@ -125,7 +161,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     	ceil($value * $mult) / $mult;
     }
     function round_up_currency($curr_id, $value,$places=-2){
-    	return (($curr_id==1)? $this->round_up($value, $places):$value);
+    	return (($curr_id==1)? $this->round_up($value, $places):round($value,2));
     }
     function calCulateIRR($total_loan_amount,$loan_amount,$term,$curr){
     	$array =array();//array(-1000,107,103,103,103,103,103,103,103,103,103,103,103);
@@ -176,8 +212,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     		$g_id = $this->insert($datagroup);//add group loan
     		unset($datagroup);
     		
-    		$next_payment = $data['first_payment'];
-    		
     		$curr_type = $data['currency_type'];
     		
     		$tranlist = explode(',',$data['record_row']);
@@ -218,6 +252,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     			$is_subremain = 2;
     			$remain_principal = $data['debt_amount'.$i];
     			$start_date = $data['release_date'];//loan release;
+    			$next_payment = $data['first_payment'];
     			
     			//for IRR method
     			if($data['repayment_method']==6){
@@ -265,7 +300,6 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						}
     						if($j==$loop_payment){//check condition here//for end of record only
     							$pri_permonth = $data['debt_amount'.$i]-$pri_permonth*($j-(($data['graice_pariod']/$amount_collect)+1));//code error here
-    						    echo $pri_permonth;exit();
     						}
     						$start_date = $next_payment;
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
@@ -301,7 +335,7 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     					
     					if($j!=1){
     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-    						if($i==$loop_payment){//for end of record only
+    						if($j==$loop_payment){//for end of record only
     							$pri_permonth = $remain_principal;
     						}
     						$start_date = $next_payment;
@@ -347,9 +381,10 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     								$remain_principal = $remain_principal-($data['debt_amount'.$i]/$data['period'])*$data['amount_collect_pricipal'];
     								$ispay_principal=2;
     							}
-    							if($j==($data['period']/$data['amount_collect'])){//check condition here//for end of record only
-    								$pri_permonth = ($data['debt_amount'.$i]/$data['period'])*$data['amount_collect_pricipal'];
-    								$pri_permonth = $data['debt_amount'.$i]-$pri_permonth*($j-(($data['graice_pariod']/$amount_collect)+1));//code error here
+    							if($j==$loop_payment){//check condition here//for end of record only
+    								$pri_permonth = $remain_principal;
+//     								$pri_permonth = ($data['debt_amount'.$i]/$data['period'])*$data['amount_collect_pricipal'];
+//     								$pri_permonth = $data['debt_amount'.$i]-$pri_permonth*($j-(($data['graice_pariod']/$amount_collect)+1));//code error here
     							}
     							
     							$start_date = $next_payment;
@@ -364,27 +399,26 @@ class Loan_Model_DbTable_DbLoanGroup extends Zend_Db_Table_Abstract
     						$interest_paymonth = $data['debt_amount'.$i]*($data['interest_rate']/100/$borrow_term)*$amount_day;
     					}
     				}else{//IRR
-    					if($i!=1){
+    					if($j!=1){
     						$remain_principal = $remain_principal-$pri_permonth;
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     						$interest_paymonth = $this->round_up_currency($curr_type,$remain_principal*$irr_interest);
-    						$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    						$fixed_principal = round($total_loan_amount/$term_install);
     						$pri_permonth = $fixed_principal-$interest_paymonth;
-    						if($i==$loop_payment){//for end of record only
+    						if($j==$loop_payment){//for end of record only
     							$pri_permonth = $remain_principal;
     								
-    							$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
+    							$fixed_principal = intval($total_loan_amount/$term_install);
     							$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     							$interest_paymonth = $fixed_principal-$remain_principal;
     						}
     							
     					}else{
-    						$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed
+    						$fixed_principal = intval($total_loan_amount/$term_install);//fixed
     						$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     						$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
     						$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
-    						$pri_permonth = $fixed_principal+$total_payment_first;
     							
     						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     						$interest_paymonth = $this->round_up_currency($curr_type,$loan_amount*($irr_interest));

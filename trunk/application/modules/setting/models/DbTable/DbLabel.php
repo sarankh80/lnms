@@ -76,6 +76,15 @@ class Setting_Model_DbTable_DbLabel extends Zend_Db_Table_Abstract
 				}else if($key == 'theme_setting'){
 					$where=$this->getAdapter()->quoteInto('keycode=?', "theme_setting");
 					$this->update( $_key_code_data, $where);
+					$array_theme = array(
+							1=>"claro",
+							2=>"nihilo",
+							3=>"soria",
+							4=>"tundra"
+					);
+					$session_user=new Zend_Session_Namespace('auth');
+					$session_user->theme_style=$array_theme[$val];
+						 
 				}
 				
 				

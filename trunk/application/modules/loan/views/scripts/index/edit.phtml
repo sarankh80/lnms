@@ -48,7 +48,13 @@
 				return false;
 			}
 </script>
-<table cellspacing="10" class='fullside'>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>
+<table width="100%" style="margin-top:-10px;">
 	<tr>
 		<td>
 				<fieldset>
@@ -64,9 +70,9 @@
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
+							<td><input id="customer_code" /></td>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
+							<td><input id="member" /></td>
 							<td><?php echo $tr->translate("CO_NAME")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
 						</tr>
@@ -264,7 +270,6 @@ require(["dojo/ready"], function(ready){
 	name: "member",
 	id: "member",
 	searchAttr: "name",
-	class: 'fullside',
 	value:"<?php echo $this->datarow['client_id'];?>",	     
 	onChange: function() {
 		getClientInfo(2);
@@ -285,7 +290,6 @@ require(["dojo/ready"], function(ready){
 	name: "customer_code",
 	id: "customer_code",
 	searchAttr: "name",
-	class: 'fullside',
 	onChange: function() {
 		getClientInfo(1);
 }
@@ -554,9 +558,7 @@ function addNewVillage(){
 			dijit.byId('frm_village').hide();
 		},
 		error: function(err) {
-			alert(err);
 		alert("Your message could not be sent, please try again!.");
-				        
 		}
 	});
 }
@@ -702,12 +704,13 @@ function addPreviewLoan(){
 		if(rs==false){
           return false;			
         }
-			
+		loading();	
 		dojo.xhrPost({
 		    url: url_previewloan,	
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
+				document.getElementsByClassName("overlay")[0].style.display="none";
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px;" id="table" width="100%">'
 						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
@@ -740,8 +743,19 @@ function addPreviewLoan(){
 	   });
 	}
 }
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 }
-
 </script>
+<style>
+.overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
+.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
+           border: solid 1px #060522;text-align: center;
+           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background-repeat: no-repeat;          
+}
+.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
+</style>

@@ -5,16 +5,6 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 ?>
-<style>	
-	.dojoxGridSortNode{
-		text-align: center;	
-		height: 30px;		
-	}
-.fullside {
-	width: 100%;
-	height: 28px !important;
-}
-</style>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'GroupDisburse','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -50,7 +40,7 @@
 					return false;
 			}
 </script>
-<table cellspacing="10" class='fullside' >
+<table width="100%"  style="margin-top:-10px;">
 	<tr>
 		<td>
 				<fieldset>
@@ -152,9 +142,6 @@
 	dojo.require("dojo.NodeList-manipulate");
 	dojo.require("dojo.html");
 	dojo.ready(function(){
-		//addAmountTypeMoney();		
-		//setFirstPaymentAndDateLine(3,<?php //echo date('d-m-Y');?>,1);
-		//changeCollectType();
 		initilize();
 	});  
 	    
@@ -204,14 +191,11 @@ function addAmountTypeMoney(){
 			dojo.query("#t_amountmoneytype").append(tmp);
 			dojo.html.set(dojo.byId("row_capital"+r),temp, {
 		    parseContent: true,
-		     
 		});
 		if(dijit.byId("record_row").get('value')!="") {
 			var ids = dijit.byId("record_row").value;
 			dijit.byId("record_row").attr('value',ids+','+r);
 		} else { dijit.byId("record_row").attr('value',r);}
-
-	
 }
 function initilize(){
 	<?php if(!empty($this->list_members)) {
