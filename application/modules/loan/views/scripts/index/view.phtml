@@ -9,20 +9,20 @@
 .border-cover{
 	border:1px solid #ccc; padding: 0px 4px; background: #E5F2F5
 }
-table tr{ height: 25px;}
 </style>
 <p style="float:right;">
 <input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
 <input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'edit','id'=>$rs['g_id']),null,true); ?>';"/>
 <div class="menureport">
 	<ul>
-		<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
-		<li class="print"><a href="#" title="Print" onclick="doPrint();" ></a></li>
+		<li class="preview"><a title="Preview" href="" onclick="preview();"></a></li>
+		<li class="print"><a href="" title="Print" onclick="doPrint();" ></a></li>
 	</ul>
 </div>
-</p>
+<div style="clear: both;">
+</div>
 <div id="divPrint" style="font-size: 12px; !importance;">
-<table cellspacing="10" class='fullside' style="font-size:12px;font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;">
+<table cellspacing="10" width="100%" style="font-size:12px;font-family: 'Kh Battambang','Khmer Battambang',Arial,Helvetica,sans-serif;">
 	<tr>
 		<td>
 			<fieldset style="width: 100%;">
@@ -45,7 +45,6 @@ table tr{ height: 25px;}
 							<td class="border-cover"><?php echo $rs['co_firstname'];?></td>
 						</tr>
 						<tr>
-							
 							<td><?php echo $tr->translate("ZONE_NAME")?></td>
 							<td class="border-cover"><?php echo $rs['zone_name'];?></td>
 							<td><?php echo $tr->translate("LOAN_TYPE")?></td>
@@ -74,16 +73,16 @@ table tr{ height: 25px;}
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
-							<td class="border-cover"><?php echo $rs['date_release'];?></td>
+							<td class="border-cover"><?php echo date("d-m-Y",strtotime($rs['date_release']));?></td>
 							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-							<td class="border-cover"><?php echo $rs['first_payment'];?></td>
+							<td class="border-cover"><?php echo date("d-m-Y",strtotime($rs['first_payment']));?></td>
 							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
-							<td class="border-cover"><?php echo $rs['date_line'];?></td>
+							<td class="border-cover"><?php echo date("d-m-Y",strtotime($rs['date_line']));?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td class="border-cover"><?php echo $rs['payment_nameen'];?></td>
-							<td><label style="font-size:12px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ></td>
+							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ></td>
 							<td class="border-cover"><?php echo $rs['graice_period']." ".$rs['pay_term'];?></td>
 							<td><label id="lbl_payment"><?php echo ($rs['payment_method']==4)? $tr->translate("AMOUNT_GRAICE_PARIOD"): $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
 							<td class="border-cover"><?php  echo $rs['semi'];?></td>
@@ -122,7 +121,6 @@ function preview()
   var disp_setting="toolbar=no,status=no,resizable=no,location=no,directories=yes,menubar=no,"; 
       disp_setting+="scrollbars=no,width=1100, height=700, left=100, top=25"; 
   var content_vlue = document.getElementById("divPrint").innerHTML; 
-  
   var docprint=window.open("","",disp_setting); 
    docprint.document.open(); 
    docprint.document.write('<html><head>'); 
@@ -132,12 +130,10 @@ function preview()
    docprint.document.close(); 
    docprint.focus(); 
 }
-
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
     window.frames["print_frame"].window.focus();
     window.frames["print_frame"].window.print();
     hideDialog();
 }
-
 </script>

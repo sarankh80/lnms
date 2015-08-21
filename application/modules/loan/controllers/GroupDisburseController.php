@@ -94,11 +94,10 @@ class Loan_GroupDisburseController extends Zend_Controller_Action {
 		if(empty($id)){
 			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
 		}
-		$db = new Loan_Model_DbTable_DbLoanIL();
-		$row = $db->getLoanviewById($id);
+		$db = new Loan_Model_DbTable_DbLoanGroup();
+		$row = $db->getLoanGroupviewById($id);
 		$this->view->tran_rs = $row;
 		
-		$db = new Loan_Model_DbTable_DbLoanGroup();
 		$rows = $db->getAllMemberLoanById($id);
 		$this->view->list_members = $rows;
 		if(empty($rows)){
