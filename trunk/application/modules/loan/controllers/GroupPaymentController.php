@@ -60,8 +60,13 @@ class Loan_GroupPaymentController extends Zend_Controller_Action {
 				if($identify==""){
 					Application_Form_FrmMessage::Sucessfull("Client is no loan to pay", "/loan/GroupPayment");
 				}else{
+					
 					$db->addGroupPayment($_data);
-					Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
+					if(isset($_data["save"])){
+						Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment/add");
+					}elseif (isset($_data["save_close"])){
+						Application_Form_FrmMessage::Sucessfull("Client has pay sucessfull!", "/loan/GroupPayment");
+					}
 				}
 			}catch (Exception $e) {
 				echo $e->getMessage();
