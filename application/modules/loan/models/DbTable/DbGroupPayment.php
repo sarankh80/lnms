@@ -892,7 +892,10 @@ function getLoanPaymentByLoanNumber($data){
     }
     public function getGroupPaymentDetail($id){
     	$db = $this->getAdapter();
-    	$sql = "SELECT 
+    	$sql_recipt = "SELECT lc.`payment_option` FROM `ln_client_receipt_money` AS lc WHERE lc.`id`=$id";
+    	$pay_option = $db->fetchOne($sql_recipt);
+    	if($pay_option==1){
+    		$sql = "SELECT 
 			  lcd.`lfd_id`,
 			  lcd.`loan_number`,
 			  lcd.`client_id`,
@@ -907,14 +910,44 @@ function getLoanPaymentByLoanNumber($data){
 			  lcd.`pay_after`,
 			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcd.`client_id`) AS client_name,
 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lcd.`client_id`) AS client_code,
-			  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number`) AS payTearm,
-			  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number`) AS interest_rate,
-			  (SELECT lm.`currency_type` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number`) AS currency_type,
+			  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS payTearm,
+			  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS interest_rate,
+			  (SELECT lm.`currency_type` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS currency_type,
 			  (SELECT lcrm.`date_input` FROM `ln_client_receipt_money` AS lcrm,`ln_client_receipt_money_detail` AS lcrmd WHERE lcrm.`id`!=$id AND lcrmd.`crm_id`=lcrm.`id` AND lcrm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=$id LIMIT 1) ORDER BY lcrm.`date_input` DESC LIMIT 1) AS last_paydate 
 			FROM
 			  `ln_client_receipt_money_detail` AS lcd 
 			WHERE lcd.`crm_id` =$id";
+    		return $sql;
+//     		return $db->fetchAll($sql);
+    	}else{
+    		$sql = "SELECT 
+			  lcd.`lfd_id`,
+			  lcd.`loan_number`,
+			  lcd.`client_id`,
+			  lcd.`date_payment`,
+			  SUM(lcd.`capital`) AS capital,
+			  SUM(lcd.`principal_permonth`) AS principal_permonth,
+			  SUM(lcd.`total_interest`) AS total_interest,
+			  SUM(lcd.`total_payment`) AS total_payment,
+			  SUM(lcd.`total_recieve`) AS total_recieve,
+			  SUM(lcd.`service_charge`) AS service_charge,
+			  SUM(lcd.`penelize_amount`) AS penelize_amount,
+			  lcd.`pay_after`,
+			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcd.`client_id`) AS client_name,
+			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=lcd.`client_id`) AS client_code,
+			  (SELECT lm.`collect_typeterm` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS payTearm,
+			  (SELECT lm.`interest_rate` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS interest_rate,
+			  (SELECT lm.`currency_type` FROM `ln_loan_member` AS lm WHERE lm.`loan_number`=lcd.`loan_number` LIMIT 1) AS currency_type,
+			  (SELECT lcrm.`date_input` FROM `ln_client_receipt_money` AS lcrm,`ln_client_receipt_money_detail` AS lcrmd WHERE lcrm.`id`!=$id 
+			   AND lcrmd.`crm_id`=lcrm.`id` AND lcrm.`loan_number`=(SELECT `loan_number` FROM `ln_client_receipt_money_detail` WHERE `crm_id`=$id LIMIT 1) 
+			   ORDER BY lcrm.`date_input` DESC LIMIT 1) AS last_paydate 
+			FROM
+			  `ln_client_receipt_money_detail` AS lcd 
+			WHERE lcd.`crm_id` =$id
+			GROUP BY lcd.`loan_number`";
     	return $db->fetchAll($sql);
+    	}
+    	
     }
     public function getClientByBranch($id){
     	$db = $this->getAdapter();
