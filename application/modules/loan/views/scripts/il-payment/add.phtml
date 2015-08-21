@@ -503,11 +503,11 @@ dojo.ready(function(){
 function payOption(){
 	var ids =dijit.byId('record_id').get('value');
 	var arrays = ids.split(',');
-	for(var i=0;i<arrays.length;i++){
+	//for(var i=0;i<arrays.length;i++){
     	for(var i=0;i<arrays.length;i++) {
  			trRow(arrays[i]);
     	}
-	}
+	//}
 }
 function trRow(x){
 	pay_option = dijit.byId('option_pay').get('value');
@@ -974,7 +974,7 @@ function calculateTotal(index){
 						  	  	  	  }
 									 total_interest = ((os_amounts*interest_rate/100)/30)*practical_date;
 						  	  		totalAmount = os_amounts+total_interest+penelize+service_charge+total_interest_late;
-					  	  	  		}
+					  	  	  	}
 		  	  			}else if(payment_term==2){
 				  				dijit.byId('option_pay').attr('readOnly',false);
 			  	  	  			if(payOption==1){
