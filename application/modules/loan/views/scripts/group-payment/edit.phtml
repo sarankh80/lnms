@@ -5,7 +5,7 @@
 	$client = $this->client;
 	$reciept_money = $this->reciept_money;
 	$reciept_moneyDetail = $this->reciept_moneyDetail;
-	print_r($reciept_moneyDetail);
+	print_r($reciept_money);
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
@@ -29,7 +29,7 @@
 				return false;
 			}
 </script>
-<table cellspacing="10" class='fullside'>
+<table style="width: 100%">
 	<tr>
 		<td>
 				<fieldset>
@@ -44,32 +44,32 @@
 							<td><?php echo $frm->getElement('load_level');?></td>
 						</tr>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("លេខកម្ចី")?></td>
+							<td><?php echo $frm->getElement('loan_number');?></td>
 							<td><?php echo $tr->translate("កាលបរិច្ឆេទខ្ចីប្រាក់")?></td>
 							<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
 							<td><?php echo $tr->translate("លេខកូដប្រធានក្រុម")?></td>
-							<td><?php //echo $frm->getElement('loan_number');?><input id="client_code"></td>
+							<td><?php echo $frm->getElement('client_code');?><!-- <input id="client_code"> --></td>
 							<td><?php echo $tr->translate("ឈ្មោះ មន្ត្រីឥណទាន")?></td>
 							<td><?php echo $frm->getElement('co_id');?></td>
+							<td><?php echo $tr->translate("លក្ខខណ្ឌបង់ប្រាក់")?></td>
+							<td><?php echo $frm->getElement('payment_term');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ចំនួនប្រាក់ខ្ចីសរុប")?></td>
 							<td><?php echo $frm->getElement('total_amount_loan');?></td>
 							<td><?php echo $tr->translate("រយៈពេលខ្ចី")?></td>
 							<td><?php echo $frm->getElement('loan_period');?></td>
-							<td><?php echo $tr->translate("លក្ខខណ្ឌបង់ប្រាក់")?></td>
-							<td><?php echo $frm->getElement('payment_term');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("អត្រាការប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('interest_rate');?></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
 							<td><?php echo $tr->translate("វិធីសាស្រ្តបង់ប្រាក់")?></td>
 							<td><?php  echo $frm->getElement('payment_method');?></td>
 							<td><?php echo $tr->translate("ប្រភេទរូបិយបណ្ណ")?></td>
@@ -103,8 +103,8 @@
 							<td><?php echo $frm->getElement('penalize_amount');?><?php echo $frm->getElement('old_penelize');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់"); //echo $tr->translate("ថ្ងៃប្រមូលប្រាក់");//echo $tr->translate("ថ្ងៃបង់ជាក់ស្តែង")?></td>
-							<td><?php echo $frm->getElement('collect_date');//echo $frm->getElement('using_date');?></td>
+							<td><?php echo $tr->translate("ថ្ងៃទទួលប្រាក់");?></td>
+							<td><?php echo $frm->getElement('collect_date');?></td>
 							<td><?php echo $tr->translate("ប្រាក់ត្រូវបង់សរុប")?></td>
 							<td><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 							<td><?php echo $tr->translate("ប្រាក់ទទួលបាន")?></td>
@@ -141,8 +141,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<div id="mainTabContainer" style=" max-width:1135px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
+			<td style="overflow: scroll;max-width:1200;">
+				<div id="mainTabContainer" style=" max-width:1110px;height: 394px;" dojoType="dijit.layout.TabContainer" region="center"  >
 						<div class="tabContentSection" dojoType="dijit.layout.ContentPane" title="ការវិភាគបង់ប្រាក់" selected="true">
 								 <div id='data_table' name='data_table'></div>
 						</div>
@@ -394,7 +394,7 @@ function AddNewCo(){
 	});
 }
 dojo.ready(function(){	
-	var old_group_id = '<?php echo $reciept_money["group_id"];?>';
+	var old_loan_number = '<?php echo $reciept_money["loan_number"];?>';
 	var old_currency_type = '<?php echo $reciept_money["currency_type"];?>';
 	var old_collect_date = '<?php echo $reciept_money["date_input"];?>';
 	var clientCode_data = new dojo.store.Memory({
@@ -413,8 +413,8 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		var group_id = dijit.byId('client_code').get('value');
-		if(group_id==old_group_id){
+		var loan_number = dijit.byId('loan_number').get('value');
+		if(loan_number==old_loan_number){
 			getGroupPayment();
 		}else{
 			getLaonPayment();
@@ -462,7 +462,7 @@ function getGroupPayment(){
 	dijit.byId('note').attr('value','<?php echo $reciept_money["note"];?>');
 	dijit.byId('reciept_no').attr('value','<?php echo $reciept_money["receipt_no"];?>');
 	dijit.byId('reciever').attr('value','<?php echo $reciept_money["receiver_id"];?>');
-	getGroupPaymentDetail();
+	//getGroupPaymentDetail();
 	doTotalBypene();
 	doTotalByServ();
 }
